@@ -1,0 +1,23 @@
+#!/bin/sh
+# Compile the ConceptBase sources
+# To do so, all required tools and libraries
+# must be installed and configured correctly.
+
+cd $HOME
+
+(cd $CB_WORK/; CB_Make touch_src)
+echo 'Converting dcg ...'
+(cd $CB_WORK/serverSources/Prolog_Files; CB_Make dcg)  
+echo 'Compiling ...'
+(cd $CB_WORK/;  CB_Make all)  
+echo 'Installing ...'
+(cd $CB_WORK/; CB_Make export; CB_Make install) 1> /dev/null 2> /dev/null
+echo 'done'
+
+
+
+
+
+
+
+

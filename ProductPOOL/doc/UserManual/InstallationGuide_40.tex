@@ -1,0 +1,250 @@
+%%%%%
+%% DIESES DATEI IST ALT UND WIRD NICHT MEHR GEBRAUCHT
+%%%%%
+
+
+
+
+
+\chapter{Installation Guide}
+\label{cha:installation guide}
+
+\section{System Requirements}
+
+Intel-PC or Sparc-compliant machine running Solaris 2.3 or higher.
+32 MB main memory and approximately 20 MB disk space.
+The Solaris Binary Compatibility package must be installed.
+You can check this with the 'pkginfo' command.
+A recent Sun Recommended Patch Cluster should be installed.
+
+If you receive errors regarding insufficient swap space you
+must configure more; for example as root do a:
+
+\begin{verbatim}
+mkfile 100m /export/home/further_swap
+swap -a /export/home/further_swap
+\end{verbatim}
+
+
+Make this swap permanent by appending the following line
+to /etc/vfstab:
+
+\begin{verbatim}
+/export/home/further_swap - - swap - no -
+\end{verbatim}
+
+In order to uncompress the CB tar file you need the
+\verb+gunzip+ utility which is available for free on many ftp-servers.
+
+
+\section{Files}
+
+\begin{description}
+\item[cb\relnrwodot .tar.gz:] ConceptBase executables (sun4/i86pc), documentation and scripts
+\item[CBinstall:] Script to install ConceptBase on your system
+\item[InstallationGuide:]   this section in plain ASCII
+\end{description}
+
+\section{Installation}
+
+To obtain the system, please transfer \verb+CBinstall+ and {\tt cb\relnrwodot .tar.gz}
+ to your local machine.
+To install the system, ensure that the script \verb+CBinstall+ is executable.
+If not, change the permission mode and run \verb+CBinstall <directory>+,
+where \verb+<directory>+ is the directory where ConceptBase will be installed.
+
+The script will install the system and create the file \verb+login.new+,
+which contains the settings of all necessary environment variables.
+
+
+The graphbrowser tool needs special Andrew-Toolkit fonts to
+operate correctly. These fonts must be accessible through
+the X11-fontpath. To ensure this, extend the fontpath with
+the following command:
+
+\begin{verbatim}
+xset fp+ $CB_HOME/lib/andrew6.3/X11fonts
+\end{verbatim}
+
+We recommend to
+
+\begin{itemize}
+\item create a special user \verb+cbase+ to be responsible for the installation
+  and owning all installed files.
+
+\item create a group \verb+cbase+ in /etc/groups and assign each
+  ConceptBase user to it
+\end{itemize}
+
+
+\section{Registering your installation}
+
+Before ConceptBase can be started, you have to decode it.
+To do this, please perform the following steps:
+
+Register your installation via the URL
+
+\begin{latexonly}
+\verb+http://www-i5.informatik.rwth-aachen.de/CBdoc/onlineReg.html+
+\end{latexonly}
+\html{\htmladdnormallink{Online Registration}{http://www-i5.informatik.rwth-aachen.de/CBdoc/onlineReg.html}}
+
+or via sending an email to
+
+\begin{latexonly}
+\verb+cb@I5.informatik.rwth-aachen.de+
+\end{latexonly}
+\html{\htmladdnormallink{ConceptBase Team}{mailto:cb@I5.informatik.rwth-aachen.de}}
+
+This email must contain the full postal adress of your institution.
+
+You'll receive an email, which contains decode information.
+This email must be saved into a file named \verb+regInfo+, that has to
+be placed into the directory
+
+\begin{verbatim}
+$CB_HOME/lib/system
+\end{verbatim}
+
+Read the license agreement, placed in
+\verb+$CB_HOME/doc+, sign it and send it to
+
+\begin{verbatim}
+ConceptBase-Team
+c/o Christoph Quix
+RWTH Aachen - Informatik V
+D-52056 Aachen - Germany
+\end{verbatim}
+
+
+
+\section{Starting ConceptBase}
+
+\subsection{Starting the ConceptBase Server}
+
+You have to use a C-Shell (/bin/csh) to start ConceptBase. Start the server by
+
+\begin{verbatim}
+$CB_HOME/bin/CBserver -p 4001 -d DB
+\end{verbatim}
+
+The number 4001 is the port (or {\em socket}) number that is used to connect
+ clients to the server process. You can specify any number between 2000 and
+99999. The default value is 4001 (if you omit the '-p' option). The parameter
+-d specifies the database (sometimes called {\em application} in the user manual)
+to be loaded by the server at startup time. If a path is omitted (as above)
+then the database is loaded from the current directory. If there is no
+database with the specified name (here:DB) then it is created and initialized
+with the system classes of O-Telos, the object model of ConceptBase.
+After successfully loading the server reports
+
+\begin{verbatim}
+          This is ConceptBase (CBserver) ...
+\end{verbatim}
+
+with some additional information.
+
+Please note that no two servers can use the same port number on the same
+machine. In this case you get the error message
+
+\begin{verbatim}
+IPC Error: Unable to bind socket to name
+\end{verbatim}
+
+and the server won't start up. You should then either start the server on a
+different machine or use another port number.
+
+The list of other command line parameters can be obtained by
+typing \verb+CBserver -h+. Specified parameters must be separated by blanks.
+
+
+
+\subsection{Starting the ConceptBase Usage Environment}
+
+Start the X11 usage environment of ConceptBase in a C-Shell by
+
+\begin{verbatim}
+$CB_HOME/bin/CBinterface
+\end{verbatim}
+
+Successfully starting is indicated by the appearing CBworkbench.
+
+If you have installed the Java Development Kit or Java Runtime
+Environment (1.1 or newer) you can start the ConceptBase Java
+Interface by
+
+\begin{verbatim}
+$CB_HOME/bin/CBjavaInteface
+\end{verbatim}
+
+\subsection{Connecting Server and Usage Environment}
+
+After starting server and usage environment of CB the first step is to
+establish the connection between them. This is done by selecting menu item
+{\em Connect CB server}
+from the Server  menu of CBworkbench. In the appearing interaction window the
+host name and port number of the CBserver must be specified and as a result
+the connection is established.
+
+\begin{flushleft}
+{\bf Example:}
+\end{flushleft}
+\begin{enumerate}
+\item start server on machine alpha with port number 5000 (see above)
+\item start usage environment on machine beta (see above)
+\item connect usage environment on beta to the server on alpha
+              	by selecting Connect CB server and specifying
+				as hostname \verb+alpha+ and port number 5000.
+\end{enumerate}
+
+Whenever a new connection from a usage environment to a CBserver is created a
+possibly existing 'old' one is closed. Please note that the machines
+alpha and beta can be located anywhere in the Internet. You can also start
+both processes on the same machine.
+
+
+
+\section{Important additional remarks}
+
+A CBserver may only be stopped by a client if the name of the user of the
+client is the same as the one who started the CBserver. Use menu item Report
+clients of the usage environment to display the user names. This behavior is
+not an error but a security measure.
+
+Objectbases created with previous releases of ConceptBase (i.e. 4.x and earlier) are not compatible
+with release 5.0 or later, due to the completely new storage management system.
+To cope with this you have the possibility to bulk extract frames
+(via \verb+Store Frames+) from the previous server and feed them into the new server.
+
+We hope the system is useful for your application. We recommend to start with
+the (in
+\htmladdnormallink{ConceptBase Tutorial}{../../Tutorial/html/cbTutorial.html}
+\begin{latexonly}
+\verb+$CB_HOME/doc/Tutorial+
+\end{latexonly}
+) for getting used to the language and the system.
+
+A bibliography on the system is available via the following URL:\\
+\begin{latexonly}
+\verb+http://www-i5.informatik.rwth-aachen.de/CBdoc/cblit.html+
+\end{latexonly}
+\html{\htmladdnormallink{Bibliograhpy}{http://www-i5.informatik.rwth-aachen.de/CBdoc/cblit.html}}
+
+
+
+\section{Contact}
+
+\begin{verbatim}
+ConceptBase-Team
+RWTH Aachen - Informatik V
+D-52056 Aachen - Germany
+
+Tel./Fax: +49-241 80 21 501 / +49-241-80 22 321
+\end{verbatim}
+\begin{latexonly}
+\verb+Email: cb@I5.informatik.rwth-aachen.de+ \\
+\verb+WWW: http://www-i5.informatik.rwth-aachen.de/CBdoc/cbflyer.html+ \\
+\end{latexonly}
+\html{\htmladdnormallink{Email}{mailto:cb@I5.informatik.rwth-aachen.de}}
+\html{\htmladdnormallink{ConceptBase WWW Site}{http://www-i5.informatik.rwth-aachen.de/CBdoc/cbflyer.html}}
+

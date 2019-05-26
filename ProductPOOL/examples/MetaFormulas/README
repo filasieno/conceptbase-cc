@@ -1,0 +1,72 @@
+
+The files MetaFormulas.sml and MetaIn.sml contain some examples for the use
+of meta formulas in ConceptBase.
+
+MetaFormulas.sml
+================
+
+The "Single" meta formula requires that every attribute in
+the category "single" has at most one instance.
+
+
+The "Necessary" meta formula requires that every attribute in
+the category "necessary" has at most one instance.
+
+
+The "Cardinality" meta formula requires that every attribute in
+the category "cardinality" has at least "min" instances and at
+most "max" instances. "min" and "max" are set by the attributes
+min and max of the attribute class "Proposition!cardinality".
+
+Example:
+
+The following example requires that the salary attribute of an
+employee has at least 2 and at most 3 values.
+
+Class Employee with
+attribute,cardinality,necessary
+	salary : Integer
+end
+
+Employee!salary with
+min
+	min : 2
+max
+	max : 3
+end
+
+
+MetaIn.sml
+==========
+
+This file contains the definition of a metaIn predicate. An object o
+is a meta instance of the meta class m, if there exists class c,
+o is an instance of c, and c is an instance of the meta class m.
+
+InverseOf.sml
+=============
+  	  	  	
+This models shows how to declare one attribute to be the inverse of another attribute.
+
+
+LinkSemantics.sml
+=================	
+
+Some definitions for relation properties using the constraint/rule mechanism of 
+ConceptBase.
+	
+LinkSemantics2.sml
+==================	
+
+A shortened and more readable version of LinksSemantics.sml. Shows the 
+combination of the semantics of generic relation properties. Note that the 
+hasAncestor relation is defined to be anti-symmetric and transitive whereas the 
+knows relation is transitive, symmetric and reflexive. ConceptBase will ensure 
+the semantics via the generic definitions.
+	
+TransitiveClosureOf.sml
+=======================
+
+This example shows how to define an attribute B to be the transitive closure of 
+some other attribute A. For example, ancestor is the transitive closure of 
+parent.

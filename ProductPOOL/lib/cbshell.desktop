@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=CBShell
+Name[en_US]=CBShell
+Comment=ConceptBase.cc CBShell
+Exec=gnome-terminal -e '/home/jeusfeld/CBPOOL/conceptbase/cbshell -v'
+Icon=utilities-terminal
+Terminal=true 
+Type=Application
+Categories=Application;

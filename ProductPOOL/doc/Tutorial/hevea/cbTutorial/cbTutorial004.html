@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="cbTutorial.css">
+<title>Solutions to the Exercises</title>
+</head>
+<body >
+<a href="cbTutorial003.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<hr>
+<h2 id="sec16" class="section">4&#XA0;&#XA0;Solutions to the Exercises</h2>
+<ul class="itemize"><li class="li-itemize">2.1<p>Enter in the same command window the following command:
+</p><pre class="verbatim">cbserver -port 5544 -d TutDB
+</pre><p>You can also use the option <span style="font-family:monospace">-db</span> instead of <span style="font-family:monospace">-d</span>:</p><pre class="verbatim">cbserver -port 5544 -db TutDB
+</pre><p>In this case, ConceptBase will maintain the Telos source representation
+of all objects in the database directory <span style="font-family:monospace">TutDB</span>. Your own definitions
+will go to the file <span style="font-family:monospace">System-oHome.sml</span>, because that is the default
+database module when you log into a ConceptBase server.</p><p><br>
+
+An <em>alternative</em> to starting the ConceptBase server from the command line is
+to start it from CBIva. To do so, start CBIva and the select the menu item
+<em>File / Start CBserver</em>. A window like in figure <a href="#fig%3Atelos6">3</a> will pop up and
+you need to change the following parameters:</p><ol class="enumerate" type=1><li class="li-enumerate">
+The port number could be changed to 5544 but you can also leave it to 4001.
+</li><li class="li-enumerate">Enter the path of the database TutDB; it is sufficient to replace the last two characters
+<span style="font-family:monospace">db</span> by <span style="font-family:monospace">TutDB</span>. But remember the whole directory path.
+</li><li class="li-enumerate">Change source mode to <span style="font-family:monospace">on</span>. This is equivalent to the <span style="font-family:monospace">-db</span> option above.
+</li><li class="li-enumerate">Change update mode to <span style="font-family:monospace">persistent</span>.
+</li></ol><p>Then press "OK" to let CBIva start a ConceptBase server with the specified parameters
+and connect to it.</p><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
+<div class="center"><img src="cbTutorial003.png"></div>
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 3: Start CBserver from CBIva</td></tr>
+</table></div>
+<a id="fig:telos6"></a>
+<div class="center"><hr style="width:80%;height:2"></div></blockquote><p><br>
+
+</p></li><li class="li-itemize">2.2<p>Select "Connect" from the <em>File</em> menu.
+An interaction window appears, querying the <em>host name</em> and the
+<em>port number</em> of the server you want to connect to.
+Enter the name of the host the ConceptBase server was started on and the
+port number specified by the -p parameter, then select "Connect".
+If you started the ConceptBase server on the same computer as CBIva, then use
+&#X2019;localhost&#X2019; as hostname. </p><p>This step is obsolete, if you started the ConceptBase server from within CBIva. </p><p><br>
+<br>
+
+</p></li><li class="li-itemize">3.1
+<pre class="verbatim">Department in Class
+end
+</pre><p><br>
+
+</p></li><li class="li-itemize">3.2
+To load an object from the database into the editor-window,
+select the <em>frame</em> button with tooltip "Load an object from CBserver" of the button panel or the
+option <em>Load Object</em> from the
+<em>Edit</em> menu. You should have a similar view as
+displayed in figure <a href="#fig%3Atelos1">4</a>.<blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
+<div class="center"><img src="cbTutorial004.png"></div>
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 4: CBIva Telos Editor</td></tr>
+</table></div>
+<a id="fig:telos1"></a>
+<div class="center"><hr style="width:80%;height:2"></div></blockquote><p><br>
+
+</p></li><li class="li-itemize">3.3
+<pre class="verbatim">Department in Class with
+     attribute
+            head: Manager
+end
+</pre><p><br>
+
+</p></li><li class="li-itemize">3.4
+<pre class="verbatim">Lloyd in Manager end
+Phil in Manager end
+Eleonore in Manager end
+Albert in Manager end
+
+Production in Department with
+  head
+    head_of_Production : Lloyd
+end
+
+Administration in Department with
+  head
+    head_of_Administration : Eleonore
+end
+
+Marketing in Department with
+  head
+    head_of_Marketing : Phil
+end
+
+Research in Department with
+  head
+    head_of_Research : Albert
+end
+
+Lloyd in Manager with
+  salary
+      LloydsSalary : 100000
+end
+
+Phil in Manager with
+  salary
+      PhilsSalary : 120000
+end
+
+Eleonore in Manager with
+  salary
+    EleonoresSalary : 20000
+end
+
+Albert in Manager with
+  salary
+    AlbertsSalary : 110000
+end
+
+</pre><p><br>
+
+</p></li><li class="li-itemize">3.5
+<pre class="verbatim">Michael in Employee with
+  dept
+    MichaelsDepartment : Production
+  salary
+    MichaelsSalary : 30000
+end
+
+Maria in Employee with
+  dept
+    MariasDepartment : Administration
+  salary
+    MariasSalary : 10000
+end
+
+Herbert in Employee with
+  dept
+    HerbertsDepartment : Marketing
+  salary
+    HerbertsSalary : 60000
+end
+
+Edward in Employee with
+  dept
+    EdwardsDepartment : Research
+  salary
+    EdwardsSalary : 50000
+end
+
+</pre><p><br>
+
+</p></li><li class="li-itemize">3.6<p>Figure <a href="#fig%3Atelos2">5</a> shows the ConceptBase graph editor on object Employee.
+The attributes of Employee and its instances are expanded using the menu
+of the right mouse button clicked on Employee.</p><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
+<div class="center"><img src="cbTutorial005.png"></div>
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 5: CB Graph Editor on object Employee</td></tr>
+</table></div>
+<a id="fig:telos2"></a>
+<div class="center"><hr style="width:80%;height:2"></div></blockquote><p><br>
+
+</p></li><li class="li-itemize">3.8
+<pre class="verbatim">Employee with
+constraint
+  salaryIC: $ forall e/Employee m/Manager x,y/Integer
+ (e boss m) and (e salary x) and (m salary y) ==&gt; (x &lt;= y) $
+end
+</pre><p><br>
+
+</p></li><li class="li-itemize">3.11
+<pre class="verbatim">QueryClass BossesAndEmployees isA Manager with
+computed_attribute
+    emps : Employee;
+    head_of : Department
+constraint
+    employee_rule:
+       $ (~head_of head this) and (~emps dept ~head_of) $
+end
+</pre><p>Figure <a href="#fig%3Atelos5">6</a> shows parts of the answer to the query
+BossesAndEmployees. 
+</p><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
+<div class="center"><img src="cbTutorial006.png"></div>
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 6: Display of answers of BossesAndEmployees</td></tr>
+</table></div>
+<a id="fig:telos5"></a>
+<div class="center"><hr style="width:80%;height:2"></div></blockquote><p><br>
+
+</p></li><li class="li-itemize">3.12<p>Select the option "Stop CBserver" from the "File" menu of CBIva.
+Afterwards, stop CBIva via the "Exit" option in the same menu.
+If you started the ConceptBase server with the -db option (or with
+source mode set to &#X2019;on&#X2019;), then you find the sources of your definitions
+also in the directory TutDB, see file <span style="font-family:monospace">System-oHome.sml</span>. Open this file
+with a text editor such as WordPad.</p></li></ul><hr>
+<a href="cbTutorial003.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+</body>
+</html>

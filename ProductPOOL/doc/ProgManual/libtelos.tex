@@ -1,0 +1,1158 @@
+
+\chapter{Processing of Telos Frames: libtelos}
+\label{cha:libtelos}
+
+This chapter explains the library {\tt libtelos},
+which contains the Telos parser. The Telos parser is able to parse the answers in FRAME
+or LABEL format from ConceptBase.
+
+To call the Telos parser, you must link your program with the library
+{\tt libtelos.a/libtelos.dll} which can be found in the directory
+\verb+$CB_HOME/<arch>/lib+ where \verb+<arch>+ is either sun4, i86pc,
+linux, or windows.
+
+In your source files, you must include the header files
+{\tt fragment.h}, {\ttfamily te\_access.h}, {\tt te\_callparser.h},
+{\tt te\_cursor.h}, and/or {\tt te\_smlutil.h}.
+All header files are located in the directory \verb+$CB_HOME/include+.
+
+The following sections explain several functions to call the
+parser and to handle the data structures. In principle, there are three
+different ways to parse and to access Telos frames:
+\begin{itemize}
+\item Using the functions and data structures defined in {\tt fragment.h},
+{\tt te\_callparser.h}, and {\tt te\_smlutil.h}: The Telos parser is invoked
+directly and the contents of the Telos frames is retrieved by navigating
+over a list of fragments (a fragment is a data structure for a Telos frame).
+See section \ref{sec:fragmenth} for details.
+\item Using the functions and data structures defined in {\ttfamily te\_access.h}:
+Telos frames are represented in vectorized structure. One can use functions
+to create, destroy or apply to filters to the structure. See section \ref{sec:accessh} for details.
+\item Using the functions and data structures defined in {\ttfamily te\_cursor.h}:
+Iterating over a set of Telos frames is done by using a cursor.
+See section \ref{sec:cursorh} for details.
+\end{itemize}
+
+The documentation in the following sections has been generated with
+DOC++ (\url{http://docpp.sourceforge.net}).
+% man kann mit CB_Make docpptex ein TeX-File generieren, dass die Dokumentation enthält.
+% Dieses File wurde aber nachtraeglich editiert, daher sollte man Aenderungen besser
+% manuell hier nachtragen.
+
+\section{fragment.h and te\_callparser.h}
+\label{sec:fragmenth}
+
+\begin{cxxentry}
+{typedef\ struct\ }
+        {bindingList}
+        {BindingList}
+        {A binding list represents the list of parameters in a derive expression}
+        {1}
+\begin{cxxdoc}
+A binding list represents the list of parameters in a
+derive expression
+\end{cxxdoc}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ struct\ }
+        {objectIdentifier}
+        {ObjectIdentifier}
+        {An object identifier represents a Telos object name.}
+        {2}
+\begin{cxxdoc}
+An object identifier represents a Telos object name.
+It may be a simple object name, a derive expression,
+or a select expression.
+\end{cxxdoc}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ struct\ }
+        {classlist}
+        {te\_ClassList}
+        {A class list is a list of object identifiers }
+        {3}
+\begin{cxxdoc}
+A class list is a list of object identifiers
+\end{cxxdoc}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ struct\ }
+        {attrclasslist}
+        {AttrClassList}
+        {An AttrClassList is a list of attribute categories.}
+        {4}
+\begin{cxxdoc}
+An AttrClassList is a list of attribute categories.
+Attribute categories or simple labels.
+\end{cxxdoc}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ struct\ }
+        {specObjId}
+        {SpecObjId}
+        {Used only internally for extended syntax }
+        {5}
+\begin{cxxdoc}
+Used only internally for extended syntax
+\end{cxxdoc}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ struct\ }
+        {selectexpb}
+        {SelectExpB}
+        {Used only internally for extended syntax }
+        {6}
+\begin{cxxdoc}
+Used only internally for extended syntax
+\end{cxxdoc}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ struct\ }
+        {restriction}
+        {Restriction}
+        {Used only internally for extended syntax }
+        {7}
+\begin{cxxdoc}
+Used only internally for extended syntax
+\end{cxxdoc}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ struct\ }
+        {objectset}
+        {ObjectSet}
+        {Used only internally for extended syntax }
+        {8}
+\begin{cxxdoc}
+Used only internally for extended syntax
+\end{cxxdoc}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ struct\ }
+        {propertylist}
+        {PropertyList}
+        {A property list is a list of attributes.}
+        {9}
+\begin{cxxdoc}
+A property list is a list of attributes. Attributes
+have a label and a value. The member objectSet is used
+only in an extended syntax.
+\end{cxxdoc}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ struct\ }
+        {attrdecllist}
+        {AttrDeclList}
+        {An AttrDeclList is a list of attribute declarations.}
+        {10}
+\begin{cxxdoc}
+An AttrDeclList is a list of attribute declarations.
+It represents everthing between "with" and "end" in a
+Telos frame. One attribute declaration has a list of attribute
+categories and a list of properties (attribute definitions).
+\end{cxxdoc}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ struct\ }
+        {smlfragmentList}
+        {te\_SMLfragmentList}
+        {A SMLfragmentList is a list of Telos frames.}
+        {11}
+\begin{cxxdoc}
+A SMLfragmentList is a list of Telos frames. Each Telos
+frame has an object identifier (id). It may have in addition
+an inOmega class, a list of in-Classes, a list of isA-Classes,
+and an attribute declaration. Except id, all members may be NULL.
+\end{cxxdoc}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ struct\ }
+        {frameParseoutput}
+        {FrameParseOutput}
+        { FrameParseOutput is the structure returned by the function te\_frame\_parser.}
+        {12}
+\begin{cxxnames}
+\cxxitem{te\_SMLfragmentList*}
+        {smlfrag}
+        {}
+        {the list of fragments }
+        {12.1}
+\cxxitem{int}
+        {error}
+        {}
+        {0 if ok, 1 if parse error, 2 if input is null }
+        {12.2}
+\cxxitem{char*}
+        {errortoken}
+        {}
+        {If there was an parse error, this should indicate the token that caused the error.}
+        {12.3}
+\cxxitem{int}
+        {errorline}
+        {}
+        {If there was an parse error, this should be the line number of the error.}
+        {12.4}
+\end{cxxnames}
+\begin{cxxdoc}
+
+FrameParseOutput is the structure returned by the function
+te\_frame\_parser. It contains either a list of fragments or
+information about the parse error.
+
+\end{cxxdoc}
+\begin{cxxvariable}
+{te\_SMLfragmentList*}
+        {smlfrag}
+        {}
+        {the list of fragments }
+        {12.1}
+\end{cxxvariable}
+\begin{cxxvariable}
+{int}
+        {error}
+        {}
+        {0 if ok, 1 if parse error, 2 if input is null }
+        {12.2}
+\end{cxxvariable}
+\begin{cxxvariable}
+{char*}
+        {errortoken}
+        {}
+        {If there was an parse error, this should indicate the token that caused the error.}
+        {12.3}
+\end{cxxvariable}
+\begin{cxxvariable}
+{int}
+        {errorline}
+        {}
+        {If there was an parse error, this should be the line number of the error.}
+        {12.4}
+\end{cxxvariable}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ struct\ }
+        {classlistParseoutput}
+        {ClassListParseOutput}
+        { ClassListParseOutput is the structure returned by the function te\_classlist\_parser.}
+        {13}
+\begin{cxxnames}
+\cxxitem{te\_ClassList*}
+        {classlist}
+        {}
+        {A list of classes (object names) }
+        {13.1}
+\cxxitem{int}
+        {error}
+        {}
+        {Non-zero if an error occured }
+        {13.2}
+\cxxitem{char*}
+        {errortoken}
+        {}
+        {If there was an parse error, this should indicate the token that caused the error.}
+        {13.3}
+\cxxitem{int}
+        {errorline}
+        {}
+        {If there was an parse error, this should be the line number of the error.}
+        {13.4}
+\end{cxxnames}
+\begin{cxxdoc}
+
+ClassListParseOutput is the structure returned by the function
+te\_classlist\_parser. It contains either a list of classes or
+information about the parse error.
+\end{cxxdoc}
+\begin{cxxvariable}
+{te\_ClassList*}
+        {classlist}
+        {}
+        {A list of classes (object names) }
+        {13.1}
+\end{cxxvariable}
+\begin{cxxvariable}
+{int}
+        {error}
+        {}
+        {Non-zero if an error occured }
+        {13.2}
+\end{cxxvariable}
+\begin{cxxvariable}
+{char*}
+        {errortoken}
+        {}
+        {If there was an parse error, this should indicate the token that caused the error.}
+        {13.3}
+\end{cxxvariable}
+\begin{cxxvariable}
+{int}
+        {errorline}
+        {}
+        {If there was an parse error, this should be the line number of the error.}
+        {13.4}
+\end{cxxvariable}
+\end{cxxentry}
+\begin{cxxfunction}
+{FrameParseOutput*}
+        {te\_frame\_parser}
+        {(char*\ indata)}
+        {Calls the Telos Parser to parse frames.}
+        {14}
+\cxxParameter{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut indata} & a string containing the input frames
+\end{tabular}}
+\cxxReturn{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut a} & pointer to a FrameParseOut structure
+\end{tabular}}
+\begin{cxxdoc}
+Calls the Telos Parser to parse frames.
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{ClassListParseOutput*}
+        {te\_classlist\_parser}
+        {(char*\ indata)}
+        {Calls the Telos Parser to parse a list of object names.}
+        {15}
+\cxxParameter{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut indata} & a string containing the object names
+\end{tabular}}
+\cxxReturn{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut a} & pointer to a ClassListParseOut structure
+\end{tabular}}
+\begin{cxxdoc}
+Calls the Telos Parser to parse a list of object names.
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{char*}
+        {FragmentToString}
+        {(te\_SMLfragmentList *cursor}
+        {Unparse a fragment list into a string}
+        {16}
+\begin{cxxdoc}
+
+Unparse a fragment list into a string
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{void}
+        {DestroySMLfrag}
+        {(te\_SMLfragmentList*\ fragment)}
+        { Destroy a fragment list}
+        {17}
+\begin{cxxdoc}
+
+Destroy a fragment list
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{void}
+        {Destroy\_ClassList}
+        {(te\_ClassList*\ clist)}
+        { Destroy a class list}
+        {18}
+\begin{cxxdoc}
+
+Destroy a class list
+\end{cxxdoc}
+\end{cxxfunction}
+
+
+
+\section{te\_access.h}
+\label{sec:accessh}
+
+
+\begin{cxxunion}
+{struct\ }
+        {te\_AttrDecl}
+        {}
+        {This structure represents an attribute declaration.}
+        {19}
+\begin{cxxnames}
+\cxxitem{char**}
+        {aszCategory}
+        {}
+        {contains the list of category labels }
+        {19.1}
+\cxxitem{char**}
+        {aszLabel}
+        {}
+        {contains the list of property labels corresponding to }
+        {19.2}
+\cxxitem{char**}
+        {aszValue}
+        {}
+        {the list of property values }
+        {19.3}
+\end{cxxnames}
+\begin{cxxdoc}
+This structure represents an attribute declaration. An attribute declaration
+is a list of attribute categories with a list of properties (label and values)
+that belong to these attribute categories.
+\end{cxxdoc}
+\begin{cxxvariable}
+{char**}
+        {aszCategory}
+        {}
+        {contains the list of category labels }
+        {19.1}
+\end{cxxvariable}
+\begin{cxxvariable}
+{char**}
+        {aszLabel}
+        {}
+        {contains the list of property labels corresponding to }
+        {19.2}
+\end{cxxvariable}
+\begin{cxxvariable}
+{char**}
+        {aszValue}
+        {}
+        {the list of property values }
+        {19.3}
+\end{cxxvariable}
+\end{cxxunion}
+\begin{cxxentry}
+{typedef\ struct\ }
+        {te\_AttrDecl}
+        {TAttrDecl}
+        {The type for te\_AttrDecl }
+        {20}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ }
+        {TAttrDecl*}
+        {PAttrDecl}
+        {The pointer for TAttrDecl }
+        {21}
+\begin{cxxdoc}
+The pointer for TAttrDecl
+\end{cxxdoc}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ struct\ }
+        {te\_VectorizedTelosframe}
+        {VTelos}
+        {The type for te\_VectorizedTelosframe }
+        {22}
+\begin{cxxdoc}
+The type for te\_VectorizedTelosframe
+\end{cxxdoc}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ }
+        {VTelos*}
+        {PVTelos}
+        {A pointer to VTelos }
+        {23}
+\begin{cxxdoc}
+A pointer to VTelos
+\end{cxxdoc}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ }
+        {PVTelos*}
+        {AVTelos}
+        {An array of VTelos pointers }
+        {24}
+\begin{cxxdoc}
+An array of VTelos pointers
+\end{cxxdoc}
+\end{cxxentry}
+\begin{cxxunion}
+{struct\ }
+        {te\_TelosReport}
+        {}
+        {A te\_TelosReport is a projection on certain attributes of a frame }
+        {25}
+\begin{cxxnames}
+\cxxitem{char**}
+        {aszLabel}
+        {}
+        {List of labels in the report }
+        {25.1}
+\cxxitem{char**}
+        {aszValue}
+        {}
+        {List of values in the report }
+        {25.2}
+\end{cxxnames}
+\begin{cxxdoc}
+A te\_TelosReport is a projection on certain attributes of a frame
+\end{cxxdoc}
+\begin{cxxvariable}
+{char**}
+        {aszLabel}
+        {}
+        {List of labels in the report }
+        {25.1}
+\end{cxxvariable}
+\begin{cxxvariable}
+{char**}
+        {aszValue}
+        {}
+        {List of values in the report }
+        {25.2}
+\end{cxxvariable}
+\end{cxxunion}
+\begin{cxxentry}
+{typedef\ struct\ }
+        {te\_TelosReport}
+        {TReport}
+        {The type for te\_TelosReport }
+        {26}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ }
+        {TReport*}
+        {PReport}
+        {A pointer to TReport}
+        {27}
+\end{cxxentry}
+\begin{cxxfunction}
+{AVTelos}
+        {vt\_createByFragment}
+        {(te\_SMLfragmentList*\ fl)}
+        { Maps the given fragmentlist fl into a vector of frames.}
+        {28}
+\cxxParameter{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut fl} & contains the fragment list in the way produced by the parser
+\end{tabular}}
+\cxxReturn{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut NULL} & if the argument is NULL too, else the pointer to the vector tree structure
+\end{tabular}}
+\begin{cxxdoc}
+
+Maps the given fragmentlist fl into a vector of frames.
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{AVTelos}
+        {vt\_create}
+        {(char*\ szTelos)}
+        { Maps the given Telos text szTelos into a vector of frames.}
+        {29}
+\cxxParameter{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut szTelos} & should be a string of correct Telos
+\end{tabular}}
+\cxxReturn{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut NULL} & if the szTelos fails the parsing process else it contains the AVTelos with all its componends
+\end{tabular}}
+\begin{cxxdoc}
+
+Maps the given Telos text szTelos into a vector of frames.
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{void}
+        {vt\_destroy}
+        {(AVTelos\ avtFrames)}
+        { Disposes the given vector tree.}
+        {30}
+\cxxParameter{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut avtFrames} & points to the vector tree structure
+\end{tabular}}
+\begin{cxxdoc}
+
+Disposes the given vector tree.
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{PReport}
+        {rep\_create}
+        {(PVTelos\ pvtFrame,\ char**\ aszCategories)}
+        { Filters all attributes to those properties which belong to all given categories at the same time.}
+        {31}
+\cxxParameter{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut pvtFrame} & points to a single Frame, which must exists@pararm aszCategories should be a NULL terminated vector of the categories to filter as a conjunction.
+\end{tabular}}
+\cxxReturn{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut In} & each case a report will be created, even if the result is empty.
+\end{tabular}}
+\begin{cxxdoc}
+
+Filters all attributes to those properties which belong to all given categories at the same time.
+Note: If there is a category wrong typed, it has the effect that result will always be an empty vector with NULL at index 0.
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{void}
+        {rep\_destroy}
+        {(PReport\ prepReport)}
+        { Disposes the given report structure.}
+        {32}
+\cxxParameter{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut prepReport} & points to the report which should be disposed
+\end{tabular}}
+\begin{cxxdoc}
+
+Disposes the given report structure. Should be called to free the result of rep\_create.
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{char*}
+        {getValueOfLabel}
+        {(PVTelos\ pvtFrame,\ char*\ szLabel)}
+        { A simple service routine, which support the access on frames.}
+        {33}
+\cxxParameter{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut pvtFrame} & points to a single frame, which should be analyzed
+\\
+{\tt\strut szLabel} & contains the keyword, which should be searched in the labels
+\end{tabular}}
+\cxxReturn{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut the} & string containing the value according to the given labelor NULL if no appropriate value was found
+\end{tabular}}
+\begin{cxxdoc}
+
+A simple service routine, which support the access on frames.
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{char**}
+        {getCategories}
+        {(PVTelos\ pvtFrame)}
+        { Lists the categories as flat list, each elemant appears only once.}
+        {34}
+\cxxParameter{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut pvtFrame} & points to a single frame, which should be analyzed
+\end{tabular}}
+\cxxReturn{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut array} & of strings with the categories
+\end{tabular}}
+\begin{cxxdoc}
+
+Lists the categories as flat list, each elemant appears only once.
+The categories will be ordered by their appearance.
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{void}
+        {destroyASZ}
+        {(char**\ asz)}
+        { Disposes an asz (array of strings) structure.}
+        {35}
+\cxxParameter{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut asz} & the array of strings to be disposed
+\end{tabular}}
+\begin{cxxdoc}
+
+Disposes an asz (array of strings) structure.
+
+\end{cxxdoc}
+\end{cxxfunction}
+
+
+
+\section{te\_cursor.h}
+\label{sec:cursorh}
+
+\begin{cxxunion}
+{struct\ }
+        {te\_framecursor}
+        {}
+        { A cursor for a Telos frame}
+        {36}
+\begin{cxxnames}
+\cxxitem{te\_SMLfragmentList*}
+        {flAll}
+        {}
+        {Parsed telos frames in a fragment list }
+        {36.1}
+\cxxitem{te\_SMLfragmentList*}
+        {flCur}
+        {}
+        {fragment list cursor }
+        {36.2}
+\cxxitem{te\_ClassList*}
+        {clCurOmega}
+        {}
+        {cursor for inOmega }
+        {36.3}
+\cxxitem{te\_ClassList*}
+        {clCurIn}
+        {}
+        {cursor for in }
+        {36.4}
+\cxxitem{te\_ClassList*}
+        {clCurIsA}
+        {}
+        {cursor for isA }
+        {36.5}
+\cxxitem{AttrDeclList*}
+        {alCur}
+        {}
+        {cursor for attribute declarations  }
+        {36.6}
+\cxxitem{AttrClassList*}
+        {clCurCategory}
+        {}
+        {cursor for attribute categories (within one attribute declaration) }
+        {36.7}
+\cxxitem{PropertyList*}
+        {plCur}
+        {}
+        {cursor for property list (within one attribute declaration) }
+        {36.8}
+\cxxitem{AttrDeclList*}
+        {alChecked}
+        {}
+        {internal filter: tests if alCur was checked }
+        {36.9}
+\end{cxxnames}
+\begin{cxxdoc}
+
+A cursor for a Telos frame
+\end{cxxdoc}
+\begin{cxxvariable}
+{te\_SMLfragmentList*}
+        {flAll}
+        {}
+        {Parsed telos frames in a fragment list }
+        {36.1}
+\end{cxxvariable}
+\begin{cxxvariable}
+{te\_SMLfragmentList*}
+        {flCur}
+        {}
+        {fragment list cursor }
+        {36.2}
+\end{cxxvariable}
+\begin{cxxvariable}
+{te\_ClassList*}
+        {clCurOmega}
+        {}
+        {cursor for inOmega }
+        {36.3}
+\end{cxxvariable}
+\begin{cxxvariable}
+{te\_ClassList*}
+        {clCurIn}
+        {}
+        {cursor for in }
+        {36.4}
+\end{cxxvariable}
+\begin{cxxvariable}
+{te\_ClassList*}
+        {clCurIsA}
+        {}
+        {cursor for isA }
+        {36.5}
+\end{cxxvariable}
+\begin{cxxvariable}
+{AttrDeclList*}
+        {alCur}
+        {}
+        {cursor for attribute declarations  }
+        {36.6}
+\end{cxxvariable}
+\begin{cxxvariable}
+{AttrClassList*}
+        {clCurCategory}
+        {}
+        {cursor for attribute categories (within one attribute declaration) }
+        {36.7}
+\end{cxxvariable}
+\begin{cxxvariable}
+{PropertyList*}
+        {plCur}
+        {}
+        {cursor for property list (within one attribute declaration) }
+        {36.8}
+\end{cxxvariable}
+\begin{cxxvariable}
+{AttrDeclList*}
+        {alChecked}
+        {}
+        {internal filter: tests if alCur was checked }
+        {36.9}
+\end{cxxvariable}
+\end{cxxunion}
+\begin{cxxentry}
+{typedef\ struct\ }
+        {te\_framecursor}
+        {TFrameCursor}
+        {Type for te\_framecursor }
+        {37}
+\end{cxxentry}
+\begin{cxxentry}
+{typedef\ }
+        {TFrameCursor*}
+        {PFrameCursor}
+        {Type for a pointer to TFrameCursor }
+        {38}
+\end{cxxentry}
+\begin{cxxfunction}
+{PFrameCursor}
+        {te\_createCursor}
+        {(\ te\_SMLfragmentList*\ fl)}
+        { Creates and initializes a cursor structure for the given smlfragmentlist.}
+        {39}
+\begin{cxxdoc}
+
+Creates and initializes a cursor structure for the given smlfragmentlist.
+and returns a pointer to it.
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{void}
+        {te\_destroyCursor}
+        {(PFrameCursor\ pfc)}
+        { Deallocates a cursor structure}
+        {40}
+\begin{cxxdoc}
+
+Deallocates a cursor structure
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{void}
+        {te\_resetFrame}
+        {(PFrameCursor\ pfc)}
+        { Sets the frame cursor to the first frame and resets all sub cursors}
+        {41}
+\begin{cxxdoc}
+
+Sets the frame cursor to the first frame and resets all sub cursors
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{int}
+        {te\_nextFrame}
+        {(PFrameCursor\ pfc)}
+        { Sets the frame cursor to the next frame in the list and resets the Omega, IsA, In, AttrDecl, Category and Property cursors.}
+        {42}
+\cxxReturn{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut true} & (non-zero) if there is a next element
+\end{tabular}}
+\begin{cxxdoc}
+
+Sets the frame cursor to the next frame in the list and resets the
+Omega, IsA, In, AttrDecl, Category and Property cursors.
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{char*}
+        {te\_retOID}
+        {(PFrameCursor\ pfc)}
+        { Returns the OID of a frame as plain string, even if it is a select expression.}
+        {43}
+\begin{cxxdoc}
+
+Returns the OID of a frame as plain string, even if it is
+a select expression. Memory for this string has to be deallocated
+by the caller.
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{void}
+        {te\_resetOmega}
+        {(PFrameCursor\ pfc)}
+        { Resets the Omega cursor}
+        {44}
+\begin{cxxdoc}
+
+Resets the Omega cursor
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{int}
+        {te\_nextOmega}
+        {(PFrameCursor\ pfc)}
+        { Sets the omega cursor to the next element.}
+        {45}
+\cxxReturn{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut true} & (non-zero) if there is a next element
+\end{tabular}}
+\begin{cxxdoc}
+
+Sets the omega cursor to the next element.
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{char*}
+        {te\_retOmega}
+        {(PFrameCursor\ pfc)}
+        { Returns the omega object as string }
+        {46}
+\begin{cxxdoc}
+
+Returns the omega object as string
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{void}
+        {te\_resetIsA}
+        {(PFrameCursor\ pfc)}
+        { Resets the Isa cursor}
+        {47}
+\begin{cxxdoc}
+
+Resets the Isa cursor
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{int}
+        {te\_nextIsA}
+        {(PFrameCursor\ pfc)}
+        { Sets the IsA cursor to the next element.}
+        {48}
+\cxxReturn{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut true} & (non-zero) if there is a next element
+\end{tabular}}
+\begin{cxxdoc}
+
+Sets the IsA cursor to the next element.
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{char*}
+        {te\_retIsA}
+        {(PFrameCursor\ pfc)}
+        { Returns the IsA object as string }
+        {49}
+\begin{cxxdoc}
+
+Returns the IsA object as string
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{void}
+        {te\_resetIn}
+        {(PFrameCursor\ pfc)}
+        { Resets the In cursor}
+        {50}
+\begin{cxxdoc}
+
+Resets the In cursor
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{int}
+        {te\_nextIn}
+        {(PFrameCursor\ pfc)}
+        { Sets the In cursor to the next element.}
+        {51}
+\cxxReturn{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut true} & (non-zero) if there is a next element
+\end{tabular}}
+\begin{cxxdoc}
+
+Sets the In cursor to the next element.
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{char*}
+        {te\_retIn}
+        {(PFrameCursor\ pfc)}
+        { Returns the In object as string }
+        {52}
+\begin{cxxdoc}
+
+Returns the In object as string
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{void}
+        {te\_resetAttrDecl}
+        {(PFrameCursor\ pfc)}
+        { Sets the attr decl block cursor to the first attr decl block  in the current frame and resets the sub-cursors Category and Property}
+        {53}
+\begin{cxxdoc}
+
+Sets the attr decl block cursor to the first attr decl block  in the
+current frame and resets the sub-cursors Category and Property
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{int}
+        {te\_nextAttrDecl}
+        {(PFrameCursor\ pfc)}
+        { Sets the Property cursor to the next Property class in the attr decl block frame and resets the Category and Property cursors.}
+        {54}
+\cxxReturn{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut true} & (non-zero) if there is a next element
+\end{tabular}}
+\begin{cxxdoc}
+
+Sets the Property cursor to the next Property class in the attr decl
+block frame and resets the Category and Property cursors.
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{void}
+        {te\_resetCategory}
+        {(PFrameCursor\ pfc)}
+        { Resets the category cursor}
+        {55}
+\begin{cxxdoc}
+
+Resets the category cursor
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{int}
+        {te\_nextCategory}
+        {(PFrameCursor\ pfc)}
+        { Sets the category cursor to the next element.}
+        {56}
+\cxxReturn{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut true} & (non-zero) if there is a next element
+\end{tabular}}
+\begin{cxxdoc}
+
+Sets the category cursor to the next element.
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{char*}
+        {te\_retCategory}
+        {(PFrameCursor\ pfc)}
+        { Returns the category as string }
+        {57}
+\begin{cxxdoc}
+
+Returns the category as string
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{void}
+        {te\_resetProperty}
+        {(PFrameCursor\ pfc)}
+        { Resets the property cursor}
+        {58}
+\begin{cxxdoc}
+
+Resets the property cursor
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{int}
+        {te\_nextProperty}
+        {(PFrameCursor\ pfc)}
+        { Sets the category cursor to the next element.}
+        {59}
+\cxxReturn{
+\begin{tabular}[t]{lp{0.5\textwidth}}
+{\tt\strut true} & (non-zero) if there is a next element
+\end{tabular}}
+\begin{cxxdoc}
+
+Sets the category cursor to the next element.
+
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{int}
+        {te\_filterPropertyByCategory}
+        {(PFrameCursor\ pfc,\ char*\ category)}
+        { Lists all properties that are of the type "category".}
+        {60}
+\begin{cxxdoc}
+
+Lists all properties that are of the type "category".
+The usage of this function is similar to the function
+te\_filterPropertyByCategories. The only diffrence is the simplicity of
+the second parameter for the case that you only need to filter with
+one category.
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{int}
+        {te\_filterPropertyByCategories}
+        {(PFrameCursor\ pfc,\ char*\ categories[])}
+        { Lists all properties that matches all types of categories If the categories are empty then any category matches.}
+        {61}
+\begin{cxxdoc}
+
+Lists all properties that matches all types of categories
+If the categories are empty then any category matches.
+In difference to the nextXXX functions, these function should be
+called before the first access via te\_retLabel or te\_retValue,
+because it must search the first valid AttrDecl.
+This means at the beginning you should call:
+"te\_resetAttrDecl( ... );"          AND
+"te\_filterPropertyByCategories( ... );"
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{char*}
+        {te\_filterPropertyByLabel}
+        {(PFrameCursor\ pfc,\ char*\ )}
+        { Lists the value of the property with label of the current frame.}
+        {62}
+\begin{cxxdoc}
+
+Lists the value of the property with label of the current frame.
+This results only one value which is a new created string.
+Note that the caller has to dispose the return value !
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{char*}
+        {te\_retLabel}
+        {(PFrameCursor\ pfc)}
+        { Returns the current label of the current property in the current decl block or NULL}
+        {63}
+\begin{cxxdoc}
+
+Returns the current label of the current property in the current
+decl block or NULL
+\end{cxxdoc}
+\end{cxxfunction}
+\begin{cxxfunction}
+{char*}
+        {te\_retValue}
+        {(PFrameCursor\ pfc)}
+        { Returns the current value of the current property in the current decl block or NULL}
+        {64}
+\begin{cxxdoc}
+
+Returns the current value of the current property in the current
+decl block or NULL
+\end{cxxdoc}
+\end{cxxfunction}
+

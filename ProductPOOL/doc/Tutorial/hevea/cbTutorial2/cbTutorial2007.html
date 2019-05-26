@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="cbTutorial2.css">
+<title>Link the two notations</title>
+</head>
+<body >
+<a href="cbTutorial2006.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="cbTutorial2008.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h2 id="sec9" class="section">7&#XA0;&#XA0;Link the two notations</h2>
+<p>We have created two simple notations, one for data modeling and the scond for process modeling.
+Now let us combine these two. The most natural way appears to regard object types
+(entity types and relationship types) as possible inputs and outputs of tasks in a process
+model.</p><p><br>
+<br>
+
+<span class="textboxed">
+</span></p><div class="minipage"><span class="textboxed"><span style="font-style:italic"><span style="font-weight:bold">Exercise 13:</span></span></span><span class="textboxed"><span style="font-style:italic"> 
+Define a new construct </span></span><span class="textboxed"><span style="font-style:italic"><span style="font-family:monospace">ObjectType</span></span></span><span class="textboxed"><span style="font-style:italic"> that generalizes </span></span><span class="textboxed"><span style="font-style:italic"><span style="font-family:monospace">EntityType</span></span></span><span class="textboxed"><span style="font-style:italic"> and
+</span></span><span class="textboxed"><span style="font-style:italic"><span style="font-family:monospace">RelationshipType</span></span></span><span class="textboxed"><span style="font-style:italic">.
+</span></span><span class="textboxed">
+</span></div><p><span class="textboxed">
+</span>
+<br>
+<br>
+
+</p><pre class="verbatim">ObjectType end
+EntityType isA ObjectType end
+RelationshipType isA ObjectType end
+</pre><p>So, this was easy. We now can link the two notations via <span style="font-family:monospace">ObjectType</span>.</p><p><br>
+<br>
+
+<span class="textboxed">
+</span></p><div class="minipage"><span class="textboxed"><span style="font-style:italic"><span style="font-weight:bold">Exercise 14:</span></span></span><span class="textboxed"><span style="font-style:italic"> 
+Define object type as possible input/output of tasks in process models.
+</span></span><span class="textboxed">
+</span></div><p><span class="textboxed">
+</span>
+<br>
+<br>
+
+</p><pre class="verbatim">Task with
+ attribute
+    input: ObjectType;
+    output: ObjectType
+end
+</pre><p>Attributes in ConceptBase are by default multi-valued, ie. they can have zero, one or many
+values. This is exaclty what we want in this case. </p><p>We finalize this tutorial by attaching some objects types as input/output of tasks.</p><p><br>
+<br>
+
+<span class="textboxed">
+</span></p><div class="minipage"><span class="textboxed"><span style="font-style:italic"><span style="font-weight:bold">Exercise 15:</span></span></span><span class="textboxed"><span style="font-style:italic"> 
+Define some of the object types of exercise 5 as input/output of the process model of
+exercise 11.
+</span></span><span class="textboxed">
+</span></div><p><span class="textboxed">
+</span>
+<br>
+<br>
+
+
+</p><pre class="verbatim">receiveClaim with
+  output o1: Claim
+end
+
+checkPolicy with
+  input i1: claim_policy
+end
+</pre>
+<hr>
+<a href="cbTutorial2006.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="cbTutorial2008.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

@@ -1,0 +1,84 @@
+This directory contains the metamodel of the DWQ project
+(refined and completed in the PhD thesis of C. Quix).
+It can be used to model the metadata and quality information
+of data warehouses.
+
+It consists basically of three parts: an architecture model
+(files 01-08), a quality model (09-14), and a process model
+(15-18). More information can be found in the literature listed
+at the end of this file.
+
+01_Architecture.sml
+   General concepts for the architecture model
+
+02_Conceptual.sml
+   The conceptual perspective of the architecture model
+
+03_Logical.sml
+   The logical perspective of the architecture model
+
+04_Physical.sml
+   The physical perspective of the architecture model
+
+05_ConceptualExtension.sml
+   Extension to the conceptual perspective to model assertions
+
+06_LogicalExtension.sml
+   Extension to the conceptual perspective to adorned queries
+
+07_MultidimensionalExtension.sml
+   Extension of the conceptual perspective to model multidimensional concepts
+
+08_DWarchitectureGTs.sml
+   Graphical types for the architecture objects
+
+09_QualityMetaModel.sml
+   The quality meta model
+
+10_QualityDimension.sml
+   Quality dimensions to model quality in a data warehouse (with german comments)
+
+11_Stakeholder.sml
+   Some definitions for stakeholder in a DW context
+
+12_QualityModel.sml
+   Some instances which are necessary to use the quality meta model
+
+13_QualityGTs.sml
+   Graphical types of the meta model
+
+14_QualityExample.sml
+   An example
+
+15_Process.sml
+   The process model
+
+16_ProcessQuality.sml
+   The relationship between the process model and the quality model
+
+17_ProcessGTs.sml
+   Graphical types for the process model
+
+18_ProcessExample.sml
+   An example for the process model
+
+
+
+Literature
+==========
+M. Jarke, M. Lenzerini, Y. Vassiliou, P. Vassiliadis:
+Fundamentals of Data Warehouses
+2nd revised and extended edition, Springer-Verlag, ISBN 3-540-42089-4, 2003
+
+M. Jarke, M.A. Jeusfeld, C. Quix, P. Vassiliadis:
+Architecture and Quality for Data Warehouses: An Extended Repository Approach
+Information Systems, 24(3), pp. 229-253, 1999
+
+M.A. Jeusfeld, C.Quix, M.Jarke:
+Design and Analysis of Quality Information for Data Warehouses
+17th International Conference on the Entity Relationship Approach (ER'98), Singapore, 1998
+
+C. Quix:
+Metadatenverwaltung zur qualit„tsorientierten Informationslogistik in Data-Warehouse-Systemen
+Dissertation, RWTH Aachen, 2003
+

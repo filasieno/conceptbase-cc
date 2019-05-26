@@ -1,0 +1,63 @@
+#!/bin/sh
+# This is the central command file for compiling ConceptBase
+# 19-Mar-2009: adapted to allow local installations independent from Aachen
+
+# CB_LOCATION is not yet defined ...
+if [ ! -n "$CB_LOCATION" ]; then  
+	if [ -d "/home/cbase/CB_NewStruct" ]; then
+		CB_LOCATION=Aachen    
+	else
+		CB_LOCATION=World
+	fi
+fi
+
+export CB_LOCATION
+
+# point by default to to directory structure as used by Aachen
+CB_POOL=/home/cbase/CB_NewStruct/ProductPOOL
+ADMIN_POOL=/home/cbase/CB_NewStruct/AdminPOOL
+
+# If CB_WORK is defined then we use the files in the pool specified by CB_WORK.
+# This allows to compile ConceptBase without the files in /home/cbase.
+# We assume that CB_WORK is a user-defined variable pointing to the ProductPOOL
+# subtree
+
+if  [ "$CB_LOCATION" != "Aachen" ]; then
+   if [ -n "$CB_WORK" ]; then
+      CB_POOL=$CB_WORK
+      ADMIN_POOL=$CB_WORK/../AdminPOOL
+   fi
+fi
+
+CB_VARIANT=`CBvariant`
+
+# default for the make binary like used by Aachen
+MAKEV=/home/cbase/CB_NewStruct/CB_Admin/utils/make.$CB_VARIANT
+
+# if an executable make.$CB_VARIANT exists in the local AdminPOOL, then we take that one
+if [ -x $ADMIN_POOL/utils/make.$CB_VARIANT ]; then
+  MAKEV=$ADMIN_POOL/utils/make.$CB_VARIANT
+fi
+
+
+
+export CB_POOL
+export ADMIN_POOL
+
+# For Linux, these variables may not be defined in the environment
+unset CC
+unset CXX
+
+if [ "$1" = "-h" ]; then
+	echo Usage:
+	exec $MAKEV -re -f Makefile CB_MAKE=1 info	
+fi
+
+#echo CB_Make: Calling $MAKEV ...
+if  [ "$CB_VARIANT" = "linux64XXX" ]; then
+   # do some make tasks in parallel on linux64 platforms, which supposedly have several cores
+   exec $MAKEV -j 2 -l 2.5 -re -f Makefile CB_MAKE=1 $*
+else
+   exec $MAKEV -re -f Makefile CB_MAKE=1 $*
+fi
+

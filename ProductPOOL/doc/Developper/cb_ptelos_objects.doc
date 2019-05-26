@@ -1,0 +1,41 @@
+
+Tcl command: cb_ptelos [ options ]
+Type: object
+C++ class: cb_ptelos
+Description: This is the answer object for parsed telos
+
+    Options:
+
+    Methods:
+	source source(Tcl_Interp* interp,char *telos)
+                parses an answer of telos
+	first gotoFirstObject(Tcl_Interp* interp)
+                goes to the first frame of the ptelos object
+	next gotoNextObject(Tcl_Interp* interp)
+                goes to the next frame of the ptelos object
+	previous gotoPreviousObject(Tcl_Interp* interp)
+                goes to the previous frame of the ptelos object
+	last gotoLastObject(Tcl_Interp* interp)
+                goes to the last frame of the ptelos object
+	count count(Tcl_Interp* interp)
+                returns the number of objects in the frame
+	index index(Tcl_Interp* interp)
+                returns the index of the current object of the frame
+	GetObjectId GetObjectId(Tcl_Interp* interp, int argc, char** argv)
+                returns the Object-Id
+	Get_IN_OMEGA_Class Get_IN_OMEGA_Class(Tcl_Interp* interp)
+                returns the omega-class of the current frame
+	Get_IN_Classes Get_IN_Classes(Tcl_Interp* interp)
+                returns the meta-class of the current frame
+	Get_ISA_Classes Get_ISA_Classes(Tcl_Interp* interp)
+                returns the super-class of the current frame
+	GetCategories GetCategories(Tcl_Interp* interp)
+                returns the categories of the current frame
+	GetValuesOfCategories GetValuesOfCategories(Tcl_Interp* interp, char* searchedCategories)
+                returns the list of values of the given categories
+	GetLabelsOfCategories GetLabelsOfCategories(Tcl_Interp* interp, char* searchedCategories)
+                returns the list of labels of the given categories
+	GetLabValOfCategories GetLabValOfCategories(Tcl_Interp* interp, char* searchedCategories)
+                returns the list of label and values of the given\n                categories
+	GetValueOfLabel GetValueOfLabel(Tcl_Interp* interp, char *label)
+                returns the value of the given label

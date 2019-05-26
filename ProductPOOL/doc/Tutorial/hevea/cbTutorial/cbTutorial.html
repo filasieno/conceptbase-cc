@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="generator" content="hevea 2.09">
+<style type="text/css">
+.li-itemize{margin:1ex 0ex;}
+.li-enumerate{margin:1ex 0ex;}
+.dd-description{margin:0ex 0ex 1ex 4ex;}
+.dt-description{margin:0ex;}
+.toc{list-style:none;}
+.footnotetext{margin:0ex; padding:0ex;}
+div.footnotetext P{margin:0px; text-indent:1em;}
+.thefootnotes{text-align:left;margin:0ex;}
+.dt-thefootnotes{margin:0em;}
+.dd-thefootnotes{margin:0em 0em 0em 2em;}
+.footnoterule{margin:1em auto 1em 0px;width:50%;}
+.caption{padding-left:2ex; padding-right:2ex; margin-left:auto; margin-right:auto}
+.title{margin:2ex auto;text-align:center}
+.titlemain{margin:1ex 2ex 2ex 1ex;}
+.titlerest{margin:0ex 2ex;}
+.center{text-align:center;margin-left:auto;margin-right:auto;}
+.flushleft{text-align:left;margin-left:0ex;margin-right:auto;}
+.flushright{text-align:right;margin-left:auto;margin-right:0ex;}
+div table{margin-left:inherit;margin-right:inherit;margin-bottom:2px;margin-top:2px}
+td table{margin:auto;}
+table{border-collapse:collapse;}
+td{padding:0;}
+.cellpadding0 tr td{padding:0;}
+.cellpadding1 tr td{padding:1px;}
+pre{text-align:left;margin-left:0ex;margin-right:auto;}
+blockquote{margin-left:4ex;margin-right:4ex;text-align:left;}
+td p{margin:0px;}
+.boxed{border:1px solid black}
+.textboxed{border:1px solid black}
+.vbar{border:none;width:2px;background-color:black;}
+.hbar{border:none;height:2px;width:100%;background-color:black;}
+.hfill{border:none;height:1px;width:200%;background-color:black;}
+.vdisplay{border-collapse:separate;border-spacing:2px;width:auto; empty-cells:show; border:2px solid red;}
+.vdcell{white-space:nowrap;padding:0px; border:2px solid green;}
+.display{border-collapse:separate;border-spacing:2px;width:auto; border:none;}
+.dcell{white-space:nowrap;padding:0px; border:none;}
+.dcenter{margin:0ex auto;}
+.vdcenter{border:solid #FF8000 2px; margin:0ex auto;}
+.minipage{text-align:left; margin-left:0em; margin-right:auto;}
+.marginpar{border:solid thin black; width:20%; text-align:left;}
+.marginparleft{float:left; margin-left:0ex; margin-right:1ex;}
+.marginparright{float:right; margin-left:1ex; margin-right:0ex;}
+.theorem{text-align:left;margin:1ex auto 1ex 0ex;}
+.part{margin:2ex auto;text-align:center}
+</style>
+<title>ConceptBase Tutorial
+</title>
+</head>
+<body >
+<!--HEVEA command line is: /usr/bin/hevea -fix cbTutorial.tex -->
+<!--CUT STYLE article--><!--CUT DEF section 1 --><table class="title"><tr><td style="padding:1ex"><h1 class="titlemain"><span style="font-weight:bold">ConceptBase Tutorial</span></h1><h3 class="titlerest">
+Ren&#XE9; Soiron, ConceptBase Team<br>
+<span style="font-size:small">Informatik V, RWTH Aachen, Ahornstr. 55, 52056 Aachen, Germany</span> </h3><h3 class="titlerest">last update: 2015-03-23 by Manfred Jeusfeld</h3></td></tr>
+</table>
+<!--TOC section id="sec1" Introduction-->
+<h2 id="sec1" class="section">1&#XA0;&#XA0;Introduction</h2><!--SEC END --><p>This tutorial gives a beginners introduction into Telos and ConceptBase.
+Telos is a formal language for representing knowledge in a wide
+area of applications, e.g. requirements and process-modelling.
+It integrates object-oriented and deductive features into a
+logical framework.
+ConceptBase is an experimental deductive database management
+system, based on the Telos data model. It is designed to store and
+manipulate a database of Telos objects.
+The tutorial is organized as follows:
+The next section gives a short introduction into the architectural
+organization of the ConceptBase system and describes the
+necessary steps to start the system.
+Section three explains some basic features of Telos and ConceptBase
+using a simple example.
+The last chapter contains solutions to the exercises.</p><p>Please note:<br>
+The objective of this tutorial is to give a novice user a first intuitive
+feeling on how to work with CB and how to build own models, not
+to mention all the features of Telos and ConceptBase or describe
+the semantics of Telos.</p>
+<!--TOC section id="sec2"  First Steps-->
+<h2 id="sec2" class="section">2&#XA0;&#XA0; First Steps</h2><!--SEC END -->
+<!--TOC subsection id="sec3" Overview of the Architecture of the ConceptBase-System-->
+<h3 id="sec3" class="subsection">2.1&#XA0;&#XA0;Overview of the Architecture of the ConceptBase-System</h3><!--SEC END --><p>ConceptBase is organized in a client/server architecture. The server
+manages the database while the client may be any user-defined
+application program. A graphical client <em>CBIva</em> and a command-line
+client <em>CBShell</em> are
+distributed with the ConceptBase system. We use in this tutorial the
+grahical client.
+The communication between server and client is realized via Internet protocols,
+i.e. client and server can run on different computers in your local network
+or even ob the global Internet. They can also run on the same computer, which
+is the most frequent way of use.
+The connection is offered by the ConceptBase server via a so-called <em>port number</em>.
+Every database is stored in a seperate directory with the name of
+the database as directory name.</p><p>Before working with this tutorial ConceptBase has to be installed
+properly. This is documented in the installation guide which is available from
+the site where you downloaded the system, typically
+<a href="http://conceptbase.sourceforge.net/CB-Download.html"><span style="font-family:monospace">http://conceptbase.sourceforge.net/CB-Download.html</span></a>.</p>
+<!--TOC subsection id="sec4" Starting the ConceptBase Server-->
+<h3 id="sec4" class="subsection">2.2&#XA0;&#XA0;Starting the ConceptBase Server</h3><!--SEC END --><p><span style="font-size:small">(Skip this step, if your ConceptBase installation is configured to use a
+public ConceptBase server, in particular on Windows and Mac OS-X.)
+</span>
+<br>
+</p><p>At first start a ConceptBase server: <br>
+
+<br>
+
+<span style="font-style:italic"><span style="font-weight:bold">Exercise 2.1:</span></span><span style="font-style:italic">
+</span></p><ul class="itemize"><li class="li-itemize"><span style="font-style:italic">
+</span><span style="font-style:italic">a)</span><span style="font-style:italic"> Get a description of all possible command-line parameters
+by entering the following commands in a command window. The commands are:
+</span><pre class="verbatim"><span style="font-style:italic">  cd $CB_HOME
+  cbserver -help
+</span></pre><p><span style="font-style:italic">The string </span><span style="font-style:italic"><span style="font-family:monospace">$CB_HOME</span></span><span style="font-style:italic"> has to be replaced by the directory path,
+into which ConceptBase was installed on your local computer. You may want
+to include this directory path into the search path of your command shell.</span></p></li><li class="li-itemize"><span style="font-style:italic">b)</span><span style="font-style:italic"> Start a ConceptBase server loading the
+database </span><span style="font-style:italic"><em>TutDB</em></span><span style="font-style:italic"> on port number </span><span style="font-style:italic"><em>5544</em></span><span style="font-style:italic">
+</span></li></ul><p>A server will start running immediately. If the database <em>TutDB</em>
+doesn&#X2019;t exist, a new database will be created before loading. Then
+the copyright notice and parameter settings are displayed, followed
+by a message which contains hostname and port number of the ConceptBase
+server you have just started. These two informations are used to
+identify a server. The host is the one, you are currently logged on to
+and the port number is set by the <span style="font-family:monospace">-port</span> parameter. The port number
+must be free on the host where ConceptBase shall run.
+If this number is already in use by another server, the error message <br>
+
+<span style="font-family:monospace">IPC Error: Unable to bind socket to name </span> <br>
+
+appears and the server stops.
+In this case restart the server with another port number.</p>
+<!--TOC subsection id="sec5" Starting the ConceptBase User Interface-->
+<h3 id="sec5" class="subsection">2.3&#XA0;&#XA0;Starting the ConceptBase User Interface</h3><!--SEC END --><p>Clients can communicate with a server through the ConceptBase Usage
+Environment. The interface contains several tools which can be invoked
+from the <em>CBIva</em> (ConceptBase User Interface in Java). Start CBIva
+by entering the following commands in a new command window:</p><pre class="verbatim">    cd $CB_HOME
+    cbiva
+</pre><p>After a few seconds a window will appear which
+is titled &#X201C;CBIva - ConceptBase User Interface in Java&#X201D;. It consists of a main window, statusline
+at the left buttom, and offers several function keys and menu-items. A complete description of
+these menus is given in the User Manual. Depending on your operating system, you can also
+double-click the file &#X2019;cbiva&#X2019; (resp. &#X2019;cbiva.bat&#X2019;) in the installation directory of ConceptBase. <br>
+
+<br>
+<br>
+
+<span style="font-style:italic"><span style="font-weight:bold">Exercise 2.2:</span></span><span style="font-style:italic"><br>
+Establish a connection between CBIva and
+the server you have started under 2.1 <br>
+</span></p><p>After the connection is established
+the first field of the <em>statusline</em> contains the status "connected".</p><p><br>
+<span style="font-size:small">Note: If your ConceptBase installation uses a public ConceptBase server,
+then you can skip this step because your CBIva window automatically
+connects to the public server.</span></p>
+<!--TOC section id="sec6" The Example Model-->
+<h2 id="sec6" class="section">3&#XA0;&#XA0;The Example Model</h2><!--SEC END --><p>In this section the use of basic tools and concepts will be illustrated
+by modelling the following simple scenario:</p><blockquote class="quote"><span style="font-style:italic">
+A company has employees, some of them being managers. Employees
+have a name and a salary which may change from time to time. They
+are assigned to departments which are headed by managers. The boss
+of an employee can be derived from his department and the manager of
+that department. No employee is allowed to earn more money than his
+boss.
+</span></blockquote><p>The model we want to create contains two levels: the <em>class level</em>
+containing the classes <em>Employee</em>, <em>Manager</em> and <em>Department</em> and
+the <em>token level</em> which contains instances of these 3 classes.</p>
+<!--TOC subsection id="sec7" Editing Telos Objects-->
+<h3 id="sec7" class="subsection">3.1&#XA0;&#XA0;Editing Telos Objects</h3><!--SEC END -->
+<!--TOC subsubsection id="sec8" The Class Level-->
+<h4 id="sec8" class="subsubsection">3.1.1&#XA0;&#XA0;The Class Level</h4><!--SEC END --><p>The first step is to create the three classes used:
+<em>Employee</em>, <em>Manager</em> and <em>Department</em>. Enter the following definition
+into the CBIva&#X2019;s top window labelled <em>Telos Editor</em>:</p><pre class="verbatim">Employee in Class
+end
+</pre><p>This is the declaration of the class <em>Employee</em>, which will contain
+every employee as instance. <em>Employee</em> is declared as instance of the
+system class <em>Class</em>, because it is on the class level of our example,
+i.e. it is intended to have instances.</p><p>To add this object to the database, press the <em>Tell</em> button.
+If no syntax error occurs and the semantic integrity of the database
+isn&#X2019;t violated by this new object it will be added to the database.
+The next class to ad is the class <em>Manager</em>. Managers are also employees,
+so the class <em>Manager</em> is declared as a specialization of <em>Employee</em>
+using the keyword <em>isA</em>:</p><pre class="verbatim">Manager in Class isA Employee
+end
+</pre><p>Press the <em>Clear</em> button to clear the editor field.
+Enter the telos frame given above and add it to the database by telling it.
+The final class to be added is the class <em>Department</em>. <br>
+
+<br>
+<br>
+
+<span style="font-style:italic"><span style="font-weight:bold">Exercise 3.1:</span></span><span style="font-style:italic"><br>
+Define a class </span><span style="font-style:italic"><em>Department</em></span><span style="font-style:italic"> and add it to the database. <br>
+</span></p><p>At this point we have added some new classes to the object
+base, but have told nothing about the so called <em>attributes</em> of these
+classes. The modification of the classes we have just entered is the
+next task.</p>
+<!--TOC subsubsection id="sec9" Defining Attributes of Classes-->
+<h4 id="sec9" class="subsubsection">3.1.2&#XA0;&#XA0;Defining Attributes of Classes</h4><!--SEC END --><p>As mentioned in the description of the example-model, the employee-class
+has several attributes. To add them, we need to modify the Telos frame
+describing the class <em>Employee</em>.</p><p><br>
+<br>
+
+<span style="font-style:italic"><span style="font-weight:bold">Exercise 3.2:</span></span><span style="font-style:italic"> <br>
+Load the object
+</span><span style="font-style:italic"><em>Employee</em></span><span style="font-style:italic"> via the </span><span style="font-style:italic"><em>load frame</em></span><span style="font-style:italic"> button and
+modify it as follows:
+</span></p><pre class="verbatim">Employee in Class with
+attribute
+        name: String;
+        salary: Integer;
+        dept: Department;
+        boss: Manager
+end
+</pre><p>Tell the modified Employee frame to the database.
+Now you have added attributes to the class <em>Employee</em>.
+They are of the category <em>attribute</em> and their labels are:
+<em>name</em>, <em>salary</em>, <em>dept</em>, and <em>boss</em>. They establish &#X201C;links&#X201D;
+between the class <em>Employee</em> and the classes mentioned as &#X201C;targets&#X201D;.
+<em>Department</em> and <em>Manager</em> are user-defined classes, while <em>String</em>
+and <em>Integer</em> are builtin classes of ConceptBase. </p><p>Notice that these attributes are also available for the class
+<em>Manager</em>, because this class is a subclass of Employee
+(i.e. Telos offers attribute inheritance, see also chapter 2.1
+of the User manual, <em>Specialization axiom</em>).<br>
+
+<br>
+<br>
+
+<span style="font-style:italic"><span style="font-weight:bold">Exercise 3.3:</span></span><span style="font-style:italic"><br>
+The class Department has only one attribute: the manager,
+who leads the department. Add this attribute to the class Department.
+The label of this attribute shall be </span><span style="font-style:italic"><em>head</em></span><span style="font-style:italic">.<br>
+</span></p><p>Now we have completed the class-level of our example.
+The next step is to add instances of our classes to the database.</p>
+<!--TOC subsubsection id="sec10" The Token Level-->
+<h4 id="sec10" class="subsubsection">3.1.3&#XA0;&#XA0;The Token Level</h4><!--SEC END --><p>The company we are modelling consists of the 4 departments
+<em>Production</em>, <em>Marketing</em>, <em>Administration</em> and <em>Research</em>.
+Every employee working in the company belongs to
+a department. The employees will be listed later, apart
+from the managers of the departments: <br>
+
+</p><div class="center">
+<table border=1  style="border-spacing:0;" class="cellpadding1"><tr><td style="text-align:left;border:solid 1px;white-space:nowrap" >department</td><td style="text-align:left;border:solid 1px;white-space:nowrap" >head </td></tr>
+<tr><td style="text-align:left;border:solid 1px;white-space:nowrap" >Production</td><td style="text-align:left;border:solid 1px;white-space:nowrap" >Lloyd </td></tr>
+<tr><td style="text-align:left;border:solid 1px;white-space:nowrap" >Marketing</td><td style="text-align:left;border:solid 1px;white-space:nowrap" >Phil </td></tr>
+<tr><td style="text-align:left;border:solid 1px;white-space:nowrap" >Administration</td><td style="text-align:left;border:solid 1px;white-space:nowrap" >Eleonore </td></tr>
+<tr><td style="text-align:left;border:solid 1px;white-space:nowrap" >Research</td><td style="text-align:left;border:solid 1px;white-space:nowrap" >Albert </td></tr>
+</table> <br>
+</div>
+<!--TOC subsubsection id="sec11" Defining Attributes of Tokens-->
+<h4 id="sec11" class="subsubsection">3.1.4&#XA0;&#XA0;Defining Attributes of Tokens</h4><!--SEC END --><p>At first let&#X2019;s have a look at the department class, defined in exercise 3.3:</p><pre class="verbatim">Department in Class with
+         attribute
+               head: Manager
+end
+</pre><p>There is a link between <em>Department</em> and <em>Manager</em> of category
+<em>attribute</em> with label <em>head</em> at the class-level. Now we have to
+establish a link between <em>Production</em> and <em>Lloyd</em> of category
+<em>head</em> at the token-level.
+The <em>label</em> of this link must be a unique name for all links with the
+source object "Production". We choose <em>head_of_Production</em> as name.</p><p>The resulting Telos frame is:</p><pre class="verbatim">Production in Department with
+  head
+    head_of_Production : Lloyd
+end
+</pre><p><br>
+<br>
+
+<span style="font-style:italic"><span style="font-weight:bold">Exercise 3.4:</span></span></p><ul class="itemize"><li class="li-itemize"><span style="font-style:italic">a)</span><span style="font-style:italic"> Add the frames for Lloyd, Phil, Eleonore and Albert to the
+database.
+</span></li><li class="li-itemize"><span style="font-style:italic">b)</span><span style="font-style:italic"> Add the Telos frames for Production, Marketing, Administration,
+and Research and the links between the departments and their
+manager to the database.
+</span></li><li class="li-itemize"><span style="font-style:italic">c)</span><span style="font-style:italic"> The four managers have the following salaries:<br>
+</span><div class="center"><span style="font-style:italic">
+	</span><table border=1  style="border-spacing:0;" class="cellpadding1"><tr><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	manager</span></td><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	salary </span></td></tr>
+<tr><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	Lloyd	</span></td><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	100000 </span></td></tr>
+<tr><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	Phil	</span></td><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	120000 </span></td></tr>
+<tr><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	Eleonore</span></td><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	20000 </span></td></tr>
+<tr><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	Albert	</span></td><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	110000 </span></td></tr>
+<tr><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	</span></td></tr>
+</table><span style="font-style:italic">
+</span></div><span style="font-style:italic"> </span></li></ul><p><span style="font-style:italic">Add this information to the database.
+Use "LloydsSalary", "PhilsSalary", etc. as labels.
+(Remember that you can load an existing object from the database into
+the Telos Editor by using "Load frame".)
+<br>
+</span></p><p>The destination objects of attribute instantiations must be existing objects in
+the database or instances of the system builtin classes <em>Integer</em>,
+<em>Real</em> or <em>String</em>. Objects which instantiate these classes are
+generated automatically when referenced in a Telos-frame.
+At this point it is important to recognize, that attributes specified at the
+class level do not need to be instantiated at the instance level. On the other
+hand an instance of a class containing an attribute may contain several
+instances of this attribute.</p><p>Example:<br>
+</p><pre class="verbatim">George in Employee with
+        name
+                GeorgesName: "George D. Smith"
+        salary
+                GeogesBaseSalary : 30000;
+                GeorgesBonusSalary : 3000
+end
+</pre><p>The attribute <em>dept</em> and <em>boss</em> have no instances, while
+<em>salary</em> is instantiated twice.</p><p>To complete the token level, we have to add more employees to
+the database. <br>
+
+<br>
+<br>
+
+<span style="font-style:italic"><span style="font-weight:bold">Exercise 3.5:</span></span><span style="font-style:italic"><br>
+Add the following employees to the database. Use </span><span style="font-style:italic"><em>MichaelsDepartment</em></span><span style="font-style:italic"> etc. as labels for the attributes.<br>
+
+</span></p><div class="center"><span style="font-style:italic">
+</span><table border=1  style="border-spacing:0;" class="cellpadding1"><tr><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">employee	</span></td><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	department	</span></td><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	salary	</span></td></tr>
+<tr><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">Michael 	</span></td><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	Production</span></td><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	30000	</span></td></tr>
+<tr><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">Herbert 	</span></td><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	Marketing</span></td><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	60000	</span></td></tr>
+<tr><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">Maria		</span></td><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	Administration</span></td><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	10000	</span></td></tr>
+<tr><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">Edward 	</span></td><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	Research</span></td><td style="text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-style:italic">	50000	</span></td></tr>
+</table><span style="font-style:italic"><br>
+</span></div><p><br>
+<br>
+
+Now the first step in building the example database is completed.
+The next chapter describes a basic tool of the usage environment
+which can be used for inspecting the database: the <em>GraphBrowser</em>.</p>
+<!--TOC subsection id="sec12" The Graph Editor-->
+<h3 id="sec12" class="subsection">3.2&#XA0;&#XA0;The Graph Editor</h3><!--SEC END --><p>To start the Graph Editor, choose the menu item <em>Browse</em> from
+the Workbench and select <em>Graph Editor</em>. The Graph Editor will
+start up and establish a connection to the same server as the workbench,
+if the workbench is currently connected. You can establish additional
+connections from within the Graph Editor application.
+If the Graph Editor has established the connection and loaded
+the initial data (note: this takes about 10 seconds), you can
+add an object to the editor window by clicking on the &#X201C;Load object&#X201D;
+button.
+An interaction window
+appears, asking for an object name. After entering a valid name (e.g. <em>Employee</em>) the
+<em>Graph Browser</em> displays the corresponding object.
+By clicking the left mouse-button, every
+displayed object can be selected. A selected object can be moved by
+dragging the object with the left mouse-button pressed. By clicking
+on the right mouse-button, a popup-menu will be shown with the
+following operations:</p><ul class="itemize"><li class="li-itemize">
+	<span style="font-weight:bold">Toggle component view</span> <br>
+	switches the view of this object. In the detailed component view,
+	you can either see the frame of this object or tree-like
+	representation of super- and subclasses, instances, classes, and
+	attributes of this object.
+</li><li class="li-itemize">	<span style="font-weight:bold">Super classes, sub classes, classes, instances</span><br>
+ for each menu item you can select whether you want to
+see only the explicitly defined super classes (or sub classes, etc.)
+or all super classes including all implicit relationships.
+The query to the ConceptBase server to retrieve this information
+will be done when you select the menu item. So, the construction
+of the corresponding submenu might take a few seconds.
+</li><li class="li-itemize"><span style="font-weight:bold">Incoming and outgoing attributes</span><br>
+ The Graph Editor will ask the ConceptBase server for the attribute
+classes that apply to this object. For each attribute class, it is
+possible to display only explicit attributes or all attributes as above.
+The attribute class &#X201C;Attribute&#X201D; applies for every object and all
+attributes are in this class. Therefore, all explicit attributes of
+an object will be visible in this category.</li><li class="li-itemize"><span style="font-weight:bold">Add Instance, Class, SuperClass, SubClass, Attribute, Individual</span>	<br>
+ These menu items will open the &#X201C;Create Object&#X201D; dialog where
+you can specify new objects that should be created in the database.
+Note, that these modifications are not performed directly on the
+database. The editor will collect all modifications and
+send them to the ConceptBase server when you click on the &#X201C;Commit&#X201D;
+button.
+</li><li class="li-itemize"><span style="font-weight:bold">Delete object from database</span> <br>
+ This operation will delete the object from the database. As for the
+insertion of objects before, the modification will be send to
+the server when you click on the &#X201C;Commit&#X201D;
+button. Note that this operation has an effect on the database
+in contrast to the next operation.
+</li><li class="li-itemize"><span style="font-weight:bold">Remove object from view</span> <br>
+ The object will be removed from the current view. This operation
+has no effect on the database, i.e. the object will not be deleted
+from the database.
+</li><li class="li-itemize"><span style="font-weight:bold">Display in Workbench</span><br>
+ This operation will load the frame of the object into the
+Telos editor.</li><li class="li-itemize"><span style="font-weight:bold">Show in new Frame</span><br>
+ A new internal window (within the Graph Editor) will be shown
+and the selected object will be shown in the new window.
+</li></ul><p><br>
+<br>
+
+<span style="font-style:italic"><span style="font-weight:bold">Exercise 3.6:</span></span><span style="font-style:italic"> <br>
+Start a GraphBrowser, and load "Employee" as initial object and
+experiment with the menu options available.
+</span> <br>
+
+</p>
+<!--TOC subsection id="sec13" Adding Deductive Rules-->
+<h3 id="sec13" class="subsection">3.3&#XA0;&#XA0;Adding Deductive Rules</h3><!--SEC END --><p>At this point you should have made some experiences with the editing- and
+browsing-facilities of the ConceptBase Usage Environment and the
+Telos language. This chapter gives an introduction into the use of <em>rules</em>
+and <em>integrity constraints</em>.</p><p>Until now we have never instantiated the boss-attribute of an employee.
+The boss can be derived from the department the employee is assigned
+to and the head of this department. So its obvious to define the instances
+of the boss-attribute by adding a rule to the Employee-Frame.</p><p>At first we&#X2019;ll give a short introduction into the syntax of the assertion language. The exact syntax is given in the appendix of the user manual.</p><p>A <em>deductive rule</em> has the following format: <br>
+
+<span style="font-family:monospace">forall x1/c1 x2/c2 ... xn/cn </span>&lt;<span style="font-style:italic">Rule</span>&gt;<span style="font-family:monospace"> ==&gt; lit(a1,...,am)
+</span><br>
+
+where &lt;<span style="font-style:italic">Rule</span>&gt; is a formula and the xi&#X2019;s are variables bound to the
+class ci, lit is a literal of type 1 or 3 (see below) and the variables among
+the ai&#X2019;s are included in x1,..,xn.</p><p>To compose the formula defining a <em>deductive rule</em> or <em>integrity constraint</em> the following literals may be used:</p><ol class="enumerate" type=1><li class="li-enumerate">
+<span style="font-family:monospace">(x in c)</span><br>
+ The object x is an instance of class c.
+</li><li class="li-enumerate"><span style="font-family:monospace">(c isA d)</span><br>
+ The object c is a specialization (subclass) of d
+</li><li class="li-enumerate"><span style="font-family:monospace">(x l y)</span><br>
+ The object x has an attribute to object y and this relationship is an
+instance of an attribute category with label l. Structural integrity
+demands that the label l belongs to an attribute of a class of x.
+</li></ol><p>In order to avoid ambiguity, neither "in" and "isA" nor the logical
+connectives "and" and "or" are allowed as attribute labels.</p><p>The next literals are second class citizens in formulas. In contrast to the
+above literals they cannot be assigned to classes of the Telos database.
+Consequently, they may only be used for testing, i.e. in a legal formula their
+parameters must be bound by one of the literals 1 - 3.</p><ol class="enumerate" type=1><li class="li-enumerate">
+ <span style="font-family:monospace">(x &lt; y), (x &gt; y), (x &lt;= y), (x &gt;= y), (x = y), (x &lt;&gt; y)</span><br>
+ Note that x and y must be instances of Integer or Real.
+</li><li class="li-enumerate"> <span style="font-family:monospace">(x == y)</span><br>
+ The objects x and y are the same. You can also use <span style="font-family:monospace">(x = y)</span>.
+</li></ol><p>"and" and "or" are allowed as infix operators to connect subformulas.
+Variables in formulas can be quantified by <span style="font-family:monospace">forall x/c</span> or
+<span style="font-family:monospace">exists x/c</span>, where c is a class, i.e. the range of x is
+the set of all instances of the class c.</p><p>The constants appearing in formulas must be names of
+existing objects in the database or of type Integer, Real or
+String. Also for the attribute predicates <span style="font-family:monospace">(x l y)</span> occuring in the
+formulas there must be a unique attribute labelled <span style="font-family:monospace">l</span> of one class
+<span style="font-family:monospace">c</span> of <span style="font-family:monospace">x</span> in the database. For the exact syntax refer to the
+appendix of the user manual.</p><p>We&#X2019;ll give a first example of a deductive rule by defining the boss of an
+employee:</p><pre class="verbatim">Employee with
+   rule
+      BossRule : $ forall e/Employee m/Manager
+                   (exists d/Department
+                     (e dept d) and (d head m))
+                   ==&gt; (e boss m) $
+end
+</pre><p>Please note that the text of the formula must be enclosed in "$" and that
+this deductive rule is legal, because all variables appearing in the conlusion
+literal (<span style="font-family:monospace">e,m</span>) are universally (forall) quantified. The logically
+equivalent formula</p><pre class="verbatim">
+   forall e/Employee m/Manager d/Department
+        (e dept d) and (d head m)
+        ==&gt; (e boss m)
+</pre><p>can also be used. <br>
+
+<br>
+<br>
+
+<span style="font-style:italic"><span style="font-weight:bold">Exercise 3.7:</span></span><span style="font-style:italic"><br>
+Add the </span><span style="font-style:italic"><em>BossRule</em></span><span style="font-style:italic"> to the database.
+</span></p>
+<!--TOC subsection id="sec14" Adding Integrity Constraints-->
+<h3 id="sec14" class="subsection">3.4&#XA0;&#XA0;Adding Integrity Constraints</h3><!--SEC END --><p>The following integrity constraint specifies that no Manager
+should earn less than 50000:</p><pre class="verbatim">Manager with
+   constraint
+      earnEnough: $ forall m/Manager x/Integer
+                        (m salary x) ==&gt; (x &gt;= 50000) $
+end
+</pre><p>Please note that our example model doesn&#X2019;t satisfy this
+constraint, because Eleonore earns only 20000. If you
+use 20000 instead of 50000, the model satisfies this constraint
+and adding it will be successfull.</p><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
+<div class="center"><img src="cbTutorial001.png"></div>
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 1: Telos Editor after the attempt to tell the integrity constraint</td></tr>
+</table></div>
+<a id="fig:telos3"></a>
+<div class="center"><hr style="width:80%;height:2"></div></blockquote><p>Figure <a href="#fig%3Atelos3">1</a> shows the Telos editor after the attempt to tell the
+above integrity constraint. The error message is shown in the error
+window. <br>
+
+<br>
+<br>
+
+<span style="font-style:italic"><span style="font-weight:bold">Exercise 3.8:</span></span><span style="font-style:italic"> <br>
+Define an integrity constraint stating that no employee
+is allowed to earn more money than any of her/his bosses. (The constraint
+should work on each individual salary, not on the sum). <br>
+</span></p><p>In the subdirectory RULES+CONSTRAINTS of the example directory
+there is a more extensive example concerning deductive rules and
+integrity constraints. It should be used in addition to this section of the
+tutorial.</p>
+<!--TOC subsection id="sec15" Defining Queries-->
+<h3 id="sec15" class="subsection">3.5&#XA0;&#XA0;Defining Queries</h3><!--SEC END --><p>In ConceptBase queries are represented as classes, whose instances
+are the answer objects to the query. The system-internal object
+"QueryClass" may have so-called <em>query classes</em> as instances, which
+contain necessary and sufficient membership conditions for their instances.</p><p><br>
+<br>
+
+<span style="font-style:italic"><span style="font-weight:bold">Exercise 3.9:</span></span><span style="font-style:italic"><br>
+Load the object "QueryClass" into the Telos Editor window.
+</span></p><p>The syntax of query classes is a class definition with superclasses,
+attributes, and a membership condition. The set of possible answers
+to a query is restricted to the set of common instances of all its
+superclasses.</p><p>The following query computes all managers, which are bosses of an
+employee:</p><pre class="verbatim">QueryClass AllBosses isA Manager with
+     constraint
+         all_bosse_srule:
+             $ exists e/Employee (e boss this) $
+end
+</pre><p>The predefined variable <em>this</em> in the constraint is identified
+with all solutions of the query class.</p><p>Enter this query into the editor-window and press <em>Ask</em> (not <em>Tell</em>).
+The query will be evaluated by the server and after a few seconds
+the answer will appear both in the protocoll- and in the editor-window.
+If an error has occured and the query was typed correctly, load the
+Employee-frame and check if the frame contains the
+<em>BossRule</em>, defined in chapter 3.3.</p><p>If the answer was correct we add the query class <em>AllBosses</em> to the
+database. The next query uses this query class to restrict the range of
+the answer set:</p><pre class="verbatim">QueryClass BossesWithSalaries isA AllBosses with
+   retrieved_attribute
+         salary : Integer
+end
+</pre><p>Before this Query can be evaluated <em>AllBosses</em> must be told, because
+it is referenced in <em>BossesWithSalaries</em>.</p><p>This query returns the instances of AllBosses together with their salaries.
+Attributes of the category <em>retrieved_attribute</em> must be attributes of
+one of the superclasses of the query class. In this example <em>BossesWithSalaries</em>
+is a subclass of <em>AllBosses</em>, which is subclass of <em>Manager</em>, which is subclass of <em>Employee</em>.
+The <em>Employee</em> class contains
+the declaration of the attribute <em>salary</em>. So the retrieved_attribute is permitted
+for <em>BossesWithSalaries</em>. <br>
+
+<br>
+<br>
+
+<span style="font-style:italic"><span style="font-weight:bold">Exercise 3.10:</span></span><span style="font-style:italic"><br>
+Add the query class "BossesWithSalaries" to the database.<br>
+</span></p><p>Query classes can also define <em>computed_attributes</em>. These
+attributes are defined for the query class itself, but unlike as for retrieved attributes they do
+not occur in the definition of the superclasses of the query class.
+They are called <em>computed</em>, because their
+computation is done during evaluating the constraint at runtime.
+Computed_attributes don&#X2019;t exist persistently in the database,
+that&#X2019;s why they don&#X2019;t get a persistent attribute label. Instead, the
+labels of the computed attributes of the answer objects are system-generated. </p><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
+<div class="center"><img src="cbTutorial002.png"></div>
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 2: Result of asking the query BossesWithSalaries</td></tr>
+</table></div>
+<a id="fig:telos4"></a>
+<div class="center"><hr style="width:80%;height:2"></div></blockquote><p>Figure <a href="#fig%3Atelos4">2</a> shows the Telos editor after asking
+the query BossesWithSalaries. <br>
+</p><p>The following query class computes for every manager the department that
+he or she leads:</p><pre class="verbatim">QueryClass BossesAndDepartments isA Manager with
+   computed_attribute
+      head_of : Department
+   constraint
+      head_of_rule:
+          $ (~head_of head this) $
+end
+</pre><p><br>
+<br>
+
+<span style="font-style:italic"><span style="font-weight:bold">Exercise 3.11:</span></span><span style="font-style:italic"> <br>
+Define a query class BossesAndEmployees, which is a subclass
+of Manager and will return all leaders of departments with their
+department and the employees who work there.
+</span> <br>
+
+More information about query classes can be found in the User manual,
+chapter 2.3 and in the example directory QUERIES.</p><p><br>
+<br>
+
+<span style="font-style:italic"><span style="font-weight:bold">Exercise 3.12:</span></span><span style="font-style:italic"> <br>
+Stop the ConceptBase server and the user interface.
+</span> <br>
+</p><p>This last step completes the tutorial. We hope that it provided a first
+impression on <em>ConceptBase</em> and <em>Telos</em>. Refer to the other examples,
+especially to RULES+CONSTRAINTS and QUERIES and of course
+to the user manual to learn more about the features of ConceptBase.
+There is also a more advanced tutorial available on metamodeling.</p><p>Any comments and suggestions concerning this tutorial or ConceptBase
+are welcome. Contact us via 
+<a href="http://conceptbase.cc"><span style="font-family:monospace">http://conceptbase.cc</span></a>.</p>
+<!--TOC section id="sec16" Solutions to the Exercises-->
+<h2 id="sec16" class="section">4&#XA0;&#XA0;Solutions to the Exercises</h2><!--SEC END --><ul class="itemize"><li class="li-itemize">2.1<p>Enter in the same command window the following command:
+</p><pre class="verbatim">cbserver -port 5544 -d TutDB
+</pre><p>You can also use the option <span style="font-family:monospace">-db</span> instead of <span style="font-family:monospace">-d</span>:</p><pre class="verbatim">cbserver -port 5544 -db TutDB
+</pre><p>In this case, ConceptBase will maintain the Telos source representation
+of all objects in the database directory <span style="font-family:monospace">TutDB</span>. Your own definitions
+will go to the file <span style="font-family:monospace">System-oHome.sml</span>, because that is the default
+database module when you log into a ConceptBase server.</p><p><br>
+
+An <em>alternative</em> to starting the ConceptBase server from the command line is
+to start it from CBIva. To do so, start CBIva and the select the menu item
+<em>File / Start CBserver</em>. A window like in figure <a href="#fig%3Atelos6">3</a> will pop up and
+you need to change the following parameters:</p><ol class="enumerate" type=1><li class="li-enumerate">
+The port number could be changed to 5544 but you can also leave it to 4001.
+</li><li class="li-enumerate">Enter the path of the database TutDB; it is sufficient to replace the last two characters
+<span style="font-family:monospace">db</span> by <span style="font-family:monospace">TutDB</span>. But remember the whole directory path.
+</li><li class="li-enumerate">Change source mode to <span style="font-family:monospace">on</span>. This is equivalent to the <span style="font-family:monospace">-db</span> option above.
+</li><li class="li-enumerate">Change update mode to <span style="font-family:monospace">persistent</span>.
+</li></ol><p>Then press "OK" to let CBIva start a ConceptBase server with the specified parameters
+and connect to it.</p><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
+<div class="center"><img src="cbTutorial003.png"></div>
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 3: Start CBserver from CBIva</td></tr>
+</table></div>
+<a id="fig:telos6"></a>
+<div class="center"><hr style="width:80%;height:2"></div></blockquote><p><br>
+
+</p></li><li class="li-itemize">2.2<p>Select "Connect" from the <em>File</em> menu.
+An interaction window appears, querying the <em>host name</em> and the
+<em>port number</em> of the server you want to connect to.
+Enter the name of the host the ConceptBase server was started on and the
+port number specified by the -p parameter, then select "Connect".
+If you started the ConceptBase server on the same computer as CBIva, then use
+&#X2019;localhost&#X2019; as hostname. </p><p>This step is obsolete, if you started the ConceptBase server from within CBIva. </p><p><br>
+<br>
+
+</p></li><li class="li-itemize">3.1
+<pre class="verbatim">Department in Class
+end
+</pre><p><br>
+
+</p></li><li class="li-itemize">3.2
+To load an object from the database into the editor-window,
+select the <em>frame</em> button with tooltip "Load an object from CBserver" of the button panel or the
+option <em>Load Object</em> from the
+<em>Edit</em> menu. You should have a similar view as
+displayed in figure <a href="#fig%3Atelos1">4</a>.<blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
+<div class="center"><img src="cbTutorial004.png"></div>
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 4: CBIva Telos Editor</td></tr>
+</table></div>
+<a id="fig:telos1"></a>
+<div class="center"><hr style="width:80%;height:2"></div></blockquote><p><br>
+
+</p></li><li class="li-itemize">3.3
+<pre class="verbatim">Department in Class with
+     attribute
+            head: Manager
+end
+</pre><p><br>
+
+</p></li><li class="li-itemize">3.4
+<pre class="verbatim">Lloyd in Manager end
+Phil in Manager end
+Eleonore in Manager end
+Albert in Manager end
+
+Production in Department with
+  head
+    head_of_Production : Lloyd
+end
+
+Administration in Department with
+  head
+    head_of_Administration : Eleonore
+end
+
+Marketing in Department with
+  head
+    head_of_Marketing : Phil
+end
+
+Research in Department with
+  head
+    head_of_Research : Albert
+end
+
+Lloyd in Manager with
+  salary
+      LloydsSalary : 100000
+end
+
+Phil in Manager with
+  salary
+      PhilsSalary : 120000
+end
+
+Eleonore in Manager with
+  salary
+    EleonoresSalary : 20000
+end
+
+Albert in Manager with
+  salary
+    AlbertsSalary : 110000
+end
+
+</pre><p><br>
+
+</p></li><li class="li-itemize">3.5
+<pre class="verbatim">Michael in Employee with
+  dept
+    MichaelsDepartment : Production
+  salary
+    MichaelsSalary : 30000
+end
+
+Maria in Employee with
+  dept
+    MariasDepartment : Administration
+  salary
+    MariasSalary : 10000
+end
+
+Herbert in Employee with
+  dept
+    HerbertsDepartment : Marketing
+  salary
+    HerbertsSalary : 60000
+end
+
+Edward in Employee with
+  dept
+    EdwardsDepartment : Research
+  salary
+    EdwardsSalary : 50000
+end
+
+</pre><p><br>
+
+</p></li><li class="li-itemize">3.6<p>Figure <a href="#fig%3Atelos2">5</a> shows the ConceptBase graph editor on object Employee.
+The attributes of Employee and its instances are expanded using the menu
+of the right mouse button clicked on Employee.</p><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
+<div class="center"><img src="cbTutorial005.png"></div>
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 5: CB Graph Editor on object Employee</td></tr>
+</table></div>
+<a id="fig:telos2"></a>
+<div class="center"><hr style="width:80%;height:2"></div></blockquote><p><br>
+
+</p></li><li class="li-itemize">3.8
+<pre class="verbatim">Employee with
+constraint
+  salaryIC: $ forall e/Employee m/Manager x,y/Integer
+ (e boss m) and (e salary x) and (m salary y) ==&gt; (x &lt;= y) $
+end
+</pre><p><br>
+
+</p></li><li class="li-itemize">3.11
+<pre class="verbatim">QueryClass BossesAndEmployees isA Manager with
+computed_attribute
+    emps : Employee;
+    head_of : Department
+constraint
+    employee_rule:
+       $ (~head_of head this) and (~emps dept ~head_of) $
+end
+</pre><p>Figure <a href="#fig%3Atelos5">6</a> shows parts of the answer to the query
+BossesAndEmployees. 
+</p><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
+<div class="center"><img src="cbTutorial006.png"></div>
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 6: Display of answers of BossesAndEmployees</td></tr>
+</table></div>
+<a id="fig:telos5"></a>
+<div class="center"><hr style="width:80%;height:2"></div></blockquote><p><br>
+
+</p></li><li class="li-itemize">3.12<p>Select the option "Stop CBserver" from the "File" menu of CBIva.
+Afterwards, stop CBIva via the "Exit" option in the same menu.
+If you started the ConceptBase server with the -db option (or with
+source mode set to &#X2019;on&#X2019;), then you find the sources of your definitions
+also in the directory TutDB, see file <span style="font-family:monospace">System-oHome.sml</span>. Open this file
+with a text editor such as WordPad.</p></li></ul><!--CUT END -->
+<!--HTMLFOOT-->
+<!--ENDHTML-->
+<!--FOOTER-->
+<hr style="height:2"><blockquote class="quote"><em>This document was translated from L<sup>A</sup>T<sub>E</sub>X by
+</em><a href="http://hevea.inria.fr/index.html"><em>H</em><em><span style="font-size:small"><sup>E</sup></span></em><em>V</em><em><span style="font-size:small"><sup>E</sup></span></em><em>A</em></a><em>.</em></blockquote></body>
+</html>

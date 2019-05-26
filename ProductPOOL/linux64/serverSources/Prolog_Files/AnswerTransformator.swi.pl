@@ -1,0 +1,1666 @@
+/**
+The ConceptBase.cc Copyright
+
+Copyright 1987-2019 The ConceptBase Team. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted
+provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of
+      conditions and the following disclaimer.
+   2. Redistributions in binary form must reproduce the above copyright notice, this list of
+      conditions and the following disclaimer in the documentation and/or other materials
+      provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those of the authors
+and should not be interpreted as representing official policies, either expressed or implied,
+of the ConceptBase Team.
+
+
+The ConceptBase Team is represented by
+
+Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+
+
+This license is a FreeBSD-style copyright license.
+Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
+**/
+/*
+*
+* File:         AnswerTransformator.pro
+* Version:      12.2
+* Creation:    1990, Martin Staudt (UPA)
+* Last Change: 06/02/98, Lutz Bauer (RWTH)
+* Date released : 98/06/02  (YY/MM/DD)
+*
+* SCCS-Source-Pool : /home/CBase/CB_NewStruct/ProductPOOL/SCCS/serverSources/Prolog_Files/s.AnswerTransformator.pro
+* Date retrieved : 98/06/24 (YY/MM/DD)
+*
+*----------------------------------------------------------------------------
+*
+* Exported predicates:
+*---------------------
+*
+*   + transform_answer/3
+*	performs transformation of instantiated query literals to
+*	equivalent SMLfragments or frames
+*
+*   + transform_builtin_answer/3
+*	performs transformation of answers to BuiltinQueries in
+*	specified answer format*
+*
+* Change history :
+* ----------------
+*
+* 29-Nov-1990 / AK (UPA) :
+*
+* Constants are now considered in the answer transformation of built in queries;
+* this is indicated by the graphical type 'Constant'.
+* Furthermore, the answer transformation for nodes is implemented.
+*
+* 17-Dec-1990 / MSt : Labels are filled in for retrieved_attributes
+* 15-Jan-1991 / AM : arity of 'build_label_for_value' corrected to 5
+*
+* 7-Dec-1992/kvt: Format of smlfragment changed (cf. CBNEWS[148])
+*
+* 24-Jan-1993/DG: AttrValue is changed into A; AttrId into Ai; IsA into Isa
+* (by deleting the time component, see CBNEWS[154])
+*
+* 31-Jan-96/HWN: For an answer format that defines the graphical
+*  palette for the graph browser is no longer a specialization relationship
+*  to EDGE necessary and tested. Now, the palette must be an instance of the class
+*  GraphicalPalette.
+*
+* 05-Dez-96/LWEB: spezielles  transform_builtin_answer([],LABEL,[]) fuer
+* get_modules.
+* Spezielle Version von fragment2ansrep/3 fuer Modul-Selectausdruck.
+* generate_edge_format/3 :   Es wurde ein weiterer Fall  eingefuegt, der
+*	explizit den Fall beruecksichtigt dass ein
+*	 select(_labelname,'@',_mod)  Selektionsausdruck 	als Label vorkommt.
+*/
+
+
+
+:- module('AnswerTransformator',[
+'collect_frame_labels'/2
+,'fragmentatom2list'/2
+,'fragments_to_frames'/2
+,'get_computed_atom'/3
+,'transform'/2
+,'transform_answer'/3
+,'transform_builtin_answer'/3
+,'transform_main_update_elem'/5
+,'transform_subquery_update_elem'/5
+,'transform_view_answer'/4
+,'mergeAnswersForBulkQueries'/2
+]).
+:- use_module('GlobalPredicates.swi.pl').
+:- use_module('debug.swi.pl').
+
+:- use_module('GeneralUtilities.swi.pl').
+:- use_module('ExternalConnection.swi.pl').
+
+:- use_module('PrologCompatibility.swi.pl').
+
+:- use_module('QueryCompiler.swi.pl').
+:- use_module('validProposition.swi.pl').
+:- use_module('Literals.swi.pl').
+
+:- use_module('ScanFormatUtilities.swi.pl').
+
+
+:- use_module('ObjectTransformer.swi.pl').
+
+
+
+:- use_module('BIM2C.swi.pl').
+
+
+:- use_module('PropositionProcessor.swi.pl').
+
+
+
+:- use_module('IpcChannel.swi.pl').
+:- use_module('AnswerTransform.swi.pl').
+
+:- use_module('SelectExpressions.swi.pl').
+:- use_module('TellAndAsk.swi.pl').
+
+
+
+:- use_module('ExternalCodeLoader.swi.pl').
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:- style_check(-singleton).
+
+
+
+
+/* =================== */
+/* Exported predicates */
+/* =================== */
+
+
+
+/* ****************** t r a n s f o r m _ a n s w e r ************************ */
+/*                                                                             */
+/*	transform_answer ( _answers, _ansrep, _answerFragments )              */
+/*			_answers : ground                                     */
+/*			_ansrep : ground                                      */
+/*			_answerFragments : free                               */
+/*	transforms answers in _answers into equivalent SMLfragments or Frames */
+/*	or Labels.This depends on specified answer representation _ansrep.    */
+/*	If _ansrep is equal to NONE as default value for the answer format    */
+/*	FRAGMENT is selected.						      */
+/*	_answers is assumed to be a list of terms solution(_query,_querylits) */
+/*	where _query is the evaluated query the answer comes from and         */
+/*	_querylit the corresponding list of (instantiated) query literals.    */
+/*									      */
+/*									      */
+/*	*Wang/07.98							      */
+/*	Changes: besides the answerformat FRAME, LABEL, FRAGMENT, user        */
+/*	can also define the format himself. If the query  will be told or     */
+/*	asked hat a attribute format, then tf_answer will ignore the default  */
+/*	format(FRAME,LABEL or FRAGMENT), and transfer the answer in the       */
+/*	format the user specified.(transform_answer_in_format/3 will do it)   */
+/*	          							      */
+/*	note: alle the answers will be returned as a character list, with     */
+/*	all the possible formats. Because we can ask for a set                */
+/*	of queries with but mixed format, we shall transfer all the answers   */
+/*	into Char_list, and then can easily append them.                      */
+/* *************************************************************************** */
+
+/*******************************************************************************/
+/* Change:								      */
+/* Now external objects can also appear in the query, then their instances will*/
+/* be loaded and temporarily saved in CB. After the query evaluation and the   */
+/* answer transformation these temporarily infomation should be deleted from   */
+/* the CB!								      */
+/* remove_tmp_infos will delete all the temporary infos in CB.   	      */
+/*******************************************************************************/
+
+
+
+transform_answer(_x,_f,_r):-
+        hookforDefaultPalette(_x,_x1),
+	trans_answer(_x1,_f,_r).
+
+transform_answer(_x,'VIEW',_r) :-
+	tf_answer(_x,'VIEW',_r).
+
+
+trans_answer([],_,_r):-
+	!.
+
+
+
+/*TODO: Anpassung an StringBuffer*/
+trans_answer([_fa|_resans],_FRAME,_r):-
+        member(_FRAME,[default,'FRAME','JSONIC']),
+	exist_Updateformat(_fa,_fid),				/* test if there exists an UpdateFormat for this query */
+	!,
+	transform_answer_in_Updateformat(_fa,_fid,_fanswerlist),
+	!,
+	prove_literal('A'(_fid,destination,_desID)),
+	'External_Update'(_fanswerlist,_desID),
+	trans_answer(_resans,_f,_res),
+	pc_atomconcat('Update successful!...\n',_res,_r).
+
+trans_answer([_fa|_resans],_format,_r) :-	/* test if _format is an instance of AnswerFormat */
+	name2id(_format,_fid),
+	name2id('AnswerFormat',_ansfid),
+	prove_literal('In'(_fid,_ansfid)),
+	!,
+	transform_answer_in_format(_fa,_fid,_format,_r),
+	trans_answer(_resans,_format,_r).
+
+trans_answer([_fa|_resans],_f,_r) :-			/* test if _f is a parameterized AnswerFormat */
+    not(pc_member(_f,['FRAME','LABEL','FRAGMENT','VIEW','NONE','JSONIC'])),
+	pc_stringtoatom(_Objstring,_f),
+	'ObjNameStringToList'(_Objstring,_sml_objnamelist),
+	'EliminateClassInList'(_sml_objnamelist,_objnamelist),
+	pc_member(_format,_objnamelist),
+	_format = derive(_fname,_slist),
+	name2id(_fname,_fid),
+	name2id('AnswerFormat',_ansfid),
+	prove_literal('In'(_fid,_ansfid)),	/*Teste ob das gegebene Format eine Instanz von Answerformat ist*/
+	!,
+	recordParameters(_slist),
+	transform_answer_in_format(_fa,_fid,_format,_r), /*Transformiere _fa in Answeratom mit richtigem Format*/
+	eraseParameters(_slist),
+	appendBuffer(_r,'\n'),
+	trans_answer(_resans,_f,_r).	/*Rekursiver Aufruf mit anschliessendem zusammenbau der Antwort*/
+
+
+trans_answer([_fa|_resans],_FRAME,_r):-
+        member(_FRAME,[default]),
+	exist_format(_fa,_fid),					/*test if there exists an AnswerFormat for this query */
+	!,
+	transform_answer_in_format(_fa,_fid,_f,_r),
+	appendBuffer(_r,'\n'),
+	trans_answer(_resans,_f,_r).
+
+
+trans_answer([_fa|_resans],_f,_r):-
+	tf_answer(_fa,_f,_r),
+	!,
+	trans_answer(_resans,_f,_r).
+
+tf_answer([],_,_r):- !.
+
+/*Answers with format FRAGMENT will also be transfered into Charlist.*/
+/*Here "[  ]" symbol will be taken in the Charlist either, better delete it!*/
+
+
+tf_answer(_fa,'FRAGMENT',_answerFrames) :-
+	!,
+	transform(_fa,_fragmentlist),
+	fragments_to_string(_fragmentlist,_answerFrames),
+	appendBuffer(_answerFrames,'\n').
+
+
+
+tf_answer(_fa,_FRAME,_answerFrames) :-
+        member(_FRAME,['FRAME','JSONIC']),
+	!,
+	transform(_fa,_fragmentlist),
+	fragments_to_frames(_fragmentlist,_answerFrames),
+	appendBuffer(_answerFrames,'\n').
+
+
+tf_answer(_fa,'LABEL',_answerLabels) :-
+	!,
+	transform(_fa,_fragmentlist),
+	collect_frame_labels(_fragmentlist,_answerLabels).
+
+tf_answer([_fa|_ra],'VIEW',_answerView) :-
+	_fa = solution(_q,_sollist),
+	((_q = derive(_id,_slist));
+	 (_q = _id)
+	),
+	!,
+	get_QueryStruct(_id,_argexp),
+	transform_view_answer_elements(_sollist,_argexp,_ans1),
+	tf_answer(_ra,'VIEW',_rest),
+	append(_rest,_ans1,_answerView).
+
+
+
+/** This dirty hook takes care that the element 'DefaultJavaPalette' for the query 
+   find_instances[JavaGraphicalTypes/class]  is sorted as the last element
+   of the answer. This is useful to initialize the selection of the graphical
+   palette with user-defined palettes rather than the default palette.
+   If a user-defined palette exists, then we most likely want to use it
+   instead of the default palette.
+   If this hook fails, then no re-ordering of the answer takes place.
+**/
+
+
+hookforDefaultPalette([solution(derive(id_448, [substitute(id_891, class)]),_unsorted)],
+                      [solution(derive(id_448, [substitute(id_891, class)]),_sorted)]) :-
+  quicksortLabels(descending,_unsorted,_sorted),  /** newest palette is the first one **/
+  !.
+
+hookforDefaultPalette(_x,_x).
+
+
+
+
+/** for bulk queries: transform a list of solutions to a list
+   that contains a single list of fragments;
+   A list with a list as single element indicates that one answer
+   is created for a single (bulk) query. Hence, we later only
+   generate one head and one tail in AnswerTransform;
+   ticket #364
+**/
+
+mergeAnswersForBulkQueries(_sols,[_frags]) :-
+  getFlag(bulkQuery,on),
+  mergeAnswersForBulkQueries(_sols,[],_frags),
+  !.
+
+mergeAnswersForBulkQueries([],[[]]) :- 
+  getFlag(bulkQuery,on),
+  !.
+
+mergeAnswersForBulkQueries(_x,_x).
+
+
+
+mergeAnswersForBulkQueries([],_sofar,_sofar) :- !.
+
+mergeAnswersForBulkQueries([solution(_q,_a)|_restsols],_sofar,_frags) :-
+  transform(solution(_q,_a),_frags1),
+  append(_sofar,_frags1,_newsofar),
+  mergeAnswersForBulkQueries(_restsols,_newsofar,_frags).
+
+
+
+
+
+
+
+/* ************ t r a n s f o r m _ b u i l t i n _ a n s w e r ************** */
+/*                                                                             */
+/*	transform_builtin_answer ( _input, _format, _output )		      */
+/*				_input : ground				      */
+/*				_format : ground			      */
+/*				_output : free				      */
+/*									      */
+/*	performs generation of special answer formats for BuiltinQueryClasses */
+/*	At the moment we have the formats FRAGMENT and FRAME to represent     */
+/*	whole object descriptions in fragment or frame syntax and the format  */
+/*	EDGE with optional user defined specializations.                      */
+/*	FRAGMENT and FRAME are used in the same sense as above;  if _output   */
+/*	shall have FRAME format _input is assumed to have FRAGMENT format.    */
+/*	The result _output for format EDGE has the structure as specified     */
+/*	below (s. generate_edge_format/4) where for this transformation _input*/
+/*	must be a list of expressions edge(_source,_label,_dest) which re-    */
+/*	present links in the KB network between objects _source and _dest with*/
+/*	label _label. The specializations of format EDGE differ in the        */
+/*	assignment of graphical types for each 'node' _source and _dest.      */
+/*	The standard format EDGE generates always type 'Proposition'. For the */
+/*	specializations the assignment is model supported. That means that    */
+/*	an object exists representing this special format with attributes of  */
+/*	the category graphicalType and specific other objects as values (e.g. */
+/*	DesignObject, DesignDecision etc.). Each of these attributes has      */
+/*	again an attribute of the category orderValue with an integer value   */
+/*	which denotes the order in which the 'graphical' type attributes are  */
+/*	used to compute the graphical type of an object. In addition the      */
+/*	representing the special EDGE format has an attribute of the category */
+/*	target_class_level which has an integer value as level specification  */
+/*	too. The computation of the graphical type is done as follows:        */
+/*		1. check the type relation between the object and all Attr-   */
+/*		   Values to graphicalType-attributes of the format in the    */
+/*		   specified order (orderValue). If a check is succesfull     */
+/*		   this A is the graphical type. Then stop. Otherwise */
+/*		   take the next. If no success can be reached take           */
+/*		   Proposition as graphical type.			      */
+/*		2. Perform each single check as follows:                      */
+/*		   If difference between the level specification and the      */
+/*		   level of the object is 1 check the direct instance         */
+/*		   relation between the object and the A. Otherwise   */
+/*		   compute a kind of metainstance relation of between the     */
+/*		   object and the A with respect to this level        */
+/*		   difference.						      */
+/*									      */
+/* *************************************************************************** */
+
+transform_builtin_answer([],'LABEL',_output)	:-
+	!.		/* 29-May-1996 LWEB */
+
+transform_builtin_answer(_l,'LABEL',_answerLabels) :-
+	transform_builtin_answer_aux(_l,'LABEL',_answerLabels).
+
+
+transform_builtin_answer([_fa|_ra],_FRAME,_ans) :-
+        member(_FRAME,['FRAME','JSONIC']),
+	functor(_fa,'SMLfragment',_),
+	!,
+	transform_list_answer([_fa|_ra],_FRAME,_ans).
+
+transform_builtin_answer([_fa|_ra],'LABEL',_ans) :-
+	functor(_fa,'SMLfragment',_),
+	!,
+	transform_list_answer([_fa|_ra],'LABEL',_ans).
+
+
+
+transform_builtin_answer(_t,'NONE',_t):-
+	!.
+
+/** The answer is a fragment
+**/
+transform_builtin_answer(_t,_ansrep,_ans) :-
+	functor(_t,'SMLfragment',_),
+	!,
+	fragment2ansrep(_t,_ansrep,_ans).
+
+
+
+
+/** Default: again do nothing
+**/
+transform_builtin_answer(_inp,_ar,_buf) :-
+     ((atom(_inp),_atom=_inp);
+      pc_atom_to_term(_atom,_inp)
+     ),
+     !,
+     appendBuffer(_buf,_atom).
+
+
+
+transform_builtin_answer_aux([],'LABEL',_output)  :-
+        !.
+
+transform_builtin_answer_aux([_h|_ra],'LABEL',_answerBuf) :-                              /* 13-Mar-1996 LWEB fuer get_modules */
+        appendBuffer(_answerBuf,_h),
+        ((_ra == []);
+         (_ra \== [], appendBuffer(_answerBuf,','))
+        ),
+
+        transform_builtin_answer_aux(_ra,'LABEL',_answerBuf),
+        !.
+
+
+transform_list_answer([],_,_).
+
+transform_list_answer([_fa|_ra],_FRAME,_ans):-
+        member(_FRAME,['FRAME','JSONIC']),
+	fragment2ansrep(_fa,_FRAME,_ans),
+	appendBuffer(_ans,'\n'),
+	transform_list_answer(_ra,_FRAME,_ans).
+
+transform_list_answer(['SMLfragment'(what(_lab),_,_,_,_)|_ra],'LABEL',_ans):-
+        appendBuffer(_ans,_lab),
+        (( _ra\== [], appendBuffer(_ans,','));
+         ( _ra = [])
+        ),
+	transform_list_answer(_ra,'LABEL',_ans).
+
+
+
+fragment2ansrep(_t,'FRAGMENT',_buf) :-
+     pc_atom_to_term(_atom,_t),
+     !,
+     appendBuffer(_buf,_atom).
+
+fragment2ansrep(_t,_FRAME,_framebuf) :-
+        member(_FRAME,['FRAME','JSONIC']),
+	!,
+	fragments_to_frames([_t],_framebuf).
+
+
+
+
+
+
+/* =================== */
+/* Private predicates  */
+/* =================== */
+
+fragments_to_string([],_buf).
+
+fragments_to_string([_firstfrag|_r],_buf) :-
+	pc_atom_to_term(_atom,_firstfrag),
+	appendBuffer(_buf,_atom),
+	!,
+	fragments_to_string(_r,_buf).
+
+
+/* ***************** f r a g m e n t s _ t o _ f r a m e s ******************* */
+/*									      */
+/*	fragments_to_frames ( _fraglist, _framelist )                         */
+/*			_fraglist : free				      */
+/*			_framelist : free				      */
+/*									      */
+/*	_framelist is a list of frames (i.e. BIMstrings = lists of ascii)     */
+/*	resulting from a transformation of the SMLfragments in _fraglist.     */
+/*									      */
+/* *************************************************************************** */
+
+
+fragments_to_frames([],_buf).
+
+fragments_to_frames([_firstfrag],_buf) :-
+	build_frame(_firstfrag,_buf),
+	!.
+
+fragments_to_frames([_firstfrag|_rfrags],_buf) :-
+	build_frame(_firstfrag,_buf),
+	appendBuffer(_buf,'\n'),
+	!,
+	fragments_to_frames(_rfrags,_buf).
+
+
+/* *******************************************************************************/
+
+
+
+
+
+
+
+/* ************************ t r a n s f o r m ******************************** */
+/*                                                                             */
+/* 	transform ( _solution, _fragments )                                   */
+/*		_solution : ground                                            */
+/*		_fragments : free                                             */
+/*                                                                             */
+/*	_fragments is a list of SMLfragments which represent the answer       */
+/*	instances of the query _q in _solution = solution(_q,_qlits). The     */
+/*	answer fragments are constructed from the instantiated query literals */
+/*	in _qlits. Queries which answer instances are existing objects have   */
+/*	to be treated in a different manner to so called tuple queries with   */
+/*	new constructed objects consisting of tuples of attribute values.     */
+/*	To which kind a query belongs can be identified by checking the query */
+/*	argument struct which describes the arguments of the corresponding    */
+/*	query literal. If this argument struct is preceded by 'this' we have  */
+/*	the first type otherwise the second.                                  */
+/*                                                                             */
+/* *************************************************************************** */
+
+
+
+
+transform(solution(derive(_gqID,_slist),_sollist),_fragments) :-
+	id2name(_gqID,_gq),
+	get_QueryStruct(_gqID,[this|_s]),
+	!,
+	collect_answer_instances(derive(_gq,_slist),_s,_sollist,_fragments).
+
+transform(solution(derive(_gqID,_slist),_sollist),_fragments) :-
+	id2name(_gqID,_gq),
+	get_QueryStruct(_gqID,_s),
+	!,
+	construct_answer_instances(derive(_gq,_slist),_s,_sollist,_fragments).
+
+
+transform(solution(_qID,_sollist),_fragments) :-
+	id2name(_qID,_q),
+	get_QueryStruct(_qID,[this|_s]),
+	!,
+	collect_answer_instances(_q,_s,_sollist,_fragments).
+
+transform(solution(_qID,_sollist),_fragments) :-
+	id2name(_qID,_q),
+	get_QueryStruct(_qID,_s),
+	!,
+	construct_answer_instances(_q,_s,_sollist,_fragments).
+
+/** for ticket #364: bulk query answers can already be converted to fragments earlier **/
+transform(_fragments,_fragments) :-
+        _fragments = ['SMLfragment'(_x,_om,_in,_isa,_with)|_].
+
+transform([_fragments],_fragments) :-
+        _fragments = ['SMLfragment'(_x,_om,_in,_isa,_with)|_].
+
+transform([],[]).
+
+
+/* ************** c o l l e c t _ a n s w e r _ i n s t a n c e s ************ */
+/*                                                                             */
+/*	collect_answer_instances ( _query, _structargs, _solutions, _frags )  */
+/*			_query : ground                                       */
+/*			_structargs : ground : list                           */
+/*			_solutions : ground : list                            */
+/*			_frags : free                                         */
+/*									      */
+/*	collects object names of answer instances of _query (=first component */
+/*	of solution tuples resp. query literals) in _solutions and constructs */
+/*	SMLfragments _frags with help of argument struct _structargs of the   */
+/*	query literal.                                                        */
+/*                                                                             */
+/* *************************************************************************** */
+
+
+collect_answer_instances(_q,_s,_solutions,_fragments) :-
+	collect_instances(_solutions,_inst_sol_list),
+	build_fragments(_q,_s,_inst_sol_list,_fragments).
+
+
+collect_instances([],[]).
+
+collect_instances([_ft|_r],[fragment(_fID,[_s|_o])|_ri]) :-
+	_ft =..[_,_fID|_s],
+	collect(_fID,_r,_o,_rest),
+	!,
+	collect_instances(_rest,_ri).
+
+collect(_,[],[],[]).
+
+collect(_i,[_f|_r],[_a|_ra],_rest) :-
+	_f =..[_,_i|_a],
+	!,
+	collect(_i,_r,_ra,_rest).
+
+/* Diese Vereinfachung ist moeglich, da die Antworten der Query
+* nach dem ersten Argument sortiert sind! Das ist
+* so, da in QAmanager (?) ein setof gemacht wird
+* und bei setof die Ausgabe sortiert ist. */
+collect(_,_x,[],_x).
+
+/*collect(_i,[_f|_r],_ra,[_f|_rest]) :-
+	collect(_i,_r,_ra,_rest). */
+
+/* ************* c o n s t r u c t _ a n s w e r _ i n s t a n c e s ********* */
+/*                                                                             */
+/*	construct_answer_instances ( _query, _structargs, _solutions, _frags )*/
+/*			_query : ground                                       */
+/*			_structargs : ground : list                           */
+/*			_solutions : ground : list                            */
+/*			_frags : free                                         */
+/*									      */
+/*	constructs for each instantiated query literal in _solutions a new    */
+/*	generated answer instance to _query in SMLfragment form (--> _frags)  */
+/*                                                                             */
+/* *************************************************************************** */
+
+
+construct_answer_instances(_q,_s,[],[]).
+
+construct_answer_instances(_q,_s,[_f|_r],[_frag|_rfrags]) :-
+	newIdentifier(_id),
+	_f =..[_|_args],
+	build_fragments(_q,_s,[fragment(_id,[_args])],[_frag]),
+	!,
+	construct_answer_instances(_q,_s,_r,_rfrags).
+
+
+/* ******************** b u i l d _ f r a g m e n t s ************************* */
+/*                                                                              */
+/*	build_fragments ( _query, _argstruct, _prepFrags, _frags )             */
+/*			_query : ground                                        */
+/*			_prepFrags : ground                                    */
+/*			_argstruct : ground : list                             */
+/*			_frags : free                     		       */
+/*									       */
+/*	_frags are built up fragments for answer instances of _query._prepFrags*/
+/*	is a list which contains a tuple fragment(_aid,[..._args...]) for each */
+/*	answer instance _aid. _args are the instaniated query literals for _aid*/
+/*	without first component. _argstruct is used to identify the query      */
+/*	literal components with attribute names of the answer instances.       */
+/*                                                                              */
+/* **************************************************************************** */
+
+build_fragments(_q,_s,[],[]).
+
+build_fragments(derive(_q,_slist),_s,[fragment(_whatID,_args)|_rf],
+	  ['SMLfragment'(
+	       what(_what),
+	       in_omega([]),
+	       in([class(_dexp)]),
+	       isa([]),
+	       with(_with))
+	  |_rfragments]) :-
+	build_derive_exp(_q,_slist,_dexp),
+	outFragmentObjectName(_whatID,_what),
+	build_attributes(_whatID,_s,_args,_with),
+	!,
+	build_fragments(derive(_q,_slist),_s,_rf,_rfragments).
+
+build_fragments(_q,_s,[fragment(_whatID,_args)|_rf],
+	  ['SMLfragment'(
+	       what(_what),
+	       in_omega([]),
+	       in([class(_q)]),
+	       isa([]),
+	       with(_with))
+	  |_rfragments]) :-
+	outFragmentObjectName(_whatID,_what),
+	build_attributes(_whatID,_s,_args,_with),
+	!,
+	build_fragments(_q,_s,_rf,_rfragments).
+
+build_derive_exp(_q,[],derive(_q,[])).
+build_derive_exp(_q,[substitute(_v,_p)|_slist],derive(_q,[substitute(_nv,_p)|_nslist])) :-
+	outFragmentObjectName(_v,_nv),
+	!,
+    build_derive_exp(_q,_slist,derive(_q,_nslist)).
+
+build_derive_exp(_q,[specialize(_p,_v)|_slist],derive(_q,[specialize(_p,_nv)|_nslist])) :-
+	outFragmentObjectName(_v,_nv),
+	!,
+    build_derive_exp(_q,_slist,derive(_q,_nslist)).
+
+
+
+/* ***************** b u i l d _ a t t r i b u t e s ************************* */
+/*                                                                             */
+/*	build_attributes ( _id, _argstructs, _args, _attributelist )          */
+/*				_argstructs : ground : list                   */
+/*				_args : ground : list                         */
+/*				_attributelist : free                         */
+/*									      */
+/*	The attribute list of a SMLfragment is constructed from the query     */
+/*	literal argument lists in _args using the argument description        */
+/*	_argstructs which contains tuples p(_l,_C),rp(_l,_C),cp(_l,_C) for    */
+/*	parameters and retrieved/computed attributes _l as parameters or p(_l)*/
+/*	and c(_l) for 'simple' retrieved/computed attributes _l. Each tuple   */
+/*	corresponds to an argument in all lists of _args.                     */
+/*	_id is name of the answer instance the attribute values belong to.    */
+/*                                                                             */
+/* Changes :                                                                   */
+/*                                                                             */
+/* The first definition of build_label_for_value/5 needs a cut (!) as the  last*/
+/* goal in his body since otherwise by backtracking the property list will con-*/
+/* tain non existing properties, i.e. for each term property(_l,_v)            */
+/* the term property('',_v) will be generated.                                 */
+/*                                                                             */
+/*                                          11-Jul-1991, Andre Klemann (UPA)   */
+/*                                                                             */
+/*                                                                             */
+/* *************************************************************************** */
+
+
+build_attributes(_,[],_,[]).
+
+build_attributes(_id,[p(_,_)|_rs],_collectstruct,_rattr) :-
+	!,
+	multi_rest(_collectstruct,_ns1),
+	multi_rest(_ns1,_ns),
+	!,
+	build_attributes(_id,_rs,_ns,_rattr).
+
+build_attributes(_id,[_f|_rs],_collectstruct,[attrdecl([_ml],_propertylist)|_rattr]) :-
+	(_f = rp(_ml,_);_f=r(_ml)),
+	!,
+	setof(property(_l,_vname),
+           [_l,_vID,_ra]^(pc_member([_l,_vID|_ra],_collectstruct),
+	        outFragmentObjectName(_vID,_vname)
+		   ),
+           _propertylist),
+	multi_rest(_collectstruct,_ns2),
+	multi_rest(_ns2,_ns1),
+	((_f = rp(_,_),multi_rest(_ns1,_ns));_ns=_ns1),
+	!,
+	build_attributes(_id,_rs,_ns,_rattr).
+
+build_attributes(_id,[_f|_rs],_collectstruct,[attrdecl([_ml],_propertylist)|_rattr]) :-
+	_f =..[_p,_ml,_],
+	!,
+	setof(property(_l,_vname),
+              [_ra,_vID]^(pc_member([_vID|_ra],_collectstruct),
+	       build_label_for_value(_p,_id,_vID,_ml,_l,_vname)),
+               _propertylist),
+	multi_rest(_collectstruct,_ns1),
+	multi_rest(_ns1,_ns),
+	!,
+	build_attributes(_id,_rs,_ns,_rattr).
+
+build_attributes(_id,[_f|_rs],_collectstruct,[attrdecl([_ml],_propertylist)|_rattr]) :-
+	_f =..[_p,_ml],
+	setof(property(_l,_vname),
+              [_ra,_vID]^(pc_member([_vID|_ra],_collectstruct),
+	       build_label_for_value(_p,_id,_vID,_ml,_l,_vname)),
+               _propertylist),
+	multi_rest(_collectstruct,_ns),
+	!,
+	build_attributes(_id,_rs,_ns,_rattr).
+
+build_label_for_value(_p,_id,_v,_ml,_l,_name) :-
+	(_p == rp;_p == r),
+	outFragmentObjectName(_v,_name),
+	retrieve_proposition('P'(_id,_,_,_)),
+	retrieve_proposition('P'(_id2,_id,_l,_v)),
+	_l \== '*instanceof',_l \== '*isa',
+	retrieve_proposition('P'(_,_id2,'*instanceof',_id4)),
+	retrieve_proposition('P'(_id4,_,_ml,_)),
+	!.
+
+build_label_for_value(_,_id,_v,_ml,_catom,_name) :-
+	(outFragmentObjectName(_v,_name); _name =_v),!,
+	get_computed_atom(_ml,_v,_catom).
+
+get_computed_atom(_ml,_vid,_catom) :-
+	pc_atomconcat(['COMPUTED_',_ml,'_',_vid],_catom),
+	!.
+
+
+/* ************************** m u l t i _ r e s t **************************** */
+/*                                                                             */
+/*	multi_rest ( _listoflists, _listofrests )                             */
+/*			_listoflists : ground : list                          */
+/* 			_listofrests : free                                   */
+/*                                                                             */
+/*	_listofrests contains lists in _listoflists without their first       */
+/*	elements.                                                             */
+/*									      */
+/* *************************************************************************** */
+
+
+
+multi_rest([],[]).
+
+multi_rest([[]|_r],[[]|_nr]) :-
+	!,
+	multi_rest(_r,_nr).
+
+multi_rest([[_ff|_fr]|_r],[_fr|_nr]) :-
+	multi_rest(_r,_nr).
+
+
+/* ************************** c o l l e c t _ f r a m e _ l a b e l s ************************ */
+/*													*/
+/*	collect_frame_labels (_fragmentlist,_labels)							*/
+/*		_fragmentlist : ground	 : list								*/
+/*		_labels : free : list									*/
+/*													*/
+/*	projects list of fragments to list of objectlabels used as center objects			*/
+/*													*/
+/* **************************************************************************** */
+
+
+collect_frame_labels([],_answerLabels).
+
+collect_frame_labels(['SMLfragment'(what(_id),_,_,_,_)],_answerLabels) :-
+	outIdentifier(_id,_oname),
+	appendBuffer(_answerLabels,_oname).
+
+collect_frame_labels(['SMLfragment'(what(_id),_,_,_,_)|_rfragments],_answerLabels) :-
+	outIdentifier(_id,_oname),
+	appendBuffer(_answerLabels,_oname),
+	appendBuffer(_answerLabels,','),
+	!,
+	collect_frame_labels(_rfragments,_answerLabels).
+
+
+
+/*************************************************************/
+/*************************************************************/
+/*************************************************************/
+/* NEU: Antwort-Transformation fuer Views */
+/*************************************************************/
+/*************************************************************/
+/*************************************************************/
+
+:- use_module('QueryCompilerUtilities.swi.pl').
+
+
+
+
+
+
+
+
+/*BEM: Wenn mehrere Views gleichzeitig abgefragt werden, werden Sie in ViewEvaluator hintereinander
+abgearbeitet, hier wird also nur Viewsolution eines bestimmten Views transformiert!
+Viewergebnisse von Views mit gemisched Format koennen hier nicht vorkommen! */
+
+/* _format ist ein benutzerdef. AnswerFormat */
+transform_view_answer(_viewsol,_viewargexp,_format,_answeratom) :-
+	name2id(_format,_fid),
+	name2id('AnswerFormat',_ansfid),
+	prove_literal('In'(_fid,_ansfid)),
+	!,
+	build_fragments_for_views(_viewsol,_viewargexp,_viewfrag),
+	transform_answer_in_format(_viewfrag,_fid,_format,_answeratom),
+	appendBuffer(_answeratom,'\n').
+
+
+
+/* _f ist ein parametrisiertes AnswerFormat */
+transform_view_answer(_viewsol,_viewargexp,_f,_answeratom) :-
+    not(pc_member(_f,['FRAME','LABEL','FRAGMENT','VIEW','NONE','JSONIC'])),
+	pc_stringtoatom(_Objstring,_f),
+	'ObjNameStringToList'(_Objstring,_sml_objnamelist),
+	'EliminateClassInList'(_sml_objnamelist,_objnamelist),
+	pc_member(_format,_objnamelist),
+	_format = derive(_fname,_slist),
+	name2id(_fname,_fid),
+	name2id('AnswerFormat',_ansfid),
+	prove_literal('In'(_fid,_ansfid)),
+	!,
+	recordParameters(_slist),
+	build_fragments_for_views(_viewsol,_viewargexp,_viewfrag),
+	transform_answer_in_format(_viewfrag,_fid,_format,_answeratom),
+	eraseParameters(_satom),
+	appendBuffer(_answeratom,'\n').
+
+/* Es gibt fuer View v ein AnswerFormat af, so dass A(af,forQuery,v) gilt */
+transform_view_answer(_viewsol,_viewargexp,_FRAME,_answeratom) :-
+        member(_FRAME,[default]),
+	exist_ViewFormat(_viewsol,_fid),
+	!,
+	build_fragments_for_views(_viewsol,_viewargexp,_viewfrag),
+	transform_answer_in_format(_viewfrag,_fid,_f,_answeratom),
+	appendBuffer(_answeratom,'\n').
+
+
+transform_view_answer(_viewsol,_viewargexp,'LABEL',_ans) :-
+	build_fragments_for_views(_viewsol,_viewargexp,_viewfrag),
+	collect_frame_labels(_viewfrag,_labels),
+	listToAtomWithCommata(_labels,_ans).
+
+transform_view_answer(_viewsol,_viewargexp,'FRAGMENT',_ans) :-
+	build_fragments_for_views(_viewsol,_viewargexp,_ans).
+
+transform_view_answer(_viewsol,_viewargexp,_FRAME,_ans) :-
+        member(_FRAME,['FRAME','JSONIC']),
+	build_fragments_for_views(_viewsol,_viewargexp,_viewfrag),
+	fragments_to_frames(_viewfrag,_ans).
+
+transform_view_answer(_viewsol,_viewargexp,'VIEW',_setans) :-
+	transform_view_answer_elements(_viewsol,_viewargexp,_ans),
+	remove_multiple_elements(_ans,_setans).
+
+
+/*************************************************************/
+/* Baue Fragment aus views */
+/*************************************************************/
+
+
+build_fragments_for_views([],_,[]).
+build_fragments_for_views([_h|_t],_viewargexp,[_frag|_rfrags]) :-
+	build_fragment_for_view(_h,_viewargexp,_frag),
+	build_fragments_for_views(_t,_viewargexp,_rfrags).
+
+
+build_fragment_for_view(_solterm,
+			[this|_argexp],
+			'SMLfragment'(what(_what),in_omega([]),in([class(_in)]),isa([]),with(_with))) :-
+	_solterm =.. [_h,_t|_arglist],
+	outFragmentObjectName(_h,_in1),
+	outFragmentObjectName(_t,_what),
+	build_with_for_view(_arglist,_argexp,_with1,_substlist),
+	delete_empty_attrdecl(_with1,_with),
+	((_substlist == [],
+	  _in=_in1
+	 );
+	 (_in=derive(_in1,_substlist))
+	),
+	!.
+
+/*************************************************************/
+/* With-Teil fuer einen View bauen. Beachte: Verschachtelung */
+/* moeglich.                                                 */
+/*************************************************************/
+
+
+build_with_for_view([],[],[],[]).
+
+build_with_for_view([_label,_value|_arglist],
+			[r(_attrcat)|_argexp],
+			[attrdecl([_attrcat],[property(_label,_name)])|_rattrdecl],
+			_substlist) :-
+	!,
+	outFragmentObjectName(_value,_name),
+	build_with_for_view(_arglist,_argexp,_rattrdecl,_substlist).
+
+build_with_for_view([_label,_value,_class|_arglist],
+			[rp(_attrcat,_parclass)|_argexp],
+			[attrdecl([_attrcat],[property(_label,_name)])|_rattrdecl],
+			[substitute(_name,_attrcat)|_substlist]) :-
+	!,
+	outFragmentObjectName(_value,_name),
+	build_with_for_view(_arglist,_argexp,_rattrdecl,_substlist).
+
+build_with_for_view([_label,_value|_arglist],
+			[rps(_attrcat)|_argexp],
+			[attrdecl([_attrcat],[property(_label,_name)])|_rattrdecl],
+			[substitute(_name,_attrcat)|_substlist]) :-
+	!,
+	outFragmentObjectName(_value,_name),
+	build_with_for_view(_arglist,_argexp,_rattrdecl,_substlist).
+
+build_with_for_view([_value|_arglist],
+			[c(_attrcat)|_argexp],
+			[attrdecl([_attrcat],[property(_catom,_name)])|_rattrdecl],
+			_substlist) :-
+	!,
+	outFragmentObjectName(_value,_name),
+	build_with_for_view(_arglist,_argexp,_rattrdecl,_substlist),
+	get_computed_atom(_attrcat,_value,_catom).
+
+build_with_for_view([_value,_class|_arglist],
+			[cp(_attrcat,_parclass)|_argexp],
+			[attrdecl([_attrcat],[property(_catom,_name)])|_rattrdecl],
+			[substitute(_name,_attrcat)|_substlist]) :-
+	!,
+	outFragmentObjectName(_value,_name),
+	build_with_for_view(_arglist,_argexp,_rattrdecl,_substlist),
+	get_computed_atom(_attrcat,_value,_catom).
+
+build_with_for_view([_value|_arglist],
+			[cps(_attrcat)|_argexp],
+			[attrdecl([_attrcat],[property(_catom,_name)])|_rattrdecl],
+			[substitute(_name,_attrcat)|_substlist]) :-
+	!,
+	outFragmentObjectName(_value,_name),
+	build_with_for_view(_arglist,_argexp,_rattrdecl,_substlist),
+	get_computed_atom(_attrcat,_value,_catom).
+
+build_with_for_view([_parval,_parclass|_arglist],
+			[p(_parname,_)|_argexp],
+			_rattrdecl,
+			[substitute(_name,_parname)|_substlist]) :-
+	!,
+	outFragmentObjectName(_parval,_name),
+	build_with_for_view(_arglist,_argexp,_rattrdecl,_substlist).
+
+build_with_for_view([_parval|_arglist],
+			[ps(_parname)|_argexp],
+			_rattrdecl,
+			[substitute(_name,_parname)|_substlist]) :-
+	!,
+	outFragmentObjectName(_parval,_name),
+	build_with_for_view(_arglist,_argexp,_rattrdecl,_substlist).
+
+/** Ticket #168: treat the case where a parameter is also a computed attribute   **/
+/** The solution provided here only works for views that have a single parameter **/
+build_with_for_view([[_value],[_class]|_arglist],
+                        [set(_setargexp)|_argexp],
+                        [attrdecl([_attrcat],_proplist)|_rattrdecl],
+                        [substitute(_name,_parname)|_substlist]) :-
+	_setargexp=[cp(_parname,_class)],
+        !,
+	outFragmentObjectName(_value,_name),
+        get_attrcat_from_set(_setargexp,_attrcat),
+        build_prop_list([_value],_setargexp,_proplist),
+        build_with_for_view(_arglist,_argexp,_rattrdecl,_substlist).
+
+build_with_for_view([_set|_arglist],
+			[set(_setargexp)|_argexp],
+			[attrdecl([_attrcat],_proplist)|_rattrdecl],
+			_substlist) :-
+	!,
+	get_attrcat_from_set(_setargexp,_attrcat),
+	build_prop_list(_set,_setargexp,_proplist),
+	build_with_for_view(_arglist,_argexp,_rattrdecl,_substlist).
+
+/** catchall: transform asnwers even if some parts are left over, e.g. parameters **/
+/** Should prevent infinite loops as decribed in ticket #168                      **/
+build_with_for_view([_x|_r],
+                        [],
+                        [],
+                        _substlist) :-
+	'WriteTrace'(low,'AssertionTransformator',['Components of answer could not be transformed: ',idterm([_x|_r])]),
+        !.
+
+build_with_for_view([],_,_,_) :- !.
+
+
+
+/*************************************************************/
+/* Holt aus einer Mengen-Argexp ein Argument, das die        */
+/* Attribut-Kategorie fuer die Menge angibt (ist meistens    */
+/* das erste Argument) .                                     */
+/*************************************************************/
+
+
+get_attrcat_from_set(_setargexp,_attrcat) :-
+	pc_member(_h,_setargexp),
+	functor(_h,_func,_),
+	pc_member(_func,[r,c,rp,cp,rps,cps]),
+	!,
+	arg(1,_h,_attrcat).
+
+/*************************************************************/
+/* Baue eine propertylist fuer eine Mengen-Argexp.           */
+/*   1. Argexp hat nur ein Argument -> keine Verschachtelung */
+/*   2. Argexp hat mehrere Elemente -> Verschachtelung       */
+/*************************************************************/
+
+
+build_prop_list(_set,[_argexp],_proplist) :-
+	!,
+	build_simple_prop_list(_set,_argexp,_proplist).
+
+build_prop_list(_set,_argexp,_proplist) :-
+	build_complex_prop_list(_set,_argexp,_proplist).
+
+
+/*************************************************************/
+/* PropertyList fuer eine einfache Mengen-Argexp ohne Ver-   */
+/* schachtelung bauen.                                       */
+/*************************************************************/
+
+
+build_simple_prop_list([],_,[]).
+
+/* Hier muesste man eigentlich noch testen, ob es dieses Attribute hier */
+/* nicht ein partof-Link ist. Dann muesste der Property-Wert wieder ein */
+/* SML-Fragment mit leerem "with" sein. Aber das ist mir fuer Frame und */
+/* Fragmentdarstellung egal, bei VIEW Darstellung wird das beruecksichtigt. */
+/* (s. transform_view_elements u. transform_simple_set_attribute) */
+build_simple_prop_list([_h|_t],_argexp,[property(_label,_name)|_proplist]) :-
+	functor(_argexp,_func,_),
+	pc_member(_func,[r,rp,rps]),
+	!,
+	arg(1,_h,_label),
+	arg(2,_h,_value),
+	outFragmentObjectName(_value,_name),
+	build_simple_prop_list(_t,_argexp,_proplist).
+
+build_simple_prop_list([_h|_t],_argexp,[property(_catom,_name)|_proplist]) :-
+	functor(_argexp,_func,_),
+	pc_member(_func,[c,cp,cps]),
+	(arg(1,_h,_value);_value = _h),
+	!,
+	outFragmentObjectName(_value,_name),
+	build_simple_prop_list(_t,_argexp,_proplist),
+	arg(1,_argexp,_attrcat),
+	get_computed_atom(_attrcat,_value,_catom).
+
+/* Catch all */
+build_simple_prop_list([_h|_t],_argexp,_proplist) :-
+	build_simple_prop_list(_t,_argexp,_proplist).
+
+
+
+/*************************************************************/
+/* PropertyList fuer eine komplexe Mengen-Argexp mit Ver-    */
+/* schachtelung bauen.                                       */
+/*  (siehe oben: build_fragment_for_view).                   */
+/*************************************************************/
+
+
+build_complex_prop_list([],_argexp,[]).
+
+build_complex_prop_list([_solterm|_rest],
+				_argexp,
+				[property(_label,'SMLfragment'(what(_what),in_omega([]),in([]),isa([]),with(_with)))|_proplist]) :-
+	_solterm =.. [_h|_arglist],
+	get_this_from_arglist(_arglist,_argexp,_obj,_label,_restarglist,_restargexp),
+	outFragmentObjectName(_obj,_what1),
+	build_with_for_view(_restarglist,_restargexp,_with1,_substlist),
+	delete_empty_attrdecl(_with1,_with),
+	((_substlist == [],
+	  _what=_what1
+	 );
+	 (_what=derive(_what1,_substlist))
+	),!,
+	build_complex_prop_list(_rest,_argexp,_proplist).
+
+
+
+/*************************************************************/
+/* Bei der Transformation koennen attrdeclaration mit leerer */
+/* propertylist entstehen -> loesche diese (sind im Frame    */
+/* nachher nicht so gut aus.                                 */
+/*************************************************************/
+
+
+delete_empty_attrdecl([],[]).
+delete_empty_attrdecl([attrdecl(_cat,[])|_rest],_nrest):-
+	!,
+	delete_empty_attrdecl(_rest,_nrest).
+
+delete_empty_attrdecl([attrdecl(_cat,_proplist)|_rest],[attrdecl(_cat,_proplist)|_nrest]):-
+	delete_empty_attrdecl(_rest,_nrest).
+
+/*************************************************************/
+/* Hole den Mengen-Argexp und einer Arglist, das Argument das*/
+/* dem this des Subviews entspricht. Dabei auch Label zu-    */
+/* rueckgeben, und Argexp und Arglist entsprechend reduzieren*/
+/*************************************************************/
+
+
+get_this_from_arglist([],_argexp,id_0,'',[],_argexp).
+
+get_this_from_arglist([_this|_l],[this|_m],_this,'',_l,_m) :- !.
+get_this_from_arglist([_label,_this|_l],[r(_)|_m],_this,_label,_l,_m) :- !.
+get_this_from_arglist([_this|_l],[c(_attrcat)|_m],_this,_catom,_l,_m) :- !,get_computed_atom(_attrcat,_this,_catom).
+get_this_from_arglist([_label,_this|_l],[rp(_,_)|_m],_this,_label,_l,_m) :- !.
+get_this_from_arglist([_this|_l],[cp(_attrcat,_)|_m],_this,_catom,_l,_m) :- !,get_computed_atom(_attrcat,_this,_catom).
+get_this_from_arglist([_label,_this|_l],[rps(_)|_m],_this,_label,_l,_m) :- !.
+get_this_from_arglist([_this|_l],[cps(_attrcat)|_m],_this,_catom,_l,_m) :- !,get_computed_atom(_attrcat,_this,_catom).
+
+get_this_from_arglist([_set|_rarg],[set(_exp)|_rexp],_this,_label,[_set|_narg],[set(_exp)|_nexp]) :-
+	get_this_from_arglist(_rarg,_rexp,_this,_label,_narg,_nexp).
+
+get_this_from_arglist([_par|_rarg],[ps(_parname)|_rexp],_this,_label,[_par|_narg],[ps(_parname)|_nexp]) :-
+	get_this_from_arglist(_rarg,_rexp,_this,_label,_narg,_nexp).
+
+get_this_from_arglist([_par,_cl|_rarg],[p(_parname,_parcl)|_rexp],_this,_label,[_par,_cl|_narg],[p(_parname,_parcl)|_nexp]) :-
+	get_this_from_arglist(_rarg,_rexp,_this,_label,_narg,_nexp).
+
+
+/*************************************************************/
+/* Wandelt die Antwortmenge eines Views in die fuer Client-  */
+/* notification notwendige Darstellung um.                   */
+/*                                                           */
+/* Fuer jedes Objekt eines Views gibt es einen Term          */
+/*   VIEW(OBJEKT)                                            */
+/* und fuer jedes Attribut gibt es einen Term                */
+/*   VIEW_LABEL(OBJEKT,ATTRIBUTLABEL,ATTRIBUTWERT            */
+/*                                                           */
+/* Also z.B. fuer View Emp with attr dept : Department       */
+/*   Emp(John),Emp_dept(John,johnsdept,PR),Emp(Harri)        */
+/*                                                           */
+/* Es gibt vielleicht bessere Methoden als die Antworttupel  */
+/* wieder in ihre Bestandteile zu zerhacken, aber ich denke  */
+/* fuer ViewMaintenance mit Notifikation ist das das Beste   */
+/* Format und die Views auf Client-Seite in einem anderem    */
+/* Format zu initialisieren ist unnoetiger Aufwand.          */
+/*************************************************************/
+
+
+transform_view_answer_elements([],_,[]).
+transform_view_answer_elements([_h|_t],_viewargexp,_anslist) :-
+	transform_view_answer_element(_h,_viewargexp,_anselems),
+	transform_view_answer_elements(_t,_viewargexp,_anslist2),
+	append(_anselems,_anslist2,_anslist).
+
+
+transform_view_answer_element(_elem,[this|_rargexp],[_main|_anselems]) :-
+	_elem =.. [_func,_this|_rarglist],
+	id2name(_func,_mainfunc),
+	outFragmentObjectName(_this,_name),
+	get_substitution_from_arglist(_rarglist,_rargexp,_substlist),
+	((_substlist==[],
+	  _name2=_name
+	 );
+	 (_name2=derive(_name,_substlist)
+	)),
+	!,
+	_main =.. [_mainfunc,_name2],
+	transform_view_answer_attributes(_mainfunc,_name2,_rarglist,_rargexp,_anselems).
+
+
+/*************************************************************/
+/* Sammelt von Argumentliste und Argexp die Parameterwerte   */
+/* auf und speichert sie in einer substitute(_,_)-Liste      */
+/*************************************************************/
+
+
+get_substitution_from_arglist([],[],[]).
+
+get_substitution_from_arglist([_arg,_|_rarglist],[p(_par,_class)|_rargexp],[substitute(_argname,_par)|_substlist]) :-
+	!,
+	outFragmentObjectName(_arg,_argname),
+	get_substitution_from_arglist(_rarglist,_rargexp,_substlist).
+
+get_substitution_from_arglist([_arg|_rarglist],[ps(_par)|_rargexp],[substitute(_argname,_par)|_substlist]) :-
+	!,
+	outFragmentObjectName(_arg,_argname),
+	get_substitution_from_arglist(_rarglist,_rargexp,_substlist).
+
+get_substitution_from_arglist([_arg,_|_rarglist],[cp(_par,_class)|_rargexp],[substitute(_argname,_par)|_substlist]) :-
+	!,
+	outFragmentObjectName(_arg,_argname),
+	get_substitution_from_arglist(_rarglist,_rargexp,_substlist).
+
+get_substitution_from_arglist([_arg|_rarglist],[cps(_par)|_rargexp],[substitute(_argname,_par)|_substlist]) :-
+	!,
+	outFragmentObjectName(_arg,_argname),
+	get_substitution_from_arglist(_rarglist,_rargexp,_substlist).
+
+get_substitution_from_arglist([_l,_arg,_|_rarglist],[rp(_par,_class)|_rargexp],[substitute(_argname,_par)|_substlist]) :-
+	!,
+	outFragmentObjectName(_arg,_argname),
+	get_substitution_from_arglist(_rarglist,_rargexp,_substlist).
+
+get_substitution_from_arglist([_l,_arg|_rarglist],[rps(_par)|_rargexp],[substitute(_argname,_par)|_substlist]) :-
+	!,
+	outFragmentObjectName(_arg,_argname),
+	get_substitution_from_arglist(_rarglist,_rargexp,_substlist).
+
+/* Fuer diese Argexp gibt es keine Parameter */
+get_substitution_from_arglist([_l,_arg|_rarglist],[r(_)|_rargexp],_substlist) :-
+	!,
+	get_substitution_from_arglist(_rarglist,_rargexp,_substlist).
+
+get_substitution_from_arglist([_arg|_rarglist],[c(_)|_rargexp],_substlist) :-
+	!,
+	get_substitution_from_arglist(_rarglist,_rargexp,_substlist).
+
+get_substitution_from_arglist([_arg|_rarglist],[this|_rargexp],_substlist) :-
+	!,
+	get_substitution_from_arglist(_rarglist,_rargexp,_substlist).
+
+get_substitution_from_arglist([_arg|_rarglist],[set(_)|_rargexp],_substlist) :-
+	!,
+	get_substitution_from_arglist(_rarglist,_rargexp,_substlist).
+
+
+
+/*************************************************************/
+/* Transformation der Attribute eines Views wie oben         */
+/* beschrieben.                                              */
+/*************************************************************/
+
+
+transform_view_answer_attributes(_,_,[],[],[]).
+
+transform_view_answer_attributes(_mainview,_mainobj,[_arg|_rarglist],[c(_label)|_rargexp],[_attrelem|_anselems]) :-
+	!,
+	outFragmentObjectName(_arg,_name),
+	get_computed_atom(_label,_arg,_catom),
+	_attrelem=.. [_mainview,_label,_mainobj,_catom,_name],
+	transform_view_answer_attributes(_mainview,_mainobj,_rarglist,_rargexp,_anselems).
+
+transform_view_answer_attributes(_mainview,_mainobj,[_arg,_|_rarglist],[cp(_label,_class)|_rargexp],[_attrelem|_anselems]) :-
+	!,
+	outFragmentObjectName(_arg,_name),
+	get_computed_atom(_label,_arg,_catom),
+	_attrelem=.. [_mainview,_label,_mainobj,_catom,_name],
+	transform_view_answer_attributes(_mainview,_mainobj,_rarglist,_rargexp,_anselems).
+
+transform_view_answer_attributes(_mainview,_mainobj,[_arg|_rarglist],[cps(_label)|_rargexp],[_attrelem|_anselems]) :-
+	!,
+	outFragmentObjectName(_arg,_name),
+	get_computed_atom(_label,_arg,_catom),
+	_attrelem=.. [_mainview,_label,_mainobj,_catom,_name],
+	transform_view_answer_attributes(_mainview,_mainobj,_rarglist,_rargexp,_anselems).
+
+
+transform_view_answer_attributes(_mainview,_mainobj,[_arglabel,_arg|_rarglist],[r(_label)|_rargexp],[_attrelem|_anselems]) :-
+	!,
+	outFragmentObjectName(_arg,_name),
+	_attrelem=.. [_mainview,_label,_mainobj,_arglabel,_name],
+	transform_view_answer_attributes(_mainview,_mainobj,_rarglist,_rargexp,_anselems).
+
+transform_view_answer_attributes(_mainview,_mainobj,[_arglabel,_arg,_|_rarglist],[rp(_label,_class)|_rargexp],[_attrelem|_anselems]) :-
+	!,
+	outFragmentObjectName(_arg,_name),
+	_attrelem=.. [_mainview,_label,_mainobj,_arglabel,_name],
+	transform_view_answer_attributes(_mainview,_mainobj,_rarglist,_rargexp,_anselems).
+
+transform_view_answer_attributes(_mainview,_mainobj,[_arglabel,_arg|_rarglist],[rps(_label)|_rargexp],[_attrelem|_anselems]) :-
+	!,
+	outFragmentObjectName(_arg,_name),
+	_attrelem=.. [_mainview,_label,_mainobj,_arglabel,_name],
+	transform_view_answer_attributes(_mainview,_mainobj,_rarglist,_rargexp,_anselems).
+
+transform_view_answer_attributes(_mainview,_mainobj,[_,_|_rarglist],[p(_,_)|_rargexp],_anselems) :-
+	!,
+	transform_view_answer_attributes(_mainview,_mainobj,_rarglist,_rargexp,_anselems).
+
+transform_view_answer_attributes(_mainview,_mainobj,[_|_rarglist],[ps(_)|_rargexp],_anselems) :-
+	!,
+	transform_view_answer_attributes(_mainview,_mainobj,_rarglist,_rargexp,_anselems).
+
+
+transform_view_answer_attributes(_mainview,_mainobj,[_set|_rarglist],[set(_setexp)|_rargexp],_anselems) :-
+	_setexp = [_,_|_], /* verschachtelter View */
+	!,
+	transform_complex_set_attribute(_mainview,_mainobj,_set,_setexp,_setelems),
+	transform_view_answer_attributes(_mainview,_mainobj,_rarglist,_rargexp,_anselems2),
+	append(_anselems2,_setelems,_anselems).
+
+transform_view_answer_attributes(_mainview,_mainobj,[_set|_rarglist],[set(_setexp)|_rargexp],_anselems) :-
+	_setexp = [_argexp], /* nested attribute */
+	!,
+	transform_simple_set_attribute(_mainview,_mainobj,_set,_setexp,_setelems),
+	transform_view_answer_attributes(_mainview,_mainobj,_rarglist,_rargexp,_anselems2),
+	append(_anselems2,_setelems,_anselems).
+
+
+
+
+transform_complex_set_attribute(_,_,[],_,[]).
+
+transform_complex_set_attribute(_mainview,_mainobj,[_h|_rset],_setexp,[_submainelem,_attrelem|_anselems]) :-
+	/* Zuerst das Tupel fuer mainobj und dem zugehoerigen Attribut */
+	_h =.. [_|_arglist],
+	get_attrcat_from_set(_setexp,_attrcat),
+	get_this_from_arglist(_arglist,_setexp,_this,_label,_restlist,_restexp),
+	outFragmentObjectName(_this,_name1),
+	get_substitution_from_arglist(_restlist,_restexp,_substlist),
+	((_substlist =[],
+	  _name=_name1
+	 );
+	 (_name=derive(_name1,_substlist)
+	)),
+	!,
+	_attrelem =.. [_mainview,_attrcat,_mainobj,_label,_name],
+	name2id(_mainview,_mainid),
+	partofQuery(_mainid,_subviewid,_attrcat),
+	id2name(_subviewid,_subview),
+	_submainelem=..[_subview,_name],
+	transform_complex_set_attribute(_mainview,_mainobj,_rset,_setexp,_rsetelems),
+	transform_view_answer_attributes(_subview,_name,_restlist,_restexp,_subanselems),
+	append(_rsetelems,_subanselems,_anselems),
+	!.
+
+
+
+
+transform_simple_set_attribute(_,_,[],_,[]).
+
+transform_simple_set_attribute(_mainview,_mainobj,[_h|_rset],_setexp,[_attrelem|_anselems]) :-
+	((_h =.. [_|_arglist],
+	  _arglist \== []
+	 );
+	 (_arglist=[_h]
+	)),
+	get_attrcat_from_set(_setexp,_attrcat),
+	get_this_from_arglist(_arglist,_setexp,_this,_label,_restlist,_restexp),
+	outFragmentObjectName(_this,_name1),
+	_attrelem =.. [_mainview,_attrcat,_mainobj,_label,_name1],
+	/* Das ist hier zwar nur ein einfach verschachteltes Attribut, aber trotzdem */
+	/* kann ein SubView dahinter stecken. Dann muss auch dafuer ein Element erstellt */
+	/* werden. */
+	((name2id(_mainview,_mainid),
+	  partofQuery(_mainid,_subviewid,_attrcat),
+	  id2name(_subviewid,_subview),
+	  _submainelem=..[_subview,_name1],
+	  _subanselems=[_submainelem]
+	 );
+	 (_subanselems=[]
+	)),
+	transform_simple_set_attribute(_mainview,_mainobj,_rset,_setexp,_rsetelems),
+	append(_subanselems,_rsetelems,_anselems).
+
+
+
+
+
+/*********************************************************************/
+/*                                                                   */
+/* transform_subquery_update_elem(_arglist,_queryst,_qid,_qname,_trans)    */
+/*                                                                   */
+/* Description of arguments:                                         */
+/* arglist : Argumente eines Update-Elements                         */
+/* queryst : QueryStruct der zugehoerigen Query                      */
+/*     qid : ID der Query (mit angehaengtem Label)                   */
+/*   qname : Name der Query (so wie er ausgegeben werden soll)       */
+/*   trans : das transformierte Element                              */
+/*                                                                   */
+/* Description of predicate:                                         */
+/*   Transformiert einen Term aus dem ViewMaintenance-Ergebnis, der  */
+/*   einer SubQuery entspricht, in die notwendige Term-Darstellung   */
+/*   fuer Notifikation. Eine SubQuery hat immer ein this und einen   */
+/*   Attributwert. Fuer this muss man aus der SubQuery noch die      */
+/*   Parameter aufsammeln, und fuer den A-Wert muss man die Join-Bed.*/
+/*   beachten, um herauszufinden, welche Parameter der SubView hat,  */
+/*   wovon der A-Wert Instanz ist (falls es ueberhaupt so einen      */
+/*   SubView gibt).                                                  */
+/*                                                                   */
+/*********************************************************************/
+
+
+
+
+transform_subquery_update_elem(_arglist,_querystruct,_qid,_qname,_trans) :-
+	_querystruct=[this|_],
+	get_this_from_arglist(_arglist,_querystruct,_thisid,_thislabel,_restarglist,_restqs), /* hier wird das "this" genommen */
+	_thislabel == '',
+	get_substitution_from_arglist(_restarglist,_restqs,_substlist),
+	get_this_from_arglist(_restarglist,_restqs,_value,_label,_,_), /* und hier ein c,r,cp,rp,cps oder rps */
+	outFragmentObjectName(_thisid,_this),
+	((_substlist=[],
+	  _this1=_this
+	 );
+	 (_this1=derive(_this,_substlist)
+	)),
+	!,
+   	transform_subquery_update_attribute(_qid,_querystruct,_arglist,_value,_value1),
+	'SubQuery'(_qid,_subquerymain,_subqueryattr),
+	_trans=..[_subquerymain,_subqueryattr,_this1,_label,_value1].
+
+
+/* Subquery wird SubView gejoint -> aus Joincond Parameterliste fuer SubView bauen */
+transform_subquery_update_attribute(_qid,_qs,_arglist,_vid,_newvalue) :-
+	get_QCjoincond('QCjoincond'(_qid,_svid,_joincond)),
+	!,
+	get_QueryStruct(_svid,_svqs),
+	get_substlist_for_attribute(_joincond,_qs,_svqs,_arglist,_substlist),
+	outFragmentObjectName(_vid,_value),
+	((_substlist=[],
+	  _newvalue=_value
+	 );
+	 (_newvalue=derive(_value,_substlist)
+	)),
+	!.
+
+/* Normale Subquery, fuer die es keinen Join gibt */
+transform_subquery_update_attribute(_qid,_qs,_arglist,_vid,_value) :-
+	outFragmentObjectName(_vid,_value),
+	!.
+
+
+
+get_substlist_for_attribute([],_qs,_svqs,_arglist,[]) :- !.
+
+get_substlist_for_attribute([equal(_x,this)|_r],_qs,_svqs,_arglist,_substlist) :-
+	!,
+	get_substlist_for_attribute(_r,_qs,_svqs,_arglist,_substlist).
+
+
+get_substlist_for_attribute([equal(_arg,_par)|_r],_qs,_svqs,_arglist,[substitute(_argvalue,_par)|_substlist]) :-
+	pc_member(p(_par,_class),_svqs),
+	!,
+	get_arg_pos(_arg,_qs,_pos),
+	nth1(_pos,_arglist,_argid),
+	outFragmentObjectName(_argid,_argvalue),
+	get_substlist_for_attribute(_r,_qs,_svqs,_arglist,_substlist).
+
+get_substlist_for_attribute([equal(_arg,_par)|_r],_qs,_svqs,_arglist,_substlist) :-
+	get_substlist_for_attribute(_r,_qs,_svqs,_arglist,_substlist).
+
+
+
+
+
+transform_main_update_elem(_arglist,_querystruct,_qid,_qname,[_trans|_translist]) :-
+	_querystruct=[this|_],
+	get_this_from_arglist(_arglist,_querystruct,_thisid,_thislabel,_restarglist,_restqs), /* hier wird das "this" genommen */
+	_thislabel == '',
+	get_substitution_from_arglist(_restarglist,_restqs,_substlist),
+	outFragmentObjectName(_thisid,_this),
+	((_substlist=[],
+	  _this1=_this
+	 );
+	 (_this1=derive(_this,_substlist)
+	)),
+	!,
+	transform_main_update_attributes(_querystruct,_this1,_qid,_qname,_arglist,_arglist,_translist),
+	_trans=..[_qname,_this1].
+
+
+
+
+transform_main_update_attributes([],_this,_qid,_qname,_allargs,_arglist,[]) :- !.
+
+transform_main_update_attributes([this|_r],_this,_qid,_qname,_allargs,[_|_arglist],_list) :-
+	!,
+	transform_main_update_attributes(_r,_this,_qid,_qname,_allargs,_arglist,_list).
+
+transform_main_update_attributes([p(_,_)|_r],_this,_qid,_qname,_allargs,[_,_|_arglist],_list) :-
+	!,
+	transform_main_update_attributes(_r,_this,_qid,_qname,_allargs,_arglist,_list).
+
+transform_main_update_attributes([r(_ml)|_r],_this,_qid,_qname,_allargs,[_label,_value|_arglist],[_trans|_list]) :-
+	get_main_query_attribute(_qid,_ml,_value,_allargs,_newvalue),
+	_trans =.. [_qname,_ml,_this,_label,_newvalue],
+	transform_main_update_attributes(_r,_this,_qid,_qname,_allargs,_arglist,_list).
+
+transform_main_update_attributes([rp(_ml,_c)|_r],_this,_qid,_qname,_allargs,[_label,_value,_|_arglist],[_trans|_list]) :-
+	get_main_query_attribute(_qid,_ml,_value,_allargs,_newvalue),
+	_trans =.. [_qname,_ml,_this,_label,_newvalue],
+	transform_main_update_attributes(_r,_this,_qid,_qname,_allargs,_arglist,_list).
+
+transform_main_update_attributes([c(_ml)|_r],_this,_qid,_qname,_allargs,[_value|_arglist],[_trans|_list]) :-
+	get_main_query_attribute(_qid,_ml,_value,_allargs,_newvalue),
+	get_computed_atom(_ml,_value,_catom),
+	_trans =.. [_qname,_ml,_this,_catom,_newvalue],
+	transform_main_update_attributes(_r,_this,_qid,_qname,_allargs,_arglist,_list).
+
+transform_main_update_attributes([cp(_ml,_c)|_r],_this,_qid,_qname,_allargs,[_value,_|_arglist],[_trans|_list]) :-
+	get_main_query_attribute(_qid,_ml,_value,_allargs,_newvalue),
+	get_computed_atom(_ml,_value,_catom),
+	_trans =.. [_qname,_ml,_this,_catom,_newvalue],
+	transform_main_update_attributes(_r,_this,_qid,_qname,_allargs,_arglist,_list).
+
+
+
+/* Eine Haupt-Query wird direkt mit einem SubView gejoint */
+get_main_query_attribute(_qid,_ml,_vid,_arglist,_newvalue) :-
+	partofQuery(_qid,_svid,_ml),
+	!,
+	get_QCjoincond('QCjoincond'(_qid,_svid,_joincond)),
+	get_QueryStruct(_svid,_svqs),
+	get_QueryStruct(_qid,_qs),
+	get_substlist_for_attribute(_joincond,_qs,_svqs,_arglist,_substlist),
+	outFragmentObjectName(_vid,_value),
+	((_substlist=[],
+	  _newvalue=_value
+	 );
+	 (_newvalue=derive(_value,_substlist)
+	)),
+	!.
+
+/* Eine Haupt-Query hatte ein normales necessary-Attribut, keine Joins -> keine derive-Exp */
+get_main_query_attribute(_qid,_ml,_vid,_arglist,_value) :-
+	outFragmentObjectName(_vid,_value),
+
+	!.
+/*Prueft, ob ein UpdateFormat existiert fuer diese Anfrage.*/
+exist_Updateformat(_fa,_fid):-
+	((_fa=solution(derive(_qid,_l),_));(_fa=solution(_qid,_l))),
+	atom(_qid),
+	!,
+	prove_literal('A'(_fid,'AnswerFormat',forQuery,_qid)),
+	name2id('UpdateFormat',_ufID),
+	prove_literal('In'(_fid,_ufID)).
+
+/*Prueft, ob ein Format existiert fuer eine Anfrage.*/
+exist_format(_fa,_fid):-
+	(_fa=solution(derive(_qid,_l),_);_fa=solution(_qid,_l)),
+	atom(_qid),
+	!,
+	prove_literal('A'(_fid,'AnswerFormat',forQuery,_qid)).
+
+
+/*Prueft, ob ein Format fuer eine Sicht existiert.*/
+exist_ViewFormat([_viewsol|_rest],_fid):-
+	_viewsol=..[_vid|_],
+	atom(_vid),
+	prove_literal('A'(_fid,'AnswerFormat',forQuery,_vid)).
+
+
+
+/*Ein Term durch pc_atom_to_term() bekommt:(x,y,z) soll in eine Liste :[x,y,z] umgewandelt sein!*/
+/*(x,y,z)=..[,,x,(y , z)],(x,y)=..[,,x,y],(x)=..[x] ,x=..[x]*/
+
+
+fragmentatom2list(_term,[_item|_res]):-
+	_term=..[_|_arglist],
+	_arglist=[_item|[_resterm]],
+	fragmentatom2list(_resterm,_res).
+
+/*z.B. bei dem letzten Term : _term=x,x=SMLfragment(...) dann x=..[SMLfragment|...] */
+fragmentatom2list(_term,[_term]):-
+	_term=..['SMLfragment'|_],!.
+

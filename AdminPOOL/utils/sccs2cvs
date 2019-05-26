@@ -1,0 +1,400 @@
+#!/bin/ksh -u
+#
+#$Header: /home/cbase/CVS/AdminPOOL/utils/sccs2cvs,v 12.1 2002/10/04 12:39:08 cbase Exp $
+#
+# A script to convert a SCCS repository to CVS without loosing the revision history.
+#
+# To run it, cd to a convenient place and specify the name of the new CVS project 
+# on the command line.  You can also specify the paths to the SCCS and CVS repositories.
+# If they are not specified, they default to the environment variables PROJECTDIR and 
+# CVSROOT, respectively.  If the CVS repository does not exist, it will be created. 
+#
+# If any SCCS files are checked out, the script will abort.  Next, a working directory 
+# with the same name as the CVS project will be created in the current directory and 
+# imported to CVS.  When the script is finished, this will be a properly checked-out 
+# CVS working directory.  A CVS tag will be set on the final revision of all files 
+# in the new project. (See $CONVERSION_TAG.)
+#
+# When an error occurs the sccs2cvs_log file may contain some useful info.
+# Also, the incomplete CVS project and working directories remain and must 
+# be deleted before the script can be run again.
+# 
+# Limitations:
+# - SCCS branches are not supported.
+#
+# - Remote CVS repositories are not yet supported.
+#
+# - All of the s.* files in an SCCS directory will be included in the CVS project.
+#
+# - Since CVS does not have an option to force the date of a revision, the SCCS revision 
+#   dates are included in the CVS revision message text.
+#
+# - The SCCS revision "author" is not retained.  (It could be added to the CVS message, if desired.)
+#
+# - WARNING: CVS keyword substitution will result in longer and different strings than the SCCS 
+#   versions.  Check your code if this could be a problem.
+#
+# - Use the -f option to force the use of $Header: /home/cbase/CVS/AdminPOOL/utils/sccs2cvs,v 12.1 2002/10/04 12:39:08 cbase Exp $ in all files that have SCCS file name keywords.
+#   Use -p to choose $Id: sccs2cvs,v 12.1 2002/10/04 12:39:08 cbase Exp $ or $Header: /home/cbase/CVS/AdminPOOL/utils/sccs2cvs,v 12.1 2002/10/04 12:39:08 cbase Exp $ based upon the original SCCS keywords.  The default is to
+#   use the $Id: sccs2cvs,v 12.1 2002/10/04 12:39:08 cbase Exp $ keyword in FORTRAN files instead of the $Header: /home/cbase/CVS/AdminPOOL/utils/sccs2cvs,v 12.1 2002/10/04 12:39:08 cbase Exp $ keyword because
+#   the resulting line may be too long.  All other files will use $Header: /home/cbase/CVS/AdminPOOL/utils/sccs2cvs,v 12.1 2002/10/04 12:39:08 cbase Exp $.
+#
+# Exmaples:
+#
+# sccs2cvs repo1
+#	Convert Files in $PROJECTDIR/SCCS to $CVSROOT/repo1 .  By default, SCCS file name keywords
+#	will be converted to full path names unless it's a FORTRAN source.
+#
+# sccs2cvs -p -s /usr/local/src/mystuff mystuff
+#	Convert files in /usr/local/src/mystuff/SCCS to $CVSROOT/mystuff.  Retain relative path
+#	name keywords.
+#
+# sccs2cvs -f -s /usr/local/src/mystuff -c /usr/local/src/newrepos project/mystuff
+#	Convert files in /usr/local/src/mystuff/SCCS to /usr/local/src/newrepos/project/mystuff .
+#	Force full path name keywords, even in FORTRAN files.
+#
+
+#
+# Initialize some variables
+#
+FFLAG=0
+PFLAG=0
+integer i=0
+
+WORKDIR=`pwd`
+PROGNAME=`basename $0`
+CONVERSION_TAG=sccs_to_cvs_conversion
+
+LOGFILE=$WORKDIR/${PROGNAME}_log
+SEDFILE=$WORKDIR/${PROGNAME}_sed
+SEDFILEID=$WORKDIR/${PROGNAME}_sedid
+TMPFILE=$WORKDIR/${PROGNAME}_tmp
+
+function rmlogs {
+	rm -f $LOGFILE $TMPFILE $SEDFILE $SEDFILEID
+}
+
+#
+# The usual usage message....
+#
+function usage {
+	echo "usage: $PROGNAME [-c CVSROOT] [-s PROJECTDIR] [-f|-p] new_cvs_project_name"
+	echo "    -h  This message."
+	echo "    -c  Full path to the CVS directory.  Default uses the CVSROOT environment variable."
+	echo "    -f  Force full path name substitution."
+	echo "    -p  Retain short path names in header."
+	echo "    -s  Full path to the SCCS directory.  Default uses the PROJECTDIR environment variable."
+	echo "    new_cvs_project_name is the subdirectory to create under \$CVSROOT."
+	exit 1
+}
+
+#
+# Print an error message and exit.
+#
+function errexit {
+	echo "ERROR: $1"
+	exit 1
+}
+
+#
+# Release any sccs files that are checked out,
+# then print an error message and exit.
+#
+function coabort {
+	for F in `sccs tell`; do
+		sccs unedit $F >>$LOGFILE
+	done
+	echo "ERROR: $1"
+	errexit "More info may be available in `basename $LOGFILE`"
+}
+
+#
+# Try to clean up partial directories....
+#
+function trapexit {
+	cd $WORKDIR
+	rmlogs
+	rm -rf $CVSPROJECT
+	rm -rf $CVSROOT/$CVSPROJECT
+	for F in `sccs tell`; do
+		sccs unedit $F
+		rm -f $F
+	done
+	errexit "Caught a signal..."
+}
+
+#
+# Map SCCS keywords to their CVS equivalents....
+#
+# The quotes surround the dollar signs to fool CVS when I check in this script
+#
+set -A SCCS_KEYWORDS \
+    '%W%[       ]*%G%'\
+    '%W%[       ]*%E%'\
+    '%W%'\
+    '%Z%%M%[    ]*%I%[  ]*%G%'\
+    '%Z%%M%[    ]*%I%[  ]*%E%'\
+    '%Z%%P%[    ]*%I%[  ]*%G%'\
+    '%Z%%P%[    ]*%I%[  ]*%E%'\
+    '%M%[       ]*%I%[  ]*%G%'\
+    '%M%[       ]*%I%[  ]*%E%'\
+    '%P%'\
+    '%M%'\
+    '%F%'\
+    '%I%'\
+    '%G%'\
+    '%E%'\
+    '%U%'
+
+# This set will map all SCCS paths to the full path name.
+set -A CVS_KEYWORDS \
+    '@(#)$'Header'$'\
+    '@(#)$'Header'$'\
+    '@(#)$'Header'$'\
+    '@(#)$'Header'$'\
+    '@(#)$'Header'$'\
+    '@(#)$'Header'$'\
+    '@(#)$'Header'$'\
+    '$'Header'$'\
+    '$'Header'$'\
+    '$'Source'$'\
+    '$'Source'$'\
+    '$'Source'$'\
+    '$'Revision'$'\
+    '$'Date'$'\
+    '$'Date'$'\
+    ''
+
+# A closer match to SCCS.
+set -A CVS_ID_KEYWORDS \
+    '@(#)$'Id'$'\
+    '@(#)$'Id'$'\
+    '@(#)$'Id'$'\
+    '@(#)$'Id'$'\
+    '@(#)$'Id'$'\
+    '@(#)$'Header'$'\
+    '@(#)$'Header'$'\
+    '$'Id'$'\
+    '$'Id'$'\
+    '$'Source'$'\
+    '$'RCSfile'$'\
+    '$'RCSfile'$'\
+    '$'Revision'$'\
+    '$'Date'$'\
+    '$'Date'$'\
+    ''
+
+
+########################################################################
+# Main program
+#
+
+rmlogs
+
+while getopts c:fhps: OPTION
+do
+	case $OPTION in
+	c)
+		export CVSROOT=$OPTARG
+		;;
+	f)
+		FFLAG=1
+		;;
+	p)
+		PFLAG=1
+		;;
+	s)
+		export PROJECTDIR=$OPTARG
+		;;
+	h|*)
+		usage
+		;;
+	esac
+done
+
+shift `expr $OPTIND - 1`
+[ $# -ne 1 ] && usage
+
+CVSPROJECT=$1
+
+#
+# Check the parameters
+#
+if [[ $FFLAG = 1 && $PFLAG = 1 ]]; then
+	echo "ERROR: -f and -p are mutually exclusive"
+	usage
+fi
+
+if [ -z "$CVSROOT" ]; then
+	echo "ERROR: No CVSROOT specified"
+	usage
+fi
+
+if [ -z "$PROJECTDIR" ]; then
+	echo "ERROR: No SCCS PROJECTDIR specified"
+	usage
+fi
+
+[[ $PROJECTDIR != /* ]]		&& errexit "$PROJECTDIR Must be a full path name"
+[ ! -d $PROJECTDIR ]		&& errexit "$PROJECTDIR Does not exist"
+[ ! -d $PROJECTDIR/SCCS ]	&& errexit "$PROJECTDIR/SCCS Does not exist"
+
+[[ $CVSROOT != /* ]]		&& errexit "$CVSROOT Must be a full path name"
+[[ $CVSPROJECT = /* ]]		&& errexit "$CVSPROJECT Must be a relative path name"
+#[ -a $CVSROOT/$CVSPROJECT ]	&& errexit "$CVSROOT/$CVSPROJECT Already exists"
+#[ -a ./$CVSPROJECT ]		&& errexit "./$CVSPROJECT Already exists"
+[ ! -w . ]			&& errexit "Need write permission in `pwd`"
+
+sccs check || errexit "Some SCCS files are checked-out in $PROJECTDIR"
+
+trap "trapexit" INT
+
+#
+# Create the new repository, if necessary
+#
+if [ -a $CVSROOT ]; then
+	[ ! -d $CVSROOT ] && errexit "$CVSROOT is not a directory"
+	[ ! -w $CVSROOT ] && errexit "Need write permission in $CVSROOT"
+	[ ! -d $CVSROOT/CVSROOT ] && errexit "$CVSROOT is not a CVS repository"
+else
+	echo Creating CVS repository $CVSROOT
+	mkdir -p $CVSROOT
+	[ $? != 0 ] && errexit "Cannot create $CVSROOT"
+	cvs init
+	[ $? != 0 ] && errexit "Cannot init $CVSROOT"
+fi
+
+echo ====== Converting $PROJECTDIR to $CVSROOT/$CVSPROJECT ======
+
+
+#
+# Create the new CVS project
+#
+mkdir -p $CVSPROJECT
+[ $? != 0 ] && errexit "Cannot create $CVSPROJECT"
+
+cd $CVSPROJECT
+cvs import -m "$PROGNAME Conversion" $CVSPROJECT $LOGNAME Initial
+[ $? != 0 ] && errexit "cvs import failed"
+cd $WORKDIR
+cvs co $CVSPROJECT
+[ $? != 0 ] && errexit "cvs checkout failed"
+cd $CVSPROJECT
+
+
+#
+# Create a sed script for the keyword substitution
+#
+i=0
+while (( i < ${#SCCS_KEYWORDS[*]} ))
+do
+    echo "s,${SCCS_KEYWORDS[i]},${CVS_KEYWORDS[i]},g" >> $SEDFILE
+    echo "s,${SCCS_KEYWORDS[i]},${CVS_ID_KEYWORDS[i]},g" >> $SEDFILEID
+    i=i+1
+done
+
+for F in $PROJECTDIR/SCCS/s.*
+do
+	#
+	# Get rid of the "s." at the beginning of the name
+	#
+	FI=`basename $F`
+	FILE=${FI#s.}
+
+	#
+	# Work on each rev of the file in ascending order
+	#
+	FIRSTTIME=1
+	REVLIST=`sccs prs $FILE | grep "^D " | cut -d " " -f 2 | sed -e 's/\./ /g' | sort -n -u +0 +1 +2 +3 +4 +5 +6 +7 +8 | sed -e 's/ /./g'`
+
+	for REV in $REVLIST
+	do
+		#
+		# Branches are (yet) not supported....
+		#
+		if [[ "$REV" != +([0-9]).+([0-9]) ]]; then
+			echo "WARNING: Branch revision $REV will not be converted!"
+			continue
+		fi
+
+		#
+		# Get file into the current dir and get stats
+		#
+		#AUTHOR=`sccs prs -r$REV $FILE | grep "^D " | awk '{print $5; exit}'`
+		#
+		DATE=`sccs prs -r$REV $FILE | grep "^D " | awk '{printf("%s %s Author=%s", $3, $4, $5); exit}'`
+		echo
+		echo "==> File $FILE, Rev=$REV, Date=$DATE"
+
+		sccs edit -r$REV $FILE >>$LOGFILE
+		[ $? != 0 ] && errexit "sccs edit failed"
+		echo Checked out of SCCS
+
+		#
+		# Convert SCCS keywords to CVS keywords.
+		#
+		if [[ $PFLAG = 1 
+		   || ($FFLAG = 0 && (${FILE%90} = *.[Ff])) ]]; then
+
+			sed -f $SEDFILEID $FILE > $TMPFILE
+		else
+			sed -f $SEDFILE $FILE > $TMPFILE
+		fi
+		mv $TMPFILE $FILE
+
+		#
+		# Check file into CVS
+		#
+		if [ $FIRSTTIME = 1 ]; then
+			FIRSTTIME=0
+			echo Importing to CVS
+
+			echo cvs -Q add -m \""SCCS Conversion"\" $FILE
+			cvs -Q add -m "SCCS Conversion" $FILE >>$LOGFILE
+			[ $? != 0 ] && coabort "cvs add failed"
+
+			echo cvs -Q ci -r $REV -m \""SCCS date: $DATE - Original SCCS file"\" $FILE
+			cvs -Q ci -r $REV -m "SCCS date: $DATE - Original SCCS file" $FILE >>$LOGFILE
+			[ $? != 0 ] && coabort "cvs commit failed"
+			cvs -Q update -A $FILE >>$LOGFILE
+			[ $? != 0 ] && coabort "cvs update failed"
+
+			echo Initial rev checked into CVS
+
+		else
+			sccs prs -r$REV $FILE | grep "." > $TMPFILE
+			# it's OK if grep fails here and gives status = 1
+			# put the delta message in $TMPFILE
+			ed $TMPFILE <<!EOF >/dev/null
+/COMMENTS
+1,.d
+w
+q
+!EOF
+			echo cvs -Q ci -r $REV -m \""SCCS date: $DATE - `cat $TMPFILE`"\" $FILE
+			cvs -Q ci -r $REV -m "SCCS date: $DATE - `cat $TMPFILE`" $FILE >>$LOGFILE
+			[ $? != 0 ] && coabort "cvs commit failed"
+			cvs -Q update -A $FILE >>$LOGFILE
+			[ $? != 0 ] && coabort "cvs update failed"
+
+			echo checked into CVS
+		fi
+
+		sccs unedit $FILE >>$LOGFILE
+	done
+	rm -f $FILE
+done
+
+cd $WORKDIR
+echo
+cvs co $CVSPROJECT >>$LOGFILE
+cd $CVSPROJECT
+echo Setting \"$CONVERSION_TAG\" tag on all files
+cvs tag $CONVERSION_TAG >>$LOGFILE
+
+#
+# All done!
+#
+rmlogs
+echo Conversion successful!
+exit 0

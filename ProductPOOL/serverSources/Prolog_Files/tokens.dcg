@@ -1,0 +1,448 @@
+/*
+The ConceptBase Copyright
+
+Copyright 1988-2009 The ConceptBase Team. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted
+provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of
+      conditions and the following disclaimer.
+   2. Redistributions in binary form must reproduce the above copyright notice, this list of
+      conditions and the following disclaimer in the documentation and/or other materials
+      provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those of the authors
+and should not be interpreted as representing official policies, either expressed or implied,
+of the ConceptBase Team.
+
+
+The ConceptBase Team is represented by
+
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+Manfred Jeusfeld, University of Skoevde, 54128 Skoevde, Sweden
+Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+
+
+This license is a FreeBSD copyright license.
+Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
+*/
+
+
+/*
+*
+*
+* File:        	tokens.dcg
+* Version:     	11.3
+*
+*
+* Creation:     15-Apr-1988, Manfred Jeusfeld (UPA)
+* Date released : 96/10/25  (YY/MM/DD)
+*
+* SCCS-Source-Pool : /home/CBase/CB_NewStruct/ProductPOOL/serverSources/Prolog_Files/SCCS/s.tokens.dcg
+* Date retrieved : 97/01/29 (YY/MM/DD)
+* -----------------------------------------------------------------------------
+* contents:
+definite clause grammar to scan a list of characters into a list of tokens of
+different types; tokens are presented by Prolog atoms (like delimiters) or
+Prolog structures in case of identifiers, integer or real numbers, strings
+of assertions, Prolog strings, and select expressions of SML. In case of
+integer or real numbers, and strings, the arguments of such structures are real
+BIMProlog integers, reals and strings.
+
+By convention, identifiers are just like those in BIMProlog, i.e. they start
+with a character and consist of alphnumeric characters and the underscore, and
+all those enclosed in '.
+
+Comments are suppressed by this grammar.
+
+** date of creation: april 1988 Thomas Rose (UPA)
+** modification: 2.08.1988 Thomas Rose (UPA)
+** last modification: 7-Nov-1988/MJf: @=< instead of =< for atoms (due to
+			BIM-Prolog 2.3)
+					  30-Nov-1988/MSt : delimiter '==>'
+
+** CML-strings are no longer represented as BIMPrologStrings, but as
+   a list of characters   12-Mar-1990 HWN
+
+** new selectors '->' (InsatnceOf) and '=>' (isA)               21-May-1990 UB
+*
+* 16-Dec-92/kvt: new  (better?) treatment of blanks and comments
+* 7-Sep-94/CQ: new token: select2              see CBNEWS[178]
+*
+***************************************************************************** */
+
+EXPORT(buildTokens/3).
+EXPORT(alphanumeric/3).
+EXPORTEND(a) .
+
+IMPORT(member/2,'GeneralUtilities').
+IMPORT(memberchk/2,'GeneralUtilities').
+IMPORT(append/3,'GeneralUtilities').
+IMPORT(report_error/3,'ErrorMessages').
+IMPORT(pc_atomconcat/2,'PrologCompatibility').
+IMPORT(pc_atomconcat/3,'PrologCompatibility').
+IMPORT(pc_ascii/2,'PrologCompatibility').
+IMPORT(transformIdentifier/2,'MSFOLassertionParserUtilities').  /* ticket #311 */
+
+:- style_check(-singleton).
+
+/* erase leading blanks or comments */
+buildTokens(_ws) ==>
+	blanksorcomment,
+	buildTokens2(_ws),
+	where[!].
+
+
+buildTokens2([_w|_ws]) ==>
+	token(_w),
+	blanksorcomment,
+	buildTokens(_ws),
+	where [!].  	/* required to suppress backtracking in case of failure
+			  during the syntactic check */
+
+buildTokens2([]) ==>
+	where [!].  	/* required to suppress backtracking in case of failure
+			  during the syntactic check */
+
+
+token(ident(_i)) ==>	/* scanning identifiers and transformation to a atom */
+	identifier(_w), where [transformIdentifier(_w,_i),!].
+
+
+token(ident(_i)) ==>
+	implicit_var(_w),
+	where[pc_atomconcat(_w,_i),!].
+
+token(ident(_i)) ==>	/* scanning identifiers of a list of characters enclosed*/
+	['\''],		/* in '  and transformation to an atom */
+	specialIdentifier(_charList),
+	where [pc_atomconcat( _charList,_i),!].
+
+
+token(realNumber(_realAtom)) ==> /* scanning real strings*/
+	realNumber(_l),
+	where [pc_atomconcat(_l,_realAtom),!].
+
+
+token(intNumber(_inAtom)) ==>	/* scanning integers strings*/
+	intNumber(_l),
+	where [pc_atomconcat(_l,_inAtom),!].
+
+token(select(_s)) ==>		/* scanning of operators for select expressions */
+	select(_s),
+	where [!].
+
+token(select2(_s)) ==>
+	select2(_s),
+	where[!].
+
+token(assertion(_assatom)) ==> 	/* scanning of assertion strings, which */
+	['$'],				/* are enclosed in $ and $ and trans-   */
+	assertionString(_charList),    /* formation to Prolog strings          */
+            where[pc_atomconcat(['$'|_charList],_assatom),!].
+
+token(string(_atom)) ==>
+	['"'],
+	string(_charList),
+	where[pc_atomconcat(['"'|_charList],_atom),!].
+
+token(_d) ==>
+	delimiter(_w), where [pc_atomconcat(_w,_d),!].
+
+token(_) ==>
+	[_x],
+	where[report_error(tokensSYNERR2, tokens_dcg,[_x]),!,fail].
+
+
+/* ***  scan identifier and special identifier  *** */
+identifier([_c|_a]) ==>
+	character(_c),
+	alphanumeric(_a).
+
+identifier([_c]) ==>
+	character(_c).
+
+specialIdentifier([]) ==>
+	['\''].
+
+specialIdentifier([_c|_a]) ==>
+	printableChar(_c),
+	specialIdentifier(_a).
+
+implicit_var(['~'|_r]) ==>
+	['~'],
+	identifier(_r).
+
+implicit_var(['~'|_atom]) ==>
+	['~','"'],
+	string(_charList),
+	where[pc_atomconcat(['"'|_charList],_atom),!].
+
+
+/* ***  scan a real number  *** */
+realNumber(_r) ==>
+	realNumber2(_n),
+	realExponent(_e),
+	where[append(_n,_e,_r)].
+
+realNumber2(_n) ==>
+	digits(_n1),
+	['.'],
+	digits(_n2),  where [append(_n1,['.'|_n2],_n) ].
+
+realNumber2(['.'|_n]) ==>
+	['.'],
+	digits(_n).
+
+realNumber2(['-',_d|_n]) ==>
+	['-'], /* negative real number */
+	digit(_d),
+	realNumber2(_n).
+
+realExponent([_e,_p|_n]) ==>
+	[_e],
+	[_p],
+	where[memberchk(_e,['E','e']),memberchk(_p,['+','-'])],
+	digits(_n).
+
+realExponent([]) ==>
+	where[true].
+
+/* ***  scan an operator of a select expression  *** */
+select(_s) ==>
+	[_s],
+	where [memberchk(_s,['!','^','@'])].
+
+
+/**** scan the new operators of a select expression         21-May-1990 UB  *** */
+select(_s) ==>
+	['=','>'],
+	where [pc_atomconcat('=','>',_s)].
+
+select(_s) ==>
+	['-','>'],
+	where [pc_atomconcat('-','>',_s)].
+
+select2(dot) ==>
+	['.'].
+
+select2(bar) ==>
+	['|'].
+
+
+/* ***  scan an integer number  *** */
+intNumber(_n) ==>
+	digits(_n).
+
+intNumber(['-'|_n]) ==>
+	['-'],/* negative integer number */
+	digits(_n).
+
+/* ***  scan list of characters presenting an assertion string  *** */
+assertionString(['$']) ==>
+	['$'].
+
+assertionString([_char| _tail]) ==>
+	[_char],
+	assertionString(_tail).
+
+
+/****  scan list of characters presenting a string  ****/
+string(['"']) ==>
+	['"'].
+
+/* \" ist in Objektnamen erlaubt und wird deshalb genauso
+ * weitergegeben */
+string(['\\','"'|_tail]) ==>
+	['\\'],
+	['"'],
+	string(_tail).
+
+/* \ ist ein Escape-Charakter */
+string([_char|_tail]) ==>
+	['\\'],
+	[_char],
+	where[memberchk(_char,['$','\\'])],
+	string(_tail).
+
+string([_char|_tail]) ==>
+	[_char],
+	string(_tail).
+
+/****  suppress comments, i.e. scan until *) encountered  *** */
+comment ==>
+	['(', '*'],
+	ignoreChar1.
+
+/** changrd HWN 14.04.1989 : Prolog Comments are allowed too. */
+comment ==>
+	['{'],
+	ignoreChar2.
+
+ignoreChar1 ==>
+	['*', ')'],
+	where [!].
+
+ignoreChar1 ==>
+	[_char],
+	ignoreChar1.
+
+ignoreChar2 ==>
+	['}'],
+	where [!].
+
+ignoreChar2 ==>
+	[_char],
+	ignoreChar2.
+
+
+/* *** scan characters of type alphanumeric, character and digit  *** */
+alphanumeric([_c|_cs]) ==>
+	alphachar(_c),
+	alphanumeric(_cs).
+
+alphanumeric([_c]) ==>
+	alphachar(_c).
+
+alphachar(_c) ==>
+	character(_c).
+
+alphachar(_c) ==>
+	digit(_c).
+
+/* redundant because '_' is now also regarded as character
+alphachar('_') ==>
+	['_'].
+*/
+
+digits([_d|_ds]) ==>
+	digit(_d),
+	digits(_ds).
+
+digits([_d]) ==>
+	digit(_d).
+
+digit(_d) ==>
+	[_d], where ['0' @=< _d, _d @=< '9'].
+
+character(_c) ==>
+	[_c], where ['A' @=< _c, _c  @=< 'Z' ].
+
+character(_c) ==>
+	[_c], where ['a' @=< _c, _c  @=< 'z' ].
+
+
+
+/* umlauts and accents from ASCII-256; ticket #222 */
+character(_c) ==>
+	[_c], where [pc_ascii(_c, _n), memberchk(_n,[228, 246, 252, 223, 196, 214, 220,
+                                                     225, 233, 243, 250, 224, 232, 242,
+                                                     249, 226, 234, 244, 251, 235, 239,
+                                                     238, 236, 241, 209])].
+
+/* Ç,å,ç,Å as Windows Ascii chars */
+character(_c) ==>
+	[_c], where [pc_ascii(_c, _n), memberchk(_n,[128,134,135,143])].
+
+
+/* underscore also allowed as first character of an identifier, ticket #359 */
+
+/* ¹,²,³ as Windows Ascii chars */
+character(_c) ==>
+	[_c], where [pc_ascii(_c, _n), memberchk(_n,[185,178,179])].
+
+character('_') ==>
+	['_'].
+
+/* ***  scan so called printable characters  *** */
+printableChar(_c) ==>
+	[_c], where [pc_ascii(_c, _n), _n > 30, _n =< 254].
+
+
+/* *** scan various kinds of delimiters  *** */
+delimiter(['\\','=','=']) ==>
+	['\\','=','='].
+
+delimiter(['\\','=']) ==>
+        ['\\','='].
+
+delimiter(['=','.','.']) ==>
+	['=','.','.'].
+
+delimiter(['=','=','>']) ==>
+	['=','=','>'].
+
+delimiter(['<','=','=','>']) ==>
+	['<','=','=','>'].
+
+delimiter(['=','=']) ==>
+	['=','='].
+
+delimiter(['=','>']) ==>
+	['=','>'].
+
+delimiter(['=','<']) ==>
+	['=','<'].
+
+delimiter(['>','=']) ==>
+	['>','='].
+
+delimiter(['<','=']) ==>
+	['<','='].
+
+delimiter(['<','>']) ==>
+	['<','>'].
+
+
+
+
+
+delimiter([_br]) ==>
+	[_br], where [ memberchk( _br, ['(',')','[',']','{','}'] ) ].
+
+
+delimiter([_d]) ==>
+	[_d], where
+	[ memberchk(_d, [',', ';',':', '=','&','_','>','<']) ].
+/* backquote=ascii char 96 */
+delimiter([_d]) ==>
+	[_d], where [pc_ascii(_d, 96)].
+
+delimiter([_o]) ==>
+	[_o],  where [ memberchk(_o, ['+','-','*','/'] ) ].
+
+delimiter(['#']) ==> ['#'].
+
+
+/* ***  scan blanks and other uninteresting characters  ****/
+blanksorcomment ==>
+	comment,
+	where[!],
+	blanksorcomment.
+
+blanksorcomment ==>
+	blanks,
+	where[!],
+	blanksorcomment.
+
+blanksorcomment ==> where[!].
+blanks ==>
+	blankchar,
+	blanks.
+
+blanks ==>
+	blankchar.
+
+blankchar ==>
+	[_b],  where [pc_ascii(_b, _n), memberchk(_n, [32, 9, 10, 13]) ].
+

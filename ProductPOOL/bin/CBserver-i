@@ -1,0 +1,55 @@
+#!/bin/csh
+#
+# File:         %M%
+# Version:      %I%
+# Creation:    17-Nov-1995 Christoph Quix (RWTH)
+# Last Change:  %R%, Christoph Quix(RWTH)
+# Date released : %E%  (YY/MM/DD)
+#
+# SCCS-Source-Pool : %P%
+# Date retrieved : %D% (YY/MM/DD)
+#
+# ------------------------------
+# This script starts the CBserver in interactive mode
+#
+
+
+setenv CURDIR `pwd`
+
+if ( "${?CB_WORK}" == "0") then
+	echo "You must set the environment variable CB_WORK to your local pool directory"
+	exit
+endif
+
+cd $CB_WORK/serverSources
+
+if ("$?PROLOG_VARIANT" == "0") then
+    setenv PROLOG_VARIANT SWI
+endif
+
+# use the very latest system files (SYSTEM.SWI.*) from the CVS work directory if possible
+if ( -d $CB_WORK/lib ) then
+    setenv CBL_DIR $CB_WORK/lib
+endif
+
+if ("$PROLOG_VARIANT" == "SWI") then
+    setenv CB_OPTIONS "$*"
+    CB_Make iserver
+else
+    CB_Make link_server
+
+    if ( $status != 0 ) exit
+
+    cd $CURDIR
+
+    setenv CBS_DIR $CB_WORK/$CB_VARIANT/serverSources/objects.BIM
+    set CB_EXE=$CB_WORK/$CB_VARIANT/serverSources/objects.BIM/cbRTexec
+
+    echo Starting "$CB_EXE" $@
+    echo 'CBS_DIR (directory with linked cbRTexec and cbRTdata files):'
+    echo $CBS_DIR
+    echo 'CBL_DIR (directory with SYSTEM.* files)'
+    echo $CBL_DIR
+
+    "$CB_EXE" $@
+endif

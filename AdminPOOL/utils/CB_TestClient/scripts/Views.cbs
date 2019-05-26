@@ -1,0 +1,455 @@
+startServer -d Views -U verbatim
+tellModel "$CB_HOME/examples/QUERIES/Employee_Classes"
+result OK "yes"
+tellModel "$CB_HOME/examples/QUERIES/Employee_Instances"
+result OK "yes"
+ask "get_object[View/objname]" OBJNAMES  FRAME  Now
+result OK "Individual View in Class isA GenericQueryClass with 
+  attribute
+     partof : Proposition;
+     inherited_attribute : Proposition
+end"
+tell "View EmpDept isA Employee with
+retrieved_attribute, partof
+    dept : Department with
+        retrieved_attribute
+            head : Manager
+    end
+end"
+result OK "yes"
+ask "get_object[EmpDept/objname]" OBJNAMES  FRAME  Now
+result OK "Individual EmpDept in View isA Employee with 
+  attribute,partof,retrieved_attribute
+     dept : SV_EmpDept_dept
+end"
+ask "get_object[SV_EmpDept_dept/objname]" OBJNAMES  FRAME  Now
+result OK "Individual SV_EmpDept_dept in SubView isA Department with 
+  attribute,retrieved_attribute
+     head : Manager
+end"
+ask "EmpDept" OBJNAMES  FRAME  Now
+result OK "Lloyd in EmpDept with 
+  dept
+     LloydsDepartment : Production with 
+       head
+          Boss_of_Production : Lloyd
+     end 
+end 
+
+Phil in EmpDept with 
+  dept
+     PhilsDepartment : Marketing with 
+       head
+          Boss_of_Marketing : Phil
+     end 
+end 
+
+Eleonore in EmpDept with 
+  dept
+     EleonoresDepartment : Administration with 
+       head
+          Boss_of_Administration : Eleonore
+     end 
+end 
+
+Angus in EmpDept with 
+  dept
+     AngusDepartment : Research with 
+       head
+          Boss_of_Research : Angus
+     end 
+end 
+
+Michael in EmpDept with 
+  dept
+     MichaelsDepartment : Production with 
+       head
+          Boss_of_Production : Lloyd
+     end 
+end 
+
+Jack in EmpDept with 
+  dept
+     JacksDepartment : Production with 
+       head
+          Boss_of_Production : Lloyd
+     end 
+end 
+
+Joe in EmpDept with 
+  dept
+     JoesDepartment : Production with 
+       head
+          Boss_of_Production : Lloyd
+     end 
+end 
+
+Max in EmpDept with 
+  dept
+     MaxDepartment : Production with 
+       head
+          Boss_of_Production : Lloyd
+     end 
+end 
+
+Rita in EmpDept with 
+  dept
+     RitasDepartment : Production with 
+       head
+          Boss_of_Production : Lloyd
+     end 
+end 
+
+Herbert in EmpDept with 
+  dept
+     HerbertsDepartment : Marketing with 
+       head
+          Boss_of_Marketing : Phil
+     end 
+end 
+
+Susan in EmpDept with 
+  dept
+     SusansDepartment : Marketing with 
+       head
+          Boss_of_Marketing : Phil
+     end 
+end 
+
+Thomas in EmpDept with 
+  dept
+     ThomasDepartment : Marketing with 
+       head
+          Boss_of_Marketing : Phil
+     end 
+end 
+
+Christopher in EmpDept with 
+  dept
+     ChristophersDepartment : Marketing with 
+       head
+          Boss_of_Marketing : Phil
+     end 
+end 
+
+Mary in EmpDept with 
+  dept
+     MarysDepartment : Administration with 
+       head
+          Boss_of_Administration : Eleonore
+     end 
+end 
+
+Felix in EmpDept with 
+  dept
+     FelixsDepartment : Administration with 
+       head
+          Boss_of_Administration : Eleonore
+     end 
+end 
+
+Robert in EmpDept with 
+  dept
+     RobertsDepartment : Research with 
+       head
+          Boss_of_Research : Angus
+     end 
+end 
+
+Edward in EmpDept with 
+  dept
+     EdwarsDepartment : Research with 
+       head
+          Boss_of_Research : Angus
+     end 
+end 
+
+Bill in EmpDept with 
+  dept
+     BillsDepartment : Research with 
+       head
+          Boss_of_Research : Angus
+     end 
+end"
+tell "View EmpOptionalSalary isA Employee with
+inherited_attribute
+    salary : Integer
+end"
+result OK "yes"
+ask "EmpOptionalSalary" OBJNAMES FRAME Now
+result OK "Lloyd in EmpOptionalSalary with 
+  salary
+     LloydsSalary : 100000
+end 
+
+Phil in EmpOptionalSalary with 
+  salary
+     PhilsSalary : 120000
+end 
+
+Eleonore in EmpOptionalSalary with 
+  salary
+     EleonoresSalary : 20000
+end 
+
+Angus in EmpOptionalSalary with 
+  salary
+     AngusSalary : 110000
+end 
+
+John in EmpOptionalSalary 
+end 
+
+Oscar in EmpOptionalSalary 
+end 
+
+Michael in EmpOptionalSalary with 
+  salary
+     MichaelsSalary : 30000
+end 
+
+Jack in EmpOptionalSalary with 
+  salary
+     JacksSalary : 30500
+end 
+
+Joe in EmpOptionalSalary with 
+  salary
+     JoesSalary : 35000
+end 
+
+Max in EmpOptionalSalary with 
+  salary
+     MaxSalary : 40000
+end 
+
+Rita in EmpOptionalSalary with 
+  salary
+     RitasSalary : 50000
+end 
+
+Herbert in EmpOptionalSalary with 
+  salary
+     HerbertsSalary : 60000
+end 
+
+Susan in EmpOptionalSalary with 
+  salary
+     SusansSalary : 65000
+end 
+
+Thomas in EmpOptionalSalary with 
+  salary
+     ThomasSalary : 70000
+end 
+
+Christopher in EmpOptionalSalary with 
+  salary
+     ChristophersSalary : 90000
+end 
+
+Mary in EmpOptionalSalary with 
+  salary
+     MarysSalary : 10000
+end 
+
+Felix in EmpOptionalSalary with 
+  salary
+     FelixsSalary : 12000
+end 
+
+Robert in EmpOptionalSalary with 
+  salary
+     RobertsSalary : 70000
+end 
+
+Edward in EmpOptionalSalary with 
+  salary
+     EdwardsSalary : 50000
+end 
+
+Bill in EmpOptionalSalary with 
+  salary
+     BillsSalary : 55000
+end"
+tell "View EmpDept2 isA Employee with
+retrieved_attribute
+    dept : Joe.dept;
+    salary : [30000,40000,50000]
+end"
+result OK "yes"
+ask "EmpDept2" OBJNAMES FRAME Now
+result OK "Michael in EmpDept2 with 
+  dept
+     MichaelsDepartment : Production
+  salary
+     MichaelsSalary : 30000
+end 
+
+Max in EmpDept2 with 
+  dept
+     MaxDepartment : Production
+  salary
+     MaxSalary : 40000
+end 
+
+Rita in EmpDept2 with 
+  dept
+     RitasDepartment : Production
+  salary
+     RitasSalary : 50000
+end"
+tell "Employee with attribute likes : Employee end
+Mary with likes ml : Eleonore end"
+result OK "yes"
+tell "View EmpDept_likes_head isA Employee with
+retrieved_attribute,partof
+    dept : Department with
+        retrieved_attribute, partof
+            head : Manager with
+                constraint c : $ A(this,likes,this::dept::head) $
+        end
+    end
+end"
+ask "EmpDept_likes_head" OBJNAMES FRAME Now
+result OK "Mary in EmpDept_likes_head with 
+  dept
+     MarysDepartment : Administration[Mary/this_par] with 
+       head
+          Boss_of_Administration : Eleonore[Mary/this_par] 
+     end 
+     end 
+end"
+tell "View EmpDept3 isA Employee with
+retrieved_attribute,partof
+    dept : Department with end;
+    salary : Integer with end
+end"
+result OK yes
+ask "EmpDept3" OBJNAMES FRAME Now
+result OK "Lloyd in EmpDept3 with 
+  dept
+     LloydsDepartment : Production
+  salary
+     LloydsSalary : 100000
+end 
+
+Phil in EmpDept3 with 
+  dept
+     PhilsDepartment : Marketing
+  salary
+     PhilsSalary : 120000
+end 
+
+Eleonore in EmpDept3 with 
+  dept
+     EleonoresDepartment : Administration
+  salary
+     EleonoresSalary : 20000
+end 
+
+Angus in EmpDept3 with 
+  dept
+     AngusDepartment : Research
+  salary
+     AngusSalary : 110000
+end 
+
+Michael in EmpDept3 with 
+  dept
+     MichaelsDepartment : Production
+  salary
+     MichaelsSalary : 30000
+end 
+
+Jack in EmpDept3 with 
+  dept
+     JacksDepartment : Production
+  salary
+     JacksSalary : 30500
+end 
+
+Joe in EmpDept3 with 
+  dept
+     JoesDepartment : Production
+  salary
+     JoesSalary : 35000
+end 
+
+Max in EmpDept3 with 
+  dept
+     MaxDepartment : Production
+  salary
+     MaxSalary : 40000
+end 
+
+Rita in EmpDept3 with 
+  dept
+     RitasDepartment : Production
+  salary
+     RitasSalary : 50000
+end 
+
+Herbert in EmpDept3 with 
+  dept
+     HerbertsDepartment : Marketing
+  salary
+     HerbertsSalary : 60000
+end 
+
+Susan in EmpDept3 with 
+  dept
+     SusansDepartment : Marketing
+  salary
+     SusansSalary : 65000
+end 
+
+Thomas in EmpDept3 with 
+  dept
+     ThomasDepartment : Marketing
+  salary
+     ThomasSalary : 70000
+end 
+
+Christopher in EmpDept3 with 
+  dept
+     ChristophersDepartment : Marketing
+  salary
+     ChristophersSalary : 90000
+end 
+
+Mary in EmpDept3 with 
+  dept
+     MarysDepartment : Administration
+  salary
+     MarysSalary : 10000
+end 
+
+Felix in EmpDept3 with 
+  dept
+     FelixsDepartment : Administration
+  salary
+     FelixsSalary : 12000
+end 
+
+Robert in EmpDept3 with 
+  dept
+     RobertsDepartment : Research
+  salary
+     RobertsSalary : 70000
+end 
+
+Edward in EmpDept3 with 
+  dept
+     EdwarsDepartment : Research
+  salary
+     EdwardsSalary : 50000
+end 
+
+Bill in EmpDept3 with 
+  dept
+     BillsDepartment : Research
+  salary
+     BillsSalary : 55000
+end"
+

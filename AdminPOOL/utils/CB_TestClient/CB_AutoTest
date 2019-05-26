@@ -1,0 +1,55 @@
+#!/bin/sh
+#
+# This is a shell-script which tests automatically the ConceptBase-Server.
+# You need the CBShell, which can read
+# the commands from a file. The logfiles (error.log and stat.log)
+# created by CBshell will be moved to a special directory,
+# suffixed with the name of the corresponding script file
+#
+# Options: -i to start the interactive server
+
+# The Portnumber used during the tests
+CB_PORTNR=${CB_PORTNR:=6387}
+
+# The directory with the scripts
+SCRIPTDIR=/home/cbase/CB_NewStruct/CB_Admin/utils/CB_TestClient/scripts
+
+# The command to execute the test client
+CBSHELL=/home/cbase/CB_NewStruct/CB_Product/bin/CBshell
+
+# The directory, where log files are moved to
+LOGDIR=../log
+
+CB_VARIANT=`$CB_HOME/bin/CBvariant`
+
+# Create directories, if necessary
+if [ ! -d $LOGDIR ]; then
+	mkdir $LOGDIR
+fi
+
+# Stop running servers 
+$CBSHELL -l -f $SCRIPTDIR/../stopServer.cbs
+
+for f in $SCRIPTDIR/*.cbs
+do
+    CURSCRIPT=`basename $f .cbs`
+	if [ "$CURSCRIPT" = "ECArules" ]; then
+                /bin/rm -rf ECArules
+		mkdir ECArules
+		cp /home/cbase/CB_NewStruct/ProductPOOL/src/examples/ECArules/*.lpi ECArules
+	fi
+	if [ "$CURSCRIPT" = "AnswerFormat" ]; then
+                /bin/rm -rf AnswerFormat
+		mkdir AnswerFormat
+		cp /home/cbase/CB_NewStruct/ProductPOOL/src/examples/AnswerFormat/*.lpi AnswerFormat
+	fi
+	if [ "$CURSCRIPT" = "BuiltinQueries" ]; then
+                /bin/rm -rf BuiltinQueries
+		mkdir BuiltinQueries
+		cp /home/cbase/CB_NewStruct/ProductPOOL/src/examples/BuiltinQueries/*.lpi BuiltinQueries
+	fi
+	$CBSHELL -l -f $f $*
+	mv error.log $LOGDIR/error.$CURSCRIPT.$CB_VARIANT
+	mv stat.log $LOGDIR/stat.$CURSCRIPT.$CB_VARIANT
+	rm -rf $CURSCRIPT
+done

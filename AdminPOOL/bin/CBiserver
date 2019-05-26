@@ -1,0 +1,6 @@
+#!/bin/bash
+# Start an interactive CBserver compiled from the sources in $CB_WORK
+
+(CB_HOME=$CB_WORK; source $CB_HOME/bin/CBserver -i test -u nonpersistent)
+
+

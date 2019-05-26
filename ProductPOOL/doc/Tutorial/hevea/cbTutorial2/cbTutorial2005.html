@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="cbTutorial2.css">
+<title>Define a process modeling notation</title>
+</head>
+<body >
+<a href="cbTutorial2004.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="cbTutorial2006.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h2 id="sec7" class="section">5&#XA0;&#XA0;Define a process modeling notation</h2>
+<p>Process models can be used to denote workflows, business processes, and algorithms. We are
+in particular interested in a process modeling notation that allows us to analyze process
+models for certain patterns. Before we start defining the notation, we define the
+<em>transitivity construct</em>
+that shall be useful subsequently for defining the pattern.</p><pre class="verbatim">Proposition in Class with
+  attribute
+    transitive: Proposition
+  rule
+    trans_R: $ forall x,y,z,R/VAR
+                      AC/Proposition!transitive C/Proposition
+                     P(AC,C,R,C) and (x in C) and (y in C) and (z in C) and
+                     A_e(x,R,y) and (y R z) ==&gt; (x R z) $
+end
+</pre><p>The predicate <span style="font-family:monospace">A_e(x,R,y)</span> is true if there is an explicit attribute between objects <span style="font-family:monospace">x</span>
+and <span style="font-family:monospace">y</span> that has the category <span style="font-family:monospace">R</span>.</p><p><br>
+<br>
+
+<span class="textboxed">
+</span></p><div class="minipage"><span class="textboxed"><span style="font-style:italic"><span style="font-weight:bold">Exercise 7:</span></span></span><span class="textboxed"><span style="font-style:italic"> 
+Define a process notation that allows tasks to be defined. Tasks can have successor tasks.
+Agents execute tasks. The successor relation shall be transitive.
+</span></span><span class="textboxed">
+</span></div><p><span class="textboxed">
+</span>
+<br>
+<br>
+
+</p><pre class="verbatim">Task with
+  attribute,transitive
+     successor: Task
+end
+
+Agent with
+   attribute
+     executes: Task
+end 
+</pre><p>The process modeling notation is very simple but it has the ability to represent 
+very complex workflows. Let now distinguish start statements and predicate statements.</p><p><br>
+<br>
+
+<span class="textboxed">
+</span></p><div class="minipage"><span class="textboxed"><span style="font-style:italic"><span style="font-weight:bold">Exercise 8:</span></span></span><span class="textboxed"><span style="font-style:italic"> 
+A start statement is a task that has no predecessor (no task has a start statement as sucessor). 
+A predicate statement is a task that has more than one successor. Define these concepts as
+query classes.
+</span></span><span class="textboxed">
+</span></div><p><span class="textboxed">
+</span>
+<br>
+<br>
+
+</p><pre class="verbatim">StartStatement in QueryClass isA Task with
+  constraint
+    c1: $ not exists t/Task (t successor this) $
+end
+
+PredicateTask in QueryClass isA Task with
+  constraint
+    c1: $ exists s1,s2/Task A_e(this,successor,s1) and
+          A_e(this,successor,s2) and (s1 \= s2) $
+end
+</pre><p>You can define end statements in a similar way. A more tricky concept is the following.</p><p><br>
+<br>
+
+<span class="textboxed">
+</span></p><div class="minipage"><span class="textboxed"><span style="font-style:italic"><span style="font-weight:bold">Exercise 9 (difficult):</span></span></span><span class="textboxed"><span style="font-style:italic"> 
+Define the concept of a loop task, i.e. a task that is part of a loop. The name of the query
+shall be </span></span><span class="textboxed"><span style="font-style:italic"><span style="font-family:monospace">LoopTask</span></span></span><span class="textboxed"><span style="font-style:italic">.
+</span></span><span class="textboxed">
+</span></div><p><span class="textboxed">
+</span>
+<br>
+<br>
+
+</p><pre class="verbatim">LoopTaskOf in GenericQueryClass isA Task with
+  parameter
+    rep: Task 
+  constraint
+    c: $ (this successor rep) and (rep successor this) and
+         (exists s/Task A_e(rep,successor,s) and (s successor rep)) $
+end
+
+LoopTask in QueryClass isA LoopTaskOf 
+end
+</pre><p><br>
+
+The parameter <span style="font-family:monospace">rep</span> in the first query stands a representative of a loop. Note that
+there may be many loops inside a process model and we would like to be able to query,
+which tasks belong to the same loop. The second query just returns all loop statements regardless
+of the representative. It is sufficient to leave out a value for parameter <span style="font-family:monospace">rep</span> in this case.</p><p>There can be several loops inside a process model. Loops can also be nested, i.e. a task can be
+member of several loops. Note that the regular attribution predicate
+<span style="font-family:monospace">(t1 successor t2)</span> is closed under transitivity!</p><p>Now that we have defined loops, let us tackle the pattern "agent with split responsibility".</p><p><br>
+<br>
+
+<span class="textboxed">
+</span></p><div class="minipage"><span class="textboxed"><span style="font-style:italic"><span style="font-weight:bold">Exercise 10 (difficult):</span></span></span><span class="textboxed"><span style="font-style:italic"> 
+Assume that an agent A is responsible for tasks t1 and t2 in a process model but there is
+a task t between t1 and t2 that is executed by another agent. This matches situations where
+an agent does some work, then passes control to another agent, and afterwards resumes
+control. Define this patterns as a query class named </span></span><span class="textboxed"><span style="font-style:italic"><span style="font-family:monospace">AgentWithSplitResponsibility</span></span></span><span class="textboxed"><span style="font-style:italic"> that
+returns agents with split responsibility.
+</span></span><span class="textboxed">
+</span></div><p><span class="textboxed">
+</span>
+<br>
+<br>
+
+</p><pre class="verbatim">AgentWithSplitResponsibility in QueryClass isA Agent with
+   constraint
+     c1: $ exists t1,t2,t/Task a/Agent (this executes t1) and
+              (this executes t2) and (t1 successor t) and
+              (t successor t2) and (a executes t) and (a \= this)$
+end
+</pre><p><br>
+
+The condition <span style="font-family:monospace">(a </span>\<span style="font-family:monospace">= this)</span> makes sure that the middle task <span style="font-family:monospace">t</span> is
+executed by a different agent.</p><p><br>
+<br>
+<br>
+
+</p>
+<hr>
+<a href="cbTutorial2004.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="cbTutorial2006.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

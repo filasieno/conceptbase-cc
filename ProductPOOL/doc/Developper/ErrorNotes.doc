@@ -1,0 +1,112 @@
+Datum: 18-Jun-1996
+Autor: Rene Soiron
+CB-Version: 4.0 
+
+Problem:
+ungueltige Rollbacktime:
+Eine query wurde sowohl ueber die CBworkbench als auch direkt ueber die
+C-SChnittstelle gestellt. Bei der Anfrage ueber die C-Schnittstelle wurde
+als rollbacktime 'NOW' angegeben, richtig waere 'Now' gewesen. 
+
+Dieser falsche Parameter wird nicht abgefangen. Stattdessen wird eine
+faelschlicherweise eine leere Antwortmenge zurueckgeliefert.
+
+Auszug aus dem Protokoll (erstellt von BvB):
+
+[OBJNAMES,getStatus["Informationssystem"/e],LABEL,NOW]
+>>> CBserver#34146923.0: RESPONSE IS [] {ok}
+
+
+[OBJNAMES,getStatus["Informationssystem"/e],LABEL,Now]
+>>> CBserver#34146923.0: RESPONSE IS "definiert" {ok}
+
+
+
+
+===================================
+
+Datum: 12-Jun-1996
+Autor: Christoph Quix
+CB-Version: 4.0 (aktuelles CB, datiert auf 9-Jun-1996)
+
+ (Beschreibung von Christoph Radig)
+
+der runtime-CBserver schmiert mit SIGBUS ab, wenn ich eine "grosse"
+Anzahl von queries tellen will. Wenn ich die Queries in Portionen telle,
+funktioniert es. Dabei ist es egal, ob ich die queries per "Load model"
+oder im Telos Editor telle. persistent/nonpersistent schmiert beides ab.
+ 
+Der interaktive Server hat keine Probleme damit.
+ 
+(Kommentar von Christoph Quix)
+Wahrscheinlich ein Telos-Parser-Problem, aber schwer zu finden,
+da Fehler anscheinend nur im gelinkten Server auftritt. 
+
+======================================
+
+Datum: 9-Jun-1996
+Autor: Manfred Jeusfeld
+CB-Version: 4.0 (aktuelles CB, datiert auf 9-Jun-1996)
+
+Fehler: Graphische Typen werden bei neu hinzugefuegten Objekten
+        im GraphBrowser nicht angewendet, wenn man ein
+        bestehendes 'Layout' laedt
+
+Schritt 1: Definiere ein Telos-Modell mir graphischen Typen.
+
+Schritt 2: Oeffne einen neuen GraphBrowser und stelle ein
+           paar Knoten/Kanten mit den in Schritt 1 definierten
+           graphischen Typen dar.
+
+Schritt 3: Speichere den Inhalt mit der Funktion 'Save layout' und
+           beende den GraphBrowser
+
+Schritt 4: Oeffne einen zweiten GraphBrowser und lade das Layout
+           aus Schritt 3.
+
+Schritt 5: Fuege einen vorher noch nicht dargestellten Knoten
+           (mit Add Node) hinzu, der einen der in Schritt 1
+           definierten graphischen Typen hat.
+
+==> die Darstellung beruecksichtigt nicht den graphischen Typen,
+sondern waehlt einen Standardtypen. Offenbar fragt der GraphBrowser
+einfach nicht den CBserver nach dem graphischen Typen, wenn er vorher
+ein Layout geladen hat. Dies ist ein SEHR unangenehmes Verhalten.
+
+Ich vermute, dass die Fehlerbehebung nicht allzu schwierig sein duerfte.
+
+
+
+{*********************************************************************************}
+
+Die folgenden Fehler muessen noch auf Gueltigkeit ueberprueft werden (LWEB)
+
+{*********************************************************************************}
+
+
+14-Jul-1993/MJf: Recursion within deductive rules
+................................................
+
+  Recursive rules should work now. There is a problem with recursive rules
+  when they are defined before any integrity constraint using them. Then, an
+  endless loop occurs. See also remark in the documentation of
+  Examples/RULES+CONSTRAINTS.
+
+
+
+1-Jul/1991/MJf: Data loss on long answers
+.........................................
+
+  If an answer from the CBserver exceeds the size of the IPC buffer
+  (currently 32K) then data can be lost.
+
+( Kommentar CQ) 
+Das stimmt teilweise immer noch. Da der Buffer der IPC-Schnittstelle
+nicht unendlich gross und der Server im Non-Blocking-Modus
+die Antwort raus schreibt (d.h. ohne auf das Lesen des Clients zu
+warten), kann da schon mal was verloren gehen. Meistens
+haengt dann der Client, weil er noch mehr Zeichen lesen will,
+die aber nicht da sind. Eine genaue Grenze gibt es da nicht,
+das haengt von der Lese-Geschwindigkeit des Clients ab.
+Probleme sind so ab 50 kb Antwortlaenge zu erwarten.
+

@@ -1,0 +1,103 @@
+/*
+The ConceptBase.cc Copyright
+
+Copyright 1987-2013 The ConceptBase Team. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted
+provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of
+      conditions and the following disclaimer.
+   2. Redistributions in binary form must reproduce the above copyright notice, this list of
+      conditions and the following disclaimer in the documentation and/or other materials
+      provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those of the authors
+and should not be interpreted as representing official policies, either expressed or implied,
+of the ConceptBase Team.
+
+
+The ConceptBase Team is represented by
+
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+Manfred Jeusfeld, University of Skoevde, 54128 Skoevde, Sweden
+Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+
+
+This license is a FreeBSD copyright license.
+Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
+*/
+package i5.cb.graph.shapes;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Polygon;
+
+/**
+ * This class is the base class for all shapes that are polygons. It implements
+ * the set/get-Methods defined in the interface IGraphShape.
+ */
+public abstract class GraphShapePolygon extends Polygon implements IGraphShape {
+
+    protected Color m_fillColor=IGraphShape.DEFAULT_FILL_COLOR;
+    protected Color m_outlineColor=IGraphShape.DEFAULT_OUTLINE_COLOR;
+    protected float m_lineWidth=1.0f;
+
+    public GraphShapePolygon(int[] xs, int[] ys, int num) {
+        super(xs,ys,num);
+    }
+
+    public void setFillColor(Color c) {
+        m_fillColor = c;
+    }
+
+    public Color getFillColor() {
+        return m_fillColor;
+    }
+
+    public void setOutlineColor(Color c) {
+        m_outlineColor = c;
+    }
+
+    public Color getOutlineColor() {
+        return m_outlineColor;
+    }
+
+    public void setLineWidth(float w) {
+        m_lineWidth=w;
+    }
+
+    public float getLineWidth() {
+        return m_lineWidth;
+    }
+
+    public static Dimension addedShapeSize(String shapeName) {
+      if (shapeName.equals("i5.cb.graph.shapes.Rect"))
+         return new Dimension(0,0);
+      else if (shapeName.equals("i5.cb.graph.shapes.DiRect"))
+         return new Dimension(20,0);
+      else if (shapeName.equals("i5.cb.graph.shapes.Ellipse"))
+         return new Dimension(18,5);
+      else if (shapeName.equals("i5.cb.graph.shapes.Diamond"))
+         return new Dimension(20,8);
+      else if (shapeName.equals("i5.cb.graph.shapes.Triangle"))
+         return new Dimension(15,8);
+      else if (shapeName.equals("i5.cb.graph.shapes.Hexagon"))
+         return new Dimension(20,8);
+      else if (shapeName.equals("i5.cb.graph.shapes.Octagon"))
+         return new Dimension(20,5);
+      else if (shapeName.equals("i5.cb.graph.shapes.Pentagon"))
+         return new Dimension(20,8);
+      else
+         return new Dimension(0,0);
+    }
+}

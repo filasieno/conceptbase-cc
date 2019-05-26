@@ -1,0 +1,151 @@
+\section{Datalog queries and rules}
+\label{sec:datalog}
+
+The definition of queries in ConceptBase is often complicated by the
+limitations of the expressiveness of the query language or by the
+limitations of the query optimizer to find the best solution.
+The concept of datalog queries and rules was introduced to overcome
+these limitations. Datalog queries and rules give the experienced user
+the possibility to define the executable code of query (or rule) directly,
+including the use of standard PROLOG predicates such as ground/1 to improve
+the performance of a query or rule.
+
+Although datalog queries and rules can be used as any other query (or rule),
+they can cause an inconsistent database. This is due to the fact, that the
+datalog queries and rules will usually not be evaluated while the semantic integrity
+of the database is checked.
+
+\subsection{Extended query model}
+
+Datalog queries are defined in a similar way as standard query
+classes. They must be declared as instance of the class {\ttfamily DatalogQueryClass}.
+
+\begin{verbatim}
+Class DatalogQueryClass isA GenericQueryClass with
+attribute
+   code : String
+end
+\end{verbatim}
+
+The attribute {\ttfamily code} defines the executable code of the query as string.
+
+Datalog rules have to be defined as an instance of {\ttfamily DatalogInRule} or {\ttfamily DatalogAttrRule},
+depending on whether their conclusion should be an In-predicate or an A-predicate.
+
+\begin{verbatim}
+Class DatalogRule with
+attribute
+  concernedClass : Proposition;
+  code : String
+end
+
+Class DatalogInRule isA DatalogRule
+end
+
+Class DatalogAttrRule isA DatalogRule
+end
+\end{verbatim}
+
+The attribute {\ttfamily concernedClass} specifies the class for the In-predicate or the
+attribute class for the A-predicate.
+
+\subsection{Datalog code}
+
+The datalog code is a list of predicates, separated by commas (,). As in Datalog or Prolog,
+this will be interpreted as a conjunction of the predicates. To use disjunction, the {\ttfamily code}
+attribute has to be specified multiple times.
+
+All predicates that may be used in standard rules and queries may also be
+used in datalog queries (see section \ref{sec:CBL} for a list). An argument of a predicate
+may be one the following:
+
+\begin{itemize}
+\item an object name: If the object name starts with an upper case letter or includes special characters such as \verb+!+ or \verb+"+,
+it must be written in single quotes (\verb+'+). This also holds for string object, e.g. \verb+"a string"+
+must be written as \verb+'"a string"'+.
+\item a predefined variable, defined by the context of the query or rule: If the query has a super class,
+the variable {\ttfamily this} refers to the instances of this class. If the query has parameters
+or computed attributes, variables with the names of the parameters or computed attributes will be predefined.
+In a {\ttfamily DatalogInRule}, the variable {\ttfamily this} refers to the instances of the concerned class.
+In a {\ttfamily DatalogAttrRule}, the variables {\ttfamily src} and {\ttfamily dst} refer to the source
+and destination object of the attribute. Note, that {\bfseries all predefined variables have to be prefixed with
+\verb+~+ and must be encoded in single quotes (\verb+'+)}, e.g. \verb+'~this'+, \verb+'~src'+, \verb+'~param'+.
+\item existential variables: These variables must be declared in a special predicate {\ttfamily vars(list)},
+which has to be the first predicate of the code. For example, the predicate \verb+vars([x,y])+ defines
+the variables {\ttfamily x} and {\ttfamily y}.
+\end{itemize}
+
+A query expression of the form {\ttfamily query(q)} may be also used as predicate, or as second
+argument of an In-predicate. {\ttfamily q} may be any valid query expression, e.g. just the
+name of a query class, or a derive expression including the specification of parameters
+(for example, \verb+find_instances[Class/class]+).
+
+In addition, PROLOG predicates can be used as predicates. You can define your own PROLOG
+predicates in a LPI-file (see section \ref{subsec:counter} for an example).
+
+\subsection{Examples}
+
+This section defines a few datalog queries and rules for the standard example model
+of Employees, Departments and Managers (see \verb+$CB_HOME/examples/QUERIES+).
+
+The first example defines a more efficient version of the recursive {\ttfamily MetabossQuery}.
+
+\begin{verbatim}
+DatalogQueryClass MetabossDatalogQuery isA Manager with
+  parameter
+     e : Employee
+  code
+     r1 : "In('~e','Employee'),A('~e',boss,'~this')";
+     r2 : "vars([m]),
+           In('~e','Employee'),
+           In(m,query('MetabossDatalogQuery[~e/e]')),
+           A(m,boss,'~this')"
+end
+\end{verbatim}
+
+Note that the disjunction of the original query is represented by two code-attributes.
+The example shows also the use of query expressions and existential variables.
+
+The second example is the datalog version of the rule for the HighSalary class.
+The infix-predicate \verb+>=+ is represented by the predicate {\ttfamily GE}.
+
+\begin{verbatim}
+Class HighSalary2 isA Integer
+end
+
+DatalogInRule HighSalaryRule2 with
+concernedClass
+   cc: HighSalary2
+code
+   c: "In('~this','Integer'),GE('~this',60000)"
+end
+\end{verbatim}
+
+
+The last example shows the definition of a rule for an attribute. It also
+shows, how the performance of a rule can be improved by specifying different
+variants for different binding patterns. The example defines two rules,
+depending on the binding of the variable {\ttfamily src}. The rule
+defines the transitive closure of the {\ttfamily boss} attribute.
+Rule {\ttfamily r1} is applied, if both arguments {\ttfamily src}
+and {\ttfamily dst} are unbound. The second rule is used, if at least {\ttfamily src}
+is bound, and the last rule will be applied, if we have a binding
+for  {\ttfamily dst} but not for {\ttfamily src}.
+
+\begin{verbatim}
+DatalogAttrRule MetabossRule with
+concernedClass
+     cc : Employee!boss
+code
+    r1 : "vars([m]),var('~src'),var('~dst'),In(m,'Manager'),
+          A(m,boss,'~dst'),A('~src',boss,m)";
+    r2 : "vars([m]),ground('~src'),
+          A('~src',boss,m),A(m,boss,'~dst')";
+    r3 : "vars([m]),ground('~dst'),var('~src'),
+          A(m,boss,'~dst'),A('~src',boss,m)"
+end
+\end{verbatim}
+
+Note, that the predicates {\ttfamily var} and {\ttfamily ground}
+are builtin predicates of PROLOG. Thus, this is also an example
+for calling PROLOG predicates in a query or rule.

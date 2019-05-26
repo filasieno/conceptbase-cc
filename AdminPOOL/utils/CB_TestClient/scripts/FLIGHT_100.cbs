@@ -1,0 +1,95 @@
+startServer -d FLIGHT_100
+tellModel "$CB_HOME/examples/FLIGHT/city"
+result OK "yes"
+tellModel "$CB_HOME/examples/FLIGHT/c100"
+result OK "yes"
+tellModel "$CB_HOME/examples/FLIGHT/cities100"
+result OK "yes"
+tellModel "$CB_HOME/examples/FLIGHT/fl100"
+result OK "yes"
+tell "QueryClass connected1 isA city with
+             constraint
+                           fm_rule: $ ((muenchen con_to  this) or
+                                                (exists cc/connected1
+                                                  (cc con_to this)))$
+end
+QueryClass connected2 isA city with
+             constraint
+                           fm_rule: $ ((muenchen con_to  this) or
+                                                (exists cc/connected2
+                                                  (cc con_to this)))$
+end 
+
+"
+result OK "yes"
+ask "connected2
+" OBJNAMES  FRAME  Now 
+result OK "frankfurt in connected2 
+end 
+
+muenchen in connected2 
+end 
+
+hamburg in connected2 
+end 
+
+paris in connected2 
+end 
+
+london in connected2 
+end 
+
+bayreuth in connected2 
+end 
+
+glasgow in connected2 
+end 
+
+saarbruecken in connected2 
+end 
+
+nice in connected2 
+end 
+
+zagreb in connected2 
+end 
+
+berlin in connected2 
+end 
+
+moskva in connected2 
+end 
+
+goeteborg in connected2 
+end 
+
+madrid in connected2 
+end 
+
+duesseldorf in connected2 
+end 
+
+bremen in connected2 
+end 
+
+helsinki in connected2 
+end 
+
+wangerooge in connected2 
+end 
+
+hof in connected2 
+end 
+
+hannover in connected2 
+end 
+
+nuernberg in connected2 
+end 
+
+koeln_bonn in connected2 
+end 
+
+muenster in connected2 
+end 
+"

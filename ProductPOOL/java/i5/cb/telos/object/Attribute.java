@@ -1,0 +1,113 @@
+/*
+The ConceptBase.cc Copyright
+
+Copyright 1987-2019 The ConceptBase Team. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted
+provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of
+      conditions and the following disclaimer.
+   2. Redistributions in binary form must reproduce the above copyright notice, this list of
+      conditions and the following disclaimer in the documentation and/or other materials
+      provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those of the authors
+and should not be interpreted as representing official policies, either expressed or implied,
+of the ConceptBase Team.
+
+
+The ConceptBase Team is represented by
+
+Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+
+
+This license is a FreeBSD-style copyright license.
+Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
+*/
+package i5.cb.telos.object;
+
+import java.io.ObjectStreamException;
+
+/**
+ * Telos attribute, that is an instance of the Attribute system class.
+ * Note that in Telos, an Attribute instance is a link rather
+ * than an individual (or node) object.
+ *
+ * @author Christoph Radig
+ **/
+
+public final class Attribute
+extends TelosLink
+implements java.io.Serializable {
+    /**
+     * this attribute's label
+     **/
+    private String sLabel;
+
+
+    public Attribute(){
+    }
+
+    /**
+     * You cannot create Attribute instances directly.
+     * Use TelosObject.getAttribute() instead.
+     * @param destination  may be null.
+     *   @see i5.cb.telos.Transform#toTelosObject
+     **/
+    Attribute( TelosObject source, String sLabel, TelosObject destination ) {
+        super( source, destination );
+
+        //PRE source != null
+        //PRE sLabel != null
+
+        this.sLabel = sLabel;
+    }  // ctor
+
+    public final int getSystemClass() {
+        return ATTRIBUTE;
+    }
+
+    public final String getSystemClassName() {
+        return "Attribute";
+    }
+
+    public final String getLabel() {
+        return sLabel;
+    }
+
+    public final void setLabel(String label){
+        sLabel = label;
+    }
+
+    /**
+     * Required for correct Serialization (@see i5.cb.telos.object.Individual.readResolve)
+     */
+    public Object readResolve() throws ObjectStreamException {
+        TelosObject toSrc=this.getSource();
+        TelosObject toDst=this.getDestination();
+        String sLabel=this.getLabel();
+        Attribute attr=TelosObject.lookupAttribute(toSrc,sLabel,toDst);
+        //System.out.println("Attribute.readresolve");
+        if(attr!=null)
+            return attr;
+        else {
+            m_dictAllTelosObjects.put(TelosObject.getKey(this.getSource(),this.getLabel(),this.getDestination()),this);
+            return this;
+        }
+    }
+
+
+}  // class Attribute
+

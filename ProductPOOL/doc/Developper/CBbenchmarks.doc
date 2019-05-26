@@ -1,0 +1,123 @@
+BENCHMARK 1: Testen der Effizienz der Auswertung von Regeln und
+***********  Integritaetsbedingungen
+
+Die Zeiten wurden bis Mai 1994 auf 'degas' (SunOS4.1.3) gemessen.
+Danach werden sie auf 'hopper' (Solaris 2.3) gemessen.
+
+Aufruf: CBserver -i test -u nonpersistent
+
+
+
+Op1: Add Models 'Empl_woRuleIc' im Verzeichnis
+     /CBASE/CBase/All_Examples/RULES+CONSTRAINTS
+     1. Zeit: Zeit fuer "used for telling"
+     2. Zeit: -entfaellt-
+
+Op2: Uebersetzen und Testen der SalaryBound-Constraint
+         Employee with
+            constraint
+               SalaryBound :
+                   $ forall e/Employee b/Manager x,y/Integer
+                       ( (e boss b) and (e salary x) and
+                          (b salary y) )
+                        ==> (x <= y) $
+         end
+       1. Zeit: "stored temporarily"
+       2. Zeit: "semantic integrity checked"
+
+Op3: Uebersetzen und Testen der BossRule
+         Employee with
+            rule
+               BossRule : $ forall e/Employee m/Manager
+                            ( (exists d/Department
+                               (e dept d) and (d head m) )
+                            ==> (e boss m)) $
+         end
+       1. Zeit: "stored temporarily"
+       2. Zeit: "semantic integrity checked"
+
+Op4: Eintragen von
+         Individual Vertrieb in Department with
+            head
+               neueChefin : Eleonore
+         end
+       1. Zeit: "stored temporarily"
+       2. Zeit: "semantic integrity checked"
+
+Op5: Eintragen von
+         Individual Employee with
+            constraint
+               NecessaryBoss : $ forall e/Employee
+                                  exists m/Manager (e boss m) $
+         end
+       1. Zeit: "stored temporarily"
+       2. Zeit: "semantic integrity checked"
+
+Op6: Zunaechst folgende Regeln tellen
+     
+         Employee with
+           attribute
+               collegue: Employee;
+               mayKnow: Employee
+           rule
+              collrule: $ forall e1,e2/Employee
+                           (exists d/Department (e1 dept d) and (e2 dept d))
+                         ==> (e1 collegue e2) $;
+              knowsRule: $ forall e,f/Employee
+                             (exists z/Employee (e collegue z) and (f collegue z))
+                         ==> (e mayKnow f) $
+         end
+
+    Dann folgendes Anfrage im Telos-Editor mit 'Ask' an CBserver
+    stellen:
+
+         QueryClass KnowAndCollegue isA Employee with
+            retrieved_attribute
+               collegue: Employee;
+               mayKnow: Employee
+         end
+
+       1. Zeit: "telling temporarily"
+       2. Zeit: "used to find the answer"
+
+
+Alte Werte auf 'degas' (bis 3'94)
+
+   Datum        Op1        Op2        Op3        Op4        Op5        Op6
+ -----------------------------------------------------------------------------
+
+  14.1.94      2.60       0.15       0.16       0.04       0.24        0.16
+                          0.27       0.38       0.21       0.55      122.39
+
+  20.1.94      2.62       0.17       0.17       0.03       0.26        0.20
+  *1)                     0.26       0.37       0.20       0.49       27.77
+
+  17.3.94      3.63       0.22       0.15       0.05       0.35        0.28
+  *2)                     0.42       0.60       0.22       0.70       43.32
+
+Anmerkungen:
+  *1) strukturelle Optimierung auch fuer deduktive Regeln
+  *2) wg. Uebergang von BIM-Prolog 3.1 nach BIM-Prolog 4.0
+
+
+Die aktuellen Werte auf 'hopper' sehen folgendermassen aus (jeweils
+in Sekunden):
+
+
+   Datum        Op1        Op2        Op3        Op4        Op5        Op6
+ -----------------------------------------------------------------------------
+
+  13.5.94      2.50       0.12       0.12       0.02       0.22        0.20
+  *3)                     0.27       0.37       0.13       0.47       27.98
+
+  13.5.94      1.70       0.13       0.11       0.03       0.18        0.16
+  *4)                     0.20       0.30       0.14       0.35       20.44
+
+  28.6.94      1.64       0.11       0.11       0.02       0.18        0.13
+                          0.18       0.25       0.12       0.33       18.32
+
+
+Anmerkungen:
+  *3) CBserver3.2.4 auf 'gauguin' (gleiche Hardware wie hopper, aber SunOS4.1.3)
+  *4) aktueller CBserver auf 'hopper' unter Solaris 2.3
+

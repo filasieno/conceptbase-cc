@@ -1,0 +1,26 @@
+/*
+* File: externalcall.lpi
+* Author: Manfred Jeusfeld, Tilburg University
+* Date: 7-Aug-2001
+*-------------------------------------------------
+* Copy this file into the database directory that has been pre-loaded
+* with the model externalcall.sml
+*/
+
+/* the answer format generator expects a substring to be a list
+of atoms. Hence, we generate a list that contains just a single
+atom which is the current time.
+The format of the current time is a bit strange. It is used
+here to demonstrate the call of external predicates.
+Knowledge of ConceptBase source code and MasterProlog
+is required to use this feature.
+*/
+
+
+anExternalPredicate(_buf,_a,_b) :-
+  'PrologCompatibility':pc_atomconcat(_a,_b,_c),
+  'ExternalCodeLoader':appendBuffer(_buf,_c),
+  !.
+
+
+

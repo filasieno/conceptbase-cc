@@ -1,0 +1,16 @@
+2;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/QUERIES/Employee_Classes;ok;127
+3;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/QUERIES/Employee_Instances;ok;94
+4;ask;get_object[DatalogQueryClass/objname];ok;43
+5;ask;get_object[DatalogRule/objname];ok;78
+6;tell;DatalogQueryClass MetabossDatalogQuery isA Manager with;ok;113
+7;ask;find_instances[MetabossDatalogQuery/class];ok;96
+8;ask;MetabossDatalogQuery[Angus/e];ok;77
+9;ask;MetabossDatalogQuery[Edward/e];ok;83
+10;tell;Class HighSalary2 isA Integer;ok;114
+11;ask;find_instances[HighSalary2/class];ok;87
+12;ask;get_object[Edward/objname,TRUE/dedIn,TRUE/dedIsa,TRUE/dedWith];ok;84
+13;tell;DatalogAttrRule MetabossRule with;ok;113
+14;ask;get_object[Edward/objname,TRUE/dedIn,TRUE/dedIsa,TRUE/dedWith];ok;84
+15;tell;String with;ok;112
+16;tell;QueryClass TestStringLike isA String with;ok;115
+17;ask;TestStringLike;ok;84

@@ -1,0 +1,158 @@
+\BOOKMARK [0][-]{chapter.1}{Server Interface}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Message Format}{chapter.1}% 2
+\BOOKMARK [2][-]{subsection.1.1.1}{ipcmessage}{section.1.1}% 3
+\BOOKMARK [2][-]{subsection.1.1.2}{ipcanswer}{section.1.1}% 4
+\BOOKMARK [1][-]{section.1.2}{Methods Exported by the CBserver}{chapter.1}% 5
+\BOOKMARK [2][-]{subsection.1.2.1}{TELL}{section.1.2}% 6
+\BOOKMARK [2][-]{subsection.1.2.2}{UNTELL}{section.1.2}% 7
+\BOOKMARK [2][-]{subsection.1.2.3}{TELL\137MODEL}{section.1.2}% 8
+\BOOKMARK [2][-]{subsection.1.2.4}{ASK}{section.1.2}% 9
+\BOOKMARK [2][-]{subsection.1.2.5}{HYPO\137ASK}{section.1.2}% 10
+\BOOKMARK [2][-]{subsection.1.2.6}{NEXT\137MESSAGE}{section.1.2}% 11
+\BOOKMARK [2][-]{subsection.1.2.7}{STOP\137SERVER}{section.1.2}% 12
+\BOOKMARK [2][-]{subsection.1.2.8}{REPORT\137CLIENTS}{section.1.2}% 13
+\BOOKMARK [2][-]{subsection.1.2.9}{ENROLL\137ME}{section.1.2}% 14
+\BOOKMARK [2][-]{subsection.1.2.10}{CANCEL\137ME}{section.1.2}% 15
+\BOOKMARK [2][-]{subsection.1.2.11}{GET\137MODULE\137CONTEXT}{section.1.2}% 16
+\BOOKMARK [2][-]{subsection.1.2.12}{LPI\137CALL}{section.1.2}% 17
+\BOOKMARK [0][-]{chapter.2}{Programming Interface for a C Client: libCB}{}% 18
+\BOOKMARK [1][-]{section.2.1}{Data Structures}{chapter.2}% 19
+\BOOKMARK [2][-]{subsection.2.1.1}{Completion}{section.2.1}% 20
+\BOOKMARK [2][-]{subsection.2.1.2}{Answer}{section.2.1}% 21
+\BOOKMARK [2][-]{subsection.2.1.3}{Server}{section.2.1}% 22
+\BOOKMARK [2][-]{subsection.2.1.4}{Clients}{section.2.1}% 23
+\BOOKMARK [2][-]{subsection.2.1.5}{Error\137Messsages}{section.2.1}% 24
+\BOOKMARK [1][-]{section.2.2}{Functions}{chapter.2}% 25
+\BOOKMARK [2][-]{subsection.2.2.1}{connect\137CB\137server}{section.2.2}% 26
+\BOOKMARK [2][-]{subsection.2.2.2}{disconnect\137CB\137server}{section.2.2}% 27
+\BOOKMARK [2][-]{subsection.2.2.3}{tellCB}{section.2.2}% 28
+\BOOKMARK [2][-]{subsection.2.2.4}{untell}{section.2.2}% 29
+\BOOKMARK [2][-]{subsection.2.2.5}{tell\137model}{section.2.2}% 30
+\BOOKMARK [2][-]{subsection.2.2.6}{get\137errormessages}{section.2.2}% 31
+\BOOKMARK [2][-]{subsection.2.2.7}{ask}{section.2.2}% 32
+\BOOKMARK [2][-]{subsection.2.2.8}{ask\137frames}{section.2.2}% 33
+\BOOKMARK [2][-]{subsection.2.2.9}{ask\137objnames}{section.2.2}% 34
+\BOOKMARK [2][-]{subsection.2.2.10}{hypo\137ask}{section.2.2}% 35
+\BOOKMARK [2][-]{subsection.2.2.11}{report\137clients}{section.2.2}% 36
+\BOOKMARK [2][-]{subsection.2.2.12}{get\137servermessage}{section.2.2}% 37
+\BOOKMARK [2][-]{subsection.2.2.13}{get\137notification}{section.2.2}% 38
+\BOOKMARK [2][-]{subsection.2.2.14}{stopServer}{section.2.2}% 39
+\BOOKMARK [2][-]{subsection.2.2.15}{LPICall}{section.2.2}% 40
+\BOOKMARK [2][-]{subsection.2.2.16}{free*}{section.2.2}% 41
+\BOOKMARK [2][-]{subsection.2.2.17}{send\137message}{section.2.2}% 42
+\BOOKMARK [2][-]{subsection.2.2.18}{CBdecodeString}{section.2.2}% 43
+\BOOKMARK [2][-]{subsection.2.2.19}{CBencodeString}{section.2.2}% 44
+\BOOKMARK [2][-]{subsection.2.2.20}{CBgetEncodeLength}{section.2.2}% 45
+\BOOKMARK [2][-]{subsection.2.2.21}{CBgetLabels}{section.2.2}% 46
+\BOOKMARK [1][-]{section.2.3}{Compiling and Linking}{chapter.2}% 47
+\BOOKMARK [0][-]{chapter.3}{Programming Interface for a C++ Client: libCBview}{}% 48
+\BOOKMARK [1][-]{section.3.1}{CBclient}{chapter.3}% 49
+\BOOKMARK [2][-]{subsection.3.1.1}{CBclient}{section.3.1}% 50
+\BOOKMARK [2][-]{subsection.3.1.2}{CBclient}{section.3.1}% 51
+\BOOKMARK [2][-]{subsection.3.1.3}{CBclient}{section.3.1}% 52
+\BOOKMARK [2][-]{subsection.3.1.4}{tell}{section.3.1}% 53
+\BOOKMARK [2][-]{subsection.3.1.5}{untell}{section.3.1}% 54
+\BOOKMARK [2][-]{subsection.3.1.6}{tellModel}{section.3.1}% 55
+\BOOKMARK [2][-]{subsection.3.1.7}{ask}{section.3.1}% 56
+\BOOKMARK [2][-]{subsection.3.1.8}{hypoAsk}{section.3.1}% 57
+\BOOKMARK [2][-]{subsection.3.1.9}{askObjNames}{section.3.1}% 58
+\BOOKMARK [2][-]{subsection.3.1.10}{askFrames}{section.3.1}% 59
+\BOOKMARK [2][-]{subsection.3.1.11}{enrollMe}{section.3.1}% 60
+\BOOKMARK [2][-]{subsection.3.1.12}{cancelMe}{section.3.1}% 61
+\BOOKMARK [2][-]{subsection.3.1.13}{stopServer}{section.3.1}% 62
+\BOOKMARK [2][-]{subsection.3.1.14}{reportClients}{section.3.1}% 63
+\BOOKMARK [2][-]{subsection.3.1.15}{nextMessage}{section.3.1}% 64
+\BOOKMARK [2][-]{subsection.3.1.16}{getErrorMessages}{section.3.1}% 65
+\BOOKMARK [2][-]{subsection.3.1.17}{LPICall}{section.3.1}% 66
+\BOOKMARK [2][-]{subsection.3.1.18}{connected}{section.3.1}% 67
+\BOOKMARK [2][-]{subsection.3.1.19}{operator int}{section.3.1}% 68
+\BOOKMARK [2][-]{subsection.3.1.20}{getServerName}{section.3.1}% 69
+\BOOKMARK [2][-]{subsection.3.1.21}{getClientName}{section.3.1}% 70
+\BOOKMARK [1][-]{section.3.2}{CBanswer}{chapter.3}% 71
+\BOOKMARK [2][-]{subsection.3.2.1}{CBanswer}{section.3.2}% 72
+\BOOKMARK [2][-]{subsection.3.2.2}{CBanswer}{section.3.2}% 73
+\BOOKMARK [2][-]{subsection.3.2.3}{getCompletion}{section.3.2}% 74
+\BOOKMARK [2][-]{subsection.3.2.4}{getResult}{section.3.2}% 75
+\BOOKMARK [2][-]{subsection.3.2.5}{getRespondingTool}{section.3.2}% 76
+\BOOKMARK [1][-]{section.3.3}{CBerror}{chapter.3}% 77
+\BOOKMARK [2][-]{subsection.3.3.1}{CBerror}{section.3.3}% 78
+\BOOKMARK [2][-]{subsection.3.3.2}{CBerror}{section.3.3}% 79
+\BOOKMARK [2][-]{subsection.3.3.3}{getErrorMessage}{section.3.3}% 80
+\BOOKMARK [2][-]{subsection.3.3.4}{getAllErrorMessages}{section.3.3}% 81
+\BOOKMARK [2][-]{subsection.3.3.5}{getNextError}{section.3.3}% 82
+\BOOKMARK [0][-]{chapter.4}{Processing of Telos Frames: libtelos}{}% 83
+\BOOKMARK [1][-]{section.4.1}{fragment.h and te\137callparser.h}{chapter.4}% 84
+\BOOKMARK [2][-]{subsection.4.1.1}{Typedef: BindingList}{section.4.1}% 85
+\BOOKMARK [2][-]{subsection.4.1.2}{Typedef: ObjectIdentifier}{section.4.1}% 86
+\BOOKMARK [2][-]{subsection.4.1.3}{Typedef: te\137ClassList}{section.4.1}% 87
+\BOOKMARK [2][-]{subsection.4.1.4}{Typedef: AttrClassList}{section.4.1}% 88
+\BOOKMARK [2][-]{subsection.4.1.5}{Typedef: SpecObjId}{section.4.1}% 89
+\BOOKMARK [2][-]{subsection.4.1.6}{Typedef: SelectExpB}{section.4.1}% 90
+\BOOKMARK [2][-]{subsection.4.1.7}{Typedef: Restriction}{section.4.1}% 91
+\BOOKMARK [2][-]{subsection.4.1.8}{Typedef: ObjectSet}{section.4.1}% 92
+\BOOKMARK [2][-]{subsection.4.1.9}{Typedef: PropertyList}{section.4.1}% 93
+\BOOKMARK [2][-]{subsection.4.1.10}{Typedef: AttrDeclList}{section.4.1}% 94
+\BOOKMARK [2][-]{subsection.4.1.11}{Typedef: te\137SMLfragmentList}{section.4.1}% 95
+\BOOKMARK [2][-]{subsection.4.1.12}{Typedef: FrameParseOutput}{section.4.1}% 96
+\BOOKMARK [2][-]{subsection.4.1.13}{Typedef: ClassListParseOutput}{section.4.1}% 97
+\BOOKMARK [2][-]{subsection.4.1.14}{te\137frame\137parser}{section.4.1}% 98
+\BOOKMARK [2][-]{subsection.4.1.15}{te\137classlist\137parser}{section.4.1}% 99
+\BOOKMARK [2][-]{subsection.4.1.16}{FragmentToString}{section.4.1}% 100
+\BOOKMARK [2][-]{subsection.4.1.17}{DestroySMLfrag}{section.4.1}% 101
+\BOOKMARK [2][-]{subsection.4.1.18}{Destroy\137ClassList}{section.4.1}% 102
+\BOOKMARK [1][-]{section.4.2}{te\137access.h}{chapter.4}% 103
+\BOOKMARK [2][-]{subsection.4.2.1}{Structure: te\137AttrDecl}{section.4.2}% 104
+\BOOKMARK [2][-]{subsection.4.2.2}{Typedef: TAttrDecl}{section.4.2}% 105
+\BOOKMARK [2][-]{subsection.4.2.3}{Typedef: PAttrDecl}{section.4.2}% 106
+\BOOKMARK [2][-]{subsection.4.2.4}{Typedef: VTelos}{section.4.2}% 107
+\BOOKMARK [2][-]{subsection.4.2.5}{Typedef: PVTelos}{section.4.2}% 108
+\BOOKMARK [2][-]{subsection.4.2.6}{Typedef: AVTelos}{section.4.2}% 109
+\BOOKMARK [2][-]{subsection.4.2.7}{Structure: te\137TelosReport}{section.4.2}% 110
+\BOOKMARK [2][-]{subsection.4.2.8}{Typedef: TReport}{section.4.2}% 111
+\BOOKMARK [2][-]{subsection.4.2.9}{Typedef: PReport}{section.4.2}% 112
+\BOOKMARK [2][-]{subsection.4.2.10}{vt\137createByFragment}{section.4.2}% 113
+\BOOKMARK [2][-]{subsection.4.2.11}{vt\137create}{section.4.2}% 114
+\BOOKMARK [2][-]{subsection.4.2.12}{vt\137destroy}{section.4.2}% 115
+\BOOKMARK [2][-]{subsection.4.2.13}{rep\137create}{section.4.2}% 116
+\BOOKMARK [2][-]{subsection.4.2.14}{rep\137destroy}{section.4.2}% 117
+\BOOKMARK [2][-]{subsection.4.2.15}{getValueOfLabel}{section.4.2}% 118
+\BOOKMARK [2][-]{subsection.4.2.16}{getCategories}{section.4.2}% 119
+\BOOKMARK [2][-]{subsection.4.2.17}{destroyASZ}{section.4.2}% 120
+\BOOKMARK [1][-]{section.4.3}{te\137cursor.h}{chapter.4}% 121
+\BOOKMARK [2][-]{subsection.4.3.1}{Structure: te\137framecursor}{section.4.3}% 122
+\BOOKMARK [2][-]{subsection.4.3.2}{Typedef: TFrameCursor}{section.4.3}% 123
+\BOOKMARK [2][-]{subsection.4.3.3}{Typedef: PFrameCursor}{section.4.3}% 124
+\BOOKMARK [2][-]{subsection.4.3.4}{te\137createCursor}{section.4.3}% 125
+\BOOKMARK [2][-]{subsection.4.3.5}{te\137destroyCursor}{section.4.3}% 126
+\BOOKMARK [2][-]{subsection.4.3.6}{te\137resetFrame}{section.4.3}% 127
+\BOOKMARK [2][-]{subsection.4.3.7}{te\137nextFrame}{section.4.3}% 128
+\BOOKMARK [2][-]{subsection.4.3.8}{te\137retOID}{section.4.3}% 129
+\BOOKMARK [2][-]{subsection.4.3.9}{te\137resetOmega}{section.4.3}% 130
+\BOOKMARK [2][-]{subsection.4.3.10}{te\137nextOmega}{section.4.3}% 131
+\BOOKMARK [2][-]{subsection.4.3.11}{te\137retOmega}{section.4.3}% 132
+\BOOKMARK [2][-]{subsection.4.3.12}{te\137resetIsA}{section.4.3}% 133
+\BOOKMARK [2][-]{subsection.4.3.13}{te\137nextIsA}{section.4.3}% 134
+\BOOKMARK [2][-]{subsection.4.3.14}{te\137retIsA}{section.4.3}% 135
+\BOOKMARK [2][-]{subsection.4.3.15}{te\137resetIn}{section.4.3}% 136
+\BOOKMARK [2][-]{subsection.4.3.16}{te\137nextIn}{section.4.3}% 137
+\BOOKMARK [2][-]{subsection.4.3.17}{te\137retIn}{section.4.3}% 138
+\BOOKMARK [2][-]{subsection.4.3.18}{te\137resetAttrDecl}{section.4.3}% 139
+\BOOKMARK [2][-]{subsection.4.3.19}{te\137nextAttrDecl}{section.4.3}% 140
+\BOOKMARK [2][-]{subsection.4.3.20}{te\137resetCategory}{section.4.3}% 141
+\BOOKMARK [2][-]{subsection.4.3.21}{te\137nextCategory}{section.4.3}% 142
+\BOOKMARK [2][-]{subsection.4.3.22}{te\137retCategory}{section.4.3}% 143
+\BOOKMARK [2][-]{subsection.4.3.23}{te\137resetProperty}{section.4.3}% 144
+\BOOKMARK [2][-]{subsection.4.3.24}{te\137nextProperty}{section.4.3}% 145
+\BOOKMARK [2][-]{subsection.4.3.25}{te\137filterPropertyByCategory}{section.4.3}% 146
+\BOOKMARK [2][-]{subsection.4.3.26}{te\137filterPropertyByCategories}{section.4.3}% 147
+\BOOKMARK [2][-]{subsection.4.3.27}{te\137filterPropertyByLabel}{section.4.3}% 148
+\BOOKMARK [2][-]{subsection.4.3.28}{te\137retLabel}{section.4.3}% 149
+\BOOKMARK [2][-]{subsection.4.3.29}{te\137retValue}{section.4.3}% 150
+\BOOKMARK [0][-]{chapter.5}{Programming Interface for a Java Client}{}% 151
+\BOOKMARK [1][-]{section.5.1}{Communication with ConceptBase: i5.cb.api}{chapter.5}% 152
+\BOOKMARK [1][-]{section.5.2}{Parsing Telos Frames: i5.cb.telos.frame}{chapter.5}% 153
+\BOOKMARK [1][-]{section.5.3}{ObjectBaseInterface: i5.cb.telos.object}{chapter.5}% 154
+\BOOKMARK [0][-]{appendix.A}{Example C Client}{}% 155
+\BOOKMARK [0][-]{appendix.B}{Syntax Specifications}{}% 156
+\BOOKMARK [1][-]{section.B.1}{Syntax Specification for IPC messages}{appendix.B}% 157
+\BOOKMARK [1][-]{section.B.2}{Syntax Specification for IPC answers}{appendix.B}% 158

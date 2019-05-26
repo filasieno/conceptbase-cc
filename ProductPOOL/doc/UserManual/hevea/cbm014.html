@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="cb-style.css"><link rel="stylesheet" type="text/css" href="cbm.css">
+<title>Predefined Query Classes</title>
+</head>
+<body >
+<a href="cbm013.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="cbm015.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 id="sec190" class="chapter">Appendix&#XA0;E&#XA0;&#XA0;Predefined Query Classes</h1>
+<p>
+<a id="cap:builtin-queries"></a></p><p>This chapter gives an overview of the query classes which
+are predefined in a standard ConceptBase installation.
+The names of parameters of the queries are set in <span style="font-family:monospace">typewriter</span> font.
+Most of the queries listed here are used by the ConceptBase user 
+interface CBIva to interaction with the CBserver. A normal user 
+typically formulates queries herself. In fact, most queries listed below are 
+very simple and directly representation as query class.
+An exception are the functions for computation and counting. They
+cannot be expressed by simple query classes but extend the expressiveness
+of the system.</p>
+<h2 id="sec191" class="section">E.1&#XA0;&#XA0;Query classes and generic query classes</h2>
+<p>These queries can also be used in the constraints of other queries.</p>
+<h3 id="sec192" class="subsection">E.1.1&#XA0;&#XA0;Instances and classes</h3>
+<dl class="description"><dt class="dt-description">
+<span style="font-weight:bold">ISINSTANCE:</span></dt><dd class="dd-description"> Checks whether <span style="font-family:monospace">obj</span> is instance of <span style="font-family:monospace">class</span>.
+The result is either <span style="font-family:monospace">TRUE</span> or <span style="font-family:monospace">FALSE</span>.
+</dd><dt class="dt-description"><span style="font-weight:bold">IS_EXPLICIT_INSTANCE:</span></dt><dd class="dd-description"> Same as before, but returns <span style="font-family:monospace">TRUE</span> only if
+<span style="font-family:monospace">obj</span> is an <em>explicit</em> instance of <span style="font-family:monospace">class</span>.
+</dd><dt class="dt-description"><span style="font-weight:bold">find_classes:</span></dt><dd class="dd-description"> Lists all objects of which <span style="font-family:monospace">objname</span> is an instance.
+</dd><dt class="dt-description"><span style="font-weight:bold">find_instances:</span></dt><dd class="dd-description"> Lists all instances (implicit and explicit) of <span style="font-family:monospace">class</span>.
+</dd><dt class="dt-description"><span style="font-weight:bold">find_explicit_instances:</span></dt><dd class="dd-description"> Same as before, but only explicit instances are returned.
+</dd></dl>
+<h3 id="sec193" class="subsection">E.1.2&#XA0;&#XA0;Specializations and generalizations</h3>
+<dl class="description"><dt class="dt-description">
+<span style="font-weight:bold">ISSUBCLASS:</span></dt><dd class="dd-description"> Checks whether <span style="font-family:monospace">sub</span> is subclass of <span style="font-family:monospace">super</span>.
+The result is either <span style="font-family:monospace">TRUE</span> or <span style="font-family:monospace">FALSE</span>.
+</dd><dt class="dt-description"><span style="font-weight:bold">IS_EXPLICIT_SUBCLASS:</span></dt><dd class="dd-description"> Same as before, but returns <span style="font-family:monospace">TRUE</span> only if
+<span style="font-family:monospace">sub</span> is an <em>explicit</em> subclass of <span style="font-family:monospace">super</span>.
+</dd><dt class="dt-description"><span style="font-weight:bold">find_specializations:</span></dt><dd class="dd-description"> Lists the subclasses of <span style="font-family:monospace">class</span>. If <span style="font-family:monospace">ded</span>
+is <span style="font-family:monospace">TRUE</span>, then the result will also include implicit subclasses, if
+<span style="font-family:monospace">ded</span> is <span style="font-family:monospace">FALSE</span> only explicit information will be included.
+</dd><dt class="dt-description"><span style="font-weight:bold">find_specializations:</span></dt><dd class="dd-description"> Same as before, but for super classes.
+</dd></dl>
+<h3 id="sec194" class="subsection">E.1.3&#XA0;&#XA0;Attributes</h3>
+<dl class="description"><dt class="dt-description">
+<span style="font-weight:bold">IS_ATTRIBUTE_OF:</span></dt><dd class="dd-description"> Returns <span style="font-family:monospace">TRUE</span> if <span style="font-family:monospace">src</span> has an attribute
+of the category <span style="font-family:monospace">attrCat</span> which has the value <span style="font-family:monospace">dst</span>.
+</dd><dt class="dt-description"><span style="font-weight:bold">IS_EXPLICIT_ATTRIBUTE_OF:</span></dt><dd class="dd-description"> Same as before, but only for explicit attributes.
+</dd><dt class="dt-description"><span style="font-weight:bold">find_all_explicit_attribute_values:</span></dt><dd class="dd-description"> Lists all attribute values of <span style="font-family:monospace">objname</span>
+that are explicitely defined.
+</dd><dt class="dt-description"><span style="font-weight:bold">find_iattributes:</span></dt><dd class="dd-description"> Lists the attributes that <em>go into</em> <span style="font-family:monospace">class</span>.
+</dd><dt class="dt-description"><span style="font-weight:bold">find_referring_objects:</span></dt><dd class="dd-description"> Lists the objects that have an explicit attribute link to <span style="font-family:monospace">class</span>.
+</dd><dt class="dt-description"><span style="font-weight:bold">find_referring_objects2:</span></dt><dd class="dd-description"> Lists the objects that have an explicit attribute link
+to <span style="font-family:monospace">objname</span> and for which the attribute link is an instance of <span style="font-family:monospace">cat</span>.
+</dd><dt class="dt-description"><span style="font-weight:bold">find_all_referring_objects2:</span></dt><dd class="dd-description"> Same as before, but including implicit attributes.
+</dd><dt class="dt-description"><span style="font-weight:bold">find_attribute_categories:</span></dt><dd class="dd-description"> Lists all the attribute categories that may be used for
+<span style="font-family:monospace">objname</span>. This is a lookup of all attributes of all classes of <span style="font-family:monospace">objname</span>.
+</dd><dt class="dt-description"><span style="font-weight:bold">find_incoming_attribute_categories:</span></dt><dd class="dd-description"> In contrast to the previous query, this query returns
+all attribute categories that go into <span style="font-family:monospace">objname</span> (i.e. attribute categories for which
+<span style="font-family:monospace">objname</span> can be used as an attribute value).
+</dd><dt class="dt-description"><span style="font-weight:bold">find_attribute_values:</span></dt><dd class="dd-description"> Lists all objects that are attribute values of <span style="font-family:monospace">objname</span>
+in the attribute category <span style="font-family:monospace">cat</span>.
+</dd><dt class="dt-description"><span style="font-weight:bold">find_explicit_attribute_values:</span></dt><dd class="dd-description"> Same as before, but only for explicit attributes.
+</dd></dl>
+<h3 id="sec195" class="subsection">E.1.4&#XA0;&#XA0;Links between objects</h3>
+<dl class="description"><dt class="dt-description">
+<span style="font-weight:bold">find_incoming_links:</span></dt><dd class="dd-description"> Lists the links that <em>go into</em> <span style="font-family:monospace">objname</span> and are instance
+of <span style="font-family:monospace">category</span>. Note that all types of links are returned, including attributes,
+instance-of-links and specialization links.
+</dd><dt class="dt-description"><span style="font-weight:bold">find_incoming_links_simple:</span></dt><dd class="dd-description"> Same as before, but without the parameter <span style="font-family:monospace">category</span>.
+</dd><dt class="dt-description"><span style="font-weight:bold">find_outgoing_links:</span></dt><dd class="dd-description"> Lists the links that <em>come out of</em> <span style="font-family:monospace">objname</span> and are instance
+of <span style="font-family:monospace">category</span>. Note that all types of links are returned, including attributes,
+instance-of-links and specialization links.
+</dd><dt class="dt-description"><span style="font-weight:bold">find_outgoing_links_simple:</span></dt><dd class="dd-description"> Same as before, but without the parameter <span style="font-family:monospace">category</span>.
+</dd><dt class="dt-description"><span style="font-weight:bold">get_links2:</span></dt><dd class="dd-description"> Return the links between <span style="font-family:monospace">src</span> and <span style="font-family:monospace">dst</span>.
+</dd><dt class="dt-description"><span style="font-weight:bold">get_links3:</span></dt><dd class="dd-description"> Return the links between <span style="font-family:monospace">src</span> and <span style="font-family:monospace">dst</span> that are
+instance of <span style="font-family:monospace">cat</span>.
+</dd></dl>
+<h3 id="sec196" class="subsection">E.1.5&#XA0;&#XA0;Other queries</h3>
+<dl class="description"><dt class="dt-description">
+<span style="font-weight:bold">find_object:</span></dt><dd class="dd-description"> This query just returns the object given as parameter <span style="font-family:monospace">objname</span>,
+if it exists. Thus it can be used to check whether <span style="font-family:monospace">objname</span> exists, but
+there is a builtin query <span style="font-family:monospace">exists</span> which does the same. The query is
+mainly useful in combination with a user-defined answer format (e.g. the Graph Editor
+is using this query to retrieve the graphical representation of the object).
+</dd><dt class="dt-description"><span style="font-weight:bold">AvailableVersions:</span></dt><dd class="dd-description"> Lists the instances of <span style="font-family:monospace">Version</span> with
+the time since when they are know. This query is used by the user interface
+to use a different rollback time (Options &#X2192; Select Version).
+</dd><dt class="dt-description"><span style="font-weight:bold">listModule:</span></dt><dd class="dd-description"> Lists the the content of a module as Telos frames, see
+also section <a href="cbm006.html#sec%3Amodule_content">5.8</a>.
+</dd></dl>
+<h2 id="sec197" class="section">E.2&#XA0;&#XA0;Functions</h2>
+<p>
+<a id="cap:builtin-queries:functions"></a></p><p>Functions may also be used within other queries. You may define your own functions
+(see section <a href="cbm003.html#sec%3Afunctions">2.5</a>).</p>
+<h3 id="sec198" class="subsection">E.2.1&#XA0;&#XA0;Computation and counting</h3>
+<dl class="description"><dt class="dt-description">
+<span style="font-weight:bold">COUNT:</span></dt><dd class="dd-description"> counts the instances of a class, this may be also a query class
+</dd><dt class="dt-description"><span style="font-weight:bold">SUM:</span></dt><dd class="dd-description"> computes the sum of the instances of a class (must be reals or integers)
+</dd><dt class="dt-description"><span style="font-weight:bold">AVG:</span></dt><dd class="dd-description"> computes the average of the instances of a class (must be reals or integers)
+</dd><dt class="dt-description"><span style="font-weight:bold">MAX:</span></dt><dd class="dd-description"> gives the maximum of the instances of a class (wrt. the order of &lt; and &gt;, see section <a href="cbm003.html#sec%3ACBL">2.2</a>)
+</dd><dt class="dt-description"><span style="font-weight:bold">MIN:</span></dt><dd class="dd-description"> gives the minimum of the instances of a class (wrt. the order of &lt; and &gt;, see section <a href="cbm003.html#sec%3ACBL">2.2</a>)
+</dd><dt class="dt-description"><span style="font-weight:bold">COUNT_Attribute:</span></dt><dd class="dd-description"> counts the attributes in the specified category of an object
+</dd><dt class="dt-description"><span style="font-weight:bold">SUM_Attribute:</span></dt><dd class="dd-description"> computes the sum of the attributes in the specified category of an object (must be reals or integers)
+</dd><dt class="dt-description"><span style="font-weight:bold">AVG_Attribute:</span></dt><dd class="dd-description"> computes the average of the attributes in the specified category of an object (must be reals or integers)
+</dd><dt class="dt-description"><span style="font-weight:bold">MAX_Attribute:</span></dt><dd class="dd-description"> gives the maximum of the attributes in the specified category of an object (wrt. the order of &lt; and &gt;, see section <a href="cbm003.html#sec%3ACBL">2.2</a>)
+</dd><dt class="dt-description"><span style="font-weight:bold">MIN_Attribute:</span></dt><dd class="dd-description"> gives the minimum of the attributes in the specified category of an object (wrt. the order of &lt; and &gt;, see section <a href="cbm003.html#sec%3ACBL">2.2</a>)
+</dd><dt class="dt-description"><span style="font-weight:bold">PLUS:</span></dt><dd class="dd-description"> computes the sum of two reals or integers
+</dd><dt class="dt-description"><span style="font-weight:bold">MINUS:</span></dt><dd class="dd-description"> computes the difference of two reals or integers
+</dd><dt class="dt-description"><span style="font-weight:bold">MULT:</span></dt><dd class="dd-description"> computes the product of two reals or integers
+</dd><dt class="dt-description"><span style="font-weight:bold">DIV:</span></dt><dd class="dd-description"> computes the quotient of two reals or integers
+</dd><dt class="dt-description"><span style="font-weight:bold">IPLUS:</span></dt><dd class="dd-description"> computes the sum of two integers; result is an integer number
+</dd><dt class="dt-description"><span style="font-weight:bold">IMINUS:</span></dt><dd class="dd-description"> computes the difference of two integers; result is an integer number
+</dd><dt class="dt-description"><span style="font-weight:bold">IMULT:</span></dt><dd class="dd-description"> computes the product of two integers; result is an integer number
+</dd><dt class="dt-description"><span style="font-weight:bold">IDIV:</span></dt><dd class="dd-description"> computes the quotient of two integers and then truncates the quotient to the
+largest integer number smaller than or equal to the quotient
+</dd></dl><p>ConceptBase realizes the arithmetic functions via its host Prolog system SWI-Prolog. 
+Integer numbers on Linux are represented 
+as 64-bit numbers, yielding a maximum range from &#X2212;2<sup>64</sup>&#X2212;1
+to 2<sup>64</sup>&#X2212;1. SWI-Prolog supports by default under 
+Windows and Linux64 arbitrarily long integers.
+Real numbers are implemented by SWI-Prolog as 64-bit double precision
+floating point numbers. ConceptBase uses 12 decimal digits.</p>
+<h3 id="sec199" class="subsection">E.2.2&#XA0;&#XA0;String manipulation</h3>
+<dl class="description"><dt class="dt-description">
+<span style="font-weight:bold">ConcatenateStrings:</span></dt><dd class="dd-description"> concatenates two labels, typically strings; the two arguments
+can be expressions that are concatenated after their evaluation
+</dd><dt class="dt-description"><span style="font-weight:bold">ConcatenateStrings3:</span></dt><dd class="dd-description"> concatenates three labels; arguments may not be expressions
+</dd><dt class="dt-description"><span style="font-weight:bold">ConcatenateStrings4:</span></dt><dd class="dd-description"> concatenates four labels; arguments may not be expressions
+</dd><dt class="dt-description"><span style="font-weight:bold">concat:</span></dt><dd class="dd-description"> same as ConcatenateStrings
+</dd><dt class="dt-description"><span style="font-weight:bold">StringToLabel:</span></dt><dd class="dd-description"> removes the quotes of a string and returns it as a label (not
+an object), useful if labels should be passed as a parameter of a query
+</dd><dt class="dt-description"><span style="font-weight:bold">toLabel:</span></dt><dd class="dd-description"> evaluates the argument and that creates an individual object with
+the canonical representation of the argument result; the canonical representation is
+an alphanumeric where special characters are replaces by substrings like <span style="font-family:monospace">"C30_"</span>
+for special characters
+</dd></dl><p>For example, the expression <span style="font-family:monospace">toLabel(concat("*",1+2))</span> will return
+<span style="font-family:monospace">C42_3</span>. The substring <span style="font-family:monospace">"C42_"</span> is the canonical representation (ASCII number)
+of <span style="font-family:monospace">"*"</span>. The subexpression <span style="font-family:monospace">1+2</span> is evaluated to 3.</p>
+<h2 id="sec200" class="section">E.3&#XA0;&#XA0;Builtin query classes</h2>
+<p>These queries must not be used within other queries as they do not return
+a list of objects. They may only be used directly from client programs.</p><dl class="description"><dt class="dt-description">
+<span style="font-weight:bold">exists:</span></dt><dd class="dd-description"> Checks whether <span style="font-family:monospace">objname</span> exists and returns <span style="font-family:monospace">yes</span> or <span style="font-family:monospace">no</span>.
+</dd><dt class="dt-description"><span style="font-weight:bold">get_object:</span></dt><dd class="dd-description"> Returns the frame representation of <span style="font-family:monospace">objname</span>. This
+query may be either called with just one parameter (<span style="font-family:monospace">objname</span>) or with
+four parameters (<span style="font-family:monospace">objname</span>, <span style="font-family:monospace">dedIn</span>, <span style="font-family:monospace">dedIsa</span>, <span style="font-family:monospace">dedWith</span>).
+The <span style="font-family:monospace">ded*</span>-parameters are boolean flags that indicate whether
+implicit (deduced) information should also be included in the frame representation.
+Note that the order of the parameters hast to be the same as listed above.
+</dd><dt class="dt-description"><span style="font-weight:bold">get_object_star:</span></dt><dd class="dd-description"> Returns the frame representation for all objects with a label
+that match the given wildcard expression. Only simple wildcards with a star (*) at the end
+are allowed.
+</dd><dt class="dt-description"><span style="font-weight:bold">rename:</span></dt><dd class="dd-description"> Renames an object from <span style="font-family:monospace">oldname</span> to <span style="font-family:monospace">newname</span>.
+This is a low-level operation directly on the symbol table that works directly
+on the symbol table. It only checks whether <em>newname</em> is not already used as
+label for a different object, no other consistency checks are performed.
+The parameters have to be given in the order <span style="font-family:monospace">newname</span>, <span style="font-family:monospace">oldname</span>.
+</dd></dl>
+<hr>
+<a href="cbm013.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="cbm015.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

@@ -1,0 +1,204 @@
+#! /bin/sh
+#
+# File:         %M%
+# Version:      %I%
+# Creation:     8-Dec-1995, Christoph Quix (RWTH)
+# Last Change:  2 Nov 1995, Rene Soiron (RWTH)
+# Date released : %E%  (YY/MM/DD)
+#
+# SCCS-Source-Pool : %P%
+# Date retrieved : %D% (YY/MM/DD)
+#
+#-------------------------------------
+#
+# Dieses Skript kopiert die exportierten Dateien unter ProductPOOL
+# in die entsprechende Verzeichnisse unter CB_Product
+#
+
+CB_ROOT=/home/cbase/CB_NewStruct
+CB_POOL=$CB_ROOT/ProductPOOL
+CB_PRODUCT=$CB_ROOT/CB_Product
+EXPDIR=EXPORT
+VARIANTS="i86pc sun4 linux linux64 windows mac"
+
+# Verzeichnisse, die in CB_PRODUCT angelegt werden muessen
+PRODUCT_DIRS="include \
+	bin \
+	doc \
+	doc/UserManual \
+	doc/Tutorial \
+	doc/TechInfo \
+	doc/ExternalLicenses \
+	doc/ProgManual \
+	examples \
+	examples/Clients \
+	examples/Clients/PrologClient \
+	examples/Clients/TclClient \
+	examples/Clients/LogClient \
+	examples/Clients/C++Client \
+	examples/Clients/JavaClient \
+	examples/Clients/C_Client \
+	examples/FLIGHT \
+	examples/QUERIES \
+	examples/RULES+CONSTRAINTS \
+	examples/ER_MODEL \
+	examples/BuiltinQueries \
+	examples/ECArules \
+	examples/Modules \
+	examples/MetaFormulas \
+	examples/Servlets \
+	examples/AnswerFormat \
+	examples/libtelos \
+	examples/ontology \
+	i86pc \
+	i86pc/bin \
+	i86pc/lib \
+	lib \
+	lib/classes \
+	lib/system \
+	java \
+	java/classes \
+	java/docs \
+	sun4 \
+	sun4/bin \
+	sun4/lib \
+	linux \
+	linux/bin \
+	linux/lib \
+	linux64 \
+	linux64/bin \
+	linux64/lib \
+	windows \
+	windows/bin \
+	windows/lib \
+	mac \
+	mac/bin \
+	mac/lib \
+	download"
+
+# Die Verzeichnisse aus denen die Export-Files einfach nach
+# CB_PRODUCT kopiert werden koennen
+NORMAL_EXPORT="doc/UserManual \
+	doc/ProgManual \
+	doc/TechInfo \
+	doc/ExternalLicenses \
+	doc/Tutorial \
+	doc \
+	examples \
+	examples/AnswerFormat \
+	examples/Clients/JavaClient \
+	examples/Clients/PrologClient \
+	examples/Clients/TclClient  \
+	examples/Clients/LogClient \
+	examples/Clients/C++Client \
+	examples/Clients/C_Client \
+	examples/libtelos \
+	examples/ECArules \
+	examples/FLIGHT \
+	examples/ER_MODEL \
+	examples/RULES+CONSTRAINTS \
+	examples/Modules \
+	examples/QUERIES \
+	examples/BuiltinQueries \
+	examples/MetaFormulas \
+	examples/ontology \
+	examples/Servlets"
+
+# Verzeichnis fuer latex2html-Icons
+ICON_DIR=$CB_ROOT/CB_Admin/utils/latex2html/icons
+
+# Verzeichnisse, die Icons von latex2html bekommen sollen
+HTML_DIRS="doc/UserManual/html doc/Tutorial/html doc/ProgManual/html"
+
+# Das sieht gefaehrlich aus, ist aber so gewollt: das alte Verzeichnis
+# wird geloescht, damit keine alten Dateien liegen bleiben
+rm -rf $CB_PRODUCT/*
+
+for dir in $PRODUCT_DIRS
+do
+        mkdir -p $CB_PRODUCT/$dir
+done
+
+# Das Wichtigste: CBserver exe und lib
+for CB_VARIANT in $VARIANTS
+do
+	cp $CB_POOL/$CB_VARIANT/serverSources/$EXPDIR/cbRTexec* $CB_PRODUCT/$CB_VARIANT/bin
+	cp $CB_POOL/$CB_VARIANT/serverSources/$EXPDIR/CBserver* $CB_PRODUCT/$CB_VARIANT/bin
+	cp $CB_POOL/$CB_VARIANT/serverSources/$EXPDIR/cbRTdata $CB_PRODUCT/$CB_VARIANT/lib
+
+	cp $CB_POOL/$CB_VARIANT/bin/$EXPDIR/* $CB_PRODUCT/$CB_VARIANT/bin
+done
+
+# SYSTEM-Dateien sind nicht variantenabhaengig
+cp $CB_POOL/lib/$EXPDIR/* $CB_PRODUCT/lib/system
+
+cp $CB_POOL/bin/$EXPDIR/* $CB_PRODUCT/bin
+chmod 755 $CB_PRODUCT/bin/*
+
+# Normaler Export: Einfach kopieren
+for dir in $NORMAL_EXPORT
+do
+	cp -r $CB_POOL/$dir/$EXPDIR/* $CB_PRODUCT/$dir
+done
+
+# Java-Klassen und Doku kopieren
+rm -rf $CB_PRODUCT/java/classes $CB_PRODUCT/java/docs
+cp -r $CB_POOL/java/classes $CB_PRODUCT/java
+cp -r $CB_POOL/java/docs $CB_PRODUCT/java
+chmod -R a+r $CB_PRODUCT/java
+cp $CB_POOL/java/classes/cb.jar $CB_PRODUCT/lib/classes
+# Externe JARs kopieren
+cp $CB_POOL/java/lib/*.jar $CB_PRODUCT/lib/classes
+
+
+# Kopiere latex2html-Icons
+for dir in $HTML_DIRS
+do
+	cp $ICON_DIR/*.gif $CB_PRODUCT/$dir
+done
+
+# Kopier CBinstall* und InstallationGuide ins Download-Verzeichnis
+cp $CB_PRODUCT/doc/TechInfo/InstallationGuide.txt $CB_PRODUCT/download
+cp $CB_PRODUCT/doc/TechInfo/ReleaseNotes.txt $CB_PRODUCT/download
+cp $CB_ROOT/CB_Admin/distrib/CBinstall $CB_PRODUCT/download
+cp $CB_PRODUCT/java/classes/CBinstaller.jar $CB_PRODUCT/download
+
+# Kopier README in Root-Verzeichnis
+cp $CB_POOL/$EXPDIR/README.txt $CB_PRODUCT/README.txt
+cp $CB_POOL/$EXPDIR/CB-FreeBSD-License.txt $CB_PRODUCT/CB-FreeBSD-License.txt
+
+# Kopier startCB* und cb* in Root-Verzeichnis
+cp $CB_POOL/$EXPDIR/startCB* $CB_PRODUCT/
+cp $CB_POOL/$EXPDIR/cb* $CB_PRODUCT/
+
+
+# Libraries, Header-Files und Beispiele
+for libdir in libCB libCBview libtelos
+do
+	# Copy libraries
+	for variant in $VARIANTS
+	do
+      cp $CB_POOL/$variant/clientSources/$libdir/$EXPDIR/*.a $CB_PRODUCT/$variant/lib/
+      cp $CB_POOL/$variant/clientSources/$libdir/$EXPDIR/*.dll $CB_PRODUCT/$variant/lib/
+      cp $CB_POOL/$variant/clientSources/$libdir/$EXPDIR/*.lib $CB_PRODUCT/$variant/lib/
+    done
+
+    # Copy header files (they are in the EXPORT-Directory of sun4 )
+    cp $CB_POOL/sun4/clientSources/$libdir/$EXPDIR/*.h $CB_PRODUCT/include
+done
+
+# Copy example files (they are in the EXPORT-Directory of sun4 )
+cp $CB_POOL/sun4/clientSources/libCB/$EXPDIR/testlib.c $CB_PRODUCT/examples/Clients/C_Client
+cp $CB_POOL/sun4/clientSources/libCBview/$EXPDIR/testlib.cc $CB_PRODUCT/examples/Clients/C++Client
+cp $CB_POOL/sun4/clientSources/libtelos/$EXPDIR/te_test_access.c $CB_PRODUCT/examples/libtelos/example.c
+
+# Alte Dateien (z.B. TCL/TK Interface und X11 GraphBrowser) auspacken
+# *** OBSOLETE ***
+# cd $CB_PRODUCT
+# gtar -xvzf $CB_ROOT/CB_Product-old-Files-pre-cb6.tar.gz
+
+
+# SWI und STLPort DLLs kopieren
+cp /home/cbase/MSVC/VC98/Bin/stlport_vc64*.dll $CB_PRODUCT/windows/bin
+cp /home/prolog/SWI/windows/bin/libpl.dll $CB_PRODUCT/windows/bin
+cp /home/prolog/SWI/windows/bin/pthreadVC.dll $CB_PRODUCT/windows/bin

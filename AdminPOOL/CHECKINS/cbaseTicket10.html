@@ -1,0 +1,144 @@
+<html>
+<head>
+<title>cbase: Ticket #10</title>
+</head>
+<body bgcolor="white">
+<table width="100%" cellpadding=2 border=0>
+<tr><td bgcolor="#a0b5f4" class="border1">
+<table width="100%" border=0 cellpadding=2 cellspacing=0>
+<tr bgcolor="#d0d9f4" class="bkgnd1">
+<td valign="top" align="left">
+<big><b>cbase - Ticket #10</b></big><br>
+<small>Logged in as <i>jeusfeld</i></small>
+</td>
+<td valign="bottom" align="right">
+<nobr>
+[<a href="attach_add?tn=10">Attach</a>]&nbsp;
+[<a href="dir">Browse</a>]&nbsp;
+[<a href="tktedit?tn=10,4">Edit</a>]&nbsp;
+[<a href="index">Home</a>]&nbsp;
+[<a href="login">Logout</a>]&nbsp;
+[<a href="msnew">Milestone</a>]&nbsp;
+[<a href="reportlist">Reports</a>]&nbsp;
+</nobr><br><nobr>
+[<a href="search?t=1">Search</a>]&nbsp;
+[<a href="setup">Setup</a>]&nbsp;
+[<a href="tktnew">Ticket</a>]&nbsp;
+[<a href="timeline">Timeline</a>]&nbsp;
+[<a href="userlist">Users</a>]&nbsp;
+[<a href="wiki">Wiki</a>]&nbsp;
+</nobr>
+</td></tr></table>
+</td></tr></table>
+<p>
+<h2>Ticket 10: Negierte Literale erscheinen vor positiven Literalen in LTevalQuery</h2>
+<blockquote>
+Seit einiger Zeit wird fuer negierte Literale (in <a href="wiki?p=QueryClasses">QueryClasses</a>),
+der Aufruf not_prove_literal(.) generiert anstatt not prove_literal(.).
+
+<p>Dadurch kann es LEIDER passieren, dass er Regelcompiler von CB solche Literale an die erste Stelle eines Regelrumpfes (LTevalQuery,..) schiebt:
+
+<p>LTevalQuery(.) :-
+  not_prove_literal(...),...,
+  prove_literal(.).
+
+<p>Dies ist falsch, da negierte Literale nur mit vollstaendig
+instanziierten Variablen (ground) aufgerufen werden duerfen!
+Diese Variablenbindung geschieht durch die positiven Literale.
+
+<p>Loesung:
+
+<p>A: wieder not prove_literal generieren und hoffen, dass dies den
+    Reihenfolgefehler loest
+
+<p>B: Bei der Umordung nicht nur auf not prove_literal(.) achten, sondern
+   auch auf not_prove_literal(.)
+
+<p>Loesung B waere vorzuziehen, da not_prove_literal fuer den noch
+nicht implementierten dynamischen Stratifikationstest noetig ist.
+Ausserdem eroeffnet es mehr Optimierungsmoeglichkeiten in Literals.pro
+
+<p>17-Oct-2003, Manfred Jeusfeld</blockquote>
+
+<h3>Remarks:</h3>
+<blockquote>
+Dieser Fehler ist nun behoben. Es lag einer einer zu speziellen Behandlung der sicheren Verschiebung negierter Literale in QO_heur.pro. Siehe auch CBNEWS.doc, Punkt 207.</blockquote>
+
+<h3>Properties:</h3>
+
+<blockquote>
+<table>
+<tr>
+  <td align="right">Type:</td>
+  <td bgcolor="#d0d0d0" class="bkgnd3"><b>code&nbsp;</b></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  <td align="right">Version:</td>
+  <td bgcolor="#d0d0d0" class="bkgnd3"><b>6.2&nbsp;</b></td>
+</tr>
+<tr>
+  <td align="right">Status:</td>
+  <td bgcolor="#d0d0d0" class="bkgnd3"><b>fixed</b></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  <td align="right">Created:</td>
+  <td bgcolor="#d0d0d0" class="bkgnd3"><b>2003-Oct-17 11:41</b></td>
+</tr>
+<tr>
+  <td align="right">Severity:</td>
+  <td bgcolor="#d0d0d0" class="bkgnd3"><b>1&nbsp;</b></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  <td align="right">Last&nbsp;Change:</td>
+  <td bgcolor="#d0d0d0" class="bkgnd3"><b>2003-Oct-20 14:30</b></td>
+</tr>
+<tr>
+  <td align="right">Priority:</td>
+  <td bgcolor="#d0d0d0" class="bkgnd3"><b>1&nbsp;</b></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  <td align="right">Subsystem:</td>
+  <td bgcolor="#d0d0d0" class="bkgnd3"><b>Server&nbsp;</b></td>
+</tr>
+<tr>
+  <td align="right">Assigned&nbsp;To:</td>
+  <td bgcolor="#d0d0d0" class="bkgnd3"><b>cbase&nbsp;</b></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  <td align="right">Derived From:</td>
+  <td bgcolor="#d0d0d0" class="bkgnd3"><b>&nbsp;</b></td>
+</tr>
+<tr>
+  <td align="right">Creator:</td>
+  <td bgcolor="#d0d0d0" class="bkgnd3"><b>cbase&nbsp;</b></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  <td align="right">Contact:</td>
+  <td bgcolor="#d0d0d0" class="bkgnd3"><b>&nbsp;</b></td>
+</tr>
+<tr>
+</tr>
+</table>
+</blockquote>
+<h3>Related Check-ins:</h3>
+<table cellspacing=0 border=0 cellpadding=0>
+<tr><td valign="top" width=160 align="right">2003-Oct-20 14:29</td>
+<td valign="top" width=30 align="center">
+<img width=9 height=9 align="bottom" src="dot.gif" alt="*"></td>
+<td valign="top" align="left"> 
+Check-in <a href="chngview?cn=6350">[6350]</a>: Implementierung von earlyRedNegLiteral korrigiert, siehe auch CBNEWS.doc[207] und Ticket <a href="tktview?tn=10">#10</a> (By jeusfeld)</td></tr>
+</table>
+<h3>History:</h3>
+<ol type="1">
+
+<li><p>By cbase on 2003-Oct-17 11:42
+  <ol type="a">
+  <li>Changed title from "LNegierte Literale erscheinen vor positiven Literalen in LTevalQuery" to "Negierte Literale erscheinen vor positiven Literalen in LTevalQuery".</li>
+  </ol>
+</p></li>
+
+<li><p>By cbase on 2003-Oct-20 14:30
+  <ol type="a">
+  <li>Added remarks.</li>
+  <li>Changed status from "new" to "fixed".</li>
+  </ol>
+</p></li>
+</ol>
+<p><small><small>
+<a href="about">CVSTrac version 1.1.2</a>
+</small></small></p>
+</body></html>

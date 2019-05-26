@@ -1,0 +1,69 @@
+#!/bin/sh
+#
+# autotestCB runs alltestsCB and stores the results in a log file
+# <variant>.log. The previous log file is renamed to old-<variant>.log
+#
+
+
+DEFAULT_CB_HOME=$CB_WORK/../conceptbase
+CB_HOME=${CB_HOME:=$DEFAULT_CB_HOME}
+
+
+# Directory containing the Telos test example file
+EXAMPLEDIR=$CB_WORK/examples
+
+# The directory, where log files are moved to
+LOGDIR=$CB_WORK/../AdminPOOL/utils/CB_TestClient/log
+
+CB_VARIANT=`$CB_HOME/bin/CBvariant`
+TODAY=`date --rfc-3339=date`
+
+# Create directories, if necessary
+if [ ! -d $LOGDIR ]; then
+	mkdir $LOGDIR
+fi
+
+# memorize old log file (only for later manual inspection)
+if [ -e $LOGDIR/$CB_VARIANT.log ]; then
+   mv -f $LOGDIR/$CB_VARIANT.log $LOGDIR/$CB_VARIANT-old.log
+fi
+
+# run all test scripts and store log file
+echo Starting all test scripts, this may take a few minutes ...
+alltestsCB > $LOGDIR/$CB_VARIANT.log 2>&1
+
+# memorize old log analysis as $CB_VARIANT-times.old
+if [ -e $LOGDIR/$CB_VARIANT-times.new ]; then
+   mv -f $LOGDIR/$CB_VARIANT-times.new $LOGDIR/$CB_VARIANT-times.old
+fi
+
+# analyzeLog creates a CSV file about the executions times
+# of the method calls
+analyzeLog $LOGDIR/$CB_VARIANT.log ".*" > $LOGDIR/$CB_VARIANT-times.new
+
+
+if [ -e $LOGDIR/$CB_VARIANT-times.old ]; then
+  echo "Log 1 = new results; Log 2 = previous results"
+  # compareDiff compares the execution times of the current ($CB_VARIANT-times.new) and previous run ($CB_VARIANT-times.old)
+  compareDiff $LOGDIR/$CB_VARIANT-times.new $LOGDIR/$CB_VARIANT-times.old
+else
+  echo "This is the first autotestCB run; subsequent runs shall compare execution times."
+fi
+
+
+# this loop output all deviations of answers from the expected
+# if any such deviation is reported, you likely have introduced a
+# logical flaw into the CBserver code
+for f in $LOGDIR/error.*
+do
+  if [ -s $f ]; then
+    echo "\nError in $f"
+    cat $f
+  fi
+done
+
+# memorize execution times of today
+cp -f $LOGDIR/$CB_VARIANT-times.new $LOGDIR/$CB_VARIANT-times-$TODAY.csv
+
+
+echo "Raw data in $LOGDIR"

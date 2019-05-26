@@ -1,0 +1,16 @@
+2;tellModel;SML1;ok;95
+3;tellModel;SML2;ok;80
+4;tellModel;AssertionModel;ok;88
+5;tellModel;RuleModel;ok;88
+6;tellModel;ConstraintModel;ok;84
+7;tellModel;AssertionsForClasses;ok;84
+8;tellModel;QueryModel;ok;116
+9;tellModel;SystemClasses;ok;291
+10;tellModel;CompleteBDMRuleConstraintModel;ok;52
+11;tellModel;StandardQueries;ok;100
+12;tellModel;SystemQueries;ok;568
+13;tellModel;graphical_types;ok;61
+14;tellModel;JavaGraphicalTypes;ok;174
+15;tellModel;JavaGTsInstances;ok;154
+16;tellModel;ECA-Model;ok;104
+17;tellModel;Module;ok;192

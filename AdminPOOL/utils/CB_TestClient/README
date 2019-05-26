@@ -1,0 +1,81 @@
+CB_TestClient 
+
+Release 4.0   12.2.1996
+
+
+Dieses Verzeichnis enthaelt den CB_TestClient fuer ConceptBase.
+Damit ist moeglich ueber ein Skript mit dem Server zu kommunizieren.
+Es ist eine leicht modifizierte Version des ExampleIpcClients fuer Prolog.
+Primaerer Einsatzzweck fuer dieses Programm ist das automatische Testen
+des Servers und eine vereinfachte Bedienung fuer die ConceptBase-Entwickler.
+
+CB_TestClient versteht nur zwei Parameter:
+	-i 	Startet die interaktive Version, d.h. mit Prolog-Interpreter
+	link 	Linkt den TestClient
+
+Bei Aufruf ohne Parameter wird die gelinkte Version gestartet.
+	
+Ausserdem braucht der TestClient eine Datei mit dem Namen "startup".
+Diese Datei hat folgendes Format:
+	host .
+	portnumber .
+	'user@host ' .
+	'/path/script' .
+	stop_server(yes) .
+	trace_mode(no) .
+	tell_file(no) .
+
+Die Anfuehrungsstriche und die Punkte an den Zeilenenden sind wichtig, da 
+hier nur Prolog-Terme erlaubt sind. Wenn stop_server auf yes gesetzt ist,
+wird nach erfolgreicher Abarbeitung des Skripts der Server gestoppt.
+trace_mode gibt an, ob nach jedem Skript-Befehl auf ein RETURN gewartet werden soll. Wenn tell_file(no) gesetzt ist, werden tell_model-
+Befehle in normale tell-Befehle umgewandelt, indem auf Client-Seite
+zuerst die Datei gelesen wird. Dies ist dann sinnvoll, wenn beim
+Server nicht die Modell-Dateien im Filesystem vorhanden sind.
+
+Das Skript kann die Methoden TELL, UNTELL, TELL_MODELL, ASK,
+HYPO_ASK,LPI_CALL und STOP_SERVER aufrufen. Ein Befehlt bestimmt
+immer aus zwei Prolog-Termen:
+	1. Das Kommando selbst (tell(..), untell(...). ... ) mit den notwendigen Parametern
+	fuer diese Methode als Argumente.
+	2. Dem Antwortterm answer(_comp,_value)
+
+Die Antwort im Skriptfile wird mit der tatsaechlichen Antwort verglichen, wenn
+_value nicht eine Prolog-Variable oder das Atom 'egal' ist.
+Wenn waehrend des Testens der Vergleich von Soll- und Ist-Antwort scheitert,
+dann wird eine Meldung in error.log geschrieben. Wenn die Antwort ok ist,
+wird eine Meldung in ok.log geschrieben. Die Skript-Befehle muessen aber nicht
+alle die Completion ok haben, auch error ist moeglich und zum Testen sogar erwuenscht.
+
+Da das Erstellen der Skriptfiles sehr aufwendig sein kann, gibt es eine modifizierte
+Version von IpcChannel.pro, die bei interaktiven Server alle Kommandos
+mitprotokolliert. Das Protokoll befindet sich dann in
+$CB_WORK/$CB_VARIANT/serverSources/testcases.new
+und sollte ohne Probleme vom TestClient bearbeitet werden koennen.
+
+---------------------------------------------------------------------------
+CB_AutoTest benutzt jetzt CBshell und nicht mehr den TestClient
+Die Funktionsweise ist aber weitgehend gleich.
+----------------------------------------------------------------------
+
+Zum automatischen Testen gibt es das Shell-Skript CB_AutoTest
+das alle Skripte im scripts-Verzeichnis testet. CBserver und CB_TestClient
+werden beide von diesem Skript gestartet. Falls Fehler auftreten, sollte
+man nachher sicherstellen, dass alle Server beendet wurden, da diese im
+Hintergrund gestartet werden. Die Log-Files zu den Skripten befinden
+sich nachher in Verzeichnis log.
+
+
+Die SYSTEM-Dateien zu ConceptBase koennen mit mit dem Shell-Skript
+CB_Create_SYSTEM erstellt werden. Die System-Datenbank befindet sich
+dann nachher im Verzeichnis SYSTEM ebenso wie die Log-Dateien.
+
+
+
+Warnung: Einige Source-Files hier sind redundant, da sie auch 
+	im ProductPOOL enthalten sind. Dieser werden aber selten
+	geaendert. Es sind die Dateien:
+
+	serverSources/Prolog_Files/BimIpc.pro
+	serverSources/Prolog_Files/IpcChannel.pro (ohne Protokoll)
+	serverSources/C_Files/libGeneral/BimIpc.c

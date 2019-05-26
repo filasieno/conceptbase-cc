@@ -1,0 +1,143 @@
+#!/bin/sh
+#
+# File:         cbserver
+# Version:      7.8
+# Creation:     04-Aug-1989 Martin Staudt (UPA)
+# Last Change:  26-Jun-2015, Manfred Jeusfeld (HIS)
+#
+# ----------------------------------
+#
+# This sh command file can be used for starting ConceptBase server.
+# It has to be configured via CBinstaller or you have to manually
+# set the variable CB_HOME to the installation directory of ConceptBase.
+#
+
+DEFAULT_CB_HOME=`dirname $0`
+
+#*** CB_HOME is the Directory where the ConceptBase Kernel System is installed
+CB_HOME=${CB_HOME:=$DEFAULT_CB_HOME}
+
+CB_VARIANT=`"$CB_HOME/bin/CBvariant"`
+CBS_DIR=$CB_HOME/$CB_VARIANT/lib/
+CBL_DIR=$CB_HOME/lib/system
+SHELL=/bin/sh
+export CBS_DIR
+export CBL_DIR
+export CB_VARIANT
+export CB_HOME
+
+# if your platform is sun4 (Solaris Sparc) you might have to adapt the path to gcc*/lib
+if [ "$CB_VARIANT" = "sun4" ]; then
+   LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
+   export LD_LIBRARY_PATH
+fi
+
+# Linux64 uses shared libraries by default; needed to include the SWI shared library
+if [ "$CB_VARIANT" = "linux64" ]; then
+   LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$CB_HOME/lib
+   export LD_LIBRARY_PATH
+fi
+
+# LinuxArm needs libswipl, in particular when compiled with SWI-Prolog 6.6.6
+if [ "$CB_VARIANT" = "linuxarm" ]; then
+   LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$CB_HOME/linuxarm/lib
+   export LD_LIBRARY_PATH
+fi
+
+# Linux64 needs libswipl, in particular when compiled with SWI-Prolog 6.6.6
+if [ "$CB_VARIANT" = "linux64" ]; then
+   LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$CB_HOME/linux64/lib
+   export LD_LIBRARY_PATH
+fi
+
+crashed=0
+
+# specify the path to the 'lock' file; depends of parameter -d which can be at any position in the command line
+lock="_nofile_"
+if [ "$1" = "-d" ]; then
+   lock="${2}/OB.lock"
+elif [ "$3" = "-d" ]; then
+   lock="${4}/OB.lock"
+elif [ "$5" = "-d" ]; then
+   lock="${6}/OB.lock"
+elif [ "$7" = "-d" ]; then
+   lock="${8}/OB.lock"
+elif [ "$9" = "-d" ]; then
+   lock="${10}/OB.lock"
+elif [ "$11" = "-d" ]; then
+   lock="${12}/OB.lock"
+fi
+
+if [ "$CB_VARIANT" = "linux" ]  ||  [ "$CB_VARIANT" = "linux64" ] ; then
+    PS=/bin/ps
+else
+    PS=/usr/ucb/ps
+fi
+
+
+if [ -f $lock ]; then
+	pid=`sed -e "s/.*, PID //" $lock`
+	host=`sed -e "s/,.*//" $lock`
+	curhost=`hostname`
+	$PS > /dev/null 2>&1
+	if [ "$?" = "0" ] && [ "$host" = "$curhost" ]; then
+		$PS $pid > /dev/null
+		if [ "$?" = "1" ]; then rm $lock 
+                fi
+	fi
+fi
+
+if [ "$PROLOG_VARIANT" = "" ]; then
+    PROLOG_VARIANT=SWI 
+fi
+export PROLOG_VARIANT
+
+if [ "$PROLOG_VARIANT" = "SWI" ]; then
+    CB_EXE=$CB_HOME/$CB_VARIANT/bin/CBserver;
+else
+    CB_EXE=$CB_HOME/$CB_VARIANT/bin/cbRTexec;
+fi
+
+
+if [ "$1" = "-i" ]; then
+   CBserver-i "$@"
+   crashed=$?;
+elif [ "$1" = "-h" ]; then
+    echo "See ConceptBase User Manual for command line parameters or type CBserver -help"
+    echo " "
+   else
+#     echo Launching "$CB_EXE" "$@" 
+      "$CB_EXE" "$@"
+      crashed=$?
+#     echo Exit status of $CB_EXE is $crashed 
+fi
+
+
+# 17.06.93 RG	repeat if -r was specified
+# Using the -r parameter is not recommended because it may lead to a loop if
+# the re-started CBserver crashes just after the restart
+if [ "$crashed" = "0" ]; then exit
+fi
+
+
+# Remove the lock file if existent
+if [ -f $lock ]; then
+  /bin/rm -f $lock
+fi
+
+params="$@"
+while [ "$1" != "" ]; do
+   if [ "$1" = "-r" ]; then
+      sectowait=0
+      if [ "$2" != "" ]; then sectowait=$2 
+      fi
+      sleep $sectowait
+      $0 $params &
+      exit
+   fi
+   shift
+done
+
+#*** That's all!!
+
+

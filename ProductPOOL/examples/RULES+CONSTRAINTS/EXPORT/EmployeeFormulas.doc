@@ -1,0 +1,325 @@
+*
+* File:        EmployeeFormulas.doc
+* Version:     1.2
+* Creation:    4-Dec-1990, Manfred Jeusfeld (UPA)
+* Last Change: 18-Apr-1994,  Kai v. Thadden (RWTH)
+               3-Apr-2012, M. Jeusfeld (UNITILB)
+* Release:     1
+* -----------------------------------------------------------------------------
+*
+* This file contains additional examples for deductive rules and constraints.
+* They supplement the examples of the ConceptBase user manual.
+*
+*
+
+
+In the directory <CB_HOME>/examples/RULES+CONSTRAINTS you find the
+file Empl_woRuleIc.sml. It defines Telos classes Employee, Manager etc. and
+some instances of them. In the following we present a couple of formulas on this model.
+
+If you want to try them with ConceptBase then 
+   . start the ConceptBase server: cbserver -u nonpersistent
+     updates are non-persistent
+   . start the ConceptBase interface: cbiva
+   . add the model 'Empl_woRuleIc' from the path mentioned above.
+Copy/Paste and then tell (or untell) the rules or integrity constraints given below.
+
+The first formula is a deductive rule that defines the boss of
+an employee. Note that the variables e,m are forall-quantified. 
+Tell this rule to the knowledge base.
+
+Employee with
+   rule
+      BossRule : $ forall e/Employee m/Manager
+                   (exists d/Department
+                     (e dept d) and (d head m)) 
+                   ==> (e boss m) $
+end 
+
+The formula is logically equivalent to
+
+   forall e/Employee m/Manager d/Department
+        (e dept d) and (d head m) 
+        ==> (e boss m)
+
+Note: This alternative representation is supported by ConceptBase 6.2 onwards.
+Earlier ConceptBase versions require that the variables in the conclusion predicate
+are exactly the forall-quantified variables. 
+
+The next formula is an integrity constraint that uses the boss attribute
+defined by the above rule. The constraint demands salaries of employees
+not to exceed the salary of their boss. Note that you can define different
+salaries for employees. The constraint is on each individual salary not
+on the sum! Also note that the arguments of the literal "<=" are bound by
+the two literals with label 'salary'.
+
+
+Employee with
+   constraint
+      SalaryBound :
+          $ forall e/Employee b/Manager x,y/Integer 
+              ((e boss b) and 
+              (e salary x) and
+              (b salary y))
+               ==> (x  <=  y) $
+end 
+
+
+When you tell this constraint it will be checked against the whole object base.
+The example data in Empl_woRuleIc will fulfill it. The next constraint
+will be violated by an instance of Manager ('Eleonore') and rejected
+by the system.
+
+
+Manager with
+   constraint
+      earnEnough: $ forall m/Manager x/Integer
+                        (m salary x) ==> (x >= 50000) $
+end 
+
+
+You may increase the salary of 'Eleonore' by first untelling
+
+
+Eleonore with
+  salary,attribute
+    EllisGehalt: 20000
+end 
+
+
+and then telling for example
+
+Eleonore with
+   salary,attribute
+     EllisGehalt: 55000
+end 
+
+
+Then the above constraint should be fulfillable. The next constraint
+demands that each employee has a salary. It is true. A variant uses
+the Ai/3 literal instead of the A/3 literal.
+
+
+Employee with
+   constraint
+      NecessarySalary : $ forall e/Employee 
+                      exists x/Integer  (e salary x) $
+end 
+
+
+Employee with
+   constraint
+      NecessarySalary : $ forall e/Employee 
+                      exists a/Attribute Ai(e,salary,a) $
+end 
+
+
+You cannot tell both of them because they use the same label 'NecessarySalary'.
+A similar constraint is given for the boss attribute. Note that this attribute is
+defined by the above boss rule!
+
+
+Employee with
+   constraint
+      NecessaryBoss : $ forall e/Employee 
+                         exists m/Manager (e boss m) $
+end 
+
+The above version will fail since managers (e.g. 'Eleonore') do not have
+a department and consequently they lack a boss in the current KB. You may
+either assign each manager to a department or revise the constraint:
+
+
+Employee with
+   constraint
+      NecessaryBoss : $ forall e/Employee 
+                         exists m/Manager (e boss m) or
+                         (e in  Manager)$
+end 
+
+
+The next rule shows that quantification is not necessary. Though no
+class occurs in it, you have to assign it as an attribute of a class
+since the categories rule and constraint are defined
+for classes, only. 
+
+Employee with
+   rule
+      elisRule: $ not (Verwaltung head Eleonore)
+                  ==> (Produktion head Eleonore) $
+end 
+
+
+If you untell the fact that the head of Verwaltung is Eleonore then
+she will become the head of Produktion. The next constraints are
+more or less stupid. The first one is always fulfilled, the second never.
+
+
+Class with
+  constraint
+    alwaysTrue : $TRUE$
+end 
+
+Class with
+  constraint
+    alwaysFalse: $FALSE$
+end 
+
+
+Instead of Class you could also use Employee. In fact, assignment of
+formulas to classes has only organizational meaning.
+The next formula demands existence of a manager.
+
+Manager with
+  constraint
+    haveManager: $ exists m/Manager TRUE $
+end 
+
+
+You may define a concept of 'subordinates' by using the boss concept:
+
+Manager with
+  attribute
+    subordinate: Employee
+  rule
+    isSubordinate: $ forall m/Manager e/Employee
+                       (e boss m)
+                     ==>
+                       (m subordinate e) $
+end 
+
+
+The next constraint is again about Eleonore.
+
+
+Manager with
+  constraint
+    ellisConstraint: $ (Produktion head Eleonore)
+                      ==>
+                      (forall s/Integer (Eleonore salary s)
+                         ==> (s >= 100000)) $
+end 
+
+It is fulfilled. You can try to violate it by untelling
+
+Verwaltung with
+  head
+    Hauptbeamte: Eleonore
+end 
+
+
+This will violate the constraint but the error will not show up
+if you also have told the 'NecessaryBoss' constraint above: the
+employees with department Verwaltung have lost their boss! ConceptBase
+stops integrity checking when the first violation is detected.
+
+Let's stop with some addional formulas:
+
+Formulas without any variables are allowed, too. 
+
+Employee with
+  constraint
+     felixStays: $ (Felix dept Verwaltung) $
+end 
+
+
+The last one shows negation in front of quantifiers.
+
+Employee with
+  constraint
+     someDoWork: $ not (forall e/Employee (e dept Verwaltung)) $
+end 
+
+
+Now, let us define a recursive rule which defines the transitive closure
+an the boss relation. A constraint expresses that no manager may be
+his own boss.
+
+Manager with
+  attribute
+      bigboss: Manager
+  rule
+     metaBossRule:
+                $ forall m,M/Manager (
+                        (M boss m)
+                        or
+                        (exists mm/Manager
+                                (M boss mm) and (mm bigboss m))
+                  	) ==> (M bigboss m)
+                $
+   constraint
+        nobigbossOfSelf:
+                $ forall M/Manager  not (M bigboss M)  $
+end  
+
+Let's tell a frame 
+
+Eleonore with
+  dept
+    ellisDept: Verwaltung
+end 
+
+which violates immediately the constraint since Eleonore is the head of Verwaltung.
+
+
+Note that you can also untell constraints and rules. The latter case
+may induce integrity violation because the set of true literals is
+affected. However, keep in mind how UNTELL works in ConceptBase:
+the argument of UNTELL is a Telos frame that contains exactly the
+information to be untold. Since the CBserver automatically each object
+to its system class (Individual,Attribute,InstanceOf,IsA) you have to
+specify these classes if you want to delete the object itsself. For example,
+untelling of
+
+Employee with
+  constraint
+     someDoWork: $ not (forall e/Employee (e dept Verwaltung)) $
+end 
+
+will delete the fact that Employee!someDoWork is an instance of the attribute
+Class!constraint. The attribute Employee!someDoWork will stay in the
+object base (as a string-valued attribute, i.e. the formula is regarded like a
+comment). However, untelling
+
+Employee with
+  constraint,attribute
+     someDoWork: $ not (forall e/Employee (e dept Verwaltung)) $
+end 
+
+will also delete the attribute Employee!someDoWork itself.
+
+
+Tracing
+-------
+
+The command line parameters of CBserver allows setting of a trace mode (option -t). 
+The possible settings are
+    no - no tracing
+    low  - interface calls
+    high - intermediate steps of transformations
+    veryhigh - exhaustive tracing
+
+You should set it to 'low'. Other parameter settings are listed when invoking the
+command 'CBserver -h'.
+
+
+
+
+
+References
+----------
+
+[JARK92] Jarke,M. (ed.,1992).
+         ConceptBase V3.1 User Manual.
+         Aachener Informatik Berichte No. 92-17.
+
+[JJ91]   Jeusfeld,M., Jarke,M. (1991).
+         From relational to object-oriented integrity simplification.
+         Proc. DOOD'91, LNCS 566, Springer-Verlag.
+
+[JEG+93] M. Jarke, S. Eherer, R. Gallersd"orfer, M.A. Jeusfeld, M. Staudt (1993).
+          ConceptBase - a deductive object base manager, submitted for publication.
+
+The reports are also available via anonymous ftp from ftp.informatik.rwth-aachen.de.
+Change to directory pub/reports and scan the CONTENTS files.
+

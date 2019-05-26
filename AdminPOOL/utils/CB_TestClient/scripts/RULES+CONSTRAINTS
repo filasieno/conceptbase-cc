@@ -1,0 +1,204 @@
+tell_model(['/home/CBase/CB_NewStruct/CB_Product/examples/RULES+CONSTRAINTS/Empl_woRuleIc']).
+answer(ok,yes).
+{*******************************************************}
+tell('\nEmployee with\n   rule\n      BossRule : $ forall e/Employee m/Manager\n                   (exists d/Department\n                     (e dept d) and (d head m)) \n                   ==> (e boss m) $\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+untell('\nEmployee with\n   rule\n      BossRule : $ forall e/Employee m/Manager\n                   (exists d/Department\n                     (e dept d) and (d head m)) \n                   ==> (e boss m) $\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'get_object[Employee/objname]',FRAME,Now).
+answer(ok,'Individual Employee in Class with \n  attribute\n     name : String;\n     salary : Integer;\n     dept : Department;\n     boss : Manager;\n     BossRule : $ forall e/Employee m/Manager\n                   (exists d/Department\n                     (e dept d) and (d head m)) \n                   ==> (e boss m) $\nend \n').
+{*******************************************************}
+tell('\nEmployee with\n   rule\n      BossRule : $ forall e/Employee m/Manager\n                   (exists d/Department\n                     (e dept d) and (d head m)) \n                   ==> (e boss m) $\nend \n\n').
+answer(error,no).
+{*******************************************************}
+untell('\nEmployee with\n   attribute\n      BossRule : $ forall e/Employee m/Manager\n                   (exists d/Department\n                     (e dept d) and (d head m)) \n                   ==> (e boss m) $\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('QueryClass Test17 isA Employee with\nretrieved_attribute\n\tboss : Manager\nend\n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(FRAMES,'QueryClass Test17 isA Employee with\nretrieved_attribute\n\tboss : Manager\nend\n\n',FRAME,Now).
+answer(ok,nil).
+{*******************************************************}
+tell('Employee with rule\n        BossRule: $ forall m/this.dept.head (this boss m) $\nend\n\n').
+answer(ok,yes).
+{*******************************************************}
+untell('Test17\n').
+answer(error,no).
+{*******************************************************}
+ask(OBJNAMES,'Test17\n',FRAME,Now).
+answer(ok,_).
+{*******************************************************}
+tell('Employee with\n   constraint\n      SalaryBound :\n          $ forall e/Employee b/Manager x,y/Integer \n              ((e boss b) and \n              (e salary x) and\n              (b salary y))\n               ==> (x  <=  y) $\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('Heribert in Employee with\ndept\n\td1: Produktion\nsalary\n\ts1 : 200000\nend\n\n').
+answer(error,no).
+{*******************************************************}
+tell('Heribert in Employee with\ndept\n\td1: Produktion\nsalary\n\ts1 : 99000\nend\n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'get_object[Heribert/objname]',FRAME,Now).
+answer(ok,'Individual Heribert in Employee with \n  attribute,dept\n     d1 : Produktion\n  attribute,salary\n     s1 : 99000\nend \n').
+{*******************************************************}
+untell('Individual Heribert in Employee with \n  dept,attribute\n     d1 : Produktion\n  salary,attribute\n     s1 : 99000\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('Manager with\n   constraint\n      earnEnough: $ forall m/Manager x/Integer\n                        (m salary x) ==> (x >= 50000) $\nend \n\n').
+answer(error,no).
+{*******************************************************}
+untell('Eleonore with\n  salary,attribute\n    EllisGehalt: 20000\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('\nEleonore with\n   salary,attribute\n     EllisGehalt: 55000\nend \n\n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('Manager with\n   constraint\n      earnEnough: $ forall m/Manager x/Integer\n                        (m salary x) ==> (x >= 50000) $\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('Employee with\n   constraint\n      NecessarySalary : $ forall e/Employee \n                      exists x/Integer  (e salary x) $\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+untell('Employee with\n   constraint\n      NecessarySalary : $ forall e/Employee \n                      exists x/Integer  (e salary x) $\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('Heribert in Employee end\n').
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'get_object[Heribert/objname]',FRAME,Now).
+answer(ok,'Individual Heribert in Employee \nend \n').
+{*******************************************************}
+untell('Individual Heribert in Employee \nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('Employee with\n   constraint\n      NecessarySalary : $ forall e/Employee \n                      exists a/Attribute Ai(e,salary,a) $\nend \n\n\n').
+answer(error,no).
+{*******************************************************}
+untell('Employee with \n constraint,attribute\n     SalaryBound : $ forall e/Employee b/Manager x,y/Integer \n              ((e boss b) and \n              (e salary x) and\n              (b salary y))\n               ==> (x  <=  y) $\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('Employee with \n constraint,attribute\n     SalaryBound : $ forall e/Employee b/Manager x,y/Integer \n              ((e boss b) and \n              (e salary x) and\n              (b salary y))\n               ==> (x  <=  y) $\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+untell(' Employee with attribute\n      NecessarySalary : $ forall e/Employee \n                      exists x/Integer  (e salary x) $\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('Employee with\n   constraint\n      NecessarySalary : $ forall e/Employee \n                      exists a/Attribute Ai(e,salary,a) $\nend \n\n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'get_object[Heribert/objname]',FRAME,Now).
+answer(error,nil).
+{*******************************************************}
+tell('Heribert in Employee end\n').
+answer(error,no).
+{*******************************************************}
+tell('\nEmployee with\n   constraint\n      NecessaryBoss : $ forall e/Employee \n                         exists m/Manager (e boss m) $\nend \n\n').
+answer(error,no).
+{*******************************************************}
+tell('Employee with\n   constraint\n      NecessaryBoss : $ forall e/Employee \n                         exists m/Manager (e boss m) or\n                         (e in  Manager)$\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('Employee with\n   rule\n      elisRule: $ not (Verwaltung head Eleonore)\n                  ==> (Produktion head Eleonore) $\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(FRAMES,'QueryClass Test27 isA Department with \nretrieved_attribute\n\thead : Manager\nend\n\n',FRAME,Now).
+answer(ok,'Produktion in Test27 with \n  head\n     Produktionsleiter : Hubert\nend \n\nVertrieb in Test27 with \n  head\n     Vertrieblerchef : Konrad\nend \n\nVerwaltung in Test27 with \n  head\n     Hauptbeamte : Eleonore\nend \n\nForschung in Test27 with \n  head\n     Obertueftler : Albert\nend \n').
+{*******************************************************}
+untell('Verwaltung with \n  head\n     Hauptbeamte : Eleonore\nend \n').
+answer(error,no).
+{*******************************************************}
+tell('Verwaltung with \n  head\n     Hauptbeamter : Hubert\nend \n').
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'get_object[Verwaltung/objname]',FRAME,Now).
+answer(ok,'Individual Verwaltung in Department with \n  attribute,head\n     Hauptbeamte : Eleonore;\n     Hauptbeamter : Hubert\nend \n').
+{*******************************************************}
+untell('Verwaltung with \n  head,attribute\n     Hauptbeamte : Eleonore\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('QueryClass Test27 isA Department with \nretrieved_attribute\n\thead : Manager\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'Test27\n',FRAME,Now).
+answer(ok,_).
+{*******************************************************}
+tell('\nClass with\n  constraint\n    alwaysTrue : $TRUE$\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('\nClass with\n  constraint\n    alwaysFalse: $FALSE$\nend\n').
+answer(error,no).
+{*******************************************************}
+tell('\nManager with\n  constraint\n    haveManager: $ exists m/Manager TRUE $\nend \n\n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('\nManager with\n  attribute\n    subordinate: Employee\n  rule\n    isSubordinate: $ forall m/Manager e/Employee\n                       (e boss m)\n                     ==>\n                       (m subordinate e) $\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'get_object[Verwaltung/objname]',FRAME,Now).
+answer(ok,'Individual Verwaltung in Department with \n  attribute,head\n     Hauptbeamter : Hubert\nend \n').
+{*******************************************************}
+untell('Verwaltung with \n  head,attribute\n     Hauptbeamter : Hubert\nend \n\n').
+answer(error,no).
+{*******************************************************}
+tell('Verwaltung with \n  head,attribute\n\tHauptbeamte : Eleonore\n     Hauptbeamter : Hubert\nend \n\n').
+answer(error,no).
+{*******************************************************}
+tell('Verwaltung with \n  head,attribute\n\tHauptbeamte : Eleonore;\n     Hauptbeamter : Hubert\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+untell('Verwaltung with \n  head,attribute\n    Hauptbeamter : Hubert\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'get_object[Verwaltung/objname]',FRAME,Now).
+answer(ok,'Individual Verwaltung in Department with \n  attribute,head\n     Hauptbeamte : Eleonore\nend \n').
+{*******************************************************}
+ask(OBJNAMES,'get_object[\n/objname]',FRAME,Now).
+answer(not_handled,no).
+{*******************************************************}
+ask(FRAMES,'QueryClass Test22 isA Manager with\nretrieved_attribute\n\tsubordinate : Employee\nend\n\n',FRAME,Now).
+answer(ok,_).
+{*******************************************************}
+tell('Manager with\n  constraint\n    ellisConstraint: $ (Produktion head Eleonore)\n                      ==>\n                      (forall s/Integer (Eleonore salary s)\n                         ==> (s >= 100000)) $\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('Verwaltung with\n  head\n    Hauptbeamte: Eleonore\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+untell('Verwaltung with\n  head\n    Hauptbeamte: Eleonore\nend \n\n').
+answer(error,no).
+{*******************************************************}
+tell('Employee with\n  constraint\n     felixStays: $ (Felix dept Verwaltung) $\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('\nEmployee with\n  constraint\n     someDoWork: $ not (forall e/Employee (e dept Verwaltung)) $\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('\nManager with\n  attribute\n      bigboss: Manager\n  rule\n     metaBossRule:\n                $ forall m,M/Manager (\n                        (M boss m)\n                        or\n                        (exists mm/Manager\n                                (M boss mm) and (mm bigboss m))\n                  \t) ==> (M bigboss m)\n                $\n   constraint\n        nobigbossOfSelf:\n                $ forall M/Manager  not (M bigboss M)  $\nend  \n').
+answer(ok,yes).
+{*******************************************************}
+tell('\nEleonore with\n  dept\n    ellisDept: Verwaltung\nend \n\n').
+answer(error,no).
+{*******************************************************}
+ask(FRAMES,'QueryClass TmpAsk_Test1 isA Employee with\nretrieved_attribute\n\tdept : Department\nconstraint\n\tc: $ (this dept Verwaltung) $\nend \n\n',FRAME,Now).
+answer(ok,'Maria in TmpAsk_Test1 with \n  dept\n     MariasAbteilung : Verwaltung\nend \n\nFelix in TmpAsk_Test1 with \n  dept\n     FelixsAbteilung : Verwaltung\nend \n').
+{*******************************************************}
+ask(FRAMES,'QueryClass TmpAsk_Test2 isA Department with\nretrieved_attribute\n\thead : Manager\nend \n\n',FRAME,Now).
+answer(ok,'Produktion in TmpAsk_Test2 with \n  head\n     Produktionsleiter : Hubert\nend \n\nVertrieb in TmpAsk_Test2 with \n  head\n     Vertrieblerchef : Konrad\nend \n\nVerwaltung in TmpAsk_Test2 with \n  head\n     Hauptbeamte : Eleonore\nend \n\nForschung in TmpAsk_Test2 with \n  head\n     Obertueftler : Albert\nend \n').
+{*******************************************************}
+tell('Employee with \nattribute\n     mboss : Manager\nmrule\n     mbossrule : $forall e/Employee m/Manager\n((exists m1/Manager (e boss m1)and (m1 mboss m)) or(e boss m))==>(e mboss m)$\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('QueryClass MruleTest in Magic isA Employee with \nretrieved_attribute\n\tmboss : Manager\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(FRAMES,'QueryClass MruleTest in Magic isA Employee with \nretrieved_attribute\n\tmboss : Manager\nend \n\n',FRAME,Now).
+answer(ok,'Michael in MruleTest with \n  mboss\n     DEDUCED : Hubert\nend \n\nHans in MruleTest with \n  mboss\n     DEDUCED : Hubert\nend \n\nJosef in MruleTest with \n  mboss\n     DEDUCED : Hubert\nend \n\nMax in MruleTest with \n  mboss\n     DEDUCED : Hubert\nend \n\nRita in MruleTest with \n  mboss\n     DEDUCED : Hubert\nend \n\nHerbert in MruleTest with \n  mboss\n     DEDUCED : Konrad\nend \n\nSusi in MruleTest with \n  mboss\n     DEDUCED : Konrad\nend \n\nSilvia in MruleTest with \n  mboss\n     DEDUCED : Konrad\nend \n\nThomas in MruleTest with \n  mboss\n     DEDUCED : Konrad\nend \n\nChristoph in MruleTest with \n  mboss\n     DEDUCED : Konrad\nend \n\nMaria in MruleTest with \n  mboss\n     DEDUCED : Eleonore\nend \n\nFelix in MruleTest with \n  mboss\n     DEDUCED : Eleonore\nend \n\nRobert in MruleTest with \n  mboss\n     DEDUCED : Albert\nend \n\nEdward in MruleTest with \n  mboss\n     DEDUCED : Albert\nend \n').
+{*******************************************************}
+tell('Manager Oberboss with\nsalary\n\tmega : 11110000 \nend\n\nAlbert with boss\nalbertsBoss : Oberboss\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'MruleTest \n\n',FRAME,Now).
+answer(ok,'Albert in MruleTest with \n  mboss\n     DEDUCED : Oberboss\nend \n\nMichael in MruleTest with \n  mboss\n     DEDUCED : Hubert\nend \n\nHans in MruleTest with \n  mboss\n     DEDUCED : Hubert\nend \n\nJosef in MruleTest with \n  mboss\n     DEDUCED : Hubert\nend \n\nMax in MruleTest with \n  mboss\n     DEDUCED : Hubert\nend \n\nRita in MruleTest with \n  mboss\n     DEDUCED : Hubert\nend \n\nHerbert in MruleTest with \n  mboss\n     DEDUCED : Konrad\nend \n\nSusi in MruleTest with \n  mboss\n     DEDUCED : Konrad\nend \n\nSilvia in MruleTest with \n  mboss\n     DEDUCED : Konrad\nend \n\nThomas in MruleTest with \n  mboss\n     DEDUCED : Konrad\nend \n\nChristoph in MruleTest with \n  mboss\n     DEDUCED : Konrad\nend \n\nMaria in MruleTest with \n  mboss\n     DEDUCED : Eleonore\nend \n\nFelix in MruleTest with \n  mboss\n     DEDUCED : Eleonore\nend \n\nRobert in MruleTest with \n  mboss\n     DEDUCED : Albert;\n     DEDUCED : Oberboss\nend \n\nEdward in MruleTest with \n  mboss\n     DEDUCED : Albert;\n     DEDUCED : Oberboss\nend \n').
+{*******************************************************}

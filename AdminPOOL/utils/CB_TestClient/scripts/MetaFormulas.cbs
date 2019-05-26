@@ -1,0 +1,271 @@
+startServer -u nonpersistent -U verbatim 
+tellModel $CB_HOME/examples/MetaFormulas/MetaFormulas
+result OK yes
+tell "Blub in NonEmptyClass
+end"
+result ERROR no
+tell "Class Test with
+attribute,necessary
+   necAttr : Integer
+single
+  singAttr : Integer
+single,necessary
+  singNecAttr : Integer
+end"
+result OK yes
+tell "bla in Test
+end"
+result ERROR no
+tell "bla in Test with
+necAttr n1 : 1
+end"
+result ERROR no
+tell "bla in Test with
+necAttr n1 : 1
+singNectAttr n2 : 2
+end"
+result ERROR no
+tell "bla in Test with
+necAttr n1 : 1
+singNecAttr n2 : 2
+end"
+result OK yes
+tell "bla2 in Test with
+necAttr,singNecAttr n1 : 1
+end"
+result OK yes
+tell "bla3 in Test with
+necAttr,singNecAttr n1 : 1; n2 : 2
+end"
+result ERROR no
+tell "bla3 in Test with
+necAttr,singNecAttr n1 : 1
+singAttr s1 : 1
+end"
+result OK yes
+tell "bla3 in Test with
+necAttr,singNecAttr n1 : 1
+singAttr s1 : 1; s2 : 2
+end"
+result ERROR no
+ask "get_object[Proposition/objname]" OBJNAMES FRAME Now
+result OK "Individual Proposition isA Proposition with  
+  attribute
+    cardinality : Proposition;
+    immutable : Proposition;
+    gproperty : Proposition;
+    comment : String;
+    single : Proposition;
+    applyConstraintIfInsert : BDMConstraintCheck;
+    applyConstraintIfDelete : BDMConstraintCheck;
+    applyRuleIfInsert : BDMRuleCheck;
+    applyRuleIfDelete : BDMRuleCheck;
+    deducedBy : BDMRuleCheck;
+    necessary : Proposition;
+    attribute : Proposition;
+    graphtype : GraphicalType
+end"
+ask "get_object[Proposition!cardinality/objname]" OBJNAMES FRAME Now
+result OK "Proposition!attribute Proposition!cardinality with
+  attribute
+     min : Integer;
+     max : Integer
+end"
+tell "Class Test2 with
+attribute,cardinality
+   cardTest : Integer
+end
+
+Test2!cardTest with
+min min : 3
+max max : 5
+end"
+result OK yes
+tell "blub in Test2 with
+cardTest
+    n1 : 1
+end"
+result ERROR no
+tell "blub in Test2 with
+cardTest
+    n1 : 1;
+    n2 : 2
+end"
+result ERROR no
+tell "blub in Test2 with
+cardTest
+    n1 : 1;
+    n2 : 2;
+    n3 : 3
+end"
+result OK yes
+tell "blub in Test2 with
+cardTest
+    n1 : 1;
+    n2 : 2;
+    n3 : 3;
+    n4 : 4
+end"
+result OK yes
+tell "blub in Test2 with
+cardTest
+    n1 : 1;
+    n2 : 2;
+    n3 : 3;
+    n4 : 4;
+    n5 : 5
+end"
+result OK yes
+tell "blub in Test2 with
+cardTest
+    n1 : 1;
+    n2 : 2;
+    n3 : 3;
+    n4 : 4;
+    n5 : 5;
+    n6 : 6
+end"
+result ERROR no
+tell "EntityType E1 end
+EntityType E2 with
+  superType  sup : E1
+end
+
+inst1 in E1 end
+inst2 in E2 end"
+result OK yes
+ask find_instances[E1/class] OBJNAMES LABEL Now
+result OK "inst1,inst2"
+ask find_instances[E2/class] OBJNAMES LABEL Now
+result OK "inst2"
+tell "EntityType E3 with
+  superType  sup : E2
+end
+
+inst3 in E3 end"
+result OK yes
+ask find_instances[E1/class] OBJNAMES LABEL Now
+result OK "inst1,inst2,inst3"
+ask find_instances[E2/class] OBJNAMES LABEL Now
+result OK "inst2,inst3"
+ask find_instances[E3/class] OBJNAMES LABEL Now
+result OK "inst3"
+tell "IsaType in Class with
+  attribute
+    super: EntityType;
+    sub: EntityType
+  rule
+    makeBinaryRel: $ forall E1,E2/EntityType I/IsaType (I sub E1) and (I super E2)  ==> (E1 superType E2) $
+end
+"
+result OK yes
+tell "Human in EntityType with
+  attribute
+    name: String
+end
+Student in EntityType end
+"
+result OK yes
+tell "billy_the_kid in Student with
+  name
+    n1: \"William\"
+end"
+result ERROR no
+tell "ISA1 in IsaType with
+ super sp: Human
+ sub sb: Student
+end
+"
+result OK yes
+tell "billy_the_kid in Student with
+  name
+    n1: \"William\"
+end"
+result OK yes
+tellModel $CB_HOME/examples/MetaFormulas/MetaIn
+result OK yes
+ask "ShowMetaClasses[10000/obj]" OBJNAMES LABEL Now
+result OK "Domain"
+ask "ShowMetaClasses[20000/obj]" OBJNAMES LABEL Now
+result OK "Domain"
+ask "ShowMetaClasses[bill/obj]" OBJNAMES LABEL Now
+result OK "EntityType"
+tellModel $CB_HOME/examples/MetaFormulas/InverseOf
+result OK yes
+ask MeetingWithParticipants OBJNAMES FRAME Now
+result OK "MeetingOnTaxes in MeetingWithParticipants with
+  pers
+     COMPUTED_pers_id_[0-9]+ : mary;
+     COMPUTED_pers_id_[0-9]+ : bill;
+     COMPUTED_pers_id_[0-9]+ : john
+end
+
+MeetingOnMarketing in MeetingWithParticipants with
+  pers
+     COMPUTED_pers_id_[0-9]+ : bill
+end"
+tellModel $CB_HOME/examples/MetaFormulas/LinkSemantics2
+result OK yes
+ask AncestorOf OBJNAMES FRAME Now
+result OK "mary in AncestorOf with
+  pers
+     COMPUTED_pers_id_[0-9]+ : john
+end
+
+isabel in AncestorOf with
+  pers
+     COMPUTED_pers_id_[0-9]+ : eve
+end
+
+carl in AncestorOf with
+  pers
+     COMPUTED_pers_id_[0-9]+ : eve;
+     COMPUTED_pers_id_[0-9]+ : isabel
+end"
+ask KnownPersonFor OBJNAMES FRAME Now
+result OK "mary in KnownPersonFor with
+  pers
+     COMPUTED_pers_id_[0-9]+ : mary
+end
+
+bill in KnownPersonFor with
+  pers
+     COMPUTED_pers_id_[0-9]+ : bill;
+     COMPUTED_pers_id_[0-9]+ : john;
+     COMPUTED_pers_id_[0-9]+ : eve;
+     COMPUTED_pers_id_[0-9]+ : isabel
+end
+
+anne in KnownPersonFor with
+  pers
+     COMPUTED_pers_id_[0-9]+ : anne
+end
+
+john in KnownPersonFor with
+  pers
+     COMPUTED_pers_id_[0-9]+ : bill;
+     COMPUTED_pers_id_[0-9]+ : john;
+     COMPUTED_pers_id_[0-9]+ : eve;
+     COMPUTED_pers_id_[0-9]+ : isabel
+end
+
+eve in KnownPersonFor with
+  pers
+     COMPUTED_pers_id_[0-9]+ : bill;
+     COMPUTED_pers_id_[0-9]+ : john;
+     COMPUTED_pers_id_[0-9]+ : eve;
+     COMPUTED_pers_id_[0-9]+ : isabel
+end
+
+isabel in KnownPersonFor with
+  pers
+     COMPUTED_pers_id_[0-9]+ : bill;
+     COMPUTED_pers_id_[0-9]+ : john;
+     COMPUTED_pers_id_[0-9]+ : eve;
+     COMPUTED_pers_id_[0-9]+ : isabel
+end
+
+carl in KnownPersonFor with
+  pers
+     COMPUTED_pers_id_[0-9]+ : carl
+end"

@@ -1,0 +1,116 @@
+\documentclass[10pt,a4paper]{report}
+
+% The ConceptBase User Manual (CB-Manual)
+% Copyright 1987-2017 by The ConceptBase Team
+% The CB-Manual may only be updated by members of the ConceptBase Team
+% as listed on http://conceptbase.cc
+% The TeX sources of the CB-Manual and the accompanying
+% figures can be freely distributed under the provision that this
+% clause is included in file CB-Manual.tex and that CB-Manual.tex
+% is the main file of the TeX sources.
+% Contact the ConceptBase Team via the URL above if you want to join
+% the team.
+
+
+\usepackage[plainpages=false, pdfpagelabels, bookmarks, colorlinks=true,
+               linkcolor=blue, anchorcolor=blue, citecolor=blue, filecolor=blue,
+               menucolor=blue, pagecolor=blue, urlcolor=blue]{hyperref}  % Hyperlinks in PDF output
+
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+  \pdffalse % we are not running PDFLaTeX
+\else
+  \pdfoutput=1 % we are running PDFLaTeX
+  \pdftrue
+\fi
+
+
+\ifpdf
+  \usepackage[pdftex]{graphicx}
+  \pdfcompresslevel=7
+  \pdfinfo
+    { /Title        (ConceptBase.cc User Manual)
+      /CreationDate (D:19871001100000)
+      /Author       (M.A. Jeusfeld, ed.)
+      /Keywords     (ConceptBase, Telos, metamodeling, Datalog)
+    }
+% These duplicate settings are apparently needed for Adobe Acroread to display the meta data
+% See http://www.geocities.com/kijoo2000/ for useful documentation, in particular on PDF
+  \hypersetup{
+    pdftitle={ConceptBase.cc User Manual},
+    pdfauthor={M. Jeusfeld, ed.},
+    pdfkeywords={ConceptBase, Telos, metamodeling, Datalog}
+  }
+
+\else
+  \usepackage{graphicx}
+  \usepackage{html}
+\fi
+
+\usepackage{a4}
+\usepackage{a4wide}
+\usepackage{longtable}
+\usepackage{times}
+%\usepackage{psfig}
+
+\newcommand{\relnr}{8.0}
+\newcommand{\reldate}{2017-02-08}
+\newcommand{\relnrwodot}{80}
+
+\newcommand{\longcom}[1]{}
+\newcommand{\cbfigure}[3]{%
+  \begin{figure}[hptb]
+  \centerline{\includegraphics[width=#2]{#1}}
+  \caption{#3}
+  \label{fig:#1}
+  \end{figure}
+}
+
+\newcommand{\urlprefix}{}
+\def\UrlFont{\small\tt}
+
+\renewcommand{\textfraction}{0.01}
+\renewcommand{\topfraction}{0.99}
+\renewcommand{\bottomfraction}{0.99}
+\renewcommand{\floatpagefraction}{0.99}
+
+% for O-Telos-Axioms.tex
+\def\Isa{\hbox{\it Isa}}
+\def\In{\hbox{\it In}}
+\def\ID{\hbox{\rm ID}}
+
+
+\newenvironment{axiom}[1]%
+{ \vspace{0.5cm} {\bf \noindent #1} \begin{quote} }%
+{ \end{quote} }
+
+\newenvironment{example}%
+{ \begin{quote} \it }
+{ \end{quote} }
+
+\begin{document}
+  \input{Title}
+
+  \setcounter{tocdepth}{2}
+  \tableofcontents
+
+  \input{Introduction}
+  \input{Language}
+  \input{DatalogQuery}
+  \input{AnswerFormat}
+  \input{ECArules}
+  \input{Moduleserver}
+  \input{CBserver}
+  \input{CBiva}
+
+\begin{appendix}
+  \input{SyntaxDef}
+  \input{O-Telos-Axioms}
+  \input{GraphicalTypes}
+  \input{Examples}
+  \input{BuiltinQueries}
+\end{appendix}
+
+  \input{References}
+
+\end{document}

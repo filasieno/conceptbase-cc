@@ -1,0 +1,58 @@
+
+/***************************************************************************/
+/*                                                                         */
+/* process_has_attribute(_ret,_subst)                                      */
+/*                                                                         */
+/* Description of arguments:                                               */
+/*     ret : free, unified with attribute class, yes, or no.               */
+/*   subst : substitution list with two or three elements                  */
+/*                                                                         */
+/* Description of predicate:                                               */
+/*  This is a predicate for the Builtin-Query 'has_attribute':             */
+/*                                                                         */
+/*  has_attribute in BuiltinQueryClass with                                */
+/*  parameter                                                              */
+/*          attrtype : Proposition;                                        */
+/*          attrname : Proposition;                                        */
+/*          objname : Proposition                                          */
+/*  end                                                                    */
+/*                                                                         */
+/*  The query may be called with                                           */
+/*     has_attribute[ATTRNAME/attrname,OBJNAME/objname]   or               */
+/*     has_attribute[ATTRTYPE/attrtype,ATTRNAME/attrname,OBJNAME/objname]  */
+/*                                                                         */
+/*  If used with two parameters, the query returns the attribute class     */
+/*  if OBJNAME has an attribute with the name ATTRNAME, otherwise the      */
+/*  query returns 'no'.                                                    */
+/*                                                                         */
+/*  If the query is used with three parameters, it returns 'yes' if OBJNAME*/
+/*  has an attribute with name ATTRNAME and attribute class ATTRTYPE,      */
+/*  otherwise the query returns no.                                        */
+/*                                                                         */
+/*  Example:                                                               */
+/*  1. has_attribute[Integer/attrtype,salary/attrname,Manager/objname]     */
+/*     -> yes                                                              */
+/*  2. has_attribute[salary/attrname,Manager/objname]                      */
+/*     -> Integer                                                          */
+/***************************************************************************/
+
+
+process_has_attribute(_attrtype,[substitute(_attrname,attrname),substitute(_objname,objname)]):-
+	'GeneralUtilities':name2id(_objname,_objid),
+	'Literals':prove_literal(Isa(_objid,_objid2)),
+	'Literals':prove_literal(P(_,_objid2,_attrname,_attrtypeid)),
+	!,
+	'GeneralUtilities':id2name(_attrtypeid,_attrtype).
+
+process_has_attribute(no,[substitute(_attrname,attrname),substitute(_objname,objname)]).
+
+
+process_has_attribute(yes,[substitute(_attrtype,attrtype),substitute(_attrname,attrname),substitute(_objname,objname)]):-
+	'GeneralUtilities':name2id(_attrtype,_attrtypeid),
+	'GeneralUtilities':name2id(_objname,_objid),
+	'Literals':prove_literal(Isa(_objid,_objid2)),
+	'Literals':prove_literal(P(_,_objid2,_attrname,_attrtypeid)),
+	!.
+
+process_has_attribute(no,[substitute(_attrtype,attrtype),substitute(_attrname,attrname),substitute(_objname,objname)]).
+

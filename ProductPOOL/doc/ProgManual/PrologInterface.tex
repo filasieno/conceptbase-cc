@@ -1,0 +1,225 @@
+
+\chapter{Programming Interface for a Prolog Client}
+\label{cha:prolog client}
+
+
+For the communication between a PROLOG client and a CBserver we offer a 
+programming interface based on the BIMprolog IPC package. To use the interface
+you must have BIM Prolog installed on your system. With this 
+interface one can immediately gain access to a CBserver since the message 
+sending and receiving operations are already implemented. Please refer to 
+the source code of the ExampleIpcClient (see appendix \ref{cha:ExampleIpcClient}) 
+which illustrates how 
+the below described parameters and procedures can be imported and applied.
+
+
+The programming interface consists of the two modules IpcParameters.pro and 
+ IpcChannelAccess.pro  which must be consulted by a client together with 
+the module BimIpc.pro from the directory
+\begin{center}
+  \verb+$CB_HOME/examples/Clients/PrologClient/+.
+\end{center}
+
+The shell script \verb+goExClient+ in this directory calls the BIM Prolog
+Interpeter and loads all necessary files and starts an interactive
+example client for the ConceptBase server.
+
+\section{Parameters for an IPC connection}
+
+{\tt IpcParameters.pro} contains several parameters in the form of
+PROLOG facts specifying the interaction between a client and a
+CBserver. Normally, it is not necessary to change the value of the
+first three parameters {\tt init\_timeout}, {\tt service\_timeout}
+and {\tt service\_retry}.
+
+\begin{method}{init\_timeout(\_t)}
+  \begin{description}
+  \item[\_t] time in seconds your client uses to initalize its
+	 input port before a call to the CBserver takes place.
+  \end{description}
+\end{method}
+
+\begin{method}{service\_timeout(\_t)}
+  \begin{description}
+  \item[\_t] time in seconds your client waits for an answer
+    from the CBserver.
+   \end{description}
+\end{method}
+ 	
+\begin{method}{service\_retry(\_num)}
+  \begin{description}
+  \item[\_num] specifies how often your client tries to get an
+    answer to a message from the CBserver.
+  \end{description}
+\end{method}
+
+
+The next three parameters {\tt thisToolId}, {\tt whatCBserverId}
+and {\tt server\_id} are updated automatically and can be imported whenever 
+they are needed for sending new messages. Their initial status {\tt unknown}
+should not be changed.
+
+\begin{method}{thisToolId(\_tid)}
+  \begin{description}
+  \item[ \_pid] is the physical identifier of the CBserver your
+    client is connected to. This parameter is used as first argument
+    in {\tt IpcChannel\_call/3} (see below) and in addition it signals if
+    your client is currently connected to a CBserver ({\tt \_pid <> unknown}).
+  \end{description}
+\end{method}
+
+\begin{method}{whatCBserverId(\_sid)}
+  \begin{description}
+  \item[ \_sid] is the identifier of the CBserver to which your
+    client is connected.
+  \end{description}
+\end{method}
+
+\begin{method}{server\_id(\_pid)}
+  \begin{description}
+  \item[\_tid] is the identifier which was assigned to your
+    client by the CBserver after establishing a connection.
+  \end{description}
+\end{method}
+
+
+The following parameters should be defined before a connection
+to a ConceptBase is established.
+
+\begin{method}{whatIpcServer(\_host,\_port)}
+  \begin{description}
+  \item[\_host] hostname and
+  \item[\_port] port number assigned to the CBserver to which a
+    connection is to be established. 
+  \end{description}
+You can either define both parameters as default values or update them 
+dynamically.
+\end{method}
+
+
+\begin{method}{thisToolClass(\_tc)}
+  \begin{description}
+  \item[\_tc] is the 'class' to which your client belongs.
+  \end{description}
+This parameter can be used as argument in messages with method {\tt
+  ENROLL\_ME}. The default value is an example from using {\tt
+  IpcParameters.pro} for the client ExampleIpcClient.
+\end{method}
+
+\begin{method}{user\_name(\_name)}
+  \begin{description}
+  \item[\_name] contains the name of the user running the
+    client.
+  \end{description}
+  This parameter can be used as argument in messages with method {\tt
+    ENROLL\_ME}.  The {\it ConceptBase\/} usage environment
+  automatically assigns the login name of the user during startup.
+\end{method}
+
+
+\section{Procedures for Communication}
+
+The module {\tt IpcChannelAccess.pro} implements sending and receiving
+messages and therefore provides the following three procedures:
+
+
+\begin{method}{IpcChannel\_call (\_servid, \_ipcmessage, \_ipcanswer)}
+  \begin{description}
+  \item[\_ipcmessage,]
+  \item[\_ipcanswer] are PROLOG terms and have formats as 
+  	described in the appendix \ref{cha:SyntaxSpec}
+  \item[\_servid] is the identifier stored in {\tt server\_id/1}
+    in {\tt IpcParameters} 
+  \end{description}
+
+  Calling this procedure results in sending {\tt \_ipcmessage} to {\tt
+    \_servid} and waiting for {\tt \_ipcanswer}.
+
+
+  Some additional remarks regarding the behaviour of the {\tt
+    IpcChannel\_call}: 
+
+  \begin{itemize}
+  \item Whenever a message with method {\tt ENROLL\_ME} is sent to the
+    CBserver an existing connection ({\tt server\_id(\_sid), \_sid <>
+      unknown}) to another server is cancelled. This means that a
+    message with method {\tt CANCEL\_ME} is sent to this 'old'
+    CBserver.
+  \end{itemize}
+
+  In addition the parameters {\tt server\_id}, {\tt thisToolId}, {\tt
+    whatCBserverId} in {\tt IpcParameters.pro} are updated
+  automatically.
+
+  \begin{itemize}
+  \item Whenever a message with method {\tt CANCEL\_ME} is sent to the
+    CBserver, besides a disconnection to this CBserver, the parameters
+    {\tt server\_id}, {\tt thisToolId}, {\tt whatCBserverId} in {\tt
+      IpcParameters.pro} will be updated with {\tt unknown}.
+  \end{itemize}
+\end{method}
+
+\begin{method}{connectCBserver (\_host , \_port)}
+  This procedure establishes a connection to a CBserver by sending an
+  ipcmessage with method {\tt ENROLL\_ME} to the CBserver running on
+  machine {\tt \_host} with port number {\tt \_port}. The parameters
+  for {\tt ENROLL\_ME} are taken from the facts {\tt thisToolClass}
+  and {\tt user\_name}. The parameter {\tt whatIpcServer/2} in {\tt
+    IpcParameters} is updated according to the specification of {\tt
+    \_host} and {\tt \_port}.
+
+  Example: Connecting from ExampleIpcClient to a CBserver running on a
+  host named  'picasso' accessable via  communication port 4001.
+
+\begin{verbatim}
+host: @ picasso.
+port: @ 4001 .
+\end{verbatim}
+
+{\tt
+Connected to service (picasso 4001)\\
+ipcanswer("CBserver\#4703.0",ok,"ExampleIpcClient\#4703.1")\\
+}
+
+
+The corresponding message sent to CBserver would look like:
+
+\begin{center}
+{\tt ipcmessage("","",ENROLL\_ME,["ExampleIpcClient","user"])}
+\end{center}
+
+Note, that the {\em strings} in this messages are PROLOG {\em atoms}
+beginning and ending with \verb+"+.
+
+It should be noted that any host which
+supports the Internet and IPC protocols can be specified as the host
+of the server. This is also true for very remote hosts. We have
+experimented with a client in Germany and a server in Canada without
+any problems.
+\end{method}
+
+\begin{method}{disconnectCBserver}
+
+This procedure closes a connection to a CBserver as follows:
+\begin{itemize}
+\item The parameter {\tt whatIpcServer/2} in {\tt IpcParameters} is
+  updated with {\tt unknown}.
+\item A message with method {\tt CANCEL\_ME} is sent to the CBserver
+  connected to your client. 
+\end{itemize}
+You must make sure that a termination of your client is always preceeded by 
+a disconnection to the CBserver for reasons of program integrity.
+\end{method}
+
+To start a client {\tt BimIpc.pro} must be consulted from directory
+\begin{center}
+\verb+$CB_HOME/examples/Clients/PrologClient/+
+\end{center}
+by your client process.
+
+As mentioned above, the ExampleIpcClient can be called with the shell
+script {\tt goExClient} or with the following two commands:
+\begin{verbatim}
+ cd $CB_HOME/examples/Clients/PrologClient
+ $BIM_PROLOG_DIR/bin/BIMprolog -Pq+ -Ps+  ExampleIpcClient     
+\end{verbatim}

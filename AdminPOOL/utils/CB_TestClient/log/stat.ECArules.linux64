@@ -1,0 +1,47 @@
+2;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/ECArules/Counter;ok;117
+3;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/ECArules/MatViews;ok;118
+4;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/ECArules/TimeStamp;ok;83
+5;tell;John in Employee end;ok;71
+6;ask;find_instances[EmployeeCounter / class];ok;83
+7;tell;John2 in Employee end;ok;111
+8;ask;find_instances[EmployeeCounter / class];ok;80
+9;ask;get_object[John2/objname];ok;79
+10;untell;Individual John2 in Employee ;ok;111
+11;ask;find_instances[EmployeeCounter / class];ok;79
+12;tell;Employee Max  with salary hs : 120000 end;ok;110
+13;ask;find_instances[QueryClass / class];ok;89
+14;ask;get_object[EmployeeWithHighSalary/objname];ok;78
+15;ask;EmployeeWithHighSalary;ok;79
+16;ask;find_instances[EmployeeWithHighSalary / class];ok;79
+17;ask;find_instances[EmployeeWithHighSalary_Materialized / class];ok;79
+18;tell;John with salary js : 45000 end;ok;111
+19;ask;find_instances[EmployeeWithHighSalary / class];ok;83
+20;ask;find_instances[EmployeeWithHighSalary_Materialized / class];ok;79
+21;ask;get_object[John/objname];ok;79
+22;tell;John with salary js2 : 123000 end;ok;111
+23;ask;find_instances[EmployeeWithHighSalary / class];ok;78
+24;ask;find_instances[EmployeeWithHighSalary_Materialized / class];ok;79
+25;ask;get_object[John/objname];ok;79
+26;ask;get_object[Max/objname];ok;83
+27;tell;Class NoInstance end ;ok;111
+28;tell;ECArule NoInstanceRule with;ok;115
+29;tell;bla in NoInstance end;ok;107
+30;ask;find_instances[ECArule / class];ok;83
+31;ask;get_object[NoInstanceRule/objname];ok;78
+32;tell;NoInstanceRule  with ;ok;111
+33;tell;bla in NoInstance end ;ok;107
+34;ask;get_object[bla/objname];ok;79
+35;untell;NoInstanceRule  with ;ok;107
+36;tell;bla2 in NoInstance end ;ok;107
+37;tell;Place with;ok;112
+38;tell;TokenNr in Function isA Integer with;ok;159
+39;tell;NetEffectOfTransition in Function isA Integer with;ok;94
+40;tell;red1 in Place with;ok;78
+41;tell;fire1 in FireTransition with;ok;153
+42;tell;fire2 in FireTransition with;ok;141
+43;tell;fire4 in FireTransition with;ok;107
+44;ask;ReportState;ok;45
+45;tell;AskToFireTransition in GenericQueryClass isA Transition with;ok;115
+46;tell;ECArule UpdateConnectedPlaces2 with;ok;115
+47;ask;AskToFireTransition[gy1/transition];ok;80
+48;ask;AskToFireTransition[gy2/transition];ok;91

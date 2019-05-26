@@ -1,0 +1,843 @@
+startServer -d ER_Model -U verbatim -g nolpi
+tell "--------------------------------
+
+             README
+
+--------------------------------
+
+This directory contains the following files:
+
+ERModelClasses.sml   Telos definitions of Entity-Relationship models
+Emp_ERModel.sml      A concrete ER-model described in Telos
+ERSingNec.sml        Metaformulas defining constraints for
+                     \"single\" and \"necessary\"
+ERModelGTs.sml       Definition of the graphical palette for
+                     ER-Diagrams for use on color displays
+ERIncons.sml         Definition of a Class \"Inconsistent\"
+                     containing roles violating the \"(1,*)\"
+                     constraint
+
+The use of these models is described in detail in the subsection
+\"A Telos Modeling Example - ER Diagrams\"
+in the \"examples\" section of the user manual.
+They have to be loaded in the order given above.
+"
+result ERROR "no"
+tellModel "$CB_HOME/examples/ER_MODEL/ERModelClasses"
+result OK "yes"
+tellModel "$CB_HOME/examples/ER_MODEL/Emp_ERModel"
+result OK "yes"
+tellModel "$CB_HOME/examples/ER_MODEL/ERSingNec"
+result OK "yes"
+tellModel "$CB_HOME/examples/ER_MODEL/ERModelGTs"
+result OK "yes"
+tellModel "$CB_HOME/examples/ER_MODEL/ERIncons"
+result OK "yes"
+ask "find_instances[Function/class]" OBJNAMES  LABEL  Now
+result OK "toLabel,concat,COUNT,COUNT_Attribute,SUM,AVG,MAX,MIN,SUM_Attribute,AVG_Attribute,MAX_Attribute,MIN_Attribute,PLUS,IPLUS,MINUS,IMINUS,MULT,IMULT,DIV,IDIV,ConcatenateStrings,ConcatenateStrings3,ConcatenateStrings4,StringToLabel"
+ask "get_object[rename/objname]" OBJNAMES  FRAME  Now
+result OK "Individual rename in HiddenObject,BuiltinQueryClass with
+  attribute,parameter
+     newname : Proposition;
+     oldname : Proposition
+end
+
+"
+ask "find_instances[JavaGraphicalPalette/class]" OBJNAMES  LABEL  Now
+result OK "ER_GraphBrowserPalette,DefaultJavaPalette"
+ask "GetJavaGraphicalPalette[ER_GraphBrowserPalette/pal]" OBJNAMES  XML_JavaGraphicalPalette  Now
+result OK "<palette>
+<contains>
+
+<graphtype>
+  <name>DefaultAttributeGT</name>
+  <property>
+    <name>textcolor</name>
+    <value>\"0,0,0\"</value>
+  </property>
+  <property>
+    <name>edgewidth</name>
+    <value>\"2\"</value>
+  </property>
+  <property>
+    <name>edgecolor</name>
+    <value>\"0,0,0\"</value>
+  </property>
+  <implementedBy>\"i5.cb.graph.cbeditor.CBLink\"</implementedBy>
+</graphtype>
+
+<graphtype>
+  <name>DefaultInstanceOfGT</name>
+  <property>
+    <name>textcolor</name>
+    <value>\"0,0,0\"</value>
+  </property>
+  <property>
+    <name>linecolor</name>
+    <value>\"0,210,0\"</value>
+  </property>
+  <property>
+    <name>label</name>
+    <value>\"\"</value>
+  </property>
+  <property>
+    <name>edgewidth</name>
+    <value>\"2\"</value>
+  </property>
+  <property>
+    <name>edgecolor</name>
+    <value>\"0,210,0\"</value>
+  </property>
+  <property>
+    <name>bgcolor</name>
+    <value>\"0,210,0\"</value>
+  </property>
+  <implementedBy>\"i5.cb.graph.cbeditor.CBLink\"</implementedBy>
+</graphtype>
+
+<graphtype>
+  <name>DefaultIsAGT</name>
+  <property>
+    <name>textcolor</name>
+    <value>\"0,0,0\"</value>
+  </property>
+  <property>
+    <name>linecolor</name>
+    <value>\"0,205,255\"</value>
+  </property>
+  <property>
+    <name>label</name>
+    <value>\"\"</value>
+  </property>
+  <property>
+    <name>edgewidth</name>
+    <value>\"3\"</value>
+  </property>
+  <property>
+    <name>edgeheadcolor</name>
+    <value>\"255,255,255\"</value>
+  </property>
+  <property>
+    <name>edgecolor</name>
+    <value>\"0,205,255\"</value>
+  </property>
+  <property>
+    <name>bgcolor</name>
+    <value>\"0,205,255\"</value>
+  </property>
+  <implementedBy>\"i5.cb.graph.cbeditor.CBLink\"</implementedBy>
+</graphtype>
+
+<graphtype>
+  <name>ImplicitAttributeGT</name>
+  <property>
+    <name>textcolor</name>
+    <value>\"20,20,20\"</value>
+  </property>
+  <property>
+    <name>edgewidth</name>
+    <value>\"2\"</value>
+  </property>
+  <property>
+    <name>edgestyle</name>
+    <value>\"dashed\"</value>
+  </property>
+  <property>
+    <name>edgecolor</name>
+    <value>\"20,20,20\"</value>
+  </property>
+  <implementedBy>\"i5.cb.graph.cbeditor.CBLink\"</implementedBy>
+</graphtype>
+
+<graphtype>
+  <name>ImplicitInstanceOfGT</name>
+  <property>
+    <name>textcolor</name>
+    <value>\"0,0,0\"</value>
+  </property>
+  <property>
+    <name>linecolor</name>
+    <value>\"0,180,0\"</value>
+  </property>
+  <property>
+    <name>label</name>
+    <value>\"\"</value>
+  </property>
+  <property>
+    <name>edgewidth</name>
+    <value>\"2\"</value>
+  </property>
+  <property>
+    <name>edgestyle</name>
+    <value>\"dashed\"</value>
+  </property>
+  <property>
+    <name>edgecolor</name>
+    <value>\"0,180,0\"</value>
+  </property>
+  <property>
+    <name>bgcolor</name>
+    <value>\"0,180,0\"</value>
+  </property>
+  <implementedBy>\"i5.cb.graph.cbeditor.CBLink\"</implementedBy>
+</graphtype>
+
+<graphtype>
+  <name>ImplicitIsAGT</name>
+  <property>
+    <name>textcolor</name>
+    <value>\"0,0,0\"</value>
+  </property>
+  <property>
+    <name>linecolor</name>
+    <value>\"0,205,255\"</value>
+  </property>
+  <property>
+    <name>label</name>
+    <value>\"\"</value>
+  </property>
+  <property>
+    <name>edgewidth</name>
+    <value>\"3\"</value>
+  </property>
+  <property>
+    <name>edgestyle</name>
+    <value>\"dashed\"</value>
+  </property>
+  <property>
+    <name>edgeheadcolor</name>
+    <value>\"255,255,255\"</value>
+  </property>
+  <property>
+    <name>edgecolor</name>
+    <value>\"0,205,255\"</value>
+  </property>
+  <property>
+    <name>bgcolor</name>
+    <value>\"0,150,255\"</value>
+  </property>
+  <implementedBy>\"i5.cb.graph.cbeditor.CBLink\"</implementedBy>
+</graphtype>
+
+<graphtype>
+  <name>DefaultLinkGT</name>
+  <property>
+    <name>textcolor</name>
+    <value>\"0,0,0\"</value>
+  </property>
+  <property>
+    <name>edgewidth</name>
+    <value>\"2\"</value>
+  </property>
+  <property>
+    <name>edgecolor</name>
+    <value>\"0,0,0\"</value>
+  </property>
+  <implementedBy>\"i5.cb.graph.cbeditor.CBLink\"</implementedBy>
+</graphtype>
+
+<graphtype>
+  <name>InconsistentGtype</name>
+  <property>
+    <name>textcolor</name>
+    <value>\"0,0,0\"</value>
+  </property>
+  <property>
+    <name>edgewidth</name>
+    <value>\"2\"</value>
+  </property>
+  <property>
+    <name>edgecolor</name>
+    <value>\"255,0,0\"</value>
+  </property>
+  <implementedBy>\"i5.cb.graph.cbeditor.CBLink\"</implementedBy>
+</graphtype>
+
+<graphtype>
+  <name>RelationshipGtype</name>
+  <property>
+    <name>textcolor</name>
+    <value>\"0,0,0\"</value>
+  </property>
+  <property>
+    <name>shape</name>
+    <value>\"i5.cb.graph.shapes.Diamond\"</value>
+  </property>
+  <property>
+    <name>linecolor</name>
+    <value>\"0,0,255\"</value>
+  </property>
+  <property>
+    <name>bgcolor</name>
+    <value>\"255,0,0\"</value>
+  </property>
+  <implementedBy>\"i5.cb.graph.cbeditor.CBIndividual\"</implementedBy>
+</graphtype>
+
+<graphtype>
+  <name>EntityTypeGtype</name>
+  <property>
+    <name>textcolor</name>
+    <value>\"0,0,0\"</value>
+  </property>
+  <property>
+    <name>shape</name>
+    <value>\"i5.cb.graph.shapes.Rect\"</value>
+  </property>
+  <property>
+    <name>linecolor</name>
+    <value>\"0,55,144\"</value>
+  </property>
+  <property>
+    <name>bgcolor</name>
+    <value>\"10,0,250\"</value>
+  </property>
+  <implementedBy>\"i5.cb.graph.cbeditor.CBIndividual\"</implementedBy>
+</graphtype>
+
+<graphtype>
+  <name>DefaultIndividualGT</name>
+  <property>
+    <name>textcolor</name>
+    <value>\"0,0,0\"</value>
+  </property>
+  <property>
+    <name>shape</name>
+    <value>\"i5.cb.graph.shapes.Rect\"</value>
+  </property>
+  <property>
+    <name>linecolor</name>
+    <value>\"0,0,0\"</value>
+  </property>
+  <property>
+    <name>bgcolor</name>
+    <value>\"210,210,210\"</value>
+  </property>
+  <implementedBy>\"i5.cb.graph.cbeditor.CBIndividual\"</implementedBy>
+</graphtype>
+
+</contains>
+  <defaultIndividual>DefaultIndividualGT</defaultIndividual>
+  <defaultLink>DefaultLinkGT</defaultLink>
+  <implicitIsA>ImplicitIsAGT</implicitIsA>
+  <implicitInstanceOf>ImplicitInstanceOfGT</implicitInstanceOf>
+  <implicitAttribute>ImplicitAttributeGT</implicitAttribute>
+
+</palette>
+"
+ask "find_instances[Module/class]" OBJNAMES  LABEL  Now
+result OK "System,oHome"
+ask "find_object[Class/objname]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>Class</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+  </object>
+
+</result>
+"
+ask "exists[Source/objname]" OBJNAMES  FRAME  Now
+result OK "no"
+ask "exists[Class/objname]" OBJNAMES  FRAME  Now
+result OK "yes"
+ask "find_object[EntityType/objname]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>EntityType</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+  </object>
+
+</result>
+"
+ask "find_object[RelationshipType/objname]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>RelationshipType</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[RelationshipType/src,RelationshipType/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>RelationshipType</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[RelationshipType/src,EntityType/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>RelationshipType!role</name>
+    <graphtype>DefaultAttributeGT</graphtype>
+  </object>
+
+</result>
+"
+ask "get_object[RelationshipType/objname,FALSE/dedIn,FALSE/dedIsa,TRUE/dedWith]" OBJNAMES  FRAME  Now
+result OK "Individual RelationshipType in Class with  graphtype
+    COMPUTED_graphtype_id_[0-9]+ : DefaultIndividualGT
+ graphtype
+    COMPUTED_graphtype_id_[0-9]+ : ClassGT
+ attribute
+    role : EntityType
+ attribute,rule
+    RelationshipGTRule : $ forall r/RelationshipType A(r,graphtype,RelationshipGtype)$;
+    RelationshipGTMetaRule : $ forall x/VAR (exists r/RelationshipType In(x,r))  ==>           A(x,graphtype,RelationshipGtype) $;
+    revNecRule : $ forall ro/RelationshipType!role         A(ro,minmax,\"(1,*)\")  ==> In(ro,Class!revNec) $
+end"
+ask "get_links2[EntityType/src,RelationshipType/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[EntityType/src,EntityType/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>EntityType</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+  </object>
+
+</result>
+"
+ask "find_explicit_instances[RelationshipType/class]" OBJNAMES  CBGraphEditorResult[ER_GraphBrowserPalette/pal,RelationshipType/obj,InstanceOf/cat,dst/objtype]  Now
+result OK "<result>
+  <object>
+    <name>WorksIn</name>
+    <graphtype>RelationshipGtype</graphtype>
+    <edges>
+      <object>
+        <name>(WorksIn->RelationshipType)</name>
+    <graphtype>DefaultInstanceOfGT</graphtype>
+      </object>
+    </edges>
+  </object>
+
+</result>
+"
+ask "find_explicit_instances[EntityType/class]" OBJNAMES  CBGraphEditorResult[ER_GraphBrowserPalette/pal,EntityType/obj,InstanceOf/cat,dst/objtype]  Now
+result OK "<result>
+  <object>
+    <name>Employee</name>
+    <graphtype>EntityTypeGtype</graphtype>
+    <edges>
+      <object>
+        <name>(Employee->EntityType)</name>
+    <graphtype>DefaultInstanceOfGT</graphtype>
+      </object>
+    </edges>
+  </object>
+
+
+  <object>
+    <name>Project</name>
+    <graphtype>EntityTypeGtype</graphtype>
+    <edges>
+      <object>
+        <name>(Project->EntityType)</name>
+    <graphtype>DefaultInstanceOfGT</graphtype>
+      </object>
+    </edges>
+  </object>
+
+</result>
+"
+ask "get_links2[Employee/src,Employee/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>Employee</name>
+    <graphtype>EntityTypeGtype</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[Employee/src,WorksIn/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[Employee/src,Project/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[WorksIn/src,Employee/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>WorksIn!emp</name>
+    <graphtype>DefaultAttributeGT</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[WorksIn/src,WorksIn/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>WorksIn</name>
+    <graphtype>RelationshipGtype</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[WorksIn/src,Project/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>WorksIn!prj</name>
+    <graphtype>DefaultAttributeGT</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[Project/src,Employee/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[Project/src,WorksIn/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[Project/src,Project/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>Project</name>
+    <graphtype>EntityTypeGtype</graphtype>
+  </object>
+
+</result>
+"
+ask "find_explicit_instances[Employee/class]" OBJNAMES  CBGraphEditorResult[ER_GraphBrowserPalette/pal,Employee/obj,InstanceOf/cat,dst/objtype]  Now
+result OK "<result>
+  <object>
+    <name>Hans</name>
+    <graphtype>EntityTypeGtype</graphtype>
+    <edges>
+      <object>
+        <name>(Hans->Employee)</name>
+    <graphtype>DefaultInstanceOfGT</graphtype>
+      </object>
+    </edges>
+  </object>
+
+
+  <object>
+    <name>Martin</name>
+    <graphtype>EntityTypeGtype</graphtype>
+    <edges>
+      <object>
+        <name>(Martin->Employee)</name>
+    <graphtype>DefaultInstanceOfGT</graphtype>
+      </object>
+    </edges>
+  </object>
+
+</result>
+"
+ask "find_explicit_instances[Project/class]" OBJNAMES  CBGraphEditorResult[ER_GraphBrowserPalette/pal,Project/obj,InstanceOf/cat,dst/objtype]  Now
+result OK "<result>
+  <object>
+    <name>ConceptBase</name>
+    <graphtype>EntityTypeGtype</graphtype>
+    <edges>
+      <object>
+        <name>(ConceptBase->Project)</name>
+    <graphtype>DefaultInstanceOfGT</graphtype>
+      </object>
+    </edges>
+  </object>
+
+</result>
+"
+ask "get_links2[ConceptBase/src,ConceptBase/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>ConceptBase</name>
+    <graphtype>EntityTypeGtype</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[ConceptBase/src,Martin/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[ConceptBase/src,Hans/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[ConceptBase/src,WorksIn/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[ConceptBase/src,WorksIn/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[Martin/src,ConceptBase/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[Martin/src,Martin/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>Martin</name>
+    <graphtype>EntityTypeGtype</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[Martin/src,Hans/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[Martin/src,WorksIn/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[Martin/src,WorksIn/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[Hans/src,ConceptBase/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[Hans/src,Martin/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[Hans/src,Hans/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>Hans</name>
+    <graphtype>EntityTypeGtype</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[Hans/src,WorksIn/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[Hans/src,WorksIn/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[WorksIn/src,ConceptBase/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[WorksIn/src,Martin/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[WorksIn/src,Hans/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[WorksIn/src,WorksIn/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>WorksIn</name>
+    <graphtype>RelationshipGtype</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[WorksIn/src,WorksIn/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>WorksIn</name>
+    <graphtype>RelationshipGtype</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[WorksIn/src,ConceptBase/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[WorksIn/src,Martin/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[WorksIn/src,Hans/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[WorksIn/src,WorksIn/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>WorksIn</name>
+    <graphtype>RelationshipGtype</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[WorksIn/src,WorksIn/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>WorksIn</name>
+    <graphtype>RelationshipGtype</graphtype>
+  </object>
+
+</result>
+"
+ask "find_explicit_instances[WorksIn/class]" OBJNAMES  CBGraphEditorResult[ER_GraphBrowserPalette/pal,WorksIn/obj,InstanceOf/cat,dst/objtype]  Now
+result OK "<result>
+  <object>
+    <name>M_CB</name>
+    <graphtype>RelationshipGtype</graphtype>
+    <edges>
+      <object>
+        <name>(M_CB->WorksIn)</name>
+    <graphtype>DefaultInstanceOfGT</graphtype>
+      </object>
+    </edges>
+  </object>
+
+</result>
+"
+ask "get_links2[M_CB/src,M_CB/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>M_CB</name>
+    <graphtype>RelationshipGtype</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[M_CB/src,Martin/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>M_CB!mIsEmp</name>
+    <graphtype>DefaultAttributeGT</graphtype>
+  </object>
+
+</result>
+"
+ask "get_object[M_CB/objname,FALSE/dedIn,FALSE/dedIsa,TRUE/dedWith]" OBJNAMES  FRAME  Now
+result OK "Individual M_CB in WorksIn with  
+  graphtype
+    COMPUTED_graphtype_id_[0-9]+ : DefaultIndividualGT
+  graphtype
+    COMPUTED_graphtype_id_[0-9]+ : RelationshipGtype
+  attribute,emp
+    mIsEmp : Martin
+  attribute,prj
+    cbIsPrj : ConceptBase
+end"
+ask "get_links2[M_CB/src,ConceptBase/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>M_CB!cbIsPrj</name>
+    <graphtype>DefaultAttributeGT</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[Martin/src,M_CB/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[Martin/src,Martin/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>Martin</name>
+    <graphtype>EntityTypeGtype</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[Martin/src,ConceptBase/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[ConceptBase/src,M_CB/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[ConceptBase/src,Martin/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[ConceptBase/src,ConceptBase/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>ConceptBase</name>
+    <graphtype>EntityTypeGtype</graphtype>
+  </object>
+
+</result>
+"
+ask "find_instances[Inconsistent/class]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>WorksIn!emp</name>
+    <graphtype>DefaultAttributeGT</graphtype>
+  </object>
+
+</result>
+"
+ask "find_instances[Inconsistent/class]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>WorksIn!emp</name>
+    <graphtype>DefaultAttributeGT</graphtype>
+  </object>
+
+</result>
+"
+ask "find_instances[Inconsistent/class]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>WorksIn!emp</name>
+    <graphtype>DefaultAttributeGT</graphtype>
+  </object>
+
+</result>
+"
+ask "find_instances[Inconsistent/class]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>WorksIn!emp</name>
+    <graphtype>DefaultAttributeGT</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[M_CB!mIsEmp/src,M_CB!mIsEmp/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[M_CB!mIsEmp/src,WorksIn!emp/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>(M_CB!mIsEmp->WorksIn!emp)</name>
+    <graphtype>DefaultInstanceOfGT</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[WorksIn!emp/src,M_CB!mIsEmp/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[WorksIn!emp/src,WorksIn!emp/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "find_attribute_categories[WorksIn!emp/objname]" OBJNAMES  LABEL  Now
+result OK "RelationshipType!role!minmax,Proposition!attribute"
+ask "get_object[RelationshipType!role/objname,FALSE/dedIn,FALSE/dedIsa,TRUE/dedWith]" OBJNAMES  FRAME  Now
+result OK "Proposition!attribute RelationshipType!role with  graphtype
+    COMPUTED_graphtype_id_[0-9]+ : DefaultAttributeGT
+ attribute
+    minmax : MinMax
+end"
+ask "find_explicit_attribute_values[WorksIn!emp/objname,Attribute/cat]" OBJNAMES  CBGraphEditorResult[ER_GraphBrowserPalette/pal,WorksIn!emp/obj,Attribute/cat,src/objtype]  Now
+result OK "<result>
+  <object>
+    <name>\"(1,*)\"</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+    <edges>
+      <object>
+        <name>WorksIn!emp!mProjForEmp</name>
+    <graphtype>DefaultAttributeGT</graphtype>
+      </object>
+    </edges>
+  </object>
+
+</result>
+"
+ask "get_object[WorksIn!emp/objname,FALSE/dedIn,FALSE/dedIsa,TRUE/dedWith]" OBJNAMES  FRAME  Now
+result OK "Proposition!attribute WorksIn!emp in RelationshipType!role,Class!revNec,Inconsistent with  
+  graphtype
+    COMPUTED_graphtype_id_[0-9]+ : DefaultAttributeGT
+  attribute,minmax
+    mProjForEmp : \"(1,*)\"
+end"
+ask "find_attribute_categories[RelationshipType!role/objname]" OBJNAMES  LABEL  Now
+result OK "Proposition!attribute"
+ask "find_explicit_attribute_values[RelationshipType!role/objname,Attribute/cat]" OBJNAMES  CBGraphEditorResult[ER_GraphBrowserPalette/pal,RelationshipType!role/obj,Attribute/cat,src/objtype]  Now
+result OK "<result>
+  <object>
+    <name>MinMax</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+    <edges>
+      <object>
+        <name>RelationshipType!role!minmax</name>
+    <graphtype>DefaultAttributeGT</graphtype>
+      </object>
+    </edges>
+  </object>
+
+</result>
+"
+ask "get_links2[MinMax/src,MinMax/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>MinMax</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[MinMax/src,\"(1,*)\"/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "nil"
+ask "get_links2[\"(1,*)\"/src,MinMax/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>(\"(1,*)\"->MinMax)</name>
+    <graphtype>DefaultInstanceOfGT</graphtype>
+  </object>
+
+</result>
+"
+ask "get_links2[\"(1,*)\"/src,\"(1,*)\"/dst]" OBJNAMES  CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal]  Now
+result OK "<result>
+  <object>
+    <name>\"(1,*)\"</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+  </object>
+
+</result>
+"

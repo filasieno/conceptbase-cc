@@ -1,0 +1,20 @@
+#!/bin/sh
+# make cb-latest.zip in $HOME/ConceptBase-Distros
+
+if [ ! -d $HOME/ConceptBase-Distros/CB-LATEST ] ; then
+  echo No directory $HOME/ConceptBase-Distros/CB-LATEST found ...
+  exit
+fi
+
+cd $HOME/ConceptBase-Distros
+
+mv -f cb-latest.zip cb-latest.zip.previous
+
+cd $HOME/ConceptBase-Distros/CB-LATEST
+
+zip -r $HOME/ConceptBase-Distros/cb-latest.zip *
+
+ls -l $HOME/ConceptBase-Distros/cb-latest.zip*
+echo "Done."
+
+

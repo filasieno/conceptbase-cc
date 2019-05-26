@@ -1,0 +1,26 @@
+
+Thanks for registering your ConceptBase installation.
+
+Please save the plain body (three lines containing the
+registration key, your name and organization) of the 
+following mail titled "Registration key" into the file
+
+$CB_HOME/lib/system/regInfo
+
+and send the signed license agreement to the adress given below,
+if you have not sent us a license agreement yet.
+
+Best regards
+Christoph Quix
+ConceptBase Team
+
+-- 
+------------------
+Lehrstuhl fuer Informatik V
+Prof. Dr. Matthias Jarke
+c/o ConceptBase Team
+RWTH Aachen, Ahornstr. 55
+D-52056 Aachen, Germany
+Fax: +49-241-80 22321
+Email: cb@i5.informatik.rwth-aachen.de
+WWW: http://www-i5.informatik.rwth-aachen.de/CBdoc/cbflyer.html

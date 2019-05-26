@@ -1,0 +1,64 @@
+#!/bin/sh
+# publish ConceptBase to the folder $HOME/ConceptBase-Distros/CB-LATEST
+# used for the make environment of Manfred Jeusfeld
+
+# directory where to store the ConceptBase distributables
+CBDISTROS=$HOME/ConceptBase-Distros
+
+CBICONSSOURCE=$HOME/ConceptBaseCC-SourceForge/CBICONS
+CBICONSTARGET=$CBDISTROS/CB-LATEST/CBICONS
+
+CB_VARIANT=`CBvariant`
+
+if [ ! -d $CBDISTROS ]; then
+	mkdir $CBDISTROS
+fi
+
+if [ ! -d $CBDISTROS/CB-LATEST ]; then
+	mkdir $CBDISTROS/CB-LATEST
+fi
+
+
+# First copy all local binaries (incl. documentation, Java, etc.)
+# The directory  $HOME/CBPOOL/conceptbase/ is supposed to be created
+# by compileCB
+echo Copying local ConceptBase to CB-LATEST ...
+cp -rf $HOME/CBPOOL/conceptbase/* $CBDISTROS/CB-LATEST
+
+# Copy SWI-PL shared libs if needed 
+if [ -d $SWI_HOME/lib/swipl-6.6.6/lib/`arch`-linux/ ]; then
+	echo Copying libswipl.so 
+	cp $SWI_HOME/lib/swipl-6.6.6/lib/`arch`-linux/libswipl.so.* $CBDISTROS/CB-LATEST/$CB_VARIANT/lib
+fi
+
+
+# CBserver binaries for other platforms need to be compiled on other computers
+# The are copied via the shared (Dropbox) folder CB-PLATFORMS; they only contain
+# subdirectories like 'linux', 'linuxarm', 'mac', etc. and are created by
+# the script exportCB
+if [ -d /media/sf_Dropbox/CB-PLATFORMS ]; then
+	echo Copying platform specific binaries ...
+	cp -rf /media/sf_Dropbox/CB-PLATFORMS/* $CBDISTROS/CB-LATEST
+fi
+
+
+
+# nothing to copy if the CBICONSSOURCE directory is not existing
+if [ ! -d $CBICONSSOURCE ]; then
+	exit
+fi
+
+
+echo Copying standard CBICONS ...
+if [ -d $CBICONSTARGET ]; then
+	/bin/rm -rf $CBICONSTARGET
+fi
+
+/bin/cp -rf  $CBICONSSOURCE/ $CBICONSTARGET
+
+# create the JAR/ZIP archives that can be downloaded&installed by users
+makeFATCBINSTALLER
+makeCBLATEST
+
+echo "\nCreated new CBinstaller.jar and cblatest.zip in $CBDISTROS"
+echo All done.

@@ -1,0 +1,47 @@
+#!/bin/csh
+
+# This script copies all stuff that should go
+# into the CB package into the directory CB_Product
+# Runs only on Solaris SPARC
+
+source /etc/dot/.environ
+source /etc/dot/.gui
+
+setenv HOST `hostname`
+setenv CB_POOL /home/cbase/CB_NewStruct/ProductPOOL
+setenv LOG /home/cbase/crontabs/log/cron.weekly.export.log
+setenv OLDLOG /home/cbase/crontabs/old
+setenv SUBJECT "cron.weekly.export $HOST"
+setenv ADMIN cbase@i5.informatik.rwth-aachen.de
+
+/bin/mv -f $LOG $OLDLOG
+touch $LOG
+
+cd $CB_POOL
+
+echo "cron.weekly.export $HOST" `date` >> $LOG
+echo . >> $LOG
+echo "==================================== CB_ExportProduct" >> $LOG
+echo . >> $LOG
+/home/cbase/CB_NewStruct/CB_Admin/utils/CB_ExportProduct >>& $LOG
+
+if ( "$status" != "0") then
+	/usr/ucb/mail -s "ERROR: $SUBJECT" $ADMIN < $LOG
+         exit
+endif
+
+# controls the name of the zip file, e.g. cb73.zip
+setenv CBVERSION 77
+
+cd  /home/cbase/CB_NewStruct/CB_Admin/distrib
+rm cb${CBVERSION}.zip cb${CBVERSION}.tar.gz
+make_dist ${CBVERSION} >>& $LOG
+
+if ( "$status" != "0") then
+        /usr/ucb/mail -s "ERROR make_dist: $SUBJECT" $ADMIN < $LOG
+        exit
+endif
+
+/usr/ucb/mail -s "OK: $SUBJECT" $ADMIN < /dev/null
+
+

@@ -1,0 +1,510 @@
+/*
+The ConceptBase.cc Copyright
+
+Copyright 1987-2019 The ConceptBase Team. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted
+provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of
+      conditions and the following disclaimer.
+   2. Redistributions in binary form must reproduce the above copyright notice, this list of
+      conditions and the following disclaimer in the documentation and/or other materials
+      provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those of the authors
+and should not be interpreted as representing official policies, either expressed or implied,
+of the ConceptBase Team.
+
+
+The ConceptBase Team is represented by
+
+Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+
+
+This license is a FreeBSD-style copyright license.
+Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
+*/
+
+package i5.cb.api;
+
+import i5.cb.CBException;
+
+import java.rmi.RemoteException;
+
+
+/**
+ * This interface allows CBclient objects to be used via RMI, in order to
+ * establish connections to a ConceptBase server through firewalls.
+ * ICBclient is implemented by <ul>
+ * <li>LocalCBclient, the local version</li>
+ * <li>RemoteCBclient, the remote version</li>
+ * <li>CBclient, that covers both versions</li>
+ * </ul>
+ * @author Christoph Radig
+ **/
+
+public interface ICBclient
+  extends java.rmi.Remote
+{
+  /**
+   * connects to a ConceptBase server
+   *
+   * @param sHost hostname of the machine where the server runs
+   * @param iPort port number of server
+   * @param sTool the name of the tool
+   * @param sUser the name of the user
+   * @return a CBanswer object containing the result and the completion 
+   * @exception CBException if an error occurs when connecting
+   **/
+  CBanswer enrollMe( String sHost, int iPort, String sTool, String sUser ) 
+    throws CBException, RemoteException;
+
+
+	
+  /**
+   * disconnects from a ConceptBase server.
+   *
+   * @return a CBanswer object containing the result and the completion 
+   * @exception CBException if an error occurs when disconnecting
+   **/
+  CBanswer cancelMe() 
+    throws CBException, RemoteException;
+
+
+  /** 
+   * tells frames to the server.
+   * 
+   * @param sFrames the frames
+   * @return a CBanswer object containing the result and the completion 
+   * @exception CBException if an error occurs while processing this method
+   **/ 
+  CBanswer tell( String sFrames ) 
+    throws CBException, RemoteException;
+
+  /** 
+   * tells transactions to the server.
+   * 
+   * @param sTransactions the frames
+   * @return a CBanswer object containing the result and the completion 
+   * @exception CBException if an error occurs while processing this method
+   **/ 
+  CBanswer tellTransactions( String sTransactions ) 
+    throws CBException, RemoteException;
+
+
+
+  /** 
+   * untells frames to the server
+   * 
+   * @param sFrames the frames
+   * @return a CBanswer object containing the result and the completion 
+   * @exception CBException if an error occurs while processing this method
+   **/ 
+  CBanswer untell( String sFrames ) 
+    throws CBException, RemoteException;
+
+  /** 
+   * tells sml-files (text files containing frames) to the server
+   * 
+   * @param asFiles an array of filenames
+   * @return a CBanswer object containing the result and the completion 
+   * @exception CBException if an error occurs while processing this method
+   **/ 
+  CBanswer tellModel( String[] asFiles ) 
+    throws CBException, RemoteException;
+
+	
+  /** 
+   * untells specified frames and tells new frames to the server 
+   * in one transaction
+   *
+   * @param sUntellFrames frames to untell
+   * @param sTellFrames frames to tell
+   * @exception CBException if an error occurs while processing this method
+   * @see #tell(String)
+   * @see #untell(String)
+   **/
+  CBanswer retell( String sUntellFrames, String sTellFrames ) 
+    throws CBException, RemoteException; 
+
+
+  /** 
+   * sends a query to the ConceptBase server.
+   * 
+   * @param sQuery the query
+   * @param sQueryFormat the format of the query (FRAMES or OBJNAMES) 
+   * @param sAnswerRep the format of the answer (e.g. FRAME, LABEL,...)
+   * @param sRollbackTime Rollback Time (e.g.\ "Now")
+   * @return a CBanswer object containing the result and the completion 
+   * @exception CBException if an error occurs while processing this method
+   **/ 
+  CBanswer ask( String sQuery, String sQueryFormat, String sAnswerRep, 
+		String sRollbackTime ) 
+    throws CBException, RemoteException;
+
+
+  /**
+   * sends a query in frame format to the server 
+   * and returns the answer of the ConceptBase server
+   *
+   * @param sQuery the query
+   * @param sAnswerRep the format of the answer (e.g. FRAME, LABEL,...)
+   * @param sRollbackTime Rollback Time (e.g.\ "Now")
+   * @return a CBanswer object containing the result and the completion 
+   * @exception CBException if an error occurs while processing this method
+   **/ 
+  CBanswer askFrames( String sQuery, String sAnswerRep, String sRollbackTime )
+    throws CBException, RemoteException;
+
+
+  /**
+   *
+   * sends a query (as objectname) to the server 
+   * and returns the answer of the server
+   *
+   * @param sQuery the query
+   * @param sAnswerRep the format of the answer (e.g. FRAME, LABEL,...)
+   * @param sRollbackTime Rollback Time (e.g.\ "Now")
+   * @return a CBanswer object containing the result and the completion 
+   * @exception CBException if an error occurs while processing this method
+   **/ 
+  CBanswer askObjNames( String sQuery, String sAnswerRep, 
+			String sRollbackTime )
+    throws CBException, RemoteException;
+
+
+  /** 
+   * tells the specified frames temporarily to the ConceptBase Server,
+   * and evaluate the query on the temporarily object base.
+   * 
+   * @param sFrames the frames
+   * @param sQuery the query
+   * @param sQueryFormat the format of the query (FRAMES or OBJNAMES) 
+   * @param sAnswerRep the format of the answer (e.g. FRAME, LABEL,...)
+   * @param sRollbackTime Rollback Time (e.g.\ "Now")
+   * @return a CBanswer object containing the result and the completion 
+   * @exception CBException if an error occurs while processing this method
+   **/ 
+  CBanswer hypoAsk( String sFrames, String sQuery, String sQueryFormat, 
+		    String sAnswerRep, String sRollbackTime ) 
+    throws CBException, RemoteException;
+
+
+  /**
+   * Calls the builtin query get_object with the given parameter
+   * 
+   * @param sObjname the parameter for the query
+   * @return a string containing the frame for the object, or "error" otherwise
+   * @exception CBException if an error occurs while processing this method
+   **/
+  String getObject( String sObjname ) 
+    throws CBException, RemoteException;
+
+  
+  /**
+   * Calls the builtin query find_instances with the given parameter
+   * 
+   * @param sObjname the parameter for the query
+   * @return a string containing a comma-separated list of object names, 
+   * or "error" otherwise
+   * @exception CBException if an error occurs while processing this method
+   **/
+  String findInstances( String sObjname ) 
+    throws CBException, RemoteException;
+
+
+  /** 
+   * Stops the ConceptBase server
+   * 
+   * @return a CBanswer object containing the result and the completion 
+   * @exception CBException if an error occurs while processing this method
+   **/
+  CBanswer stopServer() 
+    throws CBException, RemoteException;
+
+
+  /** Performs an LPI-Call at the server. 
+   * With LPI (Logic Programming Interface)
+   * one can call ProLog predicates defined in an LPI-Module.
+   * @param lpicall the predicate to be called
+   * @return the result of the method
+   * @exception CBException if an error occurs while processing this method
+   **/
+  CBanswer LPIcall( String lpicall ) 
+    throws CBException, RemoteException;
+
+
+  /**
+   * Gets a message from the server
+   * 
+   * @param sType the type of the message to be retrieved
+   * @return a CBanswer object containing the result and the completion
+   * @exception CBException if an error occurs while processing this method
+   **/
+  CBanswer nextMessage( String sType ) 
+    throws CBException, RemoteException;
+
+
+  /**
+   * Gets the error messages from the server for the previous 
+   * method.
+   * 
+   * @return a string containing all error messages
+   * @exception CBException if an error occurs while processing this method
+   **/
+  String getErrorMessages() 
+    throws CBException, RemoteException; 
+
+
+  /**
+   * @return is a connection to a ConceptBase server established?
+   **/
+  boolean isConnected()
+    throws RemoteException;
+
+  
+  /**
+   * setter for the connected property. Supposed to be called only by CBClient
+   */
+  void setConnected(boolean connected)
+  throws RemoteException;
+  
+  /**
+   * @return the hostname of the current server 
+   **/
+  String getHostName()
+    throws RemoteException;
+
+
+  /**
+   * @return the portno of the current server 
+   **/
+  int getPort()
+    throws RemoteException;
+
+
+  /**
+   * @return the user name
+   **/
+  String getUserName()
+    throws RemoteException;
+
+
+  /**
+   * @return the tool name
+   **/
+  String getToolName()
+    throws RemoteException;
+
+
+  /** 
+   * @return the ID of the server. This ID is also used in the CBanswer
+   * objects returned by the methods tell, untell, etc.
+   **/
+  String getServerId()
+    throws RemoteException;
+
+  
+  /**
+   * @return the ID of this client. This ID has been assigned by the 
+   * server to the client when the client has connected to the server.
+   * It can be used to send a message to another client.
+   **/
+  String getClientId()
+    throws RemoteException;
+
+  
+  /**
+   * sets the timeout for the connection
+   * 
+   * @param iMilliSecs timeout in milli seconds
+   * @return success?
+   **/
+  boolean setTimeOut( int iMilliSecs )
+    throws RemoteException;
+
+  
+  /**
+   * @return the timeout for the connection
+   **/
+  int getTimeOut()
+    throws RemoteException;
+  
+
+  /**
+   * sets the module context of the current client.
+   * @param sModule the new module 
+   * @return CBanswer object with completion CBanswer.    * ok if the call was successful
+   * @exception CBException if an error occurs while processing this method
+   **/
+  CBanswer setModule( String sModule )
+    throws CBException, RemoteException;
+
+
+  /**
+   * @return the current module context 
+   **/
+  String getModule()
+    throws RemoteException;
+
+  /**
+   * @return the current module path
+   **/
+  CBanswer getModulePath()
+    throws RemoteException;
+
+  /**
+   * @return the module source 
+   **/
+  String listModule(String sModule)
+    throws CBException, RemoteException;
+
+
+
+  /**
+   * send a request for notification messages of the specified type.
+   *
+   * @param sAbout the type of the notification request, e.g. view(MyView)
+   * @return a CBanswer object with completion OK, if the request is accepted and
+   * an initial value as result (depends on the the type of the request)
+   * @exception CBException if an error occurs when proccessing this request
+   **/	
+  CBanswer notificationRequest( String sAbout )
+    throws CBException, RemoteException;
+
+
+  /**
+   * sends a request for notification messages of the specified type for a given tool.
+   *
+   * @param sAbout the type of the notification request, e.g. view(MyView)
+   * @param sTool the tool identifier (returned by getClientId()) of the tool 
+   *   which should receive the messages
+   * @return a CBanswer object with completion OK, if the request is accepted and
+   *   an initial value as result (depends on the the type of the request)
+   * @exception CBException if an error occurs when proccessing this request
+   * @see i5.cb.api.CBclient#getClientId()
+   **/
+  CBanswer notificationRequest( String sAbout, String sTool )
+    throws CBException, RemoteException;
+
+
+  /**
+   * gets a notification message from the server 
+   * 
+   * @param iTimeOut the time to wait for a message in milli seconds 
+   * @return a CBanswer object with the notification message, or null
+   * if no message was available.
+   * @exception CBException if an error occurs while reading the message
+   **/
+  CBanswer getNotificationMessage( int iTimeOut )
+    throws CBException, RemoteException;
+
+
+/* ----- Simplified interface with String results */
+/* M. Jeusfeld, 2017-03-24                        */
+/* The methods are only fully implemented in      */
+/* LocalCBclient.java. Hence, use them as follows */
+/*  LocalCBclient cbclient = new LocalCBclient(); */
+/*  String ans = cbclient.methodXY(args);         */
+
+
+
+  /**
+   * connects to a ConceptBase server
+   *
+   * @param sHost hostname of the machine where the server runs
+   * @param iPort port number of server
+   * @param sTool the name of the tool
+   * @param sUser the name of the user
+   * @return "yes" if successful, "no" else
+   **/
+
+  String connect( String sHost, int iPort, String sTool, String sUser ); 
+
+  /**
+   * disconnects from a ConceptBase server
+   *
+   * @return "yes" if successful, "no" else
+   **/
+
+  String disconnect();
+
+  /**
+   * display the current module path as a String like "System-oHome-myMod"
+   *
+   * @return module path string if successful, "no" else
+   **/
+
+  String pwd();
+
+
+  /**
+   * switch the current module to a new module 
+   * @param newModule the name of the module to switch to
+   *
+   * @return "yes" if successful, "no" else
+   **/
+
+  String cd(String newModule);
+
+  /**
+   * create a new sub-module in the current module 
+   * @param newModule the name of the module to be created
+   *
+   * @return "yes" if successful, "no" else
+   **/
+
+  String mkdir(String newModule);
+
+  /**
+   * untell the frames to the ConceptBase server 
+   * @param sFrames frames to be removed
+   *
+   * @return "yes" if successful, user-readable error message else
+   **/
+
+  String untells(String sFrames);
+
+  /**
+   * tell the frames to the ConceptBase server 
+   * @param sFrames frames to be defined
+   *
+   * @return "yes" if successful, user-readable error message else
+   **/
+
+  String tells(String sFrames);
+
+  /**
+   * ask the query to the ConceptBase server 
+   * @param sQuery query call to be asked
+   *
+   * @return answer to the query if successful, "no" else
+   **/
+
+  String asks(String sQuery);
+
+  /**
+   * ask the query to the ConceptBase server using a given answer format
+   * @param sQuery query call to be asked
+   * @param sFormat the answer format to be used
+   *
+   * @return answer to the query if successful, "no" else
+   **/
+
+  String asks(String sQuery, String sFormat);
+
+
+
+}  // interface ICBclient

@@ -1,0 +1,17 @@
+Examples for Telos queries
+--------------------------
+
+Add the models Employee_Classes, Employee_Instances, and
+Employee_Queries. Then display the instances of QueryClass
+in your usage environment (CBIva).
+Some of them are explained in the user manual,
+the others should be self-explanatory.
+You can edit them or ask them directly. 
+
+The CBShell script queries.cbs will add all the models to a temporary CBserver
+and ask the queries defined in Employee_Queries. Use
+  cbshell -v queries.cbs
+to execute them.
+
+
+.-- Manfred Jeusfeld

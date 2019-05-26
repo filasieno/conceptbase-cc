@@ -1,0 +1,241 @@
+{*
+The ConceptBase.cc Copyright
+
+Copyright 1987-2014 The ConceptBase Team. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted
+provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of
+      conditions and the following disclaimer.
+   2. Redistributions in binary form must reproduce the above copyright notice, this list of
+      conditions and the following disclaimer in the documentation and/or other materials
+      provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those of the authors
+and should not be interpreted as representing official policies, either expressed or implied,
+of the ConceptBase Team.
+
+
+The ConceptBase Team is represented by
+
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+Manfred Jeusfeld, Tilburg University, Warandelaan 2, 5037 AB Tilburg, The Netherlands
+Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+
+
+This license is a FreeBSD-style copyright license.
+Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
+*}
+{ Default Palette }
+Class DefaultJavaPalette in JavaGraphicalPalette with
+contains,defaultIndividual
+	c1 : DefaultIndividualGT
+contains,defaultLink
+	c2 : DefaultLinkGT
+implicitIsA, contains
+    c3 : ImplicitIsAGT
+implicitInstanceOf, contains
+    c4 : ImplicitInstanceOfGT
+implicitAttribute, contains
+    c5 : ImplicitAttributeGT
+contains
+    c6 : DefaultIsAGT;
+    c7 : DefaultInstanceOfGT;
+    c8 : DefaultAttributeGT;
+    c9 : MetametaGT;
+    c10 : SimpleClassGT;
+    c11 : MetaClassGT;
+    c12 : ClassGT;
+    c13 : QueryClassGT
+rule
+    rIsaGT : $ forall p/IsA (p graphtype DefaultIsAGT) $;
+    rInstGT : $ forall p/InstanceOf (p graphtype DefaultInstanceOfGT) $;
+    rAttrGT : $ forall p/Attribute (p graphtype DefaultAttributeGT) $;
+    rIndGT : $ forall p/Individual (p graphtype DefaultIndividualGT) $;
+    rMetameta : $ forall c/MetametaClass (c graphtype MetametaGT) $;
+    rSimpleCl : $ forall t/SimpleClass  (t graphtype SimpleClassGT) $;
+    rMetaClass : $ forall t/MetaClass  (t graphtype MetaClassGT) $;
+    rClass : $ forall c/Individual (c in Class) ==> (c graphtype ClassGT) $;
+    rQueryClass : $ forall c/QueryClass (c graphtype QueryClassGT) $
+end
+
+DefaultIndividualGT in JavaGraphicalType with
+property
+	bgcolor : "210,210,210";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Rect"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+end
+
+DefaultLinkGT in JavaGraphicalType with
+property
+	textcolor : "0,0,0";
+	edgecolor : "0,0,0";
+	edgewidth : "2"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBLink"
+end
+
+
+DefaultIsAGT in JavaGraphicalType with
+property
+	bgcolor : "0,205,255";
+	textcolor : "0,0,0";
+	linecolor : "0,205,255";
+	edgecolor : "0,205,255";
+	edgewidth : "3";
+	label : ""
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBLink"
+priority
+    p : 1
+end
+
+ImplicitIsAGT in JavaGraphicalType with
+property
+	bgcolor : "0,150,255";
+	textcolor : "0,0,0";
+	linecolor : "0,150,255";
+	edgecolor : "0,150,255";
+	edgewidth : "3";
+	edgestyle : "dashed";
+	label : ""
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBLink"
+priority
+    p : 1
+end
+
+
+DefaultInstanceOfGT in JavaGraphicalType with
+property
+	bgcolor : "0,210,0";
+	textcolor : "0,0,0";
+	linecolor : "0,210,0";
+	edgecolor : "0,210,0";
+	edgewidth : "2";
+	label : ""
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBLink"
+priority
+    p : 1
+end
+
+
+ImplicitInstanceOfGT in JavaGraphicalType with
+property
+	bgcolor : "0,180,0";
+	textcolor : "0,0,0";
+	linecolor : "0,180,0";
+	edgecolor : "0,180,0";
+	edgewidth : "2";
+	edgestyle : "dashed";
+	label : ""
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBLink"
+priority
+    p : 1
+end
+
+DefaultAttributeGT in JavaGraphicalType with
+property
+	textcolor : "0,0,0";
+	edgecolor : "0,0,0";
+	edgewidth : "2"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBLink"
+priority
+    p : 1
+end
+
+
+ImplicitAttributeGT in JavaGraphicalType with
+property
+	textcolor : "20,20,20";
+	edgecolor : "20,20,20";
+	edgestyle : "dashed";
+	edgewidth : "2"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBLink"
+priority
+    p : 1
+end
+
+
+MetametaGT in JavaGraphicalType with
+property
+	bgcolor : "127,255,212";
+	textcolor : "0,0,0";
+	linecolor : "32,178,170";
+	shape : "i5.cb.graph.shapes.Ellipse";
+	fontstyle : "bold"
+priority
+    p : 10
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+end
+
+SimpleClassGT in JavaGraphicalType with
+property
+	bgcolor : "255,192,203";
+	textcolor : "0,0,0";
+	linecolor : "255,0,0";
+	shape : "i5.cb.graph.shapes.Ellipse";
+	fontstyle : "bold"
+priority
+    p : 10
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+end
+
+MetaClassGT in JavaGraphicalType with
+property
+	bgcolor : "135,206,235";
+	textcolor : "0,0,0";
+	linecolor : "65,105,225";
+	shape : "i5.cb.graph.shapes.Ellipse";
+	fontstyle : "bold"
+priority
+    p : 10
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+end
+
+ClassGT in JavaGraphicalType with
+property
+	bgcolor : "0,206,209";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Rect"
+priority
+    p : 5
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+end
+
+QueryClassGT in JavaGraphicalType with
+property
+	bgcolor : "255,0,0";
+	textcolor : "255,255,255";
+	linecolor : "0,0,255";
+	shape : "i5.cb.graph.shapes.Ellipse";
+	fontstyle : "italic"
+priority
+    p : 7
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+end
+
+

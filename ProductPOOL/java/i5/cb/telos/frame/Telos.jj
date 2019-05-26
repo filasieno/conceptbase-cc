@@ -1,0 +1,568 @@
+options {
+  STATIC = false;
+  LOOKAHEAD = 1;
+  DEBUG_PARSER = false;
+  ERROR_REPORTING = true;
+}
+
+PARSER_BEGIN(TelosParser)
+
+package i5.cb.telos.frame;
+
+import java.io.DataOutputStream;
+import java.io.ByteArrayOutputStream;
+import com.objectspace.jgl.SList;
+
+
+/**
+ * parses single or multiple Telos frames or parts of Telos frames.
+ * Usage: <ul>
+ * <li> First, construct a TelosParser object: <br>
+ *      <tt> TelosParser parser = new TelosParser( System.in ); </tt>
+ * <li> Second, call the function that parses up to the nonterminal symbol
+ *      you are expecting. E.g. to parse a list of Telos frames you would 
+ *      write: <br>
+ *      <tt> TelosFrames frames = parser.telosFrames(); </tt>
+ * <li> If you want to go on parsing, just repeat calling the function
+ *      corresponding to the appropiate nonterminal. For a list of all
+ *      nonterminals, see <a href="file:/home/radig/java/i5/cb/telos/Telos.html">the Telos grammar</a>
+ * </ul>
+ * @author Christoph Radig
+ */
+
+public class TelosParser
+{
+}  // class TelosParser
+
+PARSER_END(TelosParser)
+
+
+TOKEN_MGR_DECLS :
+{
+  int syntaxState;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Scanner
+///////////////////////////////////////////////////////////////////////////////
+
+<DEFAULT,PT,CML> SKIP :
+{
+  " " | "\t" | "\n" | "\r"  // white space
+|
+  "{" { syntaxState = curLexState; } : WithinComment
+|
+  "{$set syntax=PlainAachen}" : DEFAULT
+|
+  "{$set syntax=PlainToronto}" : PT
+|
+  "{$set syntax=CML}" : CML
+}
+
+
+<DEFAULT,PT> TOKEN :
+{
+  < IN: "in" >
+|
+  < ISA: "isA" >
+|
+  < WITH: "with" >
+}
+
+
+<DEFAULT> TOKEN :
+{
+  < END: "end" >
+}
+
+
+<PT> TOKEN :
+{
+  < END_PT: "end" >
+}
+
+
+<CML> TOKEN :
+{
+  < IN_CML: "IN" >
+|
+  < ISA_CML: "ISA" >
+|
+  < WITH_CML: "WITH" >
+|
+  < END_CML: "END" >
+}
+
+
+<DEFAULT,PT,CML> TOKEN : 
+{
+  < SELECTOR1: "!" | "^" | "@" >
+|
+  < SELECTOR2: "->" | "=>" >
+|
+  < SELECTORB: "." | "|" >
+|
+  < SCOPERES: "::" >
+|
+  ":" | ";" | "," | "(" | ")" | "[" | "]" | "/"
+|
+  < ALPHANUM: (["a"-"z","A"-"Z","0"-"9"])+ >
+|     
+  < #Num : ["0"-"9"] >
+|
+  < NUMBER: ("-")? (<Num>)+
+          | ("-")? ( (<Num>)+ "." (<Num>)* 
+                     | (<Num>)* "." (<Num>)+ 
+                   ) 
+                   ( ["E","e"] (["-","+"])? (<Num>)+ )? >
+|
+  < LABEL: (~[".","|","'","\"","$",":",";"," ","\n","@","\t","\r","\f",
+              "!","^","-",">","=",",","(",")","[","]","{","}","/"])+ >
+}
+
+
+<DEFAULT,CML,PT> MORE :
+{
+  "\"" { syntaxState = curLexState; } : WithinString
+|
+  "$"  { syntaxState = curLexState; } : WithinRule
+}
+
+
+<WithinComment> SKIP :
+{
+  "}" { SwitchTo( syntaxState ); }
+|
+  <~[]>
+}
+
+
+<WithinString> MORE :
+{
+  <~["\"","\\"]>
+|
+  "\\\""
+|
+  "\\\\"
+}
+
+<WithinString> TOKEN :
+{
+  < STRINGLABEL: "\"" > { SwitchTo( syntaxState ); }
+}
+
+
+<WithinRule> MORE :
+{
+  <~["$"]>
+}
+
+<WithinRule> TOKEN :
+{
+  < RULELABEL: "$" > { SwitchTo( syntaxState ); }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Parser
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * parses a list of Telos frames
+ */
+TelosFrames telosFrames() :
+{
+  TelosFrames result = new TelosFrames();
+  TelosFrame c;
+}
+{ 
+  ( c=telosFrame() { result.add( c ); } )* <EOF>
+
+  { return result; }
+}
+
+
+/**
+ * parses a single Telos frame
+ */
+TelosFrame telosFrame() :
+{
+  ObjectName inOmega = null;
+  ObjectName name = null;
+  ObjectNames in = null;
+  ObjectNames isa = null;
+  WithSpec with = null;
+}
+{
+  LOOKAHEAD( objectName() objectName() )
+
+  inOmega=objectName() name=objectName() [ in=inSpec() ] [ isa=isaSpec() ] 
+  [ with=withSpec() ] end() 
+  
+  { return new TelosFrame( inOmega, name, in, isa, with ); }
+|
+  name=objectName() [ in=inSpec() ] [ isa=isaSpec() ] [ with=withSpec() ] end()
+  
+  { return new TelosFrame( inOmega, name, in, isa, with ); }
+}  // telosFrame
+
+
+TelosFrame optionalTelosFrame() :
+{
+  TelosFrame r = null;
+}
+{
+  [ r=telosFrame() ]  { return r; }
+}
+
+
+ObjectNames objectNames() :
+{
+  ObjectNames r = new ObjectNames();
+  ObjectName c;
+}
+{ 
+  c=objectName() { r.append( c ); } ( "," c=objectName() { r.append( c ); } )* 
+
+  { return r; }
+}
+
+
+ObjectName objectName() :
+{
+  ObjectName r;
+  ObjectName c;
+  Token s;
+}
+{
+  r=objectName1()
+  ( 
+    s=<SELECTOR2> c=objectName1() { r = new SelectExp( r, s.image, c ); } 
+  )*
+  
+  { return r; }
+}
+
+
+ObjectName objectName1() :
+{
+  ObjectName r;
+  Label c;
+  Token s;
+}
+{
+  r=objectName2()
+  ( 
+    s=<SELECTOR1> c=label()  { r = new SelectExp( r, s.image, c ); }
+  )*
+
+  { return r; }
+}
+
+
+ObjectName objectName2() :
+{
+  ObjectName r;
+}
+{
+  LOOKAHEAD( label() "[" )
+  r=deriveExp()  { return r; }
+|
+  r=label()  { return r; }
+| 
+  "(" r=objectName() ")"  { return r; }
+}
+
+
+DeriveExp deriveExp() :
+{
+  SList li = new SList();
+  Label la;
+  Binding b;
+}
+{
+  la=label() "[" 
+    b=binding() { li.add( b ); } ( "," b=binding() { li.add( b ); } )* 
+  "]"
+
+  { return new DeriveExp( la, li ); }
+}
+
+
+Binding binding() : 
+{
+  Label l;
+  ObjectName o;
+}
+{
+  LOOKAHEAD( label() ":" )
+  l=label() ":" o=objectName()  { return new Specialization( l, o ); }
+| 
+  o=objectName() "/" l=label()  { return new Substitution( o, l ); }
+}
+
+
+AQualifiedObjectName qualifiedObjectName() :
+{
+  AQualifiedObjectName r;
+}
+{
+  LOOKAHEAD(2)
+  r=qualifiedObjectName1()  { return r; }
+|
+  LOOKAHEAD( objectName() )
+  r=objectName()  { return r; }
+| 
+  "(" r=qualifiedObjectName() ")"  { return r; }
+}
+
+
+QualifiedObjectName qualifiedObjectName1() :
+{
+  Qualifiers q = new Qualifiers();
+  Label l;
+}
+{
+  ( LOOKAHEAD(2) l=label() <SCOPERES> { q.append( l ); } )+ l=label()
+
+  { return new QualifiedObjectName( q, l ); }
+}
+
+
+ObjectNames inSpec() :
+{
+  ObjectNames o;
+}
+{
+  (<IN>|<IN_CML>) o=objectNames()  { return o; }
+}
+
+
+ObjectNames isaSpec() :
+{
+  ObjectNames o;
+}
+{
+  (<ISA>|<ISA_CML>) o=objectNames()  { return o; }
+}
+
+
+WithSpec withSpec() :
+{
+  WithSpec w;
+}
+{
+  with() w=declarations()  { return w; }
+}
+
+
+void with() :
+{}
+{
+  <WITH> | <WITH_CML>
+}
+
+
+WithSpec declarations() :
+{
+  WithSpec r = new WithSpec();
+  Declaration d;
+}
+{
+  ( d=declaration() { r.append( d ); } )*  { return r; }
+}
+
+
+Declaration declaration() : 
+{
+  AttrCategories a;
+  Properties p;
+}
+{
+  a=attrCategories() p=properties()  
+
+  { return new Declaration( a, p ); }
+}
+
+
+AttrCategories attrCategories() :
+{
+  AttrCategories r = new AttrCategories();
+  Label l;
+}
+{
+  l=label() { r.append( l ); }
+  ( "," l=label() { r.append( l ); } )*
+
+  { return r; }
+}
+
+
+Properties properties() :
+{
+  Properties r = new Properties();
+  Property p;
+}
+{
+  p=property() { r.append( p ); } 
+  ( ";" p=property() { r.append( p ); } )*
+
+  { return r; }
+}
+
+
+Property property() :
+{
+  Label l;
+  PropertyTarget pt;
+}
+{
+  l=label() ":" pt=propertyTarget()
+
+  { return new Property( l, pt ); }
+}
+
+
+PropertyTarget propertyTarget() : 
+{
+  PropertyTarget r;
+}
+{
+  r=enumeration()  { return r; }
+|
+  LOOKAHEAD( qualifiedObjectName() <SELECTORB> )
+  r=pathExp()  { return r; }
+|
+  LOOKAHEAD( objectNames() with() )
+  r=complexRef()  { return r; }
+|
+  r=objectName()  { return r; }
+}
+
+
+Enumeration enumeration() :
+{
+  ObjectNames o;
+}
+{
+  "[" o=objectNames() "]"
+
+  { return new Enumeration( o ); }
+}
+
+
+PathExp pathExp() : 
+{
+  AQualifiedObjectName qo;
+  Token sel;
+  APathTarget pt;
+}
+{
+  qo=qualifiedObjectName() sel=<SELECTORB> pt=pathTarget()
+
+  { return new PathExp( qo, sel.image, pt ); }
+}
+
+
+APathTarget pathTarget() :
+{
+  APathTarget r;
+  Restriction r2;
+  Token s;
+}
+{
+  r=restriction() 
+  ( 
+    s=<SELECTORB> r2=restriction()  { r = new PathTarget( r, s.image, r2 ); }
+  )*
+
+  { return r; }
+}
+
+
+Restriction restriction() :
+{
+  Label l;
+  RestrictionTarget t;
+}
+{
+  l=label()
+
+  { return new Restriction( l ); }
+|
+  "(" l=label() ":" t=restrictionTarget() ")"  
+  
+  { return new Restriction( l, t ); }
+}
+
+
+RestrictionTarget restrictionTarget() : 
+{
+  RestrictionTarget r;
+}
+{
+  r=enumeration()  { return r; }
+|
+  LOOKAHEAD(2)
+  r=pathExp()  { return r; }
+|
+  r=objectName()  { return r; }
+}
+
+
+ComplexRef complexRef() :
+{
+  ComplexRef r;
+  ObjectNames o;
+  WithSpec w;
+}
+{
+  o=objectNames() w=withSpec() end()
+
+  { return new ComplexRef( o, w ); }
+}
+
+
+void end() :
+{}
+{
+  <END>
+|
+  <END_CML>
+|
+  <END_PT> objectName()
+}
+
+
+Label label() :
+{
+  Token t;
+}
+{
+  t=<ALPHANUM>  { return new Label( t.image ); }
+    // eigentlich ueberfluessig, da <LABEL> eine Obermenge ist
+    // vielleicht effizienter -> testen
+|
+  t=<NUMBER>  { return new Label( t.image ); }
+    // nicht ueberfluessig!
+|
+  t=<LABEL>  { return new Label( t.image ); }
+|
+  t=<STRINGLABEL>  { return new Label( t.image ); }
+|
+  t=<RULELABEL>  { return new Label( t.image ); }
+}
+
+void eof() : 
+{} 
+{
+    <EOF> { return; }
+}
+
+
+
+
+
+
+

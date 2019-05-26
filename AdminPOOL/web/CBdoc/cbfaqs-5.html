@@ -1,0 +1,117 @@
+<HTML>
+<HEAD>
+<title>Frequently asked questions on ConceptBase</title>
+</HEAD>
+<BODY background="PIC/cb-bg.gif">
+
+<ADDRESS><A HREF="http://www-i5.informatik.rwth-aachen.de/CBdoc/">ConceptBase Home</A>,
+Informatik V, RWTH Aachen
+</ADDRESS>
+<hr>
+
+<BLOCKQUOTE>
+
+
+<h1>Frequently asked questions on ConceptBase</h1>
+
+The following list gives answers to some of the most frequent questions on the usage of
+ConceptBase. It refers to version 5.0 of ConceptBase released 12-May-1998.
+<p>
+See also frequently asked questions on <A HREF="cbfaqs-40.html">version 4.0</A>
+and <A HREF="cbfaqs-33.html">version 3.3</A>!
+
+<p><hr>
+<DL>
+  <DT> <b>Question 1:</b>
+     <DD> I want to model a device which contains several parts
+          where for some of these parts different versions are allowed.
+          These versions are customized for certain requirements
+          but I do not want to distinguish all combinations at the
+          class level. How can I do that?
+  <DT> <b>Answer:</b>
+     <DD> You may either try to create a new link type 'version'
+          whose semantics could be modeled by suitable meta formulas
+         (see ConceptBase <A HREF="userManual/">user manual</A>) or
+          use the already predefined "isA" link at the instance level.
+          For example consider a computer manufacturer which
+          models its product at the class level as follows:
+<PRE>
+      Class Product with
+        attribute
+          part: Product
+      end  {This is actually a meta class }
+
+      Product Computer with
+       part
+         memory: MainMemory;
+         cpu: CPU
+      end
+
+      Product CPU end
+      Product MainMemory end
+</PRE>
+      The class Computer shall be treated as a simple class in this example.
+      Now assume that there is a configuration constraint that CPU's
+      'ipx887*' would only work with 'DRAM' main memory chips (including
+      'SDRAM', 'S2DRAM' and 'VSDRAM' which are all fulfilling the
+      specifications for 'DRAM'). The following shows you how to represent that
+      with 'isA' at the instance level:
+<PRE>
+      CPU ipx887 end
+      CPU ipx887a isA ipx887 end
+      CPU ipx887b isA ipx887 end
+
+      Class Computer with
+        constraint
+          c1: $ forall pc/Computer c/CPU mm/MainMemory
+                    (pc cpu c) and (pc memory mm) and (c isA ipx887)
+                 ==> (mm isA DRAM) $
+      end
+
+      MainMemory SRAM end
+      MainMemory DRAM end
+      MainMemory SDRAM isA DRAM end
+      MainMemory S2DRAM isA SDRAM end
+      MainMemory VSDRAM isA SDRAM end
+</PRE>
+      Note that the objects ipx887*, SRAM and DRAM*
+      are all at the instance level. Also note that the constraint
+      is formulated for all CPU's of kind 'ipx887'. We treat 'ipx887'
+      and 'DRAM' as general representatives of all their versions.
+      If we would try to model that at the class level, then we had
+      to create a class for each combination of ipx887 CPU and
+      DRAM main memory. The above solution is much simplier. The
+      computer manufacturer can include a new DRAM version just by
+      inserting its definition like above for SDRAM etc.
+      Note that the 'isA' link type is reflexive and transitive. This is
+      exactly what we need here.
+<P>
+      Now we can define some instances of computer. The first one is
+      consistent with the constraint c1 of Computer, the second is not.
+      Note that the constraint can only be violated when a CPU and certain
+      main memory is configured into the same instance of computer.
+<PRE>
+      Computer pc_88 with
+        cpu     cpu1: ipx887b
+        memory  bank1: S2DRAM;
+                bank2: SDRAM
+      end
+
+      Computer pc_44 with
+        cpu     cpu1: ipx887a
+        memory  bank1: SRAM
+      end
+</PRE>
+</DL>
+
+
+
+</BLOCKQUOTE>
+
+
+<hr><p><address>
+&copy; <a HREF="http://www-i5.informatik.rwth-aachen.de/mjf/mjf.html">M. Jeusfeld</a>, 27-May-1998
+</address>
+</BODY>
+</HTML>
+

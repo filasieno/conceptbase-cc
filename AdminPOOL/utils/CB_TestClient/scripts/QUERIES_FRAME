@@ -1,0 +1,73 @@
+
+tell_model(['/home/CBase/CB_NewStruct/CB_Product/examples/QUERIES/Employee_Classes']).
+answer(ok,yes).
+{*******************************************************}
+tell_model(['/home/CBase/CB_NewStruct/CB_Product/examples/QUERIES/Employee_Instances']).
+answer(ok,yes).
+{*******************************************************}
+tell_model(['/home/CBase/CB_NewStruct/CB_Product/examples/QUERIES/Employee_Queries']).
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'BillsMetaBoss\n',FRAME,Now).
+answer(ok,'Angus in BillsMetaBoss \nend \n\nJohn in BillsMetaBoss \nend \n\nOscar in BillsMetaBoss \nend \n').
+{*******************************************************}
+ask(OBJNAMES,'DerivedFromMetabossQuery1\n',FRAME,Now).
+answer(ok,'Angus in DerivedFromMetabossQuery1 \nend \n\nJohn in DerivedFromMetabossQuery1 \nend \n\nOscar in DerivedFromMetabossQuery1 \nend \n').
+{*******************************************************}
+ask(OBJNAMES,'DerivedFromMetabossQuery2\n',FRAME,Now).
+answer(ok,'Lloyd in DerivedFromMetabossQuery2 \nend \n').
+{*******************************************************}
+ask(OBJNAMES,'Derived_1_FromWell_off_SI_Manager5\n',FRAME,Now).
+answer(ok,'Lloyd in Derived_1_FromWell_off_SI_Manager5 \nend \n\nAngus in Derived_1_FromWell_off_SI_Manager5 \nend \n').
+{*******************************************************}
+ask(OBJNAMES,'Derived_2_FromWell_off_SI_Manager5\n',FRAME,Now).
+answer(ok,'Angus in Derived_2_FromWell_off_SI_Manager5 \nend \n').
+{*******************************************************}
+ask(OBJNAMES,'Derived_3_FromWell_off_SI_Manager5\n',FRAME,Now).
+answer(ok,'Lloyd in Derived_3_FromWell_off_SI_Manager5 \nend \n').
+{*******************************************************}
+ask(OBJNAMES,'Derived_4_FromWell_off_SI_Manager5\n',FRAME,Now).
+answer(ok,'Lloyd in Derived_4_FromWell_off_SI_Manager5 \nend \n').
+{*******************************************************}
+ask(OBJNAMES,'Emp_and_Dep\n',FRAME,Now).
+answer(ok,_).
+{*******************************************************}
+ask(OBJNAMES,'EmployeeSalaries\n',FRAME,Now).
+answer(ok,'Lloyd!LloydsSalary in EmployeeSalaries \nend \n\nPhil!PhilsSalary in EmployeeSalaries \nend \n\nEleonore!EleonoresSalary in EmployeeSalaries \nend \n\nAngus!AngusSalary in EmployeeSalaries \nend \n\nMichael!MichaelsSalary in EmployeeSalaries \nend \n\nJack!JacksSalary in EmployeeSalaries \nend \n\nJoe!JoesSalary in EmployeeSalaries \nend \n\nMax!MaxSalary in EmployeeSalaries \nend \n\nRita!RitasSalary in EmployeeSalaries \nend \n\nHerbert!HerbertsSalary in EmployeeSalaries \nend \n\nSusan!SusansSalary in EmployeeSalaries \nend \n\nThomas!ThomasSalary in EmployeeSalaries \nend \n\nChristopher!ChristophersSalary in EmployeeSalaries \nend \n\nMary!MarysSalary in EmployeeSalaries \nend \n\nFelix!FelixsSalary in EmployeeSalaries \nend \n\nRobert!RobertsSalary in EmployeeSalaries \nend \n\nEdward!EdwardsSalary in EmployeeSalaries \nend \n\nBill!BillsSalary in EmployeeSalaries \nend \n').
+{*******************************************************}
+ask(OBJNAMES,'MetabossQuery\n',FRAME,Now).
+answer(ok,'Lloyd in MetabossQuery \nend \n\nPhil in MetabossQuery \nend \n\nEleonore in MetabossQuery \nend \n\nAngus in MetabossQuery \nend \n\nJohn in MetabossQuery \nend \n\nOscar in MetabossQuery \nend \n').
+{*******************************************************}
+ask(OBJNAMES,'SI_Manager\n',FRAME,Now).
+answer(ok,'Lloyd in SI_Manager with \n  salary\n     LloydsSalary : 100000\n  union\n     LloydsUnion : IGM\nend \n\nEleonore in SI_Manager with \n  salary\n     EleonoresSalary : 20000\n  union\n     EleonoresUnion : HBV\nend \n\nAngus in SI_Manager with \n  salary\n     AngusSalary : 110000\n  union\n     AngusUnion : DAG\nend \n').
+{*******************************************************}
+ask(OBJNAMES,'SI_led_Department2\n',FRAME,Now).
+answer(ok,'Production in SI_led_Department2 \nend \n\nAdministration in SI_led_Department2 \nend \n\nResearch in SI_led_Department2 \nend \n').
+{*******************************************************}
+ask(OBJNAMES,'SI_led_Department\n',FRAME,Now).
+answer(ok,'Production in SI_led_Department with \n  head\n     Boss_of_Production : Lloyd\nend \n\nAdministration in SI_led_Department with \n  head\n     Boss_of_Administration : Eleonore\nend \n\nResearch in SI_led_Department with \n  head\n     Boss_of_Research : Angus\nend \n').
+{*******************************************************}
+ask(OBJNAMES,'Used_SimpleClass\n',FRAME,Now).
+answer(ok,'Employee in Used_SimpleClass \nend \n\nDepartment in Used_SimpleClass \nend \n').
+{*******************************************************}
+ask(OBJNAMES,'Well_off_Manager\n',FRAME,Now).
+answer(ok,'Lloyd in Well_off_Manager \nend \n\nPhil in Well_off_Manager \nend \n\nAngus in Well_off_Manager \nend \n').
+{*******************************************************}
+ask(OBJNAMES,'Well_off_SI_Manager\n',FRAME,Now).
+answer(ok,'Lloyd in Well_off_SI_Manager with \n  salary\n     LloydsSalary : 100000\n  union\n     LloydsUnion : IGM\nend \n\nAngus in Well_off_SI_Manager with \n  salary\n     AngusSalary : 110000\n  union\n     AngusUnion : DAG\nend \n').
+{*******************************************************}
+ask(OBJNAMES,'Well_off_SI_Manager2\n',FRAME,Now).
+answer(ok,'Lloyd in Well_off_SI_Manager2 with \n  union\n     LloydsUnion : IGM\nend \n\nAngus in Well_off_SI_Manager2 with \n  union\n     AngusUnion : DAG\nend \n').
+{*******************************************************}
+ask(OBJNAMES,'Well_off_SI_Manager3\n',FRAME,Now).
+answer(ok,_).
+{*******************************************************}
+ask(OBJNAMES,'Well_off_SI_Manager4\n',FRAME,Now).
+answer(ok,_).
+{*******************************************************}
+ask(OBJNAMES,'Well_off_SI_Manager5\n',FRAME,Now).
+answer(ok,_).
+{*******************************************************}
+ask(OBJNAMES,'Well_off_SI_led_Department\n',FRAME,Now).
+answer(ok,'Production in Well_off_SI_led_Department with \n  head\n     Boss_of_Production : Lloyd\nend \n').
+{*******************************************************}

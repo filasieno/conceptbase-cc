@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="cbTutorial2.css">
+<title>Define an example process model</title>
+</head>
+<body >
+<a href="cbTutorial2005.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="cbTutorial2007.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h2 id="sec8" class="section">6&#XA0;&#XA0;Define an example process model</h2>
+<p>Recall the insurance scenario. Now we need to represent a 
+workflow in this domain with our newly defined process modeing notation.</p><p><br>
+<br>
+
+<span class="textboxed">
+</span></p><div class="minipage"><span class="textboxed"><span style="font-style:italic"><span style="font-weight:bold">Exercise 11:</span></span></span><span class="textboxed"><span style="font-style:italic"> 
+Claim handling starts with an insurance agent receiving the claim.
+Afterwards, the policy is checked. Afterwards, either a payment is proposed 
+or an assessor is assigned. The assessor assesses the damage. On that basis,
+the insurance agent proposes a payment. After proposing the payment, we either can 
+continue with processing the payment (customers accepts the proposal), or
+we need to iterate i.e. check again the policy and possibly repropose a new payment.
+The workflow is finished after processing the payment.
+</span></span><span class="textboxed">
+</span></div><p><span class="textboxed">
+</span>
+<br>
+<br>
+
+</p><pre class="verbatim">start in Task with
+  successor
+     n: receiveClaim
+end
+
+receiveClaim in Task with
+   successor
+     n: checkPolicy
+end
+
+checkPolicy in Task with
+    successor
+      n1: assignAssessor;
+      n2: proposePayment
+end
+
+assignAssessor in Task with
+     successor
+       n: assessDamage
+end
+
+assessDamage in Task with
+   successor
+     n: proposePayment
+end
+
+proposePayment in Task with
+    successor
+      accept: processPayment;
+      reject: checkPolicy
+end
+
+processPayment in Task with
+   successor
+     n: finish
+end
+
+finish in Task end
+
+
+Assessor in Agent with
+  executes
+    t1: assessDamage
+end
+
+InsuranceAgent in Agent with
+   executes
+     t1: receiveClaim;
+     t2: proposePayment
+end
+</pre><p><br>
+<br>
+
+<span class="textboxed">
+</span></p><div class="minipage"><span class="textboxed"><span style="font-style:italic"><span style="font-weight:bold">Exercise 12:</span></span></span><span class="textboxed"><span style="font-style:italic"> 
+Ask the two queries </span></span><span class="textboxed"><span style="font-style:italic"><span style="font-family:monospace">LoopTask</span></span></span><span class="textboxed"><span style="font-style:italic"> and </span></span><span class="textboxed"><span style="font-style:italic"><span style="font-family:monospace">AgentWithSplitResponsibility</span></span></span><span class="textboxed"><span style="font-style:italic">.
+</span></span><span class="textboxed">
+</span></div><p><span class="textboxed">
+</span>
+<br>
+<br>
+
+</p><p>The answer to <span style="font-family:monospace">LoopTask</span> is <span style="font-family:monospace">checkPolicy</span>, <span style="font-family:monospace">assignAssessor</span>,
+<span style="font-family:monospace">assessDamage</span>, <span style="font-family:monospace">proposePayment</span>. 
+The answer to <span style="font-family:monospace">AgentWithSplitResponsibility</span> is <span style="font-family:monospace">InsuranceAgent</span>, <span style="font-family:monospace">Assessor</span>. Note that
+the task <span style="font-family:monospace">assessDamage</span> is in a loop with <span style="font-family:monospace">proposePayment</span>. Hence, a sequence
+<span style="font-family:monospace">assessDamage</span>-<span style="font-family:monospace">proposePayment</span>-<span style="font-family:monospace">checkPolicy</span>-<span style="font-family:monospace">assignAssessor</span>-<span style="font-family:monospace">assessDamage</span> is possible and is the
+reason to classify both agents into the query class <span style="font-family:monospace">AgentWithSplitResponsibility</span>.</p><p>You can also visualize the results of the queries by the graph editor. The example process model
+together with the classification to the two query classes is shown in figure <a href="#fig%3Acbiva6">5</a>.</p><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
+<div class="center"><img src="cbTutorial2005.png"></div>
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 5: Classifying a process model via query classes</td></tr>
+</table></div>
+<a id="fig:cbiva6"></a>
+<div class="center"><hr style="width:80%;height:2"></div></blockquote><p>The dotted green links are derived instantiations. So, an object that is in the answer set
+of a query class is regarded as a derived instance of that query class. Indeed, query classes
+are classes where the instances are derived via the membership condition of the query class.</p><p><br>
+<br>
+<br>
+
+</p>
+<hr>
+<a href="cbTutorial2005.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="cbTutorial2007.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

@@ -1,0 +1,297 @@
+/*
+The ConceptBase.cc Copyright
+
+Copyright 1987-2019 The ConceptBase Team. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted
+provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of
+      conditions and the following disclaimer.
+   2. Redistributions in binary form must reproduce the above copyright notice, this list of
+      conditions and the following disclaimer in the documentation and/or other materials
+      provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those of the authors
+and should not be interpreted as representing official policies, either expressed or implied,
+of the ConceptBase Team.
+
+
+The ConceptBase Team is represented by
+
+Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+
+
+This license is a FreeBSD-style copyright license.
+Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
+*/
+package i5.cb.graph.diagram;
+
+import i5.cb.graph.DiagramDesktop;
+import i5.cb.graph.cbeditor.CBUserObject;
+import i5.cb.CBConfiguration;
+
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.util.Collection;
+import java.util.Iterator;
+
+import javax.swing.JPopupMenu;
+import javax.swing.event.MouseInputAdapter;
+
+/**
+ *
+ * This is the standard {@link java.awt.event.MouseListener} for every {@link DiagramObject}.
+ *
+ *
+ *
+ * @author <a href="mailto:Tobias.Schoeneberg@epost.de">Tobias Schoeneberg</a>
+ *
+ * @version 1.0
+ *
+ */
+public class DiagramNodeMouseListener extends MouseInputAdapter {
+
+	/**
+	 *
+	 * Point where the mouse was pressed to start dragging
+	 *
+	 * */
+
+	private Point pStartDragPoint = null;
+        private long disableDoubleClickTime = 0L;  // time in millis from which on double-clicks are enabled
+
+	/**
+	 *
+	 * This method is invoked when a mousebutton was pressed and released over a {@link DiagramObject}
+	 *
+	 *
+	 *
+	 * @param e a <code>MouseEvent</code> value
+	 *
+	 */
+
+	public void mouseClicked(MouseEvent e) {
+
+		//java.util.logging.Logger.getLogger("global").fine("DiagramNodeMouseListener.mouseClicked: clicked " + e);
+
+		Component glassPane = (Component) e.getSource();
+
+		DiagramNode dn = (DiagramNode) glassPane.getParent();
+
+		DiagramDesktop dd = dn.getDiagramDesktop();
+
+		// right klick
+
+		if ((e.isPopupTrigger())
+			| (e.getModifiers() == MouseEvent.BUTTON3_MASK)) {
+
+			//Both .getPopupMenu and getInfoPane might take a few seconds at the first time, so we show our user
+
+			//that the system is busy with a wait-cursor.
+
+			glassPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
+			if (!dd.isInSelectedGroup(dn)) {
+
+				// if the clicked node was not selected, the current selection is ignored completely
+
+				dd.clearSelectedNodes();
+
+				dd.setNodeSelected(dn, true, false); // will not add contained nodes
+
+				// the single node popup menu is created
+
+				JPopupMenu jpm =
+					dn.getDiagramClass().getPopupMenu(dn.getUserObject());
+
+				if (jpm != null) {
+
+					jpm.show(dn, e.getX(), e.getY());
+
+				}
+
+			} else {
+				//if the clicked node was selected, a multi popupMenu is created for the current selection
+				JPopupMenu jpm = dn.getDiagramClass().getMultiPopup();
+				if (jpm != null) {
+					jpm.show(dn, e.getX(), e.getY());
+				}
+			}
+			glassPane.setCursor(new Cursor(Cursor.MOVE_CURSOR));
+		}
+
+		// left (or other) klick
+
+		else {
+
+                        if (e.isShiftDown() && e.isControlDown()) {
+
+				dd.setEdgesStraight(dn);  // to clean up a messy edge layout
+
+                        } else if (e.isShiftDown()) {
+
+				dd.setNodeSelected(dn, true, true);  // will add contained nodes
+
+			} else if (e.isControlDown()) {
+
+				dd.setNodeSelected(dn, !dn.isSelected(), true);
+
+
+			} else {
+
+				dd.clearSelectedNodes();
+
+				dd.setNodeSelected(dn, true);
+
+				dd.getGraphInternalFrame().getGraphEditor().setInfoDoc(
+					dn.getInfoDoc());
+
+			}
+
+		}
+
+		dd.setUseSmoothLines(true);
+
+	} //mouseClicked
+
+	/**
+	 *
+	 * This method is invoked if a mousebutton was pressed over a {@link DiagramObject}.
+	*
+	 * @param e a <code>MouseEvent</code> value
+	 *
+	 */
+	public void mousePressed(MouseEvent e) {
+
+                long currenttime = System.currentTimeMillis();
+		pStartDragPoint = e.getPoint();
+
+		Component glassPane = (Component) e.getSource();
+		DiagramNode dn = (DiagramNode) glassPane.getParent();
+		DiagramDesktop dd = dn.getDiagramDesktop();
+
+                // handle click actions if left mouse button was pressed when click actions are enabled
+                CBUserObject cbuo = (CBUserObject) dn.getUserObject();
+                if (e.getClickCount() == 1 && 
+                    javax.swing.SwingUtilities.isLeftMouseButton(e) &&
+                    CBConfiguration.getEnableClickActions()) {
+                   boolean clicked = cbuo.clickAction(dd,dn);
+                   if (clicked)
+                      disableDoubleClickTime = currenttime+700; // disable double clicks for 0.7 sec
+                }
+
+		if (e.getClickCount() == 2 && currenttime > disableDoubleClickTime) {
+			boolean origMoveFlag = dd.getMovableDiagramNodeOnEdge();
+			dd.setMovableDiagramNodeOnEdge(false);  // freeze "nodes on edges"
+			if (dn.isComponentVisible()) {
+				dn.setSmallComponentVisible();
+			} else {
+				dn.setComponentVisible();
+			}
+			dd.setMovableDiagramNodeOnEdge(origMoveFlag);
+		}
+
+		dd.setUseSmoothLines(true);
+	} //mousePressed
+
+	/**
+	  * Seems like this method is just used when a DiagramObject is moved, but not when it is resized
+	 *
+	 * @param e a <code>MouseEvent</code> value
+	 *
+	 */
+
+	public void mouseDragged(MouseEvent e) {
+
+		//	java.util.logging.Logger.getLogger("global").fine("DiagramNodeMouseListener.mouseDragged: dragged " + e);
+
+		if (pStartDragPoint == null)
+			return;
+
+		Component glassPane = (Component) e.getSource();
+
+		DiagramNode dn = (DiagramNode) glassPane.getParent();
+
+                if (dn.isFrozen())
+                   return;
+
+		DiagramDesktop dd = dn.getDiagramDesktop();
+
+		int dx = e.getX() - pStartDragPoint.x;
+
+		int dy = e.getY() - pStartDragPoint.y;
+
+		if (dd.getSelectedNodes().contains(dn)) {
+
+			// dd.setUseSmoothLines(false);  // always use smooth lines
+			moveSelectedGroup(dd.getSelectedNodes(), dx, dy);
+			return;
+
+		} // end of if (dd.getSelectedNodes().contains(dn))
+
+		dn.setCenter(dn.getCenter().x + dx, dn.getCenter().y + dy);
+                dn.setDragged(true);
+		
+	} //mouseDragged
+
+	/**
+	 * Does some postprocessing after having moved a nodes, i.e.
+         * setting smooth antialiased lines again, validate the locations of all
+         * edges, and repainting the whole
+	 */
+	public void mouseReleased(MouseEvent e) {
+		Component glassPane = (Component) e.getSource();
+		DiagramNode dn = (DiagramNode) glassPane.getParent();
+		DiagramDesktop dd = dn.getDiagramDesktop();
+		dd.setUseSmoothLines(true);    
+                dn.setDragged(false);
+                dd.validateEdges(); // somes edges of edges could be misplaced
+                dd.setEdited(true); // we have changed locations of some objects
+                dd.repaint();
+	} //mouseReleased
+
+	private void moveSelectedGroup(Collection selectedNodes, int dx, int dy) {
+		Iterator selectedNodesW = selectedNodes.iterator();
+		DiagramNode currentNode = null;
+		while (selectedNodesW.hasNext()) {
+			currentNode = (DiagramNode) selectedNodesW.next();
+			currentNode.setCenter(
+            currentNode.getCenter().x + dx,
+            currentNode.getCenter().y + dy);
+		}
+//		selectedNodesW = selectedNodes.iterator();
+//		while (selectedNodesW.hasNext()) {
+//			currentNode = (DiagramNode) selectedNodesW.next();
+//			currentNode.validateCenterSetting();
+//		}
+	}
+
+	/** Getter for property startDragPoint.
+	 * @return Value of property startDragPoint.
+	 */
+	public Point getStartDragPoint() {
+		return pStartDragPoint;
+	}
+
+	/** Setter for property startDragPoint.
+	 * @param startDragPoint New value of property startDragPoint.
+	 */
+	public void setStartDragPoint(Point startDragPoint) {
+		pStartDragPoint = startDragPoint;
+	}
+
+	//moveSelectedGroup
+
+} //DiagramNodeMouseListener

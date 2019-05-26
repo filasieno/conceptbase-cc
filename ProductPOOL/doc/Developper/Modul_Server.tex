@@ -1,0 +1,400 @@
+% -*-latex-*-
+
+\NeedsTeXFormat{LaTeX2e}
+\documentclass[a4paper,11pt]{report}
+\usepackage[latin1]{inputenc}
+\usepackage{german}
+\usepackage{a4,a4wide}
+\usepackage{graphicx}
+\usepackage{latexsym}           % für \Box
+%\usepackage{longtable}
+\usepackage{fancyheadings}
+\usepackage{verbatim}
+\usepackage[lflt]{floatflt}
+
+
+% Konfiguration
+
+\flushbottom
+\sloppy
+\setlength\unitlength{1cm}
+\setlength\parindent{0cm}
+\setlength\parskip{0.75ex plus 0.25ex minus 0.25ex}
+
+% Environment Definitionen
+
+
+\newenvironment{myverb}
+   {\vspace*{1ex}\small\renewcommand{\baselinestretch}{0.88}\verbatim}{\renewcommand{\baselinestretch}{\mybaselinestretch}\endverbatim\vspace*{1ex}}
+
+% Abkürzungen
+
+\newcommand{\und} 	{\wedge}
+\newcommand{\oder}      {\vee}
+\newcommand{\folgt} 	{\Rightarrow}
+\newcommand{\gdw}	{\Longleftrightarrow}
+
+
+\begin{document}
+
+
+\title{{\bf Implementierung von Modulen in ConceptBase5.0} \\ Technische Dokumentation}
+\author{Lutz Bauer \\ Lehrstuhl f"ur Informatik V \\  RWTH Aachen }
+\maketitle
+ 
+ 
+
+% Inhaltsverzeichnis
+
+\tableofcontents
+
+% fancysettings
+
+\pagestyle{fancy}
+
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ \ #1}}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ \ #1}{}}
+\lhead[\thepage]{ {\sl \rightmark}}
+\rhead[ {\sl \leftmark}]{\thepage}
+\lfoot{}
+\cfoot{}
+\rfoot{}
+
+
+ 
+\section{Einleitung}
+
+Die Entwicklung der Modulfeatures von ConceptBase hat eine Reihe von Evolutionsschritten des Servers mitgemacht. Die Entwicklung begann auf der 'Prolog-Version' des Servers und wurde dann auf die Objektspeicherversion übertragen. In der Version CBserver5.0, der dieser technischen Dokumentation zugrunde liegt, werden Dinge wie 
+\begin{itemize}
+\item	Die Modulzugehörigkeit eines Objekts
+\item	Abbildung der Export- und Importschnittstellen eines Moduls
+\item	Das Suchen (retrieve) von Objekten in einem Modulkontext (auch unter Berücksichtigung der Export- und Importschnittstellen) 
+\end{itemize}
+komplett durch den Objektspeicher implementiert. In Abschnitt \ref{sec:OO} gehe ich auf die für die Modulfeatures relevante Schnittstelle zum Objektspeicher ein. Ansonsten sei auf die entspechende technische Dokumentation des Objektspeichers von Thomas List verwiesen.
+
+Dieses Dokument bezieht sich also auf die PROLOG-Teile der Implementierung der Modulfeatures. Die Konzepte der Moduleigenschaften von ConceptBase sind in dem Internen Bericht i5-9505 beschrieben, der auf der internen CBase-Entwicklerseite verfügbar ist. 
+
+In den folgenden Abschnitten wird auf einige Gesamtzusammenhänge (Standardmodule für jeden Client, Integritätsüberprüfung) eingegangen, danach folgt eine Übersicht der "Anderungen in den einzelnen PROLOG-Modulen des Servers.
+
+
+\section{Standardmodule für Clients}
+
+Der Server kennt für jeden bei ihm angemeldeten Client ein sog. Standardmodul, in dessen Kontext die Operationen für den Client ausgeführt werden. Dieses Modul ist in {\tt knownTool/5} gespeichert und wird durch das Modulargument bei {\tt ENROLL\_ME} gesetzt. Gibt ein Client bei {\tt ENROLL\_ME} kein Modulargument an, so wird das {\tt System} Modul als Standardmodul festgelegt.
+
+Die IPC-Grammatik kennt für jede Operation einen optionalen Modulparameter. Gibt ein Client z.B. für {\tt TELL} ein Modulparameter an, so wird diese {\tt TELL}-Operation im Kontext des übergebenen Moduls (statt des Standardmoduls)  ausgeführt. Danach verwendet der Server wieder das Standard-Modul für den Client.
+
+Ein Client kann also den gewünschten Modulkontext für jede Operation übergeben. 
+Das Standardmodul kann nicht nachträglich geändert werden. Jedenfalls prinzipiell - es existiert ein Hack: wenn der Client den Prolog-Call {\tt update(MSP(\_mod))} aufruft, so wird sein Standardmodul auf {\tt \_mod} (es handels sich hier um den Labeltext des Moduls) umgesetzt - dies ist jedoch eigentlich nicht im Sinne des Erfinders und wurde eingeführt, da die Clients noch nicht die erweiterte IPC-Grammatik für den Modulserver benutzen (z.B. CBinterface). Langfristig sollte jeder Client für jede Operation das gewünschte Modul mit übergeben (oder er arbeitet immer auf seinem Standardmodul).
+
+Die Verwaltung der Standardmodule und des Modulkontextes für die aktuelle Transaktion erfolgt in {\tt CBserverInterface.pro}.
+
+
+
+
+\section{Integritätsüberprüfung und Regelauswertung im Modulserver}
+
+Constraints sind zunächst nur in dem Modul sichtbar, in dem sie definiert (getellt) wurden. Das gleiche gilt für Regeln. 
+Die Sichtbarkeit einer Constraint wird in {\tt BDMEvaluation.pro} geprüft (siehe Abschnitt \ref{sec:BDME}). Die Sichtbarkeit einer Regel wird in der Prozedur {\tt RBTimeRelevantRule/1} in {\tt LTstubs.pro} überprüft  (siehe Abschnitt \ref{sec:LTstubs}). Für die Sichtbarkeit relevant ist die Instanzbeziehung des jeweiligen Assertion-Textes der Constraint (d.h. das Objekt mit dem Label \$ exists ... \$) zu {\tt MSFOLconstraint}.
+
+Die Stelligkeit der Constraint-Trigger wurde um eins erhöht - eben hier findet die ID des Assertion-Textes der Constraint Platz. (siehe Abschnitt \ref{sec:BDME}).
+Die Regel-Trigger haben in ihrer Komponente {\tt RBTimeRelevantRule/1} eine weitere Stelle erhalten (siehe \ref{sec:LTstubs}) - eben hier findet die ID der Assertion-Textes der Regel Platz.
+
+Regeln und Constraints können von einem Modul in andere Module exportiert werden. Probleme hierbei sind: 
+\begin{itemize}
+
+\item	Constraints werden beim Tell in 'Trigger' festgebrannt. D.h., der Assertion Text wird geparst, die in ihm vorkommenen Objektlabel werden zu IDs übersetzt und dann in einer Form in OB.rule abgespeichert. Wenn eine Constraint (oder analog eine Regel) in ein fremdes Modul exportiert wird, kann es natürlich sein, da"s die in der Constraint benutzten Objekte in diesem Modul gar nicht sichtbar sind. Dies wird nicht vom Intergritätstester bemerkt. Im Assertion Text sind die evtl. nicht sichtbaren Objekte jedoch zu lesen - es handelt sich ja nur um Text.
+  Noch schlimmer ist, wenn im Modul Objekte mit gleichem Namen - jedoch anderer ID enthalten sind. Hierbei werden die zur Übersetzungszeit der Constraint (in ihrem Ursprungsmodul) sichtbaren IDs benutzt - der User merkt davon vielleicht gar nichts.
+
+Der Import/Export von Constraints/Regeln ist also mit  Seiteneffekten behaftet....
+
+
+\item Wird eine Constraint in ein Fremdes Modul exportiert (durch den Export des Instanzenlinks  {\tt \$ forall ... \$->MSFOLconstraint}), so wird beim TELL überprüft, ob dieses Modul die Constraint erfüllt. Falls nicht, gibt es eine entsprechende Fehlermeldung. 
+
+Hierzu wird in {\tt tellRuleOrIntegrityConstraint/1} in {\tt BDMEvaluation.pro} im Kontext des importierenden Moduls geprüft, ob dieses die IC erfüllt. Dabei 'merkt' das importierende
+Modul gar nicht, dass es sich nicht um eine neu getellte IC, sondern um eine 'neu exportierte' Constraint handelt.
+
+\end{itemize}
+
+
+Bei einem TELL/UNTELL mu"s nicht nur im aktuellen Modul in dem die Transaktion erfolgt nach Integritätsverletzungen gesucht werden, sondern in allen Modulen, die von der Transaktion 'betroffen' sind. Dies sind insbesondere Module, die im aktuellen Modul geschachtelt sind, bzw. Module, die das aktuelle Modul importieren. Eine genauere Erlüterung von 'betroffenen' Modulen erfolgt in i5-9505. Die Implementierung ist im Modul {\tt SemanticIntegrity.pro} enthalten, siehe hierzu Abschnitt \ref{sec:SemInt}.
+
+
+
+%\section{Beziehungen zwischen Modulen}
+
+
+%\section{}
+
+%\section{}
+
+
+
+
+
+\section{Die Schnittstelle zum Objektspeicher}	\label{sec:OO}
+
+Hier werden die einzelnen relevanten Funktionen vorgestellt, die der Objektspeicher der PROLOG-Seite zur Ünterstützung der Moduleigenschaften zur Verfügung stellt. Es wird auf die Verwendung der Funktionen im PROLOG-Code eingegangen. Ansonsten sei auf die Dokumentation von Thomas List verwiesen.
+
+\begin{itemize}
+\item {\tt set\_module/1}.  Erhält als Argument eine ID und setzt den Modulsuchraum des Objektspeichers auf das im Argument übergebene Modul. Damit ist dies das Analogon
+zu {\tt update(M\_SearchSpace(\_ID))} auf der PROLOG-Seite (und wird mit diesem immer gleichzeitig gesetzt).
+
+\item {\tt set\_overrule\_module/1}. Setzt den Suchraum nur für die nächste retrieve-Operation auf das im Argument übergebene Modul. Nach der retrieve-Operation wird wieder der alte Modulsuchraum gesetzt. Wird im {\tt PropositionProcessor} verwendet.
+
+%\item {\tt system\_module/1}. Bestimmt das System Modul. Erhält als Argument die ID
+% des Moduls {\tt System} in {\tt ExternalCodeLoader.pro}.
+
+
+\item {\tt new\_export/1}. Fügt ein neues Objekt in die Export-Indexstruktur des aktuellen Moduls ein. Das Argument ist die ID des Telos-Import-links. D.h. z.B. {\tt \#M1!e1}, (dieses Objekt mu"s eine Instanz von {\tt Module!exports} sein).
+ Der Objektspeicher trägt dann das Ziel der Export-Beziehung (d.h. das zu exportierende Objekt) in die Export-Indexstruktur ein. Die ID des Export-Links wird zur Überprüfung der zeitlichen Gültigkeit der Export-Beziehung benutzt.
+
+ Wird in {\tt ObjectProcessor.pro} aufgerufen.
+
+
+\item {\tt delete\_export/1}. Löscht einen Eintrag aus der Export-Indexstruktur eines Moduls. Diese Löschung ist physikalisch - und wird nur beim abort einer Transaktion eingesetzt. 
+
+ Wird in {\tt ObjectProcessor.pro} aufgerufen.
+
+  Wird eine Export-Beziehung ge-UNTELLt, so wird im Telos-Objekt der Beziehung das Zeitintervall geschlossen. Das (vormals) exportierte Objekt bleibt in der Export-Indexstruktur des Objektspeichers enthalten! Der Objektspeicher berücksichtigt bei exportierten Objekten immer das Zeitintervall des korrespondierenden Telos-Objekts - so da"s bei Rollback Anfragen auch die Export- und Import-Beziehungen berücksichtigt werden. 
+
+	{\tt new\_import/1} und  {\tt delete\_import/1} funktionieren analog für import-Links.
+
+
+\item {\tt retrieve\_C\_proposition/1}. Sucht ein Prädikat im aktuellen Modul (welches durch {\tt set\_module/1} gesetzt wurde).  Import/Export-Beziehungen werden durch den Objektspeicher berücksichtigt.
+
+
+\item {\tt retrieve\_C\_proposition\_module/1}. Sucht ein Prädikat einem spezifiziertem Modul Export/Import Beziehungen werden hierbei nicht berücksichtigt.
+
+\end{itemize}
+
+
+Der Objektspeicher legt automatisch das Modul mit dem Label {\tt System} als Wurzelmodul fest.
+
+
+
+\section{"Anderungen in den Prolog Files}
+
+Hier folgt eine alphabetische Auflistung der vorgenommenen "Anderungen des PROLOG-Codes zur Implementierung der Modulfeatures.
+
+%\subsection{AnswerTransformator.pro}
+     
+
+\subsection{BDMCompile.pro}	\label{sec:BDME}
+
+ Die Trigger {\tt 'applyConstraintIfInsert@BDMCompile'}   ,  {\tt 'applyConstraintIfDelete@BDMCompile'} und
+  {\tt 'origConstraint@BDMCompile'}
+  wurden um eine Stelle erweitert. 
+Die ID der Assertion  wird
+		abgespeichert, um bei der Auswerung die Sichtbarkeit der IC im aktuellen Modul prüfen zu können.
+Diese "Anderung bezieht sich ebenfalls auf die Module {\tt BDMForget.pro}
+und {\tt BDMKBMS.pro}.
+
+
+\subsection{BDMEvaluation.pro}
+
+In {\tt tellRuleOrIntegrityConstraint/1, tellObjectConcerningIntegrityConstraintsOrRules/1}
+und {\tt untellObjectConcerningIntegrityConstraintsOrRules/1} 
+wird überpüft ob die jeweils zu berücksichtigenden ICs im aktuellen Modul sichtbar sind. Dies geschieht über ein {\tt retrieve\_proposition(P(\_IcId, \_,\_,\_))},
+wobei {\tt \_IcId} die ID des Assertion Textes der IC ist. Ist der Assertion Text der IC im aktuellen Modul sichtbar, so ist auch die Trigger-Version der IC aus {\tt BDMCompile} sichtbar.
+
+
+
+%\subsection{BDMForget.pro}
+
+
+%\subsection{BDMKBMS.pro}
+
+
+
+\subsection{CBserverInterface.pro}
+
+Die Server-Operationen (ENROLL\_ME, TELL, UNTELL, ASK, TELL\_MODEL, LPI\_CALL) wurden um einen (optionalen) Modulparameter erweitert.
+Wird eine Ipc-Message empfangen, die Telos-Frames UND einen Modulparameter enthält, so wird die Operation im Kontext des übergebenen Moduls ausgeführt. 
+Enthält die Ipc-Message keinen Modulparameter, so wird Anhand des {\tt knownTool/5}-Fakts das Standard-Modul des Clients festgestellt und die Operation im Kontext dieses Standard-Moduls ausgeführt.
+
+Das Standard-Modul eines CB-Clients wird bei ENROLL\_ME optional übergeben und für das Tool in {\tt knownTool/5} gespeichert. Wird bei ENROLL\_ME kein Standard-Modul übergeben, so wird automatisch {\tt System} als Standard-Modul bestimmt. Das Standard-Modul wird immer dann verwendet, wenn kein explizites Modul als Parameter einer CB-Operation angegeben wird.
+
+\begin{itemize}
+\item	Bei {\tt BEGIN\_TRANSACTION/2} wird überprüft ob das (übergebene) Modul in dem die Transaktion stattfinden soll auch tatsächlich existiert. Ist dies der Fall, so wird sich im Prolog Fakt {\tt M\_SearchSpace/1} die
+ID des Moduls gemerkt in dessen Kontext die Transaktion ablaufen soll. Auf dieses Fakt wird an sehr vielen Stellen im Code zugegriffen -- dann wenn man wissen möchte welches das Modul ist, in dessen Kontext die Transaktion ausgeführt wird. Durch {\tt set\_module\$BIM2C(\_mid)}
+wird im Objektspeicher analog und gleichzeitig mit der "Anderung von {\tt M\_SearchSpace/1} das aktuelle Modul gesetzt.
+
+\item Bei LPI\_CALL wurde eine Ausnahme eingetragen. Normalerweise darf nur
+der User LPI\_CALL aufrufen, der den Server gestartet hat. Es wird nun
+überprüft, ob es sich um den LPI\_CALL {\tt update(MSP(\_module))} handelt.
+Dieser Call dient zum Umsetzen des Standardmoduls für den aufrufenden User.
+Diese Lösung ist natürlich nicht besonders 'sauber', besser wäre es eine eigene Server-Operation (wie TELL,UNTELL) zu diesem Zweck einzuführen,
+z.B. CHANGE\_STANDARD\_MODULE. Oder die Clients müssen für jeden Operationsaufruf das gewünschte Modul übergeben.
+
+\end{itemize}
+
+\subsection{ConfigurationUtilities.pro}
+
+ Beim Laden der Applikationsfiles wird die
+\begin{itemize}
+\item id des Systemmoduls und die id des  Objekts mit dem Label {\tt Module} im Fakt  {\tt Sytem/1} und {\tt Module/1}
+\item zwecks spaeterem effizienten Zugriff (kein retrieve noetig) abgespeichert.
+\item Der aktuelle Modul Suchraum  ({\tt M\_Searchspace/1}) wird auf das System-Modul gesetzt.
+
+\end{itemize}
+
+\subsection{ErrorMessages.pro}
+
+Fehlermeldungen werden mit dem Namen des Modulkontexts ausgegeben, in dem sie auftreten. (wird aus {\tt M\_Searchspace/1} gelesen).
+
+
+Es gibt folgende neue Fehlermeldungen: SEXPR3, SEXPR4, SIERR, MOD1, MOD2, SET\_MODULE\_ERROR.
+
+
+%\subsection{FragmentToHistoryPropositions.pro}
+
+
+%\subsection{FragmentToPropositions.pro}
+
+
+
+\subsection{GeneralUtilities.pro}
+
+\begin{itemize}
+\item
+Neue Prozedur {\tt id2uniquename/2}. Es ist möglich, da"s in einem Modulkontext mehrere Objekte den gleichen Namen besitzten. (Dies kann nur auftreten, wenn im aktuellen Kontext fremde Module importiert werden).
+Besitzt die gegebene ID einen Namen der nicht eindeutig im aktuellen Kontext ist, so wird das Format {\tt Name@Modul} zurueckgeliefert, wobei {\tt Modul} das Modul ist in dem das zur ID gehörige Objekt definiert ist.
+Ist der zur ID gehörige Name eindeutig, so wird wie bei {\tt id2name/2} einfach das Format {\tt Name} zurückgegeben.
+
+ \item	Es gibt zusätzlich ein dreistelliges {\tt name2id/3}, da"s die ID zu einem gegebenen Namen in einem gegebenen Modul berechnet. Ansonsten wird {\tt name2id/2} wie gehabt vom Objektspeicher implementiert.
+\end{itemize}
+
+
+\subsection{LTstubs.pro}	\label{sec:LTstubs}
+
+ {\tt RBTimeRelevantRule/1} wurde so erweitert, da"s ein Rule nur
+ dann als 'relevant' angesehen wird, wenn es im aktuellen Modulkontext sichtbar ist.
+Implementiert wird dies durch ein retrieve auf die ID des Assertion-Textes der Regel. So wird die korrekte Sichtbarkeit der Regeln gewährleistet.
+
+
+\subsection{LanguageInterface.pro}
+
+In {\tt build\_fragments\_from\_cstring/2}  wird ueberprueft, ob
+ der Telosparser ein  {\tt \{\$set module=MODULE\} }  gefunden hat. Falls ja, wird {\tt M\_Searchspace/1} umgesetzt. 
+
+
+
+\subsection{Literals.pro}
+
+Es gibt eine spezielle Variante von {\tt prove\_literal/1} nämlich {\tt prove\_literal(Mod(\_lit, \_m))}, die im vorgegebenen Modulkontext {\tt \_m} das Literal {\tt \_lit} auswerten. 
+Wird in {\tt parse\_ass.dcg} verwendet.
+
+
+\subsection{MSFOLassertionParserUtilities.pro}
+
+Es gibt eine neue Version {\tt resolveDeriveExpression/3} und eine neue Version {\tt buildDottedLiteral/3}, die jeweils in einem speziellen Modulkontext arbeiten.
+
+\subsection{ObjectProcessor.pro}
+
+Insbesondere wurden die Prozeduren {\tt do\_tell} und {\tt do\_untell} um Komponenten zur Wartung der Import- und Export-Beziehungen erweitert.
+
+Realisiert wird die Wartung der Import- und Export-Beziehungen durch die vier Prozeduren 
+{\tt insert\_import\_relationships,
+insert\_export\_relationships,
+delete\_import\_relationships,
+delete\_export\_relationships}. 
+Es wird jede temporäre Proposition untersucht, ob es sich hier um eine
+Instanz von {\tt Module!imports} bzw. {\tt Module!exports} handelt. Ist dies der Fall, liegt eine neue (bei TELL) bzw. zu löschende (bei UNTELL) import/export Beziehung vor. 
+
+Wird eine neue export/import Beziehung beim TELL erkannt, so wird eine  Prozedur des Objektspeichers aufgerufen ({\tt new\_export/new\_import}), welche die Beziehung in dem aktuellem Modulobjekt des Objektspeichers einträgt. 
+
+Wird eine export/import-Beziehung  gelöscht, so bemerkt dies der Objektspeicher automatisch. Die Prozeduren {\tt delete\_import/delete\_export} werden nur aufgerufen, falls TELL fehlschlägt und die temporär eingefügten export/import-Beziehungen wieder gelöscht werden sollen.
+
+Im Fall eines UNTELL und zu löschenden export/import-Beziehungen wird die
+ID jeder wegfallenden Beziehung in d\_export/d\_import gespeichert. Diese Fakten werden in {\tt PropositionProcessor} benötigt,  um {\tt retrieve\_temp} korrekt zu implementieren.
+
+\subsection{PROLOGruleProcessor.pro}
+
+Die Fakten
+{\tt 'origConstraint@BDMCompile'	,
+'applyConstraintIfInsert@BDMCompile', 
+'applyConstraintIfDelete@BDMCompile', 
+'origRule@BDMCompile', 
+'applyRuleIfInsert@BDMCompile'} und 
+{\tt 'applyRuleIfDelete@BDMCompile'} erhalten eine Stelle mehr, in der die ID der zugehörigen Assertion abgespeichert wird. Diese ID wird benötigt, um festzustellen ob eine Constraint oder ein Rule im aktuellen Modulkontext sichtbar ist. Dies wird über die Sichtbarkeit dieser eben beschriebenen ID geregelt.
+
+\subsection{PropositionProcessor.pro}
+
+ Das komplette Modul {\tt PropositionBase} wurde aufgelöst und die 
+ Funktionalität in das Modul {\tt PropositionProcessor} übernommen.  PropositionProcessor stellt nun die einzige Proposition-Schnittstelle zum Objektspeicher (via {\tt BIM2C}) dar. 
+
+Der Objektspeicher implementiert die korrekte Suche nach einer Proposition insbesondere unter Berücksichtigung der Sichtbarkeit von Propositions im aktuellen Modulkontext. Der Objektspeicher implementiert darüber hinaus die rekursive Suche in Modulen, die vom aktuellen Modul importiert werden (hierzu wartet er eigene Import/Export-Mengen für jedes Modul).
+
+Eine Ausnahme stellt der retrieve von temporären Propositions dar. Die Import/Export Mengen im Objektspeicher sind zu diesem Zeitpunkt noch nicht erstellt, daher mu"s die berücksichtigung der Sichtbarkeit von Propositions aufgrund temporärer import/export Beziehungen im Prolog-Code selbst erfordern. Dies geschieht in der Prozedur {\tt retrieve\_temp}.
+Eine wichtige Anwendung von {\tt retrieve\_temp} ist die semantische Integritätsüberprüfung. Hier wird für jedes betroffene Modul festgestellt, ob eine Konsistenzverletzung stattgefunden hat. 
+Die beiden letzten {\tt retrieve\_temp}-Instanzen liefern eine Proposition als temporär zurück, z.B. wenn sie in einem anderen Modul M1 in der aktuellen Transaktion exportiert wird und das aktuelle Modul M2 das Modul M1 importiert. Siehe hierzu auch Interner Bericht i5-9505: 'Sichtbarkeitsbereiche zwischen Modulen: Konzepte
+            und deren Implementierung in ConceptBase.'  
+
+
+% \subsection{QAmanager.pro}
+
+%\subsection{SMLaxioms.pro}
+
+
+%\subsection{ScanFormatUtilities.pro}
+
+\subsection{SelectExpressions.pro}
+
+Es wurde ein neues {\tt eval/4} eingefuehrt, dass ein {\tt eval/3} in einem vorgegebenen Modulkontext
+	durchfuehrt. Diese {\tt eval/4} wird momentan lediglich in {\tt parseAss.dcg} aufgerufen.
+
+	{\tt ReplaceSelectExpression/2} wurde fuer die Ersetzung von Expressions unter Modulen erweitert.
+	Zusaetzlich wurde eine Select-Expression {\tt select(\_name,'@',\_module)} eingefuehrt, welche die Auswertung einer Expression in einem vorgegebenen Modul vorbestimmt.
+	Soll ein Name durch {\tt ReplaceSelectExpression/2} ersetzt werden, der nicht im aktuellen 
+	Modulkontext eindeutig ist, so wird eine Fehlermeldung SEXPR3 ausgegeben.	Dies wird überprüft durch {\tt name2allid/2} - welches alle ObjektIDs zu einem Label zurückgibt, die im aktuellen Modulkontext sichtbar sind. 
+
+	Wird eine  ID mit {\tt InsertSelectExpression/3} ersetzt und das entsprechende Objekt besitzt keinen eindeutigen Namen im aktuellen Modulkontext, so wird ein Ausdruck der Form {\tt select(\_label,'@',\_module)} zurückgegeben. Realisiert wird die Überprüfung durch {\tt name2allid/2}.
+
+
+\subsection{SemanticIntegrity.pro}	\label{sec:SemInt}
+
+{\tt checkIntegrity/2} wurde so erweitert, dass  jedes Modul welches von der aktuellen
+			Transaktion betroffen ist, auf semantische Integritaet ueberprüft wird. 
+'Betroffen' hei"st da"s ein Modul M2 tempor"are Propositions sehen kann, die im aktuellen Modul M1 bei einem TELL/UNTELL entstehen.
+			Hierbei sind insbesondere getellte/geuntellte Import- bzw. Export Beziehungen zu beachten.
+			Das allgemeine Vorgehen ist im Internen Bericht i5-9505 dokumentiert.
+
+Zum Feststellen der betroffenen Module sind die beiden
+ folgenden Prozeduren wichtig:
+\begin{itemize}
+\item {\tt importing\_module/1}: liefert die id eines Moduls M1 zurueck, welches das aktuelle Modul M2 importiert.  (M1 importiert M2 !!)
+Dies ist natürlich nur nötig, falls M2 sein export-Interface ändert.
+
+\item {\tt get\_nested\_modules/2}: gibt alle geschachtelten Module in einem Modul zurück.
+\end{itemize}
+
+% {\bf ACHTUNG} falls ConceptBase derart geändert wird, da"s in einer Transaktion Propositions gleichtzeitig eingefügt und gelöscht werden dürfen, mu"s 
+
+
+%\subsection{TransactionTime.pro}
+
+
+%\subsection{TriggerGenerator.pro}
+
+%\subsection{startCBserver.pro}
+
+%\subsection{validProposition.pro}
+
+
+\subsection{IpcParser.pro}
+Jede Ipc-Message wurde um ein optionales Modulargument erweitert. Dies bedeutet, da"s für jede Message eine neue Version von {\tt GetArgsFromC} mit Modulparameter eingerichtet wurde.
+
+\subsection{parseAss.dcg}
+
+Es ist möglich, in Assertions-Strings Literale mit einem @-Operator zu versehen. Diese Literale werden dann im entsprechenden Modul ausgewertet.
+Ein Beispiel ist {\tt A@System(\#Employee,attribute,\#name)}.
+
+
+Literale die mit einem Module Qualifier ausgestattet sind,
+   werden in ein Prädikat {\tt Mod/2} eingefasst. z.B.
+   {\tt A@System(\#Employee,attribute,\#name)}	wird zu
+	   {\tt Mod(Adot(\_cc,\#Employee,attribute,\#name),\#System)}.
+ Dieses spezielle Prädikat wird dann im gewünschten Modulkontext in {\tt Literals.pro} ausgewertet.
+
+
+\end{document}

@@ -1,0 +1,88 @@
+
+
+
+/* example on how to use the String-valued API to interact with a CBserver */
+/* Manfred Jeusfeld, 2017-03-24                                            */
+
+
+// (C) Manfred Jeusfeld, license CC0 (public domain)
+// compile: javac -classpath c:\conceptbase\lib\classes\cb.jar SimpleClient.java
+// run: java -classpath c:\conceptbase\lib\classes\cb.jar;. SimpleClient
+
+
+import i5.cb.api.*;
+
+
+public class SimpleClient {
+
+	private static LocalCBclient cbClient = null;
+
+	
+	public static void main(String argv[])  {
+          
+          String answer;
+
+          // create the API object cbClient to communicate with a CBserver
+          cbClient=new LocalCBclient();
+
+          // connect to the CBserver running at the specified domain/portnumber
+          // "SimpleClient" is used as toolname to identify the client with the CBserver
+          // the last argument is a String for the username; using null means that
+          // the login name of the computer user is taken
+          answer = cbClient.connect("cbserver.iit.his.se",4001,"SimpleClient",null);
+             System.out.println("\nconnect: " +  answer);
+
+          // create a database module Work
+          answer = cbClient.mkdir("Work");
+             System.out.println("\nmkdir Work " +  answer);
+
+          // switch to this database module Work
+          answer = cbClient.cd("Work");
+             System.out.println("\ncd Work " +  answer);
+          
+          // check in which module we currently are
+          answer = cbClient.pwd();
+             System.out.println("\npwd: " +  answer);
+
+          // define a class Employee
+          answer = cbClient.tells("Employee in Class with attribute empno: Integer; name: String end");
+             System.out.println("\ntells Employee: " +  answer);
+
+          // attempt to define an instance bill of Employee; shall fail because b123 is not an Integer
+          answer = cbClient.tells("bill in Employee with empno billsempno: b123 end");
+             System.out.println("\ntells bill (error): " +  answer);
+
+          // define an instance bill of Employee
+          answer = cbClient.tells("bill in Employee with empno billsempno: 123 end");
+             System.out.println("\ntells bill (ok): " +  answer);
+
+          // untell the attribute billsempno from bill
+          answer = cbClient.untells("bill  with empno billsempno: 123 end");
+             System.out.println("\nuntells bill: " +  answer);
+
+          // define a String attribute of bill, note the escaped quotes
+          answer = cbClient.tells("bill in Employee with name billsname: \"William\" end");
+             System.out.println("\ntells bill (ok): " +  answer);
+
+          // retrieve the frame of bill
+          answer = cbClient.asks("get_object[bill/objname]");
+             System.out.println("\nasks get_object[bill]: " +  answer);
+
+          // define another two employees
+          answer = cbClient.tells("mary in Employee end\n anne in Employee end");
+             System.out.println("\ntells mary, anne: " +  answer);
+
+          // list the contents of the current module
+          answer = cbClient.asks("listModule");
+             System.out.println("\nasks listModule" +  answer);
+
+          // disconnect from the CBserver
+          cbClient.disconnect();
+	}
+	
+		
+}
+
+
+
+

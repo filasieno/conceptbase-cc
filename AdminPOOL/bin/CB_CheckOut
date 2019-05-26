@@ -1,0 +1,5 @@
+#!/bin/sh
+CVSROOT=:local:/home/cbase/CVS
+export CVSROOT
+
+CB_Make checkout CVSFILE=$1 INCLUDE_RULES_MK=1

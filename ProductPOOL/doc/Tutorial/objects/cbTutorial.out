@@ -1,0 +1,16 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{ First Steps}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Overview of the Architecture of the ConceptBase-System}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Starting the ConceptBase Server}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Starting the ConceptBase User Interface}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{The Example Model}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{Editing Telos Objects}{section.3}% 7
+\BOOKMARK [3][-]{subsubsection.3.1.1}{The Class Level}{subsection.3.1}% 8
+\BOOKMARK [3][-]{subsubsection.3.1.2}{Defining Attributes of Classes}{subsection.3.1}% 9
+\BOOKMARK [3][-]{subsubsection.3.1.3}{The Token Level}{subsection.3.1}% 10
+\BOOKMARK [3][-]{subsubsection.3.1.4}{Defining Attributes of Tokens}{subsection.3.1}% 11
+\BOOKMARK [2][-]{subsection.3.2}{The Graph Editor}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.3}{Adding Deductive Rules}{section.3}% 13
+\BOOKMARK [2][-]{subsection.3.4}{Adding Integrity Constraints}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.5}{Defining Queries}{section.3}% 15
+\BOOKMARK [1][-]{section.4}{Solutions to the Exercises}{}% 16

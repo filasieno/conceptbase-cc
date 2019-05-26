@@ -1,0 +1,48 @@
+#!/bin/sh
+
+CB_PRODUCT=/home/cbase/CB_NewStruct/CB_Product
+
+distdir=/home/cbase/CB_NewStruct/CB_Admin/distrib
+version=$1
+if [ "$version" = "" ]
+then
+    echo 'Usage: make_dist <versionnumber>'
+    echo 'where <versionnumber> should be used without dots (e.g. 524)'
+    echo 'The result will be a file cb<versionnumber>.tar.gz'
+    exit 1
+fi
+
+cd $CB_PRODUCT
+
+# ************ Building tar.gz-file *********************
+	rm -f $distdir/cb${version}.tar*
+	echo Packing $distdir/cb${version}
+	tar -cvfX /tmp/cb${version}.tar $distdir/tar-exclude -I $distdir/tar-include
+	echo Zipping /tmp/cb${version}.tar
+	gzip /tmp/cb${version}.tar
+	mv /tmp/cb${version}.tar.gz $distdir
+
+# ************ Building zip-file *******
+
+	echo Zipping cb${version}.zip
+	/usr/bin/zip -r /tmp/cb${version}.zip \
+		`find bin ! -name CBserver-i -type f` \
+		*.txt \
+		start* \
+		cb* \
+		doc/UserManual/*.p* \
+		doc/Tutorial/*.p* \
+		doc/TechInfo/* \
+		doc/ExternalLicenses/* \
+		examples \
+		include \
+		lib/classes/* \
+		lib/system/SYSTEM.* \
+		windows \
+		linux \
+		linux64 \
+		sun4 \
+		i86pc
+	mv /tmp/cb${version}.zip $distdir
+
+

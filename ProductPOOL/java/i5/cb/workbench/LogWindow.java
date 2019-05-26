@@ -1,0 +1,480 @@
+/*
+The ConceptBase.cc Copyright
+
+Copyright 1987-2019 The ConceptBase Team. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted
+provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of
+      conditions and the following disclaimer.
+   2. Redistributions in binary form must reproduce the above copyright notice, this list of
+      conditions and the following disclaimer in the documentation and/or other materials
+      provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those of the authors
+and should not be interpreted as representing official policies, either expressed or implied,
+of the ConceptBase Team.
+
+
+The ConceptBase Team is represented by
+
+Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+
+
+This license is a FreeBSD-style copyright license.
+Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
+*/
+/**
+ *   <b> LogWindow for CBIva 02.98  (ConceptBase) </b>
+ *
+ *   @see i5.cb.workbench.CBIva
+ */
+package i5.cb.workbench;
+
+import java.awt.*;
+
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.text.JTextComponent;
+
+
+
+/**
+ *   Class:    <b> LogWindow for CBIva  </b><BR>
+ *   Function: <b> Creates LogWindow for CBIva </b> <BR>
+ *
+ *   @version 0.8 beta
+ *   @author    Rainer Langohr
+ *
+ *   @see javax.swing.JPanel
+ *   @see i5.cb.workbench.CBIva
+ */
+public class LogWindow extends JPanel {
+
+
+    /**
+     *   public constant: TELL=1
+     */
+    public static final int TELL=1;
+
+    /**
+     *   public constant: UNTELL=2
+     */
+    public static final int UNTELL=2;
+
+    /**
+     *   public constant: RETELL=3
+     */
+    public static final int RETELL=3;
+
+    /**
+     *   public constant: ASK=4
+     */
+    public static final int ASK=4;
+
+    /**
+     *   public constant: TELLMODEL=5
+     */
+    public static final int TELLMODEL=5;
+
+    /**
+     *   public constant: LPICALL=6
+     */
+    public static final int LPICALL=6;
+
+    /**
+     *   public constant: ERROR=7
+     */
+    public static final int ERROR=7;
+
+    /**
+     *   public constant: OTHER=99
+     */
+    public static final int OTHER=99;
+
+
+    /**
+     *   contains the name of the command with the spezific number
+     */
+
+    public final String[] Befehlsname = new String[100];
+
+    JTextArea AnzeigeArgumente;
+
+    JTextField AnzeigeBefehl;
+
+    public JTextComponent getSelectedTextComponent()  {
+        if (AnzeigeArgumente.hasFocus())
+            return (JTextComponent)AnzeigeArgumente;
+        else if (AnzeigeBefehl.hasFocus())
+            return (JTextComponent)AnzeigeBefehl;
+        else
+            return null;
+    }
+
+    public void setLogWindowFontsize(float size) {
+      AnzeigeArgumente.setFont(AnzeigeArgumente.getFont().deriveFont(size));
+      // AnzeigeBefehl.setFont(AnzeigeBefehl.getFont().deriveFont(size));
+    }
+
+
+    private JButton butBack, butFor, butTelos, butRedo;
+    private JPanel panButtons;
+    private GridLayout Layout = new GridLayout(1,4,0,0);
+
+    private JMenuItem miLoad, miSave, miChoise,  miOptions;
+
+    private CBIva CBI;
+
+    public CBIva getCBIva() {
+        return CBI;
+    }
+
+
+
+
+
+    private  LWLog log = new LWLog();
+
+    public LWLog getLog() {
+        return log;
+    }
+
+    private  boolean[] abVisible = new boolean[100];
+
+    public void setVisible(int i, boolean  b)  {
+        abVisible[i]=b;
+    }
+
+    public boolean isVisible(int i) {
+        return abVisible[i];
+    }
+
+    private JScrollPane SP;
+
+
+
+    /**
+     *  Die oeffentliche Metode Insert Opterator zum einfuegen eines Kommandos in die
+     *  Log-Liste
+     *
+     *  @param iOpType  der Typ des Kommandos (1=Tell ...)
+     *  @param asArgs   die zugehoerigen Argumente
+     *  @param bSuccess gibt an ob die Operation erfolgreich war
+     */
+    /**
+     *   Function: <b> insert a new operation in the Log-Book </b> <BR>
+     *
+     *   @param iOpType  the number of the operation
+     *   @param asArgs   the agumens of the operation
+     *   @param bSuccess was successfully?
+     */
+    public void insertOperation(int iOpType, String[] asArgs, boolean bSuccess) {
+        log.add(Befehlsname[iOpType], iOpType, asArgs, bSuccess);
+        if (abVisible[iOpType]) {
+            log.last();
+            showLog();
+        };
+    }
+
+    /**
+     *   <b> Constructor  </b><BR>
+     *
+     *   Function: <b> Creates the LogWindow with Menu, Buttons and Log-Book </b> <BR>
+     *
+     *
+     *   @param CBI the parent CBIva
+     *
+     *   @see i5.cb.workbench.CBIva
+     *   @see i5.cb.workbench.LWLog
+     *   @see i5.cb.workbench.LWCommand
+     *
+     */
+
+    public LogWindow (CBIva CBI) {
+
+        this.CBI=CBI;
+
+        this.setLayout(new BorderLayout());
+
+        this.setBorder(new TitledBorder(LineBorder.createGrayLineBorder(), "History Window"));
+
+        JPanel up = new JPanel(new BorderLayout());
+
+        Befehlsname[0]="";
+        Befehlsname[1]="TELL";
+        Befehlsname[2]="UNTELL";
+        Befehlsname[3]="RETELL";
+        Befehlsname[4]="ASK";
+        Befehlsname[5]="TELLMODEL";
+        Befehlsname[6]="LPICALL";
+        Befehlsname[7]="ERROR";
+        for (int i=8; (i<100) ; i++) {
+            Befehlsname[i]="OTHER";
+        };
+        for (int i=0; (i<100) ; i++) {
+            abVisible[i]=true;
+        };
+        abVisible[0]=false;
+
+        // Definieren der Komandos
+        // Die Buttons:
+        LWCommand BackCmd = new LWCommand(LWCommand.BACK,this);
+        LWCommand ForCmd = new LWCommand(LWCommand.FOR,this);
+        LWCommand TelosCmd = new LWCommand(LWCommand.TELOS,this);
+        LWCommand RedoCmd = new LWCommand(LWCommand.REDO,this);
+        // Das Menue:
+        LWCommand LoadCmd = new LWCommand(LWCommand.LOAD,this);
+        LWCommand SaveCmd = new LWCommand(LWCommand.SAVE,this);
+        LWCommand ChoiseCmd = new LWCommand(LWCommand.CHOISE,this);
+        LWCommand OptionsCmd = new LWCommand(LWCommand.OPTIONS,this);
+
+        AnzeigeBefehl = new JTextField();
+        AnzeigeBefehl.setEditable(false);
+
+        AnzeigeArgumente = new JTextArea();
+        AnzeigeArgumente.setEditable(false);
+        AnzeigeArgumente.setLineWrap(true);
+	AnzeigeArgumente.setWrapStyleWord(true);
+
+        SP= new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        SP.getViewport().setView(AnzeigeArgumente);
+
+        this.add(SP,BorderLayout.CENTER);
+
+        panButtons = new JPanel();
+        panButtons.setLayout(Layout);
+
+        panButtons.add(AnzeigeBefehl);
+
+        ImageIcon IIBack = new ImageIcon(CBI.LoadImage("back.gif"));
+        butBack = new JButton(IIBack);
+        butBack.setToolTipText("Gob back in history");
+        panButtons.add(butBack);
+        butBack.addActionListener(BackCmd);
+
+        ImageIcon IITelos = new ImageIcon(CBI.LoadImage("telos.gif"));
+        butTelos = new JButton(IITelos);
+        butTelos.setToolTipText("Insert text into Telos Editor");
+        panButtons.add(butTelos);
+        butTelos.addMouseListener(TelosCmd);
+
+        ImageIcon IIRedo = new ImageIcon(CBI.LoadImage("redo.gif"));
+        butRedo = new JButton(IIRedo);
+        butRedo.setToolTipText("Redo the command");
+        panButtons.add(butRedo);
+        butRedo.addActionListener(RedoCmd);
+
+        ImageIcon IIFor = new ImageIcon(CBI.LoadImage("for.gif"));
+        butFor = new JButton(IIFor);
+        butFor.setToolTipText("Go forward in history");
+        panButtons.add(butFor);
+        butFor.addActionListener(ForCmd);
+
+        up.add(panButtons, BorderLayout.NORTH);
+        this.add(up, BorderLayout.NORTH);
+
+        // Ergaenzen des Menues vom Telos Editor
+
+        // der Menuepunkt File:
+        CBIMenuBar cbiMenuBar= CBI.getCBIMenuBar();
+        JMenu mHistory=new JMenu("History");
+
+        miLoad = new JMenuItem("Load History");
+        mHistory.add(miLoad);
+        miSave = new JMenuItem("Save History");
+        mHistory.add(miSave);
+        miChoise = new JMenuItem("Redo History");
+        mHistory.add(miChoise);
+        mHistory.addSeparator();
+        miOptions = new JMenuItem("Set History Options");
+        mHistory.add(miOptions);
+
+        cbiMenuBar.add(mHistory,4);
+
+        // Verknuepfung der Menuepunkte mit dem Action-Listener:
+        miLoad.addActionListener(LoadCmd);
+        miSave.addActionListener(SaveCmd);
+        miChoise.addActionListener(ChoiseCmd);
+        miOptions.addActionListener(OptionsCmd);
+    }
+
+
+    /**
+     *   Function: <b> shows the actual entry of the Logbook  </b> <BR>
+     *
+     *  @see i5.cb.workbench.LWLog
+     */
+    protected void showLog() {
+        Color color;
+        if (log.bIsEmpty()) {
+            clearAnzeige();
+        } // Logbuch leer
+        else if (abVisible[log.iGetTyp()]) {
+            if (log.bGetSuccess()) {
+                // Setze Farbe auf schwarz:
+                AnzeigeBefehl.setForeground(Color.black);
+            }
+            else {
+                // Setze Farbe auf rot:
+                AnzeigeBefehl.setForeground(Color.red);
+            }
+            Integer i = new Integer(log.iGetNumber());
+            String s = i.toString();
+            AnzeigeBefehl.setText(s+":  "+log.sGetTyp());
+            int id=log.iGetTyp();
+            if (id==TELL) {
+                color = new Color(235, 243, 165);
+                AnzeigeArgumente.setBackground(color);
+                AnzeigeArgumente.setText("Frames told:\n"+log.asGetArg()[0]);
+            }
+            else if (id==UNTELL) {
+                color = new Color(253, 188, 41);
+                AnzeigeArgumente.setBackground(color);
+                AnzeigeArgumente.setText("Frames untold:\n"+log.asGetArg()[0]);
+            }
+            else if (id==RETELL) {
+                color = new Color(253, 188, 41);
+                AnzeigeArgumente.setBackground(color);
+                AnzeigeArgumente.setText("Frames untold:\n"+log.asGetArg()[0] + "\n" +
+                                         "Frames told:\n"+log.asGetArg()[1]);
+            }
+            else if (id==ASK) {
+                color = new Color(152, 210, 244);
+                AnzeigeArgumente.setBackground(color);
+                String logmsg;
+                if (log.asGetArg()[1].equals("OBJNAMES") &&
+                    log.asGetArg()[2].equals("default") &&
+                    log.asGetArg()[3].equals("Now"))
+                   AnzeigeArgumente.setText("Query: "+log.asGetArg()[0]+"\n"+
+                                         "Result: " + log.asGetArg()[4] + "\n");
+                else
+                   AnzeigeArgumente.setText("Query: "+log.asGetArg()[0]+"\n"+
+                                         "Format: "+log.asGetArg()[1]+", "+
+                                         "Answer Format: "+log.asGetArg()[2]+", "+
+                                         "Rollback Time: "+log.asGetArg()[3]+"\n"+
+                                         "Result: " + log.asGetArg()[4] + "\n");
+            }
+            else if (id==TELLMODEL) {
+                color = new Color(162, 245, 141);
+                AnzeigeArgumente.setBackground(color);
+                AnzeigeArgumente.setText("Files: "+log.asGetArg()[0]);
+            }
+            else if (id==LPICALL) {
+                color = new Color(244, 242, 86);
+                AnzeigeArgumente.setBackground(color);
+                AnzeigeArgumente.setText("LPICall: "+log.asGetArg()[0]+ "\n" +
+                                         "Result: "+log.asGetArg()[1]);
+            }
+            else if(id==ERROR) {
+                color = new Color(255, 160, 150);
+                AnzeigeArgumente.setBackground(color);
+                AnzeigeArgumente.setText("Error Message:\n" + log.asGetArg()[0] + "\n");
+            }
+            else {      // Other
+                AnzeigeArgumente.setBackground(Color.lightGray);
+                AnzeigeArgumente.setText("");
+            }
+            // wieder zum Anfang scrollen
+            AnzeigeArgumente.setCaretPosition(0);
+        }
+        else {
+            clearAnzeige();
+        }  // falls kein Eintrag angezeigt werden kann
+    }
+
+    /**
+     *   Function: <b> clear the TextField of the LogWindow </b> <BR>
+     */
+    public void clearAnzeige() {
+        AnzeigeBefehl.setText("");
+        AnzeigeArgumente.setBackground(Color.lightGray);
+        AnzeigeArgumente.setText("");
+    }
+
+    public void Redo(int i, String[] str) {
+        if (i==TELL)
+            getCBIva().getCBClient().tell(str[0]);
+        else if (i==UNTELL)
+            getCBIva().getCBClient().untell(str[0]);
+        else if (i==RETELL)
+            getCBIva().getCBClient().retell(str[0],str[1]);
+        else if (i==ASK)
+            getCBIva().getCBClient().ask(str[0], str[1], str[2], getCBIva().getTelosEditor());
+        else if (i==LPICALL)
+            getCBIva().getCBClient().LPIcall(str[0]);
+        else if (i==TELLMODEL)
+            getCBIva().getCBClient().tellModel(str);
+    }
+
+
+    public void showOptionsDialog() {
+        JLabel jl= new JLabel("Select Operations to display",JLabel.CENTER);
+        JCheckBox cbTell = new JCheckBox("Tell");
+        JCheckBox cbUntell = new JCheckBox("Untell");
+        JCheckBox cbAsk = new JCheckBox("Ask");
+        JCheckBox cbError = new JCheckBox("Error");
+
+        cbTell.setSelected(this.isVisible(LogWindow.TELL));
+        cbUntell.setSelected(this.isVisible(LogWindow.UNTELL));
+        cbAsk.setSelected(this.isVisible(LogWindow.ASK));
+        cbError.setSelected(this.isVisible(LogWindow.ERROR));
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(5, 1));
+
+        // Hinzufuegen der Check-Boxs zum Panel
+        panel.add(jl);
+        panel.add(cbTell);
+        panel.add(cbUntell);
+        panel.add(cbAsk);
+        panel.add(cbError);
+
+        int ret=JOptionPane.showConfirmDialog(this,panel,"Select Operations",JOptionPane.OK_CANCEL_OPTION);
+
+        if(ret==JOptionPane.OK_OPTION) {
+            this.setVisible(LogWindow.TELL,   cbTell.isSelected());
+            this.setVisible(LogWindow.UNTELL, cbUntell.isSelected());
+            this.setVisible(LogWindow.ASK,    cbAsk.isSelected());
+            this.setVisible(LogWindow.ERROR,  cbError.isSelected());
+
+            // Kontrolliere, ob Anzeige veraendert werden muss:
+            LWLog log=this.getLog();
+            boolean vis=this.isVisible(log.iGetTyp());
+            if (!vis) {
+                log.last();
+                boolean first=log.bIsFirst();
+                vis=this.isVisible(log.iGetTyp());
+                while (!vis && !first) {
+                    log.back();
+                    vis=this.isVisible(log.iGetTyp());
+                    first=log.bIsFirst();
+                }
+                if (!vis) {
+                    log.last();
+                }
+            }
+            this.showLog();
+        }
+    }
+
+
+
+}
+
+
+

@@ -1,0 +1,12 @@
+COPYRIGHT NOTICE
+================
+
+Any documentation and program code in the examples directory is owned by their
+respective authors. The use of this material in any software is limited to
+registered users of the ConceptBase system. In case of use, you have to include
+a reference to the ConceptBase system in the source code of your system. In case of
+publications, you have to cite the respective documentation if significant parts
+of your publication use the code and/or its documentation. The use of the
+examples is by default free of charge for registered users of the ConceptBase
+system, if they are used for non-commercial purposes.
+

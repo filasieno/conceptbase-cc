@@ -1,0 +1,40 @@
+#!/bin/sh
+# Update the ConceptBase sources
+# This script is only useful if you want to compile ConceptBase
+# from its sources. To do so, all required tools and libraries
+# must be installed and configured correctly.
+# If called with a parameter like in
+#   updateCB CBPOOL-20130505.zip
+# then the local zip file is taken as input. Otherwise, the zip file is
+# pulled from Sourceforge
+
+cd $HOME
+CBPOOLZIP=CBPOOL.zip
+if [ "$1" = "" ]; then
+  /bin/rm -f CBPOOL.zip
+  echo 'Pulling the sources ...'
+  wget -q --no-check-certificate http://sourceforge.net/projects/conceptbase/files/Sources/CBPOOL.zip
+else
+  if [ -r "$1" ]; then
+    CBPOOLZIP="$1"
+  else
+    echo "File $1 does not exist or is not readable."
+    exit 1
+  fi
+fi
+
+echo 'Unpacking ...'
+unzip -oq $CBPOOLZIP
+echo 'Compiling ...'
+(cd $CB_WORK/; CB_Make clean; CB_Make touch_src; CB_Make all) 1> /dev/null 2> /dev/null
+echo 'Installing ...'
+(cd $CB_WORK/; CB_Make export; CB_Make install) 1> /dev/null 2> /dev/null
+echo 'done'
+
+
+
+
+
+
+
+

@@ -1,0 +1,185 @@
+
+\chapter{Example Prolog Client}
+\label{cha:ExampleIpcClient}
+
+\begin{verbatim}
+{
+*
+* File:         ExampleIpcClient.pro
+* Version:      7.1
+* Creation:     28-Aug-1992, Hans W. Nissen (RWTH)
+* Last change:  16-Dec-1994 L. Bauer (RWTH)
+* Release:      7
+* ----------------------------------------------------------
+
+}
+
+ :- module(ExampleIpcClient) .
+ :-  import IpcChannel_call / 3 from IpcChannelAccess .
+ :-  import connectCBserver / 2 from IpcChannelAccess .
+ :-  import disconnectCBserver / 0 from IpcChannelAccess .
+ :-  import thisToolClass / 1 from IpcParameters .
+ :-  import thisToolId / 1 from IpcParameters .
+ :-  import whatCBserverId / 1 from IpcParameters .
+ :-  import server_id / 1 from IpcParameters .
+ :-  import whatIpcServer / 2 from IpcParameters .
+ :-  import init_timeout / 1 from IpcParameters .
+ :-  import service_timeout / 1 from IpcParameters .
+ :-  import service_retry / 1 from IpcParameters .
+ :-  import user_name / 1 from IpcParameters .
+ :-  import client_report / 1 from IpcParameters .
+
+
+
+init_connection :-
+    nl , repeat , 
+       write('host: ') , read( _host ) ,        
+       write('port: ') , read( _port ) , 
+       connectCBserver( _host , _port ) , ! .
+
+close_connection :- 
+{** begin **}
+    disconnectCBserver .
+{** end **}
+
+loop :- 
+   nl , write('Method: ') , read( _method ) , 
+   write('Arguments ([a1,..,an]): ') , read( _arglist ) , nl , 
+   handleIt( _method , _arglist ) , 
+   ! , 
+   loop .
+
+
+handleIt(exit,_) :- stop .
+
+{ ... connecting to another server: }
+
+handleIt(connect,_) :- close_connection , manual_connect , ! .
+
+
+
+{ ... displaing parameters currently
+         stored in module IpcParameters.pro: }
+
+handleIt(param,_) :- GetAndDisplayParam , ! .
+
+
+{ ... process CBserver method call }
+
+handleIt( _m,_a):-                      
+   server_id( _sid ) ,
+   thisToolId( _tid ) , 
+   whatCBserverId( _392 ) , 
+   IpcChannel_call( _CBsid,ipcmessage(_tid,_CBsid,_m,_a),
+                           ipcanswer( _s , _c , _r )) , 
+   write('Responding tool: '),write(_s),nl, 
+   write('Completion:      '),write(_c),nl, 
+   write('Return value:    '),write(_r),nl,
+   !.
+
+GetAndDisplayParam :- 
+   whatIpcServer(_host,_port), 
+   server_id( _sid ) , 
+   thisToolId( _tid ) , 
+   whatCBserverId( _CBsid ) , 
+   thisToolClass( _ToolClass ) ,
+   init_timeout( __t1 ) , 
+   service_timeout( _t2 ) , 
+   service_retry( _num ) , 
+   user_name( _user ) , 
+   client_report( _on_off ) ,
+   write('host: '),write( _host ),nl, 
+   write('port: '),write( _port),nl, 
+   write('serverID: '),write(_sid),nl, 
+   write('ToolID: '),write(_tid),nl , 
+   write('whatCBserverId: '),write(_CBsid),nl, 
+   write('thisToolClass: '),write(_ToolClass),nl, 
+   write('init_timeout: '),write( _t1 ),nl , 
+   write('service_timeout: '),write(_t2),nl, 
+   write('service_retry: '),write(_num),nl, 
+   write('user_name: '),write(_user),nl, 
+   write('client_report: '),write(_on_off),nl.
+
+
+{********************* C B c o n s u l t *******************}
+{*                                                         *}
+{* CBconsult(_CBPath,[(_UserPath,_File)|_RFiles])          *}
+{* CBconsult(_CBPath,[(_UserPath,_Cond -> _File)|_RFiles]) *}
+{*                                                         *}
+{* CBconsult consults a list of prolog files. There exists *}
+{* different modes to load a file:                         *}
+{* If _UserPath is a free variable then CBconsult takes    *}
+{* the file from the directory _CBPath, which is a default *}
+{* value for the directory that contains the ConceptBase   *}
+{* source files. In the case, where _UserPath is ground,   *}
+{* CBconsult loads the file from the directory _UserPath.  *}
+{* The user is able to give a condition _Cond, which must  *}
+{* be satisfied for loading a concrete file. This is must  *}
+{* be written in the following form:                       *}
+{* _Cond -> _File.                                         *}
+{*                                                         *}
+{* 17.07.92 RG before consulting from _CBPath try to find  *}
+{*          _File in the local directory                   *}
+{*                                                         *}
+{***********************************************************}
+
+
+CBconsult (_,[]) :- !.
+
+CBconsult (_defPath,[ _FileSpec|_RFiles]) :-
+        CBconsult(_defPath,_FileSpec),
+        CBconsult(_defPath,_RFiles).
+
+
+CBconsult (_CBPath,(_UserPath,_Cond -> _File)) :-
+        _Cond,
+        !,
+        CBconsult(_CBPath,(_UserPath,_File)).
+
+
+CBconsult (_CBPath,(_UserPath,_File)) :-
+        var(_UserPath),
+        !,
+        CBconsult(_CBPath,_File).
+
+CBconsult (_,(_UserPath,_File)) :-
+        !,
+        CBconsult(_UserPath,_File).
+
+
+CBconsult(_,_fnam) :-
+        atomconcat(_fnam,'.pro',_fpro),
+        error_message(600,off),
+        exists(_fpro),
+        error_message(600,on),
+        !,
+        consult(_fnam).
+
+CBconsult(_Path,_fnam) :-
+        error_message(600,on),
+        atomconcat(_Path,_fnam,_absNam),
+        !,
+        consult(_absNam).
+
+
+consult_IpcModules :- 
+        expand_path('$CBS_DIR', _cbh),
+        atomconcat( [ _cbh, '/' ], _cbhnew ),
+        CBconsult( _cbhnew, [
+        ( _, IpcParameters) , 
+        ( _, IpcChannelAccess) ,
+        ( _, BimIpc) , 
+        ( _, ExampleClientCodeLoader) 
+        ]), !.
+        
+
+go :- consult_IpcModules , init_connection , loop , close_connection .
+
+  ?- go . 
+\end{verbatim}
+% Local Variables: 
+% mode: latex
+% TeX-master: "ProgManual"
+% TeX-master: t
+% TeX-master: "ProgManual"
+% End: 

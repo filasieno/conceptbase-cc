@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="cbTutorial2.css">
+<title>Define an Entity-Relationship model</title>
+</head>
+<body >
+<a href="cbTutorial2002.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="cbTutorial2004.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h2 id="sec5" class="section">3&#XA0;&#XA0;Define an Entity-Relationship model</h2>
+<p><br>
+<br>
+
+<span class="textboxed">
+</span></p><div class="minipage"><span class="textboxed"><span style="font-style:italic"><span style="font-weight:bold">Exercise 5:</span></span></span><span class="textboxed"><span style="font-style:italic"> 
+Specify an example ER diagram for an insurance scenario. An insurance policy has a customer, a premium, a start date, and an end date.
+Customers have names and addresses. A claim has a description and is referring to an insurance policy.
+</span></span><span class="textboxed">
+</span></div><p><span class="textboxed">
+</span>
+<br>
+<br>
+
+</p><pre class="verbatim">Customer in EntityType with
+  attr
+    name: String;
+    address: String
+end
+
+Policy in EntityType with
+  attr
+   startdate: Date;
+   enddate: Date;
+   premium: Integer
+end
+
+holds in RelationshipType with
+  role
+    customer: Customer;
+    policy: Policy
+end
+
+Claim in EntityType with
+  attr
+    description: String
+end
+
+claim_policy in RelationshipType with
+  role
+    claim: Claim;
+    policy: Policy
+end
+</pre><p>Figure <a href="#fig%3Acbiva4">3</a> graphically displays the insurance model. ConceptBase can also assign dedicated graphical
+symbols to certain objects, e.g. diamond shapes to relationship types. We skip this feature in this tutorial
+and refer you to the user manual for more details on this.</p><p>The green links are instantiations. Hence the insurance model is one abstraction level below the ER language.</p><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
+<div class="center"><img src="cbTutorial2003.png"></div>
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 3: The insurance model as instantiation of the ER language</td></tr>
+</table></div>
+<a id="fig:cbiva4"></a>
+<div class="center"><hr style="width:80%;height:2"></div></blockquote>
+<hr>
+<a href="cbTutorial2002.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="cbTutorial2004.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

@@ -1,0 +1,52 @@
+#!/bin/sh
+
+DEFAULT_CB_HOME=`dirname $0`
+
+CB_HOME=${CB_HOME:=$DEFAULT_CB_HOME}
+export CB_HOME
+
+CB_VARIANT=`"$CB_HOME/bin/CBvariant"`
+
+# default java
+JAVAEXEC=java
+# We prefer to use one of the following javas; the last one is most preferred
+
+# take java5 if installed
+if [ -x /usr/lib/jvm/java-1.5.0-sun/bin/java ]; then
+  JAVAEXEC=/usr/lib/jvm/java-1.5.0-sun/bin/java
+fi
+# take openjdk if installed
+if [ -x /usr/lib/jvm/java-6-openjdk/bin/java ]; then
+  JAVAEXEC=/usr/lib/jvm/java-6-openjdk/bin/java
+fi
+# take jdk6_7 if installed
+if [ -x /opt/jdk1.6.0_7/bin/java ]; then
+  JAVAEXEC=/opt/jdk1.6.0_7/bin/java
+fi
+# take jdk6_10 if installed
+if [ -x /opt/jdk1.6.0_10/bin/java ]; then
+  JAVAEXEC=/opt/jdk1.6.0_10/bin/java
+fi
+# take $HOME/jre6_10 if installed
+if [ -x $HOME/jre1.6.0_10/bin/java ]; then
+  JAVAEXEC=$HOME/jre1.6.0_10/bin/java
+fi
+# take $CB_HOME/jre6_10 if installed
+if [ -x $CB_HOME/jre1.6.0_10/bin/java ]; then
+  JAVAEXEC=$CB_HOME/jre1.6.0_10/bin/java
+fi
+# take /opt/jre6_10 if installed
+if [ -x /opt/jre1.6.0_10/bin/java ]; then
+  JAVAEXEC=/opt/jre1.6.0_10/bin/java
+fi
+# take local jdk6_10 if installed
+if [ -x $CB_HOME/$CB_VARIANT/jre1.6.0_10/bin/java ]; then
+  JAVAEXEC=$CB_HOME/$CB_VARIANT/jre1.6.0_10/bin/java
+fi
+
+exec $JAVAEXEC -DCB_HOME="$CB_HOME" -classpath "$CB_HOME/lib/classes/cb.jar" i5.cb.graph.cbeditor.CBEditor
+
+
+
+
+

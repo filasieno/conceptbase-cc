@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+<TITLE>What is O-Telos</TITLE>
+<LINK REL="SHORTCUT ICON" HREF="PIC/cbico.ico">
+<link rel="stylesheet" type="text/css" href="cb.css">
+</HEAD>
+<BODY>
+
+
+<EM>
+<A HREF=".">ConceptBase Home</A>,
+RWTH Aachen University, Germany<br>
+</EM>
+<HR>
+
+
+
+<CENTER>
+<H1>
+                What is O-Telos?
+</H1>
+
+<H4>
+            Manfred A. Jeusfeld, ConceptBase Team<br>
+                Tilburg University, The Netherlands
+                       April, 1999<br>
+            last modification: 7-Aug-2009
+</H4>
+</CENTER>
+
+O-Telos is the data model underlying the ConceptBase system. It has a single
+base relation (P-tuple P(id,x,n,y)) by which concepts at any abstraction layer
+(instance, class, meta class, etc.) can be defined. Deductive rules and integrity constraints
+extend the computational model to that of a deductive database.
+
+
+<H2>
+The Origin of O-Telos
+</H2>
+
+The direct predecessor of O-Telos is the knowledge representation language Telos
+(specified by John Mylopoulos, Alex Borgida, Sol Greenspan, Manolis Koubarakis, and others).
+Telos was designed to represent information about information systems, esp.
+requirements. Telos was based on CML (Conceptual Modeling Language) developed in the
+mid/late 1980-ties. A variant of CML was created under the label SML (System Modeling
+Language) and implemented by John Gallagher at SCS Hamburg. 
+CML itself was based on RML (Requirements Modeling Language) developed at the
+University of Toronto by Greenspan and others. 
+
+<p>
+Neither RML nor CML were implemented in 1987. They were regarded as theoretic knowledge
+representation languages with 'possible world semantics'.
+SML was implemented as a subset of CML using Prolog's SLDNF semantics.
+
+<H2>
+The Route to O-Telos
+</H2>
+
+<p>
+In 1987, we decided to start an implementation of Telos and quickly realized that
+the original semantics was too complex for an efficient implementation. The temporal component
+of Telos included both valid time (when an information is true in the domain) and
+transaction time (when the information is regarded to part of the knowledge base).
+The temporal reasoner for the valid time was based on Allen's interval calculus and
+was co-NP-hard. We implemented both temporal dimensions in ConceptBase V3.0 only to
+see that there were undesired effects with the query evaluator and the uniform
+representation of information into objects. Specifically, the specialization of a class
+into a subclass could have a valid time which could be incomparable to the valid time
+of an instance of the subclass. Any change in the network of valid time intervals
+could change the set of instances of a class.
+Because of that, we dropped the valid time as a built-in feature of objects
+but we kept the transaction time. A few other features like the declarative TELL,
+UNTELL and RETELL operations as proposed by Manolis Koubarakis in his master thesis
+on Telos were only implemented in a rather limited way -- essentially forbidding
+direct updates to derived facts. On the other hand, O-Telos extends the universal
+object representation to any piece of explicit information and reduces the
+number of essential builtin objects to just five. So, some of the roots of Telos
+in artificial intelligence were abandoned in favor of a clear semantics and of
+better capabilities for meta modelling.
+
+
+<p>
+Since we wanted to be able to manage large knowledge bases 
+(millions of concepts rather than a few hundred), we decided to select
+a semantics that allowed efficient query evaluation. Telos included already features
+for deductive rules and integrity constraints. Thus, the natural choice was DATALOG
+with perfect model semantics. The deductive rule evaluator and the integrity checker were
+ready in 1990. A query language ("query classes") followed shortly later.
+O-Telos exhibits an extreme usage of DATALOG:
+
+<UL>
+<LI> there is only one base relation P(o,x,l,y) used for all objects, classes, meta classes,
+     attributes, class membership relationships, and specialization relationships as well as for
+     deductive rules, integrity constraints and queries.
+<LI> the semantics of class membership, specialization, and attribution is encoded by
+     around 30 axioms which are either deductive rules or integrity constraints
+<LI> deductive rules ranging over more than one classification level (instances, classes, meta classes, etc.)
+     are partially evaluated to a collection of rules (or constraints) ranging over exactly one
+     classification level
+</UL>
+
+The latter feature proved to be the key to define the semantics of abstraction principles
+like specialization. For example, the inheritance of class membership is defined by
+the rule
+
+<blockquote>
+<pre>
+forall x,c,d In(x,c) and Isa(c,d) ==> In(x,d)
+</pre>
+</blockquote>
+
+Given the extension of the derived predicate Isa/2, one can partially evaluate such a formula.
+For example, if <tt>Isa(student,person)</tt> is part of the extension, then the rule is partially evaluated
+to
+
+<blockquote>
+<pre>
+forall x In(x,student) ==> In(x,person)
+</pre>
+</blockquote>
+
+This mapping allows to represent abstract features at the level of meta classes (or even more abstract)
+without compromising on the efficient evaluation of queries.
+
+<p>
+O-Telos should be regarded as the data modeling language of a meta database. It is capable to represent
+semantic features of other (data) modeling languages like entity-relationship diagrams and data flow diagrams.
+Once modeled as meta classes in O-Telos, one simply has to tell the meta classes to ConceptBase to get
+an evironment where one can manipulate models in these modeling languages. Since all abstraction levels
+are supported, the models themselves can be represented in O-Telos (and thus be managed by
+ConceptBase).
+
+<p>
+ConceptBase's implementation of O-Telos provides a couple of features beyond the core O-Telos.
+First of all, there is a dedicated query language CBL, which provides a class-based
+interpretation for queries.  Second, modules have been introduced to structure the
+search space. Essentially, the module identifier is added to the object identifier.
+Thirdly, ConceptBase supports active rules (ECA rules).
+And finally, ConceptBase allows the recursive definition of functions.
+
+
+<H2>
+4. References
+</H2>
+
+[JEUS92] M. Jeusfeld (1992).
+<A HREF="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d340216/diski19.pdf">&Auml;nderungskontrolle
+in deduktiven Objektbanken</A>. Infix-Verlag, St. Augustin, Germany, 1992; provided here
+with kind permission from AKA-Verlag, Berlin.<p>
+
+<br>
+More references are
+<A HREF="cblit.html">here</A>.
+
+
+<hr>
+<P><I>&copy; ConceptBase Team 2009. Please do not mirror this document
+or its parts without prior permission by us. Thank you! Last update: $Author: jeusfeld $, $Date: 2009/08/07 10:28:46 $</I></P>
+</BODY>
+</HTML>

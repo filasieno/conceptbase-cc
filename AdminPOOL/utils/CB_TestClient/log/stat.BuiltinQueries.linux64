@@ -1,0 +1,21 @@
+2;tell;has_attribute in BuiltinQueryClass with;ok;112
+3;tell;Class Employee with;ok;115
+4;ask;has_attribute[Integer/attrtype,salary/attrname,Manager/objname];ok;78
+5;ask;has_attribute[Real/attrtype,salary/attrname,Manager/objname];ok;79
+6;ask;has_attribute[salary/attrname,Manager/objname];ok;80
+7;tell;John in Employee with;ok;111
+8;ask;get_object[John/objname];ok;80
+9;tell;23456 in Integer end;ok;106
+10;ask;changeAttributeValue[John!js/attribute,23456/newvalue];ok;87
+11;ask;get_object[John/objname];ok;79
+12;ask;rename[Johnny/newname,John/oldname];ok;78
+13;ask;get_object[Johnny/objname];ok;80
+14;ask;rename[12345/newname,23456/oldname];ok;79
+15;ask;get_object_star[D*/objname];ok;88
+16;ask;COUNT[Class/class];ok;83
+17;ask;AVG[Integer/class];ok;79
+18;ask;AVG_Attribute[Johnny/objname,Employee!salary/attrcat];ok;86
+19;ask;MAX[Integer/class];ok;80
+20;ask;MIN[Integer];ok;80
+21;ask;345*456;ok;79
+22;ask;SUM[Integer/class];ok;83

@@ -1,0 +1,61 @@
+#!/bin/sh
+# This script creates the system files for ConceptBase.
+# It starts a CBserver with the smallest possible database (produced by transform)
+# and tells the system via CB_TestClient and the script SYSTEM to
+# the server. After that, the server is stopped and the log files of the TestClient
+#
+
+CB_VARIANT=`CBvariant`
+TESTCLIENT_DIR=/home/cbase/CB_NewStruct/CB_Admin/utils/CB_TestClient
+PROLOG_VARIANT=${PROLOG_VARIANT:=SWI}
+CB_POOL=/home/cbase/CB_NewStruct/ProductPOOL
+TRANSFORM=$CB_POOL/$CB_VARIANT/serverSources/C_Files/libCos3/objects.${PROLOG_VARIANT}/transform
+DATABASE=SYSTEM
+SRCDIR=$CB_POOL/lib/src
+CB_PORTNR=${CB_PORTNR:=6498}
+SCRIPTFILE=$TESTCLIENT_DIR/scripts/SYSTEM.cbs
+
+export CB_PORTNR
+
+# Erstelle SYSTEM.telos und SYSTEM.symbol aus SML0.prop
+rm -f SYSTEM.telos SYSTEM.symbol
+touch SYSTEM.telos
+touch SYSTEM.symbol
+echo $TRANSFORM  $CB_POOL/lib/src/SML0.prop
+$TRANSFORM  $CB_POOL/lib/src/SML0.prop
+
+if [ $? != 0 ]; then
+    echo transform failed
+    exit 1
+fi
+
+# Wenn Datenbank existiert, dann loeschen
+if [ -d $DATABASE ]; then
+	echo rm -f $DATABASE/OB.*
+	rm -f $DATABASE/OB.*
+else
+	mkdir $DATABASE
+fi
+
+# Verschiebe/Kopiere System-Dateien in das Datenbankverzeichnis
+mv SYSTEM.telos $DATABASE/OB.telos
+mv SYSTEM.symbol $DATABASE/OB.symbol
+if [ $PROLOG_VARIANT = SWI ]; then
+    cp $SRCDIR/SYSTEM.SWI.builtin $DATABASE/OB.builtin
+else
+    cp $SRCDIR/SYSTEM.builtin $DATABASE/OB.builtin
+fi
+
+touch $DATABASE/OB.rule
+touch $DATABASE/OB.ruleinfo
+touch $DATABASE/OB.ecarule
+
+# Benutze CBshell zum Start von CBserver und des Skripts
+echo CBshell -l -f $SCRIPTFILE
+CBshell -l -f $SCRIPTFILE
+
+if [ -s error.log ]; then
+    echo Errors during execution of script
+    echo see error.log for details
+    exit 1
+fi

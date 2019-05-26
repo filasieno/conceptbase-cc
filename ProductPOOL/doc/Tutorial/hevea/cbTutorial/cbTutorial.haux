@@ -1,0 +1,28 @@
+\@@addtocsec{htoc}{sec1}{0}{\@print{1}\quad{}Introduction{}}
+\@@addtocsec{htoc}{sec2}{0}{\@print{2}\quad{} First Steps{}}
+\@@addtocsec{htoc}{sec3}{1}{\@print{2.1}\quad{}Overview of the Architecture of the ConceptBase-System{}}
+\@@addtocsec{htoc}{sec4}{1}{\@print{2.2}\quad{}Starting the ConceptBase Server{}}
+\@@addtocsec{htoc}{sec5}{1}{\@print{2.3}\quad{}Starting the ConceptBase User Interface{}}
+\@@addtocsec{htoc}{sec6}{0}{\@print{3}\quad{}The Example Model{}}
+\@@addtocsec{htoc}{sec7}{1}{\@print{3.1}\quad{}Editing Telos Objects{}}
+\@@addtocsec{htoc}{sec8}{2}{\@print{3.1.1}\quad{}The Class Level{}}
+\@@addtocsec{htoc}{sec9}{2}{\@print{3.1.2}\quad{}Defining Attributes of Classes{}}
+\@@addtocsec{htoc}{sec10}{2}{\@print{3.1.3}\quad{}The Token Level{}}
+\@@addtocsec{htoc}{sec11}{2}{\@print{3.1.4}\quad{}Defining Attributes of Tokens{}}
+\@@addtocsec{htoc}{sec12}{1}{\@print{3.2}\quad{}The Graph Editor{}}
+\@@addtocsec{htoc}{sec13}{1}{\@print{3.3}\quad{}Adding Deductive Rules{}}
+\@@addtocsec{htoc}{sec14}{1}{\@print{3.4}\quad{}Adding Integrity Constraints{}}
+\newlabel{fig:telos3}{{1}{X}}
+\@deflabeltype{fig:telos3}{figure}
+\@@addtocsec{htoc}{sec15}{1}{\@print{3.5}\quad{}Defining Queries{}}
+\newlabel{fig:telos4}{{2}{X}}
+\@deflabeltype{fig:telos4}{figure}
+\@@addtocsec{htoc}{sec16}{0}{\@print{4}\quad{}Solutions to the Exercises{}}
+\newlabel{fig:telos6}{{3}{X}}
+\@deflabeltype{fig:telos6}{figure}
+\newlabel{fig:telos1}{{4}{X}}
+\@deflabeltype{fig:telos1}{figure}
+\newlabel{fig:telos2}{{5}{X}}
+\@deflabeltype{fig:telos2}{figure}
+\newlabel{fig:telos5}{{6}{X}}
+\@deflabeltype{fig:telos5}{figure}

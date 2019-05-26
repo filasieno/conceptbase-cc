@@ -1,0 +1,2 @@
+Main-Class: i5.cb.CBinstaller
+

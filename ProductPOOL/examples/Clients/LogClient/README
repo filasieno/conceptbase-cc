@@ -1,0 +1,33 @@
+
+The LogClient can read the OB.log file produced by the
+ConceptBase Server, which stores all tell, untell, 
+tell_model and ask actions in this log file. 
+
+You need a C compiler to compile this program. Type
+
+	gmake -f MakeLogClient
+
+to compile and link the client.
+
+
+This program needs at least three command line arguments:
+   
+   LogClient <portnr> <host> <logfile> [-t] [-a]
+   
+The -t argument is optional, when it used the client
+will wait after each command until you press the return key.
+When the -a option is specified, the LogClient will ask
+the user, if a command should be executed.
+
+Remember that it is not a good idea, to use the log file
+of a running server and to connect to that server. This
+will be an endless loop.
+
+This is also a small example for the usage of the 
+ConceptBase programming interface (libCB).
+
+--
+Remark: Since 9-Oct-2006, the ConceptBase server no longer writes into
+the log file OB.log. Therefore, the LogClient is now an obsolete
+utility. M. Jeusfeld, 9_Oct-2006
+

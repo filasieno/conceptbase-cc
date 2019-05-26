@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="cbTutorial3.css">
+<title>The Scenario </title>
+</head>
+<body >
+<a href="cbTutorial3001.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<hr>
+<h2 id="sec2" class="section">2&#XA0;&#XA0; The Scenario </h2>
+<p>We consider the case of petri nets. The goal to to export them in a format
+that can be further processed by the GraphViz layout tool
+<a href="http://graphviz.org/"><span style="font-family:monospace">http://graphviz.org/</span></a>.
+We assume familiarity with the
+ConceptBase user interface and with the query language of ConceptBase, in particular with the answer formatting 
+system at <a href="http://conceptbase.sourceforge.net/userManual75/cbm004.html"><span style="font-family:monospace">http://conceptbase.sourceforge.net/userManual75/cbm004.html</span></a>.</p><p>The tutorial includes the following steps:</p><ol class="enumerate" type=1><li class="li-enumerate">
+Create a notation for petri nets: this allows to store petri nets in ConceptBase
+</li><li class="li-enumerate">Define the PNModel: the PNModel is a container for the petri net elements
+</li><li class="li-enumerate">Define an example petri net model: the TrafficLights example
+</li><li class="li-enumerate">Define answer format for the classes to be exported: specifies to which output strings the elements shall be exported
+</li><li class="li-enumerate">Define the export task: the overall answer format that governs the exportation</li></ol>
+<h3 id="sec3" class="subsection">2.1&#XA0;&#XA0;Create a notation for petri nets</h3>
+<p>Petri nets consist of places (displayed as circles) and transitions (displayed as rectangles).
+Places can have tokens on them (the marking of a place). Directed links exist between
+places and transitions, and between transition and places.</p><p>Start a CBShell </p><pre class="verbatim">cbshell
+</pre><p>and then a CBserver within the CBShell (all subsequent commands are within the CBShell command window):</p><pre class="verbatim">cbserver -db PETRINETS
+</pre><p>We use a database PETRINETS here. It persistently stores the subsequent definitions.
+As next step, tell in the CBShell the definitions for petri nets:</p><pre class="verbatim">tell '
+    Place with
+      attribute sendsToken: Transition;
+      marks: Integer {* defines markings *}
+    end
+
+    Transition with 
+      attribute producesToken : Place 
+    end
+'
+</pre><p>The two classes allow to represent all features of a classical petri net.</p>
+<h3 id="sec4" class="subsection">2.2&#XA0;&#XA0;Define the PNModel</h3>
+<p>Now, we want to be able to maintain several petri nets in ConceptBase next to each other.
+They should not interfer with each other. PNModel shall include rules
+that define which elements of the petri net model are of interest for the 
+visualization that we aim for. In this case, we are not interested in the marking but in all
+other elements:</p><pre class="verbatim">tell '
+    PNElement end
+    Place isA PNElement end
+    Transition isA PNElement end
+    Place!sendsToken isA PNElement end
+    Transition!producesToken isA PNElement end
+
+    PNModel in Class with
+      attribute
+        contains: PNElement
+      rule
+        r1: $ forall p/Place m/PNModel a/Place!sendsToken
+            (m contains p) and Ai(p,sendsToken,a)
+            ==&gt; (m contains a) $;
+        r2: $ forall t/Transition m/PNModel a/Transition!producesToken
+            (m contains t) and Ai(t,producesToken,a) 
+            ==&gt; (m contains a) $
+    end
+'
+</pre><p>The class PNElement subsumes all elements of a petri net model that we are interested in.
+The class PNModel then aggregates such elements to a model. The two rules allow will
+add all links between places and transitions that are declared as part of the model.</p>
+<h3 id="sec5" class="subsection">2.3&#XA0;&#XA0;Define an example petri net model</h3>
+<p>Let&#X2019;s define the classical Dutch traffic light example as a petri net model:</p><pre class="verbatim">tell '
+    red1 in Place with
+      sendsToken
+        t1: rg1
+    end
+
+    yellow1 in Place with
+      sendsToken
+        t1: yr1
+    end
+
+    green1 in Place with
+      sendsToken
+        t1: gy1
+    end
+
+    safe1 in Place with
+      sendsToken
+        t1: rg1
+    end
+
+    yr1 in Transition with
+      producesToken
+        p1: red1;
+        p2: safe2
+    end
+
+    rg1 in Transition with
+      producesToken
+        p1: green1
+    end
+
+    gy1 in Transition with
+      producesToken
+        p1: yellow1
+    end
+
+
+    red2 in Place with
+      sendsToken
+        t1: rg2
+    end
+
+    yellow2 in Place with
+      sendsToken
+        t1: yr2
+    end
+
+    green2 in Place with
+      sendsToken
+        t1: gy2
+    end
+
+    safe2 in Place with
+      sendsToken
+        t1: rg2
+    end
+
+    yr2 in Transition with
+      producesToken
+        p1: red2;
+        p2: safe1
+    end
+
+    rg2 in Transition with
+      producesToken
+        p1: green2
+    end
+
+    gy2 in Transition with
+      producesToken
+        p1: yellow2
+    end
+
+    TrafficLights in PNModel with
+      contains
+       e1: red1;
+       e2: yellow1;
+       e3: green1;
+       e4: safe1;
+       e5: red2;
+       e6: yellow2;
+       e7: green2;
+       e8: safe2;
+       e9: yr1;
+       e10: rg1;
+       e11: gy1;
+       e12: yr2;
+       e13: rg2;
+       e14: gy2
+    end
+'
+</pre><p>The last object <span style="font-family:monospace">TrafficLights</span> lists the places and transitions that are supposed to be
+part of the model. The rules r1 and r2 of <span style="font-family:monospace">PNModel</span> will automatically add the links as
+well to the model <span style="font-family:monospace">TrafficLights</span>.</p>
+<h3 id="sec6" class="subsection">2.4&#XA0;&#XA0;Define answer format for the classes to be exported</h3>
+<p>We want to export transitions (as boxes), places (as circles), and the two link types
+as directed links:</p><pre class="verbatim">tell '
+    BOXNODE_FORMAT in AnswerFormat with
+       pattern p:
+         "node [shape=box]; {Foreach( ({this.elem}), (n), {n};)}"
+    end
+
+    CIRCLENODE_FORMAT in AnswerFormat with
+       pattern p: 
+        "node [shape=circle,fixedsize=true,width=0.9]; {Foreach( ({this.elem}), (n), {n};)}"
+    end
+
+    LINK_FORMAT in AnswerFormat with
+       pattern p: 
+         "{Foreach( ({this.elem}),(l),{From({l})}-&gt;{To({l})};\\n)}"
+    end
+'
+</pre><p>The answer format shall iterate over all elements that match the corresponding export class
+(Foreach this.elem). The following query computes the elements for a given export class.
+The textual elements like "node" and "shape" are specific to the GraphViz format.</p><pre class="verbatim">tell '
+    GenericQueryClass ShowElement isA PNModel with
+      required,parameter
+         pn: PNModel;
+         type: Proposition
+      computed_attribute
+         elem: PNElement
+     constraint
+         c1: $ (pn = this) and
+               (this contains elem) and
+               (elem in type) $
+    end
+'
+</pre><p>So, when we ask the query <span style="font-family:monospace">ShowElement</span> for the model <span style="font-family:monospace">TrafficLights</span> and the export type <span style="font-family:monospace">Place</span>,
+we get as answer in this.elem all those elements of the petri net that are places.</p><pre class="verbatim">ask ShowElement[TrafficLights/pn,Place/type] OBJNAMES FRAME
+</pre><p>If you call the same query with the <span style="font-family:monospace">CIRCLENODE_FORMAT</span>, the answer shall be the export string for those
+petri net elements:</p><pre class="verbatim">ask ShowElement[TrafficLights/pn,Place/type] OBJNAMES CIRCLENODE_FORMAT
+</pre>
+<h3 id="sec7" class="subsection">2.5&#XA0;&#XA0;Define the export task</h3>
+<p>As a last step we define a query <span style="font-family:monospace">ShowPN</span> with a special answer format that takes care
+that all elements of the petri net are exproted using the right answer format,
+and that puts some additional Graphviz statements around it required by the GraphViz tool.</p><pre class="verbatim">tell '
+    GenericQueryClass ShowPN isA PNModel with
+      required,parameter
+         pn: PNModel
+      constraint
+         c1: $ (pn = this) $
+    end
+
+    GraphVizPN in AnswerFormat with
+      forQuery q: ShowPN
+      head h: "
+# Generated by ConceptBase {cb_version} at {transactiontime}
+# Process this file by Graphviz, e.g. 
+#    neato -Tpng thisfile.txt &gt; thisfile.png
+
+"
+      pattern p: "
+digraph {this} \{
+{ASKquery(ShowElement[{this}/pn,Transition/type],BOXNODE_FORMAT)}
+{ASKquery(ShowElement[{this}/pn,Place/type],CIRCLENODE_FORMAT)}
+{ASKquery(ShowElement[{this}/pn,Place!sendsToken/type],LINK_FORMAT)}
+{ASKquery(ShowElement[{this}/pn,Transition!producesToken/type],LINK_FORMAT)}
+overlap=false
+label=\"PetriNet Model {this}\\\n
+        Extracted from ConceptBase and layed out by Graphviz \"
+fontsize=12;
+\}
+"
+    end
+'
+</pre><p>The tag digraph instructs GraphViz to regard the exported text as the specification
+of a directed graph. The complete documentation of the GraphViz format is at
+<a href="http://graphviz.org/Documentation.php"><span style="font-family:monospace">http://graphviz.org/Documentation.php</span></a>.</p><p>The query <span style="font-family:monospace">ShowPN</span> is used to trigger the creation of the answer accoring to the
+answer format <span style="font-family:monospace">GraphVizPN</span>. The anser format has a head that creates some 
+header for the output. In this case, it generates some comment lines.
+The pattern is applied to all answer objects of query <span style="font-family:monospace">ShowPN</span>: this is exactly one, namely the
+<span style="font-family:monospace">PNModel</span> supplied with the parameter pn. This answer object matches the expression 
+<span style="font-family:monospace">{this}</span> in the pattern.</p><p>Certain special character of the pattern need to be escaped. The clause starting with label 
+is to be followed by a double quote. Since this double quote is inside the pattern string, which
+is double-quoted, the internal double quote needs to be espacef by a backslash.</p><p>The other example is the sequence with three backslashes followed by an n. The purpose is
+to pass just a backslash-n to the output. To do so, the answer formatting tool of ConceptBase
+must be instructed to produce the blackslash character rather than interpreting the backslash itself.</p><p>Try out the query call</p><pre class="verbatim">ask ShowPN[TrafficLights/pn] OBJNAMES GraphVizPN
+</pre><p>in the CBShell window. It will bind variable <span style="font-family:monospace">this</span> to the object <span style="font-family:monospace">TrafficLights</span>.
+This string is printed by the answer format after the string <span style="font-family:monospace">digraph</span>.
+Then an opening curly bracket follows that needed to be escaped
+since curly brackets have a special meaning in answer formats.
+Afterwards, three queries are called from within the answer format. The first one will
+generate the GraphViz commands for specifying the box nodes. The next one is replaced by the
+GraphViz commands for the circle nodes, followed by the commands for the links.</p><p>Afterwards three more text lines are added to the output.</p><p>The definitions are stored in the database PETRINETS. To retrieve only the desired output from
+it, first stop the CBserver via the CBShell</p><pre class="verbatim">stopServer
+</pre><p>Then, start it again with tracing disabled:</p><pre class="verbatim">cbserver -t no -db PETRINETS
+</pre><p>Then, call the query and show the answer:</p><pre class="verbatim">ask ShowPN[TrafficLights/pn] OBJNAMES GraphVizPN
+showAnswer
+</pre><p>The output of the command is formed by the <span style="font-family:monospace">GraphVizPN</span> answer format. Its text for
+the <span style="font-family:monospace">TrafficLights</span> example is:</p><pre class="verbatim"># Generated by ConceptBase 7.5.02 at 2013-06-24 10:26:41
+# Process this file by Graphviz, e.g. 
+#    neato -Tpng thisfile.txt &gt; thisfile.png
+
+
+digraph TrafficLights {
+node [shape=box];  gy2; yr2; rg2; gy1; yr1; rg1;
+node [shape=circle,fixedsize=true,width=0.9];  green2; yellow2; red2;
+           safe2; safe1; green1; yellow1; red1;
+safe2-&gt;rg2;
+green2-&gt;gy2;
+yellow2-&gt;yr2;
+red2-&gt;rg2;
+safe1-&gt;rg1;
+green1-&gt;gy1;
+yellow1-&gt;yr1;
+red1-&gt;rg1;
+
+gy2-&gt;yellow2;
+rg2-&gt;green2;
+yr2-&gt;safe1;
+yr2-&gt;red2;
+gy1-&gt;yellow1;
+rg1-&gt;green1;
+yr1-&gt;safe2;
+yr1-&gt;red1;
+
+overlap=false
+label="PetriNet Model TrafficLights\n
+       Extracted from ConceptBase and layed out by Graphviz "
+fontsize=12;
+}
+
+</pre><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
+<div class="center"><img src="cbTutorial3001.png"></div>
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 1: TrafficLights model layed out by GraphViz</td></tr>
+</table></div>
+<a id="fig:export1"></a>
+<div class="center"><hr style="width:80%;height:2"></div></blockquote><p>You can store the file and convert it to a diagram with GraphViz. With the <span style="font-family:monospace">neato</span> layouter
+the output looks as shown in figure <a href="#fig%3Aexport1">1</a></p><p>All commands of this tutorial are also available from the CB-Forum at
+<a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/3504020"><span style="font-family:monospace">http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/3504020</span></a>.</p><hr>
+<a href="cbTutorial3001.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+</body>
+</html>

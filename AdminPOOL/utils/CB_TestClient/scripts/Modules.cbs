@@ -1,0 +1,128 @@
+# This script tests whether the scope of rules/constraints can be restricted
+# to certain modules. 
+
+startServer -u nonpersistent -s 2
+tell "Proposition with
+  attribute
+    attributeclass: Proposition
+end
+
+M0 in Module end
+MX in Module end
+"
+result OK "yes"
+setModule M0
+result OK "M0"
+
+# Module M0 gets a general constraint on attribute typing. It is a variant
+# of O-Telos axiom 14. We have to use 'attributeclass' instead of 'attribute'
+# to avoid interference.
+
+tell "MyAxioms in Class with
+  constraint
+     ax14new: $ forall p/Proposition!attributeclass o,c,m,d/VAR (o in p) and P(p,c,m,d)
+                   ==> exists x,y/VAR From(o,x) and To(o,y) and (x in c) and (y in d) $
+end
+
+M1 in Module end
+"
+result OK "yes"
+setModule M1
+result OK "M1"
+
+# In module M1 (submodule to M0), we define some class Employee
+
+tell "Employee in Class with
+  attributeclass
+    salary: Integer
+end
+
+M11 in Module end
+M12 in Module end
+"
+result OK "yes"
+setModule M11
+result OK "M11"
+
+# In module M11 (submodule to M1), we define a rule that derives membership to Employee
+
+tell "Manager in Class with
+  attributeclass
+    country: String
+  rule
+    r1: $ forall m/Manager (m country \"Ubuntu\") ==> (m in Employee) $
+end
+
+M111 in Module end
+"
+result OK "yes"
+setModule M111
+result OK "M111"
+
+# In module M111 (submodule to M11), we define bill as instance of manager that uses the salary attribute
+# of Employee. This is not violating constraint ax14new (see above), since the rule in module M11
+# makes sure that bill is also an instance of Employee
+
+tell "bill in Manager with
+  country c: \"Ubuntu\"
+  salary s: 1000
+end
+"
+result OK "yes"
+
+# However, untelling the country attribute of bill also invalidates (bill in Employee),
+# so an error is reported
+untell "bill with 
+  attribute,country
+     c : \"Ubuntu\"
+end
+"
+result ERROR "no"
+ask "find_instances[Employee/class]" OBJNAMES  LABEL  Now
+result OK "bill"
+setModule M12
+result OK "M12"
+
+# bill shall not be visible in module M12 (a sibling of M11).
+
+ask "find_instances[Employee/class]" OBJNAMES  LABEL  Now
+result OK "nil"
+setModule oHome
+result OK "oHome"
+
+# In module MX (sibling to M0), we define Employee similarily but the
+# axiom constraint a14new is not visible here. Hence, we can untell
+# the country attribute of bill since the implementation of axiom A14 does
+# not guard the untell case.
+
+setModule MX
+result OK "MX"
+tell "Employee in Class with
+  attributeclass
+    salary: Integer
+end
+Manager in Class with
+  attributeclass
+    country: String
+  rule
+    r1: $ forall m/Manager (m country \"Ubuntu\") ==> (m in Employee) $
+end
+"
+result OK "yes"
+tell "bill in Manager with
+  country c: \"Ubuntu\"
+  salary s: 1000
+end
+"
+result OK "yes"
+untell "bill with
+  attribute,country
+     c : \"Ubuntu\"
+end
+"
+result OK "yes"
+
+
+
+
+

@@ -1,0 +1,431 @@
+
+         *** ConceptBase V3.2  -- Release Notes ***
+
+
+               RWTH Aachen, Germany, August 1993
+
+
+
+
+Version 3.2 of ConceptBase was driven by the need for a more
+stable and efficient system. It does not provide much additional
+functionality. Hence, the old user manual can still be used to
+a large extent. Version 3.2 will probably be the last release
+before switching to Unix System V (Solaris 2.x).
+
+
+The following list explains the main differences to Version 3.1.
+Please read the items carefully.
+
+
+
+1. Management of Telos object bases
+
+-----------------------------------
+
+Telos object bases (sometimes called "applications" for historical
+reasons) are persistently stored in an internal format within
+the UNIX file system. In Version 3.1 of ConceptBase one had to
+load a Telos object base by a menu item "Load Application" of the
+user interface. Version 3.2 has taken this function into an option
+of the command CBserver which starts the ConceptBase server:
+
+   % CBserver -d <db> [other parameters]
+
+The parameter <db> is the path of a UNIX directory where the Telos
+object base is stored, e.g. '~/MYDB'. If it is non-existent then
+the server will create and initialize it.
+If one specifies the option '-u nonpersistent' then the server will
+only load the specified object base but changes to it will be lost
+when exiting the server.
+
+
+
+2. Changes to the language
+
+--------------------------
+
+
+. The object model of ConceptBase, O-Telos, has been changed. First,
+the system classes IndividualClass and AttributeClass have been
+removed. Membership of a new object to the four classes Individual,
+Attribute, InstanceOf, and IsA is automatically derived by the
+system.
+
+. The valid time has also been removed as a built-in feature of O-Telos.
+The system time ("belief time", "transaction time") is still there
+for supporting queries to the past history of the object base ("rollback
+time" queries).
+
+. The integrity checking component of ConceptBase was corrected, such that
+some applications may be consistent with V3.1 (because the server is not able 
+to check all O-Telos axioms in the correct way) but not consistent with V3.2.
+
+. An additional builtin integrity constraint is included for specialization
+of attributes. It requires that a specialization between two objects
+implies a specialization between their sources and destinations, resp.
+
+
+
+3. Formulas in ConceptBase
+
+--------------------------
+
+
+In the new version of ConceptBase the syntax was changed for:
+
+QUERIES: use the attribute category 'constraint' instead of 'query_rule'
+
+RULES: use the attribute category 'rule' instead of 'rule, bdmrule'
+
+CONSTRAINTS: use the attribute category 'constraint' instaed of 
+'bdmconstraint'
+
+The formula evaluator of Version 3.2 is more efficient than the previous
+one and solves problems with some recursive rules in Version 3.1.
+
+
+
+4. Transformation of Your Model
+
+-------------------------------
+
+Because of the changes to the physical organization of applications, the
+syntax of Telos, and the set of system classes described in 1., 2., and 3., it is
+not possible to use applications created with ConceptBase V3.1 also with V3.2.
+Since it is not possible to provide an automatic transformation
+of your model, you have to transform it 'by hand'. To do this, please execute
+the following steps. The complexity of this transformation depends on the fact,
+if your whole model is contained in .sml files or if your model is just
+represented by an 3.1 application and no corresponding .sml files are available.
+
+CASE 1: There exist a set of .sml files containing (the frame representation) of
+        your whole model.
+
+To transform the set of .sml files:
+
+a) realize the syntax changes mentioned in 3) in your .sml files for
+   all rules, constraints, and queries,
+b) eliminate the classes AttributeClass and IndividualClass from your model.
+   Use instead the combination of Attribute resp. Individual together with Class.
+c) make sure that your model also satisfies the new integrity constraints 
+   mentioned in 2).
+d) That's all. Now you can start a 3.2 server, create a new, empty application and
+   load the .sml files into the server.
+
+
+CASE 2: You only own a 3.1 application and NO set of corresponding .sml
+        files.
+
+To transform the application:
+
+a) start a 3.1 system (= server + user interface) and load the 3.1 application.
+   Then kill the 3.1 toolbar,
+b) start a new (3.2) toolbar and connect to the 3.1 server started in a).
+c) go to the menu 'Models' and select the menu item 'Store Frames'.
+d) follow the steps explained in 6. (in this document) to store the
+   instances of the two classes 'Individual' and 'Attribute' in two
+   different files.
+e) if you defined in your model also attributes for instantiation
+   and spezialisation relationships, repeat step d) for the classes
+   'InstanceOf' and 'IsA'.
+
+   IMPORTANT NOTICE:
+   You must split the automatically created .sml files if they got 
+   too big to load into the server in a single step. In this case make sure 
+   that this splitting not violates referential integrity, i.e. that no object 
+   placed in the first file refers to an object defined in the second.
+   If this happens please change the splitting or define the object of
+   the second file also in the first file (i.e. something like a forward 
+   declaration).
+
+f) stop the 3.1 server,
+g) start a 3.2 server with a new, empty application and connect it to the
+   already running 3.2 toolbar.
+h) load the .sml files created in step d) and perhaps e) into this
+   server, where you should first load the individuals and then the 
+   attributes and relationships.
+
+
+
+5. Error messages
+
+-----------------
+
+
+Most error messages have been rewritten to enhance readability. Esp.,
+objects are referenced by their name, not by their internal identifier.
+
+
+
+6. New menu item 'Store Frames'
+
+-------------------------------
+
+
+The aim of this item is to write the frame definition of all instances
+of a specified class into a file. This enables the management of an
+application even if the corresponding .sml files are not available.
+
+
+To get all instances of a class in frame-format execute the following
+steps:
+
+
+a) connect with the toolbar to your CB server
+
+b) select the menu 'Models'
+
+c) select the menu item 'Store Frames'
+
+  -> an InteractionWindow appears and you must specify
+
+  c1) the name of the class,
+
+  c2) the name of the file, the program should write
+
+      the frames to, and
+
+  c3) the directory of this file (default: the home directory).
+
+d) If you made your choices, the program will ask the server for all
+
+   instances of the specified class and then for the frame-representation
+
+   of all these instances. These frames will be stored in the specified file.
+
+
+To get the frame representation of ALL objects defined in your object base
+you must execute this procedure four times: for the classes Individual,
+Attribute, IsA, and InstanceOf.
+But you can also use arbitrary other classes to get only parts of your model.
+
+
+
+7. New tool 'Hierarchical Browser'
+
+----------------------------------
+
+
+This tool is able to present the hierarchy of objects in relation to a
+specific link type in a hierarchy of windows. E.g., all subclasses of
+an object to depth 5. The windows representing the different hierarchies can
+independently be opened (OpenLevel) and closed (CloseLevel).
+
+
+To use this tool select in the menu 'Browsing' the item 'Hierarchy Browsing'.
+
+
+The appearing InteractionWindow asks for:
+
+- origin: name of the object building the root of the hierarchy
+
+- orientation: orientation of the links, i.e. one of
+
+               'going_into', 'coming_out_of'
+
+- label: the label of the links 
+
+- distance: the depth of the computed hierarchy, i.e. the
+
+            number of computed levels (level 4 is mostly sufficient)
+
+
+
+8. The behavior of Tell and Untell
+
+----------------------------------
+
+
+The manual of ConceptBase V3.1 is not very precise in describing the UNTELL
+method. Please note the following. If you tell the frame
+
+
+   John in Person with
+       age
+         Johnsage:33
+   end
+
+  Employee isA Person
+  end
+
+
+in addition to the propositions you would expect, some additional relations
+are implicitly inserted into the object base which state:
+
+
+a) the membership of John to the class Individual
+
+b) the membership of the attribute John!age to the class Attribute
+
+c) the membership of John->Person (the instantiation between John and
+
+   Person) to the class InstanceOf
+
+d) the membership of Employee=>Person (the isA link) to the class IsA
+
+
+As a kind of simplification the user doesn't need to state these
+kind of informations explicitly while telling a frame to the server.
+As a result e.g. if you retrieve John from the object base, you will
+get the following frame representation:
+
+
+   Individual John in Person with
+       age,attribute
+         Johnsage:33
+   end
+
+
+As you see, this frame contains all information known by the
+knowledge base, i.e. the explicitly given by the user together with
+the implicitly added (deduced) by the system.
+
+
+For the untell case it is not so easy to say how to delete implicit
+information. So if one performs an UNTELL on the frame
+
+
+   John in Person with
+       age
+         Johnsage:33
+   end
+
+
+it is not so obvious what this should mean. One can imagine the following
+different solutions:
+
+
+a) Deleting the individual John, its relationship to
+     Person, its attribute John!Johnsage and the
+     relationship of this attribute to Person!age
+
+b) The same as a) but without deleting the individual John itself
+
+c) The same as b) but without deleting the attribut John!Johnsage
+
+
+We decided to delete only the information explicitly specified in the frame,
+i.e. we prefer case c), because the instantiation relationship of John to
+Individual and from John!Johnsage to Attribute is not included in this frame.
+
+
+The object base after this UNTELL still contains the following information:
+
+   Individual John with
+      attribute
+         Johnsage:33
+   end
+
+
+Since Attribute denotes the object Proposition!attribute which
+has as destination component Proposition too, no axiom is violated
+(33 is a Proposition like all integers, strings etc.)
+
+
+So if you want to delete an attribute as an object itself but not only some
+instanceof relationships (as e.g. to Person!age) you must specify
+the category attribute resp. the instantiation relationship to Attribute.
+
+
+So if you had performed an UNTELL with
+
+   John with
+     age,attribute
+          Johnsage:33
+   end
+
+
+you would have reached what you wanted. The object base would then only
+contain
+
+   Individual John in Person with
+   end
+
+
+The same holds for individuals, i.e. to delete the object John
+you must explicitly specify the instantiation relationship
+to Individual (e.g. like in the frame above).
+
+
+
+9. Differences of the Graph Browser
+
+-----------------------------------
+
+
+.New shapes are available to represent the objects of ConceptBase in a graph. 
+In addition to rectangles, circles and ovals now diamonds are supported. In 
+addition to the shape and pattern attribute we support different colors of 
+objects. You may specify an appropriate color of a given graphical type within 
+the .graphbrowserinit file. Now, a line specifying a graphical type looks 
+like:
+
+
+  GraphicalType, Pattern, Shape,    Color,      MenuMask
+
+  SimpleClass,   none,    diamond,  cadetblue,  GB_SOMETHING|GB_TOOLS
+
+
+.Note, that the pattern (second attribute) is not interpreted. All patterns 
+appear as if none has been specified.
+
+
+.The semantics of the mouse clicks have changed as follows:
+-> Clicking the left mouse button over an object selects it. Dragging the
+left button over a node moves only this node and selects it when the button is
+released. Dragging the left mouse button over the background opens
+a dragbox and selects all elements of the graph within this box. Moving a set
+of selected objects is defined as moving one object: click the mouse
+button over an already selected node and drag. Links between selected
+objects remain stable while links between selected and not selected objects
+are updated.
+
+-> Clicking the right mouse button over an object adds this object to the set
+of already selected objects or removes it from this set, if it is already selected.
+Dragging the right mouse button opens a dragbox and selects all objects of the
+graph within this box as follows: objects already selected are removed from the
+set of selected objects, currently not selected objects are added.
+
+
+.If you move the connection of an edge, the manipulated connection is not 
+normalized while moving source or target of the edge. Also parallel edges 
+between different nodes (no loops) are inserted with different connections at 
+source and target of the edge.
+
+
+.Two new menu entries were added to save and load layouts of all shapes of a 
+graph with their positions and attributes. Save Layout starts an interaction 
+with the user to ask for a filename. The filename is relative to the directory 
+you start the toolbar or you have to provide an absolute path (start with a 
+slash). Load Layout inserts all objects of a previously saved layout. Note, 
+that before inserting an object, the ConceptBase server is asked whether the 
+object still exists. If so, the object is inserted at the same place and with 
+the same attributes as it was saved, except the object has already been 
+inserted into the existing graph.
+
+
+.Menu items Erase Node and Erase Link now appear as Erase in both cases. If 
+more than one object has been selected using the dragbox feature, Erase 
+removes all of them from the graph. As before, this does not effect the 
+content of the object base but only the content of the GraphBrowser's window.
+
+
+.The semantices of the menu items Telos Editor, Graph Browser and Display 
+Instances have been redefined when more than one object is selected. In principle, 
+the operations are applied to all selected objects leading to the following  behavior
+of the tools called:
+
+
+.-> Telos Editor: 
+for each of the selected objects the Telos description is retrieved from the 
+ConceptBase Server and all object descriptions are passed to one editor window.
+
+.-> Graph Browser: 
+a new GraphBrowser window is called containing all selected  objects. Positions
+of the objects are the same as within the calling GraphBrowser window.
+
+.-> Display Instances: 
+for each of the selected objects the instances are asked for and all resulting objects
+are passed to one selection window.
+

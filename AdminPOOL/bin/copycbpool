@@ -1,0 +1,32 @@
+#!/bin/sh
+# copy the current CBPOOL to USBstick or Dropbox after updating and compiling it
+# This script is perhaps useful in distributing the CBPOOL.zip archive
+# Authis: Manfred Jeusfeld
+
+STICKDIR=$HOME/Dropbox/
+
+# some USB sticks used by me
+if [ -d /media/$USER/K707 ]; then
+  STICKDIR=/media/$USER/K707/
+elif [ -d /media/$USER/USB_DISK ]; then
+  STICKDIR=/media/$USER/USB_DISK/
+elif [ -d /media/$USER/TOSHIBA ]; then
+  STICKDIR=/media/$USER/TOSHIBA/
+
+fi
+
+
+if [ -d "$STICKDIR" ]; then
+
+cd $HOME/CBPOOL/ProductPOOL
+  cvs update
+  compileCB
+  cd $HOME
+  /bin/rm $STICKDIR/CBPOOL.zip
+  zip -r $STICKDIR/CBPOOL.zip CBPOOL
+  echo "CBPOOL copied!"
+else
+  echo "No USB stick or Dropbox folder found"
+fi
+
+

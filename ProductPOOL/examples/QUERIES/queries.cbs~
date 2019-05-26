@@ -1,0 +1,54 @@
+# CBShell script for running the examples in QUERIES
+
+# connect to a CBserver (will start up a local CBserver if possible, otherwise uses a public CBserver)
+connect
+
+tellModel Employee_Classes
+tellModel Employee_Instances
+tellModel Employee_Queries
+
+ls QueryClass
+
+ask SI_Manager
+
+ask Well_off_SI_Manager
+
+ask Well_off_SI_Manager2
+
+ask Well_off_SI_Manager3
+
+ask Well_off_Manager
+
+ask Well_off_SI_Manager4
+
+ask SI_led_Department
+
+ask Used_SimpleClass
+
+ask BillsMetaBoss
+
+ask Emp_and_Dep OBJNAMES FRAME Now
+
+ask Well_off_SI_Manager5
+
+ask Derived_1_FromWell_off_SI_Manager5
+
+ask Derived_2_FromWell_off_SI_Manager5
+
+ask Derived_3_FromWell_off_SI_Manager5
+
+ask Derived_4_FromWell_off_SI_Manager5
+
+ask Well_off_SI_led_Department
+
+ask MetabossQuery[Bill/e]
+
+ask DerivedFromMetabossQuery1
+
+ask DerivedFromMetabossQuery2
+
+
+
+
+
+

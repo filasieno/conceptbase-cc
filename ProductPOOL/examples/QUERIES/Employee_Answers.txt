@@ -1,0 +1,25 @@
+This file includes the answers to the queries.
+
+Name of query class			answers	in answer format LABEL	
+BillsMetaBoss:				Angus,John,Oscar
+DerivedFromMetabossQuery1:		Angus,John,Oscar
+DerivedFromMetabossQuery2:		Lloyd
+Derived_1_FromWell_off_SI_Manager5:	Angus,Lloyd
+Derived_2_FromWell_off_SI_Manager5:	Angus
+Derived_3_FromWell_off_SI_Manager5:	Lloyd
+Derived_4_FromWell_off_SI_Manager5:	Lloyd
+Emp_and_Dep:				answers only interesting in frame syntax
+EmployeeSalaries:			a set of select expressions
+MetabossQuery:				Angus,Eleonore,John,Lloyd,Oscar,Phil
+SI_Manager:				Angus,Eleonore,Lloyd
+SI_led_Department2:			Administration,Production,Research
+SI_led_Department:			Administration,Production,Research
+Used_SimpleClass:			Department,Employee
+Well_off_Manager:			Angus,Lloyd,Phil
+Well_off_SI_Manager:			Angus,Lloyd
+Well_off_SI_Manager2:			Angus,Lloyd
+Well_off_SI_Manager3:			Angus,Lloyd
+Well_off_SI_Manager4:			Angus,Lloyd
+Well_off_SI_Manager5:			Angus,Lloyd
+Well_off_SI_led_Department:		Production
+

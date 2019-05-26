@@ -1,0 +1,20 @@
+#!/bin/sh
+# This is a script that is only needed at the Aachen site; otherwise its useless
+
+if [ ! -d /home/cbase/CB_NewStruct/CB_Product ]; then
+  exit 0
+fi
+
+if [ -d /home/cbase/CB_NewStruct/CB_Product ]; then
+  CB_HOME=/home/cbase/CB_NewStruct/CB_Product
+fi
+
+CB_VARIANT=`$CB_HOME/bin/CBvariant`
+
+if [ "$CB_VARIANT" != "sun4" ]; then
+   exit 0
+fi
+
+echo Doing cvs update as user "cbase" in /home/cbase/CB_NewStruct/src/$1
+( sleep 5 ; /home/cbase/bin/CBase_cvs_update /home/cbase/CB_NewStruct/src $1 > /dev/null 2>&1 ) &
+

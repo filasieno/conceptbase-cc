@@ -1,0 +1,29 @@
+1. Edit cbgraph-logo.odg with LibreOfficeDraw
+
+2. Export to 
+      application-x-cbgraphfile.svg
+      cbgraph-logo-ORIGSIZE.png
+
+3. Scale cbgraph-logo-ORIGSIZE.png to size 48
+    as cbgraph-logo-48x48.gif
+
+* Open cbgraph-logo-ORIGSIZE.png with GIMP and export to
+     cbgraph-logo-ORIGSIZE.ico (MS Icon file)
+
+4. cp cbgraph-logo-48x48.gif ../java/resources/graph_resources/CBGraphS.gif 
+
+5. Resize application-x-cbgraphfile.svg by inkscape to fill most of the frame
+
+6. cp application-x-cbgraphfile.svg ~/CBPOOL/conceptbase
+
+
+7. mkcb;instcb
+
+
+8. cd ~/CBPOOL/conceptbase
+  sudo cp application-x-cbgraphfile.svg  /usr/share/icons/gnome/scalable/mimetypes
+  sudo gtk-update-icon-cache /usr/share/icons/gnome/ -f
+
+
+
+cbiva-logo size in LibreOffice Draw: 1.45" x 1.45"

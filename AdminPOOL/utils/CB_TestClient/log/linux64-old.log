@@ -1,0 +1,4782 @@
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:54:34.159 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:54:34.160 - : COMPLETION IS ok
+
+> Update mode: persistent
+> Administrator user: jeusfeld@myon
+> Loaded database: AnswerFormat
+> Includes plugins: selectfirst, externalcall
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:54:34.607 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:54:34.635 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:34.675 - CBshell-jeusfeld: CALL TELL ON [TestQuery in QueryClass isA GenericQueryClass with  
+  constraint
+    c1 : $  (this isA Integer)$
+end ]
+
+>>> 2019-05-09 19:54:34.725 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:34.768 - CBshell-jeusfeld: CALL TELL ON [Individual TestFormatWithExternalCall in AnswerFormat with
+  attribute,forQuery
+     q : TestQuery
+  attribute,head
+     h : "The predicate call returns {anExternalPredicate(a,b)}.
+"
+  attribute,pattern
+     p : "You can also use variables as arguments {anExternalPredicate({this},inClass)}
+"
+end]
+
+>>> 2019-05-09 19:54:34.795 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:34.875 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, TestQuery, TestFormatWithExternalCall, Now]
+
+>>> 2019-05-09 19:54:34.879 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:34.963 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/externalcall]]
+
+>>> 2019-05-09 19:54:35.034 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:35.072 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[EmpDept/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:35.073 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:35.151 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[SV_EmpDept_dept/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:35.153 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:35.231 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, EmpDept, default, Now]
+
+>>> 2019-05-09 19:54:35.238 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:35.315 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[E1/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:35.317 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:35.395 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[AnswerFormat/class], LABEL, Now]
+
+>>> 2019-05-09 19:54:35.400 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:35.480 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[EmpDeptFormatWithExternalCall/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:35.484 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:35.575 - CBshell-jeusfeld: CALL UNTELL ON [EmpDeptFormatWithExternalCall with
+  attribute,forQuery
+     q : EmpDept
+
+end]
+
+>>> 2019-05-09 19:54:35.610 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:35.688 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, EmpDept, FRAME, Now]
+
+>>> 2019-05-09 19:54:35.696 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:35.780 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/iterations]]
+
+>>> 2019-05-09 19:54:35.830 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:35.869 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, PersonWithParents3, PersonFormat3, Now]
+
+>>> 2019-05-09 19:54:35.875 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:35.951 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/simple_answerformats1]]
+
+>>> 2019-05-09 19:54:35.991 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:36.033 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, PersonWithParents, PersonFormat, Now]
+
+>>> 2019-05-09 19:54:36.038 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:36.116 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/simple_answerformats2]]
+
+>>> 2019-05-09 19:54:36.184 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:36.225 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, PersonWithParents2, PersonFormat2, Now]
+
+>>> 2019-05-09 19:54:36.229 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:36.307 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/recursive-answers]]
+
+>>> 2019-05-09 19:54:36.354 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:36.393 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, PersonQ, PersonLayout, Now]
+
+>>> 2019-05-09 19:54:36.414 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:36.496 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/views]]
+
+>>> 2019-05-09 19:54:36.535 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:36.612 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, EmpDept, EmpDeptFormat, Now]
+
+>>> 2019-05-09 19:54:36.619 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:36.659 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:54:36.660 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:36.700 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:54:36.700 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:54:36.701 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:54:36.720 - CBserver_s77871583_0: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:54:37.187 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:54:37.187 - : COMPLETION IS ok
+
+> Update mode: nonpersistent
+> Administrator user: jeusfeld@myon
+> Rule stratification test: off
+> Loaded database: /tmp/jeusfeld_s77871583_0_23073
+> Includes plugins: selectfirst
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:54:37.623 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:54:37.646 - CBserver_s77871583_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:37.687 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/FLIGHT/BigFlights]]
+
+>>> 2019-05-09 19:54:38.105 - CBserver_s77871583_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:38.147 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, DeadEndCity, FRAME, Now]
+
+>>> 2019-05-09 19:54:38.168 - CBserver_s77871583_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:38.247 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, DeadStartCity, FRAME, Now]
+
+>>> 2019-05-09 19:54:38.267 - CBserver_s77871583_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:38.351 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, KindaClique[antwerpen/startcity], FRAME, Now]
+
+>>> 2019-05-09 19:54:38.735 - CBserver_s77871583_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:38.788 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[ReachableFrom[atlanta/start]/class], LABEL, Now]
+
+>>> 2019-05-09 19:54:39.696 - CBserver_s77871583_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:39.740 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[UnReachableFrom[borkum/start]/class], LABEL, Now]
+
+>>> 2019-05-09 19:54:40.465 - CBserver_s77871583_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:40.506 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[UnReachableFrom[atlanta/start]/class], LABEL, Now]
+
+>>> 2019-05-09 19:54:40.554 - CBserver_s77871583_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:40.593 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:54:40.594 - CBserver_s77871583_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:40.635 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:54:40.636 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:54:40.636 - CBserver_s77871583_1: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:54:40.659 - CBserver_s77871583_1: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:54:41.159 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:54:41.160 - : COMPLETION IS ok
+
+> Update mode: nonpersistent
+> Administrator user: jeusfeld@myon
+> Rule stratification test: off
+> Loaded database: /tmp/jeusfeld_s77871584_0_23128
+> Includes plugins: selectfirst
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:54:41.604 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:54:41.638 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:41.688 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/FLIGHT/BigFlights2]]
+
+>>> 2019-05-09 19:54:42.546 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:42.587 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, DeadEndCity, FRAME, Now]
+
+>>> 2019-05-09 19:54:42.607 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:42.684 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, DeadStartCity, FRAME, Now]
+
+>>> 2019-05-09 19:54:42.712 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:42.795 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, KindaClique[antwerpen/startcity], FRAME, Now]
+
+>>> 2019-05-09 19:54:43.188 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:43.248 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[ReachableFrom[atlanta/start]/class], LABEL, Now]
+
+>>> 2019-05-09 19:54:44.193 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:44.244 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[UnReachableFrom[borkum/start]/class], LABEL, Now]
+
+>>> 2019-05-09 19:54:44.958 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:44.998 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[UnReachableFrom[atlanta/start]/class], LABEL, Now]
+
+>>> 2019-05-09 19:54:45.047 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:45.089 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:54:45.090 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:45.128 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:54:45.129 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:54:45.130 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:54:45.150 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:54:45.767 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:54:45.767 - : COMPLETION IS ok
+
+> Cache mode: transient
+> Update mode: persistent
+> Untell mode: verbatim
+> Administrator user: jeusfeld@myon
+> Loaded database: BuiltinQueries
+> Includes plugins: selectfirst, has_attribute
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:54:46.163 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:54:46.208 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:46.213 - CBshell-jeusfeld: CALL TELL ON [has_attribute in BuiltinQueryClass with
+parameter
+          attrtype : Proposition;
+          attrname : Proposition;
+          objname : Proposition
+end]
+
+>>> 2019-05-09 19:54:46.252 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:46.293 - CBshell-jeusfeld: CALL TELL ON [Class Employee with
+attribute
+   salary : Integer;
+   boss : Manager;
+   dept : Department
+end
+
+Class Manager isA Employee end
+Class Department end]
+
+>>> 2019-05-09 19:54:46.318 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:46.395 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, has_attribute[Integer/attrtype,salary/attrname,Manager/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:46.396 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:46.475 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, has_attribute[Real/attrtype,salary/attrname,Manager/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:46.477 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:46.555 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, has_attribute[salary/attrname,Manager/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:46.556 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:46.635 - CBshell-jeusfeld: CALL TELL ON [John in Employee with
+salary js : 12345
+end]
+
+>>> 2019-05-09 19:54:46.666 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:46.743 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[John/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:46.746 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:46.823 - CBshell-jeusfeld: CALL TELL ON [23456 in Integer end]
+
+>>> 2019-05-09 19:54:46.862 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:46.939 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, changeAttributeValue[John!js/attribute,23456/newvalue], FRAME, Now]
+
+>>> 2019-05-09 19:54:46.944 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:47.023 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[John/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:47.032 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:47.112 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, rename[Johnny/newname,John/oldname], FRAME, Now]
+
+>>> 2019-05-09 19:54:47.117 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:47.195 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[Johnny/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:47.197 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:47.276 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, rename[12345/newname,23456/oldname], FRAME, Now]
+
+>>> 2019-05-09 19:54:47.277 - CBserver_s77871584_0: COMPLETION IS error
+
+>>> 2019-05-09 19:54:47.435 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object_star[D*/objname], LABEL, Now]
+
+>>> 2019-05-09 19:54:47.443 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:47.524 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, COUNT[Class/class], FRAME, Now]
+
+>>> 2019-05-09 19:54:47.529 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:47.609 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AVG[Integer/class], FRAME, Now]
+
+>>> 2019-05-09 19:54:47.613 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:47.692 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AVG_Attribute[Johnny/objname,Employee!salary/attrcat], FRAME, Now]
+
+>>> 2019-05-09 19:54:47.695 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:47.776 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, MAX[Integer/class], FRAME, Now]
+
+>>> 2019-05-09 19:54:47.779 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:47.860 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, MIN[Integer], FRAME, Now]
+
+>>> 2019-05-09 19:54:47.863 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:47.944 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, 345*456, default, Now]
+
+>>> 2019-05-09 19:54:47.947 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:48.028 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, SUM[Integer/class], FRAME, Now]
+
+>>> 2019-05-09 19:54:48.031 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:48.075 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:54:48.076 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:48.116 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:54:48.117 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:54:48.118 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:54:48.133 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:54:48.594 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:54:48.594 - : COMPLETION IS ok
+
+> Update mode: nonpersistent
+> Untell mode: verbatim
+> Administrator user: jeusfeld@myon
+> Loaded database: /tmp/jeusfeld_s77871584_0_23239
+> Includes plugins: selectfirst
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:54:49.040 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:54:49.069 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:49.112 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/01_Architecture]]
+
+>>> 2019-05-09 19:54:49.147 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:49.223 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/02_Conceptual]]
+
+>>> 2019-05-09 19:54:49.329 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:49.371 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/03_Logical]]
+
+>>> 2019-05-09 19:54:49.413 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:49.454 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/04_Physical]]
+
+>>> 2019-05-09 19:54:49.523 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:49.565 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/05_ConceptualExtension]]
+
+>>> 2019-05-09 19:54:49.985 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:50.025 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/06_LogicalExtension]]
+
+>>> 2019-05-09 19:54:50.270 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:50.308 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/07_MultidimensionalExtension]]
+
+>>> 2019-05-09 19:54:50.424 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:50.468 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/08_DWarchitectureGTs]]
+
+>>> 2019-05-09 19:54:50.736 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:50.777 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/09_QualityMetaModel]]
+
+>>> 2019-05-09 19:54:50.818 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:50.857 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/10_QualityDimension]]
+
+>>> 2019-05-09 19:54:51.020 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:51.061 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/11_Stakeholder]]
+
+>>> 2019-05-09 19:54:51.097 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:51.176 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/12_QualityModel]]
+
+>>> 2019-05-09 19:54:51.211 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:51.287 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/13_QualityGTs]]
+
+>>> 2019-05-09 19:54:51.430 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:51.470 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/14_QualityExample]]
+
+>>> 2019-05-09 19:54:51.632 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:51.673 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/15_Process]]
+
+>>> 2019-05-09 19:54:51.735 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:51.777 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/16_ProcessQuality]]
+
+>>> 2019-05-09 19:54:51.861 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:51.904 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/17_ProcessGTs]]
+
+>>> 2019-05-09 19:54:51.980 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:52.021 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/DWQ/18_ProcessExample]]
+
+>>> 2019-05-09 19:54:52.093 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:52.132 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[BadVolatilityOfDataStores/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:52.133 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:52.211 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, BadVolatilityOfDataStores, FRAME, Now]
+
+>>> 2019-05-09 19:54:52.213 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:52.292 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[JavaGraphicalPalette/class], LABEL, Now]
+
+>>> 2019-05-09 19:54:52.294 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:52.372 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, GetJavaGraphicalPalette[DWQ_Palette/pal], default, Now]
+
+>>> 2019-05-09 19:54:53.000 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:53.077 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, "[90:100]", FRAME, Now]
+
+>>> 2019-05-09 19:54:53.079 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:53.130 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:54:53.131 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:53.171 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:54:53.172 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:54:53.172 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:54:53.189 - CBserver_s77871584_1: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:54:53.659 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:54:53.659 - : COMPLETION IS ok
+
+> Update mode: persistent
+> Untell mode: verbatim
+> Administrator user: jeusfeld@myon
+> Loaded database: Datalog
+> Includes plugins: selectfirst
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:54:54.108 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:54:54.132 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:54.175 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/QUERIES/Employee_Classes]]
+
+>>> 2019-05-09 19:54:54.228 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:54.270 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/QUERIES/Employee_Instances]]
+
+>>> 2019-05-09 19:54:54.328 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:54.370 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[DatalogQueryClass/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:54.372 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:54.452 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[DatalogRule/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:54.453 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:54.532 - CBshell-jeusfeld: CALL TELL ON [DatalogQueryClass MetabossDatalogQuery isA Manager with
+  attribute,parameter
+     e : Employee
+  attribute,code
+     r1 : "In('~e','Employee'),A('~e',boss,'~this')";
+     r2 : "vars([m]),
+           In('~e','Employee'),
+           In(m,query('MetabossDatalogQuery[~e/e]')),
+           A(m,boss,'~this')"
+end]
+
+>>> 2019-05-09 19:54:54.567 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:54.648 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[MetabossDatalogQuery/class], LABEL, Now]
+
+>>> 2019-05-09 19:54:54.667 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:54.748 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, MetabossDatalogQuery[Angus/e], FRAME, Now]
+
+>>> 2019-05-09 19:54:54.750 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:54.827 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, MetabossDatalogQuery[Edward/e], FRAME, Now]
+
+>>> 2019-05-09 19:54:54.829 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:54.908 - CBshell-jeusfeld: CALL TELL ON [Class HighSalary2 isA Integer
+end
+
+DatalogInRule HighSalaryRule2 with
+concernedClass
+   cc: HighSalary2
+code
+   c: "In('~this','Integer'),GE('~this',60000)"
+end
+]
+
+>>> 2019-05-09 19:54:54.942 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:55.020 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[HighSalary2/class], LABEL, Now]
+
+>>> 2019-05-09 19:54:55.028 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:55.107 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[Edward/objname,TRUE/dedIn,TRUE/dedIsa,TRUE/dedWith], FRAME, Now]
+
+>>> 2019-05-09 19:54:55.115 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:55.195 - CBshell-jeusfeld: CALL TELL ON [DatalogAttrRule MetabossRule with
+concernedClass
+     cc : Employee!boss
+code
+    r1 : "vars([m]),var('~src'),var('~dst'),In(m,'Manager'),
+          A(m,boss,'~dst'),A('~src',boss,m)";
+    r2 : "vars([m]),ground('~src'),
+          A('~src',boss,m),A(m,boss,'~dst')";
+    r3 : "vars([m]),ground('~dst'),var('~src'),
+          A(m,boss,'~dst'),A('~src',boss,m)"
+end]
+
+>>> 2019-05-09 19:54:55.235 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:55.311 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[Edward/objname,TRUE/dedIn,TRUE/dedIsa,TRUE/dedWith], FRAME, Now]
+
+>>> 2019-05-09 19:54:55.323 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:55.403 - CBshell-jeusfeld: CALL TELL ON [String with
+attribute like :String
+end
+
+
+DatalogAttrRule StringLike with
+concernedClass
+   cc : String!like
+code
+   r1 : "vars([s,d]),ground('~src'),'GeneralUtilities':id2name('~src',s),'GeneralUtilities':id2name('~dst',d),wildcard_match(d,s)";
+   r2 : "vars([s,d]),var('~src'),In('~src','String'),'GeneralUtilities':id2name('~src',s),'GeneralUtilities':id2name('~dst',d),wildcard_match(d,s)"
+end]
+
+>>> 2019-05-09 19:54:55.441 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:55.520 - CBshell-jeusfeld: CALL TELL ON [QueryClass TestStringLike isA String with
+constraint c: $ (this like "return*") $
+end]
+
+>>> 2019-05-09 19:54:55.561 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:55.601 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, TestStringLike, FRAME, Now]
+
+>>> 2019-05-09 19:54:55.605 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:55.650 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:54:55.651 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:55.691 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:54:55.692 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:54:55.693 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:54:55.713 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:54:56.202 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:54:56.202 - : COMPLETION IS ok
+
+> Update mode: persistent
+> Untell mode: verbatim
+> Administrator user: jeusfeld@myon
+> Loaded database: ECArules
+> Includes plugins: selectfirst, Counter
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:54:56.635 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:54:56.659 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:56.700 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/ECArules/Counter]]
+
+>>> 2019-05-09 19:54:56.740 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:56.783 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/ECArules/MatViews]]
+
+>>> 2019-05-09 19:54:56.825 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:56.868 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/ECArules/TimeStamp]]
+
+>>> 2019-05-09 19:54:56.919 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:56.960 - CBshell-jeusfeld: CALL TELL ON [John in Employee end
+
+]
+
+>>> 2019-05-09 19:54:56.995 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:57.075 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[EmployeeCounter / class], LABEL, Now]
+
+>>> 2019-05-09 19:54:57.077 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:57.155 - CBshell-jeusfeld: CALL TELL ON [John2 in Employee end
+
+]
+
+>>> 2019-05-09 19:54:57.193 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:57.271 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[EmployeeCounter / class], LABEL, Now]
+
+>>> 2019-05-09 19:54:57.274 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:57.351 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[John2/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:57.353 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:57.432 - CBshell-jeusfeld: CALL UNTELL ON [Individual John2 in Employee 
+end 
+
+]
+
+>>> 2019-05-09 19:54:57.465 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:57.543 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[EmployeeCounter / class], LABEL, Now]
+
+>>> 2019-05-09 19:54:57.547 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:57.628 - CBshell-jeusfeld: CALL TELL ON [Employee Max  with salary hs : 120000 end
+
+]
+
+>>> 2019-05-09 19:54:57.662 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:57.740 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[QueryClass / class], LABEL, Now]
+
+>>> 2019-05-09 19:54:57.749 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:57.827 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[EmployeeWithHighSalary/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:57.830 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:57.912 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, EmployeeWithHighSalary, FRAME, Now]
+
+>>> 2019-05-09 19:54:57.915 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:57.996 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[EmployeeWithHighSalary / class], LABEL, Now]
+
+>>> 2019-05-09 19:54:57.999 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:58.079 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[EmployeeWithHighSalary_Materialized / class], LABEL, Now]
+
+>>> 2019-05-09 19:54:58.084 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:58.164 - CBshell-jeusfeld: CALL TELL ON [John with salary js : 45000 end
+
+]
+
+>>> 2019-05-09 19:54:58.206 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:58.248 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[EmployeeWithHighSalary / class], LABEL, Now]
+
+>>> 2019-05-09 19:54:58.252 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:58.331 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[EmployeeWithHighSalary_Materialized / class], LABEL, Now]
+
+>>> 2019-05-09 19:54:58.334 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:58.412 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[John/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:58.415 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:58.498 - CBshell-jeusfeld: CALL TELL ON [John with salary js2 : 123000 end
+
+]
+
+>>> 2019-05-09 19:54:58.531 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:58.612 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[EmployeeWithHighSalary / class], LABEL, Now]
+
+>>> 2019-05-09 19:54:58.615 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:58.694 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[EmployeeWithHighSalary_Materialized / class], LABEL, Now]
+
+>>> 2019-05-09 19:54:58.697 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:58.780 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[John/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:58.782 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:58.860 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[Max/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:58.862 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:58.944 - CBshell-jeusfeld: CALL TELL ON [Class NoInstance end 
+
+]
+
+>>> 2019-05-09 19:54:58.975 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:59.060 - CBshell-jeusfeld: CALL TELL ON [ECArule NoInstanceRule with
+ecarule
+	er : $ x/Proposition
+	ON Tell(In(x,NoInstance))
+	IF true
+	DO reject
+	$
+rejectMsg
+	rmsg : "No instances are allowed to class NoInstance!"
+end 
+
+]
+
+>>> 2019-05-09 19:54:59.098 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:59.175 - CBshell-jeusfeld: CALL TELL ON [bla in NoInstance end
+
+]
+
+>>> 2019-05-09 19:54:59.207 - CBserver_s77871584_0: COMPLETION IS error
+
+>>> 2019-05-09 19:54:59.527 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[ECArule / class], LABEL, Now]
+
+>>> 2019-05-09 19:54:59.534 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:59.611 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[NoInstanceRule/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:59.613 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:59.692 - CBshell-jeusfeld: CALL TELL ON [NoInstanceRule  with 
+  attribute,active
+     ecaacctive : FALSE
+end 
+
+]
+
+>>> 2019-05-09 19:54:59.727 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:59.807 - CBshell-jeusfeld: CALL TELL ON [bla in NoInstance end 
+
+]
+
+>>> 2019-05-09 19:54:59.842 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:54:59.919 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[bla/objname], FRAME, Now]
+
+>>> 2019-05-09 19:54:59.920 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:00.000 - CBshell-jeusfeld: CALL UNTELL ON [NoInstanceRule  with 
+  attribute,active
+     ecaacctive : FALSE
+end 
+
+]
+
+>>> 2019-05-09 19:55:00.033 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:00.112 - CBshell-jeusfeld: CALL TELL ON [bla2 in NoInstance end 
+
+]
+
+>>> 2019-05-09 19:55:00.149 - CBserver_s77871584_0: COMPLETION IS error
+
+>>> 2019-05-09 19:55:00.468 - CBshell-jeusfeld: CALL TELL ON [Place with
+  attribute
+    sendsToken: Transition;
+    tokenFill: Integer  
+end
+Transition with 
+  attribute
+     producesToken : Place
+end 
+]
+
+>>> 2019-05-09 19:55:00.499 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:00.580 - CBshell-jeusfeld: CALL TELL ON [TokenNr in Function isA Integer with
+  parameter
+    place: Place
+  constraint
+    c1: $ (~place tokenFill ~this) $
+end
+EnabledTransition in QueryClass isA Transition with
+  constraint
+    c1: $ forall pl/Place (pl sendsToken ~this) 
+                 ==> (TokenNr[pl/place] > 0)
+         $
+end
+ConnectedPlace in GenericQueryClass isA Place with
+  parameter
+    trans: Transition
+  constraint
+    isConnected: $ (~this sendsToken ~trans) or (~trans producesToken ~this) $
+end
+TransToPlace in GenericQueryClass isA Transition!producesToken with
+  parameter
+    trans: Transition;
+    place: Place
+  constraint
+    c1: $ From(~this,~trans) and To(~this,~place) $
+end
+PlaceToTrans in GenericQueryClass isA Place!sendsToken with
+  parameter
+    trans: Transition;
+    place: Place
+  constraint
+    c1: $ From(~this,~place) and To(~this,~trans) $
+end
+]
+
+>>> 2019-05-09 19:55:00.664 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:00.707 - CBshell-jeusfeld: CALL TELL ON [NetEffectOfTransition in Function isA Integer with
+  parameter
+    xt: Transition;
+    xp: Place
+  constraint
+    c1: $ (~this in IMINUS[COUNT[TransToPlace[~xt/trans,~xp/place]/class]/i1,
+                           COUNT[PlaceToTrans[~xt/trans,~xp/place]/class]/i2]) $
+end
+FireTransition with
+  attribute
+    transition: Transition
+end
+ECArule UpdateConnectedPlaces with
+  mode m: Deferred
+  rejectMsg rm:
+"The last firing of a transition failed.
+Check whether the transition was enabled!"
+  ecarule
+        er : $  fire/FireTransition tr/Transition pl/Place
+                n,n1/Integer
+        ON Tell( (fire transition tr) )
+        IF new((tr in EnabledTransition)) and
+           (pl in ConnectedPlace[tr/trans]) and
+           new((pl tokenFill n)) and
+           new((n1 in IPLUS[n/i1,
+                        NetEffectOfTransition[pl/xp,tr/xt]/i2]))
+        DO Untell( (pl tokenFill n) ),
+           Tell( (pl tokenFill n1) )
+        ELSE
+           reject
+        $
+end
+ReportState in QueryClass isA Place with
+  retrieved_attribute
+    tokenFill: Integer
+end
+]
+
+>>> 2019-05-09 19:55:00.794 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:00.832 - CBshell-jeusfeld: CALL TELL ON [red1 in Place with
+  sendsToken
+    t1: rg1
+  tokenFill
+    tf: 1
+end
+
+yellow1 in Place with
+  sendsToken
+    t1: yr1
+  tokenFill
+    tf: 0
+end
+
+green1 in Place with
+  sendsToken
+    t1: gy1
+  tokenFill
+    tf: 0
+end
+
+safe1 in Place with
+  sendsToken
+    t1: rg1
+  tokenFill
+    tf: 1
+end
+
+yr1 in Transition with
+  producesToken
+    p1: red1;
+    p2: safe2
+end
+
+rg1 in Transition with
+  producesToken
+    p1: green1
+end
+
+gy1 in Transition with
+  producesToken
+    p1: yellow1
+end
+
+
+
+red2 in Place with
+  sendsToken
+    t1: rg2
+  tokenFill
+    tf: 1
+end
+
+yellow2 in Place with
+  sendsToken
+    t1: yr2
+  tokenFill
+    tf: 0
+end
+
+green2 in Place with
+  sendsToken
+    t1: gy2
+  tokenFill
+    tf: 0
+end
+
+safe2 in Place with
+  sendsToken
+    t1: rg2
+  tokenFill
+    tf: 0
+end
+
+yr2 in Transition with
+  producesToken
+    p1: red2;
+    p2: safe1
+end
+
+rg2 in Transition with
+  producesToken
+    p1: green2
+end
+
+gy2 in Transition with
+  producesToken
+    p1: yellow2
+end
+]
+
+>>> 2019-05-09 19:55:00.871 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:00.912 - CBshell-jeusfeld: CALL TELL ON [fire1 in FireTransition with
+  transition t1: rg1
+end
+]
+
+>>> 2019-05-09 19:55:00.981 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:01.020 - CBshell-jeusfeld: CALL TELL ON [fire2 in FireTransition with
+  transition t1: gy1
+end
+fire3 in FireTransition with
+  transition t1: yr1
+end
+]
+
+>>> 2019-05-09 19:55:01.137 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:01.177 - CBshell-jeusfeld: CALL TELL ON [fire4 in FireTransition with
+  transition t1: rg2
+end
+]
+
+>>> 2019-05-09 19:55:01.245 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:01.286 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, ReportState, FRAME, Now]
+
+>>> 2019-05-09 19:55:01.289 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:01.372 - CBshell-jeusfeld: CALL TELL ON [AskToFireTransition in GenericQueryClass isA Transition with
+ parameter
+    transition: EnabledTransition
+ constraint
+    c1: $ UNIFIES(~this,~transition) $
+end
+]
+
+>>> 2019-05-09 19:55:01.413 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:01.456 - CBshell-jeusfeld: CALL TELL ON [ECArule UpdateConnectedPlaces2 with
+  mode m: Deferred
+  rejectMsg rm:
+"The last firing of a transition failed.
+Check whether the transition was enabled!"
+  ecarule
+        er : $  fire/FireTransition tr/Transition pl/Place
+                n,n1/Integer
+        ON Ask(AskToFireTransition[tr/transition])
+        IF new((tr in EnabledTransition)) and
+           (pl in ConnectedPlace[tr/trans]) and
+           new((pl tokenFill n)) and
+           new((n1 in IPLUS[n/i1,
+                        NetEffectOfTransition[pl/xp,tr/xt]/i2]))
+        DO Untell( (pl tokenFill n) ),
+           Tell( (pl tokenFill n1) )
+        ELSE
+           reject
+        $
+end
+]
+
+>>> 2019-05-09 19:55:01.494 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:01.572 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AskToFireTransition[gy1/transition], FRAME, Now]
+
+>>> 2019-05-09 19:55:01.574 - CBserver_s77871584_0: COMPLETION IS error
+
+>>> 2019-05-09 19:55:01.812 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AskToFireTransition[gy2/transition], FRAME, Now]
+
+>>> 2019-05-09 19:55:01.818 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:01.857 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:01.857 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:01.895 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:55:01.897 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:55:01.897 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:55:01.923 - CBserver_s77871584_0: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:55:02.624 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:55:02.625 - : COMPLETION IS ok
+
+> Update mode: persistent
+> Untell mode: verbatim
+> Administrator user: jeusfeld@myon
+> Loaded database: ER_Model
+> Includes plugins: -
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:55:03.039 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:03.075 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:03.119 - CBshell-jeusfeld: CALL TELL ON [--------------------------------
+
+             README
+
+--------------------------------
+
+This directory contains the following files:
+
+ERModelClasses.sml   Telos definitions of Entity-Relationship models
+Emp_ERModel.sml      A concrete ER-model described in Telos
+ERSingNec.sml        Metaformulas defining constraints for
+                     "single" and "necessary"
+ERModelGTs.sml       Definition of the graphical palette for
+                     ER-Diagrams for use on color displays
+ERIncons.sml         Definition of a Class "Inconsistent"
+                     containing roles violating the "(1,*)"
+                     constraint
+
+The use of these models is described in detail in the subsection
+"A Telos Modeling Example - ER Diagrams"
+in the "examples" section of the user manual.
+They have to be loaded in the order given above.
+]
+
+>>> 2019-05-09 19:55:03.121 - CBserver_s77871585_0: COMPLETION IS error
+
+>>> 2019-05-09 19:55:03.439 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/ER_MODEL/ERModelClasses]]
+
+>>> 2019-05-09 19:55:03.469 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:03.547 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/ER_MODEL/Emp_ERModel]]
+
+>>> 2019-05-09 19:55:03.584 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:03.664 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/ER_MODEL/ERSingNec]]
+
+>>> 2019-05-09 19:55:03.770 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:03.811 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/ER_MODEL/ERModelGTs]]
+
+>>> 2019-05-09 19:55:03.877 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:03.916 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/ER_MODEL/ERIncons]]
+
+>>> 2019-05-09 19:55:04.022 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:04.061 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[Function/class], LABEL, Now]
+
+>>> 2019-05-09 19:55:04.065 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:04.143 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[rename/objname], FRAME, Now]
+
+>>> 2019-05-09 19:55:04.144 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:04.223 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[JavaGraphicalPalette/class], LABEL, Now]
+
+>>> 2019-05-09 19:55:04.224 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:04.303 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, GetJavaGraphicalPalette[ER_GraphBrowserPalette/pal], XML_JavaGraphicalPalette, Now]
+
+>>> 2019-05-09 19:55:04.374 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:04.437 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[Module/class], LABEL, Now]
+
+>>> 2019-05-09 19:55:04.438 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:04.519 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_object[Class/objname], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:04.528 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:04.607 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, exists[Source/objname], FRAME, Now]
+
+>>> 2019-05-09 19:55:04.610 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:04.688 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, exists[Class/objname], FRAME, Now]
+
+>>> 2019-05-09 19:55:04.690 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:04.767 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_object[EntityType/objname], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:04.773 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:04.852 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_object[RelationshipType/objname], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:04.858 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:04.936 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[RelationshipType/src,RelationshipType/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:04.942 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:05.020 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[RelationshipType/src,EntityType/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:05.025 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:05.104 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[RelationshipType/objname,FALSE/dedIn,FALSE/dedIsa,TRUE/dedWith], FRAME, Now]
+
+>>> 2019-05-09 19:55:05.109 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:05.188 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[EntityType/src,RelationshipType/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:05.189 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:05.268 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[EntityType/src,EntityType/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:05.274 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:05.359 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_explicit_instances[RelationshipType/class], CBGraphEditorResult[ER_GraphBrowserPalette/pal,RelationshipType/obj,InstanceOf/cat,dst/objtype], Now]
+
+>>> 2019-05-09 19:55:05.363 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:05.443 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_explicit_instances[EntityType/class], CBGraphEditorResult[ER_GraphBrowserPalette/pal,EntityType/obj,InstanceOf/cat,dst/objtype], Now]
+
+>>> 2019-05-09 19:55:05.452 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:05.531 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Employee/src,Employee/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:05.535 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:05.611 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Employee/src,WorksIn/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:05.614 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:05.691 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Employee/src,Project/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:05.694 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:05.772 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[WorksIn/src,Employee/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:05.776 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:05.856 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[WorksIn/src,WorksIn/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:05.860 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:05.941 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[WorksIn/src,Project/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:05.943 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:06.024 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Project/src,Employee/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:06.028 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:06.108 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Project/src,WorksIn/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:06.110 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:06.188 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Project/src,Project/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:06.192 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:06.271 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_explicit_instances[Employee/class], CBGraphEditorResult[ER_GraphBrowserPalette/pal,Employee/obj,InstanceOf/cat,dst/objtype], Now]
+
+>>> 2019-05-09 19:55:06.281 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:06.359 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_explicit_instances[Project/class], CBGraphEditorResult[ER_GraphBrowserPalette/pal,Project/obj,InstanceOf/cat,dst/objtype], Now]
+
+>>> 2019-05-09 19:55:06.364 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:06.444 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[ConceptBase/src,ConceptBase/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:06.447 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:06.530 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[ConceptBase/src,Martin/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:06.532 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:06.612 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[ConceptBase/src,Hans/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:06.614 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:06.692 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[ConceptBase/src,WorksIn/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:06.694 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:06.772 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[ConceptBase/src,WorksIn/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:06.774 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:06.852 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Martin/src,ConceptBase/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:06.854 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:06.932 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Martin/src,Martin/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:06.935 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:07.016 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Martin/src,Hans/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:07.018 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:07.096 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Martin/src,WorksIn/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:07.098 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:07.175 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Martin/src,WorksIn/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:07.177 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:07.256 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Hans/src,ConceptBase/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:07.258 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:07.336 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Hans/src,Martin/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:07.338 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:07.416 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Hans/src,Hans/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:07.420 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:07.500 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Hans/src,WorksIn/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:07.502 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:07.579 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Hans/src,WorksIn/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:07.582 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:07.660 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[WorksIn/src,ConceptBase/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:07.662 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:07.739 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[WorksIn/src,Martin/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:07.741 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:07.819 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[WorksIn/src,Hans/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:07.821 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:07.899 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[WorksIn/src,WorksIn/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:07.903 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:07.983 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[WorksIn/src,WorksIn/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:07.987 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:08.064 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[WorksIn/src,ConceptBase/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:08.066 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:08.144 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[WorksIn/src,Martin/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:08.146 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:08.223 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[WorksIn/src,Hans/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:08.225 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:08.304 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[WorksIn/src,WorksIn/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:08.308 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:08.388 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[WorksIn/src,WorksIn/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:08.392 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:08.472 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_explicit_instances[WorksIn/class], CBGraphEditorResult[ER_GraphBrowserPalette/pal,WorksIn/obj,InstanceOf/cat,dst/objtype], Now]
+
+>>> 2019-05-09 19:55:08.478 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:08.556 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[M_CB/src,M_CB/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:08.560 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:08.640 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[M_CB/src,Martin/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:08.645 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:08.724 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[M_CB/objname,FALSE/dedIn,FALSE/dedIsa,TRUE/dedWith], FRAME, Now]
+
+>>> 2019-05-09 19:55:08.728 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:08.808 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[M_CB/src,ConceptBase/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:08.813 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:08.892 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Martin/src,M_CB/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:08.894 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:08.972 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Martin/src,Martin/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:08.975 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:09.056 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[Martin/src,ConceptBase/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:09.058 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:09.136 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[ConceptBase/src,M_CB/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:09.138 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:09.216 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[ConceptBase/src,Martin/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:09.218 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:09.296 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[ConceptBase/src,ConceptBase/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:09.300 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:09.380 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[Inconsistent/class], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:09.384 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:09.464 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[Inconsistent/class], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:09.468 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:09.548 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[Inconsistent/class], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:09.551 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:09.632 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[Inconsistent/class], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:09.635 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:09.715 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[M_CB!mIsEmp/src,M_CB!mIsEmp/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:09.716 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:09.796 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[M_CB!mIsEmp/src,WorksIn!emp/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:09.801 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:09.880 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[WorksIn!emp/src,M_CB!mIsEmp/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:09.882 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:09.960 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[WorksIn!emp/src,WorksIn!emp/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:09.962 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:10.040 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_attribute_categories[WorksIn!emp/objname], LABEL, Now]
+
+>>> 2019-05-09 19:55:10.054 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:10.132 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[RelationshipType!role/objname,FALSE/dedIn,FALSE/dedIsa,TRUE/dedWith], FRAME, Now]
+
+>>> 2019-05-09 19:55:10.136 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:10.216 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_explicit_attribute_values[WorksIn!emp/objname,Attribute/cat], CBGraphEditorResult[ER_GraphBrowserPalette/pal,WorksIn!emp/obj,Attribute/cat,src/objtype], Now]
+
+>>> 2019-05-09 19:55:10.222 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:10.300 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[WorksIn!emp/objname,FALSE/dedIn,FALSE/dedIsa,TRUE/dedWith], FRAME, Now]
+
+>>> 2019-05-09 19:55:10.303 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:10.384 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_attribute_categories[RelationshipType!role/objname], LABEL, Now]
+
+>>> 2019-05-09 19:55:10.386 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:10.464 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_explicit_attribute_values[RelationshipType!role/objname,Attribute/cat], CBGraphEditorResult[ER_GraphBrowserPalette/pal,RelationshipType!role/obj,Attribute/cat,src/objtype], Now]
+
+>>> 2019-05-09 19:55:10.471 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:10.548 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[MinMax/src,MinMax/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:10.553 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:10.632 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2[MinMax/src,"(1,*)"/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:10.634 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:10.712 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2["(1,*)"/src,MinMax/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:10.717 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:10.796 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_links2["(1,*)"/src,"(1,*)"/dst], CBGraphEditorResultWithoutEdges[ER_GraphBrowserPalette/pal], Now]
+
+>>> 2019-05-09 19:55:10.801 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:10.843 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:10.844 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:10.884 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:55:10.885 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:55:10.885 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:55:10.901 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:55:11.395 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:55:11.395 - : COMPLETION IS ok
+
+> Update mode: persistent
+> Administrator user: jeusfeld@myon
+> Loaded database: FLIGHT_100
+> Includes plugins: selectfirst
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:55:11.845 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:11.867 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:11.907 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/FLIGHT/city]]
+
+>>> 2019-05-09 19:55:11.939 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:12.019 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/FLIGHT/c100]]
+
+>>> 2019-05-09 19:55:12.074 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:12.114 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/FLIGHT/cities100]]
+
+>>> 2019-05-09 19:55:12.124 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:12.203 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/FLIGHT/fl100]]
+
+>>> 2019-05-09 19:55:12.351 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:12.395 - CBshell-jeusfeld: CALL TELL ON [QueryClass connected1 isA city with
+             constraint
+                           fm_rule: $ ((muenchen con_to  this) or
+                                                (exists cc/connected1
+                                                  (cc con_to this)))$
+end
+QueryClass connected2 isA city with
+             constraint
+                           fm_rule: $ ((muenchen con_to  this) or
+                                                (exists cc/connected2
+                                                  (cc con_to this)))$
+end 
+
+]
+
+>>> 2019-05-09 19:55:12.438 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:12.477 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, connected2
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:12.488 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:12.535 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:12.535 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:12.576 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:55:12.576 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:55:12.577 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:55:12.590 - CBserver_s77871585_0: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:55:13.112 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:55:13.113 - : COMPLETION IS ok
+
+> Update mode: nonpersistent
+> Untell mode: verbatim
+> Administrator user: jeusfeld@myon
+> Loaded database: /tmp/jeusfeld_s77871585_0_23510
+> Includes plugins: selectfirst
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:55:13.566 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:13.589 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:13.631 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/MetaFormulas/MetaFormulas]]
+
+>>> 2019-05-09 19:55:13.691 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:13.729 - CBshell-jeusfeld: CALL TELL ON [Blub in NonEmptyClass
+end]
+
+>>> 2019-05-09 19:55:13.787 - CBserver_s77871585_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:14.063 - CBshell-jeusfeld: CALL TELL ON [Class Test with
+attribute,necessary
+   necAttr : Integer
+single
+  singAttr : Integer
+single,necessary
+  singNecAttr : Integer
+end]
+
+>>> 2019-05-09 19:55:14.141 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:14.181 - CBshell-jeusfeld: CALL TELL ON [bla in Test
+end]
+
+>>> 2019-05-09 19:55:14.217 - CBserver_s77871585_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:14.616 - CBshell-jeusfeld: CALL TELL ON [bla in Test with
+necAttr n1 : 1
+end]
+
+>>> 2019-05-09 19:55:14.667 - CBserver_s77871585_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:15.027 - CBshell-jeusfeld: CALL TELL ON [bla in Test with
+necAttr n1 : 1
+singNectAttr n2 : 2
+end]
+
+>>> 2019-05-09 19:55:15.065 - CBserver_s77871585_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:15.348 - CBshell-jeusfeld: CALL TELL ON [bla in Test with
+necAttr n1 : 1
+singNecAttr n2 : 2
+end]
+
+>>> 2019-05-09 19:55:15.390 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:15.428 - CBshell-jeusfeld: CALL TELL ON [bla2 in Test with
+necAttr,singNecAttr n1 : 1
+end]
+
+>>> 2019-05-09 19:55:15.468 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:15.508 - CBshell-jeusfeld: CALL TELL ON [bla3 in Test with
+necAttr,singNecAttr n1 : 1; n2 : 2
+end]
+
+>>> 2019-05-09 19:55:15.540 - CBserver_s77871585_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:16.179 - CBshell-jeusfeld: CALL TELL ON [bla3 in Test with
+necAttr,singNecAttr n1 : 1
+singAttr s1 : 1
+end]
+
+>>> 2019-05-09 19:55:16.211 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:16.291 - CBshell-jeusfeld: CALL TELL ON [bla3 in Test with
+necAttr,singNecAttr n1 : 1
+singAttr s1 : 1; s2 : 2
+end]
+
+>>> 2019-05-09 19:55:16.334 - CBserver_s77871585_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:16.691 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[Proposition/objname], FRAME, Now]
+
+>>> 2019-05-09 19:55:16.701 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:16.779 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[Proposition!cardinality/objname], FRAME, Now]
+
+>>> 2019-05-09 19:55:16.781 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:16.859 - CBshell-jeusfeld: CALL TELL ON [Class Test2 with
+attribute,cardinality
+   cardTest : Integer
+end
+
+Test2!cardTest with
+min min : 3
+max max : 5
+end]
+
+>>> 2019-05-09 19:55:16.933 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:16.972 - CBshell-jeusfeld: CALL TELL ON [blub in Test2 with
+cardTest
+    n1 : 1
+end]
+
+>>> 2019-05-09 19:55:16.999 - CBserver_s77871585_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:17.639 - CBshell-jeusfeld: CALL TELL ON [blub in Test2 with
+cardTest
+    n1 : 1;
+    n2 : 2
+end]
+
+>>> 2019-05-09 19:55:17.680 - CBserver_s77871585_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:18.439 - CBshell-jeusfeld: CALL TELL ON [blub in Test2 with
+cardTest
+    n1 : 1;
+    n2 : 2;
+    n3 : 3
+end]
+
+>>> 2019-05-09 19:55:18.490 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:18.532 - CBshell-jeusfeld: CALL TELL ON [blub in Test2 with
+cardTest
+    n1 : 1;
+    n2 : 2;
+    n3 : 3;
+    n4 : 4
+end]
+
+>>> 2019-05-09 19:55:18.584 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:18.627 - CBshell-jeusfeld: CALL TELL ON [blub in Test2 with
+cardTest
+    n1 : 1;
+    n2 : 2;
+    n3 : 3;
+    n4 : 4;
+    n5 : 5
+end]
+
+>>> 2019-05-09 19:55:18.673 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:18.712 - CBshell-jeusfeld: CALL TELL ON [blub in Test2 with
+cardTest
+    n1 : 1;
+    n2 : 2;
+    n3 : 3;
+    n4 : 4;
+    n5 : 5;
+    n6 : 6
+end]
+
+>>> 2019-05-09 19:55:18.749 - CBserver_s77871585_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:19.156 - CBshell-jeusfeld: CALL TELL ON [EntityType E1 end
+EntityType E2 with
+  superType  sup : E1
+end
+
+inst1 in E1 end
+inst2 in E2 end]
+
+>>> 2019-05-09 19:55:19.229 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:19.268 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[E1/class], LABEL, Now]
+
+>>> 2019-05-09 19:55:19.270 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:19.347 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[E2/class], LABEL, Now]
+
+>>> 2019-05-09 19:55:19.348 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:19.427 - CBshell-jeusfeld: CALL TELL ON [EntityType E3 with
+  superType  sup : E2
+end
+
+inst3 in E3 end]
+
+>>> 2019-05-09 19:55:19.512 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:19.552 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[E1/class], LABEL, Now]
+
+>>> 2019-05-09 19:55:19.555 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:19.635 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[E2/class], LABEL, Now]
+
+>>> 2019-05-09 19:55:19.638 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:19.716 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[E3/class], LABEL, Now]
+
+>>> 2019-05-09 19:55:19.719 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:19.800 - CBshell-jeusfeld: CALL TELL ON [IsaType in Class with
+  attribute
+    super: EntityType;
+    sub: EntityType
+  rule
+    makeBinaryRel: $ forall E1,E2/EntityType I/IsaType (I sub E1) and (I super E2)  ==> (E1 superType E2) $
+end
+]
+
+>>> 2019-05-09 19:55:19.837 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:19.916 - CBshell-jeusfeld: CALL TELL ON [Human in EntityType with
+  attribute
+    name: String
+end
+Student in EntityType end
+]
+
+>>> 2019-05-09 19:55:19.947 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:20.024 - CBshell-jeusfeld: CALL TELL ON [billy_the_kid in Student with
+  name
+    n1: "William"
+end]
+
+>>> 2019-05-09 19:55:20.068 - CBserver_s77871585_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:20.348 - CBshell-jeusfeld: CALL TELL ON [ISA1 in IsaType with
+ super sp: Human
+ sub sb: Student
+end
+]
+
+>>> 2019-05-09 19:55:20.411 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:20.449 - CBshell-jeusfeld: CALL TELL ON [billy_the_kid in Student with
+  name
+    n1: "William"
+end]
+
+>>> 2019-05-09 19:55:20.482 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:20.560 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/MetaFormulas/MetaIn]]
+
+>>> 2019-05-09 19:55:20.688 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:20.729 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, ShowMetaClasses[10000/obj], LABEL, Now]
+
+>>> 2019-05-09 19:55:20.732 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:20.812 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, ShowMetaClasses[20000/obj], LABEL, Now]
+
+>>> 2019-05-09 19:55:20.816 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:20.895 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, ShowMetaClasses[bill/obj], LABEL, Now]
+
+>>> 2019-05-09 19:55:20.897 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:20.976 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/MetaFormulas/InverseOf]]
+
+>>> 2019-05-09 19:55:21.622 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:21.660 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, MeetingWithParticipants, FRAME, Now]
+
+>>> 2019-05-09 19:55:21.662 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:21.739 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/MetaFormulas/LinkSemantics2]]
+
+>>> 2019-05-09 19:55:21.899 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:21.940 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AncestorOf, FRAME, Now]
+
+>>> 2019-05-09 19:55:21.946 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:22.024 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, KnownPersonFor, FRAME, Now]
+
+>>> 2019-05-09 19:55:22.076 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:22.120 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:22.120 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:22.160 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:55:22.161 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:55:22.161 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:55:22.182 - CBserver_s77871585_1: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:55:22.646 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:55:22.646 - : COMPLETION IS ok
+
+> Security level: 2 (modules protected)
+> Update mode: nonpersistent
+> Administrator user: jeusfeld@myon
+> Loaded database: /tmp/jeusfeld_s77871586_0_23565
+> Includes plugins: selectfirst
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:55:23.089 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:23.113 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:23.155 - CBshell-jeusfeld: CALL TELL ON [Proposition with
+  attribute
+    attributeclass: Proposition
+end
+
+M0 in Module end
+MX in Module end
+]
+
+>>> 2019-05-09 19:55:23.188 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:23.267 - CBshell-jeusfeld: CALL SET_MODULE_CONTEXT ON [M0]
+
+>>> 2019-05-09 19:55:23.269 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:23.347 - CBshell-jeusfeld: CALL TELL ON [MyAxioms in Class with
+  constraint
+     ax14new: $ forall p/Proposition!attributeclass o,c,m,d/VAR (o in p) and P(p,c,m,d)
+                   ==> exists x,y/VAR From(o,x) and To(o,y) and (x in c) and (y in d) $
+end
+
+M1 in Module end
+]
+
+>>> 2019-05-09 19:55:23.382 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:23.460 - CBshell-jeusfeld: CALL SET_MODULE_CONTEXT ON [M1]
+
+>>> 2019-05-09 19:55:23.461 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:23.539 - CBshell-jeusfeld: CALL TELL ON [Employee in Class with
+  attributeclass
+    salary: Integer
+end
+
+M11 in Module end
+M12 in Module end
+]
+
+>>> 2019-05-09 19:55:23.606 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:23.646 - CBshell-jeusfeld: CALL SET_MODULE_CONTEXT ON [M11]
+
+>>> 2019-05-09 19:55:23.647 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:23.728 - CBshell-jeusfeld: CALL TELL ON [Manager in Class with
+  attributeclass
+    country: String
+  rule
+    r1: $ forall m/Manager (m country "Ubuntu") ==> (m in Employee) $
+end
+
+M111 in Module end
+]
+
+>>> 2019-05-09 19:55:23.792 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:23.833 - CBshell-jeusfeld: CALL SET_MODULE_CONTEXT ON [M111]
+
+>>> 2019-05-09 19:55:23.835 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:23.916 - CBshell-jeusfeld: CALL TELL ON [bill in Manager with
+  country c: "Ubuntu"
+  salary s: 1000
+end
+]
+
+>>> 2019-05-09 19:55:23.947 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:24.028 - CBshell-jeusfeld: CALL UNTELL ON [bill with 
+  attribute,country
+     c : "Ubuntu"
+end
+]
+
+>>> 2019-05-09 19:55:24.063 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:24.471 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[Employee/class], LABEL, Now]
+
+>>> 2019-05-09 19:55:24.475 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:24.556 - CBshell-jeusfeld: CALL SET_MODULE_CONTEXT ON [M12]
+
+>>> 2019-05-09 19:55:24.557 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:24.636 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_instances[Employee/class], LABEL, Now]
+
+>>> 2019-05-09 19:55:24.638 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:24.716 - CBshell-jeusfeld: CALL SET_MODULE_CONTEXT ON [oHome]
+
+>>> 2019-05-09 19:55:24.718 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:24.795 - CBshell-jeusfeld: CALL SET_MODULE_CONTEXT ON [MX]
+
+>>> 2019-05-09 19:55:24.796 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:24.876 - CBshell-jeusfeld: CALL TELL ON [Employee in Class with
+  attributeclass
+    salary: Integer
+end
+Manager in Class with
+  attributeclass
+    country: String
+  rule
+    r1: $ forall m/Manager (m country "Ubuntu") ==> (m in Employee) $
+end
+]
+
+>>> 2019-05-09 19:55:24.912 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:24.992 - CBshell-jeusfeld: CALL TELL ON [bill in Manager with
+  country c: "Ubuntu"
+  salary s: 1000
+end
+]
+
+>>> 2019-05-09 19:55:25.024 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:25.104 - CBshell-jeusfeld: CALL UNTELL ON [bill with
+  attribute,country
+     c : "Ubuntu"
+end
+]
+
+>>> 2019-05-09 19:55:25.135 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:25.177 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:25.180 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:25.220 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:55:25.221 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:55:25.221 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:55:25.241 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:55:25.731 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:55:25.732 - : COMPLETION IS ok
+
+> Update mode: persistent
+> Administrator user: jeusfeld@myon
+> Loaded database: QUERIES_FRAME
+> Includes plugins: selectfirst
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:55:26.181 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:26.210 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:26.251 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/QUERIES/Employee_Classes]]
+
+>>> 2019-05-09 19:55:26.307 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:26.350 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/QUERIES/Employee_Instances]]
+
+>>> 2019-05-09 19:55:26.409 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:26.449 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/QUERIES/Employee_Queries]]
+
+>>> 2019-05-09 19:55:26.723 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:26.765 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, BillsMetaBoss
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:26.779 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:26.864 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, DerivedFromMetabossQuery1
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:26.873 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:26.951 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, DerivedFromMetabossQuery2
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:26.968 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:27.047 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Derived_1_FromWell_off_SI_Manager5
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:27.050 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:27.128 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Derived_2_FromWell_off_SI_Manager5
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:27.131 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:27.211 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Derived_3_FromWell_off_SI_Manager5
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:27.213 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:27.292 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Derived_4_FromWell_off_SI_Manager5
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:27.297 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:27.375 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Emp_and_Dep
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:27.379 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:27.471 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, EmployeeSalaries
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:27.473 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:27.552 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, MetabossQuery
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:27.740 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:27.780 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, SI_Manager
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:27.785 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:27.863 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, SI_led_Department2
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:27.867 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:27.947 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, SI_led_Department
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:27.951 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:28.027 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Used_SimpleClass
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:28.030 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:28.107 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Well_off_Manager
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:28.111 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:28.191 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Well_off_SI_Manager
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:28.199 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:28.284 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Well_off_SI_Manager2
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:28.289 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:28.367 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Well_off_SI_Manager3
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:28.374 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:28.459 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Well_off_SI_Manager4
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:28.474 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:28.555 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Well_off_SI_Manager5
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:28.559 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:28.639 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Well_off_SI_led_Department
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:28.644 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:28.684 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:28.685 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:28.723 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:55:28.724 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:55:28.724 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:55:28.746 - CBserver_s77871586_0: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:55:32.799 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:55:32.800 - : COMPLETION IS ok
+
+> Update mode: nonpersistent
+> Administrator user: jeusfeld@myon
+> Loaded database: /tmp/jeusfeld_s77871586_0_23728
+> Includes plugins: selectfirst
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:55:33.246 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:33.268 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:33.315 - CBshell-jeusfeld: CALL TELL ON [{* File: Barber.sml
+* Author: Manfred Jeusfeld
+* Creation: 11-Mar-2002
+* ----------------------------------------------------------------------
+* This example is about a non-stratified rule.
+* ConceptBase doesn't  not exclude such rules, which is a bug that should
+* be fixed in future releases.
+* The ShavedByBarber query will return 'pete' but not 'TheBarber'.
+* The query will run only with ConceptBase V5.2.2 or later.
+*
+* Datalog translations are shown in comment lines.
+}
+
+
+Class Man  with
+  attribute
+    shaves: Man
+  rule
+   r1: $ forall m/Man not (m shaves m) ==> (TheBarber shaves m) $
+end
+
+{* in Datalog:
+
+   shaves(thebarber,M) :- man(M), not shaves(M,M).
+
+*}
+
+
+TheBarber in Man end
+
+jon in Man with
+  shaves him: jon
+end
+
+pete in Man end
+
+
+QueryClass ShavedByBarber isA Man with
+  constraint
+    c1: $ (TheBarber shaves ~this) $
+end
+
+{* in Datalog:
+
+   ShavedByBarber(X) :- man(X), shaves(thebbarber,X).
+
+*}
+
+]
+
+>>> 2019-05-09 19:55:33.355 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:33.398 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, ShavedByBarber
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:33.401 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:33.723 - CBshell-jeusfeld: CALL TELL ON [Class Person with
+  attribute
+    hasChild: Person
+end
+
+
+GenericQueryClass SameGen isA Person with
+  parameter,computed_attribute
+    sgperson: Person
+  constraint
+    c1: $
+          (~this == ~sgperson)
+        or
+          ( exists p1,p2/Person (p1 in SameGen[p2/sgperson]) and
+                                (p1 hasChild ~sgperson) and (p2 hasChild ~this) )
+        $
+end
+
+{* SameGenProper is not reflexive, i.e. (x in SameGenProper[x/sgperson]) does not hold *}
+GenericQueryClass SameGenProper isA Person with
+  parameter,computed_attribute
+    sgperson: Person
+  constraint
+    c1: $ (
+          ( exists p/Person (p hasChild ~this) and (p hasChild ~sgperson) )
+        or
+          ( exists p1,p2/Person (p1 in SameGen[p2/sgperson]) and
+                                (p1 hasChild ~sgperson) and (p2 hasChild ~this) )
+          )
+          and not (~this == ~sgperson)
+        $
+end
+
+
+{* the answer format makes the answers just more readable *}
+AnswerFormat SG_Format with
+   forQuery q1: SameGen; q2: SameGenProper
+   head h: "Same generation of persons:
+
+"
+   pattern p: "{this} is in the same generation as{Foreach( ({this.sgperson}),(p), {p}\,)}
+"
+end
+
+Person Eva with
+  hasChild
+    c1: Kain;
+    c2: Abel;
+    c3: Seth
+end
+
+
+Person Abel with
+  hasChild
+    c1: Abraham;
+    c2: Lea
+end
+
+Person Abraham with
+  hasChild
+    c1: Isaak;
+    c2: Ismael
+end
+
+Person Seth with
+  hasChild
+    c1: Lot
+end
+
+Person Kain with
+end
+
+Person Lea with
+end
+
+Person Isaak with
+end
+
+Person Ismael with
+end
+
+Person Lot with
+end
+
+
+
+]
+
+>>> 2019-05-09 19:55:33.795 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:33.837 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, SameGen[Lot/sgperson], default, Now]
+
+>>> 2019-05-09 19:55:33.853 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:33.936 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, SameGenProper[Kain/sgperson], default, Now]
+
+>>> 2019-05-09 19:55:33.943 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:34.028 - CBshell-jeusfeld: CALL TELL ON [{
+*
+* File: TreeExample.sml
+* Author: Manfred Jeusfeld
+* Creation: 6-Feb-2002
+* ----------------------------------------------------------------------
+*
+* This file shows the use of a recursive query that analyzes
+* a cyclic graph, namely returning all nodes which are roots of
+* a tree.
+* In the example, the tree nodes are N11 and N111.
+* Requires ConceptBase V6.2.1
+*
+}
+
+
+Class Node with
+  attribute
+    linkTo: Node
+end
+
+
+Node N1 with
+  linkTo
+    l1: N11;
+    l2: N12
+end
+
+Node N11 with
+  linkTo
+    l1: N111
+end
+
+Node N12 with
+  linkTo
+    l1: N1
+end
+
+Node N111 end
+
+
+
+QueryClass TreeNode isA Node with
+  constraint
+     c1: $ (forall n/Node (~this linkTo n)
+            ==> (n in TreeNode)) $
+end
+
+
+]
+
+>>> 2019-05-09 19:55:34.071 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:34.110 - CBshell-jeusfeld: CALL ASK ON [FRAMES, 
+QueryClass TreeNode isA Node with
+  constraint
+     c1: $ (forall n/Node (~this linkTo n)
+            ==> (n in TreeNode)) $
+end, FRAME, Now]
+
+>>> 2019-05-09 19:55:34.115 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:34.352 - CBshell-jeusfeld: CALL TELL ON [Class Position with
+  attribute
+    moveTo: Position
+end
+
+QueryClass Win isA Position with
+  constraint
+    c: $ exists y/Position (~this moveTo y) and not (y in Win) $
+end
+
+{* complement of Win: works only correctly if data is acyclic, i.e. in *}
+{* dynamically stratified databases                                    *}
+QueryClass Loose isA Position with
+  constraint
+    c: $ not (~this in Win) $
+end
+
+
+]
+
+>>> 2019-05-09 19:55:34.396 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:34.447 - CBshell-jeusfeld: CALL TELL ON [Position 13 with
+  moveTo
+    p1: 12;
+    p2: 11;
+    p3: 10
+end
+
+Position 12 with
+  moveTo
+    p1: 11;
+    p2: 10;
+    p3: 9
+end
+
+Position 11 with
+  moveTo
+    p1: 10;
+    p2: 9;
+    p3: 8
+end
+
+Position 10 with
+  moveTo
+    p1: 9;
+    p2: 8;
+    p3: 7
+end
+
+Position 9 with
+  moveTo
+   p1: 8;
+   p2: 7;
+   p3: 6
+end
+
+
+Position 8 with
+  moveTo
+    p1: 7;
+    p2: 6;
+    p3: 5
+end
+
+Position 7 with
+  moveTo
+    p1: 6;
+    p2: 5;
+    p3: 4
+end
+
+Position 6 with
+  moveTo
+    p1: 5;
+    p2: 4;
+    p3: 3
+end
+
+Position 5 with
+  moveTo
+    p1: 4;
+    p2: 3;
+    p3: 2
+end
+
+Position 4 with
+  moveTo
+    p1: 3;
+    p2: 2;
+    p3: 1
+end
+
+Position 3 with
+  moveTo
+    p1: 2;
+    p2: 1;
+    p3: 0
+end
+
+Position 2 with
+  moveTo
+    p1: 1;
+    p2: 0
+end
+
+Position 1 with
+  moveTo
+    p1: 0
+end
+
+Position 0 end
+
+
+]
+
+>>> 2019-05-09 19:55:34.500 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:34.541 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Win
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:34.552 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:34.636 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Loose
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:34.640 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:34.721 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[Man/objname], FRAME, Now]
+
+>>> 2019-05-09 19:55:34.723 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:34.812 - CBshell-jeusfeld: CALL TELL ON [Class Man  with
+  attribute
+    shaves: Man;
+    shaves_trans: Man
+  rule
+    r2: $ forall m1,m2/Man (m1 shaves m2) ==> (m1 shaves_trans m2) $;
+    r3: $ forall m1,m2/Man
+             (exists m/Man (m1 shaves_trans m) and (m shaves_trans m2))
+          ==> (m1 shaves_trans m2) $
+end
+
+pete in Man end
+
+king in Man with
+  shaves who: king
+end
+
+jon in Man with
+  shaves who: mike
+end
+
+mike in Man with
+  shaves who: jeff
+end
+
+jeff in Man with
+  shaves who: will
+end
+
+will in Man with
+  shaves who1: jon; who2: claude
+end
+
+claude in Man with
+  shaves who: pete
+end
+
+
+QueryClass SelfShaver isA Man with
+  constraint
+    c1: $ (~this shaves_trans ~this) $
+end
+
+
+]
+
+>>> 2019-05-09 19:55:34.864 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:34.907 - CBshell-jeusfeld: CALL TELL ON [lass Man  with
+  attribute
+    shaves: Man;
+    shaves_trans: Man
+  rule
+    r2: $ forall m1,m2/Man (m1 shaves m2) ==> (m1 shaves_trans m2) $;
+    r3: $ forall m1,m2/Man
+             (exists m/Man (m1 shaves_trans m) and (m shaves_trans m2))
+          ==> (m1 shaves_trans m2) $
+end
+
+pete in Man end
+
+king in Man with
+  shaves who: king
+end
+
+jon in Man with
+  shaves who: mike
+end
+
+mike in Man with
+  shaves who: jeff
+end
+
+jeff in Man with
+  shaves who: will
+end
+
+will in Man with
+  shaves who1: jon; who2: claude
+end
+
+claude in Man with
+  shaves who: pete
+end
+
+]
+
+>>> 2019-05-09 19:55:34.943 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:35.148 - CBshell-jeusfeld: CALL ASK ON [FRAMES, 
+QueryClass SelfShaver isA Man with
+  constraint
+    c1: $ (~this shaves_trans ~this) $
+end
+
+
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:35.169 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:35.491 - CBshell-jeusfeld: CALL TELL ON [Class Object with
+attribute
+    dep : Object
+end
+
+O1 in Object end
+
+O2 in Object with dep d1 : O1 end
+O3 in Object with dep d1 : O2 end
+O4 in Object with dep d1 : O3 end
+O5 in Object with dep d1 : O4 end
+O6 in Object with dep d1 : O5 end
+O7 in Object with dep d1 : O6 end
+O8 in Object with dep d1 : O7 end
+O9 in Object with dep d1 : O8 end
+
+
+QueryClass Test1 isA Object with
+constraint
+    c: $ (this == O1) or (exists o/Test1 (this dep o)) $
+end
+
+Object with
+attribute
+    transDep : Object
+rule
+    r1 : $ forall o1,o2/Object (o1 dep o2) ==> (o1 transDep o2) $;
+    r2 : $ forall o1,o2/Object (exists o3/Object (o1 dep o3) and (o3 transDep o2)) ==> (o1 transDep o2) $
+end
+
+QueryClass ObjectsWithTransDep isA Object with
+retrieved_attribute
+    transDep : Object
+constraint
+    c : $ (this == O1) $
+end
+
+
+
+]
+
+>>> 2019-05-09 19:55:35.590 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:35.632 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Test1
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:35.639 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:35.719 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, ObjectsWithTransDep
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:35.724 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:35.807 - CBshell-jeusfeld: CALL TELL ON [O1 with dep d1 : 09 end
+
+]
+
+>>> 2019-05-09 19:55:35.859 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:36.055 - CBshell-jeusfeld: CALL TELL ON [O1 with dep d1 : O9 end
+
+]
+
+>>> 2019-05-09 19:55:36.089 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:36.167 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Test1
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:36.173 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:36.255 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, ObjectsWithTransDep
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:36.273 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:36.351 - CBshell-jeusfeld: CALL TELL ON [AANode in Class with
+end
+
+AAConnection in Class with
+  attribute
+    from: AANode;
+    to: AANode
+end
+
+
+AAn0 in AANode end
+AAn1 in AANode end
+AAn2 in AANode end
+
+
+AAc1 in AAConnection with
+  from x: AAn0
+  to   y: AAn1
+end
+
+AAc2 in AAConnection with
+  from x: AAn1
+  to   y: AAn2
+end
+
+
+QueryClass AAReachableN2 isA AANode with
+  constraint
+     c1: $ UNIFIES(~this,AAn2) or
+           (exists c/AAConnection z/AANode
+                   (z in AAReachableN2) and
+                   (c from ~this) and (c to z)) $
+end
+
+{* ReachableN2 should deliver: no,n1,n2 *}
+
+GenericQueryClass AAReachable isA AANode with
+  computed_attribute,parameter
+     start : AANode
+  attribute,constraint
+     c1 : $ UNIFIES(~this,~start) or
+           (exists c/AAConnection z/AANode
+                   (z in AAReachable[~start/start]) and
+                   (c from ~this) and (c to z)) $
+end
+
+{* Reachable[n2/start] should also deliver: no,n1,n2 *}
+]
+
+>>> 2019-05-09 19:55:36.408 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:36.448 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[AAReachableN2/objname], FRAME, Now]
+
+>>> 2019-05-09 19:55:36.449 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:36.527 - CBshell-jeusfeld: CALL ASK ON [FRAMES, Individual AAReachableN2 in QueryClass isA AANode with
+  attribute,constraint
+     c1 : $ UNIFIES(~this,AAn2) or
+           (exists c/AAConnection z/AANode
+                   (z in AAReachableN2) and
+                   (c from ~this) and (c to z)) $
+end
+
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:36.529 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:36.607 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AAReachable[n2/start]
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:36.608 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:36.847 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AAReachable[AAn2/start]
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:36.849 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:36.927 - CBshell-jeusfeld: CALL TELL ON [
+Int in Class isA Integer with
+  rule
+    axiom1: $ (0 in Int) $;
+    axiom2: $ forall n/Int n1/Integer (n1 = n+1) and (n < 5)
+                 ==> (n1 in Int) $
+end
+
+Individual Odd end
+QueryClass Even isA Int with
+  constraint
+    c: $ (this = 0) or (exists y/Odd (this = y+1) ) $
+end
+
+QueryClass Odd isA Int with
+  constraint
+    c: $ exists y/Even (this = y+1)  $
+end
+
+GenericQueryClass isEven isA Boolean with
+  parameter x: Int
+  constraint ceven: $ (x in Even) and (this = TRUE) or
+                      (x in Odd) and (this = FALSE) $
+end
+]
+
+>>> 2019-05-09 19:55:36.993 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:37.033 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, isEven[4/x], LABEL, Now]
+
+>>> 2019-05-09 19:55:37.046 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:37.124 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, isEven[3/x], LABEL, Now]
+
+>>> 2019-05-09 19:55:37.128 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:37.169 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:37.170 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:37.208 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:55:37.209 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:55:37.209 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:55:37.228 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:55:37.689 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:55:37.689 - : COMPLETION IS ok
+
+> Update mode: nonpersistent
+> Untell mode: verbatim
+> Administrator user: jeusfeld@myon
+> Loaded database: /tmp/jeusfeld_s77871586_0_23783
+> Includes plugins: selectfirst
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:55:38.145 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:38.172 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:38.215 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/RULES+CONSTRAINTS/Empl_woRuleIc]]
+
+>>> 2019-05-09 19:55:38.262 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:38.304 - CBshell-jeusfeld: CALL TELL ON [
+Employee with
+   rule
+      BossRule : $ forall e/Employee m/Manager
+                   (exists d/Department
+                     (e dept d) and (d head m))
+                   ==> (e boss m) $
+end
+
+]
+
+>>> 2019-05-09 19:55:38.335 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:38.415 - CBshell-jeusfeld: CALL UNTELL ON [
+Employee with
+   rule
+      BossRule : $ forall e/Employee m/Manager
+                   (exists d/Department
+                     (e dept d) and (d head m))
+                   ==> (e boss m) $
+end
+
+]
+
+>>> 2019-05-09 19:55:38.447 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:38.524 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[Employee/objname], FRAME, Now]
+
+>>> 2019-05-09 19:55:38.526 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:38.607 - CBshell-jeusfeld: CALL TELL ON [
+Employee with
+   rule
+      BossRule : $ forall e/Employee m/Manager
+                   (exists d/Department
+                     (e dept d) and (d head m))
+                   ==> (e boss m) $
+end
+
+]
+
+>>> 2019-05-09 19:55:38.639 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:38.884 - CBshell-jeusfeld: CALL UNTELL ON [
+Employee with
+   attribute
+      BossRule : $ forall e/Employee m/Manager
+                   (exists d/Department
+                     (e dept d) and (d head m))
+                   ==> (e boss m) $
+end
+
+]
+
+>>> 2019-05-09 19:55:38.918 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:38.995 - CBshell-jeusfeld: CALL TELL ON [QueryClass Test17 isA Employee with
+retrieved_attribute
+	boss : Manager
+end
+
+]
+
+>>> 2019-05-09 19:55:39.030 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:39.108 - CBshell-jeusfeld: CALL ASK ON [FRAMES, QueryClass Test17 isA Employee with
+retrieved_attribute
+	boss : Manager
+end
+
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:39.113 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:39.191 - CBshell-jeusfeld: CALL TELL ON [Employee with rule
+        BossRule: $ forall m/this.dept.head (this boss m) $
+end
+
+]
+
+>>> 2019-05-09 19:55:39.224 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:39.304 - CBshell-jeusfeld: CALL UNTELL ON [Test17
+]
+
+>>> 2019-05-09 19:55:39.305 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:39.624 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Test17
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:39.630 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:39.707 - CBshell-jeusfeld: CALL TELL ON [Employee with
+   constraint
+      SalaryBound :
+          $ forall e/Employee b/Manager x,y/Integer
+              ((e boss b) and
+              (e salary x) and
+              (b salary y))
+               ==> (x  <=  y) $
+end
+
+]
+
+>>> 2019-05-09 19:55:39.744 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:39.823 - CBshell-jeusfeld: CALL TELL ON [Heribert in Employee with
+dept
+	d1: Produktion
+salary
+	s1 : 200000
+end
+
+]
+
+>>> 2019-05-09 19:55:39.857 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:40.496 - CBshell-jeusfeld: CALL TELL ON [Heribert in Employee with
+dept
+	d1: Produktion
+salary
+	s1 : 99000
+end
+
+]
+
+>>> 2019-05-09 19:55:40.531 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:40.611 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[Heribert/objname], FRAME, Now]
+
+>>> 2019-05-09 19:55:40.613 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:40.691 - CBshell-jeusfeld: CALL UNTELL ON [Individual Heribert in Employee with
+  dept,attribute
+     d1 : Produktion
+  salary,attribute
+     s1 : 99000
+end
+
+]
+
+>>> 2019-05-09 19:55:40.723 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:40.804 - CBshell-jeusfeld: CALL TELL ON [Manager with
+   constraint
+      earnEnough: $ forall m/Manager x/Integer
+                        (m salary x) ==> (x >= 50000) $
+end
+
+]
+
+>>> 2019-05-09 19:55:40.840 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:41.160 - CBshell-jeusfeld: CALL UNTELL ON [Eleonore with
+  salary,attribute
+    EllisGehalt: 20000
+end
+
+]
+
+>>> 2019-05-09 19:55:41.220 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:41.262 - CBshell-jeusfeld: CALL TELL ON [
+Eleonore with
+   salary,attribute
+     EllisGehalt: 55000
+end
+
+
+]
+
+>>> 2019-05-09 19:55:41.299 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:41.340 - CBshell-jeusfeld: CALL TELL ON [Manager with
+   constraint
+      earnEnough: $ forall m/Manager x/Integer
+                        (m salary x) ==> (x >= 50000) $
+end
+
+]
+
+>>> 2019-05-09 19:55:41.387 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:41.428 - CBshell-jeusfeld: CALL TELL ON [Employee with
+   constraint
+      NecessarySalary : $ forall e/Employee
+                      exists x/Integer  (e salary x) $
+end
+
+]
+
+>>> 2019-05-09 19:55:41.479 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:41.521 - CBshell-jeusfeld: CALL UNTELL ON [Employee with
+   constraint
+      NecessarySalary : $ forall e/Employee
+                      exists x/Integer  (e salary x) $
+end
+
+]
+
+>>> 2019-05-09 19:55:41.560 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:41.600 - CBshell-jeusfeld: CALL TELL ON [Heribert in Employee end
+]
+
+>>> 2019-05-09 19:55:41.636 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:41.715 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[Heribert/objname], FRAME, Now]
+
+>>> 2019-05-09 19:55:41.717 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:41.795 - CBshell-jeusfeld: CALL UNTELL ON [Individual Heribert in Employee
+end
+
+]
+
+>>> 2019-05-09 19:55:41.825 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:41.903 - CBshell-jeusfeld: CALL TELL ON [Employee with
+   constraint
+      NecessarySalary : $ forall e/Employee
+                      exists a/Attribute Ai(e,salary,a) $
+end
+
+
+]
+
+>>> 2019-05-09 19:55:41.942 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:42.179 - CBshell-jeusfeld: CALL UNTELL ON [Employee with
+ constraint,attribute
+     SalaryBound : $ forall e/Employee b/Manager x,y/Integer
+              ((e boss b) and
+              (e salary x) and
+              (b salary y))
+               ==> (x  <=  y) $
+end
+
+]
+
+>>> 2019-05-09 19:55:42.226 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:42.265 - CBshell-jeusfeld: CALL TELL ON [Employee with
+ constraint,attribute
+     SalaryBound : $ forall e/Employee b/Manager x,y/Integer
+              ((e boss b) and
+              (e salary x) and
+              (b salary y))
+               ==> (x  <=  y) $
+end
+
+]
+
+>>> 2019-05-09 19:55:42.304 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:42.345 - CBshell-jeusfeld: CALL UNTELL ON [ Employee with attribute
+      NecessarySalary : $ forall e/Employee
+                      exists x/Integer  (e salary x) $
+end
+
+]
+
+>>> 2019-05-09 19:55:42.377 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:42.455 - CBshell-jeusfeld: CALL TELL ON [Employee with
+   constraint
+      NecessarySalary : $ forall e/Employee
+                      exists a/Attribute Ai(e,salary,a) $
+end
+
+
+]
+
+>>> 2019-05-09 19:55:42.491 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:42.568 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[Heribert/objname], FRAME, Now]
+
+>>> 2019-05-09 19:55:42.569 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:42.812 - CBshell-jeusfeld: CALL TELL ON [Heribert in Employee end
+]
+
+>>> 2019-05-09 19:55:42.844 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:43.244 - CBshell-jeusfeld: CALL TELL ON [
+Employee with
+   constraint
+      NecessaryBoss : $ forall e/Employee
+                         exists m/Manager (e boss m) $
+end
+
+]
+
+>>> 2019-05-09 19:55:43.283 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:43.599 - CBshell-jeusfeld: CALL TELL ON [Employee with
+   constraint
+      NecessaryBoss : $ forall e/Employee
+                         exists m/Manager (e boss m) or
+                         (e in  Manager)$
+end
+
+]
+
+>>> 2019-05-09 19:55:43.645 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:43.684 - CBshell-jeusfeld: CALL TELL ON [Employee with
+   rule
+      elisRule: $ not (Verwaltung head Eleonore)
+                  ==> (Produktion head Eleonore) $
+end
+
+]
+
+>>> 2019-05-09 19:55:43.731 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:43.772 - CBshell-jeusfeld: CALL ASK ON [FRAMES, QueryClass Test27 isA Department with
+retrieved_attribute
+	head : Manager
+end
+
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:43.792 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:43.872 - CBshell-jeusfeld: CALL UNTELL ON [Verwaltung with
+  head
+     Hauptbeamte : Eleonore
+end
+]
+
+>>> 2019-05-09 19:55:43.927 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:44.283 - CBshell-jeusfeld: CALL TELL ON [Verwaltung with
+  head
+     Hauptbeamter : Hubert
+end
+]
+
+>>> 2019-05-09 19:55:44.315 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:44.392 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[Verwaltung/objname], FRAME, Now]
+
+>>> 2019-05-09 19:55:44.393 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:44.472 - CBshell-jeusfeld: CALL UNTELL ON [Verwaltung with
+  head,attribute
+     Hauptbeamte : Eleonore
+end
+
+]
+
+>>> 2019-05-09 19:55:44.506 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:44.583 - CBshell-jeusfeld: CALL TELL ON [QueryClass Test27 isA Department with
+retrieved_attribute
+	head : Manager
+end
+
+]
+
+>>> 2019-05-09 19:55:44.630 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:44.668 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, Test27
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:44.671 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:44.748 - CBshell-jeusfeld: CALL TELL ON [
+Class with
+  constraint
+    alwaysTrue : $TRUE$
+end
+
+]
+
+>>> 2019-05-09 19:55:44.781 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:44.860 - CBshell-jeusfeld: CALL TELL ON [
+Class with
+  constraint
+    alwaysFalse: $FALSE$
+end
+]
+
+>>> 2019-05-09 19:55:44.896 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:45.136 - CBshell-jeusfeld: CALL TELL ON [
+Manager with
+  constraint
+    haveManager: $ exists m/Manager TRUE $
+end
+
+
+]
+
+>>> 2019-05-09 19:55:45.171 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:45.252 - CBshell-jeusfeld: CALL TELL ON [
+Manager with
+  attribute
+    subordinate: Employee
+  rule
+    isSubordinate: $ forall m/Manager e/Employee
+                       (e boss m)
+                     ==>
+                       (m subordinate e) $
+end
+
+]
+
+>>> 2019-05-09 19:55:45.289 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:45.368 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[Verwaltung/objname], FRAME, Now]
+
+>>> 2019-05-09 19:55:45.369 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:45.447 - CBshell-jeusfeld: CALL UNTELL ON [Verwaltung with
+  head,attribute
+     Hauptbeamter : Hubert
+end
+
+]
+
+>>> 2019-05-09 19:55:45.482 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:45.879 - CBshell-jeusfeld: CALL TELL ON [Verwaltung with
+  head,attribute
+	Hauptbeamte : Eleonore
+     Hauptbeamter : Hubert
+end
+
+]
+
+>>> 2019-05-09 19:55:45.881 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:46.200 - CBshell-jeusfeld: CALL TELL ON [Verwaltung with
+  head,attribute
+	Hauptbeamte : Eleonore;
+     Hauptbeamter : Hubert
+end
+
+]
+
+>>> 2019-05-09 19:55:46.233 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:46.312 - CBshell-jeusfeld: CALL UNTELL ON [Verwaltung with
+  head,attribute
+    Hauptbeamter : Hubert
+end
+
+]
+
+>>> 2019-05-09 19:55:46.343 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:46.431 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[Verwaltung/objname], FRAME, Now]
+
+>>> 2019-05-09 19:55:46.432 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:46.511 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[
+/objname], FRAME, Now]
+
+>>> 2019-05-09 19:55:46.752 - CBshell-jeusfeld: CALL ASK ON [FRAMES, QueryClass Test22 isA Manager with
+retrieved_attribute
+	subordinate : Employee
+end
+
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:46.765 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:46.844 - CBshell-jeusfeld: CALL TELL ON [Manager with
+  constraint
+    ellisConstraint: $ (Produktion head Eleonore)
+                      ==>
+                      (forall s/Integer (Eleonore salary s)
+                         ==> (s >= 100000)) $
+end
+
+]
+
+>>> 2019-05-09 19:55:46.882 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:46.960 - CBshell-jeusfeld: CALL TELL ON [Verwaltung with
+  head
+    Hauptbeamte: Eleonore
+end
+
+]
+
+>>> 2019-05-09 19:55:47.021 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:47.063 - CBshell-jeusfeld: CALL UNTELL ON [Verwaltung with
+  head
+    Hauptbeamte: Eleonore
+end
+
+]
+
+>>> 2019-05-09 19:55:47.097 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:47.496 - CBshell-jeusfeld: CALL TELL ON [Employee with
+  constraint
+     felixStays: $ (Felix dept Verwaltung) $
+end
+
+]
+
+>>> 2019-05-09 19:55:47.529 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:47.607 - CBshell-jeusfeld: CALL TELL ON [
+Employee with
+  constraint
+     someDoWork: $ not (forall e/Employee (e dept Verwaltung)) $
+end
+
+]
+
+>>> 2019-05-09 19:55:47.644 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:47.724 - CBshell-jeusfeld: CALL TELL ON [
+Manager with
+  attribute
+      bigboss: Manager
+  rule
+     metaBossRule:
+                $ forall m,M/Manager (
+                        (M boss m)
+                        or
+                        (exists mm/Manager
+                                (M boss mm) and (mm bigboss m))
+                  	) ==> (M bigboss m)
+                $
+   constraint
+        nobigbossOfSelf:
+                $ forall M/Manager  not (M bigboss M)  $
+end
+]
+
+>>> 2019-05-09 19:55:47.778 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:47.819 - CBshell-jeusfeld: CALL TELL ON [
+Eleonore with
+  dept
+    ellisDept: Verwaltung
+end
+
+]
+
+>>> 2019-05-09 19:55:47.851 - CBserver_s77871586_1: COMPLETION IS error
+
+>>> 2019-05-09 19:55:48.168 - CBshell-jeusfeld: CALL ASK ON [FRAMES, QueryClass TmpAsk_Test1 isA Employee with
+retrieved_attribute
+	dept : Department
+constraint
+	c: $ (this dept Verwaltung) $
+end
+
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:48.180 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:48.265 - CBshell-jeusfeld: CALL ASK ON [FRAMES, QueryClass TmpAsk_Test2 isA Department with
+retrieved_attribute
+	head : Manager
+end
+
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:48.275 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:48.356 - CBshell-jeusfeld: CALL TELL ON [Employee with
+attribute
+     mboss : Manager
+rule
+     mbossrule : $forall e/Employee m/Manager
+((exists m1/Manager (e boss m1)and (m1 mboss m)) or(e boss m))==>(e mboss m)$
+end
+
+]
+
+>>> 2019-05-09 19:55:48.395 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:48.472 - CBshell-jeusfeld: CALL TELL ON [QueryClass MruleTest { in Magic } isA Employee with
+retrieved_attribute
+	mboss : Manager
+end
+
+]
+
+>>> 2019-05-09 19:55:48.508 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:48.588 - CBshell-jeusfeld: CALL ASK ON [FRAMES, QueryClass MruleTest { in Magic } isA Employee with
+retrieved_attribute
+	mboss : Manager
+end
+
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:48.607 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:48.688 - CBshell-jeusfeld: CALL TELL ON [Manager Oberboss with
+salary
+	mega : 11110000
+end
+
+Albert with boss
+albertsBoss : Oberboss
+end
+
+]
+
+>>> 2019-05-09 19:55:48.733 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:48.773 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, MruleTest
+
+, FRAME, Now]
+
+>>> 2019-05-09 19:55:48.798 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:48.842 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:48.843 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:48.883 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:55:48.884 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:55:48.884 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:55:48.903 - CBserver_s77871586_1: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:55:49.392 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:55:49.392 - : COMPLETION IS ok
+
+> Predicate typing: off
+> Update mode: persistent
+> Administrator user: jeusfeld@myon
+> Loaded database: SYSTEM
+> Includes plugins: selectfirst
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:55:49.854 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:49.887 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:49.933 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/lib/SML1]]
+
+>>> 2019-05-09 19:55:49.935 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:50.016 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/lib/SML2]]
+
+>>> 2019-05-09 19:55:50.017 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:50.095 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/lib/AssertionModel]]
+
+>>> 2019-05-09 19:55:50.097 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:50.175 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/lib/RuleModel]]
+
+>>> 2019-05-09 19:55:50.177 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:50.256 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/lib/ConstraintModel]]
+
+>>> 2019-05-09 19:55:50.257 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:50.336 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/lib/AssertionsForClasses]]
+
+>>> 2019-05-09 19:55:50.338 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:50.415 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/lib/QueryModel]]
+
+>>> 2019-05-09 19:55:50.421 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:50.500 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/lib/SystemClasses]]
+
+>>> 2019-05-09 19:55:50.521 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:50.599 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/lib/CompleteBDMRuleConstraintModel]]
+
+>>> 2019-05-09 19:55:50.604 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:50.683 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/lib/StandardQueries]]
+
+>>> 2019-05-09 19:55:50.691 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:50.768 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/lib/SystemQueries]]
+
+>>> 2019-05-09 19:55:50.785 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:50.864 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/lib/graphical_types]]
+
+>>> 2019-05-09 19:55:50.867 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:50.943 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/lib/JavaGraphicalTypes]]
+
+>>> 2019-05-09 19:55:50.956 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:51.035 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/lib/JavaGTsInstances]]
+
+>>> 2019-05-09 19:55:51.055 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:51.139 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/lib/ECA-Model]]
+
+>>> 2019-05-09 19:55:51.143 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:51.223 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/lib/Module]]
+
+>>> 2019-05-09 19:55:51.239 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:51.273 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:51.337 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:51.341 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:55:51.341 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:55:51.341 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:55:51.372 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:55:51.867 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:55:51.867 - : COMPLETION IS ok
+
+> Update mode: persistent
+> Administrator user: jeusfeld@myon
+> Loaded database: USU
+> Includes plugins: selectfirst
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:55:52.315 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:55:52.343 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:52.384 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/model01]]
+
+>>> 2019-05-09 19:55:52.416 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:52.496 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/dat01]]
+
+>>> 2019-05-09 19:55:52.538 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:52.578 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/traeger]]
+
+>>> 2019-05-09 19:55:52.638 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:52.677 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/akteure]]
+
+>>> 2019-05-09 19:55:52.748 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:52.789 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/akt00]]
+
+>>> 2019-05-09 19:55:52.819 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:52.900 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/akt1000]]
+
+>>> 2019-05-09 19:55:52.937 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:53.016 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/akt2000]]
+
+>>> 2019-05-09 19:55:53.075 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:53.120 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/akt3000]]
+
+>>> 2019-05-09 19:55:53.178 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:53.217 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/akt3100]]
+
+>>> 2019-05-09 19:55:53.279 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:53.321 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/akt3200]]
+
+>>> 2019-05-09 19:55:53.376 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:53.417 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/akt3400]]
+
+>>> 2019-05-09 19:55:53.481 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:53.521 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/akt4000]]
+
+>>> 2019-05-09 19:55:53.557 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:53.636 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/akt4100]]
+
+>>> 2019-05-09 19:55:53.678 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:53.718 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/akt5000]]
+
+>>> 2019-05-09 19:55:53.762 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:53.801 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/recurs01]]
+
+>>> 2019-05-09 19:55:53.838 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:53.916 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/qbelief2]]
+
+>>> 2019-05-09 19:55:54.045 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:54.087 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/qbelief3]]
+
+>>> 2019-05-09 19:55:54.257 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:54.298 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/qbelief3p]]
+
+>>> 2019-05-09 19:55:54.353 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:54.394 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/qbelief4]]
+
+>>> 2019-05-09 19:55:54.491 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:54.538 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/qbelief6]]
+
+>>> 2019-05-09 19:55:54.610 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:54.649 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/qdat07]]
+
+>>> 2019-05-09 19:55:54.724 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:54.765 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/qdat09]]
+
+>>> 2019-05-09 19:55:54.832 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:54.873 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/qdat10]]
+
+>>> 2019-05-09 19:55:54.934 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:54.976 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/qdat11]]
+
+>>> 2019-05-09 19:55:55.078 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:55.117 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/qdat11p]]
+
+>>> 2019-05-09 19:55:55.191 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:55.232 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/qdat12p]]
+
+>>> 2019-05-09 19:55:55.312 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:55.353 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/qdat13]]
+
+>>> 2019-05-09 19:55:55.472 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:55.513 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/qtrae14p]]
+
+>>> 2019-05-09 19:55:55.696 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:55.737 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/qtrae15]]
+
+>>> 2019-05-09 19:55:55.840 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:55.883 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/qtrae17]]
+
+>>> 2019-05-09 19:55:55.980 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:56.021 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/qtrae18]]
+
+>>> 2019-05-09 19:55:56.137 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:56.179 - CBshell-jeusfeld: CALL TELL_MODEL ON [[$CB_WORK/examples/USU/Spesenbeispiel]]
+
+>>> 2019-05-09 19:55:56.327 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:56.368 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, NieBeliefert, LABEL, Now]
+
+>>> 2019-05-09 19:55:56.370 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:56.448 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, BeliefertKeinen, LABEL, Now]
+
+>>> 2019-05-09 19:55:56.451 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:56.531 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, BeliefertSich, LABEL, Now]
+
+>>> 2019-05-09 19:55:56.534 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:56.612 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, BeliefernEinander, LABEL, Now]
+
+>>> 2019-05-09 19:55:56.630 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:56.707 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, BeliefertOneWay, LABEL, Now]
+
+>>> 2019-05-09 19:55:56.716 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:56.796 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, WirdMehrfachBeliefert, LABEL, Now]
+
+>>> 2019-05-09 19:55:56.808 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:56.887 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AkteurBelieferung, LABEL, Now]
+
+>>> 2019-05-09 19:55:56.892 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:56.972 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, BeliefernEinanderMit, LABEL, Now]
+
+>>> 2019-05-09 19:55:56.996 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:57.076 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, BeliefertMitNichts, LABEL, Now]
+
+>>> 2019-05-09 19:55:57.085 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:57.164 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, UngelieferteTraeger, LABEL, Now]
+
+>>> 2019-05-09 19:55:57.169 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:57.251 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_EinAkteurWirdBeliefert, LABEL, Now]
+
+>>> 2019-05-09 19:55:57.266 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:57.343 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_EinAkteurWirdBeliefert2, LABEL, Now]
+
+>>> 2019-05-09 19:55:57.355 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:57.435 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AkteurNichtsBraucht, LABEL, Now]
+
+>>> 2019-05-09 19:55:57.438 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:57.520 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AkteurNichtsErzeugt, LABEL, Now]
+
+>>> 2019-05-09 19:55:57.522 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:57.600 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AkteurErzeugtUndBraucht, LABEL, Now]
+
+>>> 2019-05-09 19:55:57.608 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:57.688 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AkteurErzeugtOhneBraucht, LABEL, Now]
+
+>>> 2019-05-09 19:55:57.695 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:57.776 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AkteurBrauchtOhneErzeugt, LABEL, Now]
+
+>>> 2019-05-09 19:55:57.782 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:57.860 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, TraegerErzeugtOhneBraucht, LABEL, Now]
+
+>>> 2019-05-09 19:55:57.872 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:57.952 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, TraegerBrauchtOhneErzeugt, LABEL, Now]
+
+>>> 2019-05-09 19:55:57.959 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:58.039 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, TraegerNieErzeugt, LABEL, Now]
+
+>>> 2019-05-09 19:55:58.044 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:58.124 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, TraegerNieGebraucht, LABEL, Now]
+
+>>> 2019-05-09 19:55:58.130 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:58.208 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, LiefernOhneErzeugen, LABEL, Now]
+
+>>> 2019-05-09 19:55:58.214 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:58.300 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, ErzeugenOhneLiefern, LABEL, Now]
+
+>>> 2019-05-09 19:55:58.321 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:58.400 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, ErhaltenOhneBrauchen, LABEL, Now]
+
+>>> 2019-05-09 19:55:58.406 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:58.488 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, BrauchenOhneErhalten, LABEL, Now]
+
+>>> 2019-05-09 19:55:58.498 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:58.576 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AktionenQuellen, LABEL, Now]
+
+>>> 2019-05-09 19:55:58.582 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:58.659 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AktionenSenken, LABEL, Now]
+
+>>> 2019-05-09 19:55:58.662 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:58.739 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_VorgaengerVon[P_1010/a1], LABEL, Now]
+
+>>> 2019-05-09 19:55:58.743 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:58.823 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_NichtVorgaengerVon[P_2020/a1], LABEL, Now]
+
+>>> 2019-05-09 19:55:58.867 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:58.909 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_NachfolgerVon[P_3030/a1], LABEL, Now]
+
+>>> 2019-05-09 19:55:58.925 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:59.003 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_NichtNachfolgerVon[P_4040/a1], LABEL, Now]
+
+>>> 2019-05-09 19:55:59.027 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:59.104 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, BeliefertOhneFolgtAuf, LABEL, Now]
+
+>>> 2019-05-09 19:55:59.141 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:59.220 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, FolgtAufOhneBeliefert, LABEL, Now]
+
+>>> 2019-05-09 19:55:59.233 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:59.315 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, DatenOhneTraeger, LABEL, Now]
+
+>>> 2019-05-09 19:55:59.321 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:59.399 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, TraegerOhneDaten, LABEL, Now]
+
+>>> 2019-05-09 19:55:59.405 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:59.483 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, DatenNichtInput, LABEL, Now]
+
+>>> 2019-05-09 19:55:59.490 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:59.568 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, DatenNichtOutput, LABEL, Now]
+
+>>> 2019-05-09 19:55:59.573 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:59.652 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, DatenInputOhneOutput, LABEL, Now]
+
+>>> 2019-05-09 19:55:59.668 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:59.748 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, DatenInputNiemalsOutput, LABEL, Now]
+
+>>> 2019-05-09 19:55:59.763 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:59.844 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, DatenVieleOutputs, LABEL, Now]
+
+>>> 2019-05-09 19:55:59.850 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:55:59.928 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AktionenOhneInput, LABEL, Now]
+
+>>> 2019-05-09 19:55:59.936 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:00.016 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AktionenOhneOutput, LABEL, Now]
+
+>>> 2019-05-09 19:56:00.027 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:00.107 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_DatenOutputter, LABEL, Now]
+
+>>> 2019-05-09 19:56:00.110 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:00.188 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_DatenInputter, LABEL, Now]
+
+>>> 2019-05-09 19:56:00.200 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:00.280 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_DatenNutzer[D_AuftragUnt/dx], LABEL, Now]
+
+>>> 2019-05-09 19:56:00.297 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:00.376 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_DatenInputNutzer[D_KalkStunden/d1], LABEL, Now]
+
+>>> 2019-05-09 19:56:00.392 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:00.472 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_DatenFalschNutzer[D_ProjAbrSpesen/d1], LABEL, Now]
+
+>>> 2019-05-09 19:56:00.476 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:00.557 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AktionenOhneEingabe, LABEL, Now]
+
+>>> 2019-05-09 19:56:00.565 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:00.644 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AktionenOhneAusgabe, LABEL, Now]
+
+>>> 2019-05-09 19:56:00.652 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:00.732 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, InputOhneEingabe, LABEL, Now]
+
+>>> 2019-05-09 19:56:00.760 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:00.839 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, EingabeOhneInput, LABEL, Now]
+
+>>> 2019-05-09 19:56:00.849 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:00.928 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, OutputOhneAusgabe, LABEL, Now]
+
+>>> 2019-05-09 19:56:00.937 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:01.016 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AusgabeOhneOutput, LABEL, Now]
+
+>>> 2019-05-09 19:56:01.031 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:01.112 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, AusgabeOhneEingabe, LABEL, Now]
+
+>>> 2019-05-09 19:56:01.146 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:01.224 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, TraegerZuviel, LABEL, Now]
+
+>>> 2019-05-09 19:56:01.258 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:01.336 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_TraegerAusgabe, LABEL, Now]
+
+>>> 2019-05-09 19:56:01.355 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:01.436 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_TraegerEingabe, LABEL, Now]
+
+>>> 2019-05-09 19:56:01.467 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:01.548 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_TraegerGefuelltIn[TF_MonatsBericht/t1,P_2030/a1], LABEL, Now]
+
+>>> 2019-05-09 19:56:01.560 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:01.640 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_TraegerNichtGefuelltIn[P_3450/a1,TF_ProjektAuftrag/t1], LABEL, Now]
+
+>>> 2019-05-09 19:56:01.650 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:01.728 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_AlleTraegerGefuelltIn[P_2060/a1], LABEL, Now]
+
+>>> 2019-05-09 19:56:01.787 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:01.825 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, P_AlleTraegerNichtGefuelltIn[P_4130/a1], LABEL, Now]
+
+>>> 2019-05-09 19:56:01.846 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:01.924 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, GibtNichts, LABEL, Now]
+
+>>> 2019-05-09 19:56:01.933 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:02.012 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, NimmtNichts, LABEL, Now]
+
+>>> 2019-05-09 19:56:02.019 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:02.100 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, TraegerGenommenListe, LABEL, Now]
+
+>>> 2019-05-09 19:56:02.111 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:02.192 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, TraegerGegebenListe, LABEL, Now]
+
+>>> 2019-05-09 19:56:02.200 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:02.280 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, InputOhneNehmen, LABEL, Now]
+
+>>> 2019-05-09 19:56:02.297 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:02.376 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, OutputOhneGeben, LABEL, Now]
+
+>>> 2019-05-09 19:56:02.388 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:02.468 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, ErzeugtOhneGibt, LABEL, Now]
+
+>>> 2019-05-09 19:56:02.480 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:02.560 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, BrauchtOhneNimmt, LABEL, Now]
+
+>>> 2019-05-09 19:56:02.572 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:02.652 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, GibtOhneErzeugt, LABEL, Now]
+
+>>> 2019-05-09 19:56:02.662 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:02.740 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, NimmtOhneBraucht, LABEL, Now]
+
+>>> 2019-05-09 19:56:02.752 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:02.832 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, QuerZugegriffen, LABEL, Now]
+
+>>> 2019-05-09 19:56:02.836 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:02.878 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:56:02.879 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:02.920 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:56:02.921 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:56:02.921 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:56:02.946 - CBserver_s77871587_0: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:56:03.429 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:56:03.430 - : COMPLETION IS ok
+
+> Update mode: persistent
+> Untell mode: verbatim
+> Administrator user: jeusfeld@myon
+> Loaded database: Views
+> Includes plugins: selectfirst
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:56:03.874 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:56:03.897 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:03.939 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/QUERIES/Employee_Classes]]
+
+>>> 2019-05-09 19:56:03.988 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:04.030 - CBshell-jeusfeld: CALL TELL_MODEL ON [[/home/jeusfeld/CBPOOL/conceptbase/examples/QUERIES/Employee_Instances]]
+
+>>> 2019-05-09 19:56:04.086 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:04.124 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[View/objname], FRAME, Now]
+
+>>> 2019-05-09 19:56:04.125 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:04.204 - CBshell-jeusfeld: CALL TELL ON [View EmpDept isA Employee with
+retrieved_attribute, partof
+    dept : Department with
+        retrieved_attribute
+            head : Manager
+    end
+end]
+
+>>> 2019-05-09 19:56:04.247 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:04.286 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[EmpDept/objname], FRAME, Now]
+
+>>> 2019-05-09 19:56:04.288 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:04.367 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, get_object[SV_EmpDept_dept/objname], FRAME, Now]
+
+>>> 2019-05-09 19:56:04.370 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:04.451 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, EmpDept, FRAME, Now]
+
+>>> 2019-05-09 19:56:04.468 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:04.559 - CBshell-jeusfeld: CALL TELL ON [View EmpOptionalSalary isA Employee with
+inherited_attribute
+    salary : Integer
+end]
+
+>>> 2019-05-09 19:56:04.600 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:04.641 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, EmpOptionalSalary, FRAME, Now]
+
+>>> 2019-05-09 19:56:04.650 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:04.728 - CBshell-jeusfeld: CALL TELL ON [View EmpDept2 isA Employee with
+retrieved_attribute
+    dept : Joe.dept;
+    salary : [30000,40000,50000]
+end]
+
+>>> 2019-05-09 19:56:04.796 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:04.838 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, EmpDept2, FRAME, Now]
+
+>>> 2019-05-09 19:56:04.848 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:04.928 - CBshell-jeusfeld: CALL TELL ON [Employee with attribute likes : Employee end
+Mary with likes ml : Eleonore end]
+
+>>> 2019-05-09 19:56:04.963 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:05.043 - CBshell-jeusfeld: CALL TELL ON [View EmpDept_likes_head isA Employee with
+retrieved_attribute,partof
+    dept : Department with
+        retrieved_attribute, partof
+            head : Manager with
+                constraint c : $ A(this,likes,this::dept::head) $
+        end
+    end
+end]
+
+>>> 2019-05-09 19:56:05.102 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:05.140 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, EmpDept_likes_head, FRAME, Now]
+
+>>> 2019-05-09 19:56:05.158 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:05.237 - CBshell-jeusfeld: CALL TELL ON [View EmpDept3 isA Employee with
+retrieved_attribute,partof
+    dept : Department with end;
+    salary : Integer with end
+end]
+
+>>> 2019-05-09 19:56:05.289 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:05.328 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, EmpDept3, FRAME, Now]
+
+>>> 2019-05-09 19:56:05.355 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:05.403 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:56:05.403 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:05.444 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:56:05.445 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:56:05.448 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:56:05.465 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:56:05.908 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:56:05.908 - : COMPLETION IS ok
+
+> Update mode: persistent
+> Administrator user: jeusfeld@myon
+> Loaded database: X-Petrinet-simu
+> Includes plugins: selectfirst
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:56:06.357 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:56:06.384 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:06.423 - CBshell-jeusfeld: CALL TELL ON [
+Place with
+  attribute
+    sendsToken: Transition;
+    tokenFill: Integer  
+end
+Transition with 
+  attribute
+     producesToken : Place
+end 
+]
+
+>>> 2019-05-09 19:56:06.453 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:06.536 - CBshell-jeusfeld: CALL TELL ON [
+TokenNr in Function isA Integer with
+  parameter
+    place: Place
+  constraint
+    c1: $ (~place tokenFill ~this) $
+end
+EnabledTransition in QueryClass isA Transition with
+  constraint
+    c1: $ forall pl/Place (pl sendsToken this) 
+                 ==> (TokenNr(pl) > 0)
+         $
+end
+ConnectedPlace in GenericQueryClass isA Place with
+  parameter
+    trans: Transition
+  constraint
+    isConnected: $ (this sendsToken trans) or (trans producesToken this) $
+end
+TransToPlace in GenericQueryClass isA Transition!producesToken with
+  parameter
+    trans: Transition;
+    place: Place
+  constraint
+    c1: $ From(this,trans) and To(this,place) $
+end
+PlaceToTrans in GenericQueryClass isA Place!sendsToken with
+  parameter
+    trans: Transition;
+    place: Place
+  constraint
+    c1: $ From(~this,~place) and To(~this,~trans) $
+end
+]
+
+>>> 2019-05-09 19:56:06.618 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:06.663 - CBshell-jeusfeld: CALL TELL ON [
+NetEffectOfTransition in Function isA Integer with
+  parameter
+    xt: Transition;
+    xp: Place
+  constraint
+    c1: $ (~this = #TransToPlace[xp,xt] - #PlaceToTrans[xp,xt]) $
+end
+FireTransition with
+  attribute
+    transition: Transition
+end
+ECArule UpdateConnectedPlaces with
+  mode m: Deferred
+  rejectMsg rm:
+"The last firing of a transition failed.
+Check whether the transition was enabled!"
+  ecarule
+        er : $  fire/FireTransition tr/Transition pl/Place 
+                n,n1/Integer
+        ON Tell (fire transition tr) 
+        IF `(tr in EnabledTransition) and
+           (pl in ConnectedPlace[tr]) and
+           `(pl tokenFill n) and
+           `(n1 = n + NetEffectOfTransition(pl,tr))
+        DO Untell (pl tokenFill n) ,
+           Tell (pl tokenFill n1) 
+        ELSE
+           reject
+        $
+end
+ReportState in QueryClass isA Place with
+  retrieved_attribute
+    tokenFill: Integer
+end
+]
+
+>>> 2019-05-09 19:56:06.733 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:06.773 - CBshell-jeusfeld: CALL TELL ON [
+red1 in Place with
+  sendsToken
+    t1: rg1
+  tokenFill
+    tf: 1
+end
+
+yellow1 in Place with
+  sendsToken
+    t1: yr1
+  tokenFill
+    tf: 0
+end
+
+green1 in Place with
+  sendsToken
+    t1: gy1
+  tokenFill
+    tf: 0
+end
+
+safe1 in Place with
+  sendsToken
+    t1: rg1
+  tokenFill
+    tf: 1
+end
+
+yr1 in Transition with
+  producesToken
+    p1: red1;
+    p2: safe2
+end
+
+rg1 in Transition with
+  producesToken
+    p1: green1
+end
+
+gy1 in Transition with
+  producesToken
+    p1: yellow1
+end
+
+
+
+red2 in Place with
+  sendsToken
+    t1: rg2
+  tokenFill
+    tf: 1
+end
+
+yellow2 in Place with
+  sendsToken
+    t1: yr2
+  tokenFill
+    tf: 0
+end
+
+green2 in Place with
+  sendsToken
+    t1: gy2
+  tokenFill
+    tf: 0
+end
+
+safe2 in Place with
+  sendsToken
+    t1: rg2
+  tokenFill
+    tf: 0
+end
+
+yr2 in Transition with
+  producesToken
+    p1: red2;
+    p2: safe1
+end
+
+rg2 in Transition with
+  producesToken
+    p1: green2
+end
+
+gy2 in Transition with
+  producesToken
+    p1: yellow2
+end
+
+]
+
+>>> 2019-05-09 19:56:06.809 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:06.887 - CBshell-jeusfeld: CALL TELL ON [
+fire1 in FireTransition with
+  transition t1: rg1
+end
+]
+
+>>> 2019-05-09 19:56:06.956 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:06.997 - CBshell-jeusfeld: CALL TELL ON [
+fire2 in FireTransition with
+  transition t1: gy1
+end
+fire3 in FireTransition with
+  transition t1: yr1
+end
+]
+
+>>> 2019-05-09 19:56:07.092 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:07.132 - CBshell-jeusfeld: CALL TELL ON [
+fire4 in FireTransition with
+  transition t1: rg2
+end
+]
+
+>>> 2019-05-09 19:56:07.196 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:07.237 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, ReportState, FRAME, Now]
+
+>>> 2019-05-09 19:56:07.239 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:07.296 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:56:07.297 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:07.335 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:56:07.336 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:56:07.336 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:56:07.350 - CBserver_s77871588_0: COMPLETION IS ok
+
+>>> Upstarting new ConceptBase.cc server ... 
+>>> 2019-05-09 19:56:07.747 - ModelConfiguration: Creating new database /tmp/jeusfeld_s77871588_0_24057 ...
+
+>>> 2019-05-09 19:56:07.787 - : CALL ENROLL_ME ON [CBserver, jeusfeld@myon]
+
+>>> 2019-05-09 19:56:07.788 - : RESPONSE IS CBserver_s77871588_1
+
+>>> 2019-05-09 19:56:07.788 - : COMPLETION IS ok
+
+> Trace mode: low
+> Update mode: nonpersistent
+> Administrator user: jeusfeld@myon
+> Loaded database: /tmp/jeusfeld_s77871588_0_24057
+> Includes plugins: selectfirst
+
+> This is ConceptBase.cc (CBserver) 8.0.31, Skovde, 2019-05-09
+> Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+> Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.
+
+>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden
+>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany
+>    http://conceptbase.cc
+
+
+>>> 2019-05-09 19:56:08.238 - : CALL ENROLL_ME ON [CBshell, jeusfeld@myon_amd64_Linux]
+
+   ... stored temporarily (0 error(s), 0.000000 sec used)
+>>> 2019-05-09 19:56:08.265 - CBserver_s77871588_1: RESPONSE IS CBshell_s77871588_9
+
+>>> 2019-05-09 19:56:08.266 - CBserver_s77871588_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:08.312 - CBshell-jeusfeld: CALL TELL ON [
+Proposition with  
+  attribute
+    reflexive : Proposition;
+    transitive : Proposition;
+    symmetric : Proposition;
+    antisymmetric : Proposition;
+    asymmetric : Proposition
+end 
+
+RelationSemantics in Class with  
+  constraint
+    asym_IC : $ forall AC/Proposition!asymmetric C/Proposition x,y/VAR M/VAR
+                     P(AC,C,M,C) and (x in C) and (y in C) and
+                     (x M y)  ==> not (y M x) $;
+    antis_IC : $ forall AC/Proposition!antisymmetric C/Proposition x,y/VAR M/VAR
+                     P(AC,C,M,C) and (x in C) and (y in C) and
+                     (x M y) and (y M x)  ==> (x = y) $
+  rule
+    trans_R : $ forall x,z,y,M/VAR 
+                     AC/Proposition!transitive C/Proposition
+                     P(AC,C,M,C) and (x in C) and (y in C) and (z in C) and
+                     (x M y) and (y M z) ==> (x M z) $;
+    refl_R : $ forall x,M/VAR 
+                    AC/Proposition!reflexive C/Proposition
+                    P(AC,C,M,C) and (x in C)
+                      ==> (x M x) $;
+    symm_R : $ forall x,y,M/VAR 
+                    AC/Proposition!symmetric C/Proposition
+                    P(AC,C,M,C) and (x in C) and (y in C) and
+                    (x M y)  ==> (y M x) $
+end 
+
+]
+
+   ... stored temporarily (0 error(s), 0.050000 sec used)
+   ... semantic integrity for Tell checked (0 error(s), 0.000000 sec used)
+   ... confirmed in OB
+>>> 2019-05-09 19:56:08.380 - CBserver_s77871588_1: RESPONSE IS yes
+
+>>> 2019-05-09 19:56:08.380 - CBserver_s77871588_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:08.423 - CBshell-jeusfeld: CALL TELL ON [
+
+Person in Class with  
+  symmetric,reflexive,transitive
+    knows : Person
+  asymmetric,transitive
+    hasAncestor : Person
+end 
+]
+
+   ... stored temporarily (0 error(s), 0.050000 sec used)
+   ... semantic integrity for Tell checked (0 error(s), 0.000000 sec used)
+   ... confirmed in OB
+>>> 2019-05-09 19:56:08.516 - CBserver_s77871588_1: RESPONSE IS yes
+
+>>> 2019-05-09 19:56:08.516 - CBserver_s77871588_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:08.558 - CBshell-jeusfeld: CALL TELL ON [
+john in Person with  
+  knows
+    p1 : bill
+end 
+
+bill in Person with  
+  hasAncestor
+    p1 : john
+end 
+
+]
+
+   ... stored temporarily (0 error(s), 0.020000 sec used)
+   ... semantic integrity for Tell checked (0 error(s), 0.000000 sec used)
+   ... confirmed in OB
+>>> 2019-05-09 19:56:08.591 - CBserver_s77871588_1: RESPONSE IS yes
+
+>>> 2019-05-09 19:56:08.591 - CBserver_s77871588_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:08.668 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_attribute_values[bill/objname,Person!knows/cat], CBGraphEditorResult[DefaultJavaPalette/pal,bill/obj,Attribute/cat,src/objtype], Now]
+
+   ... 0.020000 sec used to find the answer
+
+>>> 2019-05-09 19:56:08.687 - CBserver_s77871588_1: RESPONSE IS <result>
+  <object>
+    <name>bill</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+    <edges>
+    </edges>
+  </object>
+
+
+  <object>
+    <name>john</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+    <edges>
+      <object>
+        <name>bill!p1</name>
+    <graphtype>DefaultAttributeGT</graphtype>
+      </object>
+    </edges>
+  </object>
+
+</result>
+
+
+>>> 2019-05-09 19:56:08.688 - CBserver_s77871588_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:08.772 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_attribute_values[bill/objname,Person!knows/cat], CBGraphEditorResult[DefaultJavaPalette/pal,bill/obj,Person!knows/cat,src/objtype], Now]
+
+   ... 0.010000 sec used to find the answer
+
+>>> 2019-05-09 19:56:08.779 - CBserver_s77871588_1: RESPONSE IS <result>
+  <object>
+    <name>bill</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+    <edges>
+    </edges>
+  </object>
+
+
+  <object>
+    <name>john</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+    <edges>
+    </edges>
+  </object>
+
+</result>
+
+
+>>> 2019-05-09 19:56:08.780 - CBserver_s77871588_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:08.859 - CBshell-jeusfeld: CALL ASK ON [OBJNAMES, find_attribute_values[john/objname,Person!knows/cat], CBGraphEditorResult[DefaultJavaPalette/pal,john/obj,Person!knows/cat,src/objtype], Now]
+
+   ... 0.010000 sec used to find the answer
+
+>>> 2019-05-09 19:56:08.869 - CBserver_s77871588_1: RESPONSE IS <result>
+  <object>
+    <name>bill</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+    <edges>
+      <object>
+        <name>john!p1</name>
+    <graphtype>DefaultAttributeGT</graphtype>
+      </object>
+    </edges>
+  </object>
+
+
+  <object>
+    <name>john</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+    <edges>
+    </edges>
+  </object>
+
+</result>
+
+
+>>> 2019-05-09 19:56:08.869 - CBserver_s77871588_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:08.912 - : CALL ENROLL_ME ON [StopServer, jeusfeld@myon_amd64_Linux]
+
+>>> 2019-05-09 19:56:08.912 - CBserver_s77871588_1: RESPONSE IS StopServer_s77871588_34
+
+>>> 2019-05-09 19:56:08.913 - CBserver_s77871588_1: COMPLETION IS ok
+
+>>> 2019-05-09 19:56:08.952 - StopServer-jeusfeld: CALL STOP_SERVER ON []
+
+>>> 2019-05-09 19:56:08.953 - CBserver-jeusfeld: CALL CANCEL_ME ON []
+
+>>> 2019-05-09 19:56:08.953 - CBserver_s77871588_1: RESPONSE IS yes
+
+>>> 2019-05-09 19:56:08.954 - CBserver_s77871588_1: COMPLETION IS ok
+
+>>> Goodbye from ConceptBase (CBserver)      ..             ..             .
+   Lutz Bauer             1995 ... 1997 | Rainer Gallersdoerfer  1989 ... 1997
+   Michael Gebhardt       1992 ... 1997 | Rainer Hermanns        1997 ... 1998
+   Matthias Jarke         1987 ... 2011 | Manfred A. Jeusfeld    1987 ...  now
+   David Kensche          2004 ... 2008 | Eva Krueger            1987 ... 1990
+   Rainer Langohr         1997 ... 1999 | Farshad Lashgari       1994 ... 1995
+   Tobias Latzke          2001 ... 2002 | Xiang Li               2004 ... 2008
+   Yong Li                2004 ... 2008 | Thomas List            1993 ... 2004
+   Andreas Miethsam       1989 ... 1991 | Hans W. Nissen         1987 ... 1998
+   Martin Poeschmann      1997 ... 2001 | Christoph Quix         1994 ... 2011
+   Christoph Radig        1993 ... 1998 | Achim Schlosser        2002 ... 2004
+   Tobias Schoeneberg     2001 ... 2004 | Rene Soiron            1992 ... 1997
+   Martin Staudt          1987 ... 1997 | Kai von Thadden        1992 ... 1995
+   Hua Wang               1997 ... 1999 | Thomas Wenig           1988 ... 1989
+----------------------------------------------------------------------------
+ 
+>>> 2019-05-09 19:56:08.972 - CBserver_s77871588_1: RESPONSE IS yes
+
+>>> 2019-05-09 19:56:08.972 - CBserver_s77871588_1: COMPLETION IS ok
+

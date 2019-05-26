@@ -1,0 +1,1052 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[plainpages=false, pdfpagelabels, bookmarks, colorlinks=true,
+               linkcolor=blue, anchorcolor=blue, citecolor=blue, filecolor=blue,
+               menucolor=blue, pagecolor=blue, urlcolor=blue]{hyperref}  % Hyperlinks in PDF output
+
+
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+  \pdffalse % we are not running PDFLaTeX
+\else
+  \pdfoutput=1 % we are running PDFLaTeX
+  \pdftrue
+\fi
+
+
+\ifpdf
+  \usepackage[pdftex]{graphicx}
+  \pdfcompresslevel=7
+  \pdfinfo
+    { /Title        (ConceptBase Tutorial)
+      /CreationDate (D:20120327100000)
+      /Author       Ren{\'e} Soiron)
+      /Keywords     (ConceptBase, Telos, rules, constraints, queries)
+    }
+% These duplicate settings are apparently needed for Adobe Acroread to display the meta data
+% See http://www.geocities.com/kijoo2000/ for useful documentation, in particular on PDF
+  \hypersetup{
+    pdftitle={ConceptBase Tutorial},
+    pdfauthor={Ren{\'e} Soiron},
+    pdfkeywords={ConceptBase, Telos, rules, constraints, queries}
+  }
+
+\else
+  \usepackage{graphicx}
+  \usepackage{html}
+\fi
+
+\usepackage{a4}
+\usepackage{a4wide}
+\usepackage{longtable}
+\usepackage{times}
+%\usepackage{psfig}
+
+
+\newcommand{\longcom}[1]{}
+\newcommand{\cbfigure}[3]{%
+  \begin{figure}[hptb]
+  \ifpdf
+    \centerline{\includegraphics[width=#2]{#1.pdf}}
+  \else
+    \centerline{\includegraphics[width=#2]{#1.eps}}
+  \fi
+  \caption{#3}
+  \label{fig:#1}
+  \end{figure}
+}
+
+\newcommand{\urlprefix}{}
+\def\UrlFont{\small\tt}
+
+\renewcommand{\textfraction}{0.01}
+\renewcommand{\topfraction}{0.99}
+\renewcommand{\bottomfraction}{0.99}
+\renewcommand{\floatpagefraction}{0.99}
+
+% for O-Telos-Axioms.tex
+\def\Isa{\hbox{\it Isa}}
+\def\In{\hbox{\it In}}
+\def\ID{\hbox{\rm ID}}
+
+
+% a textbox with lines around it
+\newcommand{\exobox}[2]{%
+\vspace{0.7cm}
+\fbox{
+\begin{minipage}{14cm}{\it {\bf #1:} #2}
+\end{minipage}
+}
+\vspace{0.7cm}
+}
+
+
+\newenvironment{axiom}[1]%
+{ \vspace{0.5cm} {\bf \noindent #1} \begin{quote} }%
+{ \end{quote} }
+
+\newenvironment{example}%
+{ \begin{quote} \it }
+{ \end{quote} }
+
+\setlength{\parindent}{0cm}
+
+
+
+\author{
+Ren{\'e} Soiron, ConceptBase Team\\
+{\small Informatik V, RWTH Aachen, Ahornstr.\ 55, 52056 Aachen, Germany} }
+
+\title{\bf ConceptBase Tutorial}
+\date{last update: 2015-03-23 by Manfred Jeusfeld}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+This tutorial gives a beginners introduction into Telos and ConceptBase.
+Telos is a formal language for representing knowledge in a wide
+area of applications, e.g. requirements and process-modelling.
+It integrates object-oriented and deductive features into a
+logical framework.
+ConceptBase is an experimental deductive database management
+system, based on the Telos data model. It is designed to store and
+manipulate a database of Telos objects.
+The tutorial is organized as follows:
+The next section gives a short introduction into the architectural
+organization of the ConceptBase system and describes the
+necessary steps to start the system.
+Section three explains some basic features of Telos and ConceptBase
+using a simple example.
+The last chapter contains solutions to the exercises.
+
+
+Please note:\\
+The objective of this tutorial is to give a novice user a first intuitive
+feeling on how to work with CB and how to build own models, not
+to mention all the features of Telos and ConceptBase or describe
+the semantics of Telos.
+
+
+\section{ First Steps}
+
+
+\subsection{Overview of the Architecture of the ConceptBase-System}
+
+ConceptBase is organized in a client/server architecture. The server
+manages the database while the client may be any user-defined
+application program. A graphical client {\em CBIva} and a command-line
+client {\em CBShell} are
+distributed with the ConceptBase system. We use in this tutorial the
+grahical client.
+The communication between server and client is realized via Internet protocols,
+i.e. client and server can run on different computers in your local network
+or even ob the global Internet. They can also run on the same computer, which
+is the most frequent way of use.
+The connection is offered by the ConceptBase server via a so-called {\em port number}.
+Every database is stored in a seperate directory with the name of
+the database as directory name.
+
+Before working with this tutorial ConceptBase has to be installed
+properly. This is documented in the installation guide which is available from
+the site where you downloaded the system, typically
+\url{http://conceptbase.sourceforge.net/CB-Download.html}.
+
+\newpage
+\subsection{Starting the ConceptBase Server}
+
+{\scriptsize
+(Skip this step, if your ConceptBase installation is configured to use a
+public ConceptBase server, in particular on Windows and Mac OS-X.)
+}
+\newline
+
+
+
+At first start a ConceptBase server: \\
+
+\vspace{0.2cm}
+{\it
+{\bf Exercise 2.1:}
+\begin{itemize}
+\item[a)] Get a description of all possible command-line parameters
+by entering the following commands in a command window. The commands are:
+\begin{verbatim}
+  cd $CB_HOME
+  cbserver -help
+\end{verbatim}
+
+
+The string {\tt \$CB\_HOME} has to be replaced by the directory path,
+into which ConceptBase was installed on your local computer. You may want
+to include this directory path into the search path of your command shell.
+
+\item[b)] Start a ConceptBase server loading the
+   database {\em TutDB} on port number {\em 5544}
+\end{itemize}
+}
+
+
+A server will start running immediately. If the database {\em TutDB}
+doesn't exist, a new database will be created before loading. Then
+the copyright notice and parameter settings are displayed, followed
+by a message which contains hostname and port number of the ConceptBase
+server you have just started. These two informations are used to
+identify a server. The host is the one, you are currently logged on to
+and the port number is set by the {\tt -port} parameter. The port number
+must be free on the host where ConceptBase shall run.
+If this number is already in use by another server, the error message \\
+
+{\tt IPC Error: Unable to bind socket to name } \\
+
+appears and the server stops.
+In this case restart the server with another port number.
+
+\subsection{Starting the ConceptBase User Interface}
+
+Clients can communicate with a server through the ConceptBase Usage
+Environment. The interface contains several tools which can be invoked
+from the {\em CBIva\/} (ConceptBase User Interface in Java). Start CBIva
+by entering the following commands in a new command window:
+
+\begin{verbatim}
+    cd $CB_HOME
+    cbiva
+\end{verbatim}
+
+After a few seconds a window will appear which
+is titled ``CBIva - ConceptBase User Interface in Java''. It consists of a main window, statusline
+at the left buttom, and offers several function keys and menu-items.  A complete description of
+these menus is given in the User Manual. Depending on your operating system, you can also
+double-click the file 'cbiva' (resp.\ 'cbiva.bat') in the installation directory of ConceptBase. \\
+
+\vspace{0.7cm}
+{\it
+{\bf Exercise 2.2:}\\
+Establish a connection between CBIva and
+the server you have started under 2.1 \\
+}
+
+After the connection is established
+the first field of the {\em statusline} contains the status "connected".
+
+  \newline
+
+{\scriptsize
+Note: If your ConceptBase installation uses a public ConceptBase server,
+then you can skip this step because your CBIva window automatically
+connects to the public server.}
+
+
+
+\section{The Example Model}
+
+In this section the use of basic tools and concepts will be illustrated
+by modelling the following simple scenario:
+
+{\it
+\begin{quote}
+A company has employees, some of them being managers. Employees
+have a name and a salary which may change from time to time. They
+are assigned to departments which are headed by managers. The boss
+of an employee can be derived from his department and the manager of
+that department. No employee is allowed to earn more money than his
+boss.
+\end{quote}
+}
+
+The model we want to create contains two levels: the {\em class level}
+containing the classes {\em Employee}, {\em Manager} and {\em Department} and
+the {\em token level} which contains instances of these 3 classes.
+
+
+\subsection{Editing Telos Objects}
+
+\subsubsection{The Class Level}
+
+
+The first step is to create the three classes used:
+{\em Employee}, {\em Manager} and {\em Department}. Enter the following definition
+into the CBIva's top window labelled {\em Telos Editor}:
+
+\begin{verbatim}
+Employee in Class
+end
+\end{verbatim}
+
+This is the declaration of the class {\em Employee}, which will contain
+every employee as instance. {\em Employee} is declared as instance of the
+system class {\em Class}, because it is on the class level of our example,
+i.e. it is intended to have instances.
+
+
+To add this object to the database, press the {\em Tell} button.
+If no syntax error occurs and the semantic integrity of the database
+isn't violated by this new object it will be added to the database.
+The next class to ad is the class {\em Manager}. Managers are also employees,
+so the class {\em Manager} is declared as a specialization of {\em Employee}
+using the keyword {\em isA}:
+
+\begin{verbatim}
+Manager in Class isA Employee
+end
+\end{verbatim}
+
+Press the {\em Clear} button to clear the editor field.
+Enter the telos frame given above and add it to the database by telling it.
+The final class to be added is the class {\em Department}. \\
+
+\vspace{0.7cm}
+{\it
+{\bf Exercise 3.1:}\\
+Define a class {\em Department} and add it to the database. \\
+}
+
+At this point we have added some new classes to the object
+base, but have told nothing about the so called {\em attributes} of these
+classes.  The modification of the classes we have just entered is the
+next task.
+
+
+\subsubsection{Defining Attributes of Classes}
+
+As mentioned in the description of the example-model, the employee-class
+has several attributes. To add them, we need to modify the Telos frame
+describing the class {\em Employee}.
+
+\vspace{0.7cm}
+{\it
+{\bf Exercise 3.2:} \\
+Load the object
+{\em Employee} via the {\em load frame} button and
+modify it as follows:
+}
+
+\begin{verbatim}
+Employee in Class with
+attribute
+        name: String;
+        salary: Integer;
+        dept: Department;
+        boss: Manager
+end
+\end{verbatim}
+
+Tell the modified Employee frame to the database.
+Now you have added attributes to the class {\em Employee}.
+They are of the category {\em attribute} and  their labels are:
+{\em name}, {\em salary}, {\em dept}, and {\em boss}.  They establish ``links''
+between the class {\em Employee} and the classes mentioned as ``targets''.
+{\em Department} and {\em Manager} are user-defined classes, while {\em String}
+and {\em Integer} are builtin classes of ConceptBase. 
+
+Notice that these attributes are also available for the class
+{\em Manager}, because this class is a subclass of Employee
+(i.e. Telos offers attribute inheritance, see also chapter 2.1
+of the User manual, {\em Specialization axiom}).\\
+
+\vspace{0.7cm}
+{\it
+{\bf Exercise 3.3:}\\
+The class Department has only one attribute: the manager,
+who leads the department. Add this attribute to the class Department.
+The label of this attribute shall be {\em head}.\\
+}
+
+Now we have completed the class-level of our example.
+The next step is to add instances of our classes to the database.
+
+
+\subsubsection{The Token Level}
+
+The company we are modelling consists of the 4 departments
+{\em Production}, {\em Marketing}, {\em Administration} and {\em Research}.
+Every employee working in the company belongs to
+a department. The employees will be listed later, apart
+from the managers of the departments: \\
+
+\centerline{
+\begin{tabular} {|l|l|}  \hline
+department       &   head \\ \hline
+Production       &   Lloyd \\
+Marketing        &   Phil \\
+Administration   &   Eleonore \\
+Research         &   Albert \\ \hline
+\end{tabular} \\
+}
+
+
+\subsubsection{Defining Attributes of Tokens}
+
+At first let's have a look at the department class, defined in exercise 3.3:
+
+\begin{verbatim}
+Department in Class with
+         attribute
+               head: Manager
+end
+\end{verbatim}
+
+There is a link between {\em Department} and {\em Manager} of category
+{\em attribute} with label {\em head} at the class-level. Now we have to
+establish a link between {\em Production} and {\em Lloyd} of category
+{\em head} at the token-level.
+The {\em label} of  this link must be a unique name for all links with the
+source object "Production". We choose {\em head\_of\_Production} as name.
+
+The resulting Telos frame is:
+
+\begin{verbatim}
+Production in Department with
+  head
+    head_of_Production : Lloyd
+end
+\end{verbatim}
+
+
+\vspace{0.7cm}
+{\it
+{\bf Exercise 3.4:}
+
+\begin{itemize}
+
+\item[a)] Add the frames for Lloyd, Phil, Eleonore and Albert to the
+   database.
+\item[b)] Add the Telos frames for Production, Marketing, Administration,
+   and Research and the links between the departments and their
+   manager to the database.
+\item[c)] The four managers have the following salaries:\\
+\centerline{
+	\begin{tabular} {|l|l|}  \hline
+	manager & 	salary \\ \hline
+	Lloyd	&	100000 \\
+	Phil	&	120000 \\
+	Eleonore &	20000 \\
+	Albert	&	110000 \\ \hline
+	\end{tabular}
+} 
+
+\end{itemize}
+
+  Add this information to the database.
+  Use "LloydsSalary", "PhilsSalary", etc. as labels.
+  (Remember that you can load an existing object from the database into
+  the Telos Editor by using "Load frame".)
+\\
+}
+
+The destination objects of attribute instantiations must be existing objects in
+the database or instances of the system builtin classes {\em Integer},
+{\em Real} or {\em String}. Objects which instantiate these classes are
+generated automatically when referenced in a Telos-frame.
+At this point it is important to recognize, that attributes specified at the
+class level do not need to be instantiated at the instance level. On the other
+hand an instance of a class containing an attribute may contain several
+instances of this attribute.
+
+Example:\\
+\begin{verbatim}
+George in Employee with
+        name
+                GeorgesName: "George D. Smith"
+        salary
+                GeogesBaseSalary : 30000;
+                GeorgesBonusSalary : 3000
+end
+\end{verbatim}
+
+
+The attribute {\em dept} and {\em boss} have no instances, while
+{\em salary} is instantiated twice.
+
+To complete the token level, we have to add more employees to
+the database. \\
+
+\vspace{0.7cm}
+{\it
+{\bf Exercise 3.5:}\\
+Add the following employees to the database. Use {\em MichaelsDepartment} etc. as labels for the attributes.\\
+
+\centerline{
+\begin{tabular} {|l|l|l|} \hline
+employee	&	department	&	salary	\\ \hline
+Michael       	&	Production      &	30000	\\
+Herbert       	&	Marketing       &	60000	\\
+Maria		&	Administration  &	10000	\\
+Edward        	&	Research        &	50000	\\ \hline
+\end{tabular}\\
+}
+}
+
+
+\vspace{0.6cm}
+Now the first step in building the example database is completed.
+The next chapter describes a basic tool of the usage environment
+which can be used for inspecting the database: the {\em GraphBrowser}.
+
+\subsection{The Graph Editor}
+
+To start the Graph Editor, choose the menu item {\em Browse} from
+the Workbench and select {\em Graph Editor}. The Graph Editor will
+start up and establish a connection to the same server as the workbench,
+if the workbench is currently connected. You can establish additional
+connections from within the Graph Editor application.
+If the Graph Editor has established the connection and loaded
+the initial data (note: this takes about 10 seconds), you can
+add an object to the editor window by clicking on the ``Load object''
+button.
+An interaction window
+appears, asking for an object name. After entering a valid name (e.g. {\em Employee}) the
+{\em Graph Browser} displays the corresponding object.
+By clicking the left mouse-button, every
+displayed object can be selected. A selected object can be moved by
+dragging the object with the left mouse-button pressed. By clicking
+on the right mouse-button, a popup-menu will be shown with the
+following operations:
+
+\begin{itemize}
+\item	{\bf Toggle component view} \\
+	switches the view of this object. In the detailed component view,
+	you can either see the frame of this object or tree-like
+	representation of super- and subclasses, instances, classes, and
+	attributes of this object.
+\item	{\bf Super classes, sub classes, classes, instances}\\
+    for each menu item you can select whether you want to
+    see only the explicitly defined super classes (or sub classes, etc.)
+    or all super classes including all implicit relationships.
+    The query to the ConceptBase server to retrieve this information
+    will be done when you select the menu item. So, the construction
+    of the corresponding submenu might take a few seconds.
+\item {\bf Incoming and outgoing attributes}\\
+    The Graph Editor will ask the ConceptBase server for the attribute
+    classes that apply to this object. For each attribute class, it is
+    possible to display only explicit attributes or all attributes as above.
+    The attribute class ``Attribute'' applies for every object and all
+    attributes are in this class. Therefore, all explicit attributes of
+    an object will be visible in this category.
+
+\item {\bf Add Instance, Class, SuperClass, SubClass, Attribute, Individual}	\\
+    These menu items will open the ``Create Object'' dialog where
+    you can specify new objects that should be created in the database.
+    Note, that these modifications are not performed directly on the
+    database. The editor will collect all modifications and
+    send them to the ConceptBase server when you click on the ``Commit''
+    button.
+\item {\bf Delete object from database} \\
+    This operation will delete the object from the database. As for the
+    insertion of objects before, the modification will be send to
+    the server when you click on the ``Commit''
+    button. Note that this operation has an effect on the database
+    in contrast to the next operation.
+\item {\bf Remove object from view} \\
+    The object will be removed from the current view. This operation
+    has no effect on the database, i.e.\ the object will not be deleted
+    from the database.
+\item {\bf Display in Workbench}\\
+    This operation will load the frame of the object into the
+    Telos editor.
+
+\item {\bf Show in new Frame}\\
+    A new internal window (within the Graph Editor) will be shown
+    and the selected object will be shown in the new window.
+\end{itemize}
+
+
+\vspace{0.7cm}
+{\it
+{\bf Exercise 3.6:} \\
+Start a GraphBrowser, and load "Employee" as initial object and
+experiment with the menu options available.
+} \\
+
+\subsection{Adding Deductive Rules}
+
+At this point you should have made some experiences with the editing- and
+browsing-facilities of the ConceptBase Usage Environment and the
+Telos language. This chapter gives an introduction into the use of {\em rules}
+and {\em integrity constraints}.
+
+Until now we have never instantiated the boss-attribute of an employee.
+The boss can be derived from the department the employee is assigned
+to and the head of this department. So its obvious to define the instances
+of the boss-attribute by adding a rule to the Employee-Frame.
+
+At first we'll give a short introduction into the syntax of the assertion language. The exact syntax is given in the appendix of the user manual.
+
+A {\em deductive rule} has the following format: \\
+
+{\tt
+forall x1/c1 x2/c2 ... xn/cn $<Rule>$ ==> lit(a1,...,am)
+}\\
+
+where $<Rule>$ is a formula and the xi's are variables bound to the
+class ci, lit is a literal of type 1 or 3 (see below) and the variables among
+the ai's are included in x1,..,xn.
+
+To compose the formula defining a {\em deductive rule} or {\em integrity constraint} the following literals may be used:
+
+\begin{enumerate}
+\item {\tt (x in c)}\\
+  The object x is an instance of class c.
+\item {\tt (c isA d)}\\
+  The object c is a specialization (subclass) of d
+\item {\tt (x l y)}\\
+  The object x has an attribute to object y and this relationship is an
+  instance of an attribute category with label l. Structural integrity
+  demands that the label l belongs to an attribute of a class of x.
+\end{enumerate}
+
+
+In order to avoid ambiguity, neither "in" and "isA" nor the logical
+connectives "and" and "or" are allowed as attribute labels.
+
+The next literals are second class citizens in formulas. In contrast to the
+above literals they cannot be assigned to classes of the Telos database.
+Consequently, they may only be used for testing, i.e. in a legal formula their
+parameters must be bound by one of the literals 1 - 3.
+
+\begin{enumerate}
+\item[4] {\tt (x < y), (x > y), (x <= y), (x >= y), (x = y), (x <> y)}\\
+  Note that x and y must be instances of Integer or Real.
+\item[5] {\tt (x == y)}\\
+  The objects x and y are the same. You can also use {\tt (x = y)}.
+\end{enumerate}
+
+"and" and "or" are allowed as infix operators to connect subformulas.
+Variables in formulas can be quantified by {\tt forall x/c} or
+{\tt exists x/c}, where c is a class, i.e. the range of x is
+the set of all instances of the class c.
+
+The constants appearing in formulas must be names of
+existing objects in the database or of type Integer, Real or
+String. Also for the attribute predicates {\tt (x l y)} occuring in the
+formulas there must be a unique attribute labelled {\tt l} of one class
+{\tt c} of {\tt x} in the database. For the exact syntax refer to the
+appendix of the user manual.
+
+We'll give a first example of a deductive rule by defining the boss of an
+employee:
+
+\begin{verbatim}
+Employee with
+   rule
+      BossRule : $ forall e/Employee m/Manager
+                   (exists d/Department
+                     (e dept d) and (d head m))
+                   ==> (e boss m) $
+end
+\end{verbatim}
+
+Please note that the text of the formula must be enclosed in "\$" and that
+this deductive rule is legal, because all variables appearing in the conlusion
+literal ({\tt e,m}) are universally (forall) quantified. The logically
+equivalent formula
+
+\begin{verbatim}
+
+   forall e/Employee m/Manager d/Department
+        (e dept d) and (d head m)
+        ==> (e boss m)
+\end{verbatim}
+
+can also be used. \\
+
+\vspace{0.7cm}
+{\it
+{\bf Exercise 3.7:}\\
+Add the {\em BossRule} to the database.
+}
+
+\subsection{Adding Integrity Constraints}
+
+The following integrity constraint specifies that no Manager
+should earn less than 50000:
+
+\begin{verbatim}
+Manager with
+   constraint
+      earnEnough: $ forall m/Manager x/Integer
+                        (m salary x) ==> (x >= 50000) $
+end
+\end{verbatim}
+
+Please note that our example model doesn't satisfy this
+constraint, because Eleonore earns only 20000. If you
+use 20000 instead of 50000, the model satisfies this constraint
+and adding it will be successfull.
+
+\cbfigure{telos3}{12cm}{Telos Editor after the attempt to tell the integrity constraint}
+
+Figure \ref{fig:telos3} shows the Telos editor after the attempt to tell the
+above integrity constraint. The error message is shown in the error
+window. \\
+
+\vspace{0.7cm}
+{\it
+{\bf Exercise 3.8:} \\
+Define an integrity constraint stating that no employee
+is allowed to earn more money than any of her/his bosses. (The constraint
+should work on each individual salary, not on the sum). \\
+}
+
+In the subdirectory RULES+CONSTRAINTS of the example directory
+there is a more extensive example concerning deductive rules and
+integrity constraints. It should be used in addition to this section of the
+tutorial.
+
+
+\subsection{Defining Queries}
+
+In ConceptBase queries are represented as classes, whose instances
+are the answer objects to the query. The system-internal object
+"QueryClass" may have so-called {\em query classes} as instances, which
+contain necessary and sufficient membership conditions for their instances.
+
+\vspace{0.7cm}
+{\it
+{\bf Exercise 3.9:}\\
+Load the object "QueryClass" into the Telos Editor window.
+}
+
+The syntax of query classes is a class definition with superclasses,
+attributes, and a membership condition. The set of possible answers
+to a query is restricted to the set of common instances of all its
+superclasses.
+
+The following query computes all managers, which are bosses of an
+employee:
+
+\begin{verbatim}
+QueryClass AllBosses isA Manager with
+     constraint
+         all_bosse_srule:
+             $ exists e/Employee (e boss this) $
+end
+\end{verbatim}
+
+The predefined variable {\em this} in the constraint is identified
+with all solutions of the query class.
+
+Enter this query into the editor-window and press {\em Ask} (not {\em Tell}).
+The query will be evaluated by the server and after a few seconds
+the answer will appear both in the protocoll- and in the editor-window.
+If an error has occured and the query was typed correctly, load the
+Employee-frame and check if the frame contains the
+{\em BossRule}, defined in chapter 3.3.
+
+If the answer was correct we add the query class {\em AllBosses} to the
+database. The next query uses this query class to restrict the range of
+the answer set:
+
+\begin{verbatim}
+QueryClass BossesWithSalaries isA AllBosses with
+   retrieved_attribute
+         salary : Integer
+end
+\end{verbatim}
+
+Before this Query can be evaluated {\em AllBosses} must be told, because
+it is referenced in {\em BossesWithSalaries}.
+
+This query returns the instances of AllBosses together with their salaries.
+Attributes of the category {\em retrieved\_attribute} must be attributes of
+one of the superclasses of the query class. In this example {\em BossesWithSalaries}
+is a subclass of {\em AllBosses}, which is subclass of {\em Manager}, which is subclass of {\em Employee}.
+The {\em Employee} class contains
+the declaration of the attribute {\em salary}. So the retrieved\_attribute is permitted
+for {\em BossesWithSalaries}. \\
+
+\vspace{0.7cm}
+{\it
+{\bf Exercise 3.10:}\\
+Add the query class "BossesWithSalaries" to the database.\\
+}
+
+Query classes can also define {\em computed\_attributes}. These
+attributes are defined for the query class itself, but unlike as for retrieved attributes they do
+not occur in the definition of the superclasses of the query class.
+They are called {\em computed}, because their
+computation is done during evaluating the constraint at runtime.
+Computed\_attributes don't exist persistently in the database,
+that's why they don't get a persistent attribute label. Instead, the
+labels of the computed attributes of the answer objects are system-generated. 
+
+\cbfigure{telos4}{12cm}{Result of asking the query BossesWithSalaries}
+
+Figure \ref{fig:telos4} shows the Telos editor after asking
+the query BossesWithSalaries.  \\
+
+
+The following query class computes for every manager the department that
+he or she leads:
+
+\begin{verbatim}
+QueryClass BossesAndDepartments isA Manager with
+   computed_attribute
+      head_of : Department
+   constraint
+      head_of_rule:
+          $ (~head_of head this) $
+end
+\end{verbatim}
+
+\vspace{0.7cm}
+{\it
+{\bf Exercise 3.11:} \\
+Define a query class BossesAndEmployees, which is a subclass
+of Manager and will return all leaders of departments with their
+department and the employees who work there.
+} \\
+
+More information about query classes can be found in the User manual,
+chapter 2.3 and in the example directory QUERIES.
+
+
+
+\vspace{0.7cm}
+{\it
+{\bf Exercise 3.12:} \\
+Stop the ConceptBase server and the user interface.
+} \\
+
+
+
+
+
+This last step completes the tutorial. We hope that it provided a first
+impression on {\em ConceptBase} and {\em Telos}. Refer to the other examples,
+especially to RULES+CONSTRAINTS and QUERIES and of course
+to the user manual to learn more about the features of ConceptBase.
+There is also a more advanced tutorial available on metamodeling.
+
+Any comments and suggestions concerning this tutorial or ConceptBase
+are welcome. Contact us via 
+\url{http://conceptbase.cc}.
+
+
+
+\newpage
+\section{Solutions to the Exercises}
+
+\begin{itemize}
+
+\item 	[2.1]
+
+Enter in the same command window the following command:
+\begin{verbatim}
+cbserver -port 5544 -d TutDB
+\end{verbatim}
+
+You can also use the option {\tt -db} instead of {\tt -d}:
+
+\begin{verbatim}
+cbserver -port 5544 -db TutDB
+\end{verbatim}
+
+In this case, ConceptBase will maintain the Telos source representation
+of all objects in the database directory {\tt TutDB}. Your own definitions
+will go to the file {\tt System-oHome.sml}, because that is the default
+database module when you log into a ConceptBase server.
+
+\vspace{0.2cm}
+An {\em alternative} to starting the ConceptBase server from the command line is
+to start it from CBIva. To do so, start CBIva and the select the menu item
+{\em File / Start CBserver}. A window like in figure \ref{fig:telos6} will pop up and
+you need to change the following parameters:
+
+\begin{enumerate}
+\item The port number could be changed to 5544 but you can also leave it to 4001.
+\item Enter the path of the database TutDB; it is sufficient to replace the last two characters
+  {\tt db} by {\tt TutDB}. But remember the whole directory path.
+\item Change source mode to {\tt on}. This is equivalent to the {\tt -db} option above.
+\item Change update mode to {\tt persistent}.
+\end{enumerate}
+
+Then press "OK" to let CBIva start a ConceptBase server with the specified parameters
+and connect to it.
+
+
+\cbfigure{telos6}{6cm}{Start CBserver from CBIva}
+
+
+
+\vspace{0.4cm}
+\item	[2.2]
+
+Select "Connect" from the {\em File} menu.
+An interaction window appears, querying the {\em host name} and the
+{\em port number} of the server you want to connect to.
+Enter the name of the host the ConceptBase server was started on and the
+port number specified by the -p parameter, then select "Connect".
+If you started the ConceptBase server on the same computer as CBIva, then use
+'localhost' as hostname. 
+
+This step is obsolete, if you started the ConceptBase server from within CBIva. 
+
+\vspace{0.6cm}
+\item	[3.1]
+\begin{verbatim}
+Department in Class
+end
+\end{verbatim}
+
+
+\vspace{0.4cm}
+\item	[3.2]
+To load an object from the database into the editor-window,
+select the {\em frame} button with tooltip "Load an object from CBserver" of the button panel or the
+option {\em Load Object} from the
+{\em Edit} menu. You should have a similar view as
+displayed in figure \ref{fig:telos1}.
+
+\cbfigure{telos1}{12cm}{CBIva Telos Editor}
+
+\vspace{0.4cm}
+\item	[3.3]
+\begin{verbatim}
+Department in Class with
+     attribute
+            head: Manager
+end
+\end{verbatim}
+
+
+\vspace{0.4cm}
+\item	[3.4]
+\begin{verbatim}
+Lloyd in Manager end
+Phil in Manager end
+Eleonore in Manager end
+Albert in Manager end
+
+Production in Department with
+  head
+    head_of_Production : Lloyd
+end
+
+Administration in Department with
+  head
+    head_of_Administration : Eleonore
+end
+
+Marketing in Department with
+  head
+    head_of_Marketing : Phil
+end
+
+Research in Department with
+  head
+    head_of_Research : Albert
+end
+
+Lloyd in Manager with
+  salary
+      LloydsSalary : 100000
+end
+
+Phil in Manager with
+  salary
+      PhilsSalary : 120000
+end
+
+Eleonore in Manager with
+  salary
+    EleonoresSalary : 20000
+end
+
+Albert in Manager with
+  salary
+    AlbertsSalary : 110000
+end
+
+\end{verbatim}
+
+\vspace{0.4cm}
+\item [3.5]
+\begin{verbatim}
+Michael in Employee with
+  dept
+    MichaelsDepartment : Production
+  salary
+    MichaelsSalary : 30000
+end
+
+Maria in Employee with
+  dept
+    MariasDepartment : Administration
+  salary
+    MariasSalary : 10000
+end
+
+Herbert in Employee with
+  dept
+    HerbertsDepartment : Marketing
+  salary
+    HerbertsSalary : 60000
+end
+
+Edward in Employee with
+  dept
+    EdwardsDepartment : Research
+  salary
+    EdwardsSalary : 50000
+end
+
+\end{verbatim}
+
+
+\vspace{0.4cm}
+\item [3.6]
+
+Figure \ref{fig:telos2} shows the ConceptBase graph editor on object Employee.
+The attributes of Employee and its instances are expanded using the menu
+of the right mouse button clicked on Employee.
+
+\cbfigure{telos2}{9cm}{CB Graph Editor on object Employee}
+
+\vspace{0.4cm}
+\item [3.8]
+\begin{verbatim}
+Employee with
+constraint
+ 	salaryIC: $ forall e/Employee m/Manager x,y/Integer
+	(e boss m) and (e salary x) and (m salary y) ==> (x <= y) $
+end
+\end{verbatim}
+
+\vspace{0.4cm}
+\item [3.11]
+\begin{verbatim}
+QueryClass BossesAndEmployees isA Manager with
+computed_attribute
+    emps : Employee;
+    head_of : Department
+constraint
+    employee_rule:
+       $ (~head_of head this) and (~emps dept ~head_of) $
+end
+\end{verbatim}
+
+Figure \ref{fig:telos5} shows parts of the answer to the query
+BossesAndEmployees. 
+\cbfigure{telos5}{10cm}{Display of answers of BossesAndEmployees}
+
+
+\vspace{0.4cm}
+\item	[3.12]
+
+Select the option "Stop CBserver" from the "File" menu of CBIva.
+Afterwards, stop CBIva via the "Exit" option in the same menu.
+If you started the ConceptBase server with the -db option (or with
+source mode set to 'on'), then you find the sources of your definitions
+also in the directory TutDB, see file {\tt System-oHome.sml}. Open this file
+with a text editor such as WordPad.
+
+
+\end{itemize}
+
+\end{document}
+

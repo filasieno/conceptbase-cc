@@ -1,0 +1,68 @@
+#!/usr/bin/perl
+#
+# copied and adapted from utils/CB_AnalyzerDiff
+#
+# compares the method call times of two files log.1 and log.2
+# that have been created by analyzeLog from a CBserver log file,
+# in particular log files created by autotestCB.
+# If exe3cution times differ significantly, then this is reported.
+# If no error has occured, then the total sums of execution times of
+# log.1 are displayed,
+#
+# Example call: compareDiff log.1 log.2
+
+
+open(LOG1, "<$ARGV[0]");
+open(LOG2, "<$ARGV[1]");
+
+
+$n = 0;
+$sum1 = 0;
+$sum2 = 0;
+
+while(<LOG1>) {
+	$n++;
+	$error=0;
+	$z1 = $_ ;
+	$z2 = <LOG2> ;
+
+	if( $z1 =~ /([^\;]*);([^\;]*);([^\;]*);([^\;]*);([^\;]*)/ ) {
+		$m1 = $1;
+		$a1 = $2;
+		$s1 = $3;
+		$t1 = $4;
+		$z1 = $5;
+	}	
+	if( $z2 =~ /([^\;]*);([^\;]*);([^\;]*);([^\;]*);([^\;]*)/ ) {
+		$m2 = $1;
+		$a2 = $2;
+		$s2 = $3;
+		$t2 = $4;
+		$z2 = $5;
+	}	
+	if ( $m1 ne $m2 ) {
+		die "Error in method:",$m1,";",$m2," line:",$n,"\n";
+	}
+	if ( $a1 ne $a2 ) {
+		die "Error in argument:",$a1,";",$a2," line:",$n,"\n";
+	}
+	if ( $s1 ne $s2 ) {
+		die "Error in type:",$s1,";",$s2," line:",$n,"\n";
+	}
+	
+	if ( (abs($t2-$t1) > $t1*0.30) & (abs($t2-$t1) > 100.0 ) ) {
+		$str=sprintf "More than 30%% difference: %5.2f=%5.2f(new)-%5.2f(old);%s;%s;%s  line: %d-%d",$t1-$t2,$t1,$t2,$m1,$a1,$s1,$z1,$z2;
+		$str=~s/\n//g;
+		print $str,"\n";
+	}
+
+	$sum1 = $sum1 + $t1;
+	$sum2 = $sum2 + $t2;
+	
+}
+	
+printf "\nSummary\n";
+printf "Number of methods: %d\n",$n;
+printf "Total CPU time:               1:%6.2f     2:%6.2f\n",$sum1 ,$sum2;
+printf "Average CPU time per method:  1:%6.2f     2:%6.2f\n",$sum1/$n,$sum2/$n;
+

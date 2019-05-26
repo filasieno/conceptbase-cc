@@ -1,0 +1,143 @@
+#!/usr/bin/perl
+#
+# copied and adapted from utils/CB_OutputAnalyzer
+#
+# Example call: analyzeLog autotest.log ".*" > log.1
+# The 2nd parameter is a regular expression that specified which CBserver method calls
+# are evaluated. The expression ".*" shall match any method call. You can also restrict
+# it to certain methods like "ASK"
+# Output is in CSV format and can be imported to a spreadsheet program like LibreOffice Calc
+#
+# Analysiert ein Log-File von ConceptBase und gibt
+# die Zeiten fuer die Operationen in Excel-Format aus
+# Argumente: 
+#   1. Methoden die Ausgaben werden sollen (TELL,UNTELL,TELL_MODEL,...) (wildcards moeglich)
+#   2. Ausgabe von Teilzeiten (s.u.,z.B. temp,pers,garb,sem) (genauso angeben!)
+# Ausgabe
+#   Methode;Argument;Wofuer Zeit gebraucht wurde;Zeit in secs
+#
+
+
+
+# Datei oeffnen
+open(LOG, "<$ARGV[0]");
+
+# Gibt an ob aktuelle Methode ausgewertet werden soll
+$printit = 0;
+
+# Gibt an, ob storing/removing temp., semantic int. check,
+# persistently storing, und garbage collection zeiten ausgedruckt werden
+# sollen
+$printtemp = 0;
+$printsemint = 0;
+$printpers = 0;
+$printgarb = 0;
+$n = 0;
+
+# Liese die Argumente und setze die Variablen entsprechend
+for ($i=1; $i <= $#ARGV; $i++) {
+	if ( $ARGV[$i] eq "temp" ) { $printtemp=1; }
+	if ( $ARGV[$i] eq "sem" ) { $printsemint=1; }
+	if ( $ARGV[$i] eq "pers" ) { $printpers=1; }
+	if ( $ARGV[$i] eq "garb" ) { $printgarb=1; }
+}
+
+
+# Lese eine Zeile ein
+while(<LOG>) {
+
+	$n++;
+	
+	# Zeilen der Form: CALL method ON [ arg ...
+	if (/CALL ([A-Z_]+) ON \[([^\n]*)/) {
+		$method = $1;
+		$arg = $2;
+		# Semikolons ersetzen
+		$arg =~ s/\;/\:/g;
+		$printit = 0;
+		# Soll Methode ausgegeben werden?
+		for ($i=1; $i <= $#ARGV; $i++) {
+			if ($method =~ /$ARGV[$i]/) {
+				$printit = 1;
+			}	
+		}
+		# Bei Ask muss man den Namen der Query holen
+		if ( $method =~ /ASK/ ) {
+			if ( $arg =~ /FRAMES\,([A-Za-z ]*)QueryClass ([A-Za-z_]+)/ )  {
+				$arg = $2;
+			}
+			if ( $arg =~ /OBJNAMES\,([^\n]+)/ )  {
+				$arg = $1;
+			}
+			if ( $arg =~ /([^\n]+)\,FRAME\,Now\]/ )  {
+				$arg = $1;
+			}
+		}
+	}
+	
+	$sumtime = 0;
+	
+	# Stored temporarily ...
+	if (/stored temporarily \(([0-9]+) error\(s\)\, ([0-9]+\.[0-9]+) sec used/) {
+		if ($printit && $printtemp) { print $method,";",$arg,";storing temporarily;",$2,";",$n,"\n"; }
+	}
+
+	# Removed temporarily
+	if (/removed temporarily \(([0-9]+) error\(s\)\, ([0-9]+\.[0-9]+) sec used/) {
+		if ($printit && $printtemp) { print $method,";",$arg,";removing temporarily;",$2,";",$n,"\n"; }
+	}
+
+	# Semantic integrity Tell/Untell
+	if (/semantic integrity for ([A-Za-z]+) checked \(([0-9]+) error\(s\)\, ([0-9]+\.[0-9]+) sec used/) {
+		if ($printit && $printsemint) { print $method,";",$arg,";semantic integrity for $1;",$3,";",$n,"\n"; }
+	}
+	
+	# Semantic integrity Ask
+	if (/semantic integrity checked \(([0-9]+) error\(s\)\, ([0-9]+\.[0-9]+) sec used/) {
+		if ($printit && $printsemint) { print $method,";",$arg,";semantic integrity for Ask;",$2,";",$n,"\n"; }
+	}
+	
+	# Telling temporarily Ask
+	if (/([0-9]+\.[0-9]+) sec used for telling temporarily/) {
+		if ($printit && $printtemp) { print $method,";",$arg,";telling temporarily for Ask;",$1,";",$n,"\n"; }
+	}
+	
+	# Tell-Gesamtzeit
+	if (/([0-9]+\.[0-9]+) sec used for telling\n/) {
+		$sumtime = $1 ;
+		if ($printit) {
+			print $method,";",$arg,";ALL;",$sumtime,";",$n,"\n";
+		}
+	}	
+	
+	# Untell-Gesamtzeit
+	if (/([0-9]+\.[0-9]+) sec used for untelling/) {
+		$sumtime = $1 ;
+		if ($printit) {
+			print $method,";",$arg,";ALL;",$sumtime,";",$n,"\n";
+		}
+	}	
+	
+	# Persistently storing
+	if (/([0-9]+\.[0-9]+) sec used for persistently storing/) {
+		if ($printit && $printpers) { print $method,";",$arg,";persistently storing;",$1,";",$n,"\n"; }
+	}	
+	
+	# Gesamtzeit ASK
+	if (/([0-9]+\.[0-9]+) sec used to find the answer/) {
+		$sumtime = $1 ;
+		if ($printit) {
+			print $method,";",$arg,";ALL;",$sumtime,";",$n,"\n";
+		}
+	}	
+
+	# Garbage Collection
+	if (/[^\n]*Garbage Collection[^\n]*([0-9]+\.[0-9]+) s/) {
+   		if ( $printit && $printgarb ) {
+	   		print $method,";",$arg,";Garbage Collection;",$1,";",$n,"\n"; 
+	   	}
+	}
+		
+}
+
+

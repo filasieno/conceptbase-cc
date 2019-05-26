@@ -1,0 +1,50 @@
+\newif\ifimagen\imagentrue
+\documentclass[10pt,a4paper]{article}
+\usepackage[plainpages=false, pdfpagelabels, bookmarks, colorlinks=true,
+               linkcolor=blue, anchorcolor=blue, citecolor=blue, filecolor=blue,
+               menucolor=blue, pagecolor=blue, urlcolor=blue]{hyperref}\usepackage{graphicx}\usepackage{html}\usepackage{a4}\usepackage{a4wide}\usepackage{longtable}\usepackage{times}\newcommand{\longcom}[1]{}
+\newcommand{\cbfigure}[3]{%
+  \begin{figure}[hptb]
+  \ifpdf
+    \centerline{\includegraphics[width=#2]{#1.pdf}}
+  \else
+    \centerline{\includegraphics[width=#2]{#1.eps}}
+  \fi
+  \caption{#3}
+  \label{fig:#1}
+  \end{figure}
+}
+\newcommand{\urlprefix}{}
+\def\UrlFont{\small\tt}
+\def\Isa{\hbox{\it Isa}}
+\def\In{\hbox{\it In}}
+\def\ID{\hbox{\rm ID}}
+\newcommand{\exobox}[2]{%
+\vspace{0.7cm}
+\fbox{
+\begin{minipage}{14cm}{\it {\bf #1:} #2}
+\end{minipage}
+}
+\vspace{0.7cm}
+}
+\newenvironment{axiom}[1]{ \vspace{0.5cm} {\bf \noindent #1} \begin{quote} }{ \end{quote} }
+\newenvironment{example}{ \begin{quote} \it }
+{ \end{quote} }
+
+\pagestyle{empty}
+\thispagestyle{empty}
+\begin{document}
+\includegraphics[width=12cm]{./telos3.eps}
+\clearpage% page: 0
+\includegraphics[width=12cm]{./telos4.eps}
+\clearpage% page: 1
+\includegraphics[width=6cm]{./telos6.eps}
+\clearpage% page: 2
+\includegraphics[width=12cm]{./telos1.eps}
+\clearpage% page: 3
+\includegraphics[width=9cm]{./telos2.eps}
+\clearpage% page: 4
+\includegraphics[width=10cm]{./telos5.eps}
+\clearpage% page: 5
+%Options: 
+\end{document}

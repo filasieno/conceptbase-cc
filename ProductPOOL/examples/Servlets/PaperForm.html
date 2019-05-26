@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>Insert Paper</title></head>
+    
+<body>
+<h1>Insert Paper</h1>
+<form action=/servlet/cbforminsert method=POST>
+<input type=hidden name=classname value=Paper>
+<input type=hidden name=query value=AllPapers>
+
+<BR><BR>
+<table>
+<tr>
+<td>Title: <td><input type=text size=60 name=title>
+<tr>
+<td>Authors: <td><input type=text size=60 name=authors>
+<tr>
+<td>Conference/Journal: <td><input type=text size=60 name=conf>
+<tr>
+<td>Type of Publication:
+<td>
+Conference<input type=radio name=type value=Conference unchecked><br>
+Journal<input type=radio name=type value=Journal checked><br>
+Workshop<input type=radio name=type value=Workshop><br>
+Technical Report<input type=radio name=type value=TechReport><br>
+Book<input type=radio name=type value=Book><br>
+
+<tr><td>Abstract:
+<td><textarea name=abstract rows=10 cols=60></textarea>
+</table>
+
+<BR><BR><input type=submit value="Insert"><input type=reset>
+</form>
+<a href="/servlet/cbquery?query=AllPapers&format=FRAME"> Show all Papers </a>
+</body>
+</html>

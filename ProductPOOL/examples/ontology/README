@@ -1,0 +1,26 @@
+This directory contains a meta model for RDFS and OWL ontologies.
+Use the java class i5.cb.ontology.OntologyTransformer
+to transform an existing ontology to a set of Telos
+files. These files can then be told to a ConceptBase server,
+if the meta model has been loaded before.
+
+01_rdfs.sml
+    Contains the basic definitions for objects from the RDFS
+    model.
+
+02_rdfs-rules.sml
+    Some rules and constraints to simplify the handling of RDF_List
+
+03_owl.sml
+    The definitions for concepts of the OWL model.
+
+04_owl-gts.sml
+    Graphical Types for the OWL model, to enable a nice
+    browsing and editing of OWL ontologies in the CB GraphEditor
+
+05_owl-queries.sml
+    Some queries for ontologies, used by the special ontology
+    components in the GraphEditor
+
+
+    

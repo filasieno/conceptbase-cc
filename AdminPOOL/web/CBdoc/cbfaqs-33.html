@@ -1,0 +1,302 @@
+<title>Frequently asked questions on ConceptBase V3.3</title>
+<h1>Frequently asked questions on ConceptBase V3.3</h1>
+
+The following list gives answers to some of the most frequent questions on the usage of
+ConceptBase. It refers to versions 3.2.4 and 3.3 of ConceptBase released 26-Apr-1994.
+
+<p><hr>
+<DL>
+  <DT> <b>Question 1:</b>
+     <DD> How can objects in ConceptBase be made persistent?
+  <DT> <b>Answer:</b>
+     <DD> The default mode for the ConceptBase server is <em>persistent</em>,
+i.e., all updates are made persistent as soon they are accepted by the server.
+They will be stored in the directory that is specified by the parameter -d of the command CBserver. 
+</DL>
+
+<p><hr>
+<DL>
+  <DT> <b>Question 2:</b>
+     <DD>How can I develop my own application with ConceptBase?
+  <DT> <b>Answer:</b>
+     <DD>The distribution contains a file CBinterface.h which contains the C procedures to communicate
+to a ConceptBase server. A programmer's manual is available upon request. Interfaces to other languages
+like C++, Prolog, and Perl have been developed but are not supported by us. In general, we do
+not recommend to write applications without explicit support by us.
+</DL>
+
+<p><hr>
+<DL>
+  <DT> <b>Question 3:</b>
+     <DD>How should I procede when modeling with Telos?
+  <DT> <b>Answer:</b>
+     <DD>We cannot provide a method for developing Telos models. However,
+in most of our projects we take the following steps:
+<ul>
+<li> Define a small number of Telos metaclasses that restrict the Telos language to
+your application domain
+<li> Define your schema with these metaclasses
+<li> Define the instances
+</ul>
+</DL>
+
+<p><hr>
+<DL>
+  <DT> <b>Question 4:</b>
+     <DD>How can I delete attributes? Erasing them in a TelosEditor and telling the new
+frame to the CBserver won't work!
+  <DT> <b>Answer:</b>
+     <DD>Correct! You have to use UNTELL. Erase in the TelosEditor any information
+that shall not be deleted. Then activate UNTELL. The CBserver will then try to
+delete everything that remained in the editor. 
+</DL>
+
+<p><hr>
+<DL>
+  <DT> <b>Question 5:</b>
+     <DD>How can I rename an object?
+  <DT> <b>Answer:</b>
+     <DD>No good support for this operation. Currently, you have to UNTELL the old
+object and then tell the renamed one. Unfortunately, this will probably leed to
+inconsistencies because other objects may reference the deleted one.
+There is a workaround: Use the STORE FRAMES operation of the ConceptBase
+toolbar to store all objects as Telos frames in a file. Then, perform your renaming 
+offline with a usual text editor. Then start the CBserver with a new database and load
+the updated file by ADD MODELS.
+</DL>
+
+<p><hr>
+<DL>
+  <DT> <b>Question 6:</b>
+     <DD>I have an object base written with ConceptBase 3.2. Can I load it
+         with ConceptBase 3.3?
+  <DT> <b>Answer:</b>
+     <DD>Yes, the simplest solution is to create a new (empty) object base with
+         ConceptBase 3.3 and copy the file OB.builtin of this object base
+         into the directory holding the old object base. Use the same procedure
+         when upgrading from 3.2 to 3.2.4.
+</DL>
+
+<p><hr>
+<DL>
+  <DT> <b>Question 7:</b>
+     <DD> Can attribute categories be subclasses of classes?
+  <DT> <b>Answer:</b>
+     <DD>Yes, they can! Assume we have a class <tt>AllThing</tt> and a class <tt>ActivityClass</tt> which
+         has an attribute named <tt>INPUT</tt> pointing to a class <tt>EntityClass</tt>:
+<PRE>
+   Individual ActivityClass isA AllThing with
+     attribute
+        INPUT: EntityClass
+   end
+</PRE>
+
+Then, the frame
+<PRE>
+   Attribute ActivityClass!INPUT isA AllThing
+   end
+</PRE>
+states that this attribute is a subclass of <tt>AllThing</tt>. Consequently, each instance
+of the <tt>INPUT</tt> attribute will also an instance of <tt>AllThing</tt>. O-Telos requires that the
+specialization is strict (axiom 16), i.e., both <tt>ActivityClass</tt> and <tt>EntityClass</tt> must be
+specializations of <tt>AllThing</tt>.
+</DL>
+
+<p><hr>
+<DL>
+  <DT> <b>Question 8:</b>
+     <DD> Does ConceptBase support modules in its object base?
+  <DT> <b>Answer:</b>
+     <DD>In principle: no! You can however define your own brand of a module! For example, let's
+     assume that you want to have modules that prevent any reference across module boundaries
+     if the referenced object is not imported, then here you go:
+<PRE>
+   Class MODULE with
+     attribute
+       imports: Proposition
+     constraint
+       onlyImported: $ forall M/MODULE x,y/Proposition
+                       (x in M) and (x attribute y) ==>
+                       (y in M) or (M imports y) $
+    end
+</PRE>
+     Then you may write down modules as follows:
+<PRE>
+   MODULE M1 end
+
+   Vega in M1 end
+   Sammy in M1 end
+
+   MODULE ABC with
+     imports
+       o1: Vega;
+       o2: Sammy
+   end
+
+   Individual Charles in ABC with
+     attribute
+       rel: Sammy
+   end 
+</PRE>
+   The only drawback is that the constraint won't be compiled by release 3.3 (or earlier)
+   of ConceptBase because it quantifies over the class M.
+   The next release 4.0 will include this feature! Nevertheless, you can work
+   with such modules if you leave out such constraints.
+ 
+</DL>
+
+<p><hr>
+<DL>
+  <DT> <b>Question 9:</b>
+     <DD>Will there be a version for DOS or Windows?
+  <DT> <b>Answer:</b>
+     <DD>There is no principle obstacle in generating an executable
+         for PC's. However, we have no plans to port the system
+         to operating systems different from Solaris. That may change
+         if customers increasingly demand such versions.
+</DL>
+
+<p><hr>
+<DL>
+  <DT> <b>Question 10:</b>
+     <DD>Why does membership to meta classes not inherit to subclasses?
+  <DT> <b>Answer:</b>
+     <DD>The general situation is as follows: we have classes C,D, and MC:
+<PRE>
+   (C in MC)
+   (D isa C)
+</PRE>
+Some ConceptBase users argue that there should be a builtin axiom which makes
+D an instance of MC, i.e. (D in MC). This would be dual to the class membership 
+inheritance axiom of O-Telos:
+<PRE>
+   (D isa C)
+   (x in D)
+   ==>
+   (x in C)
+</PRE>
+However, we decided not to add a new axiom. The reason is that D would have to obey
+all integrity constraints of MC. For example:
+<PRE>
+   Class NonEmpty in MetaClass with
+     constraint
+        ic1: $ forall C/NonEmpty exists x/Proposition (x in C) $
+   end
+
+   Class LabourPartyMember in NonEmpty 
+   end
+
+   Class CapitalistFraction isA LabourPartyMember
+   end
+</PRE>
+With the additional axiom, the subclass CapitalistFraction would have to obey
+the constraint on NonEmpty, i.e., it would have to have at least one instance.
+However, we think that we should not enforce that by an automatic axiom.
+As soon as the meta formula compiler is available, ConceptBase users can add
+the axiom themselves (if they wish), or declare the subclass as instance of
+the metaclass explicitly, e.g.:
+<PRE>
+   Class CapitalistFraction in NonEmpty isA LabourPartyMember
+   end
+</PRE>
+(Note: the above constraint ic1 does not work with release 3.3 or earlier.)
+</DL>
+
+<p><hr>
+<DL>
+  <DT> <b>Question 11:</b>
+     <DD>ConceptBase complains about a violation of attribute typing though
+         all objects have the right classes (some derived by rules). Is
+         that a consistent behavior?
+  <DT> <b>Answer:</b>
+     <DD>ConceptBase is rather conservative in attribute typing. You must
+         explicitly tell ConceptBase about the class of an attribute value
+         to ensure correct typing. Consider the following example:
+<PRE>
+   Class Employee with
+     attribute
+       name: String;
+       salary: Integer
+   end
+
+   Class Manager with
+     rule
+      r1: $ forall e/Employee s/Integer
+              (e salary s) and (s > 1000) ==> (e in Manager) $
+   end
+
+   Class Department with
+     attribute
+       head: Manager
+   end
+</PRE>
+Now assume that instances of Employee and Department are inserted:
+<PRE>
+   Mary in Employee with
+     salary
+       hersalary: 1001
+   end
+
+   Marketing in Department with
+      head
+       sheboss: Mary
+   end
+</PRE>
+The attribute typing axiom of Telos demands the attribute value of 'sheboss'
+to be an instance of the class defined in the attribute category 'head' of
+Department, i.e., Mary must be an instance of Manager. According to the rule
+'r1' this is fulfilled. Nevertheless, ConceptBase rejects the update. The reason
+is that class memberships derived by user-defined rules is not taken into
+account in the current implementation of the attribute typing axiom. You must
+explicitely tell ConceptBase that Mary is an instance of Manager (or a subclass
+of Manager). In our example, the rule can be represented as a constraint:
+
+<PRE>
+   Class Employee with
+     attribute
+       name: String;
+       salary: Integer
+   end
+
+   Class Manager isA Employee with
+     constraint
+      c1: $ forall e/Manager s/Integer
+              (e salary s) ==> (s > 1000) $
+   end
+
+   Class Department with
+     attribute
+       head: Manager
+   end
+</PRE>
+
+Then the instance Mary would be written as:
+<PRE>
+   Mary in Manager with
+     salary
+       hersalary: 1001
+   end
+</PRE>
+
+
+</DL>
+
+<p><hr>
+<DL>
+  <DT> <b>Question 12:</b>
+     <DD> Text displayed in the Graphbrowser is ugly. What's wrong ?
+  <DT> <b>Answer:</b>
+     <DD>The graphbrowser tool needs special Andrew-Toolkit fonts to
+	 operate correctly. These fonts must be accessible through 
+         the X11-fontpath. To ensure this, extend the fontpath with
+         the following command: 
+<PRE>
+xset fp+ $CB_HOME/lib/andrew6.3/X11fonts
+</PRE>
+
+</DL>
+
+
+<hr><p><address>
+<a HREF="http://www-i5.informatik.rwth-aachen.de/mjf/mjf.html">M. Jeusfeld</a>, 29-Feb-1996
+</address>

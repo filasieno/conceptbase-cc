@@ -1,0 +1,7 @@
+This example shows, how to use graphical types
+of the ConceptBase GraphBrowser. You must either 
+start CBinterface in this directory or move
+the bitmaps to $(CB_HOME)/lib/bitmaps or $(HOME)/bitmaps.
+
+
+

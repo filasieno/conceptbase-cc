@@ -1,0 +1,76 @@
+cp ../cbTutorial.tex .
+cp ../*.eps .
+hevea -fix cbTutorial.tex
+
+hacha cbTutorial.html
+
+/bin/rm -rf cbTutorial
+
+mkdir cbTutorial
+
+
+mv cbTutorial?*.html cbTutorial
+mv cbTutorial.h* cbTutorial
+cp cb-style.css cbTutorial/cbTutorial.css
+mv *.gif cbTutorial
+cp ../telos3.png cbTutorial/cbTutorial001.png
+cp ../telos4.png cbTutorial/cbTutorial002.png
+cp ../telos1.png cbTutorial/cbTutorial004.png
+cp ../telos2.png cbTutorial/cbTutorial005.png
+cp ../telos5.png cbTutorial/cbTutorial006.png
+cp ../telos6.png cbTutorial/cbTutorial003.png
+mv index.html cbTutorial
+
+
+
+
+cp ../cbTutorial2.tex .
+cp ../*.eps .
+hevea -fix cbTutorial2.tex
+hevea -fix cbTutorial2.tex
+
+hacha cbTutorial2.html
+
+/bin/rm -rf cbTutorial2
+
+mkdir cbTutorial2
+
+
+mv cbTutorial2?*.html cbTutorial2
+mv cbTutorial2.h* cbTutorial2
+cp cb-style.css cbTutorial2/cbTutorial2.css
+mv *.gif cbTutorial2
+
+cp ../cbiva1.png cbTutorial2/cbTutorial2001.png
+#cp ../cbiva2.png cbTutorial2/cbTutorial2002.png
+cp ../cbiva3.png cbTutorial2/cbTutorial2002.png
+cp ../cbiva4.png cbTutorial2/cbTutorial2003.png
+cp ../cbiva5.png cbTutorial2/cbTutorial2004.png
+cp ../cbiva6.png cbTutorial2/cbTutorial2005.png
+mv index.html cbTutorial2
+
+
+
+cp ../cbTutorial3.tex .
+cp ../*.eps .
+hevea -fix cbTutorial3.tex
+hevea -fix cbTutorial3.tex
+
+hacha cbTutorial3.html
+
+/bin/rm -rf cbTutorial3
+
+mkdir cbTutorial3
+
+
+mv cbTutorial3?*.html cbTutorial3
+mv cbTutorial3.h* cbTutorial3
+cp cb-style.css cbTutorial3/cbTutorial3.css
+mv *.gif cbTutorial3
+
+cp ../export1.png cbTutorial3/cbTutorial3001.png
+
+mv index.html cbTutorial3
+
+
+

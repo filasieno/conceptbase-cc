@@ -1,0 +1,10 @@
+#!/bin/sh
+# This script recompiles the plcb binary (=version of SWI-Prolog linked with CB extensions)
+# The scripts CBvariant and CB_Make must be in the search path
+
+CB_VARIANT=`CBvariant`
+
+touch $CB_WORK/serverSources/swiInteractive.c
+cd $CB_WORK/$CB_VARIANT/serverSources
+CB_Make objects.SWI/plcb
+

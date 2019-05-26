@@ -1,0 +1,158 @@
+# Test attribute expansion queries
+# Call like
+#    cbshell ticket347.cbs
+
+
+
+
+startServer -u nonpersistent -t low -port 4002 
+
+
+tell "
+Proposition with  
+  attribute
+    reflexive : Proposition;
+    transitive : Proposition;
+    symmetric : Proposition;
+    antisymmetric : Proposition;
+    asymmetric : Proposition
+end 
+
+RelationSemantics in Class with  
+  constraint
+    asym_IC : $ forall AC/Proposition!asymmetric C/Proposition x,y/VAR M/VAR
+                     P(AC,C,M,C) and (x in C) and (y in C) and
+                     (x M y)  ==> not (y M x) $;
+    antis_IC : $ forall AC/Proposition!antisymmetric C/Proposition x,y/VAR M/VAR
+                     P(AC,C,M,C) and (x in C) and (y in C) and
+                     (x M y) and (y M x)  ==> (x = y) $
+  rule
+    trans_R : $ forall x,z,y,M/VAR 
+                     AC/Proposition!transitive C/Proposition
+                     P(AC,C,M,C) and (x in C) and (y in C) and (z in C) and
+                     (x M y) and (y M z) ==> (x M z) $;
+    refl_R : $ forall x,M/VAR 
+                    AC/Proposition!reflexive C/Proposition
+                    P(AC,C,M,C) and (x in C)
+                      ==> (x M x) $;
+    symm_R : $ forall x,y,M/VAR 
+                    AC/Proposition!symmetric C/Proposition
+                    P(AC,C,M,C) and (x in C) and (y in C) and
+                    (x M y)  ==> (y M x) $
+end 
+
+"
+result OK yes
+
+# Person has two different attributes, knows and hasAncestor
+tell "
+
+Person in Class with  
+  symmetric,reflexive,transitive
+    knows : Person
+  asymmetric,transitive
+    hasAncestor : Person
+end 
+"
+result OK yes
+
+# explicit knows link from john to bill
+# explicit ancestor link from bill to john
+# (bill knows john) should be a derived attribute
+tell "
+john in Person with  
+  knows
+    p1 : bill
+end 
+
+bill in Person with  
+  hasAncestor
+    p1 : john
+end 
+
+"
+result OK yes
+
+
+# this query is used by GraphEditor to display all 'knows' attributes of bill including the derived ones
+# wrongly uses Attribute as category in the CBGraphEditorResult format
+ask find_attribute_values[bill/objname,Person!knows/cat] OBJNAMES CBGraphEditorResult[DefaultJavaPalette/pal,bill/obj,Attribute/cat,src/objtype]
+result OK "<result>
+  <object>
+    <name>bill</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+    <edges>
+    </edges>
+  </object>
+
+
+  <object>
+    <name>john</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+    <edges>
+      <object>
+        <name>bill!p1</name>
+    <graphtype>DefaultAttributeGT</graphtype>
+      </object>
+    </edges>
+  </object>
+
+</result>
+"
+
+
+# this should be the right query
+ask find_attribute_values[bill/objname,Person!knows/cat] OBJNAMES CBGraphEditorResult[DefaultJavaPalette/pal,bill/obj,Person!knows/cat,src/objtype]
+result OK "<result>
+  <object>
+    <name>bill</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+    <edges>
+    </edges>
+  </object>
+
+
+  <object>
+    <name>john</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+    <edges>
+    </edges>
+  </object>
+
+</result>
+"
+
+
+# same query from the view of john
+ask find_attribute_values[john/objname,Person!knows/cat] OBJNAMES CBGraphEditorResult[DefaultJavaPalette/pal,john/obj,Person!knows/cat,src/objtype]
+result OK "<re sult>
+  <object>
+    <name>bill</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+    <edges>
+      <object>
+        <name>john!p1</name>
+    <graphtype>DefaultAttributeGT</graphtype>
+      </object>
+    </edges>
+  </object>
+
+
+  <object>
+    <name>john</name>
+    <graphtype>DefaultIndividualGT</graphtype>
+    <edges>
+    </edges>
+  </object>
+
+</result>
+"
+
+
+
+
+
+
+
+
+

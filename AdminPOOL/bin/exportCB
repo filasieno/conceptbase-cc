@@ -1,0 +1,11 @@
+#!/bin/sh
+# copy the platform binaries to Dropbox folder; this script is designed
+# for the make environment used by Manfred Jeusfeld
+
+CB_VARIANT=`CBvariant`
+cp -rf $HOME/CBPOOL/conceptbase/$CB_VARIANT $HOME/Dropbox/CB-PLATFORMS
+
+if [ -d $SWI_HOME/lib/swipl-6.6.6/lib/`arch`-linux/ ]; then
+	echo Copying libswipl.so 
+	cp $SWI_HOME/lib/swipl-6.6.6/lib/`arch`-linux/libswipl.so.* $HOME/Dropbox/CB-PLATFORMS/$CB_VARIANT/lib
+fi

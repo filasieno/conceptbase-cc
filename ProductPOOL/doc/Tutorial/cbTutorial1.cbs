@@ -1,0 +1,226 @@
+#
+# File: cbTutorial1.cbs
+# Author: Manfred Jeusfeld; using cbTutorial.pdf
+# Creation: 27-Sep-2012 (27-Sep-2012)
+# -----------------------------------
+# Solution to the exercises of the cbTutorial2.pdf
+# You are advised to perform the exercises via the graphical
+# user interface CBIva. This script is just for validating that the
+# master solution actually works.
+#
+# (c) 2012 by M. Jeusfeld. 
+# This script is licensed under the terms of Attribution-Non-Commercial 2.0 Germany 
+#   http://creativecommons.org/licenses/by-nc/2.0/de/legalcode  (German)
+#   http://creativecommons.org/licenses/by-nc/2.0/legalcode     (generic)
+# A summary of your rights and obligations concerning this work is available from
+#   http://creativecommons.org/licenses/by-nc/2.0/de/deed.en_GB
+# Extended rights can be obtained via the author.
+#
+# Requires ConceptBase 7.1.x released January-2009 or later
+#
+# Execute this script in a command/shell window by:
+#   cbshell cbTutorial1.cbs
+#
+# You can also call
+#   cbshell
+# and the enter the subsequent commands manually.
+#
+
+
+startServer -port 5544 -db TutDB
+
+
+tell "
+Employee in Class
+end
+"
+
+tell "
+Manager in Class isA Employee
+end
+"
+
+# exercise 3.1
+tell "
+Department in Class
+end
+"
+
+
+
+tell "
+Employee in Class with
+attribute
+        name: String;
+        salary: Integer;
+        dept: Department;
+        boss: Manager
+end
+"
+
+# exercise 3.3
+tell "
+Department in Class with
+     attribute
+            head: Manager
+end
+"
+
+# exercise 3.4
+tell "
+Lloyd in Manager end
+Phil in Manager end
+Eleonore in Manager end
+Albert in Manager end
+
+Production in Department with
+  head
+    head_of_Production : Lloyd
+end
+
+Administration in Department with
+  head
+    head_of_Administration : Eleonore
+end
+
+Marketing in Department with
+  head
+    head_of_Marketing : Phil
+end
+
+Research in Department with
+  head
+    head_of_Research : Albert
+end
+
+Lloyd in Manager with
+  salary
+      LloydsSalary : 100000
+end
+
+Phil in Manager with
+  salary
+      PhilsSalary : 120000
+end
+
+Eleonore in Manager with
+  salary
+    EleonoresSalary : 20000
+end
+
+Albert in Manager with
+  salary
+    AlbertsSalary : 110000
+end
+"
+
+# exercise 3.5
+tell "
+Michael in Employee with
+  dept
+    MichaelsDepartment : Production
+  salary
+    MichaelsSalary : 30000
+end
+
+Maria in Employee with
+  dept
+    MariasDepartment : Administration
+  salary
+    MariasSalary : 10000
+end
+
+Herbert in Employee with
+  dept
+    HerbertsDepartment : Marketing
+  salary
+    HerbertsSalary : 60000
+end
+
+Edward in Employee with
+  dept
+    EdwardsDepartment : Research
+  salary
+    EdwardsSalary : 50000
+end
+"
+
+# exercise 3.7
+tell "
+Employee with
+   rule
+      BossRule : $ forall e/Employee m/Manager
+                   (exists d/Department
+                     (e dept d) and (d head m))
+                   ==> (e boss m) $
+end
+"
+
+tell "
+Manager with
+   constraint
+      earnEnough: $ forall m/Manager x/Integer
+                        (m salary x) ==> (x >= 50000) $
+end
+"
+
+
+# exercise 3.8
+tell "
+Employee with
+constraint
+  salaryIC: $ forall e/Employee m/Manager x,y/Integer
+ (e boss m) and (e salary x) and (m salary y) ==> (x <= y) $
+end
+"
+
+
+tell "
+QueryClass AllBosses isA Manager with
+     constraint
+         all_bosse_srule:
+             $ exists e/Employee (e boss this) $
+end
+
+QueryClass BossesWithSalaries isA AllBosses with
+   retrieved_attribute
+         salary : Integer
+end
+"
+
+# exercise 3.10
+ask "BossesWithSalaries" OBJNAMES  FRAME  Now
+
+
+
+tell "
+QueryClass BossesAndDepartments isA Manager with
+   computed_attribute
+      head_of : Department
+   constraint
+      head_of_rule:
+          $ (~head_of head this) $
+end
+"
+
+# exercise 3.11
+tell "
+QueryClass BossesAndEmployees isA Manager with
+computed_attribute
+    emps : Employee;
+    head_of : Department
+constraint
+    employee_rule:
+       $ (~head_of head this) and (~emps dept ~head_of) $
+end
+"
+
+ask "BossesAndEmployees" OBJNAMES  FRAME  Now
+
+
+
+stopServer
+
+
+# that's all
+

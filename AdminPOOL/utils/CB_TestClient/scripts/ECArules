@@ -1,0 +1,105 @@
+tell_model(['/home/CBase/CB_NewStruct/ProductPOOL/src/examples/ECArules/Counter']).
+answer(ok,yes).
+{*******************************************************}
+tell_model(['/home/CBase/CB_NewStruct/ProductPOOL/src/examples/ECArules/MatViews']).
+answer(ok,yes).
+{*******************************************************}
+tell_model(['/home/CBase/CB_NewStruct/ProductPOOL/src/examples/ECArules/TimeStamp']).
+answer(ok,yes).
+{*******************************************************}
+tell('John in Employee end\n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'find_instances[EmployeeCounter / class]',LABEL,Now).
+answer(ok,'1').
+{*******************************************************}
+tell('John2 in Employee end\n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'find_instances[EmployeeCounter / class]',LABEL,Now).
+answer(ok,'2').
+{*******************************************************}
+ask(OBJNAMES,'get_object[John2/objname]',FRAME,Now).
+answer(ok,'Individual John2 in Employee \nend \n').
+{*******************************************************}
+untell('Individual John2 in Employee \nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'find_instances[EmployeeCounter / class]',LABEL,Now).
+answer(ok,'1').
+{*******************************************************}
+tell('Employee Max  with salary hs : 120000 end\n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'find_instances[QueryClass / class]',LABEL,Now).
+answer(ok,_).
+{*******************************************************}
+ask(OBJNAMES,'get_object[EmployeeWithHighSalary/objname]',FRAME,Now).
+answer(ok,'Individual EmployeeWithHighSalary in View isA Employee with \n  attribute,constraint\n     c : $ exists i/Integer (this salary i) and (i > 100000) $\nend \n').
+{*******************************************************}
+ask(OBJNAMES,EmployeeWithHighSalary,FRAME,Now).
+answer(ok,'Max in EmployeeWithHighSalary \nend \n').
+{*******************************************************}
+ask(OBJNAMES,'find_instances[EmployeeWithHighSalary / class]',LABEL,Now).
+answer(ok,Max).
+{*******************************************************}
+ask(OBJNAMES,'find_instances[EmployeeWithHighSalary_Materialized / class]',LABEL,Now).
+answer(ok,Max).
+{*******************************************************}
+tell('John with salary js : 45000 end\n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'find_instances[EmployeeWithHighSalary / class]',LABEL,Now).
+answer(ok,Max).
+{*******************************************************}
+ask(OBJNAMES,'find_instances[EmployeeWithHighSalary_Materialized / class]',LABEL,Now).
+answer(ok,Max).
+{*******************************************************}
+ask(OBJNAMES,'get_object[John/objname]',FRAME,Now).
+answer(ok,_).
+{*******************************************************}
+tell('John with salary js2 : 123000 end\n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'find_instances[EmployeeWithHighSalary / class]',LABEL,Now).
+answer(ok,'John,Max').
+{*******************************************************}
+ask(OBJNAMES,'find_instances[EmployeeWithHighSalary_Materialized / class]',LABEL,Now).
+answer(ok,'John,Max').
+{*******************************************************}
+ask(OBJNAMES,'get_object[John/objname]',FRAME,Now).
+answer(ok,_).
+{*******************************************************}
+ask(OBJNAMES,'get_object[Max/objname]',FRAME,Now).
+answer(ok,_).
+{*******************************************************}
+tell('Class NoInstance end \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('ECArule NoInstanceRule with\necarule\n\ter : $ x/Proposition\n\tON Tell(In(x,NoInstance))\n\tIF true\n\tDO reject\n\t$\nrejectMsg\n\trmsg : "No instances are allowed to class NoInstance!"\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('bla in NoInstance end\n\n').
+answer(error,no).
+{*******************************************************}
+ask(OBJNAMES,'find_instances[ECArule / class]',LABEL,Now).
+answer(ok,'EmployeeCounterRule,EmployeeCounterRule_del,EmployeeWithHighSalary_Materialized_Ins,EmployeeWithHighSalary_Materialized_Del,EmployeeWithHighSalary_Materialized_Ins_salary,EmployeeWithHighSalary_Materialized_Del_salary,LastModified_Employee_salary,NoInstanceRule').
+{*******************************************************}
+ask(OBJNAMES,'get_object[NoInstanceRule/objname]',FRAME,Now).
+answer(ok,'Individual NoInstanceRule in ECArule with \n  attribute,ecarule\n     er : $ x/Proposition\n\tON Tell(In(x,NoInstance))\n\tIF true\n\tDO reject\n\t$\n  attribute,rejectMsg\n     rmsg : "No instances are allowed to class NoInstance!"\nend \n').
+{*******************************************************}
+tell('NoInstanceRule  with \n  attribute,active\n     ecaacctive : FALSE\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('bla in NoInstance end \n\n').
+answer(ok,yes).
+{*******************************************************}
+ask(OBJNAMES,'get_object[bla/objname]',FRAME,Now).
+answer(ok,'Individual bla in NoInstance \nend \n').
+{*******************************************************}
+untell('NoInstanceRule  with \n  attribute,active\n     ecaacctive : FALSE\nend \n\n').
+answer(ok,yes).
+{*******************************************************}
+tell('bla2 in NoInstance end \n\n').
+answer(error,no).
+{*******************************************************}

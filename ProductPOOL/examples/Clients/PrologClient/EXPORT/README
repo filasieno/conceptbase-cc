@@ -1,0 +1,21 @@
+\begindata{text,1133192}
+\textdsversion{12}
+\template{default}
+\define{dashdescription
+}
+This directory contains the ExampleIpcClient for BimProlog.
+
+You need a Prolog by Bim license to run the program.
+
+
+
+The program ExampleIpcClient shows how independent UNIX processes may
+
+access a ConceptBase server. See ConceptBase User Manual for more
+
+details.
+
+
+Usage: goExClient
+
+\enddata{text,1133192}

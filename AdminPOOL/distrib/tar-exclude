@@ -1,0 +1,6 @@
+bin/CBserver-i
+doc/ProgManual
+doc/UserManual/html
+doc/Tutorial/html
+lib/system/reginfo.txt
+lib/system/x11/reginfo.txt

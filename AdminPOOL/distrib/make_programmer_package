@@ -1,0 +1,14 @@
+#!/bin/sh
+
+CB_PRODUCT=/home/cbase/CB_NewStruct/CB_Product
+distdir=/home/cbase/CB_NewStruct/CB_Admin/distrib
+
+cd $CB_PRODUCT
+
+	rm -f $distdir/prog_pack.tar*
+	echo Packing $distdir/prog_pack
+	tar -cvf /tmp/prog_pack.tar doc/ProgManual/ProgManual.p* java/docs 
+	echo Zipping /tmp/prog_pack.tar
+	gzip /tmp/prog_pack.tar
+	mv /tmp/prog_pack.tar.gz $distdir
+

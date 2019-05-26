@@ -1,0 +1,32 @@
+#!/bin/csh
+#
+#
+# File:         $Source: /home/cbase/CVS/AdminPOOL/bin/pdflatex_fix,v $
+# Version:      $Revision: 12.3 $
+# Creation:     06-Dec-1995, Christoph Quix (RWTH)
+# Last Change:  $Date: 2010/09/13 08:09:39 $, Christoph Quix (RWTH)
+# Date released : $Date: 2010/09/13 08:09:39 $  (YY/MM/DD)
+#
+# SCCS-Source-Pool : $Source: /home/cbase/CVS/AdminPOOL/bin/pdflatex_fix,v $
+# Date retrieved : %D% (YY/MM/DD)
+#
+# Runs pdflatex as often as needed to get the crossreferences and index right
+# arg1 is the full filename of the TeX-File
+# arg2 is only the basename of the TeX-file (i.e. without extension and path)
+#
+
+setenv NEED_RERUN 1
+
+while ( "$NEED_RERUN" == "1" )
+   if ( "$CB_LOCATION" == "Aachen" ) then
+	/opt/sfw/teTeX/bin/sparc-sun-solaris2.10/pdflatex $1
+   else
+       pdflatex $1
+   endif
+	set RET = $status
+	setenv NEED_RERUN `fgrep -c -e "Rerun to get" $2.log`
+end
+
+unsetenv NEED_RERUN
+
+exit $RET

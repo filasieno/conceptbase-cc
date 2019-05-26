@@ -1,0 +1,73 @@
+startServer -d BuiltinQueries -c transient -U verbatim 
+tell "has_attribute in BuiltinQueryClass with
+parameter
+          attrtype : Proposition;
+          attrname : Proposition;
+          objname : Proposition
+end"
+result OK yes
+tell "Class Employee with
+attribute
+   salary : Integer;
+   boss : Manager;
+   dept : Department
+end
+
+Class Manager isA Employee end
+Class Department end"
+result OK yes
+ask "has_attribute[Integer/attrtype,salary/attrname,Manager/objname]" OBJNAMES FRAME Now
+result OK yes
+ask "has_attribute[Real/attrtype,salary/attrname,Manager/objname]" OBJNAMES FRAME Now
+result OK no
+ask "has_attribute[salary/attrname,Manager/objname]" OBJNAMES FRAME Now
+result OK Integer
+tell "John in Employee with
+salary js : 12345
+end"
+result OK yes
+ask "get_object[John/objname]" OBJNAMES FRAME Now
+result OK "Individual John in Employee with
+  attribute,salary
+     js : 12345
+end"
+tell "23456 in Integer end"
+result OK yes
+ask "changeAttributeValue[John!js/attribute,23456/newvalue]" OBJNAMES FRAME Now
+result OK yes
+ask "get_object[John/objname]" OBJNAMES FRAME Now
+result OK "Individual John in Employee with
+  attribute,salary
+     js : 23456
+end"
+ask "rename[Johnny/newname,John/oldname]" OBJNAMES FRAME Now
+result OK yes
+ask "get_object[Johnny/objname]" OBJNAMES FRAME Now
+result OK "Individual Johnny in Employee with
+  attribute,salary
+     js : 23456
+end"
+ask "rename[12345/newname,23456/oldname]" OBJNAMES FRAME Now
+result ERROR nil
+ask "get_object_star[D*/objname]" OBJNAMES LABEL Now
+result OK "DatalogQueryClass,DatalogRule,DatalogInRule,DatalogAttrRule,DeriveExpression,DIV,DefaultJavaPalette,DefaultIndividualGT,DefaultLinkGT,DefaultIsAGT,DefaultInstanceOfGT,DefaultAttributeGT,Deferred,DoNotSave_LM,DoNotSave_1,Department"
+ask "COUNT[Class/class]" OBJNAMES FRAME Now
+result OK "[0-9]+ in COUNT[Class/class]
+end"
+ask "AVG[Integer/class]" OBJNAMES FRAME Now
+result OK "[0-9]+.[0-9]+ in AVG[Integer/class]
+end "
+ask "AVG_Attribute[Johnny/objname,Employee!salary/attrcat]" OBJNAMES FRAME Now
+result OK "[0-9]+ in AVG_Attribute[Johnny/objname,Employee!salary/attrcat]
+end"
+ask "MAX[Integer/class]" OBJNAMES FRAME Now
+result OK "[0-9]+ in MAX[Integer/class]
+end"
+ask "MIN[Integer]" OBJNAMES FRAME Now
+result OK "[0-9]+ in MIN[Integer/class]
+end"
+ask "345*456" OBJNAMES default Now
+result OK "157320"
+ask "SUM[Integer/class]" OBJNAMES FRAME Now
+result OK "[0-9]+ in SUM[Integer/class]
+end"

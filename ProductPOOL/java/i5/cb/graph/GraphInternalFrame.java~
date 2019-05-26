@@ -1,0 +1,363 @@
+/*
+The ConceptBase.cc Copyright
+
+Copyright 1987-2016 The ConceptBase Team. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted
+provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of
+      conditions and the following disclaimer.
+   2. Redistributions in binary form must reproduce the above copyright notice, this list of
+      conditions and the following disclaimer in the documentation and/or other materials
+      provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those of the authors
+and should not be interpreted as representing official policies, either expressed or implied,
+of the ConceptBase Team.
+
+
+The ConceptBase Team is represented by
+
+Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+
+
+This license is a FreeBSD-style copyright license.
+Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
+*/
+/*
+ * @(#)GraphEditor.java	0.5 b 11.09.99
+ *
+ * Copyright 1998, 1999 by Rainer Langohr,
+ *
+ * All rights reserved.
+ *
+ */
+package i5.cb.graph;
+
+import i5.cb.graph.diagram.DiagramClass;
+
+import java.io.*;
+import java.util.Locale;
+
+import javax.swing.JInternalFrame;
+import javax.swing.JScrollPane;
+import javax.swing.text.DefaultStyledDocument;
+
+
+/**
+ * This class'es instances are the windows inside the {@link GraphEditor}-Mainwindow
+ */
+public class GraphInternalFrame extends JInternalFrame
+implements ILangChangeable{
+    
+    /**
+     * The GraphEditor that opened this frame.
+     */
+    protected GraphEditor m_graphEditor;
+    
+    /**
+     * Every GraphInternalFrame contains one single DiagramDesktop.
+     */
+    protected DiagramDesktop m_diagramDesktop;
+    
+    /**
+     * The DiagramClass contains information about all components that are shown on this frame's {@link DiagramDesktop}.
+     */
+    protected DiagramClass m_diagramClass;
+    
+    /**
+     * This may be a thread running in background that is capable of providing info about its progress in the mainwindows progressbar
+     */
+    protected IFrameWorker m_gifWorker;
+    
+    /** Holds value of property m_sStatus. */
+    private String m_sStatus;
+    
+    /** Utility field used by bound properties. */
+    private java.beans.PropertyChangeSupport propertyChangeSupport =  new java.beans.PropertyChangeSupport(this);
+
+    /**
+     * true if this GraphInternalFrame is currently in play mode (clickactions are performed)
+    */
+    private b_playMode = false;   
+    
+   
+    
+    /**
+     * Creates a new {@link JInternalFrame} with the given title and size(500,460). Constructs the
+     * {@link JScrollPane}, the {@link DiagramDesktop} and the FrameIcon.
+     *
+     * @param ge The GraphEditor that owns this frame
+     * @param sTitle a <code>String</code> value
+     */
+    public GraphInternalFrame(GraphEditor ge, String sTitle) {
+        
+
+        
+        JScrollPane jScrollPane=new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        m_diagramDesktop=new DiagramDesktop(this);
+        jScrollPane.setViewportView(m_diagramDesktop);
+        this.setContentPane(jScrollPane);
+        
+        this.setClosable(false);
+        this.setResizable(true);
+        this.setMaximizable(true);
+        this.setSize(500,460);
+        
+        // initialize our DiagramClass
+        resetDiagramClass();
+        
+        setTitle(sTitle);
+        setGraphEditor(ge);
+        this.setVisible(true);
+        GraphInternalFrameListener.addGifPropertiesEntry(this);
+    }
+    
+    
+    /**
+     * Returns the scrollpane of this frame
+     *
+     * @return a <code>JScrollPane</code> value
+     */
+    /*
+    public JScrollPane getJScrollPane() {
+        return jScrollPane;
+    }
+     
+    public void setJScrollPane(JScrollPane value){
+        jScrollPane = value;
+    }
+     */
+    /**
+     * Tells this frame which one is its diagramDesktop.
+     *
+     * @param dd a <code>DiagramDesktop</code> value
+     */
+    public void setDiagramDesktop(DiagramDesktop dd) {
+        this.m_diagramDesktop = dd;
+       ((JScrollPane)this.getContentPane() ).setViewportView(m_diagramDesktop);
+   }
+    
+    public DiagramDesktop getDiagramDesktop() {
+        return m_diagramDesktop;
+    }
+
+
+
+    public void setPlayMode(boolean newmode) {
+       b_playMode = newmode;
+    }
+
+     /**
+      * Returns the playmode of this GraphInternalFrame; if true, then clickactions are allowed and will
+      * influence the way how the validation of graph nodes in CBFrameWorker/CBQuery works.
+      */
+
+    public boolean getPlayMode() {
+       return b_playMode;
+    }
+
+    
+    /**
+     * If you do not override this method in an application specific extension, nothing will
+     * happen. This is because the userObjects can be so different, that a general implementation is
+     * not possible.
+     *
+     * @param uo the userObject to be saved
+     * @param out can be any <code>ObjectOutput</code>
+     * @exception IOException if an error occurs
+     */
+    public void saveUserObject(Object uo, ObjectOutputStream out) throws IOException{
+        // override in subclass
+        java.util.logging.Logger.getLogger("global").fine("To use this feature do the following:");
+        java.util.logging.Logger.getLogger("global").fine("Override the saveUserObject/loadUserObject Methods in a GraphInternalFrame-Extension\n");
+    }
+    
+    /**
+     * If you do not override this method in an application specific extension, nothing will
+     * happen. This is because the userObjects can be so different, that a general implementation is
+     * not possible.
+     *
+     * @param in must be a suitable <code>ObjectInput</code>
+     * @return an userObject if no error occured
+     * @exception IOException if an error occurs
+     * @exception ClassNotFoundException if a necessary class was not found
+     */
+    public Object loadUserObject(ObjectInputStream in) throws IOException, ClassNotFoundException{
+        // override in subclass
+        java.util.logging.Logger.getLogger("global").fine("To use this feature do the following:");
+        java.util.logging.Logger.getLogger("global").fine("Override the saveUserObject/loadUserObject Methods in a GraphInternalFrame-Extension\n");
+        return null;
+    }
+    /**
+     * Signals the frame that the loading is finished. If you do not ovverride this method in an application
+     * specific extension, nothing will happen.
+     */
+    public void finishedLoading(){
+    }
+    
+    /**
+     * Signals the frame that the saving is finished. If you do not ovverride this method in an application
+     * specific extension, nothing will happen.
+     */
+    public void finishedSaving(){
+    }
+    /**
+     * Tells this frame's m_gifWorker to have a break
+     *
+     * @return a <code>boolean</code> value. This boolean is false iff this frame's m_gifWorker isn't instanciated
+     * @see IFrameWorker
+     */
+    public boolean pauseGifWorker(){
+        if (m_gifWorker==null)
+            return false;
+        else {
+            m_gifWorker.pauseFrameWorker();
+            return true;
+        }
+    }
+    
+    /**
+     * Tells this frame's m_gifWorker to stop.
+     *
+     * @return a <code>boolean</code> value. This boolean is false iff this frame's m_gifWorker isn't instanciated
+     */
+    public boolean stopGifWorker(){
+        if (m_gifWorker==null)
+            return false;
+        else {
+            m_gifWorker.stopFrameWorker();
+            return true;
+        }
+    }
+    
+    /**
+     * Tells this frame's m_gifWorker to restart.
+     *
+     * @return a <code>boolean</code> value. This boolean is false iff this frame's m_gifWorker isn't instanciated
+     * @see IFrameWorker
+     */
+    public boolean restartGifWorker(){
+        if (m_gifWorker==null)
+            return false;
+        else {
+            m_gifWorker.restartFrameWorker();
+            return true;
+        }
+    }
+    
+    /**
+     * Returns this frame's m_gifWorker
+     *
+     * @return an <code>IFrameWorker</code> value
+     * @see IFrameWorker
+     */
+    public IFrameWorker getFrameWorker(){
+        return m_gifWorker;
+    }
+    
+    public void setFrameWorker(IFrameWorker value) {
+        this.m_gifWorker = value;
+    }
+    
+    /**
+     * updates the language of this frame's {@link DiagramClass} and its m_gifWorker, if there is one.
+     *
+     * @param loc the new locale
+     * @return always null at the moment
+     */
+    public DefaultStyledDocument updateLang(Locale loc){
+        m_diagramClass.updateLang(loc);
+        if(m_gifWorker instanceof ILangChangeable){
+            ((ILangChangeable)m_gifWorker).updateLang(loc);
+        }
+        
+        return null;
+    }//updateLang
+    
+    public GraphEditor getGraphEditor(){
+        return m_graphEditor;
+    }
+    
+    public void setGraphEditor(GraphEditor graphEditor) {
+        m_graphEditor = graphEditor;
+    }
+    
+    public DiagramClass getDiagramClass(){
+        return m_diagramClass;
+    }
+    
+      
+    /**
+     * Makes sure that the DiagramClass is a completely empty {@link DiagramClass}. If you write a
+     * subclass, you should override this method, to choose a more specific DiagramClass.
+     */
+    public void resetDiagramClass(){
+        m_diagramClass = new DiagramClass(this);
+    }
+    
+    
+    /** Getter for property m_sStatus.
+     * @return Value of property m_sStatus.
+     */
+    public String getStatus() {
+        return this.m_sStatus;
+    }
+    
+    /**
+     * Defines the statusstring of the CBEditor when this gif is active
+     * Changes have instant effect if this gif is currently active.
+     */
+    public void setStatusString(String status) {
+        String oldStatus = this.m_sStatus;
+        this.m_sStatus = status;
+        GraphInternalFrameListener.setStatus(this, status);
+        propertyChangeSupport.firePropertyChange("m_sStatus", oldStatus, status);
+    }
+    
+     /**
+     * Defines wheter a certain toolbarbutton of the CBEditor is enabled when this gif is active
+     * Changes have instant effect if this gif is currently active.
+     */
+    public void setButtonEnabled(String sButton, boolean enabled){
+    	GraphInternalFrameListener.setButtonEnabled(this, sButton, enabled);
+    }
+    
+    /**
+     * Defines wheter a certain menuitem of the CBEditor is enabled when this gif is active
+     * Changes have instant effect if this gif is currently active.
+     */
+    public void setItemEnabled(String sItem, boolean enabled){
+    	GraphInternalFrameListener.setItemEnabled(this, sItem, enabled);
+    }
+    
+    /**
+     * Defines wheter a certain menu of the CBEditor is enabled when this gif is active
+     * Changes have instant effect if this gif is currently active.
+     */
+    public void setMenuEnabled(String sMenu, boolean enabled){
+    	GraphInternalFrameListener.setMenuEnabled(this, sMenu, enabled);
+    }
+    
+    /**
+     * Validates all DiagramNodes on the active DiagramDesktop, i.e. do some application-specifict 
+     * stuff to check if the nodes are still valid (in terms of the current app).
+     * This method does nothing
+     */
+    public void validateNodes(){
+        java.util.logging.Logger.getLogger("global").fine("!");
+    }
+    
+}

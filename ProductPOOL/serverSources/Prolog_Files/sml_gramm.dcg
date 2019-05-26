@@ -1,0 +1,357 @@
+{* THIS MODULE IS NO LONGER NEEDED. ITS FUNCTION IS NOW FULFILLED BY A LEX/YACC-BASED *}
+{* PARSER IN C_Files.                                                                 *}
+
+
+{
+*
+* File:                  sml_gramm.dcg
+* Version:           2.16
+* Creation:         15-Apr-1988, Manfred Jeusfeld (UPA)
+* Last Change: 7/13/93, Hans W. Nissen (RWTH)
+* Release:          2
+* -----------------------------------------------------------------------------
+* contents:
+definite clause grammar to parse (arbitrary) SML objects and compute the
+corresponding SML fragment (the data structure of the interface of the object
+processor); these grammar assumes as input a list of tokens scanned by the DCG
+tokens
+
+***************************************************************************** }
+{ 
+*	18-Sept-1989 MSt : empty omega class list allowed
+*                          see 'classList'
+*                          'end _obj' : _obj not only of form ident(..) but
+*                          any Identifier (Identifier(_obj))
+*                          see 'findEnd'
+*	19-Sept-1989 MSt : 'with' optional if no attributes are specified
+*                          see 'attributes/attributeList'
+*	26-Oct-1989 MSt  : 'with' implies that empty labels are allowed and
+*                          between two properties belonging to the same category
+*                          a semicolon is obligatory
+*                          'WITH' implies that neither empty labels nor semicolons
+*                          for separating properties are allowed
+*                          see 'findWith'/'propertylist'/'property'
+*                          'findDelim' removed
+*
+*	19-Dec-1989 TW   : Now individual valid times and timerelations allowed
+*                          see 'timeSpec/timeRelList/simple_relationList'
+*
+*	12-Mar-1990 MSt  :  derive_expressions are allowed as superclasses and
+*			    property classes
+* 7-Dec-1992/kvt: Format of smlfragment changed (cf. CBNEWS[148])
+*
+}
+
+{ ***  smlObject  ***
+  top-level rule for SML objects consisting of
+	- omega class list
+	- object identifier
+	- class list, i.e. those classes the object is an instance of
+	- isa list, i.e. those classes the object is a specialization of
+	- object body enclosed by reserved words WITH and END
+  conventions
+	- omega class list is forbidden to be empty - changed 18-Sept-89 MSt
+	- class list and isa list are allowd to be empty
+	  (an empty specification is  determined by the missing reserved
+	   word IN or ISA)
+	- the object is allowed to be empty, but the enclosing tokens WITH
+	  and END are required (this convention / restrictions depends on a
+	  rather practical requirement; objects are red character by character
+	  from file until end of file or the character sequence E,N,D is 
+	  encountered
+*}
+
+smlObject (SMLfragment ( what (_object),
+			in_omega (_omegaClassList), 
+			in (_instClassList),
+			isa (_isaClassList),
+			with (_attrDeclList))) ==>
+	classList_opt (_omegaClassList),
+	objIdentifier (_object), 
+	instanceClassList (_instClassList),
+	isaList (_isaClassList),
+	attributes (_attrDeclList),   { 19-Sept-1989 MSt }
+	findEnd(_object),             {* changed HWN 13.04.89 for new syntax *}
+	where [!].  { to suppress backtracking of the parsing process
+		      after the SML object has been parsed and transformed
+ 		      successfully }
+
+
+{*******************************************************}
+{** Here you can find all changes for the new syntax  **}
+{*******************************************************}
+
+findWith ==>
+	[ident (WITH)],
+	where[update(syntax(CB))].
+findWith ==>
+	[ident(with)],
+        where[update(syntax(Telos))].
+
+findEnd(_object) ==>
+	[ident (END)],
+	objIdentifier(_object).     {18-Sept-1989 MSt }
+
+findEnd(_object) ==>
+	[ident(end)],
+	objIdentifier(_object).     {18-Sept-1989 MSt }
+
+findEnd(_object) ==>
+	[ident (END)].
+
+findEnd(_object) ==>
+	[ident(end)].
+
+findEnd(_object) ==>
+	[ident (END)],
+	objIdentifier(_object).     {18-Sept-1989 MSt }
+
+findEnd(_object) ==>
+	[ident(end)],
+	objIdentifier(_object).     {18-Sept-1989 MSt }
+
+findIn ==>
+	[ident(IN)].
+findIn ==>
+	[ident(in)].
+
+findIsa ==>
+	[ident(ISA)].
+findIsa ==>
+	[ident(isa)].
+findIsa ==>
+	[ident(isA)].
+
+{*********************************************************}
+{**  end of partion of rules for new syntax             **}
+{*********************************************************}
+
+
+{ ***  classList  ***
+  classList is used to parse lists of class identifiers. The list of identifiers
+  is not allowed to be empty. The case of empty instance and isa class lists
+  is covered by rules for those class specifications (instanceClassList
+  and isaClassList.
+classList_opt stands for an optional classList
+*}
+
+{* optional classlist *}
+classList_opt(_classes) ==>
+	classList(_classes).
+
+classList_opt(nil) ==>
+	where[true].
+ 
+{* classList with at least one element *}
+classList ([_classPred| _tail]) ==>
+	classListItem (_classPred),
+	[','],
+	classList (_tail).
+
+classList ([_classPred]) ==>
+	classListItem (_classPred).
+
+{* allowed items are names of simple or derieved clases *} 
+classListItem(class (_className )) ==>
+	objIdentifier(_className).
+
+classListItem(class (_className )) ==>
+	deriveExpression(_className).
+
+{* the keywords "in" or "isA" must be followed by a non empty classlist *}
+instanceClassList (_classList) ==>
+	findIn,                    {* changed HWN 13.04.89 for new syntax *}
+	classList (_classList).
+
+instanceClassList ([]) ==>
+	where [true].
+
+isaList (_isaList) ==>
+	findIsa,                    {* changed HWN 13.04.89 for new syntax *}
+	classList (_isaList).
+
+isaList ([]) ==> 
+	where [true].
+
+
+{ *****************************************************************************
+  A body of each SML object consists of a (possibly empty) set of attribute
+  declarations. An attribute declaration block consists of a non-empty list
+  of attribute categories and a set of properties, which are instances of this /
+  these attribute category/categories. Each property comprises a label and an
+  object identifier (allowed object identifiers: valid identifier, a string,
+  real and integer numbers). 
+*}
+
+
+attributeList ([attrdecl(_attrCategoryList, _propertyList)| _attrDeclTail] ) ==>
+	categoryList (_attrCategoryList),
+	propertyList (_propertyList),
+	attributeList (_attrDeclTail).
+
+
+attributeList ([]) ==>
+	where [true,!]. { to suppress backtracking in case of a syntactically
+			   incorrect property }
+
+attributes ( _attrlist ) ==>                          { 19-Sept-1989 MSt }
+	findWith,
+	attributeList (_attrlist).
+
+attributes ( [] ) ==>
+	where [true].                                 { 19-Sept-1989 MSt }
+
+
+categoryList ([_catHeader | _catTail]) ==>
+	[ident(_catHeader)], {kvt u.U noch auf eine Ebene tiefer ziehen ?}
+	[','],
+	categoryList (_catTail).
+
+categoryList ([_singleCat]) ==>
+	[ident(_singleCat)].  {kvt u.U noch auf eine Ebene tiefer ziehen ?}
+
+
+propertyList ([property (_labelIdent,_objectIdent)| _propTail]) ==>
+        where[syntax(CB)],
+	property (_labelIdent, _objectIdent),
+	propertyList (_propTail).
+
+propertyList ([property (_labelIdent,_objectIdent)| _propTail]) ==>
+        where [syntax(Telos)],
+	property (_labelIdent, _objectIdent),
+        [';'],
+	propertyList (_propTail).
+
+
+propertyList ([property (_labelIdent, _objectIdent )]) ==>
+	property (_labelIdent, _objectIdent).	
+
+
+property (_labelIdent, _objectIdent) ==>
+	[ident(_labelIdent)],
+	[':'],
+	propertyType (_objectIdent).
+
+property ('?', _objectIdent) ==>
+	{ the original SML allows missing labels of properties; in ConceptBase,
+	  a label is required due to the representation of the proposition
+	  processor. Therefore, in case of a missing label the parser inserts
+	  the artificial label ?. }
+        where[syntax(Telos)],
+	[':'],
+	propertyType (_objectIdent).
+
+propertyType (_objectIdent) ==>
+	objIdentifier (_objectIdent).
+
+propertyType (_objectIdent) ==>
+	deriveExpression(_objectIdent).
+
+	
+	
+{ *****************************************************************************
+  
+*}
+
+{* Die Trennung der objIdentifiers in sinple- und complexIdentifiers verhindert Endlosschleifen *}
+
+objIdentifier(_objident) ==>
+	simpleIdentifier(_objident).
+
+objIdentifier(_objident) ==>
+	complexIdentifier(_objident).
+
+simpleIdentifier (_objident) ==>      
+	[ident (_objident)].
+	
+simpleIdentifier (_objident) ==>
+	[assertion (_objident)].
+
+simpleIdentifier (_objident) ==>
+	[intNumber (_objident)].
+
+simpleIdentifier (_objident) ==>
+	[realNumber (_objident)].
+
+simpleIdentifier (_objident) ==>
+	[string (_objident)].
+
+complexIdentifier (_objident) ==>
+	simpleIdentifier(_head),
+ 	opList(_tail),
+	where[opListtoTerm([_head|_tail],_objident)].
+
+opList ([_select,_ident]) ==>
+	[select (_select)],
+	[ident(_ident)].          {* innerhalb eines select-Terms nur einfache identifier *}
+
+opList ([_select,_ident|_tail]) ==>
+	[select (_select)],
+	[ident(_ident)],
+	opList (_tail).
+	
+
+
+{  **************************************************************************** }
+{	deriveExpressions stand for instances of class QueryClass which are     }
+{	derived (=specialization) from an instance of GenericQueryClass         }
+{	12-Mar-1990 MSt                                                         }
+{ ***************************************************************************** }
+
+
+deriveExpression(derive(_q,_dExp)) ==>
+	[ident(_q)],
+	['('],
+	['['],
+	dExpList(_dExp),
+	[']'],
+	[')'].
+
+
+{* 8-Feb-1991/MJf: optionally the round brackets "()" may be left out *}
+
+deriveExpression(derive(_q,_dExp)) ==>
+	[ident(_q)],
+	['['],
+	dExpList(_dExp),
+	[']'].
+
+
+
+dExpList([_dExp]) ==>
+	dExp(_dExp).
+
+dExpList([_dExp|_rList]) ==>
+	dExp(_dExp),
+	[','],
+	dExpList(_rList).
+
+dExp(substitute(_x1,_x2)) ==>
+	[ident(_x1)],
+	['/'],
+	[ident(_x2)].
+
+dExp(substitute(_x1,_x2)) ==>
+	[intNumber(_x1)],
+	['/'],
+	[ident(_x2)].
+
+dExp(substitute(_x1,_x2)) ==>
+	[string(_x1)],
+	['/'],
+	[ident(_x2)].
+
+dExp(substitute(_x1,_x2)) ==>
+	[realNumber(_x1)],
+	['/'],
+	[ident(_x2)].
+
+dExp(specialize(_x,_C)) ==>
+	[ident(_x)],
+	[':'],
+	[ident(_C)].
+
+
+
+
+

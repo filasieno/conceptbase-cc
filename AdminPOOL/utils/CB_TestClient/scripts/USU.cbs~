@@ -1,0 +1,209 @@
+startServer -d USU
+tellModel "$CB_HOME/examples/USU/model01"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/dat01"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/traeger"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/akteure"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/akt00"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/akt1000"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/akt2000"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/akt3000"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/akt3100"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/akt3200"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/akt3400"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/akt4000"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/akt4100"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/akt5000"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/recurs01"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/qbelief2"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/qbelief3"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/qbelief3p"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/qbelief4"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/qbelief6"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/qdat07"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/qdat09"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/qdat10"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/qdat11"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/qdat11p"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/qdat12p"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/qdat13"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/qtrae14p"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/qtrae15"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/qtrae17"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/qtrae18"
+result OK "yes"
+tellModel "$CB_HOME/examples/USU/Spesenbeispiel"
+result OK "yes"
+ask "NieBeliefert" OBJNAMES  LABEL  Now
+result OK "nil"
+ask "BeliefertKeinen" OBJNAMES  LABEL  Now
+result OK "nil"
+ask "BeliefertSich" OBJNAMES  LABEL  Now
+result OK "nil"
+ask "BeliefernEinander" OBJNAMES  LABEL  Now
+result OK "A_Kundenverantwortlicher,A_Kunde,A_Projektleiter,A_GL,A_Buchhalt,A_KundenPl,A_ProjContrl,A_Personal,A_Mitarbeiter"
+ask "BeliefertOneWay" OBJNAMES  LABEL  Now
+result OK "A_Kunde,A_Projektleiter,A_GL,A_Buchhalt,A_ProjContrl,A_Personal,A_Mitarbeiter,A_Sekretariat,A_PersVerantw"
+ask "WirdMehrfachBeliefert" OBJNAMES  LABEL  Now
+result OK "A_Kundenverantwortlicher,A_Kunde,A_Buchhalt,A_ProjContrl"
+ask "AkteurBelieferung" OBJNAMES  LABEL  Now
+result OK "A_Kundenverantwortlicher,A_Kunde,A_Projektleiter,A_GL,A_Buchhalt,A_KundenPl,A_ProjContrl,A_Personal,A_Mitarbeiter,A_Sekretariat,A_PersVerantw"
+ask "BeliefernEinanderMit" OBJNAMES  LABEL  Now
+result OK "A_Kundenverantwortlicher,A_Projektleiter,A_GL,A_Buchhalt,A_KundenPl,A_ProjContrl,A_Personal"
+ask "BeliefertMitNichts" OBJNAMES  LABEL  Now
+result OK "A_Personal!pe_teilt_mit"
+ask "UngelieferteTraeger" OBJNAMES  LABEL  Now
+result OK "TW_Rechnung,T_UmsatzListe,TF_ProjektAbschluss,T_ProjektOrdner,T_SollProjektListe,TX_Halbfertige,TX_SpesenRechnung,TX_Probat,TX_Fibu,TX_Perbit,TX_LUG,T_VersNachweis"
+ask "P_EinAkteurWirdBeliefert" OBJNAMES  LABEL  Now
+result OK "TF_StatusBericht,TF_ProjektAbrechnung,TF_MonatsBericht,TF_MonZus,T_SpesenBeleg,T_Rechnung,T_Auswertungen,T_Kostensaetze,T_SonstKosten,T_Abwesenheit,T_BuchungsListe,T_Mahnung,T_Auftrag,T_Anfrage,T_Angebot,TF_Kalkulationsblatt,TF_ProjektAuftrag,TF_ProjektAuftragMa,TF_ProjektAnlage,T_SpesenZahlung,T_OpListe,T_Zahlung,T_KorrekturGespraech"
+ask "P_EinAkteurWirdBeliefert2" OBJNAMES  LABEL  Now
+result OK "A_Kundenverantwortlicher,A_Kunde,A_Projektleiter,A_GL,A_Buchhalt,A_KundenPl,A_ProjContrl,A_Personal,A_Mitarbeiter,A_Sekretariat,A_PersVerantw"
+ask "AkteurNichtsBraucht" OBJNAMES  LABEL  Now
+result OK "nil"
+ask "AkteurNichtsErzeugt" OBJNAMES  LABEL  Now
+result OK "nil"
+ask "AkteurErzeugtUndBraucht" OBJNAMES  LABEL  Now
+result OK "A_Projektleiter,A_Buchhalt,A_KundenPl,A_ProjContrl,A_Personal,A_Sekretariat,A_PersVerantw"
+ask "AkteurErzeugtOhneBraucht" OBJNAMES  LABEL  Now
+result OK "A_Kundenverantwortlicher,A_Kunde,A_Projektleiter,A_GL,A_Buchhalt,A_ProjContrl,A_Personal,A_Mitarbeiter,A_Sekretariat"
+ask "AkteurBrauchtOhneErzeugt" OBJNAMES  LABEL  Now
+result OK "A_Kundenverantwortlicher,A_Kunde,A_GL,A_Buchhalt,A_ProjContrl,A_Personal,A_Mitarbeiter"
+ask "TraegerErzeugtOhneBraucht" OBJNAMES  LABEL  Now
+result OK "TF_StatusBericht,TF_ProjektAbrechnung,TF_MonatsBericht,TF_MonZus,T_SpesenBeleg,T_Rechnung,T_Auswertungen,T_Kostensaetze,T_SonstKosten,T_Abwesenheit,T_BuchungsListe,T_Mahnung,T_Auftrag,T_Anfrage,T_Angebot,TF_Kalkulationsblatt,TF_ProjektAuftrag,T_SpesenZahlung,T_OpListe,T_Zahlung,T_KorrekturGespraech"
+ask "TraegerBrauchtOhneErzeugt" OBJNAMES  LABEL  Now
+result OK "TF_StatusBericht,TF_ProjektAbrechnung,T_SpesenBeleg,T_Rechnung,T_Auswertungen,T_Kostensaetze,T_SonstKosten,T_Abwesenheit,T_BuchungsListe,T_Mahnung,T_Auftrag,T_Anfrage,T_Angebot,TF_Kalkulationsblatt,TF_ProjektAuftragMa,T_SpesenZahlung,T_OpListe,T_Zahlung,T_KorrekturGespraech"
+ask "TraegerNieErzeugt" OBJNAMES  LABEL  Now
+result OK "TW_Rechnung,T_UmsatzListe,TF_ProjektAbschluss,T_ProjektOrdner,T_SollProjektListe,TX_Halbfertige,TX_SpesenRechnung,TX_Probat,TX_Fibu,TX_Perbit,TX_LUG,T_VersNachweis"
+ask "TraegerNieGebraucht" OBJNAMES  LABEL  Now
+result OK "TW_Rechnung,T_UmsatzListe,TF_ProjektAbschluss,T_ProjektOrdner,T_SollProjektListe,TX_Halbfertige,TX_SpesenRechnung,TX_Probat,TX_Fibu,TX_Perbit,TX_LUG,T_VersNachweis"
+ask "LiefernOhneErzeugen" OBJNAMES  LABEL  Now
+result OK "A_GL"
+ask "ErzeugenOhneLiefern" OBJNAMES  LABEL  Now
+result OK "nil"
+ask "ErhaltenOhneBrauchen" OBJNAMES  LABEL  Now
+result OK "A_Kundenverantwortlicher,A_GL"
+ask "BrauchenOhneErhalten" OBJNAMES  LABEL  Now
+result OK "A_Kunde"
+ask "AktionenQuellen" OBJNAMES  LABEL  Now
+result OK "P_START,aendereSpesensaetze"
+ask "AktionenSenken" OBJNAMES  LABEL  Now
+result OK "P_ENDE,P_2035,aendereSpesensaetze"
+ask "P_VorgaengerVon[P_1010/a1]" OBJNAMES  LABEL  Now
+result OK "P_START"
+ask "P_NichtVorgaengerVon[P_2020/a1]" OBJNAMES  LABEL  Now
+result OK "P_ENDE,P_2020,P_2030,P_2035,P_2040,P_2050,P_2060,P_2070,P_2080,P_3010,P_3020,P_3030,P_3040,P_3110,P_3120,P_3130,P_3140,P_3150,P_3210,P_3220,P_3230,P_3240,P_3250,P_3260,P_3270,P_3280,P_3410,P_3420,P_3430,P_3440,P_3450,P_3460,P_3470,P_3480,P_3490,P_3500,P_4010,P_4020,P_4030,P_4040,P_4050,P_4110,P_4120,P_4130,P_5020,P_5030,P_5040,P_5050,aendereSpesensaetze"
+ask "P_NachfolgerVon[P_3030/a1]" OBJNAMES  LABEL  Now
+result OK "P_ENDE,P_3040,P_3110,P_3120,P_3140,P_3150,P_3210,P_3220,P_3230,P_3240,P_3250,P_3260,P_3270,P_3280,P_3430,P_3440,P_3450,P_3460,P_3470,P_3480,P_3490,P_3500,P_4010,P_4020,P_4030,P_4040,P_4050,P_4110,P_4120,P_4130,P_5020,P_5030,P_5040,P_5050"
+ask "P_NichtNachfolgerVon[P_4040/a1]" OBJNAMES  LABEL  Now
+result OK "P_START,P_1010,P_1020,P_1030,P_2010,P_2020,P_2030,P_2035,P_2040,P_2050,P_2060,P_2070,P_2080,P_3010,P_3020,P_3030,P_3040,P_3110,P_3120,P_3130,P_3140,P_3150,P_3210,P_3220,P_3230,P_3240,P_3250,P_3260,P_3270,P_3280,P_3410,P_3420,P_3430,P_3440,P_3450,P_3460,P_3470,P_3480,P_3490,P_3500,P_4010,P_4020,P_4030,P_4040,P_4110,P_4120,P_4130,P_5020,P_5030,P_5040,P_5050,aendereSpesensaetze"
+ask "BeliefertOhneFolgtAuf" OBJNAMES  LABEL  Now
+result OK "A_Buchhalt,A_ProjContrl"
+ask "FolgtAufOhneBeliefert" OBJNAMES  LABEL  Now
+result OK "P_ENDE,P_1010,P_1020,P_2010,P_2040,P_3130"
+ask "DatenOhneTraeger" OBJNAMES  LABEL  Now
+result OK "D_SollProjektOk,D_Spesensaetze,D_Mitarbeiter,D_Projekt"
+ask "TraegerOhneDaten" OBJNAMES  LABEL  Now
+result OK "T_Auswertungen,TF_ProjektAbschluss,T_ProjektOrdner"
+ask "DatenNichtInput" OBJNAMES  LABEL  Now
+result OK "D_ProjAbrGB,D_ProjAbrBonusExtra,D_ProjAbrUntKd,D_ProjStatFestpreis,D_ProjStatFertig,D_HalbFertigSumme,D_HalbFertigRestaufwand,D_ProjAbrSumme,D_Bezahlt,D_SollProjektOk,D_ProjAuftPlUnt,D_PerbitUrlaub,D_PerbitSchulung,D_KorrekturInfo,D_Spesenauszahlung,D_Spesensaetze,D_Mitarbeiter,D_Projekt"
+ask "DatenNichtOutput" OBJNAMES  LABEL  Now
+result OK "D_ProjAbrGB,D_ProjAbrSumme,D_SollProjektOk,D_Spesenauszahlung,D_Mitarbeiter,D_Projekt"
+ask "DatenInputOhneOutput" OBJNAMES  LABEL  Now
+result OK "nil"
+ask "DatenInputNiemalsOutput" OBJNAMES  LABEL  Now
+result OK "nil"
+ask "DatenVieleOutputs" OBJNAMES  LABEL  Now
+result OK "D_KostenSatz"
+ask "AktionenOhneInput" OBJNAMES  LABEL  Now
+result OK "P_START,P_ENDE,P_2010,P_3130,P_3410,P_3490,aendereSpesensaetze"
+ask "AktionenOhneOutput" OBJNAMES  LABEL  Now
+result OK "P_ENDE,P_1030,P_3110,P_3220,P_3240,P_3250,P_3260,P_3270,P_3410,P_3430,P_3480,P_3490,P_3500,P_4010,P_4020,P_4030,P_4040,P_4120,P_4130,P_5020,P_5030,P_5040,P_5050"
+ask "P_DatenOutputter" OBJNAMES  LABEL  Now
+result OK "P_START,P_1010,P_1020,P_2010,P_2020,P_2030,P_2035,P_2040,P_2050,P_2060,P_2070,P_2080,P_3010,P_3020,P_3030,P_3040,P_3120,P_3130,P_3140,P_3150,P_3210,P_3230,P_3280,P_3420,P_3440,P_3450,P_3460,P_3470,P_4050,P_4110,aendereSpesensaetze"
+ask "P_DatenInputter" OBJNAMES  LABEL  Now
+result OK "P_1010,P_1020,P_1030,P_2020,P_2030,P_2035,P_2040,P_2050,P_2060,P_2070,P_2080,P_3010,P_3020,P_3030,P_3040,P_3110,P_3120,P_3140,P_3150,P_3210,P_3220,P_3230,P_3240,P_3250,P_3260,P_3270,P_3280,P_3420,P_3430,P_3440,P_3450,P_3460,P_3470,P_3480,P_3500,P_4010,P_4020,P_4030,P_4040,P_4050,P_4110,P_4120,P_4130,P_5020,P_5030,P_5040,P_5050"
+ask "P_DatenNutzer[D_AuftragUnt/dx]" OBJNAMES  LABEL  Now
+result OK "P_ENDE,P_2050,P_2060,P_2070,P_2080,P_3010,P_3020,P_3030,P_3040,P_3110,P_3120,P_3140,P_3150,P_3210,P_3220,P_3230,P_3240,P_3250,P_3260,P_3270,P_3280,P_3410,P_3420,P_3430,P_3440,P_3450,P_3460,P_3470,P_3480,P_3490,P_3500,P_4010,P_4020,P_4030,P_4040,P_4050,P_4110,P_4120,P_4130,P_5020,P_5030,P_5040,P_5050"
+ask "P_DatenInputNutzer[D_KalkStunden/d1]" OBJNAMES  LABEL  Now
+result OK "P_2030,P_2060,P_2070"
+ask "P_DatenFalschNutzer[D_ProjAbrSpesen/d1]" OBJNAMES  LABEL  Now
+result OK "nil"
+ask "AktionenOhneEingabe" OBJNAMES  LABEL  Now
+result OK "P_START,P_ENDE,P_2010,P_3130,P_3410,P_3490,aendereSpesensaetze"
+ask "AktionenOhneAusgabe" OBJNAMES  LABEL  Now
+result OK "P_START,P_ENDE,P_3110,P_3410,P_3490,P_4130,P_5050,aendereSpesensaetze"
+ask "InputOhneEingabe" OBJNAMES  LABEL  Now
+result OK "P_3230"
+ask "EingabeOhneInput" OBJNAMES  LABEL  Now
+result OK "P_2040,P_3020,P_3120,P_3210,P_3230,P_3440,P_3470,P_5030"
+ask "OutputOhneAusgabe" OBJNAMES  LABEL  Now
+result OK "P_START,aendereSpesensaetze"
+ask "AusgabeOhneOutput" OBJNAMES  LABEL  Now
+result OK "P_2060,P_3010,P_3230"
+ask "AusgabeOhneEingabe" OBJNAMES  LABEL  Now
+result OK "P_2060,P_3010"
+ask "TraegerZuviel" OBJNAMES  LABEL  Now
+result OK "P_1010,P_2030,P_2035,P_2070,P_2080,P_3020,P_3040,P_3110,P_3120,P_3210,P_3220,P_3240,P_3280,P_3410,P_3420,P_3430,P_3450,P_3460,P_3470,P_4040,P_5020,P_5030"
+ask "P_TraegerAusgabe" OBJNAMES  LABEL  Now
+result OK "P_1010,P_1020,P_1030,P_2010,P_2020,P_2030,P_2035,P_2040,P_2050,P_2060,P_2070,P_2080,P_3010,P_3020,P_3030,P_3040,P_3120,P_3130,P_3140,P_3150,P_3210,P_3220,P_3230,P_3240,P_3250,P_3260,P_3270,P_3280,P_3420,P_3430,P_3440,P_3450,P_3460,P_3470,P_3480,P_3500,P_4010,P_4020,P_4030,P_4040,P_4050,P_4110,P_4120,P_5020,P_5030,P_5040"
+ask "P_TraegerEingabe" OBJNAMES  LABEL  Now
+result OK "P_1010,P_1020,P_1030,P_2020,P_2030,P_2035,P_2040,P_2050,P_2060,P_2070,P_2080,P_3010,P_3020,P_3030,P_3040,P_3110,P_3120,P_3140,P_3150,P_3210,P_3220,P_3230,P_3240,P_3250,P_3260,P_3270,P_3280,P_3420,P_3430,P_3440,P_3450,P_3460,P_3470,P_3480,P_3500,P_4010,P_4020,P_4030,P_4040,P_4050,P_4110,P_4120,P_4130,P_5020,P_5030,P_5040,P_5050"
+ask "P_TraegerGefuelltIn[TF_MonatsBericht/t1,P_2030/a1]" OBJNAMES  LABEL  Now
+result OK "nil"
+ask "P_TraegerNichtGefuelltIn[P_3450/a1,TF_ProjektAuftrag/t1]" OBJNAMES  LABEL  Now
+result OK "nil"
+ask "P_AlleTraegerGefuelltIn[P_2060/a1]" OBJNAMES  LABEL  Now
+result OK "TF_Kalkulationsblatt,TF_ProjektAuftrag,TF_ProjektAuftragMa,TF_ProjektAnlage"
+ask "P_AlleTraegerNichtGefuelltIn[P_4130/a1]" OBJNAMES  LABEL  Now
+result OK "TX_Fibu"
+ask "GibtNichts" OBJNAMES  LABEL  Now
+result OK "P_START,P_ENDE,P_3110,P_3240,P_3490,P_4130,aendereSpesensaetze"
+ask "NimmtNichts" OBJNAMES  LABEL  Now
+result OK "P_START,P_ENDE,P_2010,P_3130,P_3490,aendereSpesensaetze"
+ask "TraegerGenommenListe" OBJNAMES  LABEL  Now
+result OK "TF_StatusBericht,TF_ProjektAbrechnung,TF_MonatsBericht,TF_MonZus,T_SpesenBeleg,T_Rechnung,TW_Rechnung,T_Kostensaetze,T_SonstKosten,T_Abwesenheit,T_BuchungsListe,T_Mahnung,T_Auftrag,T_Anfrage,T_Angebot,TF_Kalkulationsblatt,TF_ProjektAuftrag,TF_ProjektAuftragMa,TF_ProjektAnlage,TX_SpesenRechnung,TX_Probat,TX_Fibu,T_OpListe,TX_Perbit,T_Zahlung,TX_LUG"
+ask "TraegerGegebenListe" OBJNAMES  LABEL  Now
+result OK "TF_StatusBericht,TF_ProjektAbrechnung,TF_MonatsBericht,TF_MonZus,T_SpesenBeleg,T_Rechnung,TW_Rechnung,T_Auswertungen,T_UmsatzListe,T_Kostensaetze,T_SonstKosten,T_Abwesenheit,T_BuchungsListe,T_Mahnung,T_Auftrag,T_Anfrage,T_Angebot,TF_Kalkulationsblatt,TF_ProjektAuftrag,TF_ProjektAuftragMa,TF_ProjektAnlage,T_SollProjektListe,TX_Halbfertige,TX_SpesenRechnung,TX_Probat,TX_Fibu,T_OpListe,TX_Perbit,T_Zahlung,T_KorrekturGespraech,TX_LUG,T_VersNachweis"
+ask "InputOhneNehmen" OBJNAMES  LABEL  Now
+result OK "nil"
+ask "OutputOhneGeben" OBJNAMES  LABEL  Now
+result OK "P_START,P_4110,aendereSpesensaetze"
+ask "ErzeugtOhneGibt" OBJNAMES  LABEL  Now
+result OK "A_Projektleiter,A_Buchhalt,A_ProjContrl,A_Personal"
+ask "BrauchtOhneNimmt" OBJNAMES  LABEL  Now
+result OK "A_Kunde,A_Projektleiter,A_GL,A_Buchhalt,A_Personal,A_Mitarbeiter"
+ask "GibtOhneErzeugt" OBJNAMES  LABEL  Now
+result OK "P_1030,P_2030,P_2070,P_3120,P_3140,P_3210,P_3220,P_3230,P_3260,P_3430,P_3450,P_3460,P_3480,P_3500,P_4010,P_4050,P_4120,P_5020,P_5030,P_5040"
+ask "NimmtOhneBraucht" OBJNAMES  LABEL  Now
+result OK "P_1010,P_1020,P_2030,P_2035,P_3220,P_3230,P_3240,P_3250,P_3260,P_3270,P_3280,P_3450,P_3460,P_3500,P_4020,P_4130,P_5020,P_5030,P_5040,P_5050"
+ask "QuerZugegriffen" OBJNAMES  LABEL  Now
+result OK "D_Spesensaetze"

@@ -1,0 +1,20 @@
+\@@addtocsec{htoc}{sec1}{0}{\@print{1}\quad{}Introduction{}}
+\@@addtocsec{htoc}{sec2}{1}{\@print{1.1}\quad{} The Scenario {}}
+\@@addtocsec{htoc}{sec3}{1}{\@print{1.2}\quad{}Start ConceptBase{}}
+\newlabel{fig:cbiva1}{{1}{X}}
+\@deflabeltype{fig:cbiva1}{figure}
+\@@addtocsec{htoc}{sec4}{0}{\@print{2}\quad{}Define a simple Entity-Relationship notation{}}
+\newlabel{fig:cbiva3}{{2}{X}}
+\@deflabeltype{fig:cbiva3}{figure}
+\@@addtocsec{htoc}{sec5}{0}{\@print{3}\quad{}Define an Entity-Relationship model{}}
+\newlabel{fig:cbiva4}{{3}{X}}
+\@deflabeltype{fig:cbiva4}{figure}
+\@@addtocsec{htoc}{sec6}{0}{\@print{4}\quad{}Enter data for the insurance model{}}
+\newlabel{fig:cbiva5}{{4}{X}}
+\@deflabeltype{fig:cbiva5}{figure}
+\@@addtocsec{htoc}{sec7}{0}{\@print{5}\quad{}Define a process modeling notation{}}
+\@@addtocsec{htoc}{sec8}{0}{\@print{6}\quad{}Define an example process model{}}
+\newlabel{fig:cbiva6}{{5}{X}}
+\@deflabeltype{fig:cbiva6}{figure}
+\@@addtocsec{htoc}{sec9}{0}{\@print{7}\quad{}Link the two notations{}}
+\@@addtocsec{htoc}{sec10}{0}{\@print{8}\quad{}Conclusions{}}

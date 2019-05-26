@@ -1,0 +1,41 @@
+#!/bin/sh
+#Paul 29/4/2004
+#Manfred 2012-01-04
+#This script replaces occurrences of one string with another in a bunch of files.
+#Use like this: 
+#     replaceString 'oldstring' 'newstring' `find . -name \*php`
+# Example:
+#     replaceString 'Copyright 1987-2011' 'Copyright 1987-2012' `find . -name \*.pro`
+
+
+#the temporary file to use
+TEMPFILE=/tmp/.replaceZZ.tmp
+#print a usage message
+if test $# -lt 3; then
+	echo Usage $0 replace_this with_this files
+        exit 1
+fi
+#get the replacement and text to replace
+oldstring=$1 #the first argument
+newstring=$2 #the second argument
+shift 2
+#loop through the files
+for file; do
+        nummatches=`grep "$oldstring" $file | wc -l | sed -e "s/ //g"`
+        if test $nummatches -eq 0; then
+                echo $file: 0 occurrences
+        else
+                #We move first then sed, because doing it the other way around made the files give
+                #permission denied when viewed as web pages (???)
+                mv $file $TEMPFILE
+                sed -e "s~$oldstring~$newstring~g" $TEMPFILE > $file
+                if test -s $file; then
+                        echo $file: replacing $nummatches occurrences
+                        rm $TEMPFILE
+                else
+                        echo $file: not changed as the expression made the file blank!
+                        mv $TEMPFILE $file
+                fi
+        fi
+done
+

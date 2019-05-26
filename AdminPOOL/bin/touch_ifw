@@ -1,0 +1,8 @@
+#!/bin/sh
+
+for f in $*
+do
+	if [ -w $f ]; then
+		touch $f
+	fi
+done

@@ -1,0 +1,577 @@
+Steps to configure a ConceptBase development environment ***
+Manfred Jeusfeld
+
+2007-11-29 (2016-05-04)
+
+
+This file documents how to set-up a Linux or Unix system as a development
+environment for ConceptBase, i.e. that you can compile all binaries from
+the sources. Since our standard build environment is using some legacy
+servers, the scripts needed to be adapted to work both in the legacy
+environments and in new environments. 
+
+
+Necessary standard packages
+===========================
+
+The packages below should be installed on your computer. If you run Linux, then you
+can install the packages via the standard package manager of your distribution.
+
+
+Install the following packages
+      flex
+      bison
+      clang-3.8        (preferred C/C++ compiler for ConceptBase)
+      gcc-4.4          (needed to compile SWI-Prolog)
+      g++-4.4          (needed to link SWI-Prolog with ConceptBase code)
+      libgmp3-dev (libgmp3c2 in SWI-Prolog 5.6 is used)
+      libreadline5
+      libreadline5-dev  (use libreadline-gplv2-dev if not available)
+      libreadline6
+      libncursesw5-dev
+      bash (the main shell for ConceptBase scripts)
+      openjdk-8-jdk  (Java 6 and Java 7 JDKs also work))
+      libxpm-dev     (needed for SWI-Prolog)
+      libjpeg62-dev  (needed for SWI-Prolog)
+      libxft-dev     (needed for SWI-Prolog)
+      libxmu-dev     (needed for SWI-Prolog)
+      libxext-dev    (needed for SWI-Prolog)
+      libssl-ocaml-dev     (optional ssl package for SWI-Prolog)
+      unixodbc-dev  (optional odbc package for SWI-Prolog)
+
+
+
+Instead of clang-3.8  you can also install the packages clang-3.4 or gcc-4.4 and g++-4.4 (not later!)
+For the required packages for SWI-Prolog, see also the following section.
+If you use clang-3.4 for compiling ConceptBase, then also use it to
+compile SWI-Prolog.
+The clang compiler comes with its own stdlib libraries, which could be lacking
+some required components. If the compilation with fails, then use gcc-4.4 and g++-4.4.
+You can confiure it in the file config.mk (see below).
+
+By default, the make files of ConceptBase will not compile the user manual.
+To compile the user manual, you would need set the variable TEX_CAPABLE 
+either in your shell profile (e.g., .bashrc) or in config.mk. See below for more instructions.
+We recommend, NOT to install the texlive packages for compiling the ConceptBase user
+manual since anyway only members of the ConceptBase Team are allowed to change the
+user manual.
+
+
+
+
+
+Installing SWI-Prolog
+=====================
+
+SWI-Prolog is needed for compiling some Prolog sources of the ConceptBase system.
+Please note that versions of SWI-Prolog distributed by some package repositories
+(e.g. Ubuntu/Debian) do *not* work correctly with ConceptBase! So you need to download
+and install either the binary from www.swi-prolog.org or download the sources
+and compile them yourself (strongly recommended). 
+
+
+For SWI-Prolog 6.6.6:
+---------------------
+
+Debian users: You can install all required packages by
+
+    sudo apt-get install \
+        build-essential autoconf curl chrpath pkg-config \
+        ncurses-dev libreadline-dev libunwind8-dev \
+        libgmp-dev \
+        libssl-dev \
+        unixodbc-dev \
+        zlib1g-dev libarchive-dev \
+        libossp-uuid-dev \
+        libxext-dev libice-dev libjpeg-dev libxinerama-dev libxft-dev \
+        libxpm-dev libxt-dev \
+        openjdk-8-jdk junit
+
+Some packages would be redundant if you disable certain modules like 'ssl'
+in the 'build' file of SWI-Prolog.
+
+
+The following instructions should also work for some other versions.
+Replace the version string "6.6.6" if applicable.
+
+   Download sources of SWI-Prolog 6.6.6 from
+      http://www.swi-prolog.org/download/stable
+   The downloadable archive is under a link like
+      "SWI-Prolog source for 6.6.6"
+   Extract the files by
+       tar -zxvf pl-6.6.6.tar.gz
+   It will create a subdirectory pl-6.6.6 in the current directory.
+   Then, install it as follows (see also http://www.swi-prolog.org/build/unix.html):
+
+      cd pl-6.6.6
+      cp -p build.templ build
+   Then edit the script file 'build' as follows:
+      PREFIX=$HOME/swipl
+      export CC=/usr/bin/gcc-4.4
+
+   The compiler clang-3.4 or clang-3.8 may also work but we recommend gcc-4.4.
+
+   *** NOTE: YOU MUST USE THE SAME COMPILER AS SPECIFIED IN CONFIG.MK (see below).
+   You should create the directory mentioned in PREFIX before running ./build
+   The CC variable must be set to the same CC compiler used for compiling
+   ConceptBase (see config.mk file in the CBPOOL). Afterwards, execute
+      make distclean
+      ./prepare   # not sure whether this is needed!
+      ./build 
+   in the directory pl-6.6.6.
+
+
+   Assuming that you installed it at $HOME/swipl, add the following environment
+   variables to your file .bashrc:
+       export SWI_HOME=$HOME/swipl
+       export SWI_INCLUDE=$SWI_HOME/lib/swipl-6.6.6/include
+
+   Make the new settings active by starting a new bash shell and then
+   execute
+
+       cd $SWI_HOME/bin
+       ln -s swipl pl
+       ln -s swipl-ld plld
+       cd $SWI_HOME/lib/swipl-6.6.6/lib/`arch`-linux
+       ln -s libswipl.a libpl.a
+
+The symbolic links provide the program and library file names as they were
+used in SWI-Prolog 5.6. We stick to the old file names in the 
+'make' file because we use SWI-Prolog 5.6 at the ConceptBase master
+site at RWTH Aachen.
+
+(2015-06-24)
+The official ConceptBase distributables are now created at University of Skovde
+using SWI-Prolog 5.6 rather than SWI-Prolog 6.6. The reason is that the
+compilation of the CBserver with SWI-Prolog 6.6 links to libraries that are
+located in the SWI-Prolog directory and that are not included in the
+binaries of the CBserver. 
+Hence, you can compile the whole system very well with SWI-Prolog 6.6 but
+the binaries cannot be so easily be installed on another computer.
+
+(2016-05-04)
+SWI-Prolog 7.2 does not yet work with ConceptBase. Among others, the characters
+'`' used in the DCG files of the ConceptBase sources is handled differently
+in SWI-Prolog 7.2. compared to SWI-Prolog 6.6.6 and earlier.
+
+
+
+Environment variables and config.mk
+===================================
+
+Add the following settings to your file .bashrc (or the corresponding
+configuration file of your Bourne shell-compatible environment).
+
+   # for ConceptBase compilation and use
+   export CB_WORK=$HOME/CBPOOL/ProductPOOL
+   export CB_HOME=$HOME/CBPOOL/conceptbase
+   export CB_LOCATION=MyCity
+   export PATH=$CB_WORK/../AdminPOOL/bin:$CB_HOME:$PATH
+
+Replace MyCity by a string characterizing your location. It is used
+to distinguish your local installation of the development environment from
+the master site in Aachen.  Alternatively, you can set CB_LOCATION
+in the file config.mk (see below).
+
+Adapt the [EDIT] section of $CB_WORK/config.mk 
+according to your local installation, in particular specify in the variable
+SWI_HOME the path to your installation of SWI-Prolog (see above).
+You should also set the variables CC,CXX to
+the appropriate C/C++ compiler. Recommended is:
+   CC:=/usr/bin/clang
+   CXX:=/usr/bin/clang++
+NOTE: Use the same compiler that you used to compile SWI-Prolog!
+
+Depending on the packages you installed, you should adapt the variables
+JAVA_CAPABLE and TEX_CAPABLE in the [EDIT] section. By default,
+your local platform (=CB_VARIANT) is enabled for JAVA and TEX.
+Assume that you have neither installed TeXLive nor JAVA JDK, then set
+     JAVA_CAPABLE:="/none/"
+     TEX_CAPABLE:="/none/"
+If you have installed JAVA JDK but not TeXLive, then just change
+     TEX_CAPABLE:="/none/"
+
+If you want to enable the compilation of ConceptBase's Java components,
+then set
+     JAVA_CAPABLE:="/<variant>/"
+where <variant> is the output of the script $HOME/CBPOOL/AdminPOOL/bin/CBvariant
+The currently supported variants are linux (Intel i386), linux64 (Intel/AMD 64bit),
+sun4 (Solaris on SPARC CPU), and linuxarm (Linux on ARMV7 CPU).
+You can also enable several variants like with
+     JAVA_CAPABLE:="/linux/linux64/"
+which is useful if you compile the same source pool directory on different platforms.
+
+Make the ConceptBase scripts executable (Linux,Unix):
+
+     chmod u+x $CB_WORK/../AdminPOOL/bin/CB*
+     chmod u+x $CB_WORK/../AdminPOOL/bin/*latex*
+     chmod u+x $CB_WORK/../AdminPOOL/bin/touch_ifw
+     chmod u+x $CB_WORK/../AdminPOOL/bin/makePlcb
+     chmod u+x $CB_WORK/../AdminPOOL/utils/make.*
+     chmod u+x $CB_WORK/bin/CB*
+
+     
+
+
+To compile all ConceptBase modules
+==================================
+
+The easiest way is to call the script
+
+  compileCB  
+
+The script is located in the AdminPOOL/bin directory, which should
+be included in your search path (see above).
+
+The compiled binaries are then in the directory $CB_HOME/conceptbase
+
+The manual way is to call
+
+cd $CB_WORK
+CB_Make clean
+CB_Make touch_src
+CB_Make all
+CB_Make export
+CB_Make install
+
+This can take several minutes depending on your hardware. 
+The command 'CB_Make clean' removes generated binaries.
+It only needs to be executed once after you have installed
+a new CBPOOL on your computer.
+
+You can also update your ConceptBase sources to the latest published version:
+
+  updateCB
+
+It will download the sources, compile them and install the binaries in
+$CB_Work/conceptbase.
+
+
+
+
+Compilation under Rasbian/Raspberry Pi
+======================================
+
+This platform is Linux-based and uses an ARM CPU. The CBvariant script has been updated
+to return 'linuxarm' on this platform. Note that the script is located in AdminPOOL/bin
+but there is also a copy in ProductPOOL/bin that has to be the same.
+
+The directory AdminPOOL/utils now contains a binary make.linuxarm which is
+a compiled version of make 3.80 for ARM CPUs. See also section on Make 3.80 below.
+
+SWI-Prolog needed to be compiled from its sources pl-6.6.6, see section on SWI-Prolog
+above. Make sure that you use gcc-4.4 for the compilation by setting
+   export CC=/usr/bin/gcc-4.4
+in the file build that you copied from build.templ.
+Preferably, disable some packages in build
+   export DISABLE_PKGS="ssl xpce jpl"
+Otherwise, you may have to install quite a number of X11 libriaries
+to let ./build succeed.
+
+The compilation requires that a subdirectory tree
+  ProductPOOL/linuxarm
+exists. If it does not exist on your computer, you can copy it
+  cp -r ProductPOOL/linux ProductPOOL/linuxarm
+  cd $CB_WORK
+  CB_Make clean
+
+You also may have to execute
+  AdminPOOL/bin/makePlcb
+
+Then, you should be able to compile the CBserver from scratch.
+Note that you should set in config.mk the variable
+     JAVA_CAPABLE:="/linuxarm/"
+if you want to compile the Java files as well.
+
+Afterwards, compile with
+  compileCB
+
+If you get an error message about a missting library (lib)stdc++, then uninstall g++-4.4
+and then re-install it again
+
+sudo apt-get remove g++-4.4
+sudo apt-get install g++-4.4
+
+
+
+Specific steps for Windows (pending)
+====================================
+
+(The subsequent steps are INCOMPLETE and do not work as such)
+
+1- Install CYGWIN  into C:\CYGWIN with the setup program; select the following packages
+    gcc
+    g++
+    flex
+    bison 
+    openssh
+    cvs
+    libreadline5,libreadline6 (included via gcc?)
+
+Install MINGW from http://www.mingw.org/wiki/Getting_Started into C:\MinGW with components
+   g++
+   Java
+   MinGW Make
+
+
+Install Java SE JDK Version XX from java.sun.com
+
+
+2- Create a subdirectory .ssh in the /home/user directory and
+   copy your id_rsa and id_rsa.pub into it
+   chmod go-rx id_rsa
+   This step is only for linking to the CVS repository in Aachen!
+
+3- Follow the installation steps as above
+
+4- CBvariant must output 'cygwin' as new platform
+
+
+
+
+MISCELANEOUS
+============
+
+
+Java compilation
+================
+
+The Java sources are compatible with Java 1.4, 1.5 (Java 5), and Java 6 to Java 8.
+
+- Compile all Java stuff (need to touch all Java files, otherwise compilation may be incomplete)
+     cd CBPOOL/java
+     find . -name '*.java' -exec touch {} \;
+     CB_Make all
+
+This step is usually unnecessary since it is part of the overall compile procedure 
+(see above: To compile all ConceptBase modules).
+
+We recommend to use Java 7 JDK both for compilation (JDK) and as a runtime environment!
+
+Under Linux, you can use the OpenJDK-6-JDK package for compilation.
+
+To run ConceptBase, you should use the most recent version of Java-7 or Java-8.
+
+There used to be an issue with Java version 6 Build 12 and later (i.e. also Java 7, Java 8).
+The problem was that the sizes of certain Swing components of CBGraph were
+not initialized but set to zero. This problem is now solved in the CBGraph Java programs
+by explicitely setting the sizes. If an older version of Java is used, it shall use
+the size as initialized by Java.
+
+
+
+Changes with Ubuntu 12.04 (Kernel 3.x)
+======================================
+
+1. Library libgmp.so.3 not found when starting/compiling the cbserver
+   Execute
+      sudo ln -s /usr/lib/`arch`-linux-gnu/libgmp.so.10 /usr/lib/libgmp.so.3
+   to let SWI-Prolog find this math library
+
+A CBserver binary linked under Ubuntu 12.04 shall expect libgmp.so.10. It will
+not run under Ubuntu 10.04 because Ubuntu 10.04 only supports libgmp3. Other
+libraries are different as well.  
+
+The link may also be necessary when you compile ConceptBase with the old
+SWI-Prolog 5.6. 
+
+
+
+Make V3.80 vs. Make V3.81 
+=========================
+
+Make V3.81 has problems with the Makefiles of ConceptBase. It loops when
+compiling the Prolog sources. For this reason, CB_Make does not use the system 'make'
+utility but uses binaries of make V3.80 (or earlier), located in AdminPOOL/utils,
+under names 'make.<CBvariant>'  where <CBvariant> is the name of the platform as
+computed by the CBvariant utility in AdminPOOL/bin. 
+
+You can compile make 3.80 from the sources available from
+  http://ftp.gnu.org/gnu/make/
+if AdminPOOL/utils does not contain a pre-compiled variant for your platform.
+In the downloaded sourve directory execute
+  ./configure
+  make
+The binary 'make' can then be copied to AdminPOOL/utils/make.<CBvariant>
+Replace <CBvariant> by the output of CBvariant for your platform. You may
+have to adapt CBvariant for returning a unique label for your platform.
+For example, the string 'linux' returned by CBvariant actually is reserved
+for Linux/Intel-386
+So, if your platform uses another CPU, then take care theat CBvariant output
+a label like 'linuxpowerpc'  if your CPU is for eample PowerPC.
+
+
+
+
+
+
+Testing the ConceptBase Server
+==============================
+
+If you make changes to the CBserver code, then you should check whether
+the CBserver still performs as expected. We have created a number of
+test scripts that run the ConceptBase server on a number of examples.
+The test scripts include for each method call the expected response,
+hence the test is about whether the CBserver produces the expected
+result for all method calls in the the test scripts.
+
+The command for the test routine is 'autotestCB' and is located in the
+directory AdminPOOL/bin. Make sure that this directory is included in
+your search path and call
+
+  autotestCB
+
+The whole test takes a few minutes. If no errors are found it reports:
+
+    Log 1 = new results; Log 2 = previous results
+    Summary
+    Number of methods: 333
+    Total CPU time:               1:  8.77     2:  8.92
+    Average CPU time per method:  1:  0.03     2:  0.03
+    All tests done; logs are in .../AdminPOOL/utils/CB_TestClient/log/linux64.log
+
+The summary at the end shows that the new version (log 1) needed 8.77 CPU time
+in total. The previous one (log 2) needed 8.92 CPU time (all in seconds).
+Most time is wait time for I/O. The CPOU time shows you whether your changes
+made the system faster or slower.
+
+
+If some method calls differ a lot, then the output of autotestCB contains details
+of these method calls.
+
+
+If a deviation from the expected result is fount, the script shall report it like
+in the following example:
+
+
+1: Error in AdminPOOL/utils/CB_TestClient/log/error.MetaFormulas.linux64
+2: **************************************
+3: Error during interaction with server
+4: 1;Method was:
+5: tellModel .../examples/MetaFormulas/MetaFormulas 
+6: Expected Answer:OK
+7: no
+8: Received answer:OK
+9: yes
+**************************************
+
+
+The first line specifies the error log file, here error.MetaFormulas.linux64.
+The middle part includes the name of the test script, MetaFormulas. You
+can look it up in
+  AdminPOOL/utils/CB_TestClient/scripts/MetaFormulas.cbs
+
+Line 5 specifies the method call that has led to the deviation from the
+expected result, here a tellModel call on a file MetaFormulas.sml located
+in ../examples/MetaFormulas/
+Lines 6 & 7 display the expected answer. The first value (OK) is the so-called
+completion. It specifies whether the CBserver was able the handle the method call.
+Line 7 (and possibly more subsequent lines) contain the expected answer
+(here 'no').
+Lines 8 & 9 specify what the CBserver actually returned.
+
+
+Note all deviations from the expected result are logical errors. It could be that
+the sequence of elements in an answer set is different from the extected answer,
+e.g. due to a change in the query optimizer. In such cases, you may want to change
+the expected answer to the sequence that is returned by the new CBserver.
+
+A number of method calls in the test scripts check the integrity checker of ConceptBase.
+Hence the expected answer can well be ERROR/no. 
+
+
+
+
+Creating ConceptBase distributables
+===================================
+
+The CBPOOL/AdminPOOL/bin directory contains a couple of scripts to automate the creation
+of ConceptBase distribution files.
+
+compileCB    
+  compiles ConceptBase binaries into CBPOOL/conceptbase
+
+autotestCB
+  runs a large number of test scripts to detect logical errors in the CBserver
+  (see also above)
+
+publishCB
+  copies the ConceptBase binaries into the directory $HOME/ConceptBase-Distros
+
+makeCBLATEST
+  creates a ZIP archive cb-latest.zip with all binaries/docs for ConceptBase
+  in $HOME/ConceptBase-Distros
+
+makeFATCBINSTALLER
+  creates a "fat" file CBinstaller.jar that contains all binaries/docs for ConceptBase
+  plus the installation program; this file can be executed by 
+     java -jar CBinstaller.jar
+             
+The preferred distribution file is the CBinstaller.jar file that is produced
+by makeFATCBINSTALLER. It uses the Java program CBinstaller.java that is 
+compiled by compileCB within the CBPOOL.
+
+All scripts are Bourne shell scripts for Linux/Unix.
+
+
+Latex
+=====
+
+For compiling the user manual (Latex) you need these additional packages
+
+      texlive
+      texlive-bibtex-extra
+      texlive-fonts-extra
+      texlive-fonts-recommended
+      texlive-font-utils
+      texlive-generic-recommended
+      texlive-extra-utils
+      texlive-latex-extra
+      latex2html  (only needed if you install hevea to generate a HTML user manual)
+
+Normally, you do not need Latex for compiling ConceptBase.
+
+
+
+To create a new plcb (version of swipl with extensions for ConceptBase):
+========================================================================
+
+plcb is a version of SWI-Prolog to which some ConceptBase-related extensions
+are added. It is needed to compile ConceptBase. ConceptBase currently
+requires SWI-Prolog 5.6.x to 6.0.x.
+
+
+1- Edit CBPOOL/config.mk to let SWI_HOME and SWI_INCLUDE point to the
+   version of SWI-Prolog that you want to use
+
+2- Execute: CBPOOL/AdminPOOL/bin/makePlcb
+
+
+Note: this step is not necessary when you follow the above compile instructions.
+It is required whenever you switch to another version of SWI-Prolog.
+
+
+
+
+Troubleshooting
+===============
+
+(1) CB_Make fails to compile the Prolog files.
+    The Prolog interpreter starts and waits for input with prompt '?-'.
+    Cause: wrong version of plcb
+    Solution: execute makePlcb
+
+(2) CB_Make stops with an error message that SWI-Prolog.h cannot be found.
+    Cause: incorrect installation of SWI-Prolog
+    Solution: Install SWI-Prolog exactly as explained above
+
+(3) CB_Make stops in the middle with no obvious reason
+    Cause: unix2dos is not installed
+    Solution: install unix2dos as advised above 
+
+
+
+
+
+
+

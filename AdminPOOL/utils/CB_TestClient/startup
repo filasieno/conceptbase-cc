@@ -1,0 +1,16 @@
+{ Hostname des Servers }
+host .
+{ Portnummer des Servers }
+4567 .
+{ Username und Host des Users }
+'user@host' .
+{ Dateiname des Skripts mit den Befehlen fuer den Server, voller Pfad notwendig! }
+'/path/script' .
+{ Server nach Skript stoppen =yes, weiterlaufen = no }
+stop_server(no) .
+{ Benutzerinput nach jeder Aktion =yes, ohne Unterbrechung = no }
+trace_mode(no).
+{ Files vom Client laden = no, Files vom Server laden = yes }
+tell_file(yes).
+
+

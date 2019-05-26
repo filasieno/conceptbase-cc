@@ -1,0 +1,370 @@
+startServer -u nonpersistent -st off
+tellModel $CB_HOME/examples/FLIGHT/BigFlights
+result OK yes
+ask DeadEndCity OBJNAMES FRAME Now
+result OK "tripoli in DeadEndCity
+end
+
+malta in DeadEndCity
+end
+
+toulouse in DeadEndCity
+end
+
+sanfrancisco in DeadEndCity
+end
+
+edinburgh in DeadEndCity
+end"
+ask DeadStartCity OBJNAMES FRAME Now
+result OK "juist in DeadStartCity
+end
+
+ljubljana in DeadStartCity
+end
+
+malaga in DeadStartCity
+end
+
+tanger in DeadStartCity
+end
+
+langeoog in DeadStartCity
+end
+
+santa_decompostela in DeadStartCity
+end
+
+helgoland in DeadStartCity
+end
+
+rotterdam in DeadStartCity
+end
+
+tampere in DeadStartCity
+end
+
+bristol in DeadStartCity
+end
+
+gdansk in DeadStartCity
+end
+
+malmoe in DeadStartCity
+end
+
+norderney in DeadStartCity
+end
+
+borkum in DeadStartCity
+end"
+ask "KindaClique[antwerpen/startcity]" OBJNAMES FRAME Now
+result OK "leningrad in KindaClique[antwerpen/startcity]
+end
+
+frankfurt in KindaClique[antwerpen/startcity]
+end
+
+muenchen in KindaClique[antwerpen/startcity]
+end
+
+hamburg in KindaClique[antwerpen/startcity]
+end
+
+duesseldorf in KindaClique[antwerpen/startcity]
+end
+
+geneve in KindaClique[antwerpen/startcity]
+end
+
+glasgow in KindaClique[antwerpen/startcity]
+end
+
+saarbruecken in KindaClique[antwerpen/startcity]
+end
+
+nice in KindaClique[antwerpen/startcity]
+end
+
+zagreb in KindaClique[antwerpen/startcity]
+end
+
+paris in KindaClique[antwerpen/startcity]
+end
+
+hannover in KindaClique[antwerpen/startcity]
+end
+
+bucuresti in KindaClique[antwerpen/startcity]
+end
+
+berlin in KindaClique[antwerpen/startcity]
+end
+
+faro in KindaClique[antwerpen/startcity]
+end
+
+amsterdam in KindaClique[antwerpen/startcity]
+end
+
+london in KindaClique[antwerpen/startcity]
+end
+
+antwerpen in KindaClique[antwerpen/startcity]
+end
+
+birmingham in KindaClique[antwerpen/startcity]
+end
+
+salzburg in KindaClique[antwerpen/startcity]
+end
+
+koeln_bonn in KindaClique[antwerpen/startcity]
+end
+
+nuernberg in KindaClique[antwerpen/startcity]
+end
+
+bremen in KindaClique[antwerpen/startcity]
+end
+
+catania in KindaClique[antwerpen/startcity]
+end
+
+leipzig in KindaClique[antwerpen/startcity]
+end
+
+innsbruck in KindaClique[antwerpen/startcity]
+end
+
+porto in KindaClique[antwerpen/startcity]
+end
+
+stockholm in KindaClique[antwerpen/startcity]
+end
+
+helsinki in KindaClique[antwerpen/startcity]
+end
+
+valencia in KindaClique[antwerpen/startcity]
+end
+
+zuerich in KindaClique[antwerpen/startcity]
+end
+
+sevilla in KindaClique[antwerpen/startcity]
+end
+
+beograd in KindaClique[antwerpen/startcity]
+end
+
+kobenhavn in KindaClique[antwerpen/startcity]
+end
+
+split in KindaClique[antwerpen/startcity]
+end
+
+sofia in KindaClique[antwerpen/startcity]
+end
+
+budapest in KindaClique[antwerpen/startcity]
+end
+
+moskva in KindaClique[antwerpen/startcity]
+end
+
+goeteborg in KindaClique[antwerpen/startcity]
+end
+
+muenster in KindaClique[antwerpen/startcity]
+end
+
+manchester in KindaClique[antwerpen/startcity]
+end
+
+tenerife in KindaClique[antwerpen/startcity]
+end
+
+tunis in KindaClique[antwerpen/startcity]
+end
+
+wien in KindaClique[antwerpen/startcity]
+end
+
+newyork in KindaClique[antwerpen/startcity]
+end
+
+chicago in KindaClique[antwerpen/startcity]
+end
+
+roma in KindaClique[antwerpen/startcity]
+end
+
+basel in KindaClique[antwerpen/startcity]
+end
+
+laspalmas in KindaClique[antwerpen/startcity]
+end
+
+athine in KindaClique[antwerpen/startcity]
+end
+
+tripoli in KindaClique[antwerpen/startcity]
+end
+
+luxembourg in KindaClique[antwerpen/startcity]
+end
+
+dallas in KindaClique[antwerpen/startcity]
+end
+
+venezia in KindaClique[antwerpen/startcity]
+end
+
+warszawa in KindaClique[antwerpen/startcity]
+end
+
+ankara in KindaClique[antwerpen/startcity]
+end
+
+graz in KindaClique[antwerpen/startcity]
+end
+
+bogota in KindaClique[antwerpen/startcity]
+end
+
+madrid in KindaClique[antwerpen/startcity]
+end
+
+oslo in KindaClique[antwerpen/startcity]
+end
+
+stuttgart in KindaClique[antwerpen/startcity]
+end
+
+linz in KindaClique[antwerpen/startcity]
+end
+
+dublin in KindaClique[antwerpen/startcity]
+end
+
+thessaloniki in KindaClique[antwerpen/startcity]
+end
+
+ibiza in KindaClique[antwerpen/startcity]
+end
+
+malta in KindaClique[antwerpen/startcity]
+end
+
+lyon in KindaClique[antwerpen/startcity]
+end
+
+bayreuth in KindaClique[antwerpen/startcity]
+end
+
+palma in KindaClique[antwerpen/startcity]
+end
+
+lisboa in KindaClique[antwerpen/startcity]
+end
+
+bologna in KindaClique[antwerpen/startcity]
+end
+
+alger in KindaClique[antwerpen/startcity]
+end
+
+casablanca in KindaClique[antwerpen/startcity]
+end
+
+klagenfurt in KindaClique[antwerpen/startcity]
+end
+
+genova in KindaClique[antwerpen/startcity]
+end
+
+izmir in KindaClique[antwerpen/startcity]
+end
+
+bruxelles in KindaClique[antwerpen/startcity]
+end
+
+bordeaux in KindaClique[antwerpen/startcity]
+end
+
+barcelona in KindaClique[antwerpen/startcity]
+end
+
+timisoara in KindaClique[antwerpen/startcity]
+end
+
+sanjuan in KindaClique[antwerpen/startcity]
+end
+
+bilbao in KindaClique[antwerpen/startcity]
+end
+
+istanbul in KindaClique[antwerpen/startcity]
+end
+
+atlanta in KindaClique[antwerpen/startcity]
+end
+
+marseille in KindaClique[antwerpen/startcity]
+end
+
+torino in KindaClique[antwerpen/startcity]
+end
+
+dubrovnik in KindaClique[antwerpen/startcity]
+end
+
+paderborn in KindaClique[antwerpen/startcity]
+end
+
+dortmund in KindaClique[antwerpen/startcity]
+end
+
+lapaz in KindaClique[antwerpen/startcity]
+end
+
+pisa in KindaClique[antwerpen/startcity]
+end
+
+napoli in KindaClique[antwerpen/startcity]
+end
+
+hof in KindaClique[antwerpen/startcity]
+end
+
+praha in KindaClique[antwerpen/startcity]
+end
+
+heraklion in KindaClique[antwerpen/startcity]
+end
+
+toulouse in KindaClique[antwerpen/startcity]
+end
+
+westerland in KindaClique[antwerpen/startcity]
+end
+
+wangerooge in KindaClique[antwerpen/startcity]
+end
+
+milano in KindaClique[antwerpen/startcity]
+end
+
+sanfrancisco in KindaClique[antwerpen/startcity]
+end
+
+edinburgh in KindaClique[antwerpen/startcity]
+end"
+ask "find_instances[ReachableFrom[atlanta/start]/class]" OBJNAMES LABEL Now
+result OK "leningrad,frankfurt,muenchen,hamburg,duesseldorf,geneve,glasgow,saarbruecken,nice,zagreb,paris,hannover,bucuresti,berlin,faro,amsterdam,london,antwerpen,birmingham,salzburg,koeln_bonn,nuernberg,bremen,catania,leipzig,innsbruck,porto,stockholm,helsinki,valencia,zuerich,sevilla,beograd,kobenhavn,split,sofia,budapest,moskva,goeteborg,muenster,manchester,tenerife,tunis,wien,newyork,chicago,roma,basel,laspalmas,athine,tripoli,luxembourg,dallas,venezia,warszawa,ankara,graz,bogota,madrid,oslo,stuttgart,linz,dublin,thessaloniki,ibiza,malta,lyon,bayreuth,palma,lisboa,bologna,alger,casablanca,klagenfurt,genova,izmir,bruxelles,bordeaux,barcelona,timisoara,sanjuan,bilbao,istanbul,atlanta,marseille,torino,dubrovnik,paderborn,dortmund,lapaz,pisa,napoli,hof,praha,heraklion,toulouse,westerland,wangerooge,milano,sanfrancisco,edinburgh"
+ask "find_instances[UnReachableFrom[borkum/start]/class]" OBJNAMES LABEL Now
+result OK "juist,ljubljana,malaga,tanger,langeoog,santa_decompostela,helgoland,rotterdam,tampere,bristol,gdansk,malmoe,norderney,borkum"
+ask "find_instances[UnReachableFrom[atlanta/start]/class]" OBJNAMES LABEL Now
+result OK "juist,ljubljana,malaga,tanger,langeoog,santa_decompostela,helgoland,rotterdam,tampere,bristol,gdansk,malmoe,norderney,borkum"
+

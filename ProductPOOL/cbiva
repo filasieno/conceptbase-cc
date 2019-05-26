@@ -1,0 +1,34 @@
+#!/bin/sh
+
+DEFAULT_CB_HOME=`dirname $0`
+
+CB_HOME=${CB_HOME:=$DEFAULT_CB_HOME}
+export CB_HOME
+
+CB_VARIANT=`"$CB_HOME/bin/CBvariant"`
+
+# default java
+JAVAEXEC=java
+
+
+# We prefer to use one of the following javas; the last one is most preferred
+
+# take /opt/jre6_10 if installed
+if [ -x /opt/jre1.6.0_10/bin/java ]; then
+  JAVAEXEC=/opt/jre1.6.0_10/bin/java
+fi
+# take local jdk6_10 if installed
+if [ -x $CB_HOME/$CB_VARIANT/jre1.6.0_10/bin/java ]; then
+  JAVAEXEC=$CB_HOME/$CB_VARIANT/jre1.6.0_10/bin/java
+fi
+# take /usr/bin/java if installed (standard location under Linux)
+if [ -x /usr/bin/java ]; then
+  JAVAEXEC=/usr/bin/java
+fi
+
+exec $JAVAEXEC -Djava.awt.headless=false -DCB_HOME="$CB_HOME" -jar "$CB_HOME/lib/classes/cb.jar" "$@"
+
+
+
+
+
