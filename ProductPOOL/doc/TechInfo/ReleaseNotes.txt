@@ -23,6 +23,14 @@ The list of tickets and their solutions is available at
 http://www-i5.informatik.rwth-aachen.de/cgi-bin/cvstrac/cvstrac.cgi/cbase/rptview?rn=4
 
 
+Detailed Changes since Version 8.0 (2019-05-27)
+===============================================
+
+Version 8.1 aims at making the CBserver better integrated with current
+exchange formats.
+
+
+
 
 Detailed Changes since Version 8.0 (2016-11-28)
 ===============================================
