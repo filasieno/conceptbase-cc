@@ -1,7 +1,9 @@
 #!/bin/sh
 # copy the current CBPOOL to USBstick or Dropbox after updating and compiling it
 # This script is perhaps useful in distributing the CBPOOL.zip archive
-# Authis: Manfred Jeusfeld
+# Author: Manfred Jeusfeld
+
+#2019-05-27: This script is outdated; use getcbpool+putcbpool instead
 
 STICKDIR=$HOME/Dropbox/
 
@@ -19,7 +21,7 @@ fi
 if [ -d "$STICKDIR" ]; then
 
 cd $HOME/CBPOOL/ProductPOOL
-  cvs update
+#  cvs update  
   compileCB
   cd $HOME
   /bin/rm $STICKDIR/CBPOOL.zip
