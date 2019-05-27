@@ -299,7 +299,7 @@ outAttrBlocks(_indentLevel,[attrdecl(_catList, _propList)| _attrTail], _buf):-
 	outLabelList( _catList, _buf),
 	( getFlag(currentAnswerFormat,'JSONIC'),!;
 	  appendBuffer(_buf,'\n')),
-	getLabelPrefix(_catList,_prefix),nl,
+	getLabelPrefix(_catList,_prefix),
 	outPropBlock(_prefix,_indentLevel,_propList, _buf),
 	( getFlag(currentAnswerFormat,'JSONIC'),_attrTail\=[],appendBuffer(_buf,',\n'),!;
 	  appendBuffer(_buf,'\n')),
