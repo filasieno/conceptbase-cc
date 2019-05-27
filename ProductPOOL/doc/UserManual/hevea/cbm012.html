@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html >
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<meta name="generator" content="hevea 2.09">
+<meta name="generator" content="hevea 2.23">
 <link rel="stylesheet" type="text/css" href="cb-style.css"><link rel="stylesheet" type="text/css" href="cbm.css">
 <title>Graphical Types</title>
 </head>
@@ -11,7 +11,7 @@
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
 <a href="cbm013.html"><img src="next_motif.gif" alt="Next"></a>
 <hr>
-<h1 id="sec168" class="chapter">Appendix&#XA0;C&#XA0;&#XA0;Graphical Types</h1>
+<h1 id="sec171" class="chapter">Appendix&#XA0;C&#XA0;&#XA0;Graphical Types</h1>
 <p>
 <a id="cha:graph-typen"></a></p><p>The concept of a <em>graphical type</em> enables the specification
 of an external graphical presentation for ConceptBase objects.
@@ -23,11 +23,11 @@ graphical types, while section <a href="#GTsforGB">C.2</a> presents the
 standard graphical type definitions for the ConceptBase Graph
 Editor. Section <a href="#GTsCust">C.3</a> describes the definition
 of application-specific types.</p>
-<h2 id="sec169" class="section">C.1&#XA0;&#XA0;The graphical type model</h2>
+<h2 id="sec172" class="section">C.1&#XA0;&#XA0;The graphical type model</h2>
 <p>A specific graphical type is defined as an instance of the object
 <span style="font-family:monospace">GraphicalType</span>. CBGraph uses the subclass <span style="font-family:monospace">JavaGraphicalType</span>.
 Instances of this class specify a graphical
-represenation of an object by defining graphical attributes such as
+representation of an object by defining graphical attributes such as
 shape, color, line thickness, font etc. Since the
 actual attributes and their admissible value depend on the
 used visualization tool, the definition of <span style="font-family:monospace">GraphicalType</span> looks very simple.</p><pre class="verbatim"><span style="font-size:small">GraphicalType in Class
@@ -68,7 +68,7 @@ mechanism is available for arbitrary application programs we restrict our
 description to the CBGraph Editor.</p><p>The <span style="font-family:monospace">default</span> specification serves as a catch all: an answer object, for
 which none of the graphical types of the current palette is specified, is
 presented using the default graphical type of that palette.</p>
-<h2 id="sec170" class="section">C.2&#XA0;&#XA0;The standard graphical types</h2>
+<h2 id="sec173" class="section">C.2&#XA0;&#XA0;The standard graphical types</h2>
 <p>
 <a id="GTsforGB"></a></p><p>CBGraph is implemented using the Java Programming Language.
 It is entirely based on the Swing toolkit (package javax.swing).
@@ -76,7 +76,7 @@ The graphical objects shown in CBGraph are all instances
 of the class JComponent in the javax.swing package. User-defined
 representations of objects can be provided by overwriting a specific
 class of CBGraph (details are given below).</p>
-<h3 id="sec171" class="subsection">C.2.1&#XA0;&#XA0;The extended graphical type model</h3>
+<h3 id="sec174" class="subsection">C.2.1&#XA0;&#XA0;The extended graphical type model</h3>
 <p>Based on our experience with a legacy graph browser for X11, we have
 extended the graphical type model for the CBGraph Editor. First,
 the class <span style="font-family:monospace">GraphicalType</span> has been specialized by a class <span style="font-family:monospace">JavaGraphicalType</span>:</p><pre class="verbatim"><span style="font-size:small">Class JavaGraphicalType isA GraphicalType with
@@ -84,18 +84,18 @@ the class <span style="font-family:monospace">GraphicalType</span> has been spec
    implementedBy : String;
    property : String;
    priority : Integer
- attribute,rule
+ rule
    rPriority : $ forall jgt/JavaGraphicalType (not (exists i/Integer
                  A_e(jgt,priority,i))) ==&gt; A(jgt,priority,0) $
 end
 
 Individual DefaultIndividualGT in JavaGraphicalType with
-  attribute,property
+  property
      bgcolor : "210,210,210";
      textcolor : "0,0,0";
      linecolor : "0,0,0";
      shape : "i5.cb.graph.shapes.Rect"
-  attribute,implementedBy
+  implementedBy
      implBy : "i5.cb.graph.cbeditor.CBIndividual"
 end
 </span></pre><p>The object <span style="font-family:monospace">DefaultIndividualGT</span> is an example for the instantiation
@@ -105,7 +105,7 @@ that provides the implementation for this graphical type. This class
 has to be a sub class of <code>"i5.cb.graph.cbeditor.CBUserObject"</code>.
 The <span style="font-family:monospace">property</span> attribute specifies name-value pairs which will
 be used by the Java implementation to set certain properties, e.g.
-color, shape, font<sup><a id="text46" href="#note46">1</a></sup>.
+color, shape, font<sup><a id="text47" href="#note47">1</a></sup>.
 The priority value is used to resolve ambiguity
 if multiple graphical types apply to one object. The graphical type
 with the highest priority will be used. The rule specifies a default
@@ -132,8 +132,8 @@ the palette at startup time. CBGraph supports the following properties for palet
 <span style="font-weight:bold">bgcolor:</span></dt><dd class="dd-description"> sets the background color of the windows that displays the graph;
 format should be <span style="font-family:monospace">"r,g,b"</span>, e.g. <span style="font-family:monospace">"255,255,255"</span> for white
 </dd><dt class="dt-description"><span style="font-weight:bold">bgimage:</span></dt><dd class="dd-description"> sets the background image for the graph windows; the image shall
-be specified by the URL to a PNG, GIF, or JPG image; it is scaled by the 
-CBGraph editor to fit into the internal window showing a graph of this palette
+be specified by the URL to a PNG, GIF, or JPG image;
+it is scaled by the CBGraph editor to fit into the internal window showing a graph of this palette
 </dd><dt class="dt-description"><span style="font-weight:bold">longtitle:</span></dt><dd class="dd-description"> used for setting the title of the graph windows employing this palette;
 if no long title is specified, then CBGraph uses the name of the palette itself for
 forming the window title; if the longtitle is set to the empty string "", then
@@ -143,14 +143,15 @@ instances, classes, and meta classes. Another typical use is to support canvasse
 like the business model canvas
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d3595098/bmg-egadget.png">link</a> used
 in the Telos models described in the CB-Forum at
-<a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d3595098/">link</a>.</p><p>If a background image is specified for a palette shown in an internal window of CBGraph,
+<a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d3595098/">link</a>.
+Only "http" URLs are supported.</p><p>If a background image is specified for a palette shown in an internal window of CBGraph,
 then CBGraph links it with the size and zoom factor of the internal window. Initially, the
 zoom factor is set to 100% and the internal window size is set to display the image
 in its original resulution, provided that it fits well to the screen size.
 You can then resize the internal window and the background image shall be resized
 accordingly. Analogously, the image is resized when the zoom factor changes.
 The background image is also stored in the GEL file, see section <a href="cbm009.html#sec%3Acbgraphcmd">8.2.3</a>.</p>
-<h3 id="sec172" class="subsection">C.2.2&#XA0;&#XA0;Default graphical types</h3>
+<h3 id="sec175" class="subsection">C.2.2&#XA0;&#XA0;Default graphical types</h3>
 <p>For the standard objects, there are a number of predefined graphical
 types. There are contained in the graphical palette <span style="font-family:monospace">DefaultJavaPalette</span>
 which is used by default by the CBGraph Editor.</p><div class="center">
@@ -179,9 +180,8 @@ as a starting point since you may want to reuse some of the existing
 graphical types. See file <span style="font-family:monospace">03-ERD-GTs.sml</span> at
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/188651">link</a> for an example.</p><p>The safest way to define a correct graphical palette is to use
 the intermediate <span style="font-family:monospace">XPalette</span> as superclass of the new palette.
-It can be found within the CB-Forum model
-for business model canvasses at
-<a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/3594885">link</a>.
+It can be found in the CB-Forum at
+<a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d4204468/StandardPalette.sml.txt">link</a>.
 With <span style="font-family:monospace">XPalette</span> you can define a new
 palette without having to worry about values for required
 default graphical types.</p><pre class="verbatim"><span style="font-size:small">BMG_Palette in JavaGraphicalPalette isA XPalette with
@@ -195,24 +195,29 @@ default graphical types.</p><pre class="verbatim"><span style="font-size:small">
     bmg4: Channel_GT;
     ...
 end
-</span></pre>
-<h2 id="sec173" class="section">C.3&#XA0;&#XA0;Customizing the graphical types</h2>
+</span></pre><p>An alternative to <span style="font-family:monospace">DefaultJavaPalette</span> is the general-purpose <span style="font-family:monospace">StandardPalette</span> available from
+the CB-Forum at <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d4204468/StandardPalette.sml.txt">link</a>.
+It assigns white color to most nodes and uses broken green lines both for explicit
+and deduced instantiations. Just add the definitions to your Telos model
+to use this palette.</p>
+<h2 id="sec176" class="section">C.3&#XA0;&#XA0;Customizing the graphical types</h2>
 <p>
 <a id="GTsCust"></a></p><p>To support the user in defining his own graphical
 types we provide some examples and documentation
 of the properties.</p><p>There are two ways to customize the graphical types:
 </p><ul class="itemize"><li class="li-itemize">
-Defining new graphical types with different
+Defining new graphical types with dedicated graphical properties
 properties using the provided implementations<br>
-i5.cb.graph.cbeditor.CBIndividual
-and i5.cb.graph.cbeditor.CBLink
+i5.cb.graph.cbeditor.CBIndividual (for nodes)
+and i5.cb.graph.cbeditor.CBLink (for links)
 </li><li class="li-itemize">Defining new graphical types with a different
 implementation class which extends<br>
 i5.cb.graph.cbeditor.CBUserObject
-(or CBIndividual or CBLink)
+(or CBIndividual or CBLink); this option requires changes to the Java source code
+of CBGraph
 </li></ul><p>Both possibilities will presented in the next two
 subsections.</p>
-<h3 id="sec174" class="subsection">C.3.1&#XA0;&#XA0;Properties of CBIndividual and CBLink</h3>
+<h3 id="sec177" class="subsection">C.3.1&#XA0;&#XA0;Graphical properties of nodes and links</h3>
 <p>
 <a id="sec:graph-props"></a></p><p>The easiest way to modify the representation of an object
 in the CBGraph Editor is to load an existing graphical type,
@@ -222,16 +227,19 @@ e.g. "0,0,0" is black, "255,0,0" is red, "255,255,255" is white, etc.
 Furthermore, all attributes have to be strings, even if they are
 just numbers, e.g. use "1" instead of 1 as attribute value.</p><dl class="description"><dt class="dt-description">
 <span style="font-weight:bold">bgcolor:</span></dt><dd class="dd-description">
-Background color of the shape (default: invisible)</dd><dt class="dt-description"><span style="font-weight:bold">textcolor:</span></dt><dd class="dd-description">
-Foreground color of the shape (i.e. text color) (default: black "0,0,0")</dd><dt class="dt-description"><span style="font-weight:bold">linecolor:</span></dt><dd class="dd-description">
-Color of the border of the shape (default: invisible)</dd><dt class="dt-description"><span style="font-weight:bold">linewidth:</span></dt><dd class="dd-description">
-Width of the border of the shape (default: "1")</dd><dt class="dt-description"><span style="font-weight:bold">edgecolor:</span></dt><dd class="dd-description">
-Color of the edge (default: black "0,0,0"); for CBLink only</dd><dt class="dt-description"><span style="font-weight:bold">edgeheadcolor:</span></dt><dd class="dd-description">
+Background color of the shape (default: invisible).</dd><dt class="dt-description"><span style="font-weight:bold">textcolor:</span></dt><dd class="dd-description">
+Foreground color of the shape (i.e. text color) (default: black "0,0,0").</dd><dt class="dt-description"><span style="font-weight:bold">linecolor:</span></dt><dd class="dd-description">
+Color of the border of the shape (default: invisible).</dd><dt class="dt-description"><span style="font-weight:bold">linewidth:</span></dt><dd class="dd-description">
+Width of the border of the shape (default: "1").</dd><dt class="dt-description"><span style="font-weight:bold">edgecolor:</span></dt><dd class="dd-description">
+Color of the edge (default: black "0,0,0"); for CBLink only.</dd><dt class="dt-description"><span style="font-weight:bold">edgeheadcolor:</span></dt><dd class="dd-description">
 Color of the edge head; the edge head is drawn in edge color
-if no edge head color is defined; for CBLink only</dd><dt class="dt-description"><span style="font-weight:bold">edgewidth:</span></dt><dd class="dd-description">
-Width of the edge (default: "1"); for CBLink only</dd><dt class="dt-description"><span style="font-weight:bold">edgestyle:</span></dt><dd class="dd-description">
+if no edge head color is defined; for CBLink only.</dd><dt class="dt-description"><span style="font-weight:bold">edgeheadshape:</span></dt><dd class="dd-description">
+Shape of the edge head at the destination side. If set to "none",
+then the edge head has no shape. Possible other values are listed in the table below;
+for CBLink only.</dd><dt class="dt-description"><span style="font-weight:bold">edgewidth:</span></dt><dd class="dd-description">
+Width of the edge (default: "1"); for CBLink only.</dd><dt class="dt-description"><span style="font-weight:bold">edgestyle:</span></dt><dd class="dd-description">
 possible values are: "continuous", "dashed", "dotted", "dashdotted", "ldashed" (dashed with longer
-intervals), "ldotted" (default: "continuous"); for CBLink only</dd><dt class="dt-description"><span style="font-weight:bold">shape:</span></dt><dd class="dd-description">
+intervals), "ldotted" (default: "continuous"); for CBLink only.</dd><dt class="dt-description"><span style="font-weight:bold">shape:</span></dt><dd class="dd-description">
 The name of the class representing the shape and implementing the
 interface <span style="font-family:monospace">i5.cb.graph.shape.IGraphShape</span> (default: no shape).
 The package <span style="font-family:monospace">i5.cb.graph.shape</span> defines some useful default shapes,
@@ -247,25 +255,38 @@ See subsection <a href="#sec%3Aicons">C.3.6</a> for more details.</dd><dt class=
 Relative position of the node&#X2019;s text label to the image icon. This property is only evaluated if
 a graphical type defines an image icon. Possible values are "center", "left", "right", "top",
 and "bottom" (default).</dd><dt class="dt-description"><span style="font-weight:bold">label:</span></dt><dd class="dd-description">
-The label to be used for this object instead of the object name</dd><dt class="dt-description"><span style="font-weight:bold">align:</span></dt><dd class="dd-description">
+The label to be used for this object instead of the object name.</dd><dt class="dt-description"><span style="font-weight:bold">labellength:</span></dt><dd class="dd-description">
+The maximum number of characters displayed as label of an object in CBGraph (default: "40").
+A label that exceeds the length is truncated to the maximum length and the last four
+characters are replaced by " ..." in the display in CBGraph.</dd><dt class="dt-description"><span style="font-weight:bold">align:</span></dt><dd class="dd-description">
 Alignment of the label; possible values are "center", "left", "right", "top", "bottom",
-"topleft", "topright", "bottomleft", and "bottomright"; default is "center"</dd><dt class="dt-description"><span style="font-weight:bold">size:</span></dt><dd class="dd-description">
+"topleft", "topright", "bottomleft", and "bottomright"; default is "center".</dd><dt class="dt-description"><span style="font-weight:bold">size:</span></dt><dd class="dd-description">
 Initial size of the node in pixels, e.g. "20x20";
-the non-numeric value "resizable" is allowed as well.
-If set, the user can also resize the element via mouse actions.
-(default: undefined, then the size is fixed by the Java LayoutManager)</dd><dt class="dt-description"><span style="font-weight:bold">nodelevel:</span></dt><dd class="dd-description">
+the non-numeric values "resizable" (node size can be resized) and
+"wrap" (node size can be resized and label will be wrapped) are allowed as well.
+If set, the user can also resize the element via mouse actions
+(default: undefined, then the size is set by CBGraph).</dd><dt class="dt-description"><span style="font-weight:bold">location:</span></dt><dd class="dd-description">
+Designate the initial location of a node or the label of an edge. The value shall be in
+the format "x,y". For example, the value "10,100" has the x coordinate 10 and the y coordinate 100.
+This property may be useful when certain nodes should have a given initial location, e.g. for
+canvas nodes that contain other nodes.
+(default: undefined, then the location is set by CBGraph).</dd><dt class="dt-description"><span style="font-weight:bold">freeze:</span></dt><dd class="dd-description">
+The value "yes" indicates that the node (or the edge label) is fixed to its current location
+in the graph editor. The value "no" (default) indicates that the node can be freely moved.
+You can set this flag also via the "gproperty" attribute individually for each object (see
+section <a href="#gproperty">C.4</a>).</dd><dt class="dt-description"><span style="font-weight:bold">nodelevel:</span></dt><dd class="dd-description">
 The level of the node relative to the standard node layer (=200) in the
 graph&#X2019;s diagram.
 Negative values put the node more in the background, positive values more
 in the foreground. 
-Use this feature if you want to put certain nodes on top of each other.
-(default: "0")</dd><dt class="dt-description"><span style="font-weight:bold">font:</span></dt><dd class="dd-description">
-Name of the font to be used for the shape (e.g., "Arial", default: Default font of Java)</dd><dt class="dt-description"><span style="font-weight:bold">fontsize:</span></dt><dd class="dd-description">
-Size of the font in pixels (default: default font size of Java)</dd><dt class="dt-description"><span style="font-weight:bold">fontstyle:</span></dt><dd class="dd-description">
-The style of the font (e.g., "bold", "italic", "underlined", "bold,italic", ... )</dd><dt class="dt-description"><span style="font-weight:bold">clickaction:</span></dt><dd class="dd-description">
+Use this feature if you want to put certain nodes on top of each other
+(default: "0").</dd><dt class="dt-description"><span style="font-weight:bold">font:</span></dt><dd class="dd-description">
+Name of the font to be used for the shape (e.g., "Arial", default: Default font of Java).</dd><dt class="dt-description"><span style="font-weight:bold">fontsize:</span></dt><dd class="dd-description">
+Size of the font in pixels (default: default font size of Java).</dd><dt class="dt-description"><span style="font-weight:bold">fontstyle:</span></dt><dd class="dd-description">
+The style of the font (e.g., "bold", "italic", "underlined", "bold,italic", ... ).</dd><dt class="dt-description"><span style="font-weight:bold">clickaction:</span></dt><dd class="dd-description">
 The name of a query class that shall be called directly when an object with
 this graphical type is clicked. See section <a href="#sec%3Aclickactions">C.3.3</a> for details.
-</dd></dl><p>Edges with empty label (<em>anonymous</em> edge) are displayed with a square dot in the middle of the edge.
+</dd></dl><p>Edges with empty label (<em>anonymous</em> edge) are displayed with a square dot in the middle of the edge<sup><a id="text48" href="#note48">2</a></sup>.
 The color of the square dot is by default the edgecolor and its size is set to 6 pixels.
 If the graphical type of an anonymous edge has bgcolor defined, then the square dot is
 adjusted to the edgewidth and displayed in bgcolor. 
@@ -288,8 +309,27 @@ the color is not visible at all. Any value in between is a relative transparency
 For example, <span style="font-family:monospace">"255,0,0,127"</span> represents a red color that is about 50% transparent
 with respect to objects below such as the background. </p><p>An example of user-defined graphical types can be found in <a href="cbm013.html#sec%3AER-diagrams">D.2</a>,
 see also the CB-Forum at
-<a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/188651">link</a> for a complete specification of ER diagrams including graphical types.</p>
-<h3 id="sec175" class="subsection">C.3.2&#XA0;&#XA0;Node levels</h3>
+<a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/188651">link</a> for a complete specification of ER diagrams including graphical types.</p><p>Below are the supported edge head shape (property <span style="font-family:monospace">edgeheadshape</span>). Theoretically,
+you can also use the node shapes like <span style="font-family:monospace">Rect</span> but they are not configured
+specifically for edge heads and would be rendered in tiny sizes.
+<br>
+</p><table border=1  style="border-spacing:0;" class="cellpadding1"><tr><td style="vertical-align:top;text-align:left;border:solid 1px;" ><span style="font-weight:bold">edge head shape</span></td><td style="vertical-align:top;text-align:left;border:solid 1px;" ><span style="font-weight:bold">description</span> </td></tr>
+<tr><td style="vertical-align:top;text-align:left;border:solid 1px;" >Arrow</td><td style="vertical-align:top;text-align:left;border:solid 1px;" >triangular arrow head (default for thicker edges) </td></tr>
+<tr><td style="vertical-align:top;text-align:left;border:solid 1px;" >ArrowVee</td><td style="vertical-align:top;text-align:left;border:solid 1px;" >vee-shaped arrow head (default for thin edges) </td></tr>
+<tr><td style="vertical-align:top;text-align:left;border:solid 1px;" >SmallArrow</td><td style="vertical-align:top;text-align:left;border:solid 1px;" >small arrow head with straight base </td></tr>
+<tr><td style="vertical-align:top;text-align:left;border:solid 1px;" >RevArrow</td><td style="vertical-align:top;text-align:left;border:solid 1px;" >reversed arrow (base pointing to the object)) </td></tr>
+<tr><td style="vertical-align:top;text-align:left;border:solid 1px;" >HalfArrow</td><td style="vertical-align:top;text-align:left;border:solid 1px;" >half arrow head </td></tr>
+<tr><td style="vertical-align:top;text-align:left;border:solid 1px;" >Karo</td><td style="vertical-align:top;text-align:left;border:solid 1px;" >diamond-shaped arrow head </td></tr>
+<tr><td style="vertical-align:top;text-align:left;border:solid 1px;" >Square</td><td style="vertical-align:top;text-align:left;border:solid 1px;" >square arrow head </td></tr>
+<tr><td style="vertical-align:top;text-align:left;border:solid 1px;" >Circular</td><td style="vertical-align:top;text-align:left;border:solid 1px;" >circular arrow head (approximated) </td></tr>
+<tr><td style="vertical-align:top;text-align:left;border:solid 1px;" >Caret</td><td style="vertical-align:top;text-align:left;border:solid 1px;" >caret shaped arrow head </td></tr>
+<tr><td style="vertical-align:top;text-align:left;border:solid 1px;" >Bar</td><td style="vertical-align:top;text-align:left;border:solid 1px;" >small bar orthogonal to the edge line </td></tr>
+<tr><td style="vertical-align:top;text-align:left;border:solid 1px;" >Dot</td><td style="vertical-align:top;text-align:left;border:solid 1px;" >small square arrow head </td></tr>
+<tr><td style="vertical-align:top;text-align:left;border:solid 1px;" >none</td><td style="vertical-align:top;text-align:left;border:solid 1px;" >no arrow head </td></tr>
+</table><p><br>
+<br>
+</p>
+<h3 id="sec178" class="subsection">C.3.2&#XA0;&#XA0;Node levels</h3>
 <p>
 <a id="sec:nodelevel"></a></p><p>CBGraph paints the nodes and edges of a graph in a so-called layered pane. This helps
 to separate nodes from edges and from interactive elements such as pop-up menus.
@@ -330,12 +370,12 @@ whose center point is contained in the bounds of the first node also get selecte
 negative levels are interpreted as a kind of a container. So, selecting and moving them
 is simplified by this behavior. You can also disable this behavior by the configuration
 variable "NodeLevelAware", see section <a href="cbm009.html#sec%3Aconfig">8.4</a>.</p>
-<h3 id="sec176" class="subsection">C.3.3&#XA0;&#XA0;Click actions</h3>
+<h3 id="sec179" class="subsection">C.3.3&#XA0;&#XA0;Click actions</h3>
 <p>
 <a id="sec:clickactions"></a></p><p>A click action is a property of a graphical type and contains 
 the name of a query class as a string. A simple example is:</p><pre class="verbatim"><span style="font-size:small">    clickaction: "fireTransition";
 </span></pre><p>If an object has a graph type with a click action, then the corresponding query class
-is called using the object name as single parameters. For example, if <span style="font-family:monospace">t1</span> is the
+is called using the object name as single parameter. For example, if <span style="font-family:monospace">t1</span> is the
 object name, then a click on the object in CBGraph will result in calling the query
 <span style="font-family:monospace">fireTransition[t1]</span>. It is assumed that the ConceptBase server includes an
 active rule that is triggered by the query call. Hence, such calls can result in an
@@ -382,12 +422,13 @@ to compute the neighborhood. </p><p>You can enable and disable click actions by 
 CBGraph. The setting is also stored in the configuration file .CBjavaInterface.
 The entry is called "ClickActions" there.</p><p>See
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/3762781">link</a> for examples.</p>
-<h3 id="sec177" class="subsection">C.3.4&#XA0;&#XA0;Providing a new implementation for a graphical type</h3>
+<h3 id="sec180" class="subsection">C.3.4&#XA0;&#XA0;Providing a new implementation for a graphical type</h3>
 <p>If you got the sources of ConceptBase, then you can add your own implementation
 for graphical types. The sources are in files <span style="font-family:monospace">CBPOOL-*.zip</span> downloadable via
 <a href="http://conceptbase.sourceforge.net/CB-Download.html">link</a>. Its subdirectory 
 AdminPOOL contains instructions on how to compile the ConceptBase system under
-Linux/Unix. Adapting the source code requires considerable programming skills in Java.
+Linux/Unix. Adapting the source code requires <em>considerable programming skills</em> in Java
+as well as an understanding of the way how CBGraph is implemented.
 Hence, this section is only meant for the programmers among you.</p><p>The <span style="font-family:monospace">implementedBy</span> attribute of a graphical type specifies the class
 name of a Java class implementing this graphical type. This class has to be
 a subclass of &#X201C;i5.cb.graph.cbeditor.CBUserObject&#X201D;. If you are going to
@@ -475,7 +516,7 @@ public class CBButton extends CBUserObject {
 instead
 <span style="font-family:monospace">"i5.cb.graph.cbeditor.CBIndividual"</span>
 in graphical types to see the effect.</p>
-<h3 id="sec178" class="subsection">C.3.5&#XA0;&#XA0;Shapes</h3>
+<h3 id="sec181" class="subsection">C.3.5&#XA0;&#XA0;Shapes</h3>
 <p>
 <a id="sec:shapes"></a></p><p>The package i5.cb.graph.shapes contains several shapes which might
 be useful for the ConceptBase CBGraph Editor. To use these shapes, you
@@ -538,13 +579,15 @@ The polygon lines may not intersect each other.</p><blockquote class="figure"><d
 by default the dimensions of a shape are adjusted from the area that
 the object label occupies. This is fine for the shapes that are close
 to a rectangle. The other shapes should be used in combination with
-the size "resizable".</p><p>An example for the use of resizable shapes graphical types can be found in
+the size "resizable".</p><p>A variant of the "resizable" option is the "wrap" option. It will additionally
+wrap the node label text according to the current node size.
+The "wrap" option renders the node label with the HTML implementation of Java.</p><p>Examples for the use of resizable shapes graphical types can be found in
 the CB-Forum at
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/3596768">link</a>.</p><p>You can extend the shapes by using the parameterized graph type <span style="font-family:monospace">PologonShape</span>
 as shown in the previous subsection. Use the "align" property to specify at which
 position the node&#X2019;s label should be displayed. Default is "center".
 The above link also contains examples of user-defined shapes. </p>
-<h3 id="sec179" class="subsection">C.3.6&#XA0;&#XA0;Icons</h3>
+<h3 id="sec182" class="subsection">C.3.6&#XA0;&#XA0;Icons</h3>
 <p>
 <a id="sec:icons"></a></p><p>You can specify an image icon that is displayed instead of a shape to be drawn for the
 small compoment of a node (CBIndividual). The syntax for specifying an image icon is</p><pre class="verbatim"><span style="font-size:small">  image: "&lt;image file location&gt;"
@@ -561,7 +604,8 @@ For example</p><pre class="verbatim"><span style="font-size:small">Class AgentGT
   priority
     pr : 20
 end
-</span></pre><p>associates the graphical type <span style="font-family:monospace">AgentGT</span> to the image icon <span style="font-family:monospace">AgentIcon.png</span>.
+</span></pre><p>associates the graphical type <span style="font-family:monospace">AgentGT</span> to the image icon <span style="font-family:monospace">AgentIcon.png</span>. Note that
+only normal http addresses are supported, not https.
 You can also point to local files via the <span style="font-family:monospace">file</span> protocol:</p><pre class="verbatim"><span style="font-size:small">Class AgentGT in JavaGraphicalType with
   rule
     gtrule : $ forall a/Agent (a graphtype AgentGT) $
@@ -577,7 +621,8 @@ end
 </span></pre><p>Note that the image icon is looked up by CBGraph. Hence, the location must be 
 in the file system of the computer on which CBGraph runs. If you place the image
 icon on a web server, then CBGraph will be able to fetch it from any computer
-provided that the access rights are set properly.</p><p>If you specify an image icon for a graphical type, then you can also set its
+provided that the access rights are set properly. Note that the URL must use the "http"
+protocol. CBGraph does not support "https" links for image files.</p><p>If you specify an image icon for a graphical type, then you can also set its
 textposition, for example:</p><pre class="verbatim"><span style="font-size:small">    ...
     image: "file:///home/jonny/images/AgentIcon.png";
     textposition: "top";
@@ -601,8 +646,8 @@ holds when the "size" property is set to a fixed dimension like "50x40".</p><pre
     linecolor : "0,0,0";
     ...
 </span></pre><p>The location specified in the "image" and "bgimage" property can either be a URL to an image file 
-(starting with "http://" or "file://") or a relative file location such as
-"diaicons/icon1.png". In the latter case, CBGraph shall first check if local
+(starting with "http://" or "file://", not "https://") or a relative file location such as
+"diaicons/icon1.png". In the latter case, CBGraph shall first check if a local
 directory "CBICONS" exists in the ConceptBase installation directory (environment
 variable CB_HOME). If that exits, it shall expand the relative path to
 and absolute path using the location of CB_HOME. If the local directory does
@@ -614,10 +659,145 @@ installation directory. Below is an example of a relative image location.</p><pr
     ...
 </span></pre><p>Further examples on using image icons are provided in the CB-Forum at
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/3506150">link</a>.</p>
+<h2 id="sec183" class="section">C.4&#XA0;&#XA0;Object-specific graphical properties</h2>
+<p>
+<a id="gproperty"></a></p><p>Nodes and links get their graphical properties from the graphical type assigned to them.
+The assignment is typically defined by deductive rules deriving a fact <span style="font-family:monospace">(x graphtype gt)</span>. 
+In general, several such facts may be true for a given object <span style="font-family:monospace">x</span>. Then, the priority
+of the graphical type is used to pick a unique solution. As a result, all objects with
+the same graphical types are also rendered in the same way, except of the name of the object.</p><p>In some situations, one may want to assign specific graphical properties to objects depending on
+the object state. The graphical type provides the general properties and specific graphical properties
+are derived from the object. For example, all employees could be displayed by a rectangular node with
+white background, but employees with a high salary are displayed in yellow color. Further,
+employees that are assigned to departments get a thicker line width. </p><p>In principal, the different cases can be realized by dedicated graphical types. In the example above,
+one would need at least four different graphical types (regular employees without department,
+high salary employees without department, regular employees with department, and
+high salary employees without department). The different cases thus lead to an explosion of graphical
+types.</p><p>ConceptBase thus provides a second mechanism to directly assign graphical properties to objects.
+The graphical properties are defined for any proposition:</p><pre class="verbatim"><span style="font-size:small">    Proposition with
+      attribute 
+         gproperty: Proposition
+    end
+</span></pre><p>Note that the target class is <span style="font-family:monospace">Proposition</span> rather than <span style="font-family:monospace">String</span>, as used for 
+the attribute <span style="font-family:monospace">property</span> of graphical types. The reason is to add more flexibility,
+e.g. to assign integers as values for certain <span style="font-family:monospace">gproperty</span> attributes like line width.</p><p>Any object<sup><a id="text49" href="#note49">3</a></sup>may have (derived or explicit) <span style="font-family:monospace">gproperty</span> attributes. The values of these attributes 
+overrule the corresponding values of the graphical type of the object:</p><pre class="verbatim"><span style="font-size:small">    bill in Employee with
+      ...
+      gproperty
+        bgcolor: "240,240,0";
+        linecolor: "0,0,220"
+    end
+</span></pre><p>The properties may also be derived by rules, e.g. </p><pre class="verbatim"><span style="font-size:small">    Employee in Class with
+       attribute
+         salary: Integer
+       rule
+         re1: $ forall e/Employee s/Integer (e salary s) and (s &gt; 1000) 
+                 ==&gt; (e gproperty/bgcolor "255,255,200") $
+    end
+</span></pre><p>The labels of the <span style="font-family:monospace">gproperty</span> attributes shall be taken from the list in section
+<a href="#sec%3Agraph-props">C.3.1</a>.
+The object-specific graphical properties are not assigned to any palette. They are global
+and overrule the properties from the graphical type. It could be that there are multiple rules
+that derive the same <span style="font-family:monospace">gproperty</span> attribute, e.g.</p><pre class="verbatim"><span style="font-size:small">    Individual in Class with
+       rule
+         rx1: $ forall x/Individual (x gproperty/bgcolor "255,255,255") $
+    end
+</span></pre><p>This rule may collide with rule <span style="font-family:monospace">re1</span>. In such cases, both <span style="font-family:monospace">"255,255,200"</span>
+and <span style="font-family:monospace">"255,255,255"</span> as values of <span style="font-family:monospace">bgcolor</span>. CBGraph will then pick any of them
+(actually the last one transmitted overrules any previous ones). Since the order is
+subject to the CBserver rule engine, one can hardly predict, which value prevails.
+Hence, write design the rules in such a way that such collisions are avoided.</p><p>The <span style="font-family:monospace">gproperty</span> attribute <span style="font-family:monospace">label</span> adds a new functionality to the system:
+you can overrule the node and link name displayed in CBGraph. For example, it may be useful
+to replace the name of a shelf with its current fill level. Another example are &#X2019;places&#X2019;
+of petri nets. Instead of the place name, one can display the number of tokens of that
+place as the label of the place node. </p><p>Another interesting <span style="font-family:monospace">gproperty</span> attribute is &#X2019;<span style="font-family:monospace">labellength</span>&#X2019;. By default, CBGraph
+assumes a maximum label length of 40 characters. If the node label length exceeds this
+threshold, it will be truncated and the last four characters are set to " ...". If
+you need to have longer labels, then use the &#X2019;<span style="font-family:monospace">labellength</span>&#X2019; property. An example shows
+how to use it:</p><pre class="verbatim"><span style="font-size:small">    Employee in Class with  
+      attribute
+        name : String
+      rule
+        r1 : $ forall e/Employee n/String (e name n) ==&gt; (e gproperty/label n)$;
+        r2 : $ forall e/Employee  (e gproperty/labellength 50)$
+    end 
+
+    bill in Employee with  
+      name
+        n : "William the Conquerer from Abessinia della Cruz"
+    end
+</span></pre><p>You can easily check, which object-specific properties are currently assigned to objects
+by the following query:</p><pre class="verbatim"><span style="font-size:small">    ObjectProperty in QueryClass isA Proposition with  
+      retrieved_attribute
+        gproperty : Proposition
+    end 
+</span></pre><p>You can retrieve the objects with colliding <span style="font-family:monospace">gproperty</span> attributes via the query</p><pre class="verbatim"><span style="font-size:small">    ObjectWithMultipleProperties in QueryClass isA Proposition with  
+      retrieved_attribute
+        gproperty : Proposition
+      constraint
+        clash : $ exists L/Label p1,p2/Proposition (this gproperty/L p1) and
+              (this gproperty/L p2) and (p1 &lt;&gt; p2) $
+    end 
+
+</span></pre><p>We advise to use the <span style="font-family:monospace">gproperty</span> feature in combination with graphical types. The graphical
+type of an object provides the graphical properties that apply to all objects that fall into
+the class covered by the graphical type. The object-specific properties then overrule certain
+properties of that graphical type or add properties that were not defined by the more
+general graphical type. Use the <span style="font-family:monospace">gproperty</span> feature with great care. For example, assigning
+object-specific properties to all instances of the class <span style="font-family:monospace">Individual</span> is not wise
+since <span style="font-family:monospace">Individual</span> is a generic class: all node-like objects are instances of <span style="font-family:monospace">Individual</span>.</p>
+<h2 id="sec184" class="section">C.5&#XA0;&#XA0;Graphical types for derived links</h2>
+<p>
+<a id="gtypederived"></a></p><p>Derived links (and attributes) are displayed by default with the graphical type 
+<span style="font-family:monospace">ImplicitAttributeGT</span>, i.e. a dashed line with the attribute label defined
+at the class level. Derived links have no object identity. Thus, one cannot attach
+a <span style="font-family:monospace">graphtype</span> or <span style="font-family:monospace">gproperty</span> attribute to them. </p><p>ConceptBase uses another method to allow user-definable graphical types for such links.
+Assume, there is a class definition as follows:</p><pre class="verbatim"><span style="font-size:small">    Person in Class with  
+      attribute
+        knows : Person
+      rule
+       trrule : $ forall x,y,z/Person
+                  (x knows y) and (y knows z)
+                 ==&gt; (x knows z) $
+    end
+</span></pre><p>Let the attribute <span style="font-family:monospace">knows</span> be derived by some rules. </p><p>Then, one can define a graphical type <span style="font-family:monospace">ImplicitGT_knows</span> that shall be applied to
+all derived using the class label <span style="font-family:monospace">knows</span>, e.g.</p><pre class="verbatim"><span style="font-size:small">    ImplicitGT_knows in JavaGraphicalType with  
+      property
+        textcolor : "20,20,220";
+        edgecolor : "250,20,20";
+        bgcolor : "255,255,255,100";
+        edgestyle : "dashdotted";
+        edgewidth : "3"
+      implementedBy
+        implBy : "i5.cb.graph.cbeditor.CBLink"
+      priority
+         p : 10
+    end 
+</span></pre><p>This graphical type then has to be added to the right graphical palette:</p><pre class="verbatim"><span style="font-size:small">    PersonPalette in Class,JavaGraphicalPalette with  
+      contains,defaultIndividual
+        xx1 : DefaultIndividualGT
+      ...
+      contains
+        xx14 : ImplicitGT_knows
+    end
+</span></pre><p>Note that the label of the graphical type starts with the prefix <span style="font-family:monospace">ImplicitGT_</span>, which is then followed
+by the label of the derived link.
+CBGraph shall assign this graphical type for derived links if the current graphical palette contains
+such a graphical type.
+Otherwise, the default (usually <span style="font-family:monospace">ImplicitAttributeGT</span> or the graphical type listed as implicitAttribute in the
+graphical palette) is used.</p><p>The user-defined graphical types for derived links allows to create domain-specific visualizations of derived
+information. It is rather common to have multiple derived link types such as <span style="font-family:monospace">knows</span>. It thus makes sense
+to distinguish them also in the graphical visualization.</p><p>Derived instantiations ("in") and derived specializations ("isA") are handled differently. Their dedicated graphical type
+is specified in the graphical palette as follows:</p><pre class="verbatim"><span style="font-size:small">    contains,implicitIsA
+      c3 : ImplicitIsAGT
+    contains,implicitInstanceOf
+      c4 : ImplicitInstanceOfGT
+</span></pre><p>Their link name is fixed in the database is fixed. Derived attributes in contrast can have any link name.</p>
 <hr class="footnoterule"><dl class="thefootnotes"><dt class="dt-thefootnotes">
-<a id="note46" href="#text46">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Colors are given as RGB color value, e.g. 210,210,210
-is light grey and 0,0,0 is black.</div>
-</dd></dl>
+<a id="note47" href="#text47">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Colors are given as RGB color value, e.g. 210,210,210
+is light grey and 0,0,0 is black.</div></dd><dt class="dt-thefootnotes"><a id="note48" href="#text48">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">An empty label is a label equal to <span style="font-family:monospace">""</span>. Such labels only work for edges.
+If you want to display an node with an empty label, then set the label to <span style="font-family:monospace">" "</span> (one blank character).</div></dd><dt class="dt-thefootnotes"><a id="note49" href="#text49">3</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Due to technical limitations, only node objects (=instances of <span style="font-family:monospace">Individual</span>) get their <span style="font-family:monospace">gproperty</span> feature
+scanned by CBGraph. Hence, you can only use it for node objects, not for edges.</div></dd></dl>
 <hr>
 <a href="cbm011.html"><img src="previous_motif.gif" alt="Previous"></a>
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>

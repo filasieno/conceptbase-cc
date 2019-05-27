@@ -92,9 +92,9 @@ The first example defines a more efficient version of the recursive {\ttfamily M
 
 \begin{verbatim}
 DatalogQueryClass MetabossDatalogQuery isA Manager with
-  attribute,parameter
+  parameter
      e : Employee
-  attribute,code
+  code
      r1 : "In('~e','Employee'),A('~e',boss,'~this')";
      r2 : "vars([m]),
            In('~e','Employee'),

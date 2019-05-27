@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.2"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -208,7 +208,7 @@ extern int te_parser_debug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE YYSTYPE;
+
 union YYSTYPE
 {
 #line 127 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:355  */
@@ -229,6 +229,8 @@ union YYSTYPE
 
 #line 231 "te_parser.tab.c" /* yacc.c:355  */
 };
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -242,7 +244,7 @@ int te_parser_parse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 246 "te_parser.tab.c" /* yacc.c:358  */
+#line 248 "te_parser.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -1405,7 +1407,7 @@ yyreduce:
 #line 200 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { init_SMLfragmentlist();
                                   returnvalue=0; }
-#line 1409 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1411 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
@@ -1413,13 +1415,13 @@ yyreduce:
     { te_parser_wrap();
 				  return(returnvalue);
 						}
-#line 1417 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1419 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
 #line 206 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { returnvalue=0; }
-#line 1423 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1425 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
@@ -1434,7 +1436,7 @@ yyreduce:
 					  returnvalue=1;
 				  }
 			  }
-#line 1438 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1440 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
@@ -1450,7 +1452,7 @@ yyreduce:
 					  returnvalue=1;
  				  }
 			  }
-#line 1454 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1456 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
@@ -1459,347 +1461,347 @@ yyreduce:
 				  te_parser_error(NULL);
 				  returnvalue=1;
 			  }
-#line 1463 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1465 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
 #line 243 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {InsertTail((yyvsp[-4].o), new_Class((yyvsp[-5].o)), (yyvsp[-3].c), (yyvsp[-2].c), (yyvsp[-1].d));}
-#line 1469 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1471 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
 #line 248 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {InsertTail((yyvsp[-4].o), NULL, (yyvsp[-3].c), (yyvsp[-2].c), (yyvsp[-1].d));}
-#line 1475 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1477 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
 #line 250 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.c) = new_Class((yyvsp[0].o));}
-#line 1481 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1483 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
 #line 253 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.c) = concat_Classlist((yyvsp[-2].c), new_Class((yyvsp[0].o)));}
-#line 1487 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1489 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
 #line 256 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.o) = (yyvsp[0].o);}
-#line 1493 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1495 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
 #line 261 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.o) = (yyvsp[-1].o);}
-#line 1499 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1501 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
 #line 263 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.o) = new_Oid((yyvsp[-1].s), (yyvsp[0].b));}
-#line 1505 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1507 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
 #line 266 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.o) = new_Select((yyvsp[-2].o), (yyvsp[-1].s), new_Oid((yyvsp[0].s), NULL));}
-#line 1511 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1513 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
 #line 269 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.o) = new_Select((yyvsp[-2].o), (yyvsp[-1].s), (yyvsp[0].o));}
-#line 1517 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1519 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
 #line 272 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.specoid) = (yyvsp[-1].specoid); }
-#line 1523 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1525 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
 #line 273 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.specoid) = new_SpecObjId((yyvsp[-3].s),(yyvsp[0].specoid), 0); }
-#line 1529 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1531 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
 #line 274 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.specoid) = new_SpecObjId( 0, 0,(yyvsp[0].o)); }
-#line 1535 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1537 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
 #line 276 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.specoid) = new_SpecObjId((yyvsp[-3].s),(yyvsp[0].specoid), 0); }
-#line 1541 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1543 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
 #line 277 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.specoid) = new_SpecObjId((yyvsp[0].s), 0, 0); }
-#line 1547 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1549 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
 #line 280 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.b) = NULL;}
-#line 1553 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1555 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
 #line 281 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.b) = (yyvsp[-1].b);}
-#line 1559 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1561 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
 #line 284 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.b) = (yyvsp[0].b);}
-#line 1565 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1567 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
 #line 285 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.b) = concat_bindList((yyvsp[-2].b), (yyvsp[0].b));}
-#line 1571 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1573 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
 #line 288 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.b) = new_bindList((yyvsp[-2].o),"/",new_Oid((yyvsp[0].s),NULL)); }
-#line 1577 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1579 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
 #line 289 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.b) = new_bindList(new_Oid((yyvsp[-2].s),NULL),":",(yyvsp[0].o)); }
-#line 1583 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1585 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
 #line 292 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.c) = NULL;}
-#line 1589 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1591 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
 #line 293 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.c) = (yyvsp[0].c);}
-#line 1595 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1597 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
 #line 295 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.c) = NULL;}
-#line 1601 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1603 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
 #line 296 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.c) = (yyvsp[0].c);}
-#line 1607 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1609 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
 #line 298 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.d) = NULL;}
-#line 1613 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1615 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
 #line 299 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.d) = (yyvsp[0].d);}
-#line 1619 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1621 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
 #line 301 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.d) = NULL;}
-#line 1625 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1627 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
 #line 302 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.d) = (yyvsp[0].d);}
-#line 1631 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1633 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
 #line 304 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.d) = concat_DeclList((yyvsp[-1].d), (yyvsp[0].d));}
-#line 1637 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1639 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
 #line 307 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.d) = new_Decl((yyvsp[-1].a), (yyvsp[0].p));}
-#line 1643 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1645 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
 #line 309 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.a) = new_AttrClass((yyvsp[0].s));}
-#line 1649 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1651 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
 #line 312 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.a) = concat_AttrClasslist((yyvsp[-2].a), new_AttrClass((yyvsp[0].s)));}
-#line 1655 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1657 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
 #line 314 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.p) = (yyvsp[0].p);}
-#line 1661 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1663 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
 #line 317 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.p) = concat_PropList((yyvsp[-2].p), (yyvsp[0].p));}
-#line 1667 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1669 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
 #line 319 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.p) = new_Property((yyvsp[-2].s), (yyvsp[0].o), 0);}
-#line 1673 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1675 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
 #line 320 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.p) = new_Property((yyvsp[-2].s), 0, (yyvsp[0].os));}
-#line 1679 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1681 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
 #line 322 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.os)=new_objectSet((yyvsp[0].c),0,0);}
-#line 1685 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1687 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
 #line 323 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.os)=new_objectSet(0,(yyvsp[0].sexp),0);}
-#line 1691 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1693 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
 #line 324 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.os)=new_objectSet(0,0,(yyvsp[0].sml));}
-#line 1697 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1699 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
 #line 326 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.c)= (yyvsp[-1].c);}
-#line 1703 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1705 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
 #line 328 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.sexp) = new_selectExpB((yyvsp[-2].specoid), 0, 0,(yyvsp[-1].ch), 0,(yyvsp[0].s), 0);}
-#line 1709 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1711 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
 #line 329 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.sexp) = new_selectExpB((yyvsp[-2].specoid), 0, 0,(yyvsp[-1].ch),(yyvsp[0].sexp), 0, 0);}
-#line 1715 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1717 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
 #line 330 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.sexp) = new_selectExpB((yyvsp[-2].specoid), 0, 0,(yyvsp[-1].ch), 0, 0,(yyvsp[0].r));}
-#line 1721 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1723 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
 #line 332 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.sexp) = (yyvsp[0].sexp);}
-#line 1727 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1729 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
 #line 333 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.sexp) = new_selectExpB( 0,(yyvsp[-2].r), 0,(yyvsp[-1].ch), 0,(yyvsp[0].s), 0);}
-#line 1733 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1735 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
 #line 334 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.sexp) = new_selectExpB( 0,(yyvsp[-2].r), 0,(yyvsp[-1].ch),(yyvsp[0].sexp), 0, 0);}
-#line 1739 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1741 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
 #line 335 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.sexp) = new_selectExpB( 0,(yyvsp[-2].r), 0,(yyvsp[-1].ch), 0, 0,(yyvsp[0].r));}
-#line 1745 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1747 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
 #line 337 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.sexp) = new_selectExpB( 0, 0,(yyvsp[-2].s),(yyvsp[-1].ch), 0,(yyvsp[0].s), 0);}
-#line 1751 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1753 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
 #line 338 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.sexp) = new_selectExpB( 0, 0,(yyvsp[-2].s),(yyvsp[-1].ch),(yyvsp[0].sexp), 0, 0);}
-#line 1757 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1759 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
 #line 339 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.sexp) = new_selectExpB( 0, 0,(yyvsp[-2].s),(yyvsp[-1].ch), 0, 0,(yyvsp[0].r));}
-#line 1763 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1765 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
 #line 341 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.r)= new_restriction((yyvsp[-3].s),(yyvsp[-1].o),0,0); }
-#line 1769 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1771 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
 #line 342 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.r)= new_restriction((yyvsp[-3].s),0,(yyvsp[-1].c),0); }
-#line 1775 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1777 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
 #line 343 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.r)= new_restriction((yyvsp[-3].s),0,0,(yyvsp[-1].sexp)); }
-#line 1781 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1783 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
 #line 345 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     { (yyval.sml)=new_smlFragmentList(NULL,NULL,NULL,(yyvsp[-3].c),(yyvsp[-1].d),NULL);}
-#line 1787 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1789 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
 #line 351 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.s) = (yyvsp[0].s);}
-#line 1793 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1795 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
 #line 352 "../../../../serverSources/C_Files/libtelos/te_parser.y" /* yacc.c:1646  */
     {(yyval.s) = (yyvsp[0].s);}
-#line 1799 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1801 "te_parser.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1803 "te_parser.tab.c" /* yacc.c:1646  */
+#line 1805 "te_parser.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

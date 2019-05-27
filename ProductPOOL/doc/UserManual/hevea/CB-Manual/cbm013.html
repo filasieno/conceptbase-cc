@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html >
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<meta name="generator" content="hevea 2.09">
+<meta name="generator" content="hevea 2.23">
 <link rel="stylesheet" type="text/css" href="cb-style.css"><link rel="stylesheet" type="text/css" href="cbm.css">
 <title>Examples</title>
 </head>
@@ -11,10 +11,10 @@
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
 <a href="cbm014.html"><img src="next_motif.gif" alt="Next"></a>
 <hr>
-<h1 id="sec180" class="chapter">Appendix&#XA0;D&#XA0;&#XA0;Examples</h1>
+<h1 id="sec185" class="chapter">Appendix&#XA0;D&#XA0;&#XA0;Examples</h1>
 <p>
 <a id="cap:examples"></a></p>
-<h2 id="sec181" class="section">D.1&#XA0;&#XA0;Example model: the employee model</h2>
+<h2 id="sec186" class="section">D.1&#XA0;&#XA0;Example model: the employee model</h2>
 <p>
 <a id="sec:employee-model"></a></p><p>The Employee model can be found in the directory <code>$CB_HOME/examples/QUERIES/</code>.
 It consists out of the following files:</p><dl class="description"><dt class="dt-description">
@@ -22,10 +22,10 @@ It consists out of the following files:</p><dl class="description"><dt class="dt
 </dd><dt class="dt-description"><span style="font-weight:bold">Employee_Instances.sml:</span></dt><dd class="dd-description"> Some instances for this model
 </dd><dt class="dt-description"><span style="font-weight:bold">Employee_Queries.sml:</span></dt><dd class="dd-description"> Queries for this model
 </dd></dl><p>Note, that the files must be loaded in this order into the server.</p>
-<h2 id="sec182" class="section">D.2&#XA0;&#XA0;A Telos modeling example - ER diagrams</h2>
+<h2 id="sec187" class="section">D.2&#XA0;&#XA0;A Telos modeling example - ER diagrams</h2>
 <p>
 <a id="sec:ER-diagrams"></a></p>
-<h3 id="sec183" class="subsection">D.2.1&#XA0;&#XA0;The basic model</h3>
+<h3 id="sec188" class="subsection">D.2.1&#XA0;&#XA0;The basic model</h3>
 <p>
 <a id="subsec:ER-basic-model"></a>
 This example gives a first introduction into some features introduced in
@@ -137,7 +137,7 @@ end
 </span></pre><p>The entity-types <em>Employee</em> and <em>Project</em> participate in a
 binary relationship <em>WorksIn</em>. The attributes <span style="font-family:monospace">Employee!ssn</span>
 and <span style="font-family:monospace">Project!pno</span> are key-attributes of the respective objects.</p>
-<h3 id="sec184" class="subsection">D.2.2&#XA0;&#XA0;The use of meta formulas</h3>
+<h3 id="sec189" class="subsection">D.2.2&#XA0;&#XA0;The use of meta formulas</h3>
 <p>
 The above model distinguishes <em>attributes</em> and <em>key attributes</em>.
 One important constraint on key attributes is monovalence.
@@ -154,7 +154,7 @@ no class-variables. In previous releases properties as
 <em>single</em> or <em>necessary</em> had to be ensured &#X201C;manually&#X201D; by adding a
 constraint for each such attribute. This job is now performed automatically
 by the system.</p>
-<h4 id="sec185" class="subsubsection">Example: <em>necessary</em> and <em>single</em></h4>
+<h4 id="sec190" class="subsubsection">Example: <em>necessary</em> and <em>single</em></h4>
 <p>
 The following meta formula ensures the <em>necessary</em> property of attributes,
 which are instances of the category <span style="font-family:monospace">Proposition!necessary</span>. The semantics of
@@ -245,12 +245,12 @@ results in the following substitution for the remaining formula:</p><div class="
 </table><span style="font-family:monospace">
 </span>
 </div>
-<h4 id="sec186" class="subsubsection">Metaformulas defining sets of rules</h4>
+<h4 id="sec191" class="subsubsection">Metaformulas defining sets of rules</h4>
 <p>
 Another use of <em>Metaformulas</em> is the formulation of deductive
 rules. Metaformulas defining deductive rules extend the possibilities
 of defining derived knowledge.</p>
-<h5 id="sec187" class="paragraph">Assignment of graphical types:</h5>
+<h5 id="sec192" class="paragraph">Assignment of graphical types:</h5>
 <p>
 This example first demonstrates the use of meta formulas
 to assign graphical types to object-categories. The
@@ -349,7 +349,7 @@ end
 </span></pre><p>To activate the <em>ER_GraphBrowserPalette </em>, select this graphical
 palette when you start the Graph Editor or make a new connection in
 the Graph Editor (see section <a href="cbm009.html#sec%3Agraphed">8.2</a>).</p>
-<h5 id="sec188" class="paragraph">Handling inconsistencies</h5>
+<h5 id="sec193" class="paragraph">Handling inconsistencies</h5>
 <p>
 The <em>necessary</em> and <em>single</em> conditions on attributes from
 the previous section could also be expressed as deductive rule.
@@ -430,7 +430,7 @@ from the &#X201C;Current connection&#X201D; menu.</p><blockquote class="figure">
 </table></div>
 <a id="fig:er_incons"></a>
 <div class="center"><hr style="width:80%;height:2"></div></blockquote>
-<h3 id="sec189" class="subsection">D.2.3&#XA0;&#XA0;Limitations and final remarks</h3>
+<h3 id="sec194" class="subsection">D.2.3&#XA0;&#XA0;Limitations and final remarks</h3>
 <p>
 Metaformulas extend the expressive power of defining rules
 and constraints for ConceptBase Objectbases. The implementation

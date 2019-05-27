@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html >
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<meta name="generator" content="hevea 2.09">
+<meta name="generator" content="hevea 2.23">
 <link rel="stylesheet" type="text/css" href="cb-style.css"><link rel="stylesheet" type="text/css" href="cbm.css">
 <title>Syntax Specifications</title>
 </head>
@@ -11,10 +11,10 @@
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
 <a href="cbm011.html"><img src="next_motif.gif" alt="Next"></a>
 <hr>
-<h1 id="sec161" class="chapter">Appendix&#XA0;A&#XA0;&#XA0;Syntax Specifications</h1>
+<h1 id="sec164" class="chapter">Appendix&#XA0;A&#XA0;&#XA0;Syntax Specifications</h1>
 <p>
 <a id="cha:syntax"></a></p>
-<h2 id="sec162" class="section">A.1&#XA0;&#XA0;Syntax specifications for Telos frames</h2>
+<h2 id="sec165" class="section">A.1&#XA0;&#XA0;Syntax specifications for Telos frames</h2>
 <p>
 <a id="sec:telos objects"></a></p><pre class="verbatim"><span style="font-size:small">&lt;object&gt;        --&gt; &lt;objectname&gt; &lt;objectname&gt; &lt;inspec&gt; &lt;isaspec&gt; 
                       &lt;withspec&gt; &lt;endspec&gt;
@@ -87,7 +87,7 @@
 </span></pre><p>Note: ConceptBase represents internally object identifiers as <em>id_NUMBER</em> where
 <em>NUMBER</em> is a sequence of digits. For this reason, labels matching this
 pattern are forbidden in the Telos frame syntax.</p>
-<h2 id="sec163" class="section">A.2&#XA0;&#XA0;Syntax of the rule and constraint language</h2>
+<h2 id="sec166" class="section">A.2&#XA0;&#XA0;Syntax of the rule and constraint language</h2>
 <p>
 <a id="sec:assertion language"></a></p><p>In the definitions below the term <span style="font-family:monospace">literal</span> is a synonym for predicate.</p><pre class="verbatim"><span style="font-size:small">&lt;assertion&gt;     --&gt; &lt;rule&gt;
                  |  &lt;constraint&gt;
@@ -195,7 +195,7 @@ pattern are forbidden in the Telos frame syntax.</p>
 &lt;objList&gt;       --&gt; &lt;objectname&gt; , &lt;objList&gt;
                  |  &lt;objectname&gt;
 </span></pre>
-<h2 id="sec164" class="section">A.3&#XA0;&#XA0;Syntax of active rules</h2>
+<h2 id="sec167" class="section">A.3&#XA0;&#XA0;Syntax of active rules</h2>
 <p>
 <a id="sec:ecasyntax"></a></p><p>The event, condition and actions of an ECArule are specified as a special
 assertion. Therefore, the syntax is an extension of the <em>normal</em> assertion
@@ -246,7 +246,7 @@ language, shown in the section before.</p><pre class="verbatim"><span style="fon
 &lt;optelseaction&gt; --&gt; ELSE &lt;actionlist&gt;
                  |  &lt;empty&gt;
 </span></pre>
-<h2 id="sec165" class="section">A.4&#XA0;&#XA0;Terminal symbols</h2>
+<h2 id="sec168" class="section">A.4&#XA0;&#XA0;Terminal symbols</h2>
 <p>
 <a id="sec:terminal symbols"></a></p><pre class="verbatim"><span style="font-size:small"> ALPHANUM       --&gt; [a-z|A-Z|0-9|ACCENTCHAR]+
 
@@ -281,7 +281,7 @@ language, shown in the section before.</p><pre class="verbatim"><span style="fon
 
  SELECTORB      --&gt;  "." | "|"
 </span></pre>
-<h2 id="sec166" class="section">A.5&#XA0;&#XA0;Syntax specifications for SML fragments</h2>
+<h2 id="sec169" class="section">A.5&#XA0;&#XA0;Syntax specifications for SML fragments</h2>
 <p>
 <a id="sec:fragments"></a></p><p>This format is only internally used to represent Telos frames as Prolog
 terms. It is included only for historical reasons.</p><pre class="verbatim"><span style="font-size:small"> &lt;SMLfragment&gt;  --&gt; SMLfragment(&lt;what&gt; , &lt;in_omega&gt; , &lt;in&gt; , &lt;isa&gt; , &lt;with&gt; )

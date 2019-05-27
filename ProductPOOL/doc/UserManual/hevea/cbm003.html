@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html >
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<meta name="generator" content="hevea 2.09">
+<meta name="generator" content="hevea 2.23">
 <link rel="stylesheet" type="text/css" href="cb-style.css"><link rel="stylesheet" type="text/css" href="cbm.css">
 <title>O-Telos by ConceptBase.cc</title>
 </head>
@@ -11,7 +11,7 @@
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
 <a href="cbm004.html"><img src="next_motif.gif" alt="Next"></a>
 <hr>
-<h1 id="sec10" class="chapter">Chapter&#XA0;2&#XA0;&#XA0;O-Telos by ConceptBase.cc</h1>
+<h1 id="sec11" class="chapter">Chapter&#XA0;2&#XA0;&#XA0;O-Telos by ConceptBase.cc</h1>
 <p>
 <a id="cap:language"></a></p><p>ConceptBase.cc is an implementation of the O-Telos data model.
 O-Telos is derived from the knowledge representation language Telos as
@@ -47,7 +47,7 @@ representations of O-Telos are explained. Then, the predicative
 sublanguage for deductive rules and integrity constraints are presented.
 Subsection <a href="#sec%3ACBQL">2.3</a> presents a declarative query language which introduces
 queries as classes with optional predicative membership specification.</p>
-<h2 id="sec11" class="section">2.1&#XA0;&#XA0;Propositions and frames</h2>
+<h2 id="sec12" class="section">2.1&#XA0;&#XA0;Propositions and frames</h2>
 <p>
 <a id="sec:representation"></a></p><p>As a hybrid language O-Telos supports two different representation formats:
 a logical ("propositions") and a frame representation. The
@@ -365,7 +365,7 @@ get the same end time of their transaction time. The database does not change be
 hence the finite sequence of transaction times can be used to enumerate all updates
 to the database. Examples on how to inspect the database using the transaction time are in
 the CB-Forum at <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/1921789">link</a>.</p>
-<h2 id="sec12" class="section">2.2&#XA0;&#XA0;Rules and constraints</h2>
+<h2 id="sec13" class="section">2.2&#XA0;&#XA0;Rules and constraints</h2>
 <p>
 <a id="sec:CBL"></a></p><p>The ConceptBase predicative language CBL [JK90] is used to express
 integrity constraints, deductive rules and queries. The variables inside
@@ -375,7 +375,7 @@ ConceptBase offers a set of predicates for the predicative language defined
 on top of an O-Telos database as visible for a given rollback time,
 i.e.  OB<sub><span style="font-style:italic">rbt</span></sub> for some <span style="font-family:monospace">rbt</span>. Any rule, constraint or
 query is run against OB<sub><span style="font-style:italic">rbt</span></sub> rather than the full database OB.</p>
-<h3 id="sec13" class="subsection">2.2.1&#XA0;&#XA0;Basic predicates</h3>
+<h3 id="sec14" class="subsection">2.2.1&#XA0;&#XA0;Basic predicates</h3>
 <p>
 The following predicates
 provide the basic access to an O-Telos database. Some have both an
@@ -468,7 +468,7 @@ to define defaults values (see
 Since deduction should be transparent to the user,
 one should avoid using the above predicates if the proper predicates <span style="font-family:monospace">In(x,c)</span> and
 <span style="font-family:monospace">A(x,n,y)</span> can do the job.</p>
-<h3 id="sec14" class="subsection">2.2.2&#XA0;&#XA0;Notes on attribution</h3>
+<h3 id="sec15" class="subsection">2.2.2&#XA0;&#XA0;Notes on attribution</h3>
 <p>
 The attribution of objects in O-Telos (axioms 7 and 8 in appendix <a href="cbm011.html#cha%3Aotelos-axioms">B</a>)
 is more generic than in object-oriented approaches,
@@ -534,7 +534,7 @@ end
 </pre><p>The mechanism for attribution is exactly the same as for instances like <span style="font-family:monospace">mary</span>. 
 Note that the 3-argument attribution predicate expressing <span style="font-family:monospace">(mary name "Mary Smith")</span> 
 represents a meaningful statement for some reality to be modeled. 
-On the other hand, the predicate fact <span style="font-family:monospace">(Employee attribute String)</span> is much less significant
+On the other hand, the predicate fact <span style="font-family:monospace">(Employee attribute String)</span> is less significant
 because the label <span style="font-family:monospace">attribute</span> does not transport a specific domain meaning. Here, the 4-argument
 attribution predicate such as used for the fact <span style="font-family:monospace">(Employee attribute/name String)</span>
 is required. Still, from a formal point of view, there is no different treatment of
@@ -548,7 +548,14 @@ and <span style="font-family:monospace">mary</span> is instantiated. In this cas
 for <span style="font-family:monospace">Proposition</span>:</p><pre class="verbatim">(Proposition attribute/attribute Proposition)
 (Proposition attribute/single Proposition)
 </pre><p>Note that <span style="font-family:monospace">attribute</span> has itself as category. This is the most generic attribute category and
-applies to any (explicit) attribution. </p><p>Both the attribution predicate <span style="font-family:monospace">(x m y)</span> and its long form <span style="font-family:monospace">(x m/n y)</span> can be derived,
+applies to any (explicit) attribution. For this reason, the category <span style="font-family:monospace">attribute</span> can also be
+omitted in frame definitions of objects. The above definition of <span style="font-family:monospace">Employee</span> is equivalent to</p><pre class="verbatim">Employee in Class with
+   single
+      name: String
+   attribute
+      aliasname: String
+end
+</pre><p>Both the attribution predicate <span style="font-family:monospace">(x m y)</span> and its long form <span style="font-family:monospace">(x m/n y)</span> can be derived,
 i.e. occur as conclusion of a deductive rule. In such cases, there are no explicit attribute
 objects between <span style="font-family:monospace">x</span> and <span style="font-family:monospace">y</span>. ConceptBase demands, that in such cases one of the classes
 of <span style="font-family:monospace">x</span> has an attribute with label m. Deductive rules for <span style="font-family:monospace">(x m/n y)</span> are
@@ -556,7 +563,7 @@ introduced with ConceptBase V7.1. They allow to simulate multi-sets, i.e. derive
 where the same value can occur multiple times. 
 Examples are available in the CB-Forum
 (<a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2330042">link</a>).</p>
-<h3 id="sec15" class="subsection">2.2.3&#XA0;&#XA0;Assigning attribute categories to explicit attributes</h3>
+<h3 id="sec16" class="subsection">2.2.3&#XA0;&#XA0;Assigning attribute categories to explicit attributes</h3>
 <p>
 <a id="sec:aepred"></a></p><p>The instantiation of an explicit attribute to an attribute category can be explicit (see above), 
 or via inheritance, or via a user-defined rule. 
@@ -612,14 +619,14 @@ end
 explicit salary as well.</p><p>Note that the three cases discussed here are for <em>explicit</em> attribution objects. You may also
 define rules that derive <span style="font-family:monospace">(x m y)</span> or <span style="font-family:monospace">(x m/n y)</span> directly. In such cases, there is no need
 for an explicit attribute between <span style="font-family:monospace">x</span> and <span style="font-family:monospace">y</span>. The attribution is complelety derived.</p>
-<h3 id="sec16" class="subsection">2.2.4&#XA0;&#XA0;Reserved words</h3>
+<h3 id="sec17" class="subsection">2.2.4&#XA0;&#XA0;Reserved words</h3>
 <p>In order to avoid ambiguity, neither <span style="font-family:monospace">in</span> and <span style="font-family:monospace">isa</span> nor the
 logical connectives <span style="font-family:monospace">and</span> and <span style="font-family:monospace">or</span> are allowed as attribute
 labels<sup><a id="text12" href="#note12">8</a></sup>.
 Likewise, names of predicates such as <span style="font-family:monospace">A</span>, <span style="font-family:monospace">Ai</span>, <span style="font-family:monospace">In</span> should not be used as object names
 or variable names. The same holds for the keywords <span style="font-family:monospace">with</span> and <span style="font-family:monospace">end</span>, which are used in the
 frame syntax.</p>
-<h3 id="sec17" class="subsection">2.2.5&#XA0;&#XA0;Comparison predicates</h3>
+<h3 id="sec18" class="subsection">2.2.5&#XA0;&#XA0;Comparison predicates</h3>
 <p>
 The next predicates are second class citizens in formulas. In contrast to the
 above predicates they cannot be assigned to classes of the O-Telos database
@@ -639,7 +646,7 @@ They are evaluated before the comparison predicates is evaluated. See
 section <a href="#sec%3Acqc">2.3.3</a> for examples.
 The predicates <span style="font-family:monospace">(x == y)</span>, <span style="font-family:monospace">UNIFIES(x,y)</span> and <span style="font-family:monospace">IDENTICAL(x,y)</span> defined in earlier releases of ConceptBase are deprecated. It is recommended to use
 <span style="font-family:monospace">(x = y)</span> instead.</p>
-<h3 id="sec18" class="subsection">2.2.6&#XA0;&#XA0;Typed variables</h3>
+<h3 id="sec19" class="subsection">2.2.6&#XA0;&#XA0;Typed variables</h3>
 <p>
 The exact syntax of CBL is given in appendix <a href="cbm010.html#cha%3Asyntax">A</a>.
 The types of variables
@@ -651,7 +658,7 @@ The anonymous variable range <span style="font-family:monospace">VAR</span> is t
 <span style="font-family:monospace">forall x/VAR F</span> &#X2192; <span style="font-family:monospace">forall x F</span> 
 </li><li class="li-itemize"><span style="font-family:monospace">exists x/VAR F</span> &#X2192; <span style="font-family:monospace">exists x F</span> 
 </li></ul><p>Anonymous variable ranges are only permitted in meta formulas, see section <a href="#sec%3ACCmeta">2.2.9</a>. </p>
-<h3 id="sec19" class="subsection">2.2.7&#XA0;&#XA0;Semantic restrictions on formulas</h3>
+<h3 id="sec20" class="subsection">2.2.7&#XA0;&#XA0;Semantic restrictions on formulas</h3>
 <p>
 <a id="sec:SemFormula"></a></p><p>We demand that each variable is quantified exactly once inside a formula.
 This is no real restriction: in case of double quantification rename one of
@@ -751,7 +758,7 @@ attributes of <span style="font-family:monospace">Shop</span> and <span style="f
 the attribution predicate <span style="font-family:monospace">(x dept PR)</span> can be uniquely attached to its so-called
 <em>concerned class</em> <span style="font-family:monospace">GuestEmployee!dept</span>.</p><p>The predicate typing condition holds for all formulas, regardless whether
 they occur as constraints or rules of classes or within query classes<sup><a id="text14" href="#note14">10</a></sup>.</p>
-<h3 id="sec20" class="subsection">2.2.8&#XA0;&#XA0;Rule and constraint syntax</h3>
+<h3 id="sec21" class="subsection">2.2.8&#XA0;&#XA0;Rule and constraint syntax</h3>
 <p>
 <a id="sec:rulesyntax"></a>
 A legal <em>integrity constraint</em> is a CBL formula that fulfills predicate typing
@@ -784,7 +791,7 @@ Note that you can define multiple salaries for a given instance of
 <span style="font-family:monospace">Employee</span>. The constraint is on each individual <span style="font-family:monospace">salary</span>, not
 on the sum<sup><a id="text15" href="#note15">11</a></sup>! Also note that the arguments of the <span style="font-family:monospace">&lt;=</span> predicate are
 bound by the two predicates with attribute label <span style="font-family:monospace">salary</span>.</p>
-<h3 id="sec21" class="subsection">2.2.9&#XA0;&#XA0;Meta formulas</h3>
+<h3 id="sec22" class="subsection">2.2.9&#XA0;&#XA0;Meta formulas</h3>
 <p>
 <a id="sec:CCmeta"></a></p><p>Some formulas violating the predicate typing condition can be re-written to a set
 of formulas that do not violate the condition. The so-called <em>meta formulas</em> are
@@ -896,7 +903,7 @@ predicate for the intermediary deductive rule. It is defined as attribute of
 <span style="font-family:monospace">Proposition</span>. The complete example is at
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d3070600/mp-ISA-complete.sml.txt">link</a>.</p><p>Many more re-usable examples for meta formulas are in the ConceptBase-Forum at
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/1042523">link</a>.</p>
-<h4 id="sec22" class="subsubsection">Tell order for meta formulas</h4>
+<h4 id="sec23" class="subsubsection">Tell order for meta formulas</h4>
 <p>Meta formulas are compiled by ConceptBase using the partial evaluation strategy.
 Facts matching certain predicates of the meta formula trigger
 the partial evaluation, which then leads to new formulas that need to be compiled
@@ -909,7 +916,7 @@ definition of the meta formula in a different file than the class/object
 definitions hat utilize the meta formulas. It may also be wise to store the
 definitions in different modules (see section <a href="cbm006.html#sec%3Amodule">5</a>). Specifically, the
 meta formulas should be defined in a super-module of the modules that use these definitions.</p>
-<h3 id="sec23" class="subsection">2.2.10&#XA0;&#XA0;Further object references</h3>
+<h3 id="sec24" class="subsection">2.2.10&#XA0;&#XA0;Further object references</h3>
 <p>
 <a id="sec:ObjRef"></a></p><p>In addition to the so called <em>select expressions</em>
 <span style="font-family:monospace">!,=&gt;,-&gt;</span> already introduced above
@@ -947,7 +954,7 @@ earn exactly 50.000.</p><ol class="enumerate" type=1><li class="li-enumerate">
 <span style="font-family:monospace">forall e/Employee m/Manager (m in e.dept.head) ==&gt; (e boss m)</span>.
 </li><li class="li-enumerate"><span style="font-family:monospace">forall b/Mary.dept.head (b salary 50000)</span>
 </li></ol>
-<h3 id="sec24" class="subsection">2.2.11&#XA0;&#XA0;User-definable error messages for integrity constraints</h3>
+<h3 id="sec25" class="subsection">2.2.11&#XA0;&#XA0;User-definable error messages for integrity constraints</h3>
 <p>
 <a id="sec:ErrMessIC"></a></p><p>ConceptBase provides a couple of errors messages in case of an
 integrity violation. These errors messages refer to the logical
@@ -984,7 +991,7 @@ end
 and that these meta variables are also occurring in the meta-level constraint.
 Now, use the <span style="font-family:monospace">symmetric</span> concept in some modeling context, e.g. to define
 that the <span style="font-family:monospace">marriedTo</span> attribute of <span style="font-family:monospace">Person</span> should be symmetric:</p><pre class="verbatim"><span style="font-size:small">Person with
-  attribute,symmetric
+  symmetric
    marriedTo: Person
 end
 </span></pre><p>At this point of time, ConceptBase will find the hint text for the symmetric
@@ -1002,7 +1009,7 @@ If a hint for a meta formula cannot be substituted as shown avove,
 ConceptBase will not issue the hint but rather the text of the generated
 formula.</p><p>Examples of user-defined error messages can be found in the ConceptBase-Forum at
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/1543277">link</a>.</p>
-<h3 id="sec25" class="subsection">2.2.12&#XA0;&#XA0;Immutable properties</h3>
+<h3 id="sec26" class="subsection">2.2.12&#XA0;&#XA0;Immutable properties</h3>
 <p>
 <a id="sec:Immutable"></a></p><p>Immutable attributes cannot be changed (retold) once they are
 defined for their respective source object. For example, the two spouses in a marriage
@@ -1033,7 +1040,7 @@ end
 </span></pre><p>The immutable attribute category instructs the integrity constraint compiler to prune unnecessary
 integrity checks on updates of these attributes. This feature can be disabled by setting the
 CBserver parameter <span style="font-family:monospace">-o</span> to a value smaller than 4, see also section <a href="cbm007.html#sec%3Acbsparams">6.1</a>.</p>
-<h2 id="sec26" class="section">2.3&#XA0;&#XA0;Query classes</h2>
+<h2 id="sec27" class="section">2.3&#XA0;&#XA0;Query classes</h2>
 <p>
 <a id="sec:CBQL"></a></p><p>ConceptBase realizes queries as so-called query classes, whose instances 
 fulfill the membership constraint of the query [<a href="cbm016.html#stau90">Stau90</a>]. 
@@ -1044,7 +1051,7 @@ which is defined as follows:</p><pre class="verbatim"><span style="font-size:sma
      attribute
          retrieved_attribute: Proposition;
          computed_attribute: Proposition
-     attribute,single
+     single
          constraint: MSFOLquery
 end
 </span></pre><p>A super classes of query class imposes a range condition of the set of possible instances of
@@ -1074,9 +1081,9 @@ interested managers. The attributes must be present in one of the
 super-classes of the query class. In this example, the <span style="font-family:monospace">union</span> attribute is
 obviously inherited from the class <span style="font-family:monospace">UnionMember</span> and <span style="font-family:monospace">salary</span> is inherited from
 <span style="font-family:monospace">Manager</span>. CBQL demands that retrieved attributes are necessary: each answer
-must instantiate them. If an object does not have such an attribute then it
+must have at least one value for them. If an object does not have such an attribute then it
 will not be part of the solution. As usual with attribute inheritance, one
-may specialize the attribute value class, e.g.</p><pre class="verbatim"><span style="font-size:small">QueryClass Well_off_SI_Manager isA SI_Manager with
+may specialize the attribute value class, e.g.</p><pre class="verbatim"><span style="font-size:small">Well_off_SI_Manager in QueryClass isA SI_Manager with
      retrieved_attribute
          salary: HighSalary
 end
@@ -1091,7 +1098,25 @@ end
 </span></pre><p>The new attribute value class <span style="font-family:monospace">HighSalary</span> is a subclass of <span style="font-family:monospace">Integer</span> so that
 each solution of the restricted query class is also a solution of the more
 general one. It should also be noted that <span style="font-family:monospace">HighSalary</span> also could have been
-another query class. This is the second way of query recombination.</p><p>Retrieved attributes and super-classes already offer a simple way of
+another query class. This is the second way of query recombination.</p><p>Retrieved atributes can well be derived by a deductive rule. In such cases, ConceptBase
+generates a label for the derived attribute. For example, consider a boss rule discussed earlier for
+instances of Employee</p><pre class="verbatim"><span style="font-size:small">Employee in Class with
+    attribute
+        salary: Integer;
+        boss: Manager
+    rule
+     BossRule : $ forall e/Employee m/Manager d/Department
+                (e dept d) and (d head m)
+                ==&gt; (e boss m) $
+end
+</span></pre><p>The following query shall then return employees together with their salaries and bosses:</p><pre class="verbatim"><span style="font-size:small">EmpSalBoss in QueryClass isA Employee with
+     retrieved_attribute
+         salary: Integer;
+         boss: Manager
+end
+</span></pre><p>The derived boss attributes get a system-generated label in the answer produced by
+ConceptBase. Note that retrieved attributes are necessary but there may be more than one value per attribute category,
+e.g. more than one boss.</p><p>Retrieved attributes and super-classes already offer a simple way of
 querying a knowledge base: projection and set intersection. For more
 expressive queries there is an predicative extension, the so-called <span style="font-weight:bold">query
 constraint</span>.
@@ -1145,8 +1170,8 @@ to the query includes the computed attribute. Note that a reference
                     (~head_of head this) $
 end
 </span></pre><p>The variable <code>~head_of</code> in the constraint
-is prefixed with <code>~</code> to indicate that it is a placeholder for the compted attribute
-with label <code>head_of</code>. We recommend to
+is prefixed with <code>~</code> to indicate that it is a placeholder for the computed attribute
+with the same label <code>head_of</code>. We recommend to
 use the prefix to avoid confusion of the placeholder variable in query constraints and corresponding
 attribute label in the query definitions. Analogously, you can use the prefixed answer variable
 <code>~this</code> instead of the plain version <code>this</code>. ConceptBase will
@@ -1224,7 +1249,7 @@ end
 interpreted as existential quantifications if they are not instantiated.
 Note that parameters need to be known as objects before using them in
 query calls.</p>
-<h3 id="sec27" class="subsection">2.3.1&#XA0;&#XA0;Query definitions versus query calls</h3>
+<h3 id="sec28" class="subsection">2.3.1&#XA0;&#XA0;Query definitions versus query calls</h3>
 <p>
 <a id="sec:qdefvscalls"></a></p><p>Telling a frame that declares an instance of <span style="font-family:monospace">QueryClass</span> (as well as its
 sub-classes <span style="font-family:monospace">GenericQueryClass</span>, and <span style="font-family:monospace">Function</span>) constitutes the
@@ -1243,7 +1268,7 @@ one can omit the parameter labels. Assume that the query <span style="font-famil
 <span style="font-family:monospace">p1</span> and <span style="font-family:monospace">p2</span>. Then the expression <span style="font-family:monospace">Q[v1,v2]</span> is equivalent to <span style="font-family:monospace">Q[v1/p1,v2/p2]</span>.
 ConceptBase uses the alphabetic order of parameter labels to convert the shortcut form
 to the full form. </p>
-<h3 id="sec28" class="subsection">2.3.2&#XA0;&#XA0;Query classes and deductive integrity checking</h3>
+<h3 id="sec29" class="subsection">2.3.2&#XA0;&#XA0;Query classes and deductive integrity checking</h3>
 <p> <a id="sec:qcic"></a></p><p>ConceptBase regards query classes as ordinary classes with the
 only exception that class membership cannot be postulated (via a TELL)
 but is derived via the class membership constraint formulated for
@@ -1292,7 +1317,7 @@ end
 end
 </span></pre><p>The example uses the macro predicate <span style="font-family:monospace">(x [in] Unit)</span> explained earlier in this section. 
 It is equivalent to the sub-formula <span style="font-family:monospace">exists c (x in c) and (c in Unit)</span>.</p>
-<h3 id="sec29" class="subsection">2.3.3&#XA0;&#XA0;Nested query calls and shortcuts</h3>
+<h3 id="sec30" class="subsection">2.3.3&#XA0;&#XA0;Nested query calls and shortcuts</h3>
 <p> <a id="sec:cqc"></a></p><p>ConceptBase has capabilities to form nested expressions from
 generic query classes. The idea is to combine them like nested
 functional expressions, e.g. <span style="font-style:italic">f</span>(<span style="font-style:italic">g</span>(<span style="font-style:italic">x</span>),<span style="font-style:italic">h</span>(<span style="font-style:italic">y</span>)).
@@ -1374,7 +1399,7 @@ of active rules (section <a href="cbm005.html#sec%3Aeca">4</a>), e.g. to initiat
 rule with an arbitrary candidate out of the set of candidates.
 The code for <span style="font-family:monospace">selectrnd</span> is accessible via the ConceptBase-Forum at
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/1694234">link</a>.</p>
-<h3 id="sec30" class="subsection">2.3.4&#XA0;&#XA0;Reified query calls</h3>
+<h3 id="sec31" class="subsection">2.3.4&#XA0;&#XA0;Reified query calls</h3>
 <p> <a id="sec:reifiedquery"></a></p><p>You might want to memorize certain query calls that you want to call over and over again.
 ConceptBase provides a built-in class <span style="font-family:monospace">QueryCall</span>, which you can instantiate by
 such query calls as ordinary objects, i.e. <em>reified query calls</em>.
@@ -1385,7 +1410,7 @@ another object, or to browse it with the graph editor.
 Examples for query calls, in particular for using integer intervals as class attributes,
 are available in the CB-Forum at
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2571997">link</a>.</p>
-<h2 id="sec31" class="section">2.4&#XA0;&#XA0;View definitions</h2>
+<h2 id="sec32" class="section">2.4&#XA0;&#XA0;View definitions</h2>
 <p>
 <a id="sec:views"></a></p><p>The view language of ConceptBase is an extension of the ConceptBase
 Query Language CBQL.
@@ -1465,7 +1490,7 @@ the complex structure of it is lost. During compilation of the view,
 the view is translated into several classes and some additional
 contraints are generated, so the resulting objects might look quite
 strange if you reload them.</p>
-<h2 id="sec32" class="section">2.5&#XA0;&#XA0;Functions</h2>
+<h2 id="sec33" class="section">2.5&#XA0;&#XA0;Functions</h2>
 <p>
 <a id="sec:functions"></a></p><p>Functions are special queries which have mandatory input parameters
 and return at most one result for a given input.
@@ -1486,11 +1511,11 @@ Subsequently, we introduce first how to define and use functions
 like queries. Then, we define the syntax of functional expressions and the definition of
 recursive functions such as the computation of the length of the shortest path between
 two nodes.</p>
-<h3 id="sec33" class="subsection">2.5.1&#XA0;&#XA0;Functions as special queries</h3>
+<h3 id="sec34" class="subsection">2.5.1&#XA0;&#XA0;Functions as special queries</h3>
 <p>Assume that an attribute (either explicit or derived) has at most one filler. For example,
 a class <span style="font-family:monospace">Project</span> may have attributes <span style="font-family:monospace">budget</span> and <span style="font-family:monospace">managedBy</span> that both are single-valued.
-A third attribute <span style="font-family:monospace">projMember</span> is multi-valued.</p><pre class="verbatim">Project with
-  attribute,single
+A third attribute <span style="font-family:monospace">projMember</span> is multi-valued (default for category &#X2019;attribute&#X2019;).</p><pre class="verbatim">Project with
+  single
     budget: Integer;
     managedBy: Employee
   attribute
@@ -1532,7 +1557,7 @@ a fixed number:</p><pre class="verbatim">magicnumber in Function isA Integer wit
     cmagic: $ (this = 42) $
 end
 </pre><p>You can call it with an empty argument list: <span style="font-family:monospace">magicnumber()</span>. </p>
-<h3 id="sec34" class="subsection">2.5.2&#XA0;&#XA0;Shortcuts for function calls and functional expressions</h3>
+<h3 id="sec35" class="subsection">2.5.2&#XA0;&#XA0;Shortcuts for function calls and functional expressions</h3>
 <p>Since functions require fillers for all parameters, ConceptBase offers also the functional syntax
 <span style="font-family:monospace">f(x)</span> to refer to function calls. The expression <span style="font-family:monospace">f(x)</span> is a shortcut for <span style="font-family:monospace">f[x/param1]</span>,
 where <span style="font-family:monospace">param1</span> is the only parameter of function <span style="font-family:monospace">f</span>. If a function has more than one parameter,
@@ -1563,7 +1588,7 @@ shortcut
 </pre><p>The second arithmetic expression includes a division which in general results in a real number.
 Hence, the function shortcut for this expression is</p><pre class="verbatim">  PLUS(n,DIV(f(m),3))
 </pre><p>The whole expression returns a real number.</p>
-<h3 id="sec35" class="subsection">2.5.3&#XA0;&#XA0;Example function calls and definitions</h3>
+<h3 id="sec36" class="subsection">2.5.3&#XA0;&#XA0;Example function calls and definitions</h3>
 <ol class="enumerate" type=1><li class="li-enumerate">
 The following three variants all count the number of instances of <span style="font-family:monospace">Class</span>:
 <pre class="verbatim">COUNT[Class/class]
@@ -1606,7 +1631,7 @@ You can use it as follows in logical expressions</p><pre class="verbatim"><span 
 </span></pre><p>So, a function call <span style="font-family:monospace">F()</span> calls a function <span style="font-family:monospace">F</span> that has no parameter.</p></li></ol><p>Functions that yield a single numerical value can directly be incorporated in comparison
 predicates. For example, the following query will return all individual objects that have more than
 two attributes:</p><pre class="verbatim"><span style="font-size:small">ObjectWithMoreThanTwoAttributes in QueryClass isA Individual with
-attribute,constraint
+  constraint
     c1 : $ (COUNT_Attribute(Proposition!attribute,this) &gt; 2) $
 end
 </span></pre><p>The functional expression used in the comparison can be nested. See section
@@ -1617,7 +1642,7 @@ the expression. </p><pre class="verbatim"><span style="font-size:small">COUNT[Ob
 COUNT(ObjectWithMoreThanTwoAttributes)
 #ObjectWithMoreThanTwoAttributes
 </span></pre>
-<h3 id="sec36" class="subsection">2.5.4&#XA0;&#XA0;Programmed functions</h3>
+<h3 id="sec37" class="subsection">2.5.4&#XA0;&#XA0;Programmed functions</h3>
 <p>
 <a id="sec:UserFunctions"></a></p><p>If your application demands functional expressions beyond the set of predefined-functions,
 you can extend the capabilities of your ConceptBase installation by adding more
@@ -1669,7 +1694,7 @@ Note that your code might be incompatible with future ConceptBase releases. If y
 of general interest, you can share it with other ConceptBase users in the Software section
 of the CB-Forum
 (<a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2768063">link</a>).</p>
-<h3 id="sec37" class="subsection">2.5.5&#XA0;&#XA0;Recursive function definitions</h3>
+<h3 id="sec38" class="subsection">2.5.5&#XA0;&#XA0;Recursive function definitions</h3>
 <p>Some functions like the Fibonacci numbers are defined recursively. ConceptBase supports
 such recursive definitions. If the function is defined in terms of itself, then 
 express the recursive definition in the membership constraint of the function:</p><pre class="verbatim"><span style="font-size:small">fib in Function isA Integer with
@@ -1726,7 +1751,7 @@ function definitions when they use arithmetic subexpressions. These subexpressio
 can create new objects (numbers) on the fly and could thus force ConceotBase into an
 infinite computation. On the other hand, they are more expressive than pure
 deductive rules and thus useful to analyze large models in a quantitative way.</p>
-<h2 id="sec38" class="section">2.6&#XA0;&#XA0;Query evaluation strategies</h2>
+<h2 id="sec39" class="section">2.6&#XA0;&#XA0;Query evaluation strategies</h2>
 <p> <a id="sec:qev"></a></p><p>ConceptBase employs an SLDNF-style query evaluation method, i.e.
 query predicates are evaluated top-down much like in standard Prolog.
 This is known to cause infinite loops for certain recursive rule
@@ -1782,7 +1807,7 @@ Even in the case of stratification violations, ConceptBase will
 display an answer to a query. The user can then decide which parts
 of the answer are usable. The stratification test can be enabled or disabled for
 the ConceptBase server via the parameter <span style="font-family:monospace">-st</span> (section <a href="cbm007.html#sec%3Acbsparams">6.1</a>).</p>
-<h2 id="sec39" class="section">2.7&#XA0;&#XA0;Multi-level modeling with ConceptBase</h2>
+<h2 id="sec40" class="section">2.7&#XA0;&#XA0;Multi-level modeling with ConceptBase</h2>
 <p> <a id="sec:mlm"></a></p><p>Multi-level modeling is about the use of multiple abstraction levels
 (classes, metaclasses, metametaclasses, etc.) to define the types
 of a database. Traditionally, there were only two abstraction
@@ -1807,7 +1832,7 @@ supporting a simple form of multi-level modeling. Before the
 dual deep instantiation formalization [<a href="cbm016.html#DDI2014">NJS*14</a>], the materialization
 construct, a precursor of multi-level modeling, was also formalized
 with ConceptBase by Dahchour et al. [<a href="cbm016.html#DPZ2002">DPZ2002</a>]. </p>
-<h3 id="sec40" class="subsection">2.7.1&#XA0;&#XA0;Expressing semantics at the metamodel level</h3>
+<h3 id="sec41" class="subsection">2.7.1&#XA0;&#XA0;Expressing semantics at the metamodel level</h3>
 <p> <a id="sec:semmm"></a></p><p>ConceptBase does not have builtin support for explicit potencies of attributes
 (and relations). Instead, all attributes have source and target potency 1:
 when instantiating the attribute, one has to instantiate both the source and the
@@ -1911,7 +1936,7 @@ the M2 metaclass <span style="font-family:monospace">RelationshipType</span> in 
 classes are connected (role and value links) and thus allow to query the M0 data level
 without referring to any schema class like <span style="font-family:monospace">Employee</span>. It thus supports schema-less
 querying.</p>
-<h3 id="sec41" class="subsection">2.7.2&#XA0;&#XA0;DeepTelos</h3>
+<h3 id="sec42" class="subsection">2.7.2&#XA0;&#XA0;DeepTelos</h3>
 <p>
 <a id="sec:deeptelos"></a></p><p>DeepTelos is a set of three axioms to realize multi-level modeling in harmony with the
 existing O-Telos axioms on instantiation, specialization, attribution (see appendix
@@ -1931,7 +1956,7 @@ DeepTelosRules in Class with
                   (m IN c) and (n IN d) and (c ISA d)  ==&gt; (m ISA n) $ 
 end
 </span></pre><p>Further discussion and examples of DeepTelos are available at <a href="http://conceptbase.cc/deeptelos">link</a>.</p>
-<h3 id="sec42" class="subsection">2.7.3&#XA0;&#XA0;Crossing abstraction levels</h3>
+<h3 id="sec43" class="subsection">2.7.3&#XA0;&#XA0;Crossing abstraction levels</h3>
 <p> <a id="sec:crosslev"></a></p><p>OMG demands strict separation between models at different abstraction levels. 
 The only allowed relation is the instantiation between objects at two neighoring
 levels. For example, the object <span style="font-family:monospace">Employee</span> at the M1 (model) level can
@@ -1984,7 +2009,7 @@ Still, both types of statements can co-exist and allow for more expressive
 metamodels. For example, one can define that certain constructs of a modeling
 language are only available to experienced modelers, or that development
 projects from a certain domain should use a subset of the available constructs.</p>
-<h2 id="sec43" class="section">2.8&#XA0;&#XA0;Datalog queries and rules</h2>
+<h2 id="sec44" class="section">2.8&#XA0;&#XA0;Datalog queries and rules</h2>
 <p>
 <a id="sec:datalog"></a></p><p>The definition of queries in ConceptBase is often complicated by the
 limitations of the expressiveness of the query language or by the
@@ -1997,7 +2022,7 @@ the performance of a query or rule.</p><p>Although datalog queries and rules can
 they can cause an inconsistent database. This is due to the fact, that the
 datalog queries and rules will usually not be evaluated while the semantic integrity
 of the database is checked.</p>
-<h3 id="sec44" class="subsection">2.8.1&#XA0;&#XA0;Extended query model</h3>
+<h3 id="sec45" class="subsection">2.8.1&#XA0;&#XA0;Extended query model</h3>
 <p>Datalog queries are defined in a similar way as standard query
 classes. They must be declared as instance of the class <span style="font-family:monospace">DatalogQueryClass</span>.</p><pre class="verbatim">
 Class DatalogQueryClass isA GenericQueryClass with
@@ -2019,7 +2044,7 @@ Class DatalogAttrRule isA DatalogRule
 end
 </pre><p>The attribute <span style="font-family:monospace">concernedClass</span> specifies the class for the In-predicate or the
 attribute class for the A-predicate.</p>
-<h3 id="sec45" class="subsection">2.8.2&#XA0;&#XA0;Datalog code</h3>
+<h3 id="sec46" class="subsection">2.8.2&#XA0;&#XA0;Datalog code</h3>
 <p>The datalog code is a list of predicates, separated by commas (,). As in Datalog or Prolog,
 this will be interpreted as a conjunction of the predicates. To use disjunction, the <span style="font-family:monospace">code</span>
 attribute has to be specified multiple times.</p><p>All predicates that may be used in standard rules and queries may also be
@@ -2043,13 +2068,13 @@ argument of an In-predicate. <span style="font-family:monospace">q</span> may be
 name of a query class, or a derive expression including the specification of parameters
 (for example, <code>find_instances[Class/class]</code>).</p><p>In addition, PROLOG predicates can be used as predicates. You can define your own PROLOG
 predicates in a LPI-file (see section <a href="cbm005.html#subsec%3Acounter">4.2.2</a> for an example).</p>
-<h3 id="sec46" class="subsection">2.8.3&#XA0;&#XA0;Examples</h3>
+<h3 id="sec47" class="subsection">2.8.3&#XA0;&#XA0;Examples</h3>
 <p>This section defines a few datalog queries and rules for the standard example model
 of Employees, Departments and Managers (see <code>$CB_HOME/examples/QUERIES</code>).</p><p>The first example defines a more efficient version of the recursive <span style="font-family:monospace">MetabossQuery</span>.</p><pre class="verbatim">
 DatalogQueryClass MetabossDatalogQuery isA Manager with
-  attribute,parameter
+  parameter
      e : Employee
-  attribute,code
+  code
      r1 : "In('~e','Employee'),A('~e',boss,'~this')";
      r2 : "vars([m]),
            In('~e','Employee'),
@@ -2100,41 +2125,32 @@ are believed at a specified reference time called rollback time. This time is an
 interval. The of the interval is the time when the object has been told/created.
 The end of the interval is either the time when the object was untold/deleted, or
 it is a special symbol <span style="font-style:italic">infinity</span>, indicating that the object is currently believed, i.e. it is
-not deleted.</div>
-</dd><dt class="dt-thefootnotes"><a id="note6" href="#text6">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Only objects that have a right-open belief
+not deleted.</div></dd><dt class="dt-thefootnotes"><a id="note6" href="#text6">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Only objects that have a right-open belief
 time shall be visible OB<sub><span style="font-style:italic">now</span></sub>. This is due to the fact that the end time of an
 object can only be changed once, namely when the object is untold. The UNTELL
-operation can only have happened in the past when <span style="font-style:italic">OB</span><sub><span style="font-style:italic">now</span></sub> is built.</div>
-</dd><dt class="dt-thefootnotes"><a id="note7" href="#text7">3</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Strictly speaking, we should better use the term predefined object or
-predefined proposition.</div>
-</dd><dt class="dt-thefootnotes"><a id="note8" href="#text8">4</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Subsection <a href="#sec%3ACBL">2.2</a> contains an
+operation can only have happened in the past when <span style="font-style:italic">OB</span><sub><span style="font-style:italic">now</span></sub> is built.</div></dd><dt class="dt-thefootnotes"><a id="note7" href="#text7">3</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Strictly speaking, we should better use the term predefined object or
+predefined proposition.</div></dd><dt class="dt-thefootnotes"><a id="note8" href="#text8">4</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Subsection <a href="#sec%3ACBL">2.2</a> contains an
 example for this problem in the context of linking logical formulas
-to O-Telos objects.</div>
-</dd><dt class="dt-thefootnotes"><a id="note9" href="#text9">5</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">For specialization relationships between
+to O-Telos objects.</div></dd><dt class="dt-thefootnotes"><a id="note9" href="#text9">5</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">For specialization relationships between
 two objects we need an axiom similar to the instantiation axiom
 which requires specialization relationships between their sources
 and destination components. [<a href="cbm016.html#jeus92">Jeus92</a>] contains the complete
-axiomatization.</div>
-</dd><dt class="dt-thefootnotes"><a id="note10" href="#text10">6</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">These
+axiomatization.</div></dd><dt class="dt-thefootnotes"><a id="note10" href="#text10">6</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">These
 instantiations were left out in the set of propositions for the
-employee example above.</div>
-</dd><dt class="dt-thefootnotes"><a id="note11" href="#text11">7</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">The original specification of Telos has two temporal components. The
+employee example above.</div></dd><dt class="dt-thefootnotes"><a id="note11" href="#text11">7</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">The original specification of Telos has two temporal components. The
 <em>valid time</em> and the <em>transaction time</em>. The valid time is defined as
 the time interval when the statemment made by a Telos proposition is true in the world.
 The transaction time is the time when this statement is part of the knowledge base.
 O-Telos skipped the valid time because it is virtually impossible to have a
 tractable implementation of Allen&#X2019;s interval calculus [<a href="cbm016.html#All83">All83</a>],
 when in interplays with deductive rules. Earlier versions
-of ConceptBase until version 3.1 did however implement both time components.</div>
-</dd><dt class="dt-thefootnotes"><a id="note12" href="#text12">8</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">For the example of subsection <a href="#sec%3Arepresentation">2.1</a> among others the
+of ConceptBase until version 3.1 did however implement both time components.</div></dd><dt class="dt-thefootnotes"><a id="note12" href="#text12">8</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">For the example of subsection <a href="#sec%3Arepresentation">2.1</a> among others the
 ground predicates <span style="font-family:monospace">(mary in Manager)</span>, <span style="font-family:monospace">(Manager isA
 Employee)</span> and <span style="font-family:monospace">(mary earns 15000)</span> are valid facts describing
 the contents of the database. We suggest to choose verbs (e.g. <span style="font-family:monospace">earns</span>
 in our example) for attribute labels to get more natural and
-readable predicates.</div>
-</dd><dt class="dt-thefootnotes"><a id="note13" href="#text13">9</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Since any object is an instance of <span style="font-family:monospace">Proposition</span>, ConceptBase will include this class
-when searching the concerned class of an attribution predicate.</div>
-</dd><dt class="dt-thefootnotes"><a id="note14" href="#text14">10</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">The enforcement of the restriction has been extended to query classes
+readable predicates.</div></dd><dt class="dt-thefootnotes"><a id="note13" href="#text13">9</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Since any object is an instance of <span style="font-family:monospace">Proposition</span>, ConceptBase will include this class
+when searching the concerned class of an attribution predicate.</div></dd><dt class="dt-thefootnotes"><a id="note14" href="#text14">10</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">The enforcement of the restriction has been extended to query classes
 as of ConceptBase release 6.1. To support applications that were written
 for earlier releases, a CBserver option <span style="font-family:monospace">-cc</span> (predicate typing) has been introduced to
 disable the check for query classes. Details are in section <a href="cbm007.html#cha%3Acbserver">6</a>.
@@ -2145,28 +2161,21 @@ You need to set the CBserver option <span style="font-family:monospace">-cc</spa
 The extended mode creates more cases that the predicate type (=concerned class)
 is found. It should be noted that objects like x that are not instance
 of a class that defines and attribute with label m will lead to a failure
-of the predicate (x m y), i.e. its negation is then true.</div>
-</dd><dt class="dt-thefootnotes"><a id="note15" href="#text15">11</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Use multi-sets as discussed in
+of the predicate (x m y), i.e. its negation is then true.</div></dd><dt class="dt-thefootnotes"><a id="note15" href="#text15">11</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Use multi-sets as discussed in
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2330042">link</a> if
-you want to constrain the sum of salaries.</div>
-</dd><dt class="dt-thefootnotes"><a id="note16" href="#text16">12</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Meta variables are those variables that occur in the class position
+you want to constrain the sum of salaries.</div></dd><dt class="dt-thefootnotes"><a id="note16" href="#text16">12</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Meta variables are those variables that occur in the class position
 of (x in c), or in the label position of (x m y) or Label(x,m). In the running example,
-C and M are meta variables.</div>
-</dd><dt class="dt-thefootnotes"><a id="note17" href="#text17">13</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">If the CBserver option <span style="font-family:monospace">-cc</span> is set to off, we also allow
+C and M are meta variables.</div></dd><dt class="dt-thefootnotes"><a id="note17" href="#text17">13</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">If the CBserver option <span style="font-family:monospace">-cc</span> is set to off, we also allow
 calls to generic query classes in rules and constraints. In such cases,
 incremental integrity checking will be incomplete and thus potentially wrong. Only experienced
-users should employ them.</div>
-</dd><dt class="dt-thefootnotes"><a id="note18" href="#text18">14</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">A function returns the empty set <em>nil</em> if it is undefined for the provided input
-values.</div>
-</dd><dt class="dt-thefootnotes"><a id="note19" href="#text19">15</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">An object-oriented style for the first function would be
-<span style="font-family:monospace">P1.getBudget()</span> rather than <span style="font-family:monospace">getBudget(P1)</span>.</div>
-</dd><dt class="dt-thefootnotes"><a id="note20" href="#text20">16</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">There is however a different dichotomy in ConceptBase that
+users should employ them.</div></dd><dt class="dt-thefootnotes"><a id="note18" href="#text18">14</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">A function returns the empty set <em>nil</em> if it is undefined for the provided input
+values.</div></dd><dt class="dt-thefootnotes"><a id="note19" href="#text19">15</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">An object-oriented style for the first function would be
+<span style="font-family:monospace">P1.getBudget()</span> rather than <span style="font-family:monospace">getBudget(P1)</span>.</div></dd><dt class="dt-thefootnotes"><a id="note20" href="#text20">16</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">There is however a different dichotomy in ConceptBase that
 resembles the object-vs-value separation: Each proposition P(id,x,n,y) has an
 identifier &#X2019;id&#X2019; and a label &#X2019;n&#X2019;. A number like &#X2019;120&#X2019; is for example represented by a proposition
 P(id123,id123,120,id123). The label is always the representation of the object as
 used in the universe of discourse. The identifier is used to look it up and lets it
-participate in formulas.</div>
-</dd></dl>
+participate in formulas.</div></dd></dl>
 <hr>
 <a href="cbm002.html"><img src="previous_motif.gif" alt="Previous"></a>
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>

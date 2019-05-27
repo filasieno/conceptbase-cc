@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html >
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<meta name="generator" content="hevea 2.09">
+<meta name="generator" content="hevea 2.23">
 <link rel="stylesheet" type="text/css" href="cb-style.css"><link rel="stylesheet" type="text/css" href="cbm.css">
 <title>Answer Formats for Queries</title>
 </head>
@@ -11,7 +11,7 @@
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
 <a href="cbm005.html"><img src="next_motif.gif" alt="Next"></a>
 <hr>
-<h1 id="sec47" class="chapter">Chapter&#XA0;3&#XA0;&#XA0;Answer Formats for Queries</h1>
+<h1 id="sec48" class="chapter">Chapter&#XA0;3&#XA0;&#XA0;Answer Formats for Queries</h1>
 <p>
 <a id="sec:answerformat"></a></p><p>The ConceptBase server provides an ASK command in its interface, which
 allows to specify in which text-based format the answer should be returned. There
@@ -33,22 +33,56 @@ There are four options for the answer format:</p><dl class="description"><dt cla
 the answer shall be returned as a comma-separated list of object names, e.g. 
 <span style="font-family:monospace">bill, mary, john</span>
 </dd><dt class="dt-description"><span style="font-weight:bold"><span style="font-family:monospace">FRAME</span></span><span style="font-weight:bold">:</span></dt><dd class="dd-description">
-the answer shall be returned as a list of Telos frames, iff the query
-does not have a user-defined answer format, see <span style="font-family:monospace">forQuery</span> attribute
-below. If there is an answer format with a <span style="font-family:monospace">forQuery</span> attribute
-for the current query, it will be selected. If there are more than one,
-the first one is selected.
-</dd><dt class="dt-description"><span style="font-weight:bold"><span style="font-family:monospace">default</span></span><span style="font-weight:bold">:</span></dt><dd class="dd-description">
-This value is leaving the choice to the ConceptBase server. For function
-calls, the answer format <span style="font-family:monospace">LABEL</span> is selected, for other query calls, the format
-<span style="font-family:monospace">FRAME</span> is selected.
-The main purpose of this format is to provide a more intuitive behavior of CBIva
-when used for interactively querying ConceptBase. 
+the answer shall be returned as a list of Telos frames. 
+</dd><dt class="dt-description"><span style="font-weight:bold"><span style="font-family:monospace">JSONIC</span></span><span style="font-weight:bold">:</span></dt><dd class="dd-description">
+the answer shall be returned as a list of JSON-like frames (experimental).
 </dd><dt class="dt-description"><span style="font-weight:bold"><em>answer-format-name</em></span><span style="font-weight:bold">:</span></dt><dd class="dd-description">
 Finally, the name of a user-defined answer format can be provided, like <span style="font-family:monospace">MyFormat</span>.
 This will override any answer format that is assigned via the <span style="font-family:monospace">forQuery</span> attribute
 for the given query. Hence, one can maintain several answer formats for the same query.
-</dd></dl><p>The command <span style="font-family:monospace">ask &lt;querycall&gt;</span>
+</dd><dt class="dt-description"><span style="font-weight:bold"><span style="font-family:monospace">default</span></span><span style="font-weight:bold">:</span></dt><dd class="dd-description">
+This value is leaving the choice to the ConceptBase server. For function
+calls, the answer format <span style="font-family:monospace">LABEL</span> is selected, for other query calls,
+ConceptBase first checks if an answer format was defined for the query (attribute <span style="font-family:monospace">forQuery</span>).
+If that exists, it is selected, otherwise the format
+<span style="font-family:monospace">FRAME</span> is selected. If there are more than one,
+the first one is selected.
+</dd></dl><p>The answer format <span style="font-family:monospace">JSONIC</span> is an alternative to <span style="font-family:monospace">FRAME</span>. Here is an example contrasting
+the two formats. The first two entries are in <span style="font-family:monospace">FRAME</span> format, the latter two in <span style="font-family:monospace">JSONIC</span>.
+If the attribute category is <span style="font-family:monospace">attribute</span>, then it is surpressed in the <span style="font-family:monospace">JSONIC</span> format.</p><pre class="verbatim">Employee in Class isA Person,Agent with
+  attribute
+     salary: Integer;
+     name: String
+  rule
+     r1: $ forall e/Employee exists s/Integer (e salary s) $
+end
+
+bill in Employee with
+  salary
+     bsal: 1000
+  name
+     firstname: "William";
+     lastname: "Smith"
+  attribute
+     creator: mjeu
+end
+
+
+{ "id" : "Employee",
+  "type" : ["Class"],
+  "super" : ["Person","Agent"],
+  "salary" : "Integer",
+  "rule/r1" : "$ forall e/Employee exists s/Integer (e salary s) $"
+}
+
+{ "id" : "bill",
+  "type" : ["Employee"],
+  "salary/bsal" : "1000",
+  "name/firstname" : "\"William\#",
+  "name/lastname" : "\"Smith\"",
+  "creator": "mjeu"
+}
+</pre><p>The command <span style="font-family:monospace">ask &lt;querycall&gt;</span>
 is a shortcut for
 </p><pre class="verbatim">   ask &lt;querycall&gt; OBJNAMES LABEL Now
 </pre><p>Assume, we want to execute a query call <span style="font-family:monospace">Q[abc/param1]</span> on the current database and
@@ -61,8 +95,8 @@ assigned via <span style="font-family:monospace">forQuery</span> to Q, we can ca
 </pre><p>and also
 </p><pre class="verbatim">   ask Q[abc/param1] OBJNAMES MyFormatB Now
 </pre><p>If we assign <span style="font-family:monospace">MyFormatB</span> to Q via the <span style="font-family:monospace">forQuery</span> attribute, the last call is equivalent to
-the first call using <span style="font-family:monospace">FRAME</span>.</p><p>Subsequently, the specification of such user-defined answer formats is presented.</p>
-<h2 id="sec48" class="section">3.1&#XA0;&#XA0;Basic definitions</h2>
+the first call using <span style="font-family:monospace">default</span> as answer format name.</p><p>Subsequently, the specification of such user-defined answer formats is presented.</p>
+<h2 id="sec49" class="section">3.1&#XA0;&#XA0;Basic definitions</h2>
 <p>By default, ConceptBase displays answers to queries in the FRAME format (see &#X2018;A&#X2019; and &#X2018;B&#X2019; below). For many applications, other answer
 representations are more useful. For example, relational data is more readable in a table structure. Another important example are XML data. If
 ConceptBase is integrated into a Web-based information system, then answers in HTML format are quite useful. For this reason, answer format
@@ -101,7 +135,11 @@ the same arguments (expressed as parameter substitutions).</p><p>In ConceptBase,
 end
 </pre><p>The first attribute assigns an answer format to a query class (a query may have at most one answer format). The second and third attribute specify
 the sorting order of the answer, i.e. one can specify by which field an answer is sorted, and whether the answer objects are sorted &#X2018;ascending&#X2019; or
-&#X2018;descending&#X2019; (much like in SQL).</p><p>The &#X2018;head&#X2019;, &#X2018;pattern&#X2019;, and &#X2018;tail&#X2019; arguments are strings that define the substring substitution when the answer is formatted. They contain substrings of
+&#X2018;descending&#X2019; (much like in SQL). The &#X2019;orderBy&#X2019; attribute specifies the property by which the answer shall be sorted.
+The most common value is the expression "this", i.e. sort the answer by the name of the objects in the answer. You can also
+specify an attribute expression such as "this.name" referring to an answer variable. If you specify "none" for &#X2019;orderBy&#X2019;,
+then the answer is not sorted. If the number of objects in an answer exceeds 5000, then no sorting is applied due to
+memory limitations.</p><p>The &#X2018;head&#X2019;, &#X2018;pattern&#X2019;, and &#X2018;tail&#X2019; arguments are strings that define the substring substitution when the answer is formatted. They contain substrings of
 type expr that are replaced. The head and tail strings are evaluated once, independent form the answer to the query. Usually, they do not
 contain expressions but only text. The response to a query is a set of answer objects A1,A2,.... The pattern string is evaluated against each
 answer object. For each answer object, the derivation of the pattern is put into the answer text. Hence, the complete answer consists of</p><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="text-align:right;white-space:nowrap" >&nbsp;</td><td style="text-align:left;white-space:nowrap" >derivation of head string </td></tr>
@@ -133,8 +171,8 @@ An answer object A to a query class QC has by default a &#X2018;frame&#X2019; st
      [...]
    end
 </pre>
-<h2 id="sec49" class="section">3.2&#XA0;&#XA0;Constructs in answer formats</h2>
-<h3 id="sec50" class="subsection">3.2.1&#XA0;&#XA0;Simple expressions in patterns</h3>
+<h2 id="sec50" class="section">3.2&#XA0;&#XA0;Constructs in answer formats</h2>
+<h3 id="sec51" class="subsection">3.2.1&#XA0;&#XA0;Simple expressions in patterns</h3>
 <p>We first concentrate on the pattern attribute, i.e. they are not applicable in the head or tail attribute
 of an answer format. The pattern of an answer format is applied to <em>each</em> answer object 
 of a given query call, effectively transforming it according to the pattern.
@@ -175,25 +213,25 @@ displays the internal object identifier of the answer object {this}.
 <tr><td style="text-align:right;white-space:nowrap" > <code>{this|attribute}</code></td><td style="text-align:center;white-space:nowrap" >&#X2014;&#X2192;</td><td style="text-align:left;white-space:nowrap" ><span style="font-family:monospace">label11,label12,label21</span> </td></tr>
 <tr><td style="text-align:right;white-space:nowrap" > <code>{this.attribute}</code></td><td style="text-align:center;white-space:nowrap" >&#X2014;&#X2192;</td><td style="text-align:left;white-space:nowrap" ><span style="font-family:monospace">v11,v12,v21</span></td></tr>
 </table>
-<h3 id="sec51" class="subsection">3.2.2&#XA0;&#XA0;Pre-defined variables</h3>
+<h3 id="sec52" class="subsection">3.2.2&#XA0;&#XA0;Pre-defined variables</h3>
 <p>The following variables can be used in the head, tail, and pattern of an answer format. They
 do not refer to the variable <em>this</em>.</p><dl class="description"><dt class="dt-description"><span style="font-weight:bold">{user}</span></dt><dd class="dd-description">
 outputs the user name of the current transaction; typically has the structure name@address</dd><dt class="dt-description"><span style="font-weight:bold">{transactiontime}</span></dt><dd class="dd-description">
-the time when the current transaction was started; has format YYYY/MM/DD hh:mm:ss and is based on Coordinated Universal Time (UTC),
+the time when the current transaction was started; has format YYYY-MM-DD hh:mm:ss and is based on Coordinated Universal Time (UTC),
 formerly known as Greenwhich Mean Time</dd><dt class="dt-description"><span style="font-weight:bold">{cb_version}</span></dt><dd class="dd-description">
 the version number of ConceptBase</dd><dt class="dt-description"><span style="font-weight:bold">{cb_date_of_release}</span></dt><dd class="dd-description">
 the version number of ConceptBase</dd><dt class="dt-description"><span style="font-weight:bold">{currentmodule}</span></dt><dd class="dd-description"> is expanded to the name of the current module.</dd><dt class="dt-description"><span style="font-weight:bold">{currentpath}</span></dt><dd class="dd-description"> is expanded to the complete module path (starting with root module
 <span style="font-family:monospace">System</span>) that was active when starting the transaction</dd><dt class="dt-description"><span style="font-weight:bold">{database}</span></dt><dd class="dd-description"> is expanded to relative or absolute path of the database that was specified with the
 <span style="font-family:monospace">-d</span> option of the CBserver (section <a href="cbm007.html#cha%3Acbserver">6</a>); if no database was specified, the
 variable is expanded to &lt;<span style="font-family:monospace">none</span>&gt;</dd></dl><p>ConceptBase also adds those command line parameters that deviate from their defaults to the set
-of pre-defined variables. The most common ones are (see also section <a href="cbm006.html#sec%3Amodule_views">5.10</a>):</p><dl class="description"><dt class="dt-description"><span style="font-weight:bold">{loadDir}</span></dt><dd class="dd-description">: directory from which the CBserver loads Telos source files at start-up;
+of pre-defined variables. The most common ones are (see also section <a href="cbm006.html#sec%3Amodule_views">5.11</a>):</p><dl class="description"><dt class="dt-description"><span style="font-weight:bold">{loadDir}</span></dt><dd class="dd-description">: directory from which the CBserver loads Telos source files at start-up;
 command-line parameter <span style="font-family:monospace">-load</span></dd><dt class="dt-description"><span style="font-weight:bold">{saveDir}</span></dt><dd class="dd-description">: directory into which the CBserver saves Telos sources of modules at shut-down
 or client logout;
 command-line parameter <span style="font-family:monospace">-save</span></dd><dt class="dt-description"><span style="font-weight:bold">{viewDir}</span></dt><dd class="dd-description">: directory into which the CBserver materializes results of certain queries
 command-line parameter <span style="font-family:monospace">-views</span></dd></dl><p>Moreover, if the current transaction was a call of a query like <span style="font-family:monospace">MyQuery[v1/param1,...]</span> then
 {param1} will be evaluated to <span style="font-family:monospace">v1</span>. This makes all parameter substitutions of a query call
 available to answer formatting.</p>
-<h3 id="sec52" class="subsection">3.2.3&#XA0;&#XA0;Iterations over expressions</h3>
+<h3 id="sec53" class="subsection">3.2.3&#XA0;&#XA0;Iterations over expressions</h3>
 <p>In case of expressions with multiple values, the user may want to generate a 
 complex text that uses one value after the other as a parameter. 
 This is in particular useful to transform multiple attribute values like <span style="font-family:monospace">this.cat1</span>.
@@ -216,7 +254,7 @@ An example for iterations is given in
 These two commas are used by ConceptBase to parse the arguments
 of the Foreach-construct and similar answer formatting expressions.
 They are not printed to the answer stream.</p>
-<h3 id="sec53" class="subsection">3.2.4&#XA0;&#XA0;Special characters</h3>
+<h3 id="sec54" class="subsection">3.2.4&#XA0;&#XA0;Special characters</h3>
 <p>If one wants a comma inside an expresssion that shall be
 visible in the answer, then one has to escape it &#X2018;\,&#X2019;.
 The same holds for the other special characters like &#X2018;(&#X2019;, &#X2018;)&#X2019; etc.
@@ -236,13 +274,13 @@ In principal, any non-alphanumerical character like &#X2019;(&#X2019;,&#X2019;)&
 vanilla versions of these characters are used to denote expressions in
 answer formats. Hence, we need to &#X2019;escape&#X2019; them by the backslash if they
 shall appear in the answer.</p>
-<h3 id="sec54" class="subsection">3.2.5&#XA0;&#XA0;Function patterns</h3>
+<h3 id="sec55" class="subsection">3.2.5&#XA0;&#XA0;Function patterns</h3>
 <p>
 <a id="subsec:externalproc"></a></p><p>The substitution mechanism for answer formats recognizes patterns such as</p><p><code>{F(expr1,expr2,...)}</code> </p><p>as function calls. An example is the <span style="font-family:monospace">ASKquery</span> construct from from section <a href="#subsec%3Aaskquery">3.2.6</a>.
 The mechanism is however very general and can be used to realize almost arbitrary substititions.
 The parentheses and the commas separating the arguments of <span style="font-family:monospace">F</span> are parsed by ConceptBase
 and not placed on the output.
-The following simple function patterns are pre-defined:</p><ul class="itemize"><li class="li-itemize"><code>{QT(expr)}</code> puts the <span style="font-family:monospace">expr</span> into double quotes. </li><li class="li-itemize"><code>{UQ(expr)}</code> removes double quotes from <span style="font-family:monospace">expr</span>.</li><li class="li-itemize"><code>{ALPHANUM(expr)}</code> outputs an alphanumeric transcription of <span style="font-family:monospace">expr</span>.
+The following simple function patterns are pre-defined:</p><ul class="itemize"><li class="li-itemize"><code>{QT(expr)}</code> puts the <span style="font-family:monospace">expr</span> into double quotes if not already quoted. </li><li class="li-itemize"><code>{UQ(expr)}</code> removes double quotes from <span style="font-family:monospace">expr</span> if present.</li><li class="li-itemize"><code>{ALPHANUM(expr)}</code> outputs an alphanumeric transcription of <span style="font-family:monospace">expr</span>.
 This is useful when an object names contains special characters but the
 output format requires an alphanumeric label. If <span style="font-family:monospace">expr</span> already
 evaluates to an alphanumeric label, then it is inserted unchanged.</li><li class="li-itemize"><code>{From(expr)}</code> inserts the source object of <span style="font-family:monospace">expr</span>. The source object is
@@ -259,61 +297,62 @@ the ConceptBase server, can also be called in an answer format.
 The programming interface is not documented here since this requires
 extensive knowledge of the ConceptBase server source code. 
 For the experienced user, we provide an example in the 
-subdirectory <span style="font-family:monospace">Examples/AnswerFormat</span> of the ConceptBase installation
+subdirectory <span style="font-family:monospace">examples/AnswerFormat</span> of the ConceptBase installation
 directory, see files <span style="font-family:monospace">externalcall.sml</span> and
 <span style="font-family:monospace">externalcall.swi.lpi</span> (<span style="font-family:monospace">externalcall.bim.lpi</span> for BIM-Prolog variant). 
 Note that one has to create a persistent database, load the model <span style="font-family:monospace">externalcall.sml</span> into it, then terminate
 the ConceptBase server, and then copy the file <span style="font-family:monospace">externalcall.swi.lpi</span> or <span style="font-family:monospace">externalcall.bim.lpi</span> 
 into the database directory (see also appendix <a href="cbm015.html#cap%3Alpi">F</a>). 
 Thereafter, restart ConceptBase and call the query <span style="font-family:monospace">EmpDept</span>.</p>
-<h3 id="sec55" class="subsection">3.2.6&#XA0;&#XA0;Calling queries in answer formats</h3>
+<h3 id="sec56" class="subsection">3.2.6&#XA0;&#XA0;Calling queries in answer formats</h3>
 <p>
 <a id="subsec:askquery"></a></p><p>A query call within an answer format is an example of a so-called external procedure.
 The pattern as well as head and tail of an answer format may contain the call to a query (possibly the same for which the answer format was
-defined for). This allows to generate arbitrarily complex answers.</p><p><code>{ASKquery(Q[subst1,subst2,...],FRAME)}</code></p><p>The argument <span style="font-family:monospace">Q</span> is the name of a query. The arguments <span style="font-family:monospace">subst1,subst2</span> are parameter substitutions (see section <a href="cbm003.html#sec%3ACBQL">2.3</a>). The argument
-&#X2018;FRAME&#X2019; is the default answer format specified for the query Q. It shall be overridden
-in case that query Q has itself an answer format. Instead of &#X2018;FRAME&#X2019; the user can also
-specify any answer format in the ASKquery call, even parameterized answer formats (see below)
-are allowed.</p><p>The effect of ASKquery in an answer format is that the above query call is evaluated
-and the ASKquery expression is replaced by the complete answer to the query.
-In terms of the substitution, the following rule is applied:</p><p><code>{ASKquery(Q[subst1,subst2,...],FRAME)}</code> &#X2014;&#X2192; <span style="font-family:monospace">X</span></p><p>where <span style="font-family:monospace">X</span> is the result of the query call <code>Q[subst1,subst2,...]</code> after derivation of the arguments subst1, subst2 etc. This sequencing is important since
+defined for). This allows to generate arbitrarily complex answers.</p><p><code>{ASKquery(Q[subst1,subst2,...],formatname)}</code></p><p>The argument <span style="font-family:monospace">Q</span> is the name of a query. The arguments <span style="font-family:monospace">subst1,subst2</span> are parameter substitutions (see section <a href="cbm003.html#sec%3ACBQL">2.3</a>). The argument
+<span style="font-family:monospace">formatname</span> specifies the answer format for the query call <span style="font-family:monospace">Q[subst1,subst2,...]</span>. The answer format may also have parameters (see below).
+If you use <span style="font-family:monospace">default</span> as answer format name, then the ConceptBase server will pick the default format. This is <span style="font-family:monospace">LABEL</span> (list of object names) for
+function calls.
+For other queries, it is the first answer format that list the query <span style="font-family:monospace">Q</span> in its <span style="font-family:monospace">forQuery</span> attribute. If no such answer format exists,
+the format <span style="font-family:monospace">FRAME</span> (Telos frames) is chosen.</p><p>The effect of <span style="font-family:monospace">ASKquery</span> in an answer format is that the above query call is evaluated
+and the <span style="font-family:monospace">ASKquery</span> expression is replaced by the complete answer to the query.
+In terms of the substitution, the following rule is applied:</p><p><code>{ASKquery(Q[subst1,subst2,...],default)}</code> &#X2014;&#X2192; <span style="font-family:monospace">X</span></p><p>where <span style="font-family:monospace">X</span> is the result of the query call <code>Q[subst1,subst2,...]</code> after derivation of the arguments subst1, subst2 etc. This sequencing is important since
 an ASKquery call can contain terms that are subject to substitution, e.g.
 <br>
-<code>{ASKquery(MyQuery[{this.cat1}/param1,{this.{x1}}/{x2}],FRAME)}</code>.
+<code>{ASKquery(MyQuery[{this.cat1}/param1,{this.{x1}}/{x2}],default)}</code>.
 <br>
 ConceptBase will always start to evaluate left to right and the
-innermost terms before evaluating the terms that contain inner terms. Hence, the derivation sequence is</p><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="text-align:right;white-space:nowrap" ><span style="font-size:small">&nbsp;</span></td><td style="text-align:left;white-space:nowrap" ><code><span style="font-size:small">{ASKquery(MyQuery[{this.cat1}/param1,{this.{x1}}/{x2}],FRAME)}</span></code></td><td style="text-align:left;white-space:nowrap" ><span style="font-size:small">&nbsp;</span></td></tr>
-<tr><td style="text-align:right;white-space:nowrap" ><span style="font-size:small"> </span><span style="font-size:small">=&#X21D2;</span></td><td style="text-align:left;white-space:nowrap" ><code><span style="font-size:small">{ASKquery(MyQuery[alpha/param1,{this.{x1}}/{x2}],FRAME)}</span></code></td><td style="text-align:left;white-space:nowrap" ><span style="font-size:small">(r2)</span></td></tr>
-<tr><td style="text-align:right;white-space:nowrap" ><span style="font-size:small"> </span><span style="font-size:small">=&#X21D2;</span></td><td style="text-align:left;white-space:nowrap" ><code><span style="font-size:small">{ASKquery(MyQuery[alpha/param1,{this.name}/{x2}],FRAME)}</span></code></td><td style="text-align:left;white-space:nowrap" ><span style="font-size:small">(r1)</span></td></tr>
-<tr><td style="text-align:right;white-space:nowrap" ><span style="font-size:small"> </span><span style="font-size:small">=&#X21D2;</span></td><td style="text-align:left;white-space:nowrap" ><code><span style="font-size:small">{ASKquery(MyQuery[alpha/param1,"smith"/{x2}],FRAME)}</span></code></td><td style="text-align:left;white-space:nowrap" ><span style="font-size:small">(r3)</span></td></tr>
-<tr><td style="text-align:right;white-space:nowrap" ><span style="font-size:small"> </span><span style="font-size:small">=&#X21D2;</span></td><td style="text-align:left;white-space:nowrap" ><code><span style="font-size:small">{ASKquery(MyQuery[alpha/param1,"smith"/param2],FRAME)}</span></code></td><td style="text-align:left;white-space:nowrap" ><span style="font-size:small">(r4)</span></td></tr>
+innermost terms before evaluating the terms that contain inner terms. Hence, the derivation sequence is</p><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="text-align:right;white-space:nowrap" ><span style="font-size:small">&nbsp;</span></td><td style="text-align:left;white-space:nowrap" ><code><span style="font-size:small">{ASKquery(MyQuery[{this.cat1}/param1,{this.{x1}}/{x2}],default)}</span></code></td><td style="text-align:left;white-space:nowrap" ><span style="font-size:small">&nbsp;</span></td></tr>
+<tr><td style="text-align:right;white-space:nowrap" ><span style="font-size:small"> </span><span style="font-size:small">=&#X21D2;</span></td><td style="text-align:left;white-space:nowrap" ><code><span style="font-size:small">{ASKquery(MyQuery[alpha/param1,{this.{x1}}/{x2}],default)}</span></code></td><td style="text-align:left;white-space:nowrap" ><span style="font-size:small">(r2)</span></td></tr>
+<tr><td style="text-align:right;white-space:nowrap" ><span style="font-size:small"> </span><span style="font-size:small">=&#X21D2;</span></td><td style="text-align:left;white-space:nowrap" ><code><span style="font-size:small">{ASKquery(MyQuery[alpha/param1,{this.name}/{x2}],default)}</span></code></td><td style="text-align:left;white-space:nowrap" ><span style="font-size:small">(r1)</span></td></tr>
+<tr><td style="text-align:right;white-space:nowrap" ><span style="font-size:small"> </span><span style="font-size:small">=&#X21D2;</span></td><td style="text-align:left;white-space:nowrap" ><code><span style="font-size:small">{ASKquery(MyQuery[alpha/param1,"smith"/{x2}],default)}</span></code></td><td style="text-align:left;white-space:nowrap" ><span style="font-size:small">(r3)</span></td></tr>
+<tr><td style="text-align:right;white-space:nowrap" ><span style="font-size:small"> </span><span style="font-size:small">=&#X21D2;</span></td><td style="text-align:left;white-space:nowrap" ><code><span style="font-size:small">{ASKquery(MyQuery[alpha/param1,"smith"/param2],default)}</span></code></td><td style="text-align:left;white-space:nowrap" ><span style="font-size:small">(r4)</span></td></tr>
 <tr><td style="text-align:right;white-space:nowrap" ><span style="font-size:small"> </span><span style="font-size:small">=&#X21D2;</span></td><td style="text-align:left;white-space:nowrap" ><code><span style="font-size:small">The answer is ...</span></code></td><td style="text-align:left;white-space:nowrap" ><span style="font-size:small">(r5)</span></td></tr>
 </table><p>where we assume the following example substitution rules</p><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="text-align:left;white-space:nowrap" >r1:</td><td style="text-align:right;white-space:nowrap" ><code>{x1}</code></td><td style="text-align:center;white-space:nowrap" >&#X2014;&#X2192;</td><td style="text-align:left;white-space:nowrap" ><span style="font-family:monospace">name</span> </td></tr>
 <tr><td style="text-align:left;white-space:nowrap" >r2:</td><td style="text-align:right;white-space:nowrap" ><code>{this.cat1}</code></td><td style="text-align:center;white-space:nowrap" >&#X2014;&#X2192;</td><td style="text-align:left;white-space:nowrap" ><span style="font-family:monospace">alpha</span> </td></tr>
 <tr><td style="text-align:left;white-space:nowrap" >r3:</td><td style="text-align:right;white-space:nowrap" ><code>{this.name}</code></td><td style="text-align:center;white-space:nowrap" >&#X2014;&#X2192;</td><td style="text-align:left;white-space:nowrap" ><code>"smith"</code> </td></tr>
 <tr><td style="text-align:left;white-space:nowrap" >r4:</td><td style="text-align:right;white-space:nowrap" ><code>{x2}</code></td><td style="text-align:center;white-space:nowrap" >&#X2014;&#X2192;</td><td style="text-align:left;white-space:nowrap" ><span style="font-family:monospace">param2</span> </td></tr>
-<tr><td style="text-align:left;white-space:nowrap" >r5:</td><td style="text-align:right;white-space:nowrap" ><code>{ASKquery(MyQuery[...],FRAME)}</code></td><td style="text-align:center;white-space:nowrap" >&#X2014;&#X2192;</td><td style="text-align:left;white-space:nowrap" ><span style="font-family:monospace">The answer is ...</span></td></tr>
-</table><p>This guarantees that the query call is &#X2018;ground&#X2019;, i.e. does not contains terms which are subject to substitution.</p><p>The ASKquery construct allows to introduce recursive calls during the derivation of a query since there can (and should) be an answer format for Q
-which may contain expressions ASKquery itself. In principle, this allows infinite looping. However, the answer format evaluator prevents such
+<tr><td style="text-align:left;white-space:nowrap" >r5:</td><td style="text-align:right;white-space:nowrap" ><code>{ASKquery(MyQuery[...],default)}</code></td><td style="text-align:center;white-space:nowrap" >&#X2014;&#X2192;</td><td style="text-align:left;white-space:nowrap" ><span style="font-family:monospace">The answer is ...</span></td></tr>
+</table><p>This guarantees that the query call is &#X2018;ground&#X2019;, i.e. does not contains terms which are subject to substitution.</p><p>The <span style="font-family:monospace">ASKquery</span> construct allows to introduce recursive calls during the derivation of a query since there can (and should) be an answer format for Q
+which may contain expressions <span style="font-family:monospace">ASKquery</span> itself. In principle, this allows infinite looping. However, the answer format evaluator prevents such
 loops by halting the expansion when a recursive call with same parameters has occured. The answer then contains an &#X2018;' character at the position
 where the loop was detected. Additionally, an error message is written on the console window
-of the ConceptBase server (tracemode must be at least low).</p><p>A simple example for use of ASKquery is given in <span style="font-family:monospace">recursive-answers.sml</span>. The example uses a view instead of a query class in order to include
+of the ConceptBase server (tracemode must be at least low).</p><p>A simple example for use of <span style="font-family:monospace">ASKquery</span> is given in <span style="font-family:monospace">recursive-answers.sml</span>. The example uses a view instead of a query class in order to include
 also answers into the solution which not have a filler for the requested attribute, i.e. hasChild is <span style="font-family:monospace">inherited_attribute</span>, not
-<span style="font-family:monospace">retrieved_attribute</span>.</p><p>It is common practice to combine the ASKquery construct with &#X2018;Foreach&#X2019; in order to display an iteration of objects in the same way. The user
-should define an answer format for the iterated query Q as well.</p><p>Do not mix the use of ASKquery with the view definitions in ConceptBase! The nesting depth of a view is determined by the view definition. The
-nesting depth of an answer generated by expansion of ASKquery is only limited by the complexity of the database. For example, one can set up
+<span style="font-family:monospace">retrieved_attribute</span>.</p><p>It is common practice to combine the <span style="font-family:monospace">ASKquery</span> construct with &#X2018;Foreach&#X2019; in order to display an iteration of objects in the same way. The user
+should define an answer format for the iterated query Q as well.</p><p>Do not mix the use of <span style="font-family:monospace">ASKquery</span> with the view definitions in ConceptBase! The nesting depth of a view is determined by the view definition. The
+nesting depth of an answer generated by expansion of <span style="font-family:monospace">ASKquery</span> is only limited by the complexity of the database. For example, one can set up
 an ancestor database and display all descendants of a person and recursivley their descendants in a single answer string for that person.
-The nested ASKquery inside an answer format usually results in the unfolding also using
+The nested <span style="font-family:monospace">ASKquery</span> inside an answer format usually results in the unfolding also using
 an answer format (possibly the same as used for the original query). This feature
 allows the user to specify very complex structured answers that might even contain the
 complete database. In particular, complex XML representations can be constructed
 in this way.</p>
-<h3 id="sec56" class="subsection">3.2.7&#XA0;&#XA0;Expressions in head and tail</h3>
+<h3 id="sec57" class="subsection">3.2.7&#XA0;&#XA0;Expressions in head and tail</h3>
 <p>The features &#X2018;head&#X2019; and &#X2018;tail&#X2019; are similar to pattern. The difference is that any expression using &#X2018;this&#X2019; (the running variable for answer objects) is disallowed.
-This only leaves function patterns such as ASKquery expressions and pre-defined patterns such as <code>{user}</code>.
+This only leaves function patterns such as <span style="font-family:monospace">ASKquery</span> expressions and pre-defined patterns such as <code>{user}</code>.
 Of course, the head and tail strings can contain multiple occurences
 of ASKquery or other function patterns.</p>
-<h3 id="sec57" class="subsection">3.2.8&#XA0;&#XA0;Conditional expressions</h3>
+<h3 id="sec58" class="subsection">3.2.8&#XA0;&#XA0;Conditional expressions</h3>
 <p>Conditional expressions allow to expand a substring based on the evaluation of a condition. The syntax is:</p><p><code>{IFTHENELSE(predicate,thenstring,elsestring)}</code></p><p>The &#X2018;predicate&#X2019; can be one of
 </p><ul class="itemize"><li class="li-itemize">
 <code>{GREATER(expr1,expr2)}</code>
@@ -333,7 +372,7 @@ An example for conditional expressions is provided in the CB-Forum, see
 file "csv.sml" in <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/861803">link</a>.
 In most cases, the <span style="font-family:monospace">IFTHENELSE</span> construct can be avoided by a more elegant query class
 formulation.</p>
-<h3 id="sec58" class="subsection">3.2.9&#XA0;&#XA0;Views and path expressions</h3>
+<h3 id="sec59" class="subsection">3.2.9&#XA0;&#XA0;Views and path expressions</h3>
 <p>If the answer format is defined for a complex view, then path expressions like this.cat2.cat21... for the parts of the complex answer can be
 defined.
 An example for use of answer formats for views is given in <span style="font-family:monospace">views.sml</span>.</p><p>The reader should note that complex path expressions can only refer to components that were defined as retrieved, computed, or inherited
@@ -342,7 +381,7 @@ since it is not a retrieved attribute of the
 <span style="font-family:monospace">dept</span> component of the view definition <span style="font-family:monospace">EmpDept</span>. The second expression of the answer format <span style="font-family:monospace">EmpDeptFormat</span>
 uses the builtin procedure <span style="font-family:monospace">UQ</span>. It removes the quotes &#X2018;<code>"</code>&#X2019; from a
 string. Analogously, a procedure <span style="font-family:monospace">QT</span> can be used to put quotes around a term.</p>
-<h2 id="sec59" class="section">3.3&#XA0;&#XA0;Parameterized answer formats</h2>
+<h2 id="sec60" class="section">3.3&#XA0;&#XA0;Parameterized answer formats</h2>
 <p>The general way to use an answer format for a query is to define the attribute <span style="font-family:monospace">forQuery</span>. Another possibility
 is to specify the answer format for a query is to use the answer representation field of the ASK method in the IPC interface.</p><p>The following code is an example for specifying a user-defined answer in the ASK method.
 This example is written in Java and uses the standard Java API of ConceptBase (see
@@ -364,12 +403,15 @@ public class CBAnswerFormat {
 The <span style="font-family:monospace">ask</span>-method of the CBclient class sends a query to the server. The first argument
 is the query, the second argument is the format of the query (in this example, it is just one object name),
 the third argument is the answer representation, and the last argument is the rollback time.</p><p>The third argument, is the the answer representation.
-There are three predefined answer representations. <span style="font-family:monospace">FRAME</span> returns the answers as
+There are four predefined answer representations. <span style="font-family:monospace">FRAME</span> returns the answers as
 Telos frames, including retrieved and computed attributes. <span style="font-family:monospace">LABEL</span> returns only
-the names of the answer objects as a comma-separated list. Thirdly, <span style="font-family:monospace">default</span>
-lets the CBserver choose between <span style="font-family:monospace">LABEL</span> (for function calls) and <span style="font-family:monospace">FRAME</span>
-(otherwise). Besides these pre-defined answer representations, one can specify
-user-defined answer formats. 
+the names of the answer objects as a comma-separated list. Thirdly, the format 
+<span style="font-family:monospace">JSONIC</span> returns the answer in JSON-like frames.
+Finally, <span style="font-family:monospace">default</span>
+lets the CBserver choose between <span style="font-family:monospace">LABEL</span> (for function calls), the explicit answer format assigned for
+a query (attribute <span style="font-family:monospace">forQuery</span>),
+and <span style="font-family:monospace">FRAME</span> (otherwise). Besides these pre-defined answer representations, one can specify
+user-defined answer formats. This is also the preferred way.
 In our case, it is a parameterized answer format: <code>AFParameter[somevalue/somevar]</code>.
 This means that the result of the query will be formatted according to
 the answer format <span style="font-family:monospace">AFParameter</span> and the variable <span style="font-family:monospace">somevar</span>
@@ -377,11 +419,9 @@ will be replaced with <span style="font-family:monospace">somevalue</span>. The 
 expression, i.e. it must be enclosed in <code>{}</code>.</p><p>The following definition of <span style="font-family:monospace">AFParameter</span> is an example, how
 the parameter can be used in the pattern. If the parameter is not
 specified, the string <code>{somevar}</code> will not be replaced.</p><pre class="verbatim"><span style="font-size:small">Individual AFParameter in AnswerFormat with
-  attribute,head
-     hd : "&lt;result&gt;"
-  attribute,tail
-     tl : "&lt;/result&gt;"
-  attribute,pattern
+  head hd : "&lt;result&gt;"
+  tail tl : "&lt;/result&gt;"
+  pattern
      p : "
 &lt;object&gt;
   &lt;type&gt;{somevar}&lt;/type&gt;
@@ -390,13 +430,13 @@ specified, the string <code>{somevar}</code> will not be replaced.</p><pre class
 end
 </span></pre><p>Note, that you can use any answer format (with or without parameters) as
 answer representation in the ASK method.</p>
-<h2 id="sec60" class="section">3.4&#XA0;&#XA0;File type of answer formats</h2>
+<h2 id="sec61" class="section">3.4&#XA0;&#XA0;File type of answer formats</h2>
 <p>
 <a id="sec:af_filetype"></a></p><p>The optional <span style="font-family:monospace">fileType</span> attribute of answer formats is used by the server-side materialization
-of query results (section <a href="cbm006.html#sec%3Amodule_views">5.10</a>). ConceptBase will use the specified file type when
+of query results (section <a href="cbm006.html#sec%3Amodule_views">5.11</a>). ConceptBase will use the specified file type when
 storing the query results in the file system. The default value is "txt". 
 The attribute is single-valued though single-valuedness is not enforced. </p>
-<h2 id="sec61" class="section">3.5&#XA0;&#XA0;Bulk query calls</h2>
+<h2 id="sec62" class="section">3.5&#XA0;&#XA0;Bulk query calls</h2>
 <p>
 <a id="sec:bulkqueries"></a></p><p>It is sometimes useful to call the same query class with multiple arguments in a single call
 rather than in a sequence of calls. Each individual call from a ConceptBase client to the server

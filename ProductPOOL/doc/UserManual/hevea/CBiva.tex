@@ -1,5 +1,5 @@
 % The ConceptBase User Manual (CB-Manual)
-% Copyright 1987-2017 by The ConceptBase Team
+% Copyright 1987-2019 by The ConceptBase Team
 % The CB-Manual may only be updated by members of the ConceptBase Team
 % as listed on http://conceptbase.cc
 % The TeX sources of the CB-Manual and the accompanying
@@ -47,19 +47,55 @@ edit the script files cbiva, cbgraph and cbshell, so that the correct Java Virtu
 variable {\tt CB\_HOME} points to the installation directory. See Installation Guide 
 in the CB-Forum for details.} is added to the search path
 of executable programs. After a few seconds, the CBIva main
-window should pop up. Figure \ref{fig:cbivamain} shows the main window connected
-to a server and gives a short description of the buttons in the tool bar.
+window should pop up. CBIva will attempt to connect to a CBserver on localhost or to
+a public CBserver (if configured, see \ref{sec:pubcbserver}).
+Figure \ref{fig:cbivamain} shows the main window connected
+to a CBserver and gives a short description of the buttons in the tool bar.
 
 
-\cbfigure{cbivamain}{13cm}{Main Window of CBIva}
+\cbfigure{cbivamain}{12cm}{Main Window of CBIva}
 
 The main window consists of a menu bar, a tool bar with a button panel, the area for
 subwindows and a status bar. The first sub window (Telos editor) contains the history window,
 which records all operations for later reuse.
 In the following, each component of the user interface is explained.
 
+\subsection{The tool bar}
+
+The tool bar is the button panel below the menu bar. All buttons have tool tips, i.e. small
+messages that show the meaning of these buttons. The tool tips appear, if you move your mouse pointer
+over the button and do not move your mouse for about one second. The buttons are shortcuts
+for some operations that are frequently used and are also available in the menu.
+The operations apply to the Telos Editor which has currently the focus.
+
+\begin{itemize}
+\item {\bf Quick Connect}: if connected to a CBserver then disconnect; otherwise try to
+ connect either to the public CBserver (if configured) or to a running local CBserver; 
+ if the connection to a running local CBserver fails, then attempt to start one in the background.
+\item {\bf Clear}: Clear the text of the Telos Editor window
+\item {\bf Cut, Copy, Paste}: operations on selected portions of the Telos Editor text
+\item {\bf Tell, Untell}: The objects specified in the active Telos Editor will be added or removed
+from the object base.
+\item {\bf Retell}: A new window will popup and ask you to enter the frames that should be untold and
+told. The contents of the current Telos Editor will be inserted as default into the two text areas.
+
+\item {\bf Ask}: Evaluate the query specified in the Telos Editor. \footnote{The query can either be a query call
+referring to an existing query
+or a frame representing a new or existing query definition.} If you specify the name of an ordinary class (i.e.\
+not a query class), then ConceptBase.cc will interpret this as a query call to find all instances of that class.
+You can also enter an arithmetic expression like\newline
+  \centerline{{\tt 100*COUNT(QueryClass)/COUNT(Class)}}
+\item {\bf List module}: List the content of the current module as Telos frames
+\item {\bf Exit}: Disconnect from the CBserver and exit CBIva.
+\end{itemize}
+
+
+
 \subsection{The menu bar}
 \label{sec:menubar}
+
+The toolbar has button for the most frequent operations of CBIva. The menu bar offers the complete set
+of operations including options to open other windows such as CBGraph (see section \ref{sec:graphed}).
 
 \begin{description}
 \item[File:]
@@ -166,34 +202,7 @@ with the online-version of this ConceptBase.cc manual.
 	\end{description}
 \end{description}
 
-\subsection{The tool bar}
 
-The tool bar is the button panel below the menu bar. All buttons have tool tips, i.e. small
-messages that show the meaning of these buttons. The tool tips appear, if you move your mouse pointer
-over the button and do not move your mouse for about one second. The buttons are shortcuts
-for some operations that are frequently used and are also available in the menu.
-The operations apply to the Telos Editor which has currently the focus.
-
-\begin{itemize}
-\item Quick Connect: if connected to a CBserver then disconnect; otherwise try to
- connect either to the public CBserver (if configured) or to a running local CBserver; 
- if the connection to a running local CBserver fails, then attempt to start one in the background.
-\item Clear
-\item Cut, Copy, Paste
-\item Tell, Untell: The objects specified in the active Telos Editor will be added or removed
-from the object base.
-\item Retell: A new window will popup and ask you to enter the frames that should be untold and
-told. The contents of the current Telos Editor will be inserted as default into the two text areas.
-
-\item Ask: Evaluate the query specified in the Telos Editor. \footnote{The query can either be a query call
-referring to an existing query
-or a frame representing a new or existing query definition.} If you specify the name of an ordinary class (i.e.\
-not a query class), then ConceptBase.cc will interpret this as a query call to find all instances of that class.
-You can also enter an arithmetic expression like\newline
-  \centerline{{\tt 100*COUNT(QueryClass)/COUNT(Class)}}
-\item List module: List the content of the current module as Telos frames
-\item Exit
-\end{itemize}
 
 The preferred way to start a CBserver from CBIva is to use the 'Start CBserver' from the File menu.
 It provides an output window for the trace messages of the CBserver, but this window is only visible
@@ -216,8 +225,8 @@ and drag it to another place.
 The status bar contains some fields that display general information about the status of the application.
 
 \begin{itemize}
-\item Connection status, either connected or disconnected from server
-\item Short message, usually the result of the last action
+\item Connection status, either connected or disconnected from serve, or a pending action
+\item Short message, usually about the result of the last action
 \item Current version, i.e. the rollback time (see section \ref{sec:representation})
      specified for queries (default: Now)
 \item Current module, the database module to which TELL/ASK operations are applied
@@ -243,10 +252,10 @@ the following items.
 \item[Display Instances:] Displays the instances of the currently marked object
 \item[Load Object:] Loads the Telos frame of the currently marked object into the Telos editor
 \item[View Object as Tree:] Opens the tree browser with the currently marked object as root
-\item[Display in Graph Editor:] Shows the object in the current window of CBGraph. CBGraph
- has to be started before (menu Browse)
+\item[Display in Graph Editor:] Shows the currently marked object in CBGraph.
 \item[Change Module:] Changes the module context to the module path defined by the currently marked text
 \item[Clear,Cut,Copy,Paste:] same as in the menu bar
+\item[Small,Large:] sets the text font size to either small (12 point) or large (18 point)
 \end{description}
 
 If the Telos editor window is empty, then you can drag and drop Telos text files (file
@@ -554,7 +563,8 @@ or several graph files, resp.:
 
 The format of the graph file is called Graph Editor Layout (GEL). It stores not only the layout of nodes
 and links but all other data necessary to edit the graph objects. In particular, it contains
-connection details of the CBserver module from which the graph was created.
+connection details of the CBserver module from which the graph was created. You can open more than one
+GEL file. Each will be loaded in its own frame. 
 
 The are a few options for the 'cbgraph' command synchronizing the data stored in the graph file
 with the CBserver:
@@ -584,6 +594,27 @@ with the CBserver:
 \item[-host hostport] Instruct CBGraph to use the hostname and portnumber from hostport rather than those
    defined in the graph file when loading the graph file.
 \end{description}
+
+If you supply these options when calling CBGraph, it will also store them in the graph file when you store it.
+If you later call CBGraph with such a graph file, it will apply the stored options unless you specify
+new options in the command line. Hence, the options stored in the GEL file serve as new defaults for
+synchronizing the graph file with the CBserver.
+
+Consider the two calls of CBGraph below. The first call sets the synchronization option to "+r", i.e.\
+stores the module sources from the CBserver in the graph file when it is saved. 
+The second call has no such option. Hence, it shall adopt the "+r" that was stored earlier in the graph file
+{\tt example.gel}.
+
+{\small
+\begin{verbatim}
+  cbgraph +r example.gel
+  cbgraph example.gel
+\end{verbatim}
+}
+
+This behavior is useful if you keep the models in a persistent CBserver and want to use the module sources in
+the graph file only as a backup storage. It will then not tell the module sources from the graph file to the CBserver.
+The TELL operation can be very costly and is redundant if the CBserver anyway has all definitions already stored.
 
 
 
@@ -652,6 +683,7 @@ it in the background. Note that local CBservers can currently only be started on
 
 
 \subsection{Moving objects}
+\label{sec:moveobj}
 
 All explicit information is a proposition in ConceptBase (see section \ref{sec:representation}),
 including attributes,
@@ -924,6 +956,10 @@ cursor is located over an object.
 	you can either see the frame of this object or tree-like
 	representation of super- and subclasses, instances, classes, and
 	attributes of this object (see figure \ref{fig:componentview}).
+\item {\bf Display in Telos Editor:}\\
+    This operation will load the frame of the object into the
+    Telos editor. If the Telos editor contains already some text, then
+    the frame is appended to the existing text.
 \item {\bf Super classes, sub classes, classes, instances:}\\
     for each menu item you can select whether you want to
     see only the explicitly defined super classes (or sub classes, etc.)
@@ -957,13 +993,16 @@ cursor is located over an object.
     The object will be removed from the current view. This operation
     has no effect on the database, i.e.\ the object will not be deleted
     from the database.
-\item {\bf Display in Telos Editor:}\\
-    This operation will load the frame of the object into the
-    Telos editor. If the Telos editor contains already some text, then
-    the frame is appended to the existing text.
 \item {\bf Show in new Frame:}\\
     A new internal window (within CBGraph) will be shown
     and the selected object will be shown in the new window.
+\item {\bf Straighten attached edges:}\\
+    All edges starting from and ending in the selected node are made straight and the edge labels move to the middle
+    of the edge. This is the same function as described in section \ref{sec:moveobj}.
+\item {\bf Freeze / Unfreeze:}\\
+    The position of the selected object is frozen (if not yet frozen). A "frozen" object cannot be moved or double-clicked.
+    If frozen, the selected object is "unfrozen".   This function is useful when certain objects should not be moved,
+    e.g.\ when they are serving as regions, in which other objects are positioned.
 \end{itemize}
 
 
@@ -1147,7 +1186,10 @@ The graph file stores serialized Java objects in the following sequence
    String module context as absolute path
    String long title of the graphical palette 
    String name of the graphical palette
-   Integer saveflag (bit0: HAS_IMAGE, bit1: HAS_SOURCE)
+   Integer saveflag (bit0: HAS_IMAGE, bit1: HAS_SOURCE, bit2: HAS_PARAMS)
+   IF HAS_PARAMS 
+     { String[] params
+     }
    IF HAS_SOURCE
      { String saved modules e.g. "mod1-mod2"
        { String source of module 1
@@ -1180,6 +1222,9 @@ For example, if a module contains deductive rules that are essential for
 satisfying integrity constraints for objects defined in the same module, then
 a single TELL operation could fail bacause ConceptBase requires the deductive rules to
 be compiled. See section \ref{sec:listmod} for more details.
+
+If you specified command line parameters like "+r", "-r", "+rw", or "-rw" at the start of CBGraph,
+then these parameters are stored in the GEL file.
 
 The background image is not stored as a serializable Java object but as a PNG
 image using the ImageIO class of Java. It is always stored as the last element since
@@ -1240,9 +1285,12 @@ as the user interface will be connected to the server automatically.
 
 
 
-\subsection{Connecting CBIva to the CBserver}
+\subsection{Connecting CBIva to another CBserver}
 
-Next we establish a connection between the {\em ConceptBas.cc}  server and the user
+By default, CBIva will automatically connect to a local or public CBserver when started.
+If you want to start a CBserver with dedicated parameters from CBNIva, then first 
+select {\bf File/Disconnect} and then
+establish a new connection between the {\em ConceptBase.cc}  server and the user
 client CBIva. This is done by choosing the option {\bf Connect}
 from the File menu of CBIva. An interaction window
 appears (see Figure \ref{fig:connectserver}) querying for the host name
@@ -1546,6 +1594,8 @@ can also be modified CBIva via the "Options" menu.
 \item[ConnectionTimeout:] Number of milliseconds the interface waits for a response of the server
 \item[LPICall:] Enable LPI-Call (internal use only).
 \item[ShowLineNumbers:] If set to 'true', the Telos editor of CBIva shall display line numbers.
+\item[CBIvaSmallfont:] The font size of the TelosEditor text and log area as regular (small) font, default "12f".
+\item[CBIvaLargefont:] The font size of the TelosEditor text and log area as large font, default "18f".
 \item[PublicCBserver:] Either 'none' (=disabled) or the domain name of a computer that hosts a publicly accessible
 ConceptBase server. A port number can be appended as well like in 'cbserver.acme.com/4002'. Default port number is 4001.
 The variable PublicCBserver also applies to CBGraph and CBShell. See section \ref{sec:pubcbserver} for more details. If the value is different
@@ -1562,6 +1612,7 @@ from 'none', then CBIva shall attempt to connect to the public CBserver at start
 \item[DiagramDesktopBackgroundColor:] Background color of the desktop of CBGraph (comma-separated representation of an RGB-value).
 \item[DebugLevel:] Level for debug messages. Possible values are SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST
 (according to the java.util.logging package). Default is WARNING.
+\item[ModuleSeparator:] Can be either '-' or '/'. 
 \item[NodeLevelAware:] Enables or disables the special behavior of nodes with negative level in CBGraph. See also
 section \ref{sec:nodelevel}. Default is "true".
 \end{description}

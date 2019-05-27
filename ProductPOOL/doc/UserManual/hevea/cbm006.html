@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html >
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<meta name="generator" content="hevea 2.09">
+<meta name="generator" content="hevea 2.23">
 <link rel="stylesheet" type="text/css" href="cb-style.css"><link rel="stylesheet" type="text/css" href="cbm.css">
 <title>The Module System</title>
 </head>
@@ -11,7 +11,7 @@
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
 <a href="cbm007.html"><img src="next_motif.gif" alt="Next"></a>
 <hr>
-<h1 id="sec83" class="chapter">Chapter&#XA0;5&#XA0;&#XA0;The Module System</h1>
+<h1 id="sec84" class="chapter">Chapter&#XA0;5&#XA0;&#XA0;The Module System</h1>
 <p>
 <a id="sec:module"></a></p><p>Modules divide a <em>ConceptBase</em> database into
 a hierarchy of namespaces that determine which objects are visible
@@ -61,7 +61,7 @@ they start working with when registering with the ConceptBase server. So-called
 potential unwanted interferences. A flexible <span style="font-weight:bold">access control</span> mechanism
 allows to define access rights of users simply by query classes defined either globally
 or locally to a module. </p>
-<h2 id="sec84" class="section">5.1&#XA0;&#XA0;Definition of modules</h2>
+<h2 id="sec85" class="section">5.1&#XA0;&#XA0;Definition of modules</h2>
 <p>The class <span style="font-family:monospace">Module</span> defines an attribute <span style="font-family:monospace">contains</span> and thus is the construct to
 create new modules. Each module is created by creating an instance of the class <span style="font-family:monospace">Module</span>.</p><pre class="verbatim">Module in Class with
  attribute
@@ -87,7 +87,7 @@ We call <span style="font-family:monospace">oHome</span> the super-module of the
 <span style="font-family:monospace">Master</span> and <span style="font-family:monospace">Work</span>. One you switch to a sub-module, say <span style="font-family:monospace">Master</span>, then all
 sub-sequent operations apply to this module context. Telling new objects makes
 them members of this module context, in other words <span style="font-family:monospace">Master</span> contains them.</p>
-<h2 id="sec85" class="section">5.2&#XA0;&#XA0;Switching between module contexts</h2>
+<h2 id="sec86" class="section">5.2&#XA0;&#XA0;Switching between module contexts</h2>
 <p> <a id="sec:switching_modules"></a></p><p>The standard way for changing the module context is to choose the <em>select module</em> menu entry
 from the <em>Options</em> menu in the user interface. A dialog with a listbox containing
 all known modules in the current context are shown.
@@ -141,7 +141,7 @@ the <span style="font-family:monospace">Employee</span> object, you should get a
 the object <span style="font-family:monospace">Employee</span> is not visible in that module context. The object 
 <span style="font-family:monospace">Employee</span> correctly references <span style="font-family:monospace">EntityType</span>, since it is visible via
 the super-module <span style="font-family:monospace">oHome</span>.</p>
-<h2 id="sec86" class="section">5.3&#XA0;&#XA0;Using nested modules</h2>
+<h2 id="sec87" class="section">5.3&#XA0;&#XA0;Using nested modules</h2>
 <p>
 <a id="sec:nested_modules"></a></p><p>A nested module object is a module defined in the context of a super module and therefore
 is contained in the super module. The objects contained in the nested module
@@ -170,7 +170,7 @@ for users and clients that add/update/delete and query objects. A user could del
 the <span style="font-family:monospace">System</span> module, which could then disable core functions of ConceptBase. 
 One can however also prevent such updates by limiting the access to the <span style="font-family:monospace">System</span>
 module. </p>
-<h2 id="sec87" class="section">5.4&#XA0;&#XA0;Exporting and importing objects</h2>
+<h2 id="sec88" class="section">5.4&#XA0;&#XA0;Exporting and importing objects</h2>
 <p>In order to use objects which are not visible in a module, <em>ConceptBase</em> offers the
 export/import facility.
 The class <span style="font-family:monospace">Module</span> defines two further attributes, namely to specify objects exported from
@@ -228,7 +228,7 @@ Hence, you can still declare an object like <span style="font-family:monospace">
 fulfill the constraint for <span style="font-family:monospace">Employee</span>: </p><pre class="verbatim">cd Test
 tell "bill in Employee end"
 </pre>
-<h2 id="sec88" class="section">5.5&#XA0;&#XA0;Modules and metamodeling</h2>
+<h2 id="sec89" class="section">5.5&#XA0;&#XA0;Modules and metamodeling</h2>
 <p> <a id="sec:metamodule"></a></p><p>The module hierarchy in Figure <a href="#fig%3Amod_hierarchy">5.2</a> assigns objects belonging to different
 abstraction levels (meta classes, classes, objects, ...) to different modules. This assignment
 is not prescribed, but it is recommended. For example, the module <span style="font-family:monospace">oHome</span> stores
@@ -260,7 +260,7 @@ mkdir UData
 cd ERnotation/UModel/UData
 tellModel UniversityData.sml.txt
 </pre>
-<h2 id="sec89" class="section">5.6&#XA0;&#XA0;Setting user home modules</h2>
+<h2 id="sec90" class="section">5.6&#XA0;&#XA0;Setting user home modules</h2>
 <p> <a id="sec:homemodule"></a>
 </p><p>When ConceptBase is used in a multi-user setting, it makes sense to
 automatically assign clients of ConceptBase users to a dedicated
@@ -326,7 +326,7 @@ as instance of <span style="font-family:monospace">AutoHomeModule</span>. If you
 as auto-home module from the very beginning when a database is created,
 then you can activate it by a parameter of the CBserver, e.g.</p><pre class="verbatim">cbserver -g public -new MYNEWDB
 </pre><p>This will instruct the CBserver to tell <span style="font-family:monospace">"oHome in AutoHomeModule end"</span>
-when it sets up the new database. See also section <a href="cbm007.html#sec%3Apubcbserver">6.5</a>.</p><p>The home module definitions need to be made within module <span style="font-family:monospace">oHome</span> because
+when it sets up the new database. See also section <a href="cbm007.html#sec%3Apubcbserver">6.6</a>.</p><p>The home module definitions need to be made within module <span style="font-family:monospace">oHome</span> because
 they will be evaluated upon client registration (server method <span style="font-family:monospace">ENROLL_ME</span>)
 in this module context.
 Please note that the module context is only dependent on the user name,
@@ -334,7 +334,7 @@ not on the client and not on the network location of the user.
 It could well be that a user <span style="font-family:monospace">mary</span> is defined on multiple
 computers on the network and that different natural persons are
 identified by <span style="font-family:monospace">mary</span>. ConceptBase currently cannot detect such cases.</p>
-<h2 id="sec90" class="section">5.7&#XA0;&#XA0;Limiting access to modules</h2>
+<h2 id="sec91" class="section">5.7&#XA0;&#XA0;Limiting access to modules</h2>
 <p>
 <a id="sec:modaccess"></a>
 </p><p>When multiple users work on the same server, their workspaces not only need to be separated
@@ -467,7 +467,7 @@ definition of the query <span style="font-family:monospace">CB_Permitted</span>.
 Access control is by default set to level 1, which just constrains the scope of an
 UNTELL to the local module. You need to set the CBserver option <span style="font-family:monospace">-s</span> to 2 to
 fully enable access control (see option -s in section <a href="cbm007.html#cha%3Acbserver">6</a>).</p>
-<h3 id="sec91" class="subsection">5.7.1&#XA0;&#XA0;Access to System module</h3>
+<h3 id="sec92" class="subsection">5.7.1&#XA0;&#XA0;Access to System module</h3>
 <p> <a id="sec:system_access"></a></p><p>The access definition via the query <span style="font-family:monospace">CB_Permitted</span> or its localized variant
 is available in the module <span style="font-family:monospace">oHome</span> and its submodules. It is not available
 for checking permission to access the <span style="font-family:monospace">System</span> module. The reason is that
@@ -483,7 +483,7 @@ to <span style="font-family:monospace">System</span>.
 some <em>unwanted</em> interferences in a setting where multiple users
 work on the same server. The system in <em>not</em> save against malicious attacks!
 Neither does it prevent all unwanted interferences.</p>
-<h2 id="sec92" class="section">5.8&#XA0;&#XA0;Listing the module content</h2>
+<h2 id="sec93" class="section">5.8&#XA0;&#XA0;Listing the module content</h2>
 <p> <a id="sec:module_content"></a>
 </p><p>The <span style="font-family:monospace">contains</span> attribute allows to check which objects belong to a module. It can be used
 by a simple query that lists the module content of all modules that are currently visible:</p><pre class="verbatim">ShowModule in QueryClass isA Module with
@@ -515,7 +515,7 @@ shall use such separator line to split a sequence
 of frames into separate TELL transactions.</p><p>If a module path does not exist or the current user has no
 read permission on modules in the path, then the answer
 "{* no *}" is returned.</p>
-<h3 id="sec93" class="subsection">5.8.1&#XA0;&#XA0;Restrictions of <span style="font-family:monospace">listModule</span></h3>
+<h3 id="sec94" class="subsection">5.8.1&#XA0;&#XA0;Restrictions of <span style="font-family:monospace">listModule</span></h3>
 <p> <a id="sec:listmod"></a></p><p>The query <span style="font-family:monospace">listModule</span> extracts all objects of a module into a single
 Telos source. Since a module is typically created by a sequence of
 TELL/UNTELL transactions, this Telos source can in rare cases fail to
@@ -538,7 +538,17 @@ define a submodule <span style="font-family:monospace">UData</span> to hold the 
 submodules in this way, the sample data objects can "see" the definitions
 of the example ER model. And the example ER model can "see" the objects
 of the ER notation.</p>
-<h2 id="sec94" class="section">5.9&#XA0;&#XA0;Saving and loading module sources</h2>
+<h2 id="sec95" class="section">5.9&#XA0;&#XA0;Purging a module</h2>
+<p> <a id="sec:module_purge"></a>
+</p><p>The builtin query <span style="font-family:monospace">purgeModule</span> attempts to delete all propositions
+of the current module or the module that is specified as a parameter.
+The operation fails if the module contains a non-empty submodule. 
+Further, the operation may non be applied to the <span style="font-family:monospace">System</span> module.</p><p>The operation requires that the user has appropriate permissions on the module
+to be purged. </p><p>The query <span style="font-family:monospace">purgeModule</span> is declared as a hidden object. Hence, it shall not show
+up in the &#X2019;Display queries&#X2019; dialogue of CBIva. The current implementation is experimental.
+An alternative is to list the contents of the current module and then
+applying the UNTELL operation to the whole content.</p>
+<h2 id="sec96" class="section">5.10&#XA0;&#XA0;Saving and loading module sources</h2>
 <p> <a id="sec:module_sources"></a>
 </p><p>The ConceptBase server (see section <a href="cbm007.html#cha%3Acbserver">6</a>) has two command line
 options <span style="font-family:monospace">-save</span> and <span style="font-family:monospace">-load</span> to synchronize with the content of database modules as
@@ -570,7 +580,7 @@ module of the user associated to the client tool is saved.
 </li></ol><p>In all cases, the save function is executed with the
 rights of the user who started the CBserver. The save function requires at least read
 permission for the module to be saved. The above rules are also applicable to 
-the server-side materialization of query results, see section <a href="#sec%3Amodule_views">5.10</a>.</p><p>The load function gets activated when the option <span style="font-family:monospace">-load</span> <span style="font-style:italic">loaddir</span> is specified.
+the server-side materialization of query results, see section <a href="#sec%3Amodule_views">5.11</a>.</p><p>The load function gets activated when the option <span style="font-family:monospace">-load</span> <span style="font-style:italic">loaddir</span> is specified.
 The directory <span style="font-style:italic">loaddir</span> should contain files with file/directory names being formed
 as explained for the save function. It loads the files in <em>alphabetic order</em> to control
 the sequence in which the files are loaded. If you manually add Telos source files
@@ -603,7 +613,7 @@ evolving database state, or to back-up/re-load a database state.
 The CBserver parameter <span style="font-family:monospace">-db</span> combines the function of <span style="font-family:monospace">-d</span>, <span style="font-family:monospace">-load</span>, 
 <span style="font-family:monospace">-save</span>, and <span style="font-family:monospace">-views</span>. Hence, all files will be accessed/updated in
 the database directory.</p>
-<h2 id="sec95" class="section">5.10&#XA0;&#XA0;Server-side materialization of query results</h2>
+<h2 id="sec97" class="section">5.11&#XA0;&#XA0;Server-side materialization of query results</h2>
 <p> <a id="sec:module_views"></a>
 </p><p>Similar to the saving of module sources, the CBserver parameter <span style="font-family:monospace">-views</span>
 enables the materialization of certain query results in the file system of
@@ -629,15 +639,15 @@ The result of queries with no parameter is stored in files carrying the name of 
 query.
 If the module separator is set to &#X2019;/&#X2019;, then the files are stored in sub-directories
 that reflect the module path, from which the view was extracted, see
-also section <a href="#sec%3Amodule_sources">5.9</a>.</p><p>The materialization of query results is executed at the same events when the 
-saving of module sources takes place (section <a href="#sec%3Amodule_sources">5.9</a>).
+also section <a href="#sec%3Amodule_sources">5.10</a>.</p><p>The materialization of query results is executed at the same events when the 
+saving of module sources takes place (section <a href="#sec%3Amodule_sources">5.10</a>).
 To enable the materialization, you need to 
 specify the target directory with the <span style="font-family:monospace">-views</span> option:</p><pre class="verbatim">   cbserver -d MYDB -views /home/meee/MyViews 
 </pre><p>You can also use the CBShell utility (section <a href="cbm008.html#cha%3Acbshell">7</a>) to extract
 the query results and materialize them on the <em>client side</em>. This method
 is more flexible but you need to program the CBShell scripts for
 to extract all required views. For example, the CBShell script</p><pre class="verbatim">   connect alpha 4001 
-   ask Q1[x/param] OBJNAMES FRAME Now
+   ask Q1[x/param] OBJNAMES default Now
    showAnswer
    exit
 </pre><p>connects to the CBserver running on a host named <span style="font-family:monospace">alpha</span> with port number
@@ -651,7 +661,7 @@ and the materialization of query results within the database directory:</p><pre 
 </pre><p>This creates a single directory with both the binary database files, the module sources,
 and the materialized query results.
 Further examples are available from the CB-Forum at <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/3097259">link</a>.</p>
-<h3 id="sec96" class="subsection">5.10.1&#XA0;&#XA0;Post-export command</h3>
+<h3 id="sec98" class="subsection">5.11.1&#XA0;&#XA0;Post-export command</h3>
 <p>ConceptBase can only export textual query results. Some output formats such as
 program source code can be further processed by calling appropriate tools.
 This can be initiated manually, or one can configure the directory specified
@@ -669,7 +679,7 @@ file. More interesting are calls to transformation routines. </p><p>You should r
 it can be overwritten<sup><a id="text27" href="#note27">2</a></sup>
 by the materialization function. Under Unix/Linux, this can be achieved via the command</p><pre class="verbatim">   chmod u-w postExport.sh
 </pre><p>The above command only has to be executed once within the views directory.
-If you use the module separator &#X2019;/&#X2019; (i.e. the deep structure explained in section <a href="#sec%3Amodule_sources">5.9</a>),
+If you use the module separator &#X2019;/&#X2019; (i.e. the deep structure explained in section <a href="#sec%3Amodule_sources">5.10</a>),
 then the view files are stored in the directory of the module they belong to.
 This also may effect the way how you program the postExport script file. In Unix/Linux,
 you can use the &#X2019;find&#X2019; command to fetch all files that are subject for post-processing:</p><pre class="verbatim">   #!/bin/sh
@@ -683,11 +693,9 @@ you can use the &#X2019;find&#X2019; command to fetch all files that are subject
 <a id="note26" href="#text26">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">A side effect of the server method <span style="font-family:monospace">ENROLL_ME</span> is that the user
 of the registering client will automatically be defined as an instance of class
 <span style="font-family:monospace">CB_User</span>. The definition is be made in the context of module
-<span style="font-family:monospace">oHome</span>.</div>
-</dd><dt class="dt-thefootnotes"><a id="note27" href="#text27">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Overwriting the post-export command file may be a desired feature. You can then
+<span style="font-family:monospace">oHome</span>.</div></dd><dt class="dt-thefootnotes"><a id="note27" href="#text27">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Overwriting the post-export command file may be a desired feature. You can then
 generate it from within the CBserver like any other file in the views directory. 
-This is however a major security hole and we strongly discourage to use this feature.</div>
-</dd></dl>
+This is however a major security hole and we strongly discourage to use this feature.</div></dd></dl>
 <hr>
 <a href="cbm005.html"><img src="previous_motif.gif" alt="Previous"></a>
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>

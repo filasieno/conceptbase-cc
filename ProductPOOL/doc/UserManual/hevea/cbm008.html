@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html >
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<meta name="generator" content="hevea 2.09">
+<meta name="generator" content="hevea 2.23">
 <link rel="stylesheet" type="text/css" href="cb-style.css"><link rel="stylesheet" type="text/css" href="cbm.css">
 <title>The CBShell Utility</title>
 </head>
@@ -11,7 +11,7 @@
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
 <a href="cbm009.html"><img src="next_motif.gif" alt="Next"></a>
 <hr>
-<h1 id="sec109" class="chapter">Chapter&#XA0;7&#XA0;&#XA0;The CBShell Utility</h1>
+<h1 id="sec112" class="chapter">Chapter&#XA0;7&#XA0;&#XA0;The CBShell Utility</h1>
 <p>
 <a id="cha:cbshell"></a></p><p>The ConceptBase.cc Shell (CBShell) is a command line client for ConceptBase.cc. It allows
 to interact with a CBserver via a text-based command shell.
@@ -19,12 +19,12 @@ Moreover, it can process commands from a script file without further user
 interaction. The utility can be employed to automate certain activities such
 as batch-loading a large number of Telos models into a CBserver,
 or to extract certain answers from a CBserver.</p>
-<h2 id="sec110" class="section">7.1&#XA0;&#XA0;Syntax</h2>
+<h2 id="sec113" class="section">7.1&#XA0;&#XA0;Syntax</h2>
 <p>There are two ways to use the CBShell. The first one processes the commands from a script
 file (batch mode). The second one prompts the user for commands (interactive mode).</p><pre class="verbatim">   cbshell [options] scriptFile [params]
    cbshell [options]
 </pre>
-<h2 id="sec111" class="section">7.2&#XA0;&#XA0;Options</h2>
+<h2 id="sec114" class="section">7.2&#XA0;&#XA0;Options</h2>
 <dl class="description"><dt class="dt-description"><span style="font-weight:bold">-l</span></dt><dd class="dd-description"> This options instructs CBShell to write errors and some statistic information
 to the files error.log and stat.log.</dd><dt class="dt-description"><span style="font-weight:bold">-f scriptFile</span></dt><dd class="dd-description"> Execute the commands specified in scriptFile rather that requesting commands
 from the command line interface. If the -f option is used and a scriptFile
@@ -42,7 +42,7 @@ object label by ConceptBase. Useful when calling CBShell scripts within regular 
 that pass parameters with special characters to the CBShell scripts.
 See also section <a href="#sec%3Ashellintegration">7.7</a>.</dd><dt class="dt-description"><span style="font-weight:bold">params</span></dt><dd class="dd-description"> At most nine user-defined positional parameters can be supplied. The are bound
 to the CBShell variables $1 to $9. The CBShell variable $0 is bound to the name of the scriptfile.</dd></dl>
-<h2 id="sec112" class="section">7.3&#XA0;&#XA0;Commands</h2>
+<h2 id="sec115" class="section">7.3&#XA0;&#XA0;Commands</h2>
 <dl class="description"><dt class="dt-description"><span style="font-weight:bold">cbserver [</span><span style="font-weight:bold"><span style="font-style:italic">serveroptions</span></span><span style="font-weight:bold">]</span></dt><dd class="dd-description"> :
 starts a CBserver with the specified options and connects to it</dd><dt class="dt-description"><span style="font-weight:bold">connect </span><span style="font-weight:bold"><span style="font-style:italic">host</span></span><span style="font-weight:bold"> </span><span style="font-weight:bold"><span style="font-style:italic">port</span></span></dt><dd class="dd-description"> :
 connects to an already running CBserver;
@@ -54,7 +54,7 @@ stops the CBserver which is currently connected</dd><dt class="dt-description"><
 tells frames to the CBserver; enclose the frames in double quotes</dd><dt class="dt-description"><span style="font-weight:bold">untell </span><span style="font-weight:bold"><span style="font-style:italic">frames</span></span></dt><dd class="dd-description"> :
 untells frames from the CBserver; enclose the frames in double quotes</dd><dt class="dt-description"><span style="font-weight:bold">retell </span><span style="font-weight:bold"><span style="font-style:italic">untellFrames</span></span><span style="font-weight:bold"> </span><span style="font-weight:bold"><span style="font-style:italic">tellFrames</span></span></dt><dd class="dd-description"> :
 untells and tells frames to a CBserver in one transaction; enclose both arguments in
-double quotes<sup><a id="text33" href="#note33">1</a></sup></dd><dt class="dt-description"><span style="font-weight:bold">tellModel </span><span style="font-weight:bold"><span style="font-style:italic">file1</span></span><span style="font-weight:bold"> </span><span style="font-weight:bold"><span style="font-style:italic">file2</span></span><span style="font-weight:bold"> ...</span></dt><dd class="dd-description"> :
+double quotes<sup><a id="text34" href="#note34">1</a></sup></dd><dt class="dt-description"><span style="font-weight:bold">tellModel </span><span style="font-weight:bold"><span style="font-style:italic">file1</span></span><span style="font-weight:bold"> </span><span style="font-weight:bold"><span style="font-style:italic">file2</span></span><span style="font-weight:bold"> ...</span></dt><dd class="dd-description"> :
 tells files to the CBserver; the files can have file types ".sml" and ".txt";
 if the first file from the list exists on the the computer of the CBShell client, then 
 the files will be loaded from the local file system, 
@@ -62,7 +62,7 @@ otherwise the CBserver is requested to load the files from its
 own file system</dd><dt class="dt-description"><span style="font-weight:bold">ask </span><span style="font-weight:bold"><span style="font-style:italic">Query</span></span><span style="font-weight:bold"> </span><span style="font-weight:bold">[</span><span style="font-weight:bold"><span style="font-style:italic">QueryFormat</span></span><span style="font-weight:bold"> [</span><span style="font-weight:bold"><span style="font-style:italic">AnswerRep</span></span><span style="font-weight:bold"> [</span><span style="font-weight:bold"><span style="font-style:italic">RollbackTime</span></span><span style="font-weight:bold">]]]</span></dt><dd class="dd-description"> :
 asks a query; possible query formats are <span style="font-family:monospace">OBJNAMES</span> and <span style="font-family:monospace">FRAMES</span>;
 the answer representation can
-be <span style="font-family:monospace">LABEL</span>, <span style="font-family:monospace">FRAME</span>, <span style="font-family:monospace">default</span>, or a user-defined answer format; the rollback
+be <span style="font-family:monospace">LABEL</span>, <span style="font-family:monospace">FRAME</span>, <span style="font-family:monospace">JSONIC</span>, <span style="font-family:monospace">default</span>, or a user-defined answer format; the rollback
 time should be
 <span style="font-family:monospace">Now</span>. If the query format is <span style="font-family:monospace">OBJNAMES</span>, then <span style="font-style:italic">Query</span> is a string
 in double quotes containing a
@@ -101,14 +101,13 @@ a sequence &#X2019;\\n&#X2019; within the string is replaced by a newline charac
 like the one-argument variant but no newline is printed after the string</dd><dt class="dt-description"><span style="font-weight:bold">nl</span></dt><dd class="dd-description"> :
 prints a newline character on standard output</dd><dt class="dt-description"><span style="font-weight:bold">exit</span></dt><dd class="dd-description"> :
 exits the shell (also stops a server which has been started in this shell)</dd></dl><p>Command arguments with white space characters have to be enclosed in double quotes (&#X2019;"&#X2019;).
-Command arguments may span multiple lines. Lines starting with &#X2019;#&#X2019; are comment lines<sup><a id="text34" href="#note34">2</a></sup>.
+Command arguments may span multiple lines. Lines starting with &#X2019;#&#X2019; are comment lines<sup><a id="text35" href="#note35">2</a></sup>.
 If an argument contains a string of the form <span style="font-family:monospace">$PropName</span>, it will be replaced with
 the value of the corresponding Java property (which may be defined using the -D option
 of the Java Virtual Machine), if the property is defined.
 There are a couple of legacy commands that we support for backward compatibility:</p><dl class="description"><dt class="dt-description"><span style="font-weight:bold">startServer [</span><span style="font-weight:bold"><span style="font-style:italic">serveroptions</span></span><span style="font-weight:bold">]</span></dt><dd class="dd-description"> :
 synonym for &#X2019;cbserver&#X2019;</dd><dt class="dt-description"><span style="font-weight:bold">enrollMe </span><span style="font-weight:bold"><span style="font-style:italic">host</span></span><span style="font-weight:bold"> </span><span style="font-weight:bold"><span style="font-style:italic">port</span></span></dt><dd class="dd-description"> :
-synonym for &#X2019;connect&#X2019;</dd><dt class="dt-description"><span style="font-weight:bold">sModule </span><span style="font-weight:bold"><span style="font-style:italic">mod</span></span></dt><dd class="dd-description"> :
-synonym for sModule</dd><dt class="dt-description"><span style="font-weight:bold">showUsers</span></dt><dd class="dd-description"> :
+synonym for &#X2019;connect&#X2019;</dd><dt class="dt-description"><span style="font-weight:bold">showUsers</span></dt><dd class="dd-description"> :
 synonym for &#X2019;who&#X2019;</dd><dt class="dt-description"><span style="font-weight:bold">listModule </span><span style="font-weight:bold"><span style="font-style:italic">mod</span></span></dt><dd class="dd-description"> :
 synonym for &#X2019;lm&#X2019;</dd><dt class="dt-description"><span style="font-weight:bold">listClass </span><span style="font-weight:bold"><span style="font-style:italic">class</span></span></dt><dd class="dd-description"> :
 synonym for &#X2019;ls&#X2019;</dd><dt class="dt-description"><span style="font-weight:bold">getErrorMessages</span></dt><dd class="dd-description"> :
@@ -126,13 +125,13 @@ Graphviz [<a href="http://graphviz.org">link</a>] specifications from ConceptBas
    connect
    tellModel ERD-graphviz2
    tellModel UniversityModel
-   ask ShowERD[UniversityModel/erd] OBJNAMES FRAME Now
+   ask ShowERD[UniversityModel/erd] OBJNAMES default Now
    showAnswer
    exit
 </pre><p>The complete example is available from the CB-Forum at <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2519759">link</a>.
 Another resource for CBShell scripts is the list of test scripts at
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2596438">link</a>.</p>
-<h3 id="sec113" class="subsection">7.3.1&#XA0;&#XA0;Argument delimiters</h3>
+<h3 id="sec116" class="subsection">7.3.1&#XA0;&#XA0;Argument delimiters</h3>
 <p>
 <a id="sec:argdelim"></a></p><p>If an argument to a CBShell command spans multiple lines or contains several words separated by
 blanks, then you have to enclose it in double quotes, being the default argument delimiter.
@@ -150,7 +149,7 @@ escaping the double quotes for the Telos string obsolete:</p><pre class="verbati
    end
    '
 </pre>
-<h2 id="sec114" class="section">7.4&#XA0;&#XA0;Interactive use of CBShell</h2>
+<h2 id="sec117" class="section">7.4&#XA0;&#XA0;Interactive use of CBShell</h2>
 <p>
 <a id="sec:cbshellinteractive"></a></p><p>The CBShell can be used to run a script file or in can be used in interactive mode.
 In the interactive mode, the CBShell shall directly display the response to a command,
@@ -190,7 +189,7 @@ The prompt <span style="font-family:monospace">[offline]</span> indicates that t
 it displays the hostname and port number of the connected CBserver as prompt.
 The CBserver is started with disabled tracing. The trace messages of the CBserver would otherwise 
 be displayed in the output as well.</p>
-<h2 id="sec115" class="section">7.5&#XA0;&#XA0;Positional parameters</h2>
+<h2 id="sec118" class="section">7.5&#XA0;&#XA0;Positional parameters</h2>
 <p>
 <a id="sec:cbshellvars"></a></p><p>A CBShell script can use variables $0 ... $9 inside the script to refer to 
 the positional parameters supplied via the call of cbshell. Assume the following content
@@ -213,7 +212,7 @@ if one argument consists of several words, e.g. </p><pre class="verbatim">   cbs
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d3364559/ticket307.cbs.txt">link</a>.
 You can also call CBShell scripts within scripts/batch files of the host operating system,
 see section <a href="#sec%3Ashellintegration">7.7</a>.</p>
-<h2 id="sec116" class="section">7.6&#XA0;&#XA0;Executable CBShell scripts</h2>
+<h2 id="sec119" class="section">7.6&#XA0;&#XA0;Executable CBShell scripts</h2>
 <p>
 <a id="sec:execcbshell"></a></p><p>A CBShell script can be made executable under Unix/Linux and can then be used pretty much like any other
 shell script. Assume that you have a CBShell script <span style="font-family:monospace">myscript</span> that you want to execute directly from
@@ -224,7 +223,7 @@ As a second step include the following comment as the first line of <span style=
 </pre><p>You can then directly call the script by simply typing its name:</p><pre class="verbatim">   myscript
 </pre><p>The direct call is equivalent to the call</p><pre class="verbatim">   cbshell ./myscript
 </pre>
-<h2 id="sec117" class="section">7.7&#XA0;&#XA0;CBShell scripts within regular shell scripts</h2>
+<h2 id="sec120" class="section">7.7&#XA0;&#XA0;CBShell scripts within regular shell scripts</h2>
 <p>
 <a id="sec:shellintegration"></a></p><p>CBShell offers the basic commands to interact with a ConceptBase
 server. However, it lacks control structures such as loops and
@@ -253,7 +252,7 @@ An simple example is given in
 A more elaborate example is available in the CB-Forum at
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/3384265">link</a>.
 The main example is in the <span style="font-family:monospace">fileSizeDemo</span>.</p>
-<h2 id="sec118" class="section">7.8&#XA0;&#XA0;CBShell in a pipe</h2>
+<h2 id="sec121" class="section">7.8&#XA0;&#XA0;CBShell in a pipe</h2>
 <p>
 <a id="sec:cbshellpipe"></a></p><p>Assume you have a program <span style="font-family:monospace">generator</span> that analyzes some input data (e.g from files) and
 produces output in the form of CBShell commands (<span style="font-family:monospace">tell</span>, <span style="font-family:monospace">ask</span>, etc.). Then,
@@ -293,13 +292,11 @@ The example shows how to extract module import statements from program
 source files, store them in ConceptBase and let ConceptBase produce
 a graph specification, layed out by GraphViz.</p>
 <hr class="footnoterule"><dl class="thefootnotes"><dt class="dt-thefootnotes">
-<a id="note33" href="#text33">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">There is a small syntactic restriction for the retell
+<a id="note34" href="#text34">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">There is a small syntactic restriction for the retell
 command. You need to avoid a line consisting just of a double quote to terminate the untellFrames.
-Instead, start the tellFrames in the same line that terminates the untellFrames.</div>
-</dd><dt class="dt-thefootnotes"><a id="note34" href="#text34">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">
+Instead, start the tellFrames in the same line that terminates the untellFrames.</div></dd><dt class="dt-thefootnotes"><a id="note35" href="#text35">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">
 The last line of a CBShell script file should not be a comment line.
-Otherwise, CBShell fails to recognize the end of file correctly.</div>
-</dd></dl>
+Otherwise, CBShell fails to recognize the end of file correctly.</div></dd></dl>
 <hr>
 <a href="cbm007.html"><img src="previous_motif.gif" alt="Previous"></a>
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>

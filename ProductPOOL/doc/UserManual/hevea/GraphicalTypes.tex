@@ -27,7 +27,7 @@ of application-specific types.
 A specific graphical type is defined as an instance of the object
 {\tt Graphical\-Type}. CBGraph uses the subclass {\tt Java\-Graphical\-Type}.
 Instances of this class specify a graphical
-represenation of an object by defining graphical attributes such as
+representation of an object by defining graphical attributes such as
 shape, color, line thickness, font etc. Since the
 actual attributes and their admissible value depend on the
 used visualization tool, the definition of {\tt Graphical\-Type} looks very simple.
@@ -118,18 +118,18 @@ Class JavaGraphicalType isA GraphicalType with
    implementedBy : String;
    property : String;
    priority : Integer
- attribute,rule
+ rule
    rPriority : $ forall jgt/JavaGraphicalType (not (exists i/Integer
                  A_e(jgt,priority,i))) ==> A(jgt,priority,0) $
 end
 
 Individual DefaultIndividualGT in JavaGraphicalType with
-  attribute,property
+  property
      bgcolor : "210,210,210";
      textcolor : "0,0,0";
      linecolor : "0,0,0";
      shape : "i5.cb.graph.shapes.Rect"
-  attribute,implementedBy
+  implementedBy
      implBy : "i5.cb.graph.cbeditor.CBIndividual"
 end
 \end{verbatim}
@@ -181,8 +181,8 @@ the palette at startup time. CBGraph supports the following properties for palet
 \item[bgcolor:] sets the background color of the windows that displays the graph;
   format should be {\tt "r,g,b"}, e.g. {\tt "255,255,255"} for white
 \item[bgimage:] sets the background image for the graph windows; the image shall
-  be specified by the URL to a PNG, GIF, or JPG image; it is scaled by the 
-  CBGraph editor to fit into the internal window showing a graph of this palette
+  be specified by the URL to a PNG, GIF, or JPG image;
+  it is scaled by the CBGraph editor to fit into the internal window showing a graph of this palette
 \item[longtitle:] used for setting the title of the graph windows employing this palette;
   if no long title is specified, then CBGraph uses the name of the palette itself for
   forming the window title; if the longtitle is set to the empty string "", then
@@ -195,6 +195,7 @@ like the business model canvas
 \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d3595098/bmg-egadget.png} used
 in the Telos models described in the CB-Forum at
 \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d3595098/}.
+Only "http" URLs are supported.
 
 If a background image is specified for a palette shown in an internal window of CBGraph,
 then CBGraph links it with the size and zoom factor of the internal window. Initially, the
@@ -245,9 +246,8 @@ for an example.
 
 The safest way to define a correct graphical palette is to use
 the intermediate {\tt XPalette} as superclass of the new palette.
-It can be found within the CB-Forum model
-for business model canvasses at
-\url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/3594885}.
+It can be found in the CB-Forum at
+\url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d4204468/StandardPalette.sml.txt}.
 With {\tt XPalette} you can define a new
 palette without having to worry about values for required
 default graphical types.
@@ -268,6 +268,12 @@ end
 \end{verbatim}
 }
 
+An alternative to {\tt DefaultJavaPalette} is the general-purpose {\tt StandardPalette} available from
+the CB-Forum at \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d4204468/StandardPalette.sml.txt}.
+It assigns white color to most nodes and uses broken green lines both for explicit
+and deduced instantiations. Just add the definitions to your Telos model
+to use this palette.
+
 
 
 
@@ -281,18 +287,19 @@ of the properties.
 
 There are two ways to customize the graphical types:
 \begin{itemize}
-\item Defining new graphical types with different
-properties using the provided implementations\\ i5.cb.graph.cbeditor.CBIndividual
-and i5.cb.graph.cbeditor.CBLink
+\item Defining new graphical types with dedicated graphical properties
+properties using the provided implementations\\ i5.cb.graph.cbeditor.CBIndividual  (for nodes)
+and i5.cb.graph.cbeditor.CBLink (for links)
 \item Defining new graphical types with a different
 implementation class which extends\\ i5.cb.graph.cbeditor.CBUserObject
-(or CBIndividual or CBLink)
+(or CBIndividual or CBLink); this option requires changes to the Java source code
+of CBGraph
 \end{itemize}
 
 Both possibilities will presented in the next two
 subsections.
 
-\subsection{Properties of CBIndividual and CBLink}
+\subsection{Graphical properties of nodes and links}
 \label{sec:graph-props}
 
 The easiest way to modify the representation of an object
@@ -307,30 +314,35 @@ just numbers, e.g.\ use "1" instead of 1 as attribute value.
 
 \begin{description}
 \item[bgcolor:]
-    Background color of the shape (default: invisible)
+    Background color of the shape (default: invisible).
 
 \item[textcolor:]
-    Foreground color of the shape (i.e. text color)  (default: black "0,0,0")
+    Foreground color of the shape (i.e. text color)  (default: black "0,0,0").
 
 \item[linecolor:]
-    Color of the border of the shape (default: invisible)
+    Color of the border of the shape (default: invisible).
 
 \item[linewidth:]
-    Width of the border of the shape (default: "1")
+    Width of the border of the shape (default: "1").
 
 \item[edgecolor:]
-    Color of the edge (default: black "0,0,0"); for CBLink only
+    Color of the edge (default: black "0,0,0"); for CBLink only.
 
 \item[edgeheadcolor:]
     Color of the edge head; the edge head is drawn in edge color
-    if no edge head color is defined; for CBLink only
+    if no edge head color is defined; for CBLink only.
+
+\item[edgeheadshape:]
+    Shape of the edge head at the destination side. If set to "none",
+    then the edge head has no shape. Possible other values are listed in the table below;
+    for CBLink only.
 
 \item[edgewidth:]
-    Width of the edge (default: "1"); for CBLink only
+    Width of the edge (default: "1"); for CBLink only.
 
 \item[edgestyle:]
     possible values are: "continuous", "dashed", "dotted", "dashdotted", "ldashed" (dashed with longer
-    intervals), "ldotted"   (default: "continuous"); for CBLink only
+    intervals), "ldotted"   (default: "continuous"); for CBLink only.
 
 \item[shape:]
     The name of the class representing the shape and implementing the
@@ -354,34 +366,53 @@ just numbers, e.g.\ use "1" instead of 1 as attribute value.
     and "bottom" (default).
 
 \item[label:]
-    The label to be used for this object instead of the object name
+    The label to be used for this object instead of the object name.
+
+\item[labellength:]
+    The maximum number of characters displayed as label of an object in CBGraph (default: "40").
+    A label that exceeds the length is truncated to the maximum length and the last four
+    characters are replaced by " ..." in the display in CBGraph.
 
 \item[align:]
     Alignment of the label; possible values are "center", "left", "right", "top", "bottom",
-    "topleft", "topright", "bottomleft", and "bottomright"; default is "center"
+    "topleft", "topright", "bottomleft", and "bottomright"; default is "center".
 
 \item[size:]
     Initial size of the node in pixels, e.g. "20x20";
-    the non-numeric value "resizable" is allowed as well.
-    If set, the user can also resize the element via mouse actions.
-    (default: undefined, then the size is fixed by the Java LayoutManager)
+    the non-numeric values "resizable" (node size can be resized) and
+    "wrap" (node size can be resized and label will be wrapped) are allowed as well.
+    If set, the user can also resize the element via mouse actions
+    (default: undefined, then the size is set by CBGraph).
+
+\item[location:]
+    Designate the initial location of a node or the label of an edge. The value shall be in
+    the format "x,y". For example, the value "10,100" has the x coordinate 10 and the y coordinate 100.
+    This property may be useful when certain nodes should have a given initial location, e.g. for
+    canvas nodes that contain other nodes.
+    (default: undefined, then the location is set by CBGraph).
+
+\item[freeze:]
+    The value "yes" indicates that the node (or the edge label) is fixed to its current location
+    in the graph editor. The value "no" (default) indicates that the node can be freely moved.
+    You can set this flag also via the "gproperty" attribute individually for each object (see
+    section \ref{gproperty}).
 
 \item[nodelevel:]
     The level of the node relative to the standard node layer (=200) in the
     graph's diagram.
     Negative values put the node more in the background, positive values more
     in the foreground. 
-    Use this feature if you want to put certain nodes on top of each other.
-    (default: "0")
+    Use this feature if you want to put certain nodes on top of each other
+    (default: "0").
 
 \item[font:]
-    Name of the font to be used for the shape (e.g., "Arial", default: Default font of Java)
+    Name of the font to be used for the shape (e.g., "Arial", default: Default font of Java).
 
 \item[fontsize:]
-    Size of the font in pixels (default: default font size of Java)
+    Size of the font in pixels (default: default font size of Java).
 
 \item[fontstyle:]
-    The style of the font (e.g., "bold", "italic", "underlined", "bold,italic", ... )
+    The style of the font (e.g., "bold", "italic", "underlined", "bold,italic", ... ).
 
 \item[clickaction:]
     The name of a query class that shall be called directly when an object with
@@ -389,7 +420,9 @@ just numbers, e.g.\ use "1" instead of 1 as attribute value.
 \end{description}
 
 
-Edges with empty label ({\em anonymous}\/ edge) are displayed with a square dot in the middle of the edge.
+Edges with empty label ({\em anonymous}\/ edge) are displayed with a square dot in the middle of the edge%
+\footnote{An empty label is a label equal to {\tt ""}. Such labels only work for edges.
+If you want to display an node with an empty label, then set the label to {\tt " "} (one blank character).}.
 The color of the square dot is by default the edgecolor and its size is set to 6 pixels.
 If the graphical type of an anonymous edge has bgcolor defined, then the square dot is
 adjusted to the edgewidth and displayed in bgcolor. 
@@ -421,6 +454,31 @@ An example of user-defined graphical types can be found in \ref{sec:ER-diagrams}
 see also the CB-Forum at
 \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/188651}
 for a complete specification of ER diagrams including graphical types.
+
+Below are the supported edge head shape (property {\tt edgeheadshape}). Theoretically,
+you can also use the node shapes like {\tt Rect} but they are not configured
+specifically for edge heads and would be rendered in tiny sizes.
+\vspace{0.2cm}
+
+\begin{tabular}{|p{4cm}|p{8
+cm}|}
+\hline
+{\bf edge head shape} & {\bf description} \\ \hline \hline
+Arrow & triangular arrow head (default for thicker edges) \\ \hline
+ArrowVee & vee-shaped arrow head (default for thin edges) \\ \hline
+SmallArrow & small arrow head with straight base \\ \hline
+RevArrow & reversed arrow (base pointing to the object)) \\ \hline
+HalfArrow & half arrow head \\ \hline
+Karo & diamond-shaped arrow head  \\ \hline
+Square & square arrow head  \\ \hline
+Circular & circular arrow head (approximated)  \\ \hline
+Caret & caret shaped arrow head \\ \hline
+Bar & small bar orthogonal to the edge line \\ \hline
+Dot & small square arrow head \\ \hline
+none & no arrow head \\ \hline
+\end{tabular}
+
+\vspace{0.7cm}
 
 
 \subsection{Node levels}
@@ -497,7 +555,7 @@ the name of a query class as a string. A simple example is:
 }
 
 If an object has a graph type with a click action, then the corresponding query class
-is called using the object name as single parameters. For example, if {\tt t1} is the
+is called using the object name as single parameter. For example, if {\tt t1} is the
 object name, then a click on the object in CBGraph will result in calling the query
 {\tt fireTransition[t1]}. It is assumed that the ConceptBase server includes an
 active rule that is triggered by the query call. Hence, such calls can result in an
@@ -589,7 +647,8 @@ If you got the sources of ConceptBase, then you can add your own implementation
 for graphical types. The sources are in files {\tt CBPOOL-*.zip} downloadable via
 \url{http://conceptbase.sourceforge.net/CB-Download.html}. Its subdirectory 
 AdminPOOL contains instructions on how to compile the ConceptBase system under
-Linux/Unix. Adapting the source code requires considerable programming skills in Java.
+Linux/Unix. Adapting the source code requires {\em considerable programming skills\/} in Java
+as well as an understanding of the way how CBGraph is implemented.
 Hence, this section is only meant for the programmers among you.
 
 The {\tt implementedBy} attribute of a graphical type specifies the class
@@ -789,7 +848,12 @@ the object label occupies. This is fine for the shapes that are close
 to a rectangle. The other shapes should be used in combination with
 the size "resizable".
 
-An example for the use of resizable shapes graphical types can be found in
+A variant of the "resizable" option is the "wrap" option. It will additionally
+wrap the node label text according to the current node size.
+The "wrap" option renders the node label with the HTML implementation of Java.
+
+
+Examples for the use of resizable shapes graphical types can be found in
 the CB-Forum at
 \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/3596768}.
 
@@ -798,6 +862,7 @@ You can extend the shapes by using the parameterized graph type {\tt PologonShap
 as shown in the previous subsection. Use the "align" property to specify at which
 position the node's label should be displayed. Default is "center".
 The above link also contains examples of user-defined shapes. 
+
 
 
 
@@ -833,7 +898,8 @@ end
 \end{verbatim}
 }
 
-associates the graphical type {\tt AgentGT} to the image icon {\tt AgentIcon.png}.
+associates the graphical type {\tt AgentGT} to the image icon {\tt AgentIcon.png}. Note that
+only normal http addresses are supported, not https.
 You can also point to local files via the {\tt file} protocol:
 
 {\small
@@ -856,7 +922,8 @@ end
 Note that the image icon is looked up by CBGraph. Hence, the location must be 
 in the file system of the computer on which CBGraph runs. If you place the image
 icon on a web server, then CBGraph will be able to fetch it from any computer
-provided that the access rights are set properly.
+provided that the access rights are set properly. Note that the URL must use the "http"
+protocol. CBGraph does not support "https" links for image files.
 
 If you specify an image icon for a graphical type, then you can also set its
 textposition, for example:
@@ -898,8 +965,8 @@ holds when the "size" property is set to a fixed dimension like "50x40".
 }
 
 The location specified in the "image" and "bgimage" property can either be a URL to an image file 
-(starting with "http://" or "file://") or a relative file location such as
-"diaicons/icon1.png". In the latter case, CBGraph shall first check if local
+(starting with "http://" or "file://", not "https://") or a relative file location such as
+"diaicons/icon1.png". In the latter case, CBGraph shall first check if a local
 directory "CBICONS" exists in the ConceptBase installation directory (environment
 variable CB\_HOME). If that exits, it shall expand the relative path to
 and absolute path using the location of CB\_HOME.  If the local directory does
@@ -920,5 +987,255 @@ installation directory. Below is an example of a relative image location.
 Further examples on using image icons are provided in the CB-Forum at
 \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/3506150}.
 
-  
+
+\section{Object-specific graphical properties}
+\label{gproperty}
+
+Nodes and links get their graphical properties from the graphical type assigned to them.
+The assignment is typically defined by deductive rules deriving a fact {\tt (x graphtype gt)}. 
+In general, several such facts may be true for a given object {\tt x}. Then, the priority
+of the graphical type is used to pick a unique solution. As a result, all objects with
+the same graphical types are also rendered in the same way, except of the name of the object.
+
+In some situations, one may want to assign specific graphical properties to objects depending on
+the object state. The graphical type provides the general properties and specific graphical properties
+are derived from the object. For example, all employees could be displayed by a rectangular node with
+white background, but employees with a high salary are displayed in yellow color. Further,
+employees that are assigned to departments get a thicker line width. 
+
+In principal, the different cases can be realized by dedicated graphical types. In the example above,
+one would need at least four different graphical types (regular employees without department,
+high salary employees without department, regular employees with department, and
+high salary employees without department). The different cases thus lead to an explosion of graphical
+types.
+
+ConceptBase thus provides a second mechanism to directly assign graphical properties to objects.
+The graphical properties are defined for any proposition:
+
+{\small
+\begin{verbatim}
+    Proposition with
+      attribute 
+         gproperty: Proposition
+    end
+\end{verbatim}
+}
+
+Note that the target class is {\tt Proposition} rather than {\tt String}, as used for 
+the attribute {\tt property} of graphical types. The reason is to add more flexibility,
+e.g. to assign integers as values for certain {\tt gproperty} attributes like line width.
+
+
+Any object\footnote{Due to technical limitations, only node objects (=instances of {\tt Individual}) get their {\tt gproperty} feature
+scanned by CBGraph. Hence, you can only use it for node objects, not for edges.}%
+may have (derived or explicit) {\tt gproperty} attributes. The values of these attributes 
+overrule the corresponding values of the graphical type of the object:
+
+{\small
+\begin{verbatim}
+    bill in Employee with
+      ...
+      gproperty
+        bgcolor: "240,240,0";
+        linecolor: "0,0,220"
+    end
+\end{verbatim}
+}
+
+The properties may also be derived by rules, e.g.\ 
+
+{\small
+\begin{verbatim}
+    Employee in Class with
+       attribute
+         salary: Integer
+       rule
+         re1: $ forall e/Employee s/Integer (e salary s) and (s > 1000) 
+                 ==> (e gproperty/bgcolor "255,255,200") $
+    end
+\end{verbatim}
+}
+
+The labels of the {\tt gproperty} attributes shall be taken from the list in section
+\ref{sec:graph-props}.
+The object-specific graphical properties are not assigned to any palette. They are global
+and overrule the properties from the graphical type. It could be that there are multiple rules
+that derive the same {\tt gproperty} attribute, e.g.
+
+{\small
+\begin{verbatim}
+    Individual in Class with
+       rule
+         rx1: $ forall x/Individual (x gproperty/bgcolor "255,255,255") $
+    end
+\end{verbatim}
+}
+
+This rule may collide with rule {\tt re1}. In such cases, both {\tt "255,255,200"}
+and {\tt "255,255,255"} as values of {\tt bgcolor}. CBGraph will then pick any of them
+(actually the last one transmitted overrules any previous ones). Since the order is
+subject to the CBserver rule engine, one can hardly predict, which value prevails.
+Hence, write design the rules in such a way that such collisions are avoided.
+
+
+The {\tt gproperty} attribute {\tt label} adds a new functionality to the system:
+you can overrule the node and link name displayed in CBGraph. For example, it may be useful
+to replace the name of a shelf with its current fill level. Another example are 'places'
+of petri nets. Instead of the place name, one can display the number of tokens of that
+place as the label of the place node. 
+
+Another interesting {\tt gproperty} attribute is '{\tt labellength}'. By default, CBGraph
+assumes a maximum label length of 40 characters. If the node label length exceeds this
+threshold, it will be truncated and the last four characters are set to " ...". If
+you need to have longer labels, then use the '{\tt labellength}' property. An example shows
+how to use it:
+
+{\small
+\begin{verbatim}
+    Employee in Class with  
+      attribute
+        name : String
+      rule
+        r1 : $ forall e/Employee n/String (e name n) ==> (e gproperty/label n)$;
+        r2 : $ forall e/Employee  (e gproperty/labellength 50)$
+    end 
+
+    bill in Employee with  
+      name
+        n : "William the Conquerer from Abessinia della Cruz"
+    end
+\end{verbatim}
+}
+
+
+
+You can easily check, which object-specific properties are currently assigned to objects
+by the following query:
+
+{\small
+\begin{verbatim}
+    ObjectProperty in QueryClass isA Proposition with  
+      retrieved_attribute
+        gproperty : Proposition
+    end 
+\end{verbatim}
+}
+
+You can retrieve the objects with colliding {\tt gproperty} attributes via the query
+
+{\small
+\begin{verbatim}
+    ObjectWithMultipleProperties in QueryClass isA Proposition with  
+      retrieved_attribute
+        gproperty : Proposition
+      constraint
+        clash : $ exists L/Label p1,p2/Proposition (this gproperty/L p1) and
+              (this gproperty/L p2) and (p1 <> p2) $
+    end 
+
+\end{verbatim}
+}
+
+We advise to use the {\tt gproperty} feature in combination with graphical types. The graphical
+type of an object provides the graphical properties that apply to all objects that fall into
+the class covered by the graphical type. The object-specific properties then overrule certain
+properties of that graphical type or add properties that were not defined by the more
+general graphical type. Use the {\tt gproperty} feature with great care. For example, assigning
+object-specific properties to all instances of the class {\tt Individual} is not wise
+since {\tt Individual} is a generic class: all node-like objects are instances of {\tt Individual}.
+
+
+
+\section{Graphical types for derived links}
+\label{gtypederived}
+
+Derived links (and attributes) are displayed by default with the graphical type 
+{\tt ImplicitAttributeGT}, i.e.\ a dashed line with the attribute label defined
+at the class level. Derived links have no object identity. Thus, one cannot attach
+a {\tt graphtype} or {\tt gproperty} attribute to them. 
+
+ConceptBase uses another method to allow user-definable graphical types for such links.
+Assume, there is a class definition as follows:
+
+{\small
+\begin{verbatim}
+    Person in Class with  
+      attribute
+        knows : Person
+      rule
+       trrule : $ forall x,y,z/Person
+                  (x knows y) and (y knows z)
+                 ==> (x knows z) $
+    end
+\end{verbatim}
+}
+
+Let the attribute {\tt knows} be derived by some rules. 
+
+Then, one can define a graphical type {\tt ImplicitGT\_knows} that shall be applied to
+all derived using the class label {\tt knows}, e.g.
+
+{\small
+\begin{verbatim}
+    ImplicitGT_knows in JavaGraphicalType with  
+      property
+        textcolor : "20,20,220";
+        edgecolor : "250,20,20";
+        bgcolor : "255,255,255,100";
+        edgestyle : "dashdotted";
+        edgewidth : "3"
+      implementedBy
+        implBy : "i5.cb.graph.cbeditor.CBLink"
+      priority
+         p : 10
+    end 
+\end{verbatim}
+}
+
+
+This graphical type then has to be added to the right graphical palette:
+
+{\small
+\begin{verbatim}
+    PersonPalette in Class,JavaGraphicalPalette with  
+      contains,defaultIndividual
+        xx1 : DefaultIndividualGT
+      ...
+      contains
+        xx14 : ImplicitGT_knows
+    end
+\end{verbatim}
+}
+
+
+Note that the label of the graphical type starts with the prefix {\tt ImplicitGT\_}, which is then followed
+by the label of the derived link.
+CBGraph shall assign this graphical type for derived links if the current graphical palette contains
+such a graphical type.
+Otherwise, the default (usually {\tt ImplicitAttributeGT} or the graphical type listed as implicitAttribute in the
+graphical palette) is used.
+
+The user-defined graphical types for derived links allows to create domain-specific visualizations of derived
+information. It is rather common to have multiple derived link types such as {\tt knows}. It thus makes sense
+to distinguish them also in the graphical visualization.
+
+Derived instantiations ("in") and derived specializations ("isA") are handled differently. Their dedicated graphical type
+is specified in the graphical palette as follows:
+
+{\small
+\begin{verbatim}
+    contains,implicitIsA
+      c3 : ImplicitIsAGT
+    contains,implicitInstanceOf
+      c4 : ImplicitInstanceOfGT
+\end{verbatim}
+}
+
+
+Their link name is fixed in the database is fixed. Derived attributes in contrast can have any link name.
+
+
+
+
+
 

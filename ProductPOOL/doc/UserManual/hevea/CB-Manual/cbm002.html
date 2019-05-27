@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html >
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<meta name="generator" content="hevea 2.09">
+<meta name="generator" content="hevea 2.23">
 <link rel="stylesheet" type="text/css" href="cb-style.css"><link rel="stylesheet" type="text/css" href="cbm.css">
 <title>Introduction</title>
 </head>
@@ -61,14 +61,16 @@ modeling languages. The textbook [<a href="cbm016.html#jjm09">JJM*09</a>]</p><pr
 requirements engineering to chemical device modeling. The book and this
 user manual are complementary to each other.</p>
 <h2 id="sec3" class="section">1.1&#XA0;&#XA0;Background: Telos and O-Telos</h2>
-<p>The language underlying ConceptBase, <em>Telos</em>, has been
-one of the earliest attempts to integrate deductive and object-oriented data models [<a href="cbm016.html#STAN86">Stan86</a>, <a href="cbm016.html#mbjk90">MBJK90</a>].
-The O-Telos [<a href="cbm016.html#jeus92">Jeus92</a>] dialect supported in ConceptBase.cc takes a conservative integration approach, with the main design goals of
-semantic simplicity, symmetry of deductive and object views, flexibility and extensibility.
-This emphasis, technically supported by a careful mapping of Telos to Datalog
-with negation, has paid off both in user acceptance
+<p>The knowledge representation language <em>Telos</em> has been
+one of the earliest attempts to integrate deduction, object-orientation
+and metamodeling [<a href="cbm016.html#STAN86">Stan86</a>, <a href="cbm016.html#mbjk90">MBJK90</a>].
+The O-Telos [<a href="cbm016.html#jeus92">Jeus92</a>] dialect supported in ConceptBase.cc has as design goals the
+semantic simplicity, symmetry of deductive and object-oriented views, metamodeling flexibility,
+and extensibility at any abstraction level.
+This emphasis, technically supported by a careful mapping of O-Telos to Datalog
+with negation (DATALOG<sup>&#XAC;</sup>), has paid off both in user acceptance
 and ease of implementation. In essence, ConceptBase.cc is based on deductive database
-technology woth object-oriented abstraction principles like object identity,
+technology with object-oriented abstraction principles like object identity,
 class membership, specialization and attribution being coded as pre-defined
 deductive rules and integrity constraints.</p><p>Development of ConceptBase.cc started in late 1987 in the context of
 ESPRIT project DAIDA [<a href="cbm016.html#JARK93">Jark93</a>] and was continued within
@@ -79,7 +81,7 @@ Versions have been distributed for research experiments since early 1988.
 ConceptBase.cc has been installed at more
 than eight hundred sites worldwide and is seriously used by about a dozen research projects in
 Europe, Asia, and the Americas.</p><p>The direct predecessor of O-Telos is the knowledge representation language Telos (specified by 
-John Mylopoulos, Alex Borgida, Martin Stanley, Manolis Koubarakis, and others). 
+John Mylopoulos, Alex Borgida, Martin Stanley, Manolis Koubarakis, Dimitris Plexousakis, and others). 
 Telos was designed to represent information about information systems, esp. requirements. 
 Telos was based on CML (Conceptual Modeling Language) developed in the mid/late 1980-ties. 
 A variant of CML was created under the label SML (System Modeling Language)<sup><a id="text2" href="#note2">1</a></sup>
@@ -92,7 +94,6 @@ SML was implemented as a subset of CML using Prolog&#X2019;s SLDNF semantics. </
 was too complex for an efficient implementation. The temporal component of Telos included 
 both valid time (when an information is true in the domain) and transaction time 
 (when the information is regarded to part of the knowledge base). The temporal reasoner for the 
-valid time was based on Allen&#X2019;s interval calculus and was co-NP-hard. We implemented both temporal 
 dimensions in ConceptBase.cc V3.0 only to see that there were undesired effects with the query evaluator 
 and the uniform representation of information into objects. Specifically, the specialization of a 
 class into a subclass could have a valid time which could be incomparable to the valid time of an 
@@ -104,12 +105,51 @@ only implemented in a rather limited way - essentially forbidding direct updates
 On the other hand, O-Telos extends the universal object representation to any piece of explicit 
 information and reduces the number of essential builtin objects to just five. 
 So, some of the roots of Telos in artificial intelligence were abandoned in favor 
-of a clear semantics and of better capabilities for metamodeling.</p><p>Since we wanted to be able to manage large knowledge bases (millions of concepts rather than a few hundred), 
+of a clear semantics and of better capabilities for metamodeling.
+More specifically, there are some important differences of O-Telos to the original Telos specification.</p><ul class="itemize"><li class="li-itemize">
+Labels are not used as object identfiers in O-Telos. For example, Telos would represent an
+object like "bill" as P(bill,bill,-,bill). In O-Telos, we represent such objects as
+P(id123,id123,bill,id123). Each object in O-Telos has a system-generated identifier.
+</li><li class="li-itemize">Telos promotes the use of level classes such as "Token", "SimpleClass", "MetaClass" etc. to
+classify user-defined objects into abstraction levels similar to the OMG UML Infrastructure. Besides,
+Telos defines a so-called omega-level that is parallel to the abstraction levels and defines
+in particular the object "Proposition". O-Telos does not pre-define the level classes and does not
+need them. It is up to the user to demand the existence of such levels.
+</li><li class="li-itemize">There are only 5 pre-defined "omega" objects in Telos to define "individual" objects, instantiations,
+specializations, attributions, and the most-generic object "Proposition". Telos has some more
+predefined such objects like "Class" and "AttributeClass". Such objects are regarded in O-Telos as
+user-definable objects.
+</li><li class="li-itemize">There are about 50% more builtin axioms in O-Telos (see appendix <a href="cbm011.html#cha%3Aotelos-axioms">B</a>)
+compared to Telos, in particular to define
+attribute specialization and to forbid certain pathological databases with groups of entangled
+objects.
+</li></ul><p>The ConceptBase.cc server adds further capabilities to O-Telos that were not defined/implemented
+in Telos:</p><ul class="itemize"><li class="li-itemize">
+There are deductive rules and integrity constraints that are mapped to DATALOG<sup>&#XAC;</sup> and evaluated
+by a DATALOG<sup>&#XAC;</sup> engine. The engine supports stratified negation, checked at runtime. 
+</li><li class="li-itemize">There is a query language that is embedded into the notion of class specialization and
+realized by the DATALOG<sup>&#XAC;</sup> engine. Query classes work like classes whose instances are derived by 
+deductive rules.
+</li><li class="li-itemize">There are active rules that allow to trigger actions when certain events occur.
+</li><li class="li-itemize">Arithmetic is supported as well as recursive function definitions. The implementation utilizes
+the DATALOG<sup>&#XAC;</sup> engine for evaluating recursive function expressions.
+</li><li class="li-itemize">ConceptBase provides a partial evaluator for rules and constraints that range over 
+multiple instantiation levels. Example of such formulas were also proposed for Telos, in particular
+for cardinality constraints. The partial evaluator makes sure that the DATALOG<sup>&#XAC;</sup> engine can always
+detect stratification violations.
+</li><li class="li-itemize">ConceptBase.cc provides an elaborate module concept for O-Telos databases. Sub-modules
+see all definitions from super-modules but not of sibling modules (unless imported).
+</li><li class="li-itemize">Stratification in ConceptBase.cc is solely defined in terms of logical stratification
+(recursive rules in the presence of negation). There is no need on ConceptBase.cc to demand fixed
+abstraction levels to constrain the instantiation relation between objects. Since ConceptBase.cc
+is mostly used for metamodeling, the user can define such constraints if they are necessary for
+the modeling domain.
+</li></ul><p>Since we wanted to be able to manage large knowledge bases (millions of concepts rather than a few hundred), 
 we decided to select a semantics that allowed efficient query evaluation. Telos included already features 
-for deductive rules and integrity constraints. Thus, the natural choice was DATALOG 
+for deductive rules and integrity constraints. Thus, the natural choice was DATALOG<sup>&#XAC;</sup> 
 with perfect model semantics. The deductive rule evaluator and the integrity checker 
 were ready in 1990. A query language ("query classes") followed shortly later. 
-O-Telos exhibits an extreme usage of DATALOG:</p><ul class="itemize"><li class="li-itemize">
+O-Telos exhibits an extreme usage of DATALOG<sup>&#XAC;</sup>:</p><ul class="itemize"><li class="li-itemize">
 There is only one base relation P(o,x,l,y) called P-facts used for all objects, classes, meta classes, 
 attributes, class membership relationships, and specialization relationships as well as for 
 deductive rules, integrity constraints and queries.
@@ -118,23 +158,15 @@ which are either deductive rules or integrity constraints.
 </li><li class="li-itemize">Deductive rules ranging over more than one classification level (instances, classes, meta 
 classes, etc.) are partially evaluated to a collection of rules (or constraints) ranging over 
 exactly one classification level.
-</li></ul><p>O-Telos should be regarded as the data modeling language of a meta database. It is capable to 
-represent semantic features of other (data) modeling languages like entity-relationship diagrams and 
+</li></ul><p>O-Telos should be regarded as the data model of a database for metamodeling. It is capable to 
+represent semantic features of (data) modeling languages like entity-relationship diagrams and 
 data flow diagrams. Once modeled as meta classes in O-Telos, one simply has to tell the meta 
-classes to ConceptBase.cc to get an evironment where one can manipulate models in these modeling languages. 
+classes to ConceptBase.cc to get an environment where one can manipulate models in these modeling languages. 
 Since all abstraction levels are supported, the models themselves can be represented in 
-O-Telos (and thus be managed by ConceptBase).</p><p>ConceptBase&#X2019;s implementation of O-Telos provides a couple of features beyond the core O-Telos. 
-First of all, there is a dedicated query language CBL, which provides a class-based 
-interpretation for queries. Secondly, modules have been introduced to structure the search space. 
-Essentially, the module identifier is added to the object identifier. 
-Thirdly, ConceptBase.cc supports a limited version of active rules to react to internal
-and external events. 
-Finally, ConceptBase.cc supports recursively defined functions and arithmetic expressions.</p><p>A performance comparison [<a href="cbm016.html#Lud2010">Lud2010</a>] of ConceptBase.cc with Proteg&#XE9;/Racer found that 
-ConceptBase.cc is orders of magnitude faster for queries. It lacks however the
-reasoning capabilities of Proteg&#XE9;/Racer.</p>
+O-Telos (and thus be managed by ConceptBase.cc).</p>
 <h2 id="sec4" class="section">1.2&#XA0;&#XA0;The architecture of ConceptBase.cc</h2>
 <p>
-<a id="sec:architecture"></a></p><p>ConceptBase.cc 8.0 follows a client-server architecture. Clients and servers
+<a id="sec:architecture"></a></p><p>ConceptBase.cc 8.1 follows a client-server architecture. Clients and servers
 run as independent processes which interact via inter-process communication
 (IPC) channels (Fig. 1-1). Although this communication channel was
 initially meant for use in local area networks, it has been used
@@ -166,18 +198,21 @@ and browsing (CBIva). The tool CBGraph supports editing diagrams extracted from
 the database, and CBShell is a command line shell for interacting with the database.</p><p>Although ConceptBase.cc provides multi-user support and
 an arbitrary number of clients may be connected to the same server process,
 ConceptBase.cc does not yet support concurrency control beyond a forced
-serialization of messages.</p>
+serialization of messages.</p><p>A performance comparison [<a href="cbm016.html#Lud2010">Lud2010</a>] of ConceptBase.cc with Proteg&#XE9;/Racer found that 
+ConceptBase.cc is orders of magnitude faster for queries. It lacks however the
+reasoning capabilities of Proteg&#XE9;/Racer.</p>
 <h2 id="sec5" class="section">1.3&#XA0;&#XA0;Hardware and software requirements</h2>
 <p>
 <a id="sec:requirements"></a></p><p>The ConceptBase.cc server (CBserver) can be compiled on at
 least the following platforms<sup><a id="text3" href="#note3">2</a></sup> including
 </p><ul class="itemize"><li class="li-itemize">
-i386 CPUs under Linux Kernel 2.4 or higher,
-</li><li class="li-itemize">i64 (AMD64) CPUs under Linux Kernel 2.4 or higher.
+i386 CPUs under Linux Kernel 3.0 or higher,
+</li><li class="li-itemize">x86_64 (AMD64) CPUs under Linux Kernel 3.0 or higher,
+</li><li class="li-itemize">x86_64 (AMD64) CPUs under Windows 10 (Creators Update or later) with Linux sub-system enabled.
 </li></ul><p>
-Pre-compiled binaries are provided for Linux.
-Compilation from the ConceptBase.cc sources on Mac OS-X and Windows and other platforms should
-be possible as well, though we cannot provide support for them.
+Pre-compiled binaries are provided for Linux (and thus also Windows 10).
+Compilation from the ConceptBase.cc sources on Mac OS-X and other platforms should
+be possible in principle, though we cannot provide support for them.
 See instructions distributed with the ConceptBase.cc source files for further details.</p><p>Implementation languages for the CBserver are Prolog<sup><a id="text4" href="#note4">3</a></sup>
 (in particular for logic-based transformation and compilation
 tasks) and C/C++ (in particular for persistent object
@@ -211,7 +246,19 @@ interact with a ConceptBase.cc server using a command/shell window.
 The CBShell client can also be used to run non-interactive scripts,
 e.g. for loading a sequence of files with Telos source models into
 the CBserver.</p>
-<h2 id="sec6" class="section">1.4&#XA0;&#XA0;Overview of this manual</h2>
+<h3 id="sec6" class="subsection">1.3.1&#XA0;&#XA0;Installation</h3>
+<p>
+<a id="sec:installation"></a></p><p>The download and installation instructions are available from the
+ConceptBase.cc home page at
+<a href="http://conceptbase.sourceforge.net/CB-Download.html">link</a>.
+The binaries are installed via a self-extracting Java Archive (CBinstaller.jar).</p><p>The sources are made available as a ZIP archive CBPOOL.zip. 
+Compilation from sources on platforms different from Linux
+requires in-depth expertise due to the manifold of programming languages
+used for ConceptBase (Prolog, C, C++, Java).</p><p>You can also install a virtual appliance (Linux) that includes the binaries, sources,
+and the complete development environment.</p><p>The default installation directory under Windows is <span style="font-family:monospace">c:\conceptbase</span>. Under Linux,
+ConceptBase is installed by default in the user&#X2019;s home directory
+<span style="font-family:monospace">$HOME/conceptbase</span>.</p>
+<h2 id="sec7" class="section">1.4&#XA0;&#XA0;Overview of this manual</h2>
 <p>
 <a id="sec:overview"></a></p><p>This manual provides detailed information about using ConceptBase.cc. Information about
 the installation procedure can be found in the Installation Guide in
@@ -235,9 +282,9 @@ entity-relationship diagrams with Telos (<a href="cbm013.html#sec%3AER-diagrams"
 Plenty of further examples for particular application domains and add-ons for
 metamodeling can be retrieved from the ConceptBase.cc Forum at
 <a href="http://conceptbase.sourceforge.net/CB-Forum.html">link</a>. </p>
-<h2 id="sec7" class="section">1.5&#XA0;&#XA0;Differences to earlier versions</h2>
+<h2 id="sec8" class="section">1.5&#XA0;&#XA0;Differences to earlier versions</h2>
 <p>
-<a id="sec:differences"></a></p><p>ConceptBase.cc 8.0 should be largely source-compatible to its direct predecessor.
+<a id="sec:differences"></a></p><p>ConceptBase.cc 8.1 should be largely source-compatible to its direct predecessor.
 The binary database files and the graph files have a new format and
 are not compatible with their counterparts created by earlier releases.</p><p>The CBserver has now the ability to maintain module sources and
 query results formatted in external formats in the file system. 
@@ -257,18 +304,18 @@ image in the graph window. Nodes can now be configured to be resizable.
 Lines are now drawn with anti-aliasing, yielding much better graph images.</p><p>The CBShell utility now behaves more like a Linux/Unix shell. It provides
 easy shortcuts like &#X2019;cd&#X2019; for changing the module context. It also
 allows the use of positional parameters, hence making it a better
-companion to Linux/Unix scripts.</p><p>The release notes to ConceptBase.cc 8.0 lists
+companion to Linux/Unix scripts.</p><p>The release notes to ConceptBase.cc 8.1 lists
 all major changes and issues. You find the release notes in the subdirectory
 <span style="font-family:monospace">doc/TechInfo</span> of your ConceptBase.cc installation directory or via
 the web site <a href="http://conceptbase.cc">link</a>.</p><p>The system still has about the same memory footprint as it used to be 10 years ago. You can
 easily install the complete system for all supported platforms on a 32 MB memory
 stick.</p>
-<h2 id="sec8" class="section">1.6&#XA0;&#XA0;License terms</h2>
+<h2 id="sec9" class="section">1.6&#XA0;&#XA0;License terms</h2>
 <p>
 <a id="sec:license"></a></p><p>ConceptBase.cc is distributed under a FreeBSD-style copyright license since June 2009.
 Both binary and source code are available via <a href="http://sourceforge.net/projects/conceptbase/files">link</a>. </p><p>The FreeBSD-style copyright license of ConceptBase.cc reads like follows:</p><pre class="verbatim"><span style="font-size:small">The ConceptBase.cc Copyright
 
-Copyright 1987-2017 The ConceptBase Team. All rights reserved.
+Copyright 1987-2019 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -293,20 +340,22 @@ and should not be interpreted as representing official policies, either expresse
 of the ConceptBase Team.
 </span></pre><p>This license makes ConceptBase.cc free software as promoted by the Free Software Foundation. 
 The license is upwards-compatible to the GNU Public License (GPL), i.e. developers
-can combine GPL-ed software with ConceptBase software as long as they
-include the above FreeBSD-style license for the ConceptBase components.
+can combine GPL-ed software with ConceptBase.cc software as long as they
+include the above FreeBSD-style license for the ConceptBase.cc components.
 It should also be compatible with many other free license
 models. The source code is copyrighted by The ConceptBase Team, consisting of
-all contributors to the source code at the central code repository of the system.</p><p>You are welcome to contribute the ConceptBase.cc project! Join the 
+all contributors to the source code at the central code repository of the system.</p><p>Binary and source distributions of ConceptBase.cc may contain third-party software.
+Their licenses are listed by default in the directory <span style="font-family:monospace">doc/ExternalLicenses</span>
+of the installation directory. </p><p>You are welcome to contribute the ConceptBase.cc project! Join the 
 ConceptBase.cc Forum at
 <a href="http://conceptbase.sourceforge.net/CB-Forum.html">link</a> to do so.
 We are also happy to learn about your research/application, in which ConceptBase.cc plays a role.
 If you publish results of your work, then please include a reference pointing to this
 user manual and/or to the standard ConceptBase.cc reference [<a href="cbm016.html#JIIS">JGJ*95</a>]. </p><p>The ConceptBase.cc system is published under the liberal FreeBSD-style license, which allows
-commercial use and even modification of the source code. This user manual is
+commercial use and modification of the source code. This user manual is
 however published under a less liberal copyright license. Use is permitted for
 private and academic purposes. Moreover, commercial users may use the manual to
-self-study the ConceptBase system. Only members of The ConceptBase Team,
+self-study the ConceptBase.cc system. Only members of The ConceptBase Team,
 see <a href="http://conceptbase.cc/cbteam.html">link</a>, are allowed to modify the user manual.
 Re-publication of the user manual in print or online is not permitted.
 If you make changes to your own copy of the source code of ConceptBase.cc,
@@ -321,7 +370,7 @@ ConceptBase.cc web sites, the ConceptBase.cc User Manual and Tutorials, and the 
 It may also be included in binary distributions created by members of the ConceptBase Team.
 If you are not a member of the ConceptBase.cc Team and like to use the logo for your own binary
 distribution of ConceptBase.cc, then you need to ask the copyright holder for a permission.</p>
-<h2 id="sec9" class="section">1.7&#XA0;&#XA0;Disclaimer</h2>
+<h2 id="sec10" class="section">1.7&#XA0;&#XA0;Disclaimer</h2>
 <p>
 <a id="sec:disclaimer"></a></p><p>All trademarks are owned by their respective owners. This report may contain flaws based on
 human errors. We disclaim liability for any such flaws. It may also be that the ConceptBase.cc
@@ -331,14 +380,11 @@ informational (academic) purposes. We disclaim responsibility for the views expr
 <hr class="footnoterule"><dl class="thefootnotes"><dt class="dt-thefootnotes">
 <a id="note2" href="#text2">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">
 The acronym SML survived in ConceptBase as the filetype <span style="font-family:monospace">.sml</span> for source models.
-</div>
-</dd><dt class="dt-thefootnotes"><a id="note3" href="#text3">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">All trademarks are property of their respective
-owners.</div>
-</dd><dt class="dt-thefootnotes"><a id="note4" href="#text4">3</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">ConceptBase.cc now
+</div></dd><dt class="dt-thefootnotes"><a id="note3" href="#text3">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">All trademarks are property of their respective
+owners.</div></dd><dt class="dt-thefootnotes"><a id="note4" href="#text4">3</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">ConceptBase.cc now
 relies on SWI-Prolog [<a href="http://www.swi-prolog.org/">link</a>]. Formerly,
 ProLog by BIM had been used. We only use constructs of SWI-Prolog 5.6 but
-later versions, in particular SWI-Prolog 6.x, should be compatible.</div>
-</dd></dl>
+later versions, in particular SWI-Prolog 6.x, should be compatible.</div></dd></dl>
 <hr>
 <a href="cbm001.html"><img src="previous_motif.gif" alt="Previous"></a>
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>

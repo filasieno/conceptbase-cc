@@ -35,11 +35,11 @@ two nodes.
 
 Assume that an attribute (either explicit or derived) has at most one filler. For example,
 a class {\tt Project} may have attributes {\tt budget}  and {\tt managedBy} that both are single-valued.
-A third attribute {\tt projMember} is multi-valued.
+A third attribute {\tt projMember} is multi-valued (default for category 'attribute').
 
 \begin{verbatim}
 Project with
-  attribute,single
+  single
     budget: Integer;
     managedBy: Employee
   attribute
@@ -272,7 +272,7 @@ two attributes:
 {\small
 \begin{verbatim}
 ObjectWithMoreThanTwoAttributes in QueryClass isA Individual with
-attribute,constraint
+  constraint
     c1 : $ (COUNT_Attribute(Proposition!attribute,this) > 2) $
 end
 \end{verbatim}

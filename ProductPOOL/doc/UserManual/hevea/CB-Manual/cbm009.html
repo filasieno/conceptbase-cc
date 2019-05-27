@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html >
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<meta name="generator" content="hevea 2.09">
+<meta name="generator" content="hevea 2.23">
 <link rel="stylesheet" type="text/css" href="cb-style.css"><link rel="stylesheet" type="text/css" href="cbm.css">
 <title>The ConceptBase.cc Usage Environment</title>
 </head>
@@ -11,7 +11,7 @@
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
 <a href="cbm010.html"><img src="next_motif.gif" alt="Next"></a>
 <hr>
-<h1 id="sec119" class="chapter">Chapter&#XA0;8&#XA0;&#XA0;The ConceptBase.cc Usage Environment</h1>
+<h1 id="sec122" class="chapter">Chapter&#XA0;8&#XA0;&#XA0;The ConceptBase.cc Usage Environment</h1>
 <p>
 <a id="cha:workbench"></a></p><p>The ConceptBase.cc User Interface consists of two main applications:</p><dl class="description"><dt class="dt-description">
 <span style="font-weight:bold">CBIva</span></dt><dd class="dd-description"> is the ConceptBase.cc Interface in Java that supports
@@ -23,16 +23,18 @@ of Telos objects is also supported.
 </dd></dl><p>The interface is based entirely on Java, so it should be usable on all platforms
 with a compatible Java runtime environment. The Java interface includes a graphical browser and editor.
 Both CBIva and CBGraph can be used as stand-alone Java application.</p>
-<h2 id="sec120" class="section">8.1&#XA0;&#XA0;The workbench CBIva</h2>
+<h2 id="sec123" class="section">8.1&#XA0;&#XA0;The workbench CBIva</h2>
 <p>CBIva is a textual interface to a CBserver, which emphasizes the use of the frame syntax
 of Telos.
 You can start the CBIva workbench by the command</p><pre class="verbatim">  cbiva
 </pre><p>The command will start a script file with the same name.
 We assume that
-the installation directory of ConceptBase.cc<sup><a id="text35" href="#note35">1</a></sup> is added to the search path
+the installation directory of ConceptBase.cc<sup><a id="text36" href="#note36">1</a></sup> is added to the search path
 of executable programs. After a few seconds, the CBIva main
-window should pop up. Figure <a href="#fig%3Acbivamain">8.1</a> shows the main window connected
-to a server and gives a short description of the buttons in the tool bar.</p><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
+window should pop up. CBIva will attempt to connect to a CBserver on localhost or to
+a public CBserver (if configured, see <a href="cbm007.html#sec%3Apubcbserver">6.6</a>).
+Figure <a href="#fig%3Acbivamain">8.1</a> shows the main window connected
+to a CBserver and gives a short description of the buttons in the tool bar.</p><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
 <div class="center"><img src="cbm012.png"></div>
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 8.1: Main Window of CBIva</td></tr>
 </table></div>
@@ -41,9 +43,31 @@ to a server and gives a short description of the buttons in the tool bar.</p><bl
 subwindows and a status bar. The first sub window (Telos editor) contains the history window,
 which records all operations for later reuse.
 In the following, each component of the user interface is explained.</p>
-<h3 id="sec121" class="subsection">8.1.1&#XA0;&#XA0;The menu bar</h3>
+<h3 id="sec124" class="subsection">8.1.1&#XA0;&#XA0;The tool bar</h3>
+<p>The tool bar is the button panel below the menu bar. All buttons have tool tips, i.e. small
+messages that show the meaning of these buttons. The tool tips appear, if you move your mouse pointer
+over the button and do not move your mouse for about one second. The buttons are shortcuts
+for some operations that are frequently used and are also available in the menu.
+The operations apply to the Telos Editor which has currently the focus.</p><ul class="itemize"><li class="li-itemize">
+<span style="font-weight:bold">Quick Connect</span>: if connected to a CBserver then disconnect; otherwise try to
+connect either to the public CBserver (if configured) or to a running local CBserver; 
+if the connection to a running local CBserver fails, then attempt to start one in the background.
+</li><li class="li-itemize"><span style="font-weight:bold">Clear</span>: Clear the text of the Telos Editor window
+</li><li class="li-itemize"><span style="font-weight:bold">Cut, Copy, Paste</span>: operations on selected portions of the Telos Editor text
+</li><li class="li-itemize"><span style="font-weight:bold">Tell, Untell</span>: The objects specified in the active Telos Editor will be added or removed
+from the object base.
+</li><li class="li-itemize"><span style="font-weight:bold">Retell</span>: A new window will popup and ask you to enter the frames that should be untold and
+told. The contents of the current Telos Editor will be inserted as default into the two text areas.</li><li class="li-itemize"><span style="font-weight:bold">Ask</span>: Evaluate the query specified in the Telos Editor. <sup><a id="text37" href="#note37">2</a></sup> If you specify the name of an ordinary class (i.e.
+not a query class), then ConceptBase.cc will interpret this as a query call to find all instances of that class.
+You can also enter an arithmetic expression like<br>
+<div class="center"><span style="font-family:monospace">100*COUNT(QueryClass)/COUNT(Class)</span></div>
+</li><li class="li-itemize"><span style="font-weight:bold">List module</span>: List the content of the current module as Telos frames
+</li><li class="li-itemize"><span style="font-weight:bold">Exit</span>: Disconnect from the CBserver and exit CBIva.
+</li></ul>
+<h3 id="sec125" class="subsection">8.1.2&#XA0;&#XA0;The menu bar</h3>
 <p>
-<a id="sec:menubar"></a></p><dl class="description"><dt class="dt-description">
+<a id="sec:menubar"></a></p><p>The toolbar has button for the most frequent operations of CBIva. The menu bar offers the complete set
+of operations including options to open other windows such as CBGraph (see section <a href="#sec%3Agraphed">8.2</a>).</p><dl class="description"><dt class="dt-description">
 <span style="font-weight:bold">File:</span></dt><dd class="dd-description">
 	<dl class="description"><dt class="dt-description">
 	<span style="font-weight:bold">Connect:</span></dt><dd class="dd-description"> Connect to a ConceptBase.cc server (CBserver) started in another shell/command window (see section <a href="cbm007.html#cha%3Acbserver">6</a>).
@@ -56,7 +80,7 @@ In the following, each component of the user interface is explained.</p>
 	</dd><dt class="dt-description"><span style="font-weight:bold">Start CBserver:</span></dt><dd class="dd-description"> Opens a dialog and asks for the parameters to start a CBserver.
 	If the information has been entered, the server will be started
 	and its output will be captured in a separate window. The workbench will
-	be automatically connected to that server<sup><a id="text36" href="#note36">2</a></sup>.
+	be automatically connected to that server<sup><a id="text38" href="#note38">3</a></sup>.
 	</dd><dt class="dt-description"><span style="font-weight:bold">Stop CBserver:</span></dt><dd class="dd-description"> Stops the CBserver, only allowed for the user who started the server
 or who has been designated as administrator user (see option "-a" in section <a href="cbm007.html#sec%3Acbsparams">6.1</a>).
 	</dd><dt class="dt-description"><span style="font-weight:bold">Close:</span></dt><dd class="dd-description"> Same as Exit if CBIva was not started from CBGraph. If it was started from CBGraph
@@ -74,7 +98,7 @@ told. The contents of the current Telos Editor will be inserted as default into 
 	</dd><dt class="dt-description"><span style="font-weight:bold">Ask Frame:</span></dt><dd class="dd-description"> Temporarily tells the content of the Telos editor, 
 extracts the query names from the frames, asks them
 as query calls without parameters, and returns the result in the Telos editor window
-	</dd><dt class="dt-description"><span style="font-weight:bold">Ask Query Call:</span></dt><dd class="dd-description"> The query calls<sup><a id="text37" href="#note37">3</a></sup>
+	</dd><dt class="dt-description"><span style="font-weight:bold">Ask Query Call:</span></dt><dd class="dd-description"> The query calls<sup><a id="text39" href="#note39">4</a></sup>
 (see section <a href="cbm003.html#sec%3Aqdefvscalls">2.3.1</a>) listed in the Telos editor are asked
 and the result is returned in the Telos editor window.
 	</dd><dt class="dt-description"><span style="font-weight:bold">Load Object:</span></dt><dd class="dd-description"> Load the Telos frame of an object into the Telos editor.
@@ -118,7 +142,7 @@ is maintained in a file &#X2019;.CBjavaInterface&#X2019; of the user home direct
 	</dd></dl>
 </dd><dt class="dt-description"><span style="font-weight:bold">Help:</span></dt><dd class="dd-description">
 	<dl class="description"><dt class="dt-description">
-	<span style="font-weight:bold">ConceptBase.cc Manual:</span></dt><dd class="dd-description"> Opens a window<sup><a id="text38" href="#note38">4</a></sup>
+	<span style="font-weight:bold">ConceptBase.cc Manual:</span></dt><dd class="dd-description"> Opens a window<sup><a id="text40" href="#note40">5</a></sup>
 with the online-version of this ConceptBase.cc manual.
 	</dd><dt class="dt-description"><span style="font-weight:bold">ConceptBase Tutorial I/II:</span></dt><dd class="dd-description"> Opens a window with the online-version of the respective tutorial.
 	</dd><dt class="dt-description"><span style="font-weight:bold">CB-Forum:</span></dt><dd class="dd-description"> Opens a window to the public version of the ConceptBase Forum with lots of
@@ -135,28 +159,7 @@ examples.
 	can be selected from a list.
 	</dd><dt class="dt-description"><span style="font-weight:bold">Set History Options:</span></dt><dd class="dd-description"> Select the type of operations that should be displayed in the history window.
 	</dd></dl>
-</dd></dl>
-<h3 id="sec122" class="subsection">8.1.2&#XA0;&#XA0;The tool bar</h3>
-<p>The tool bar is the button panel below the menu bar. All buttons have tool tips, i.e. small
-messages that show the meaning of these buttons. The tool tips appear, if you move your mouse pointer
-over the button and do not move your mouse for about one second. The buttons are shortcuts
-for some operations that are frequently used and are also available in the menu.
-The operations apply to the Telos Editor which has currently the focus.</p><ul class="itemize"><li class="li-itemize">
-Quick Connect: if connected to a CBserver then disconnect; otherwise try to
-connect either to the public CBserver (if configured) or to a running local CBserver; 
-if the connection to a running local CBserver fails, then attempt to start one in the background.
-</li><li class="li-itemize">Clear
-</li><li class="li-itemize">Cut, Copy, Paste
-</li><li class="li-itemize">Tell, Untell: The objects specified in the active Telos Editor will be added or removed
-from the object base.
-</li><li class="li-itemize">Retell: A new window will popup and ask you to enter the frames that should be untold and
-told. The contents of the current Telos Editor will be inserted as default into the two text areas.</li><li class="li-itemize">Ask: Evaluate the query specified in the Telos Editor. <sup><a id="text39" href="#note39">5</a></sup> If you specify the name of an ordinary class (i.e.
-not a query class), then ConceptBase.cc will interpret this as a query call to find all instances of that class.
-You can also enter an arithmetic expression like<br>
-<div class="center"><span style="font-family:monospace">100*COUNT(QueryClass)/COUNT(Class)</span></div>
-</li><li class="li-itemize">List module: List the content of the current module as Telos frames
-</li><li class="li-itemize">Exit
-</li></ul><p>The preferred way to start a CBserver from CBIva is to use the &#X2019;Start CBserver&#X2019; from the File menu.
+</dd></dl><p>The preferred way to start a CBserver from CBIva is to use the &#X2019;Start CBserver&#X2019; from the File menu.
 It provides an output window for the trace messages of the CBserver, but this window is only visible
 if the trace mode is set to &#X2019;minimal&#X2019; or higher. Disconnecting from the CBserver will not stop
 it. It has to be stopped explictly or CBIva will stop it if it is shut down itself.
@@ -166,10 +169,10 @@ except that the server mode is set to &#X2019;slave&#X2019; and multi-user mode 
 This causes the CBserver to shutdown whenever the last connected client disconnects from it.</p><p>You can move the tool bar outside the
 main window or display it in vertical form, if you click on the leftmost area of the tool bar
 and drag it to another place.</p>
-<h3 id="sec123" class="subsection">8.1.3&#XA0;&#XA0;The status bar</h3>
+<h3 id="sec126" class="subsection">8.1.3&#XA0;&#XA0;The status bar</h3>
 <p>The status bar contains some fields that display general information about the status of the application.</p><ul class="itemize"><li class="li-itemize">
-Connection status, either connected or disconnected from server
-</li><li class="li-itemize">Short message, usually the result of the last action
+Connection status, either connected or disconnected from serve, or a pending action
+</li><li class="li-itemize">Short message, usually about the result of the last action
 </li><li class="li-itemize">Current version, i.e. the rollback time (see section <a href="cbm003.html#sec%3Arepresentation">2.1</a>)
 specified for queries (default: Now)
 </li><li class="li-itemize">Current module, the database module to which TELL/ASK operations are applied
@@ -178,7 +181,7 @@ version is set to &#X2019;Now&#X2019;. If set to a rollback time in the past, it
 both the version name and the time associated to the version. It will
 then also hight the background of the text field to make the user aware
 that queries are evaluated against a past state of the database.</p>
-<h3 id="sec124" class="subsection">8.1.4&#XA0;&#XA0;Telos editor</h3>
+<h3 id="sec127" class="subsection">8.1.4&#XA0;&#XA0;Telos editor</h3>
 <p>
 <a id="sec:telos_ed"></a></p><p>The Telos Editor is an editable text area, where you can edit Telos frames.
 The operations can be executed from the menu bar or the buttons in the tool bar.
@@ -187,16 +190,16 @@ the following items.</p><dl class="description"><dt class="dt-description">
 <span style="font-weight:bold">Display Instances:</span></dt><dd class="dd-description"> Displays the instances of the currently marked object
 </dd><dt class="dt-description"><span style="font-weight:bold">Load Object:</span></dt><dd class="dd-description"> Loads the Telos frame of the currently marked object into the Telos editor
 </dd><dt class="dt-description"><span style="font-weight:bold">View Object as Tree:</span></dt><dd class="dd-description"> Opens the tree browser with the currently marked object as root
-</dd><dt class="dt-description"><span style="font-weight:bold">Display in Graph Editor:</span></dt><dd class="dd-description"> Shows the object in the current window of CBGraph. CBGraph
-has to be started before (menu Browse)
+</dd><dt class="dt-description"><span style="font-weight:bold">Display in Graph Editor:</span></dt><dd class="dd-description"> Shows the currently marked object in CBGraph.
 </dd><dt class="dt-description"><span style="font-weight:bold">Change Module:</span></dt><dd class="dd-description"> Changes the module context to the module path defined by the currently marked text
 </dd><dt class="dt-description"><span style="font-weight:bold">Clear,Cut,Copy,Paste:</span></dt><dd class="dd-description"> same as in the menu bar
+</dd><dt class="dt-description"><span style="font-weight:bold">Small,Large:</span></dt><dd class="dd-description"> sets the text font size to either small (12 point) or large (18 point)
 </dd></dl><p>If the Telos editor window is empty, then you can drag and drop Telos text files (file
 type *.sml or *.sml.txt) into it. CBIva will open the file and paste the content into the Telos
 editor window. This function requires that the option &#X2019;Show Line Numbers&#X2019; is enabled
-(see section <a href="#sec%3Amenubar">8.1.1</a>). You can also drag and drop URLs pointing to publicly accessible
+(see section <a href="#sec%3Amenubar">8.1.2</a>). You can also drag and drop URLs pointing to publicly accessible
 Telos text files.</p>
-<h4 id="sec125" class="subsubsection">Tell transactions</h4>
+<h4 id="sec128" class="subsubsection">Tell transactions</h4>
 <p>
 The text in the Telos editor window is typically a sequence of Telos frames. When
 you press the &#X2019;Tell&#X2019; button, the text is sent to the CBserver and processed there by
@@ -213,7 +216,7 @@ separate transactions to the CBserver. This feature is useful when some parts co
 (see section <a href="cbm003.html#sec%3ACCmeta">2.2.9</a>)
 that first need to be compiled before they are used in subsequent parts of the whole text.
 If you do not use meta formulas, then you can omit this feature.</p>
-<h3 id="sec126" class="subsection">8.1.5&#XA0;&#XA0;History window</h3>
+<h3 id="sec129" class="subsection">8.1.5&#XA0;&#XA0;History window</h3>
 <p>
 <a id="sec:history_window"></a></p><p>The history window is part of the main Telos editor. It stores all operations and their
 results, so that they can later be used again. The buttons scroll the history back or forward,
@@ -227,7 +230,7 @@ Telos editor and the history window.</p><blockquote class="figure"><div class="c
 </table></div>
 <a id="fig:historybuttons"></a>
 <div class="center"><hr style="width:80%;height:2"></div></blockquote>
-<h3 id="sec127" class="subsection">8.1.6&#XA0;&#XA0;Display instances</h3>
+<h3 id="sec130" class="subsection">8.1.6&#XA0;&#XA0;Display instances</h3>
 <p>
 <a id="sec:display_instances"></a></p><p>This dialog displays the instances of a class. The class is entered in the
 text field. When you hit return or press the &#X201C;OK&#X201D; button, the instances of this
@@ -236,7 +239,7 @@ will be displayed. The frame of a selected item can be loaded into the Telos
 editor by clicking the &#X201C;Telos Editor&#X201D; button.
 A history of already displayed classes is stored in the upper right
 selection list box. The &#X201C;Cancel&#X201D; button closes the dialog.</p>
-<h3 id="sec128" class="subsection">8.1.7&#XA0;&#XA0;Frame browser</h3>
+<h3 id="sec131" class="subsection">8.1.7&#XA0;&#XA0;Frame browser</h3>
 <p>
 <a id="sec:frame_browser"></a></p><p>The Frame Browser (see figure <a href="#fig%3Aframebrowser">8.3</a>) shows all information relevant to one object in one
 window. The window contains several subwindows with list boxes that show
@@ -259,9 +262,9 @@ button. The contents of the cache can be viewed
 with the &#X201C;Cache&#X201D; button. The result of a query can be added to
 the cache by using the &#X201C;Add query result&#X201D; button.</p><p>The button &#X201C;Telos Editor&#X201D; inserts the Telos frame of the current
 object into the Telos Editor.</p>
-<h3 id="sec129" class="subsection">8.1.8&#XA0;&#XA0;Display queries</h3>
+<h3 id="sec132" class="subsection">8.1.8&#XA0;&#XA0;Display queries</h3>
 <p>
-<a id="sec:display_queries"></a></p><p>This dialog displays all visible queries<sup><a id="text40" href="#note40">6</a></sup>
+<a id="sec:display_queries"></a></p><p>This dialog displays all visible queries<sup><a id="text41" href="#note41">6</a></sup>
 stored in the current object base (see figure <a href="#fig%3Adisplayqueries">8.4</a>). 
 From the list box, you can
 select a query and &#X201C;ask&#X201D; it or load its definition into the Telos editor.</p><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
@@ -277,13 +280,13 @@ You can select a value for the parameter from the drop-down list if you have
 clicked on the &#X201C;Show Values&#X201D; button. Note that this list might be very long.
 Especially for the predefined queries it usually returns all objects in the database
 as any object can be used as a parameter for these queries.</p>
-<h3 id="sec130" class="subsection">8.1.9&#XA0;&#XA0;Display functions</h3>
+<h3 id="sec133" class="subsection">8.1.9&#XA0;&#XA0;Display functions</h3>
 <p>
 <a id="sec:display_functions"></a></p><p>This dialog is similar to the previous dialog but displays instances
 of <span style="font-family:monospace">Function</span>. Note that functions are formally special queries.
 Consequently, the dialogs for functions and queries are pretty much the same.
 The separation into two dialogs serves quicker handling.</p>
-<h3 id="sec131" class="subsection">8.1.10&#XA0;&#XA0;Query editor</h3>
+<h3 id="sec134" class="subsection">8.1.10&#XA0;&#XA0;Query editor</h3>
 <p>
 <a id="sec:query_editor"></a></p><p>The Query Editor (see figure <a href="#fig%3Aqueryeditor">8.5</a>) allows the interactive definition of queries.
 The name of the query is entered in the upper left text field,
@@ -307,7 +310,7 @@ finished, you can press the &#X201C;Ask query&#X201D; to test the query,
 i.e. it is told temporarely and the results are shown in separate
 window. If you are satisfied with the result you can press the Tell
 button to store the query in the object base.</p>
-<h3 id="sec132" class="subsection">8.1.11&#XA0;&#XA0;Tree browser</h3>
+<h3 id="sec135" class="subsection">8.1.11&#XA0;&#XA0;Tree browser</h3>
 <p>
 <a id="sec:tree_browser"></a></p><p>The Tree browser (see figure <a href="#fig%3Aframetree">8.6</a>) displays the super classes, classes and
 attributes of an object in a tree. To start the tree browser,
@@ -322,7 +325,7 @@ menu.</p><blockquote class="figure"><div class="center"><hr style="width:80%;hei
 name in the tree, you can load into the Telos editor with the
 &#X201C;Telos Editor&#X201D; button or open a new tree browser with the
 button &#X201C;View Object as Tree&#X201D;.</p>
-<h2 id="sec133" class="section">8.2&#XA0;&#XA0;The graph editor CBGraph</h2>
+<h2 id="sec136" class="section">8.2&#XA0;&#XA0;The graph editor CBGraph</h2>
 <p>
 <a id="sec:graphed"></a></p><p>The CBGraph Editor is an advanced graphical modelling tool that
 supports the browsing and editing of Telos models.
@@ -336,7 +339,7 @@ and then present the main components and functions of CBGraph.
 Details about the use of graphical types can be found in Appendix
 <a href="cbm012.html#cha%3Agraph-typen">C</a>. An example for the definition of graphical types
 of the Entity-Relationship model is given in Appendix <a href="cbm013.html#sec%3AER-diagrams">D.2</a>.</p>
-<h3 id="sec134" class="subsection">8.2.1&#XA0;&#XA0;Overview</h3>
+<h3 id="sec137" class="subsection">8.2.1&#XA0;&#XA0;Overview</h3>
 <p>The CBGraph Editor is entirely written in Java. It can
 therefore be used on any platform with Java 1.4 or compatible successors of Java 1.4.
 CBGraph is integrated with CBIva, i.e. Telos frames
@@ -390,7 +393,7 @@ relationships between objects, which have been derived by rules or Telos
 axioms. For each type of relationship (instanstation, specializations, and
 attributes), one can choose to see only the explicit relationships or to see
 all relationships.</p>
-<h3 id="sec135" class="subsection">8.2.2&#XA0;&#XA0;Starting CBGraph via CBIva</h3>
+<h3 id="sec138" class="subsection">8.2.2&#XA0;&#XA0;Starting CBGraph via CBIva</h3>
 <p>CBGraph can be invoked from CBIva
 via the menu item <em>Browse</em> &#X2192; <em>Graph Editor</em>.
 If CBIva is connected with a CBserver, CBGraph will be
@@ -410,7 +413,7 @@ a list), and the database module (default "oHome").</p><p>The most comfortable w
 to starting it via the command </p><pre class="verbatim"><span style="font-size:small">  cbgraph graph.gel
 </span></pre><p>To do so, you need to configure your desktop according to the instructions at
 <a href="http://conceptbase.sourceforge.net/CB-Mime.html">link</a>.</p>
-<h3 id="sec136" class="subsection">8.2.3&#XA0;&#XA0;The <span style="font-family:monospace">cbgraph</span> command</h3>
+<h3 id="sec139" class="subsection">8.2.3&#XA0;&#XA0;The <span style="font-family:monospace">cbgraph</span> command</h3>
 <p>
 <a id="sec:cbgraphcmd"></a>
 You can also start CBGraph as a stand-alone utility. The command</p><pre class="verbatim"><span style="font-size:small">  cbgraph [options]
@@ -419,7 +422,8 @@ and open new windows to display graphs. More interesting is the use with a store
 or several graph files, resp.:</p><pre class="verbatim"><span style="font-size:small">  cbgraph [options] filename [filename ...]
 </span></pre><p>The format of the graph file is called Graph Editor Layout (GEL). It stores not only the layout of nodes
 and links but all other data necessary to edit the graph objects. In particular, it contains
-connection details of the CBserver module from which the graph was created.</p><p>The are a few options for the &#X2019;cbgraph&#X2019; command synchronizing the data stored in the graph file
+connection details of the CBserver module from which the graph was created. You can open more than one
+GEL file. Each will be loaded in its own frame. </p><p>The are a few options for the &#X2019;cbgraph&#X2019; command synchronizing the data stored in the graph file
 with the CBserver:
 </p><dl class="description"><dt class="dt-description">
 <span style="font-weight:bold">+r</span></dt><dd class="dd-description"> With this option CBGraph will be instructed to load the module sources on its current module
@@ -446,7 +450,17 @@ them to the CBserver".
 where your started CBGraph; useful for debugging.
 </dd><dt class="dt-description"><span style="font-weight:bold">-host hostport</span></dt><dd class="dd-description"> Instruct CBGraph to use the hostname and portnumber from hostport rather than those
 defined in the graph file when loading the graph file.
-</dd></dl><p>If you provide a filename (or several), then it must have been previously created
+</dd></dl><p>If you supply these options when calling CBGraph, it will also store them in the graph file when you store it.
+If you later call CBGraph with such a graph file, it will apply the stored options unless you specify
+new options in the command line. Hence, the options stored in the GEL file serve as new defaults for
+synchronizing the graph file with the CBserver.</p><p>Consider the two calls of CBGraph below. The first call sets the synchronization option to "+r", i.e.
+stores the module sources from the CBserver in the graph file when it is saved. 
+The second call has no such option. Hence, it shall adopt the "+r" that was stored earlier in the graph file
+<span style="font-family:monospace">example.gel</span>.</p><pre class="verbatim"><span style="font-size:small">  cbgraph +r example.gel
+  cbgraph example.gel
+</span></pre><p>This behavior is useful if you keep the models in a persistent CBserver and want to use the module sources in
+the graph file only as a backup storage. It will then not tell the module sources from the graph file to the CBserver.
+The TELL operation can be very costly and is redundant if the CBserver anyway has all definitions already stored.</p><p>If you provide a filename (or several), then it must have been previously created
 by another graph editor, e.g. a graph editor started via CBIva.
 The above command will then display the graph stored 
 in the graph file in an internal window and attempt to connect to the same
@@ -471,7 +485,7 @@ objects and you cannot add objects to the database. The menus to show attributes
 and subclasses shall also not work.</p><p>An example on how to create and use graph files containing materialized database views
 is available in the CB-Forum at
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/3613919">link</a>.</p>
-<h3 id="sec137" class="subsection">8.2.4&#XA0;&#XA0;Redirecting the CBserver location</h3>
+<h3 id="sec140" class="subsection">8.2.4&#XA0;&#XA0;Redirecting the CBserver location</h3>
 <p>You can use the command line argument &#X2019;-host&#X2019; to override the hostname and portnumber encoded in
 the graph file. Assume a graph file &#X2019;graph1.gel&#X2019; was created from a a CBserver connection
 at &#X2019;localhost:4001&#X2019;.
@@ -485,8 +499,9 @@ connection. The redirection also works in the reverse direction. So, assume that
 will redirect the connection to localhost:</p><pre class="verbatim"><span style="font-size:small">  cbgraph +rw -host localhost graph2.gel
 </span></pre><p>The default port number is 4001. If no CBserver is running at &#X2019;localhost:4001&#X2019;, then CBGraph shall start
 it in the background. Note that local CBservers can currently only be started on Linux hosts.</p>
-<h3 id="sec138" class="subsection">8.2.5&#XA0;&#XA0;Moving objects</h3>
-<p>All explicit information is a proposition in ConceptBase (see section <a href="cbm003.html#sec%3Arepresentation">2.1</a>),
+<h3 id="sec141" class="subsection">8.2.5&#XA0;&#XA0;Moving objects</h3>
+<p>
+<a id="sec:moveobj"></a></p><p>All explicit information is a proposition in ConceptBase (see section <a href="cbm003.html#sec%3Arepresentation">2.1</a>),
 including attributes,
 specializations and instantiations. You can move objects in the graph 
 editor by pointing the cursor to the object&#X2019;s label and then dragging it
@@ -507,10 +522,10 @@ the edge middle point is distant from the middle of the straight line
 between the source and destination of the edge. You can clean up such graphs
 by pressing the "shift" and "control" keys together and then click on a
 node whose edges shall be straightened. </p>
-<h3 id="sec139" class="subsection">8.2.6&#XA0;&#XA0;Menu bar</h3>
+<h3 id="sec142" class="subsection">8.2.6&#XA0;&#XA0;Menu bar</h3>
 <p>The menu bar provides access to the most important functions
 of CBGraph.</p>
-<h4 id="sec140" class="subsubsection">File menu</h4>
+<h4 id="sec143" class="subsubsection">File menu</h4>
 <dl class="description"><dt class="dt-description">
 <span style="font-weight:bold">Connect to server:</span></dt><dd class="dd-description"> Connect to a new server. You can have
 multiple connections to one server or different servers at the same
@@ -533,7 +548,7 @@ A checkbox lets to select whether you want to save the module sources
 into the graph file. It overrides the &#X2019;+/-rw&#X2019; options of the cbgraph command.</dd><dt class="dt-description"><span style="font-weight:bold">Load:</span></dt><dd class="dd-description"> Load a graph that has been saved with the previous menu
 item. Existing nodes and links in the current window will be erased.
 If the graph file was previously created to include module sources,
-then the module sources are told to the CBserver before the graph is displayed<sup><a id="text41" href="#note41">7</a></sup>.
+then the module sources are told to the CBserver before the graph is displayed<sup><a id="text42" href="#note42">7</a></sup>.
 A checkbox lets to select whether you want to load the module sources from
 the graph file and tell them to the CBserver. </dd><dt class="dt-description"><span style="font-weight:bold">Print:</span></dt><dd class="dd-description"> Print the current graph. If the graph is larger than
 the page size, it will be automatically reduced to fit into the page.
@@ -549,7 +564,7 @@ in combination, and exit the program.
 </dd></dl><p>If the graph was loaded from a GEL file and it was edited in the session,
 CBGraph shall ask the user whether to save the edited graph to the file
 when the user terminates CBGraph.</p>
-<h4 id="sec141" class="subsubsection">Edit menu</h4>
+<h4 id="sec144" class="subsubsection">Edit menu</h4>
 <p>The operations in this menu have an effect on the selected objects.
 You can select an object by clicking on it with the left mouse button.
 Multiple selection is possible dragging a rectangular area while holding
@@ -561,7 +576,7 @@ nodes and edges from the view. This operation has no effect on the database.
 all nodes or all edges in the current frame. Furthermore, you can clear your
 current selection.
 </dd></dl>
-<h4 id="sec142" class="subsubsection">Options menu</h4>
+<h4 id="sec145" class="subsubsection">Options menu</h4>
 <p>
 <a id="sec:optionsmenu"></a></p><p>The options will be stored in a configuration file (see section <a href="#sec%3Aconfig">8.4</a>)
 when you exit CBGraph.
@@ -610,7 +625,7 @@ until you have fnished the re-arrangement of nodes.</dd></dl><blockquote class="
 <a id="fig:componentview"></a>
 <div class="center"><hr style="width:80%;height:2"></div></blockquote><p>If an object is displayed in component view, one can switch back to the node
 view by double-clicking its title section. </p>
-<h4 id="sec143" class="subsubsection">View menu</h4>
+<h4 id="sec146" class="subsubsection">View menu</h4>
 <p>CBGraph has an experimental layout algorithm that may be useful
 to reorganize the layout of a complex graph. The heuristic of the layout
 algorithm is rather simple and does not minimize link crossings.</p><dl class="description"><dt class="dt-description">
@@ -623,7 +638,7 @@ graphical layout. This option is only available when automatic layout is enabled
 </dd><dt class="dt-description"><span style="font-weight:bold">Zoom:</span></dt><dd class="dd-description"> Set the zoom factor of the graph, e.g. 120 (20 percent enlarged).
 </dd><dt class="dt-description"><span style="font-weight:bold">200,100,75,50,25:</span></dt><dd class="dd-description">: Set the zoom factor accordingly.
 </dd></dl>
-<h4 id="sec144" class="subsubsection">Current connection menu</h4>
+<h4 id="sec147" class="subsubsection">Current connection menu</h4>
 <p>These operations have effect on the current connection, i.e. the connection
 of currently activated internal window.</p><dl class="description"><dt class="dt-description">
 <span style="font-weight:bold">Query to server:</span></dt><dd class="dd-description"> This operation will open a dialog which prompts
@@ -650,7 +665,7 @@ graphical types to nodes and links) is replaced by another one.
 </table></div>
 <a id="fig:querytoserver"></a>
 <div class="center"><hr style="width:80%;height:2"></div></blockquote>
-<h3 id="sec145" class="subsection">8.2.7&#XA0;&#XA0;Tool bar</h3>
+<h3 id="sec148" class="subsection">8.2.7&#XA0;&#XA0;Tool bar</h3>
 <p>The tool bar (see figure <a href="#fig%3Agraphed_toolbar">8.10</a>)
 consists of a set of buttons that are mainly short cuts
 for some menu items. The right half of the tool bar provides buttons
@@ -689,7 +704,7 @@ or re-insert removed objects.
 or removed is transformed into a set of Telos frames and transferred to the
 server.
 </dd></dl>
-<h3 id="sec146" class="subsection">8.2.8&#XA0;&#XA0;Popup menu</h3>
+<h3 id="sec149" class="subsection">8.2.8&#XA0;&#XA0;Popup menu</h3>
 <p>
 <a id="sec:graphed:PopupMenu"></a></p><p>The popup menu is activated by a click on the right mouse while the
 cursor is located over an object.</p><ul class="itemize"><li class="li-itemize">
@@ -698,6 +713,10 @@ cursor is located over an object.</p><ul class="itemize"><li class="li-itemize">
 	you can either see the frame of this object or tree-like
 	representation of super- and subclasses, instances, classes, and
 	attributes of this object (see figure <a href="#fig%3Acomponentview">8.8</a>).
+</li><li class="li-itemize"><span style="font-weight:bold">Display in Telos Editor:</span><br>
+ This operation will load the frame of the object into the
+Telos editor. If the Telos editor contains already some text, then
+the frame is appended to the existing text.
 </li><li class="li-itemize"><span style="font-weight:bold">Super classes, sub classes, classes, instances:</span><br>
  for each menu item you can select whether you want to
 see only the explicitly defined super classes (or sub classes, etc.)
@@ -731,15 +750,18 @@ in contrast to the next operation.
  The object will be removed from the current view. This operation
 has no effect on the database, i.e. the object will not be deleted
 from the database.
-</li><li class="li-itemize"><span style="font-weight:bold">Display in Telos Editor:</span><br>
- This operation will load the frame of the object into the
-Telos editor. If the Telos editor contains already some text, then
-the frame is appended to the existing text.
 </li><li class="li-itemize"><span style="font-weight:bold">Show in new Frame:</span><br>
  A new internal window (within CBGraph) will be shown
 and the selected object will be shown in the new window.
+</li><li class="li-itemize"><span style="font-weight:bold">Straighten attached edges:</span><br>
+ All edges starting from and ending in the selected node are made straight and the edge labels move to the middle
+of the edge. This is the same function as described in section <a href="#sec%3Amoveobj">8.2.5</a>.
+</li><li class="li-itemize"><span style="font-weight:bold">Freeze / Unfreeze:</span><br>
+ The position of the selected object is frozen (if not yet frozen). A "frozen" object cannot be moved or double-clicked.
+If frozen, the selected object is "unfrozen". This function is useful when certain objects should not be moved,
+e.g. when they are serving as regions, in which other objects are positioned.
 </li></ul>
-<h3 id="sec147" class="subsection">8.2.9&#XA0;&#XA0;Editing of Telos objects</h3>
+<h3 id="sec150" class="subsection">8.2.9&#XA0;&#XA0;Editing of Telos objects</h3>
 <p>
 <a id="sec:graph_edit"></a></p><p>CBGraph supports also the creation and deletion of Telos
 objects. A Telos object in the context of CBGraph
@@ -803,7 +825,7 @@ that have been added or removed (since the last succesful commit or since the co
 established). A screenshot of the dialog is shown in figure <a href="#fig%3Agraphed_addremove">8.12</a>.
 The left list shows the objects that have been added, the right list shows the objects
 that have been removed. By clicking on the button &#X201C;Re-Insert/Delete&#X201D; object, the selected
-objects will be re-inserted in or deleted from the graph <sup><a id="text42" href="#note42">8</a></sup>.</p><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
+objects will be re-inserted in or deleted from the graph <sup><a id="text43" href="#note43">8</a></sup>.</p><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div>
 <div class="center"><img src="cbm023.png"></div>
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 8.12: List of objects which have been added or removed</td></tr>
 </table></div>
@@ -817,7 +839,7 @@ type has changed (as in the &#X201C;Validate and update&#X201D; operation from t
 menu). If there is an error, the error messages of the server will be displayed
 in a message box. The internal buffer with the objects to add or remove will be
 not changed in this case.</p>
-<h3 id="sec148" class="subsection">8.2.10&#XA0;&#XA0;Caching of query results within CBGraph</h3>
+<h3 id="sec151" class="subsection">8.2.10&#XA0;&#XA0;Caching of query results within CBGraph</h3>
 <p>
 <a id="sec:graphed_cache"></a></p><p>To improve the performance of CBGraph, several caches
 are used. On the other hand, the use of a cache causes
@@ -847,7 +869,7 @@ The result will be stored in a cache for each object. This cache is emptied
 when you invoke the &#X201C;Validate and Update&#X201D; operation from the
 &#X201C;Current Connection&#X201D; menu.
 </dd></dl>
-<h3 id="sec149" class="subsection">8.2.11&#XA0;&#XA0;Graph files</h3>
+<h3 id="sec152" class="subsection">8.2.11&#XA0;&#XA0;Graph files</h3>
 <p>
 <a id="sec:gel"></a></p><p>Graph files (extension &#X2019;gel&#X2019;) are binary files that store the current state of
 a graph displayed in CBGraph. Since they are constructed from a
@@ -885,7 +907,10 @@ much like with a drawing tool. </p><p>The graph file stores serialized Java obje
    String module context as absolute path
    String long title of the graphical palette 
    String name of the graphical palette
-   Integer saveflag (bit0: HAS_IMAGE, bit1: HAS_SOURCE)
+   Integer saveflag (bit0: HAS_IMAGE, bit1: HAS_SOURCE, bit2: HAS_PARAMS)
+   IF HAS_PARAMS 
+     { String[] params
+     }
    IF HAS_SOURCE
      { String saved modules e.g. "mod1-mod2"
        { String source of module 1
@@ -915,11 +940,12 @@ there are rare cases when the extracted cannot be told to a CBserver.
 For example, if a module contains deductive rules that are essential for
 satisfying integrity constraints for objects defined in the same module, then
 a single TELL operation could fail bacause ConceptBase requires the deductive rules to
-be compiled. See section <a href="cbm006.html#sec%3Alistmod">5.8.1</a> for more details.</p><p>The background image is not stored as a serializable Java object but as a PNG
+be compiled. See section <a href="cbm006.html#sec%3Alistmod">5.8.1</a> for more details.</p><p>If you specified command line parameters like "+r", "-r", "+rw", or "-rw" at the start of CBGraph,
+then these parameters are stored in the GEL file.</p><p>The background image is not stored as a serializable Java object but as a PNG
 image using the ImageIO class of Java. It is always stored as the last element since
 the input routines shall read it until the end of the file.
 Note that some strings can be just null.</p>
-<h2 id="sec150" class="section">8.3&#XA0;&#XA0;An example session with ConceptBase</h2>
+<h2 id="sec153" class="section">8.3&#XA0;&#XA0;An example session with ConceptBase</h2>
 <p>
 <a id="sec:session"></a></p><p>In this section we demonstrate the usage of the <em>ConceptBase.cc User Interface</em>, by involving an example model. It consists of a few classes
 including <span style="font-family:monospace">Employee, Department, Manager</span>. The class <span style="font-family:monospace">Employee</span> has the attributes <span style="font-family:monospace">name, salary, dept, and boss</span>. In
@@ -929,18 +955,18 @@ will be computed by the system using the <span style="font-family:monospace">bos
 constraint which must be satisfied by all instances of the class <span style="font-family:monospace">Employee</span> which specifies that no employee may earn more money than its
 boss. The Telos notation for this model is given in Appendix
 <a href="cbm013.html#sec%3Aemployee-model">D.1</a>.</p>
-<h3 id="sec151" class="subsection">8.3.1&#XA0;&#XA0;Starting ConceptBase</h3>
+<h3 id="sec154" class="subsection">8.3.1&#XA0;&#XA0;Starting ConceptBase</h3>
 <p>To start a <em>ConceptBase</em> session, we use two terminal windows, one for the <em>ConceptBase.cc</em>
 server and one for the usage environment. We start the <em>ConceptBase.cc</em> server
 by typing the command 
 </p><pre class="verbatim">   cbserver -port 4001 -d test  
-</pre><p>in a terminal window of, let us say machine alpha<sup><a id="text43" href="#note43">9</a></sup>. The parameter -port sets the port number under which the CBserver communicates to
+</pre><p>in a terminal window of, let us say machine alpha<sup><a id="text44" href="#note44">9</a></sup>. The parameter -port sets the port number under which the CBserver communicates to
 clients and the parameter -d specifies the name of the directory into which the 
 CBserver internally stores objects persistently.
 Then, we start the usage environment with
 the command <span style="font-family:monospace">cbiva</span> in the other window. </p><p>It is also possible to start the CBserver from the user interface.
 To do so, choose &#X201C;Start CBserver&#X201D; from the &#X201C;File Menu&#X201D; of CBIva (see
-section <a href="#sec%3Amenubar">8.1.1</a>) and specify the parameters in the dialog which
+section <a href="#sec%3Amenubar">8.1.2</a>) and specify the parameters in the dialog which
 will be shown (see figure <a href="#fig%3Astartserver">8.13</a>).
 The option <span style="font-family:monospace">Source Mode</span> controls whether the CBserver accessing
 the database via the <span style="font-family:monospace">-d</span> parameter (database maintained in binary files),
@@ -956,8 +982,11 @@ as the user interface will be connected to the server automatically.</p><blockqu
 </table></div>
 <a id="fig:startserver"></a>
 <div class="center"><hr style="width:80%;height:2"></div></blockquote>
-<h3 id="sec152" class="subsection">8.3.2&#XA0;&#XA0;Connecting CBIva to the CBserver</h3>
-<p>Next we establish a connection between the <em>ConceptBas.cc</em> server and the user
+<h3 id="sec155" class="subsection">8.3.2&#XA0;&#XA0;Connecting CBIva to another CBserver</h3>
+<p>By default, CBIva will automatically connect to a local or public CBserver when started.
+If you want to start a CBserver with dedicated parameters from CBNIva, then first 
+select <span style="font-weight:bold">File/Disconnect</span> and then
+establish a new connection between the <em>ConceptBase.cc</em> server and the user
 client CBIva. This is done by choosing the option <span style="font-weight:bold">Connect</span>
 from the File menu of CBIva. An interaction window
 appears (see Figure <a href="#fig%3Aconnectserver">8.14</a>) querying for the host name
@@ -968,13 +997,13 @@ the command <span style="font-family:monospace">cbserver -port 4001 -d test</spa
 </table></div>
 <a id="fig:connectserver"></a>
 <div class="center"><hr style="width:80%;height:2"></div></blockquote>
-<h3 id="sec153" class="subsection">8.3.3&#XA0;&#XA0;Loading objects from external files</h3>
+<h3 id="sec156" class="subsection">8.3.3&#XA0;&#XA0;Loading objects from external files</h3>
 <p>The objects manipulated by <em>ConceptBase.cc</em> are persistently stored in a
-collection of external files, which reside in a directory called <span style="font-weight:bold">application</span> or <span style="font-weight:bold">database</span><sup><a id="text44" href="#note44">10</a></sup>. The actual directory name of the
+collection of external files, which reside in a directory called <span style="font-weight:bold">application</span> or <span style="font-weight:bold">database</span><sup><a id="text45" href="#note45">10</a></sup>. The actual directory name of the
 database is supplied as the -d parameter of the command <span style="font-family:monospace">CBserver</span>.</p><p>The -u parameter of the <span style="font-family:monospace">CBserver</span> specifies whether updates are made
 persistent or are just kept in system memory temporarily. Use <span style="font-family:monospace">-u
 persistent</span> for a update persistence or <span style="font-family:monospace">-u nonpersistent</span> for a
-non persistent update mode <sup><a id="text45" href="#note45">11</a></sup>.</p><p>The database can be modified interactively using the editor commands
+non persistent update mode <sup><a id="text46" href="#note46">11</a></sup>.</p><p>The database can be modified interactively using the editor commands
 TELL/UNTELL.
 Another way of extending ConceptBase.cc databases is to load Telos objects (expressed
 in frame syntax) stored in plain text files with the extension *.sml. Call the menu
@@ -994,7 +1023,7 @@ checks for syntactical and semantical correctness and reports all errors to
 the history window as it is done when updating the object base interactively using the
 editor. This protocol field collects all operations and errors reported since the beginning of
 the session.</p>
-<h3 id="sec154" class="subsection">8.3.4&#XA0;&#XA0;Displaying objects</h3>
+<h3 id="sec157" class="subsection">8.3.4&#XA0;&#XA0;Displaying objects</h3>
 <p>To display all instances of an object, e.g. the class <span style="font-family:monospace">Employee</span>, we invoke
 the Display Instance facility by
 selecting the item <span style="font-weight:bold">Display Instances</span> from the menu bar. In the
@@ -1006,7 +1035,7 @@ instances of the class <span style="font-family:monospace">Employee</span> are t
 <a id="fig:session_display"></a>
 <div class="center"><hr style="width:80%;height:2"></div></blockquote><p>After selecting a displayed instance we can load the frame representation
 of an instance to the Telos Editor or display further instances.</p>
-<h3 id="sec155" class="subsection">8.3.5&#XA0;&#XA0;Browsing objects</h3>
+<h3 id="sec158" class="subsection">8.3.5&#XA0;&#XA0;Browsing objects</h3>
 <p>The <em>Graph Editor</em> is the preferred tool for browsing the objects managed
 by a CBserver.
 CBGraph is started by using the menu item &#X201C;Graph Editor&#X201D; from the &#X201C;Browse&#X201D;
@@ -1081,8 +1110,8 @@ will be always empty as only explicit attributes can be displayed in this catego
 </table></div>
 <a id="fig:graph_impl"></a>
 <div class="center"><hr style="width:80%;height:2"></div></blockquote>
-<h3 id="sec156" class="subsection">8.3.6&#XA0;&#XA0;Editing Telos objects</h3>
-<h4 id="sec157" class="subsubsection">Editing Telos objects with the Telos editor</h4>
+<h3 id="sec159" class="subsection">8.3.6&#XA0;&#XA0;Editing Telos objects</h3>
+<h4 id="sec160" class="subsubsection">Editing Telos objects with the Telos editor</h4>
 <p>Before we are able to edit a Telos object, we have to load its frame
 representation in to the Telos Editor field first. For loading a Telos
 object to the Editor field, we choose the <span style="font-weight:bold">Telos Editor</span> Button from
@@ -1121,7 +1150,7 @@ Therefore, we select the object <span style="font-family:monospace">Employee</sp
 update selected objects&#X201D; from the menu &#X201C;Current connection&#X201D;. The cache
 for the object <span style="font-family:monospace">Employee</span> will be emptied. Now, showing all attributes
 should add the new attribute <span style="font-family:monospace">education</span> to the graph.</p>
-<h4 id="sec158" class="subsubsection">Editing Telos objects using CBGraph</h4>
+<h4 id="sec161" class="subsubsection">Editing Telos objects using CBGraph</h4>
 <p>Telos objects can also be edited graphically in CBGraph. In our
 example, we want to add another attribute named <span style="font-family:monospace">address</span> to the class <span style="font-family:monospace">Employee</span>.
 The attribute destination of this attribute should be a new class called <span style="font-family:monospace">Address</span>.</p><p>First, we select the object Employee and click on the &#X201C;Create Attribute&#X201D; button in
@@ -1172,7 +1201,7 @@ a turquoise box. The result is shown in figure <a href="#fig%3Agraph_commit">8.2
 <span style="font-family:monospace">Employee</span> is shown in the detailed component view, in this case the
 frame representation of the object is shown. As you can see, the attribute
 <span style="font-family:monospace">address</span> is now also visible in the frame representation.</p>
-<h3 id="sec159" class="subsection">8.3.7&#XA0;&#XA0;Using the query facility</h3>
+<h3 id="sec162" class="subsection">8.3.7&#XA0;&#XA0;Using the query facility</h3>
 <p>Lets assume that we need to ask the server for all <span style="font-family:monospace">Employees</span> working for <span style="font-family:monospace">Angus</span>. 
 We open a new Telos Editor (see menu item Browse).
 Then, we define a new query class (<span style="font-family:monospace">AngusEmployees</span>) as follows:</p><pre class="verbatim">AngusEmployees in QueryClass isA Employee with
@@ -1195,7 +1224,7 @@ hit on the &#X201C;Submit Query&#X201D;. The query will be evaluated and the obj
 will be shown in the list box. We can select the objects which should be added to the graph
 (multiple selection with the Shift-key is possible) and click on the &#X201C;Show objects&#X201D; button.
 The selected objects will be added to the graph, however with no connection to existing objects.</p>
-<h2 id="sec160" class="section">8.4&#XA0;&#XA0;Configuration file</h2>
+<h2 id="sec163" class="section">8.4&#XA0;&#XA0;Configuration file</h2>
 <p>
 <a id="sec:config"></a></p><p>The configuration options are stored in a file &#X201C;.CBjavaInterface&#X201D; in
 the home directory of the user. The settings are stored automatically on exit.
@@ -1211,9 +1240,11 @@ Variables related to CBIva
 </dd><dt class="dt-description"><span style="font-weight:bold">ConnectionTimeout:</span></dt><dd class="dd-description"> Number of milliseconds the interface waits for a response of the server
 </dd><dt class="dt-description"><span style="font-weight:bold">LPICall:</span></dt><dd class="dd-description"> Enable LPI-Call (internal use only).
 </dd><dt class="dt-description"><span style="font-weight:bold">ShowLineNumbers:</span></dt><dd class="dd-description"> If set to &#X2019;true&#X2019;, the Telos editor of CBIva shall display line numbers.
+</dd><dt class="dt-description"><span style="font-weight:bold">CBIvaSmallfont:</span></dt><dd class="dd-description"> The font size of the TelosEditor text and log area as regular (small) font, default "12f".
+</dd><dt class="dt-description"><span style="font-weight:bold">CBIvaLargefont:</span></dt><dd class="dd-description"> The font size of the TelosEditor text and log area as large font, default "18f".
 </dd><dt class="dt-description"><span style="font-weight:bold">PublicCBserver:</span></dt><dd class="dd-description"> Either &#X2019;none&#X2019; (=disabled) or the domain name of a computer that hosts a publicly accessible
 ConceptBase server. A port number can be appended as well like in &#X2019;cbserver.acme.com/4002&#X2019;. Default port number is 4001.
-The variable PublicCBserver also applies to CBGraph and CBShell. See section <a href="cbm007.html#sec%3Apubcbserver">6.5</a> for more details. If the value is different
+The variable PublicCBserver also applies to CBGraph and CBShell. See section <a href="cbm007.html#sec%3Apubcbserver">6.6</a> for more details. If the value is different
 from &#X2019;none&#X2019;, then CBIva shall attempt to connect to the public CBserver at startup.
 </dd></dl></li><li class="li-itemize">Variables related to CBGraph
 <dl class="description"><dt class="dt-description">
@@ -1224,51 +1255,41 @@ from &#X2019;none&#X2019;, then CBIva shall attempt to connect to the public CBs
 </dd><dt class="dt-description"><span style="font-weight:bold">DiagramDesktopBackgroundColor:</span></dt><dd class="dd-description"> Background color of the desktop of CBGraph (comma-separated representation of an RGB-value).
 </dd><dt class="dt-description"><span style="font-weight:bold">DebugLevel:</span></dt><dd class="dd-description"> Level for debug messages. Possible values are SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST
 (according to the java.util.logging package). Default is WARNING.
+</dd><dt class="dt-description"><span style="font-weight:bold">ModuleSeparator:</span></dt><dd class="dd-description"> Can be either &#X2019;-&#X2019; or &#X2019;/&#X2019;. 
 </dd><dt class="dt-description"><span style="font-weight:bold">NodeLevelAware:</span></dt><dd class="dd-description"> Enables or disables the special behavior of nodes with negative level in CBGraph. See also
 section <a href="cbm012.html#sec%3Anodelevel">C.3.2</a>. Default is "true".
 </dd></dl>
 </li></ul>
 <hr class="footnoterule"><dl class="thefootnotes"><dt class="dt-thefootnotes">
-<a id="note35" href="#text35">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">In rare circumstances, you may have to
+<a id="note36" href="#text36">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">In rare circumstances, you may have to
 edit the script files cbiva, cbgraph and cbshell, so that the correct Java Virtual Machine is used and the environment
 variable <span style="font-family:monospace">CB_HOME</span> points to the installation directory. See Installation Guide 
-in the CB-Forum for details.</div>
-</dd><dt class="dt-thefootnotes"><a id="note36" href="#text36">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">This is <em>not</em> the standard way to start the CBserver. Normally, the CBserver
+in the CB-Forum for details.</div></dd><dt class="dt-thefootnotes"><a id="note37" href="#text37">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">The query can either be a query call
+referring to an existing query
+or a frame representing a new or existing query definition.</div></dd><dt class="dt-thefootnotes"><a id="note38" href="#text38">3</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">This is <em>not</em> the standard way to start the CBserver. Normally, the CBserver
 is started in a separate shell/command window as explained in section <a href="cbm007.html#cha%3Acbserver">6</a>. The standard
 way offers more options and control over the CBserver. See also the installation guide for
-a discussion on the various ways to start ConceptBase.</div>
-</dd><dt class="dt-thefootnotes"><a id="note37" href="#text37">3</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Usually, one only asks a single query call like <span style="font-family:monospace">Q[v1/p1]</span>. However, ConceptBase.cc also
+a discussion on the various ways to start ConceptBase.</div></dd><dt class="dt-thefootnotes"><a id="note39" href="#text39">4</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Usually, one only asks a single query call like <span style="font-family:monospace">Q[v1/p1]</span>. However, ConceptBase.cc also
 supports comma-separated lists of query calls like <span style="font-family:monospace">Q1[v1/p1],Q2[c1:p2]</span>. Such lists of query calls
 are evaluated one after the other. The results is merged into a single answer. For technical reasons,
-calls to builtin query classes like <span style="font-family:monospace">get_object[Class/objname]</span> may only occur as a singleton.</div>
-</dd><dt class="dt-thefootnotes"><a id="note38" href="#text38">4</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">
+calls to builtin query classes like <span style="font-family:monospace">get_object[Class/objname]</span> may only occur as a singleton.</div></dd><dt class="dt-thefootnotes"><a id="note40" href="#text40">5</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">
 Under Linux with Gnome, the default web browser is used to display the content. Otherwise, a Java window capable of
 displaying HTML is opened. Due to unknown reasons, the mechanism works for Linux only if at least two browser tools are installed.
-You may want to install Chromium as second browser besides Firefox to fulfill the constraint.</div>
-</dd><dt class="dt-thefootnotes"><a id="note39" href="#text39">5</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">The query can either be a query call
-referring to an existing query
-or a frame representing a new or existing query definition.</div>
-</dd><dt class="dt-thefootnotes"><a id="note40" href="#text40">6</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Visible queries are those queries that are not instantiated to the class
-<span style="font-family:monospace">HiddenObject</span>. Functions and certain system queries are excluded from the display.</div>
-</dd><dt class="dt-thefootnotes"><a id="note41" href="#text41">7</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">
+You may want to install Chromium as second browser besides Firefox to fulfill the constraint.</div></dd><dt class="dt-thefootnotes"><a id="note41" href="#text41">6</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Visible queries are those queries that are not instantiated to the class
+<span style="font-family:monospace">HiddenObject</span>. Functions and certain system queries are excluded from the display.</div></dd><dt class="dt-thefootnotes"><a id="note42" href="#text42">7</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">
 If you load a graph file that was created with different graphical types
 than the ones defined in the CBserver module that CBGraph might be connected to,
 then the graph file is inconsistent with the current CBserver module.
 You may be able to repair the inconsistency via the menu option
 Current connection / change graphical palette. Likewise, some objects displayed
 in the graph could be undefined in the database. You can validate them by one
-of the validation tabs in the menu "Current connection". </div>
-</dd><dt class="dt-thefootnotes"><a id="note42" href="#text42">8</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">You can unselect an object
-by holding down the Control key and clicking on the object.</div>
-</dd><dt class="dt-thefootnotes"><a id="note43" href="#text43">9</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">A full list of all parameters is described in section <a href="cbm007.html#cha%3Acbserver">6</a>.
+of the validation tabs in the menu "Current connection". </div></dd><dt class="dt-thefootnotes"><a id="note43" href="#text43">8</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">You can unselect an object
+by holding down the Control key and clicking on the object.</div></dd><dt class="dt-thefootnotes"><a id="note44" href="#text44">9</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">A full list of all parameters is described in section <a href="cbm007.html#cha%3Acbserver">6</a>.
 Note that the script <span style="font-family:monospace">CBserver</span> must be in the search path. It is available in
-the subdirectory <span style="font-family:monospace">bin</span> of your ConceptBase.cc installation directory.</div>
-</dd><dt class="dt-thefootnotes"><a id="note44" href="#text44">10</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Historically, we used the terms &#X2019;application&#X2019; or &#X2019;object base&#X2019; instead &#X2019;database&#X2019;.
-We now believe that &#X2019;database&#X2019; is a much better term.</div>
-</dd><dt class="dt-thefootnotes"><a id="note45" href="#text45">11</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">In nonpersistent update mode, the database
+the subdirectory <span style="font-family:monospace">bin</span> of your ConceptBase.cc installation directory.</div></dd><dt class="dt-thefootnotes"><a id="note45" href="#text45">10</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Historically, we used the terms &#X2019;application&#X2019; or &#X2019;object base&#X2019; instead &#X2019;database&#X2019;.
+We now believe that &#X2019;database&#X2019; is a much better term.</div></dd><dt class="dt-thefootnotes"><a id="note46" href="#text46">11</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">In nonpersistent update mode, the database
 is actually copied to a temporary directory. This copy will be removed
-when you shutdown the server.</div>
-</dd></dl>
+when you shutdown the server.</div></dd></dl>
 <hr>
 <a href="cbm008.html"><img src="previous_motif.gif" alt="Previous"></a>
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>

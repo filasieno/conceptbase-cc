@@ -1,17 +1,15 @@
 \newif\ifimagen\imagentrue
 \documentclass[10pt,a4paper]{report}
-\usepackage{hevea}\newcommand{\epsfbox}[1]{%
- \begin{toimage}
+\usepackage{hevea}\newcommand{\epsfbox}[1]{\begin{toimage}
  \epsfbox{#1}
  \end{toimage}
  \imageflush}
 \setcounter{tocdepth}{2}
-\usepackage{graphicx}\usepackage{html}\usepackage{a4}\usepackage{a4wide}\usepackage{longtable}\usepackage{times}\newcommand{\relnr}{8.0}
-\newcommand{\reldate}{2017-03-24}
-\newcommand{\relnrwodot}{80}
+\usepackage{graphicx}\usepackage{html}\usepackage{a4}\usepackage{a4wide}\usepackage{longtable}\usepackage{times}\newcommand{\relnr}{8.1}
+\newcommand{\reldate}{2017-05-27}
+\newcommand{\relnrwodot}{81}
 \newcommand{\longcom}[1]{}
-\newcommand{\cbfigure}[3]{%
-  \begin{figure}[hptb]
+\newcommand{\cbfigure}[3]{\begin{figure}[hptb]
   \centerline{\includegraphics[width=#2]{#1}}
   \caption{#3}
   \label{fig:#1}
@@ -59,7 +57,7 @@
 \clearpage% page: 9
 \includegraphics[width=6.5cm]{mod_hierarchy}
 \clearpage% page: 10
-\includegraphics[width=13cm]{cbivamain}
+\includegraphics[width=12cm]{cbivamain}
 \clearpage% page: 11
 \includegraphics[width=0.6\textwidth]{historybuttons}
 \clearpage% page: 12

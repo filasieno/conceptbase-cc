@@ -33,22 +33,64 @@ There are four options for the answer format:
       the answer shall be returned as a comma-separated list of object names, e.g.\ 
       {\tt bill, mary, john}
 \item[{\tt FRAME}:]
-      the answer shall be returned as a list of Telos frames, iff the query
-      does not have a user-defined answer format, see {\tt forQuery} attribute
-      below. If there is an answer format with a {\tt forQuery} attribute
-      for the current query, it will be selected. If there are more than one,
-      the first one is selected.
-\item[{\tt default}:]
-      This value is leaving the choice to the ConceptBase server. For function
-      calls, the answer format {\tt LABEL} is selected, for other query calls, the format
-      {\tt FRAME} is selected.
-      The main purpose of this format is to provide a more intuitive behavior of CBIva
-      when used for interactively querying ConceptBase. 
+      the answer shall be returned as a list of Telos frames. 
+\item[{\tt JSONIC}:]
+      the answer shall be returned as a list of JSON-like frames (experimental).
 \item[{\em answer-format-name}:]
       Finally, the name of a user-defined answer format can be provided, like {\tt MyFormat}.
       This will override any answer format that is assigned via the {\tt forQuery} attribute
       for the given query. Hence, one can maintain several answer formats for the same query.
+\item[{\tt default}:]
+      This value is leaving the choice to the ConceptBase server. For function
+      calls, the answer format {\tt LABEL} is selected, for other query calls,
+      ConceptBase first checks if an answer format was defined for the query (attribute {\tt forQuery}).
+      If that exists, it is selected, otherwise the format
+      {\tt FRAME} is selected. If there are more than one,
+      the first one is selected.
 \end{description}
+
+The answer format {\tt JSONIC} is an alternative to {\tt FRAME}. Here is an example contrasting
+the two formats. The first two entries are in {\tt FRAME} format, the latter two in {\tt JSONIC}.
+If the attribute category is {\tt attribute}, then it is surpressed in the {\tt JSONIC} format.
+
+\begin{verbatim}
+Employee in Class isA Person,Agent with
+  attribute
+     salary: Integer;
+     name: String
+  rule
+     r1: $ forall e/Employee exists s/Integer (e salary s) $
+end
+
+bill in Employee with
+  salary
+     bsal: 1000
+  name
+     firstname: "William";
+     lastname: "Smith"
+  attribute
+     creator: mjeu
+end
+
+
+{ "id" : "Employee",
+  "type" : ["Class"],
+  "super" : ["Person","Agent"],
+  "salary" : "Integer",
+  "rule/r1" : "$ forall e/Employee exists s/Integer (e salary s) $"
+}
+
+{ "id" : "bill",
+  "type" : ["Employee"],
+  "salary/bsal" : "1000",
+  "name/firstname" : "\"William\#",
+  "name/lastname" : "\"Smith\"",
+  "creator": "mjeu"
+}
+\end{verbatim}
+
+
+
 
 The command {\tt ask <querycall>}
 is a shortcut for
@@ -72,7 +114,7 @@ and also
    ask Q[abc/param1] OBJNAMES MyFormatB Now
 \end{verbatim}
 If we assign {\tt MyFormatB} to Q via the {\tt forQuery} attribute, the last call is equivalent to
-the first call using {\tt FRAME}.
+the first call using {\tt default} as answer format name.
 
 Subsequently, the specification of such user-defined answer formats is presented.
 
@@ -144,7 +186,12 @@ end
 
 The first attribute assigns an answer format to a query class (a query may have at most one answer format). The second and third attribute specify
 the sorting order of the answer, i.e. one can specify by which field an answer is sorted, and whether the answer objects are sorted `ascending' or
-`descending' (much like in SQL).
+`descending' (much like in SQL). The 'orderBy' attribute specifies the property by which the answer shall be sorted.
+The most common value is the expression "this", i.e.\ sort the answer by the name of the objects in the answer. You can also
+specify an attribute expression such as "this.name" referring to an answer variable. If you specify "none" for 'orderBy',
+then the answer is not sorted. If the number of objects in an answer exceeds 5000, then no sorting is applied due to
+memory limitations.
+
 
 The `head', `pattern', and `tail' arguments are strings that define the substring substitution when the answer is formatted. They contain substrings of
 type {expr} that are replaced. The head and tail strings are evaluated once, independent form the answer to the query. Usually, they do not
@@ -285,7 +332,7 @@ do not refer to the variable {\em this}.
 outputs the user name of the current transaction; typically has the structure name@address
 
 \item[\{transactiontime\}]
-the time when the current transaction was started; has format YYYY/MM/DD hh:mm:ss and is based on Coordinated Universal Time (UTC),
+the time when the current transaction was started; has format YYYY-MM-DD hh:mm:ss and is based on Coordinated Universal Time (UTC),
 formerly known as Greenwhich Mean Time
 
 \item[\{cb\_version\}]
@@ -408,9 +455,9 @@ The following simple function patterns are pre-defined:
 
 \begin{itemize}
 
-\item \verb+{QT(expr)}+ puts the {\tt expr} into double quotes. 
+\item \verb+{QT(expr)}+ puts the {\tt expr} into double quotes if not already quoted. 
 
-\item \verb+{UQ(expr)}+ removes double quotes from {\tt expr}.
+\item \verb+{UQ(expr)}+ removes double quotes from {\tt expr} if present.
 
 \item \verb+{ALPHANUM(expr)}+ outputs an alphanumeric transcription of {\tt expr}.
 This is useful when an object names contains special characters but the
@@ -443,7 +490,7 @@ the ConceptBase server, can also be called in an answer format.
 The programming interface is not documented here since this requires
 extensive knowledge of the ConceptBase server source code. 
 For the experienced user, we provide an example in  the 
-subdirectory {\tt Examples/AnswerFormat} of the ConceptBase installation
+subdirectory {\tt examples/AnswerFormat} of the ConceptBase installation
 directory, see files {\tt externalcall.sml} and
 {\tt externalcall.swi.lpi} ({\tt externalcall.bim.lpi} for BIM-Prolog variant). 
 Note that one has to create a persistent database, load the model {\tt externalcall.sml} into it, then terminate
@@ -459,35 +506,37 @@ A query call within an answer format is an example of a so-called external proce
 The pattern as well as head and tail of an answer format may contain the call to a query (possibly the same for which the answer format was
 defined for). This allows to generate arbitrarily complex answers.
 
-\verb+{ASKquery(Q[subst1,subst2,...],FRAME)}+
+\verb+{ASKquery(Q[subst1,subst2,...],formatname)}+
 
 The argument {\tt Q} is the name of a query. The arguments {\tt subst1,subst2} are parameter substitutions (see section \ref{sec:CBQL}). The argument
-`FRAME' is the default answer format specified for the query Q. It shall be overridden
-in case that query Q has itself an answer format. Instead of `FRAME' the user can also
-specify any answer format in the ASKquery call, even parameterized answer formats (see below)
-are allowed.
+{\tt formatname} specifies the answer format for the query call {\tt Q[subst1,subst2,...]}. The answer format may also have parameters (see below).
+If you use {\tt default} as answer format name, then the ConceptBase server will pick the default format. This is {\tt LABEL} (list of object names) for
+function calls.
+For other queries, it is the first answer format that list the query {\tt Q} in its {\tt forQuery} attribute. If no such answer format exists,
+the format {\tt FRAME} (Telos frames) is chosen.
 
-The effect of ASKquery in an answer format is that the above query call is evaluated
-and the ASKquery expression is replaced by the complete answer to the query.
+
+The effect of {\tt ASKquery} in an answer format is that the above query call is evaluated
+and the {\tt ASKquery} expression is replaced by the complete answer to the query.
 In terms of the substitution, the following rule is applied:
 
-   \verb+{ASKquery(Q[subst1,subst2,...],FRAME)}+ $\longrightarrow$ {\tt X}
+   \verb+{ASKquery(Q[subst1,subst2,...],default)}+ $\longrightarrow$ {\tt X}
 
 where {\tt X} is the result of the query call \verb+Q[subst1,subst2,...]+ after derivation of the arguments subst1, subst2 etc. This sequencing is important since
 an ASKquery call can contain terms that are subject to substitution, e.g.\
 \newline
-\verb+{ASKquery(MyQuery[{this.cat1}/param1,{this.{x1}}/{x2}],FRAME)}+.
+\verb+{ASKquery(MyQuery[{this.cat1}/param1,{this.{x1}}/{x2}],default)}+.
 \newline
 ConceptBase will always start to evaluate left to right and the
 innermost terms before evaluating the terms that contain inner terms. Hence, the derivation sequence is
 
 {\small
 \begin{tabular}{rll}
-   & \verb+{ASKquery(MyQuery[{this.cat1}/param1,{this.{x1}}/{x2}],FRAME)}+ & \\
- $\Longrightarrow$ & \verb+{ASKquery(MyQuery[alpha/param1,{this.{x1}}/{x2}],FRAME)}+ & (r2)\\
- $\Longrightarrow$ & \verb+{ASKquery(MyQuery[alpha/param1,{this.name}/{x2}],FRAME)}+ & (r1)\\
- $\Longrightarrow$ & \verb+{ASKquery(MyQuery[alpha/param1,"smith"/{x2}],FRAME)}+     & (r3)\\
- $\Longrightarrow$ & \verb+{ASKquery(MyQuery[alpha/param1,"smith"/param2],FRAME)}+   & (r4)\\
+   & \verb+{ASKquery(MyQuery[{this.cat1}/param1,{this.{x1}}/{x2}],default)}+ & \\
+ $\Longrightarrow$ & \verb+{ASKquery(MyQuery[alpha/param1,{this.{x1}}/{x2}],default)}+ & (r2)\\
+ $\Longrightarrow$ & \verb+{ASKquery(MyQuery[alpha/param1,{this.name}/{x2}],default)}+ & (r1)\\
+ $\Longrightarrow$ & \verb+{ASKquery(MyQuery[alpha/param1,"smith"/{x2}],default)}+     & (r3)\\
+ $\Longrightarrow$ & \verb+{ASKquery(MyQuery[alpha/param1,"smith"/param2],default)}+   & (r4)\\
  $\Longrightarrow$ & \verb+The answer is ...+                                        & (r5)\\
 \end{tabular}
 }
@@ -499,28 +548,28 @@ r1: & \verb+{x1}+ & $\longrightarrow$ & {\tt name} \\
 r2: & \verb+{this.cat1}+ & $\longrightarrow$ & {\tt alpha} \\
 r3: & \verb+{this.name}+ & $\longrightarrow$ & \verb+"smith"+ \\
 r4: & \verb+{x2}+ & $\longrightarrow$ & {\tt param2} \\
-r5:  & \verb+{ASKquery(MyQuery[...],FRAME)}+ & $\longrightarrow$ & {\tt The answer is ...}\\
+r5:  & \verb+{ASKquery(MyQuery[...],default)}+ & $\longrightarrow$ & {\tt The answer is ...}\\
 \end{tabular}
 
 This guarantees that the query call is `ground', i.e. does not contains terms which are subject to substitution.
 
-The ASKquery construct allows to introduce recursive calls during the derivation of a query since there can (and should) be an answer format for Q
-which may contain expressions ASKquery itself. In principle, this allows infinite looping. However, the answer format evaluator prevents such
+The {\tt ASKquery} construct allows to introduce recursive calls during the derivation of a query since there can (and should) be an answer format for Q
+which may contain expressions {\tt ASKquery} itself. In principle, this allows infinite looping. However, the answer format evaluator prevents such
 loops by halting the expansion when a recursive call with same parameters has occured. The answer then contains an `\~' character at the position
 where the loop was detected. Additionally, an error message is written on the console window
 of the ConceptBase server (tracemode must be at least low).
 
-A simple example for use of ASKquery is given in {\tt recursive-answers.sml}. The example uses a view instead of a query class in order to include
+A simple example for use of {\tt ASKquery} is given in {\tt recursive-answers.sml}. The example uses a view instead of a query class in order to include
 also answers into the solution which not have a filler for the requested attribute, i.e. hasChild is {\tt inherited\_attribute}, not
 {\tt retrieved\_attribute}.
 
-It is common practice to combine the ASKquery construct with `Foreach' in order to display an iteration of objects in the same way. The user
+It is common practice to combine the {\tt ASKquery} construct with `Foreach' in order to display an iteration of objects in the same way. The user
 should define an answer format for the iterated query Q as well.
 
-Do not mix the use of ASKquery with the view definitions in ConceptBase! The nesting depth of a view is determined by the view definition. The
-nesting depth of an answer generated by expansion of ASKquery is only limited by the complexity of the database. For example, one can set up
+Do not mix the use of {\tt ASKquery} with the view definitions in ConceptBase! The nesting depth of a view is determined by the view definition. The
+nesting depth of an answer generated by expansion of {\tt ASKquery} is only limited by the complexity of the database. For example, one can set up
 an ancestor database and display all descendants of a person and recursivley their descendants in a single answer string for that person.
-The nested ASKquery inside an answer format usually results in the unfolding also using
+The nested {\tt ASKquery} inside an answer format usually results in the unfolding also using
 an answer format (possibly the same as used for the original query). This feature
 allows the user to specify very complex structured answers that might even contain the
 complete database. In particular, complex XML representations can be constructed
@@ -530,7 +579,7 @@ in this way.
 \subsection{Expressions in head and tail}
 
 The features `head' and `tail' are similar to pattern. The difference is that any expression using `this' (the running variable for answer objects) is disallowed.
-This only leaves function patterns such as ASKquery expressions and pre-defined patterns such as  \verb+{user}+.
+This only leaves function patterns such as {\tt ASKquery} expressions and pre-defined patterns such as  \verb+{user}+.
 Of course, the head and tail strings can contain multiple occurences
 of ASKquery or other function patterns.
 
@@ -613,12 +662,15 @@ is the query, the second argument is the format of the query (in this example, i
 the third argument is the answer representation, and the last argument is the rollback time.
 
 The third argument, is the the answer representation.
-There are three predefined answer representations. {\tt FRAME} returns the answers as
+There are four predefined answer representations. {\tt FRAME} returns the answers as
 Telos frames, including retrieved and computed attributes. {\tt LABEL} returns only
-the names of the answer objects as a comma-separated list. Thirdly, {\tt default}
-lets the CBserver choose between {\tt LABEL}  (for function calls) and {\tt FRAME}
-(otherwise). Besides these pre-defined answer representations, one can specify
-user-defined answer formats. 
+the names of the answer objects as a comma-separated list. Thirdly, the format 
+{\tt JSONIC} returns the answer in JSON-like frames.
+Finally, {\tt default}
+lets the CBserver choose between {\tt LABEL}  (for function calls), the explicit answer format assigned for
+a query (attribute {\tt forQuery}),
+and {\tt FRAME} (otherwise). Besides these pre-defined answer representations, one can specify
+user-defined answer formats. This is also the preferred way.
 In our case, it is a parameterized answer format: \verb+AFParameter[somevalue/somevar]+.
 This means that the result of the query will be formatted according to
 the answer format {\tt AFParameter} and the variable {\tt somevar}
@@ -632,11 +684,9 @@ specified, the string \verb+{somevar}+ will not be replaced.
 {\small
 \begin{verbatim}
 Individual AFParameter in AnswerFormat with
-  attribute,head
-     hd : "<result>"
-  attribute,tail
-     tl : "</result>"
-  attribute,pattern
+  head hd : "<result>"
+  tail tl : "</result>"
+  pattern
      p : "
 <object>
   <type>{somevar}</type>

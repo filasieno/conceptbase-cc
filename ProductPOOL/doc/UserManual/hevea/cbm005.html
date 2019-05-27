@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html >
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<meta name="generator" content="hevea 2.09">
+<meta name="generator" content="hevea 2.23">
 <link rel="stylesheet" type="text/css" href="cb-style.css"><link rel="stylesheet" type="text/css" href="cbm.css">
 <title>Active Rules</title>
 </head>
@@ -11,7 +11,7 @@
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
 <a href="cbm006.html"><img src="next_motif.gif" alt="Next"></a>
 <hr>
-<h1 id="sec62" class="chapter">Chapter&#XA0;4&#XA0;&#XA0;Active Rules</h1>
+<h1 id="sec63" class="chapter">Chapter&#XA0;4&#XA0;&#XA0;Active Rules</h1>
 <p>
 <a id="sec:eca"></a></p><p>Active rules specify certain actions that have to
 be executed if an event occurs and a condition is fulfilled at this time.
@@ -42,7 +42,7 @@ the ECArule.</p><p>The effect of ECArules is subject to the regular integrity ch
 If an integrity violation is detected, then the whole transaction including all
 updates by ECArules is rolled back. The integrity test is started after all enabled
 ECArules have fired.</p>
-<h2 id="sec63" class="section">4.1&#XA0;&#XA0;Definition of ECArules</h2>
+<h2 id="sec64" class="section">4.1&#XA0;&#XA0;Definition of ECArules</h2>
 <p>In ConceptBase, active rules are defined similar to query classes.
 The user has to create an instance of the builtin class <span style="font-family:monospace">ECArule</span>.
 The following frame shows the Telos definition of the class <span style="font-family:monospace">ECArule</span>.</p><pre class="verbatim"><span style="font-size:small">Class ECArule with
@@ -61,7 +61,7 @@ end
 the other attributes are optional. The language for <span style="font-family:monospace">ECAassertions</span>
 is a extension of the assertion language, it is specified as text between
 <code>$</code> signs in the same way as rules and constraints.</p>
-<h3 id="sec64" class="subsection">4.1.1&#XA0;&#XA0;ECAassertion</h3>
+<h3 id="sec65" class="subsection">4.1.1&#XA0;&#XA0;ECAassertion</h3>
 <p>An ECAassertion has the following structure (the syntax is described
 in section <a href="cbm010.html#sec%3Aecasyntax">A.3</a>).
 </p><pre class="verbatim"><span style="font-size:small">$ x1,x2/C1 y1/C2  ...
@@ -89,7 +89,7 @@ with the TRANSACTIONAL modifier or the FOR clause.</p><pre class="verbatim"><spa
     DO action1, action2  ...           DO action1, action2  ...
   $                                  $
 </span></pre>
-<h3 id="sec65" class="subsection">4.1.2&#XA0;&#XA0;Events</h3>
+<h3 id="sec66" class="subsection">4.1.2&#XA0;&#XA0;Events</h3>
 <p>Possible events are the insertion (Tell) or deletion (Untell) of attributes (A),
 instantiation links (In), or specialization links (Isa). For example,
 if the rule should be executed if an object is inserted as instance
@@ -105,7 +105,7 @@ Events that can be deduced by a rule or a query are not detected.
 However, the algorithm is aware of the predefined Telos axioms, e.g.
 if an object is declared as an instance of a class, the object is also an instance
 of the super classes of this class.</p>
-<h3 id="sec66" class="subsection">4.1.3&#XA0;&#XA0;Conditions</h3>
+<h3 id="sec67" class="subsection">4.1.3&#XA0;&#XA0;Conditions</h3>
 <p>The condition (IF-part) of an ECArule consists of predicates 
 combined by the logical operators &#X2019;and&#X2019;, &#X2019;or&#X2019;,
 and &#X2019;not&#X2019;. Quantified sub-expressions (<span style="font-family:monospace">forall</span>, <span style="font-family:monospace">exists</span>) are not allowed.
@@ -125,7 +125,7 @@ is supported as well and equivalent to the use of the backward apostrophe.
 Note that only conditions of ECA rules can see intermediate database states.
 If the whole condition shall be evaluated against the new database state, the
 use the clause <span style="font-family:monospace">IFNEW</span> instead <span style="font-family:monospace">IF</span>. </p>
-<h3 id="sec67" class="subsection">4.1.4&#XA0;&#XA0;Actions</h3>
+<h3 id="sec68" class="subsection">4.1.4&#XA0;&#XA0;Actions</h3>
 <p>Actions are specified in a comma-separated list. The syntax is similar
 to that one of events, except that you can also ask queries (Ask)
 and call Prolog predicates (<span style="font-family:monospace">Call</span>). The standards actions are as follows:</p><dl class="description"><dt class="dt-description"><span style="font-weight:bold">Tell </span><span style="font-weight:bold"><em>predicate</em></span></dt><dd class="dd-description"> : The predicate fact is told to the system. The predicate must be
@@ -139,7 +139,7 @@ This action can be used to trigger other ECArules that have a matching Ask event
 All parameters should be bound. The <em>query</em> may not be a builtin query class or function.</dd><dt class="dt-description"><span style="font-weight:bold">noop</span></dt><dd class="dd-description">: This action stands for "no operation", i.e. nothing is done. It can be useful for
 certain constructions with empty DO parts.</dd><dt class="dt-description"><span style="font-weight:bold">reject</span></dt><dd class="dd-description">: The current transaction is aborted and the database state is rolled back. </dd></dl><p>Instead of the capitalized action names <span style="font-family:monospace">Tell</span> you can also use the small caps variant
 <span style="font-family:monospace">tell</span>. The same rule is applicable for <span style="font-family:monospace">Untell</span>, <span style="font-family:monospace">Retell</span>, <span style="font-family:monospace">Ask</span>, <span style="font-family:monospace">Raise</span>,
-and <span style="font-family:monospace">Call</span>. Analogously, the event statements in the ON-part of an ECArule can laso use the
+and <span style="font-family:monospace">Call</span>. Analogously, the event statements in the ON-part of an ECArule can also use the
 small caps variants.</p><p>All variables in Tell, Untell and Retell<sup><a id="text22" href="#note22">2</a></sup>
 actions must be bound. The insertion of an attribute <span style="font-family:monospace">A(x,ml,y)</span> is only done,
 if there is no attribute of category <span style="font-family:monospace">ml</span> with value <span style="font-family:monospace">y</span> for object <span style="font-family:monospace">x</span>.
@@ -176,7 +176,7 @@ is not doing anything
 or <span style="font-family:monospace">Untell</span>, then the updated database is subject to integrity checking. If
 a violation is detected, then the whole transaction is rolled back including
 the updates done by ECArules.</p>
-<h3 id="sec68" class="subsection">4.1.5&#XA0;&#XA0;Priorities</h3>
+<h3 id="sec69" class="subsection">4.1.5&#XA0;&#XA0;Priorities</h3>
 <p>The attributes <span style="font-family:monospace">priority_after</span> and <span style="font-family:monospace">priority_before</span>
 ensure, that this ECArule is executed <em>after</em> or <em>before</em>
 some other ECArules, if several rules can be fired at the same
@@ -189,7 +189,7 @@ of the priority declarations (if <span style="font-style:italic">r</span><sub>1<
 be before <span style="font-style:italic">r</span><sub>1</sub>). ConceptBase also does not provide for the transitivity
 of the priority. You can however define this yourself via appropriate deductive
 rules.</p>
-<h3 id="sec69" class="subsection">4.1.6&#XA0;&#XA0;Coupling mode of an ECA rule</h3>
+<h3 id="sec70" class="subsection">4.1.6&#XA0;&#XA0;Coupling mode of an ECA rule</h3>
 <p>The coupling mode of an ECArule determines the point of time 
 when the condition
 and the action of the ECArule are evaluated and executed.
@@ -220,7 +220,7 @@ intertwining of action executions of multiple ECArule threads. So, if
 the answer to a condition of an ECArule has multiple entries, then the
 actions belonging to the respective answers are executed in a sequence
 in which no action of another ECArule is called.</p>
-<h3 id="sec70" class="subsection">4.1.7&#XA0;&#XA0;Execution Semantics</h3>
+<h3 id="sec71" class="subsection">4.1.7&#XA0;&#XA0;Execution Semantics</h3>
 <p>The coupling mode of an ECArule influences its execution semantics. There are three
 basic steps. First, a Tell/Untell/Ask transaction is translated in a sequence of
 atomic events. In case of a Tell/Untell, each frame inside the Tell induces
@@ -279,7 +279,7 @@ binds some variables in the rule <span style="font-style:italic">r</span>.</p><p
 new entries in the event list that are processed just like described above. The events are
 generated per action (Tell/Untell/Retell) and then followed by a delimiter, i.e. ConceptBase will
 start processing the events after each Tell/Untell/Retell action. </p>
-<h3 id="sec71" class="subsection">4.1.8&#XA0;&#XA0;Switching Queues</h3>
+<h3 id="sec72" class="subsection">4.1.8&#XA0;&#XA0;Switching Queues</h3>
 <p>You can control the execution order of ECA triggers via coupling modes, precedence (priority),
 and via a feature called <em>queue switch</em>. The queue switch
 utilizes seperate trigger queues for ECA triggers:</p><dl class="description"><dt class="dt-description">
@@ -315,34 +315,34 @@ the CB-Forum at <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/29
 You can use the tracemode <span style="font-family:monospace">high</span> (see chapter <a href="cbm007.html#cha%3Acbserver">6</a>) to debug ECArules. 
 The ConceptBase server will then write trace messages about the execution of ECArules on
 the console terminal. </p>
-<h3 id="sec72" class="subsection">4.1.9&#XA0;&#XA0;Activate and Deactivate ECA rules</h3>
+<h3 id="sec73" class="subsection">4.1.9&#XA0;&#XA0;Activate and Deactivate ECA rules</h3>
 <p>The attribute <span style="font-family:monospace">active</span> allows the user to deactivate
 the rule without untelling it. Possible values are <span style="font-family:monospace">TRUE</span>
 and <span style="font-family:monospace">FALSE</span>. The default value is <span style="font-family:monospace">TRUE</span>, i.e. by default
 are ECArules active.</p>
-<h3 id="sec73" class="subsection">4.1.10&#XA0;&#XA0;Depth</h3>
+<h3 id="sec74" class="subsection">4.1.10&#XA0;&#XA0;Depth</h3>
 <p>The attribute <span style="font-family:monospace">depth</span> specifies the maximum nesting depth
 of ECArules. ECArules may be fired by events which are produced
 by actions of the same or other ECArules. Because this often results
 in an endless loop, the execution of the ECArule is aborted
 if the current nesting depth is higher than the specified value.
 The default of this attribute is 0 (= no limitation).</p>
-<h3 id="sec74" class="subsection">4.1.11&#XA0;&#XA0;User-definable Error Messages</h3>
+<h3 id="sec75" class="subsection">4.1.11&#XA0;&#XA0;User-definable Error Messages</h3>
 <p>If the ECArule rejects the transaction in some cases, it is useful
 to specify an error message. The value of the attribute <span style="font-family:monospace">rejectMsg</span>
 is returned to the user.</p>
-<h3 id="sec75" class="subsection">4.1.12&#XA0;&#XA0;Constraints</h3>
+<h3 id="sec76" class="subsection">4.1.12&#XA0;&#XA0;Constraints</h3>
 <p>The constraints of the class ECArule ensure, that the attributes
 <span style="font-family:monospace">mode</span>, <span style="font-family:monospace">active</span> and <span style="font-family:monospace">depth</span> have only
 single values and that the attribute <span style="font-family:monospace">ecarule</span> has exactly one
 value.</p>
-<h2 id="sec76" class="section">4.2&#XA0;&#XA0;Examples</h2>
+<h2 id="sec77" class="section">4.2&#XA0;&#XA0;Examples</h2>
 <p>The Telos source files of the following examples can also be found in
 your ConceptBase installation directory at
 <code>$CB_HOME/examples/ECArules</code>. 
 Further examples are in the CB-Forum at
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/1747992">link</a>.</p>
-<h3 id="sec77" class="subsection">4.2.1&#XA0;&#XA0;Materialization of views by active rules</h3>
+<h3 id="sec78" class="subsection">4.2.1&#XA0;&#XA0;Materialization of views by active rules</h3>
 <p>Materialization of views means that deduced information is
 stored in the object base.
 We provide here an example, how to materialize and maintain
@@ -404,7 +404,7 @@ ask for the instances of materialized than to evaluate the view.
 However, if updates occur quite often, materialization is not
 good, because materialized view must be maintained for every update
 transaction.</p>
-<h3 id="sec78" class="subsection">4.2.2&#XA0;&#XA0;Counter</h3>
+<h3 id="sec79" class="subsection">4.2.2&#XA0;&#XA0;Counter</h3>
 <p>
 <a id="subsec:counter"></a></p><p>This example shows how to call prolog predicates with an ECArule.
 It implements a counter for a class <span style="font-family:monospace">Employee</span>. The counter
@@ -452,7 +452,7 @@ to a user with content derived from the object base. This requires however
 some knowledge of PROLOG and of the internal features of the ConceptBase
 server.</p><p>You should also note that the count of a class <span style="font-family:monospace">c</span> can always (and more correctly) be computed
 by the function <span style="font-family:monospace">COUNT(c)</span>. That does even count inherited and deduced instances.</p>
-<h3 id="sec79" class="subsection">4.2.3&#XA0;&#XA0;Timestamps</h3>
+<h3 id="sec80" class="subsection">4.2.3&#XA0;&#XA0;Timestamps</h3>
 <p>An often asked requirement in metamodeling applications is the
 recording of creation and modification dates. ConceptBase stores
 the creation time of an object in its object base, primary for
@@ -511,7 +511,7 @@ form <code>"tt(year,month,day,hour,minute,sec,millisec)"</code>.</p><p>A depreca
 It uses the <span style="font-family:monospace">Ask</span> action in the &#X2019;DO&#X2019; and &#X2019;ELSE&#X2019; parts to query
 perform different actions depending on whether an object already has
 a filler for the attribute <span style="font-family:monospace">lastModified</span>.</p>
-<h3 id="sec80" class="subsection">4.2.4&#XA0;&#XA0;Simulation of Petri Nets</h3>
+<h3 id="sec81" class="subsection">4.2.4&#XA0;&#XA0;Simulation of Petri Nets</h3>
 <p>ECArules are a powerful tool to express semantics of
 concepts that are not expressible by deductive rules. For example,
 the semantics of petri nets, in particular the firing of an
@@ -540,7 +540,7 @@ transaction rolling back all updates and issuing the error message listed under
 Further examples of ECA rules can be found at
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/1747992">link</a>.</p><p>It should be noted that one can also ask queries in the DO-part (and ELSE-part) of
 an ECArule. Other than for the IF-part, such queries are only evaluated once.</p>
-<h2 id="sec81" class="section">4.3&#XA0;&#XA0;Optimization of ECA rules</h2>
+<h2 id="sec82" class="section">4.3&#XA0;&#XA0;Optimization of ECA rules</h2>
 <p>ECArules can be configured to follows various execution semantics. 
 A particular issue is the evaluation of the ECA condition
 (IF-part). Originally, the predicates in the IF-part were not re-ordered
@@ -573,7 +573,7 @@ can result in several orders of magnitude better performance.
 Currently, the optimization only applies to conditions that are
 conjunctions of predicates and whose predicates are all referring to the 
 same database state.</p>
-<h2 id="sec82" class="section">4.4&#XA0;&#XA0;Limitations of the current implementation</h2>
+<h2 id="sec83" class="section">4.4&#XA0;&#XA0;Limitations of the current implementation</h2>
 <p>The current implementation of active rules in ConceptBase has several limitations.</p><ul class="itemize"><li class="li-itemize">
 The dependency graph of ECA rules may contain cycles, i.e.
 rule R1 executes an action, which fires the rule R2 and R2
@@ -613,28 +613,23 @@ update occurs. For example, triggering a transition in a petri net shall change 
 the &#X2019;places&#X2019; connected to the triggered transition. Such semantics is beyond Datalog and requires
 more expressive power, such as provided by ECArules.</p>
 <hr class="footnoterule"><dl class="thefootnotes"><dt class="dt-thefootnotes">
-<a id="note21" href="#text21">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">An example for a quantified sub-expressions is <span style="font-family:monospace">not exists y/D (x m y)</span>.</div>
-</dd><dt class="dt-thefootnotes"><a id="note22" href="#text22">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Retell is currently restricted to attribution predicates <span style="font-family:monospace">A(x,ml,y)</span> and <span style="font-family:monospace">AL(x,ml,n,y)</span>,
+<a id="note21" href="#text21">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">An example for a quantified sub-expressions is <span style="font-family:monospace">not exists y/D (x m y)</span>.</div></dd><dt class="dt-thefootnotes"><a id="note22" href="#text22">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Retell is currently restricted to attribution predicates <span style="font-family:monospace">A(x,ml,y)</span> and <span style="font-family:monospace">AL(x,ml,n,y)</span>,
 respectively their infix versions <span style="font-family:monospace">(x ml y)</span> and <span style="font-family:monospace">(x ml/n y)</span>.
 It will replace the old value of attribute <span style="font-family:monospace">ml</span> of <span style="font-family:monospace">x</span> by <span style="font-family:monospace">y</span>.
 ConceptBase realizes the <span style="font-family:monospace">Retell(A(x,ml,y))</span> by a combination of <span style="font-family:monospace">Untell(A(x,ml,z))</span>
 removing the first stored attribution fact <span style="font-family:monospace">A(x,ml,z)</span>
 and a subsequent <span style="font-family:monospace">Tell(A(x,ml,y))</span>. If there are several facts such as
-<span style="font-family:monospace">A(x,ml,z1)</span> and <span style="font-family:monospace">A(x,ml,z2)</span>, then only the first one is removed by the <span style="font-family:monospace">Untell</span>.</div>
-</dd><dt class="dt-thefootnotes"><a id="note23" href="#text23">3</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Note, that
+<span style="font-family:monospace">A(x,ml,z1)</span> and <span style="font-family:monospace">A(x,ml,z2)</span>, then only the first one is removed by the <span style="font-family:monospace">Untell</span>.</div></dd><dt class="dt-thefootnotes"><a id="note23" href="#text23">3</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Note, that
 an object can have more than one attribute value in one attribute category, but the attributes
-must have different labels.</div>
-</dd><dt class="dt-thefootnotes"><a id="note24" href="#text24">4</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Earlier ConceptBase releases used the keyword <span style="font-family:monospace">commit</span> instead of <span style="font-family:monospace">noop</span>.
+must have different labels.</div></dd><dt class="dt-thefootnotes"><a id="note24" href="#text24">4</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Earlier ConceptBase releases used the keyword <span style="font-family:monospace">commit</span> instead of <span style="font-family:monospace">noop</span>.
 The semantics was the same. We continue to support the use of <span style="font-family:monospace">commit</span>
-in legacy ECArules.</div>
-</dd><dt class="dt-thefootnotes"><a id="note25" href="#text25">5</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Since ConceptBase 6.2,
+in legacy ECArules.</div></dd><dt class="dt-thefootnotes"><a id="note25" href="#text25">5</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Since ConceptBase 6.2,
 LPI plug-ins can be defined in two different formats. A file with the suffix
 .bim.lpi is intended to be used by a CBserver based on MasterProlog (formerly BIM-Prolog).
 If the CBserver is based on SWI-Prolog, the server reads files with the suffix
 .swi.lpi. Both Prolog Environments used a slightly different syntax which requires different
 implementations. ConceptBase 7.0 and later only supports SWI-Prolog,
-hence providing the swi variant is sufficient.</div>
-</dd></dl>
+hence providing the swi variant is sufficient.</div></dd></dl>
 <hr>
 <a href="cbm004.html"><img src="previous_motif.gif" alt="Previous"></a>
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>

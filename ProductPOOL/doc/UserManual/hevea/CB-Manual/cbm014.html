@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html >
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<meta name="generator" content="hevea 2.09">
+<meta name="generator" content="hevea 2.23">
 <link rel="stylesheet" type="text/css" href="cb-style.css"><link rel="stylesheet" type="text/css" href="cbm.css">
 <title>Predefined Query Classes</title>
 </head>
@@ -11,7 +11,7 @@
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
 <a href="cbm015.html"><img src="next_motif.gif" alt="Next"></a>
 <hr>
-<h1 id="sec190" class="chapter">Appendix&#XA0;E&#XA0;&#XA0;Predefined Query Classes</h1>
+<h1 id="sec195" class="chapter">Appendix&#XA0;E&#XA0;&#XA0;Predefined Query Classes</h1>
 <p>
 <a id="cap:builtin-queries"></a></p><p>This chapter gives an overview of the query classes which
 are predefined in a standard ConceptBase installation.
@@ -23,9 +23,9 @@ very simple and directly representation as query class.
 An exception are the functions for computation and counting. They
 cannot be expressed by simple query classes but extend the expressiveness
 of the system.</p>
-<h2 id="sec191" class="section">E.1&#XA0;&#XA0;Query classes and generic query classes</h2>
+<h2 id="sec196" class="section">E.1&#XA0;&#XA0;Query classes and generic query classes</h2>
 <p>These queries can also be used in the constraints of other queries.</p>
-<h3 id="sec192" class="subsection">E.1.1&#XA0;&#XA0;Instances and classes</h3>
+<h3 id="sec197" class="subsection">E.1.1&#XA0;&#XA0;Instances and classes</h3>
 <dl class="description"><dt class="dt-description">
 <span style="font-weight:bold">ISINSTANCE:</span></dt><dd class="dd-description"> Checks whether <span style="font-family:monospace">obj</span> is instance of <span style="font-family:monospace">class</span>.
 The result is either <span style="font-family:monospace">TRUE</span> or <span style="font-family:monospace">FALSE</span>.
@@ -35,7 +35,7 @@ The result is either <span style="font-family:monospace">TRUE</span> or <span st
 </dd><dt class="dt-description"><span style="font-weight:bold">find_instances:</span></dt><dd class="dd-description"> Lists all instances (implicit and explicit) of <span style="font-family:monospace">class</span>.
 </dd><dt class="dt-description"><span style="font-weight:bold">find_explicit_instances:</span></dt><dd class="dd-description"> Same as before, but only explicit instances are returned.
 </dd></dl>
-<h3 id="sec193" class="subsection">E.1.2&#XA0;&#XA0;Specializations and generalizations</h3>
+<h3 id="sec198" class="subsection">E.1.2&#XA0;&#XA0;Specializations and generalizations</h3>
 <dl class="description"><dt class="dt-description">
 <span style="font-weight:bold">ISSUBCLASS:</span></dt><dd class="dd-description"> Checks whether <span style="font-family:monospace">sub</span> is subclass of <span style="font-family:monospace">super</span>.
 The result is either <span style="font-family:monospace">TRUE</span> or <span style="font-family:monospace">FALSE</span>.
@@ -46,7 +46,7 @@ is <span style="font-family:monospace">TRUE</span>, then the result will also in
 <span style="font-family:monospace">ded</span> is <span style="font-family:monospace">FALSE</span> only explicit information will be included.
 </dd><dt class="dt-description"><span style="font-weight:bold">find_specializations:</span></dt><dd class="dd-description"> Same as before, but for super classes.
 </dd></dl>
-<h3 id="sec194" class="subsection">E.1.3&#XA0;&#XA0;Attributes</h3>
+<h3 id="sec199" class="subsection">E.1.3&#XA0;&#XA0;Attributes</h3>
 <dl class="description"><dt class="dt-description">
 <span style="font-weight:bold">IS_ATTRIBUTE_OF:</span></dt><dd class="dd-description"> Returns <span style="font-family:monospace">TRUE</span> if <span style="font-family:monospace">src</span> has an attribute
 of the category <span style="font-family:monospace">attrCat</span> which has the value <span style="font-family:monospace">dst</span>.
@@ -67,7 +67,7 @@ all attribute categories that go into <span style="font-family:monospace">objnam
 in the attribute category <span style="font-family:monospace">cat</span>.
 </dd><dt class="dt-description"><span style="font-weight:bold">find_explicit_attribute_values:</span></dt><dd class="dd-description"> Same as before, but only for explicit attributes.
 </dd></dl>
-<h3 id="sec195" class="subsection">E.1.4&#XA0;&#XA0;Links between objects</h3>
+<h3 id="sec200" class="subsection">E.1.4&#XA0;&#XA0;Links between objects</h3>
 <dl class="description"><dt class="dt-description">
 <span style="font-weight:bold">find_incoming_links:</span></dt><dd class="dd-description"> Lists the links that <em>go into</em> <span style="font-family:monospace">objname</span> and are instance
 of <span style="font-family:monospace">category</span>. Note that all types of links are returned, including attributes,
@@ -81,7 +81,7 @@ instance-of-links and specialization links.
 </dd><dt class="dt-description"><span style="font-weight:bold">get_links3:</span></dt><dd class="dd-description"> Return the links between <span style="font-family:monospace">src</span> and <span style="font-family:monospace">dst</span> that are
 instance of <span style="font-family:monospace">cat</span>.
 </dd></dl>
-<h3 id="sec196" class="subsection">E.1.5&#XA0;&#XA0;Other queries</h3>
+<h3 id="sec201" class="subsection">E.1.5&#XA0;&#XA0;Other queries</h3>
 <dl class="description"><dt class="dt-description">
 <span style="font-weight:bold">find_object:</span></dt><dd class="dd-description"> This query just returns the object given as parameter <span style="font-family:monospace">objname</span>,
 if it exists. Thus it can be used to check whether <span style="font-family:monospace">objname</span> exists, but
@@ -94,11 +94,11 @@ to use a different rollback time (Options &#X2192; Select Version).
 </dd><dt class="dt-description"><span style="font-weight:bold">listModule:</span></dt><dd class="dd-description"> Lists the the content of a module as Telos frames, see
 also section <a href="cbm006.html#sec%3Amodule_content">5.8</a>.
 </dd></dl>
-<h2 id="sec197" class="section">E.2&#XA0;&#XA0;Functions</h2>
+<h2 id="sec202" class="section">E.2&#XA0;&#XA0;Functions</h2>
 <p>
 <a id="cap:builtin-queries:functions"></a></p><p>Functions may also be used within other queries. You may define your own functions
 (see section <a href="cbm003.html#sec%3Afunctions">2.5</a>).</p>
-<h3 id="sec198" class="subsection">E.2.1&#XA0;&#XA0;Computation and counting</h3>
+<h3 id="sec203" class="subsection">E.2.1&#XA0;&#XA0;Computation and counting</h3>
 <dl class="description"><dt class="dt-description">
 <span style="font-weight:bold">COUNT:</span></dt><dd class="dd-description"> counts the instances of a class, this may be also a query class
 </dd><dt class="dt-description"><span style="font-weight:bold">SUM:</span></dt><dd class="dd-description"> computes the sum of the instances of a class (must be reals or integers)
@@ -126,7 +126,7 @@ to 2<sup>64</sup>&#X2212;1. SWI-Prolog supports by default under
 Windows and Linux64 arbitrarily long integers.
 Real numbers are implemented by SWI-Prolog as 64-bit double precision
 floating point numbers. ConceptBase uses 12 decimal digits.</p>
-<h3 id="sec199" class="subsection">E.2.2&#XA0;&#XA0;String manipulation</h3>
+<h3 id="sec204" class="subsection">E.2.2&#XA0;&#XA0;String manipulation</h3>
 <dl class="description"><dt class="dt-description">
 <span style="font-weight:bold">ConcatenateStrings:</span></dt><dd class="dd-description"> concatenates two labels, typically strings; the two arguments
 can be expressions that are concatenated after their evaluation
@@ -142,7 +142,7 @@ for special characters
 </dd></dl><p>For example, the expression <span style="font-family:monospace">toLabel(concat("*",1+2))</span> will return
 <span style="font-family:monospace">C42_3</span>. The substring <span style="font-family:monospace">"C42_"</span> is the canonical representation (ASCII number)
 of <span style="font-family:monospace">"*"</span>. The subexpression <span style="font-family:monospace">1+2</span> is evaluated to 3.</p>
-<h2 id="sec200" class="section">E.3&#XA0;&#XA0;Builtin query classes</h2>
+<h2 id="sec205" class="section">E.3&#XA0;&#XA0;Builtin query classes</h2>
 <p>These queries must not be used within other queries as they do not return
 a list of objects. They may only be used directly from client programs.</p><dl class="description"><dt class="dt-description">
 <span style="font-weight:bold">exists:</span></dt><dd class="dd-description"> Checks whether <span style="font-family:monospace">objname</span> exists and returns <span style="font-family:monospace">yes</span> or <span style="font-family:monospace">no</span>.

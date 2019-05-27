@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html >
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<meta name="generator" content="hevea 2.09">
+<meta name="generator" content="hevea 2.23">
 <link rel="stylesheet" type="text/css" href="cb-style.css"><link rel="stylesheet" type="text/css" href="cbm.css">
 <title>CBserver Plug-Ins</title>
 </head>
@@ -11,13 +11,13 @@
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
 <a href="cbm016.html"><img src="next_motif.gif" alt="Next"></a>
 <hr>
-<h1 id="sec201" class="chapter">Appendix&#XA0;F&#XA0;&#XA0;CBserver Plug-Ins</h1>
+<h1 id="sec206" class="chapter">Appendix&#XA0;F&#XA0;&#XA0;CBserver Plug-Ins</h1>
 <p>
 <a id="cap:lpi"></a></p><p>An LPI plug-in ("logic plug-in") is a small Prolog program that is attached
 to the CBserver (which is implemented in Prolog) at startup-time.
 It extends the functionality of the CBserver, 
 for example for user-defined builtin queries. A plug-in can also interface to
-the services of the operating system<sup><a id="text47" href="#note47">1</a></sup>.</p><p>You can create a file like <span style="font-family:monospace">myplugin.swi.lpi</span> to provide the implementation 
+the services of the operating system<sup><a id="text50" href="#note50">1</a></sup>.</p><p>You can create a file like <span style="font-family:monospace">myplugin.swi.lpi</span> to provide the implementation 
 for user-defined builtin queries or for call actions in 
 active rules (see section <a href="cbm005.html#sec%3Aeca">4</a>). You can use the full range of functions
 provided by the underlying Prolog system 
@@ -26,7 +26,7 @@ your implementation. You can consult the the CB-Forum for some examples at
 <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2768063">link</a>.
 You find there examples for sending emails 
 from active rules, and for extending the set of builtin queries and functions.</p>
-<h2 id="sec202" class="section">F.1&#XA0;&#XA0;Defining the plug-in</h2>
+<h2 id="sec207" class="section">F.1&#XA0;&#XA0;Defining the plug-in</h2>
 <p>
 Once you have coded your file <span style="font-family:monospace">myplugin.swi.lpi</span>,
 there are two methods to attach it to the CBserver. The first method is to copy the file into an
@@ -46,7 +46,7 @@ Note that these plug-ins are copyrighted and typically come with their own
 license conditions that may be different to the license conditions
 of ConceptBase. If you plan to use the plugins for commercial purposes,
 you may have to acquire appropriate licenses from the plug-in&#X2019;s authors.</p>
-<h2 id="sec203" class="section">F.2&#XA0;&#XA0;Calling the plug-in</h2>
+<h2 id="sec208" class="section">F.2&#XA0;&#XA0;Calling the plug-in</h2>
 <p>
 There are two ways to trigger the call of a procedure implemented by an LPI plugin.</p><ol class="enumerate" type=1><li class="li-enumerate">
 By explicitely calling a builtin query class (or function) whose code has been implemented by the LPI plugin.
@@ -95,7 +95,7 @@ interact with the operating system unless you call such code explicitely in the 
 CBserver will then not load LPI plugins upon startup. This option might be useful for
 debugging or for disabling loading LPI plugins that are configured in the <span style="font-family:monospace">lib/SystemDB</span>
 sub-directory of your ConceptBase installation.</p>
-<h2 id="sec204" class="section">F.3&#XA0;&#XA0;Programming interface for the plug-ins</h2>
+<h2 id="sec209" class="section">F.3&#XA0;&#XA0;Programming interface for the plug-ins</h2>
 <p>
 <a id="sec:cbserver-extensions"></a>
 The CBserver plug-ins need to interface to the functionalities of the CBserver, the Prolog
@@ -136,13 +136,12 @@ the real number <span style="font-family:monospace">1.5</span>. Then, the follow
 <span style="font-family:monospace">arg2val</span> returns the number 1.5.</p><p>The interface shall be extended in the future to provide more functionality.
 Be sure that you only use this feature if user-defined query classes cannot
 realize your requirements!</p><hr class="footnoterule"><dl class="thefootnotes"><dt class="dt-thefootnotes">
-<a id="note47" href="#text47">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Since we currently supply the CBserver for Linux only, you need to run the CBserver
+<a id="note50" href="#text50">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Since we currently supply the CBserver for Linux only, you need to run the CBserver
 on a local Linux computer in your network if you want to use the plug-ins.
 Note that we supply a ready-to-use
 virtual appliance that includes Linux and ConceptBase and that can be executed
 via a virtualization engine, see
-<a href="http://conceptbase.sourceforge.net/import-cb-appliance.html">link</a> for details.</div>
-</dd></dl>
+<a href="http://conceptbase.sourceforge.net/import-cb-appliance.html">link</a> for details.</div></dd></dl>
 <hr>
 <a href="cbm014.html"><img src="previous_motif.gif" alt="Previous"></a>
 <a href="index.html"><img src="contents_motif.gif" alt="Up"></a>

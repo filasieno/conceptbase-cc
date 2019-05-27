@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.2"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -164,7 +164,7 @@ extern int Ipcdebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE YYSTYPE;
+
 union YYSTYPE
 {
 #line 79 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:355  */
@@ -178,6 +178,8 @@ union YYSTYPE
 
 #line 180 "IpcParser.tab.c" /* yacc.c:355  */
 };
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -191,7 +193,7 @@ int Ipcparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 195 "IpcParser.tab.c" /* yacc.c:358  */
+#line 197 "IpcParser.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -1327,191 +1329,191 @@ yyreduce:
         case 2:
 #line 117 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { theIpcParserOutput->im = newIpcMessage( (yyvsp[-6].s), (yyvsp[-4].s), (yyvsp[-2].ma) ); }
-#line 1331 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1333 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
 #line 118 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { theIpcParserOutput->err=1; theIpcParserOutput->im=NULL; }
-#line 1337 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1339 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
 #line 121 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.s) = (yyvsp[0].s);}
-#line 1343 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1345 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
 #line 124 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.s) = (yyvsp[0].s); }
-#line 1349 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1351 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
 #line 127 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.ma) = newMeFrames( (yyvsp[-5].s), (yyvsp[-2].s), (yyvsp[-1].s) ); }
-#line 1355 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1357 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
 #line 129 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.ma) = newMeStrings( (yyvsp[-3].s), NULL, NULL, NULL ); }
-#line 1361 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1363 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
 #line 131 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.ma) = newMeStrings( (yyvsp[-4].s), (yyvsp[-1].s), NULL, NULL ); }
-#line 1367 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1369 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
 #line 133 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.ma) = newMeStrings( (yyvsp[-7].s), (yyvsp[-4].s), (yyvsp[-2].s), (yyvsp[-1].s) ); }
-#line 1373 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1375 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
 #line 135 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.ma) = newMeStringList( (yyvsp[-5].s), (yyvsp[-2].stringList), (yyvsp[-1].s) ); }
-#line 1379 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1381 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
 #line 137 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.ma) = newMeStrings( (yyvsp[-4].s), (yyvsp[-1].s), NULL, NULL ); }
-#line 1385 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1387 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
 #line 139 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.ma) = newMeAsk( (yyvsp[-9].s), (yyvsp[-6].q), (yyvsp[-4].s), (yyvsp[-2].s), (yyvsp[-1].s)); }
-#line 1391 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1393 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
 #line 141 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.ma) = newMeHypoAsk( (yyvsp[-11].s), (yyvsp[-8].s), (yyvsp[-6].q), (yyvsp[-4].s), (yyvsp[-2].s), (yyvsp[-1].s) ); }
-#line 1397 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1399 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
 #line 143 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.ma) = newMeStrings((yyvsp[-4].s), (yyvsp[-1].s), NULL, NULL); }
-#line 1403 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1405 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
 #line 146 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     {(yyval.s) = (yyvsp[0].s); }
-#line 1409 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1411 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
 #line 147 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.s) = NULL; }
-#line 1415 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1417 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
 #line 159 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.s) = (yyvsp[0].s);}
-#line 1421 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1423 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
 #line 162 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.s) = NULL ; }
-#line 1427 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1429 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
 #line 164 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.s) = (yyvsp[0].s) ; }
-#line 1433 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1435 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
 #line 167 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.s) = (yyvsp[0].s) ; }
-#line 1439 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1441 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
 #line 169 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.s) = (yyvsp[0].s) ; }
-#line 1445 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1447 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
 #line 172 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.q) = newIpcQuery( IPC_FRAMES, (yyvsp[0].s), NULL ); }
-#line 1451 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1453 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
 #line 174 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.q) = newIpcQuery( IPC_OBJNAMES, NULL, (yyvsp[0].s) ); }
-#line 1457 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1459 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
 #line 177 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.s) = (yyvsp[0].s); }
-#line 1463 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1465 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
 #line 180 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.s) = (yyvsp[0].s); }
-#line 1469 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1471 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
 #line 183 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.s) = (yyvsp[0].s); }
-#line 1475 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1477 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
 #line 186 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.stringList) = NULL; }
-#line 1481 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1483 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
 #line 188 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.stringList) = (yyvsp[0].stringList); }
-#line 1487 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1489 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
 #line 191 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.stringList) = (yyvsp[-1].stringList); }
-#line 1493 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1495 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
 #line 194 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.stringList) = (yyvsp[0].stringList); }
-#line 1499 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1501 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
 #line 196 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.stringList) = appendToIpcStringList( (yyvsp[-2].stringList), (yyvsp[0].stringList) ); }
-#line 1505 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1507 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
 #line 199 "../../../../serverSources/C_Files/libIpc/IpcParser.y" /* yacc.c:1646  */
     { (yyval.stringList) = newIpcStringList( (yyvsp[0].s) ); }
-#line 1511 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1513 "IpcParser.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1515 "IpcParser.tab.c" /* yacc.c:1646  */
+#line 1517 "IpcParser.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
