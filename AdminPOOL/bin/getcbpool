@@ -1,5 +1,5 @@
 #!/bin/sh
-# put the current CBPOOL to USBstick or Dropbox after compiling it
+# get the current CBPOOL from USBstick or Dropbox 
 # This script is perhaps useful in distributing the CBPOOL.zip archive
 # Author: Manfred Jeusfeld
 
@@ -20,7 +20,6 @@ if [ -d "$STICKDIR" ]; then
 
 cd $HOME/CBPOOL/ProductPOOL
   cd $HOME
-  /bin/rm $STICKDIR/CBPOOL.zip
   unzip $STICKDIR/CBPOOL.zip
   echo "CBPOOL installed!"
 else
