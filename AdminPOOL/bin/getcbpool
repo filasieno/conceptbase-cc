@@ -20,7 +20,7 @@ if [ -d "$STICKDIR" ]; then
 
 cd $HOME/CBPOOL/ProductPOOL
   cd $HOME
-  unzip $STICKDIR/CBPOOL.zip
+  unzip -o $STICKDIR/CBPOOL.zip
   echo "CBPOOL installed!"
 else
   echo "No USB stick or Dropbox folder found"

@@ -1,6 +1,7 @@
 #!/bin/sh
 # put the current CBPOOL to USBstick or Dropbox after compiling it
-# This script is perhaps useful in distributing the CBPOOL.zip archive
+# This script is perhaps useful in distributing the CBPOOL.zip archive.
+# This is used to create CBPOOL.zip to be shared on Sourceforge
 # Author: Manfred Jeusfeld
 
 STICKDIR=$HOME/Dropbox/
@@ -22,7 +23,7 @@ cd $HOME/CBPOOL/ProductPOOL
   compileCB
   cd $HOME
   /bin/rm $STICKDIR/CBPOOL.zip
-  zip -r $STICKDIR/CBPOOL.zip CBPOOL
+  zip -r $STICKDIR/CBPOOL.zip CBPOOL -x *.git* CBPOOL/ProductPOOL/doc/UserManual/**\*
   echo "CBPOOL put!"
 else
   echo "No USB stick or Dropbox folder found"
