@@ -1,0 +1,14 @@
+#!/bin/sh
+# commit changes of the current directory to GIT repository
+
+# exit on error
+set -e
+
+# 1: add the changed files to commit set
+git add .
+# 2: prepare the commit
+git commit
+# 3: upload the commit to rep
+git push origin master
+
+
