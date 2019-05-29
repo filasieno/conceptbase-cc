@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2018 The ConceptBase Team. All rights reserved.
+Copyright 1987-2019 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -95,6 +95,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(load_sml/1)
 #EXPORT(loadedLPI/1)
 #EXPORT(listModuleContent/2)
+#EXPORT(purgeModuleContent/2)
 #EXPORT(saveModuleTree/2)
 #EXPORT(loadModuleTree/1)
 #EXPORT(saveSingleModule/2)
@@ -206,6 +207,15 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(dirSeparator/1,ModelConfiguration)
 
 #IMPORT(id2starttime/2,BIM2C)
+#IMPORT(keyCommentChars/2,ScanFormatUtilities)
+
+#IMPORT(DELETE/1,FragmentToHistoryPropositions)
+#IMPORT(UNTELL_FRAGMENTS/2,TellAndAsk)
+
+#IMPORT(getCC/3,Literals)
+#IMPORT(keyFrameListStart/1,ScanFormatUtilities)
+#IMPORT(keyFrameListEnd/1,ScanFormatUtilities)
+#IMPORT(keyFrameSep/1,ScanFormatUtilities)
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -499,6 +509,88 @@ load_ruleinfos(_file):-
 
 
 
+{* purgeModuleContent attempts to delete all propositions of the module _modname *}
+
+
+
+purgeModuleContent('no','System') :-
+  WriteTrace(minimal, ConfigurationUtilities, ['Cannot purge System module']),
+  report_error(UNTELL15, ConfigurationUtilities, ['System']),
+  !.
+
+purgeModuleContent('no',_mod) :-
+  System(_mod),
+  WriteTrace(minimal, ConfigurationUtilities, ['Cannot purge System module']),
+  report_error(UNTELL15, ConfigurationUtilities, ['System']),
+  !.
+
+purgeModuleContent('yes',_modname) :-
+  emptyCache,  {* ticket #351 *}
+  checkAndSwitchPurge(_modname,_mod),
+  hasNoSubModule(_mod),
+
+  extractModulePropositions(_mod,_allprops),
+  getFragments(_allprops,_transactions),
+  purgeTransactions(_transactions,_completion),
+  handleLeftOver(_mod), 
+  !.
+
+{* catchall *}
+purgeModuleContent('no',_modname) :- 
+  WriteTrace(minimal, ConfigurationUtilities, ['Error in purging module ',idterm(_modname)]),
+  !.
+
+
+
+{* make a clean sweep of orphaned propositions *}
+handleLeftOver(_mod) :- 
+  extractModulePropositions(_mod,_leftover),
+  deletePropositions(_leftover), 
+  !.
+
+
+purgeTransactions([],ok) :- !.
+
+purgeTransactions([_transaction1|_resttransactions],_compl1) :-
+  purgeTransactions(_resttransactions,_compl),
+  _compl = ok,
+  purgeTransaction(_transaction1,_compl1),
+  !.
+purgeTransactions(_,error) :-
+  !.
+
+
+purgeTransaction(fragments(_ttatom,_fraglist),_compl) :-
+  UNTELL_FRAGMENTS(_fraglist,_compl),
+  !.
+purgeTransaction(fragments(_ttatom,_fraglist),error).
+
+
+
+
+hasNoSubModule(_mod) :-
+   isSubModuleOf(_sub,_mod),
+   modprop(_sub,P(_id,_x,_n,_y)),  {* at least one proposition in _sub *} 
+   report_error(UNTELL16, ConfigurationUtilities, [objectName(_sub)]),
+   increment('error_number@F2HP'),
+   !,
+   fail.
+
+hasNoSubModule(_mod).
+
+
+deletePropositions([]) :- !.
+
+deletePropositions([_p|_rest]) :-
+  DELETE(_p),
+  deletePropositions(_rest).
+
+{* fail to delete proposition _p *}
+deletePropositions([_p|_rest]) :-
+  WriteTrace(minimal, ConfigurationUtilities, ['Failed to purge proposition ',_p]),
+  report_error(UNTELL17, ConfigurationUtilities, [_p]),
+  increment('error_number@F2HP'),
+  deletePropositions(_rest).
 
 
 
@@ -519,6 +611,8 @@ listModuleContent(_frames,_modname) :-
   initHeader(_buf,_mod),
   extractModulePropositions(_mod,_allprops),
   getFrames(_buf,_allprops,_frames),
+  keyFrameListEnd(_endlist),
+  appendBuffer(_buf,_endlist),
   !.
 
 listModuleContent('{* no *}',_) :-
@@ -535,6 +629,8 @@ listModuleContent_internal(_frames,_mod,_modpath) :-
   initHeader_internal(_buf,_mod,_modpath),
   extractModulePropositions(_mod,_allprops),
   getFrames(_buf,_allprops,_frames),
+  keyFrameListEnd(_endlist),
+  appendBuffer(_buf,_endlist),
   !.
 
 
@@ -544,21 +640,38 @@ listModuleContent_internal(_frames,_mod,_modpath) :-
 {* which can later be used to devide the frames string into parts,   *}
 {* one per transaction.                                              *}
 getFrames(_buf,_allprops,_frames) :-
-  pruneProps(_allprops,_prunedprops),
-  convertPropositionsToFragments(_prunedprops,_fraglistoflists),
+  getFragments(_allprops,_fraglistoflists),
   printFragmentLists(_buf,_fraglistoflists),
-  appendBuffer(_buf,'{* -/- *}\n'),
+  keyCommentChars(_start,_end), 
+  appendBuffer(_buf,_start),
+  appendBuffer(_buf,' '),
+  appendBuffer(_buf,'-/-'),
+  appendBuffer(_buf,' '),
+  appendBuffer(_buf,_end),
+  appendBuffer(_buf,'\n'),
   getStringFromBuffer(_frames,_buf),
   disposeBuffer(_buf),
   !.
 
-
+getFragments(_allprops,_fraglistoflists) :-
+  pruneProps(_allprops,_prunedprops),
+  convertPropositionsToFragments(_prunedprops,_fraglistoflists),
+  !.
 
 
 checkAndSwitch(_modparam,_modid) :-
   modToModname(_modparam,_modname),
   active_user(_user),   {* this is the name of the currently active user *}
   checkPermission(_user,ASK,_modname),  {* this will switch to _modname if ASK is permitted for _user *}
+  getModulePath(_mpath),   {* fetch the path to the current module *}
+  pc_atom_to_term(_mpathatom,_mpath),
+  addAnswerParameters('AuxAnswerParameter',[_mpathatom/currentpath]),
+  getModule(_modid).
+
+checkAndSwitchPurge(_modparam,_modid) :-
+  modToModname(_modparam,_modname),
+  active_user(_user),   {* this is the name of the currently active user *}
+  checkPermission(_user,UNTELL,_modname),  {* this will switch to _modname if ASK is permitted for _user *}
   getModulePath(_mpath),   {* fetch the path to the current module *}
   pc_atom_to_term(_mpathatom,_mpath),
   addAnswerParameters('AuxAnswerParameter',[_mpathatom/currentpath]),
@@ -654,6 +767,19 @@ modToModname(_modname,_) :-
   fail.
 
 
+initHeader(_buf,_mod) :-
+  getFlag(currentAnswerFormat,'JSONIC'),!,
+  pc_recorded(user,'AuxAnswerParameter',_u),
+  pc_recorded(currentpath,'AuxAnswerParameter',_cp),
+  pc_recorded(currentmodule,'AuxAnswerParameter',_cm),
+  pc_recorded(transactiontime,'AuxAnswerParameter',_tt),
+  keyFrameListStart(_start),
+  appendBuffer(_buf,_start),
+  appendBuffer(_buf,'"modulepath" : "'),
+  appendBuffer(_buf,_cp),
+  appendBuffer(_buf,'",\n'),
+  !.
+
 
 initHeader(_buf,_mod) :-
   pc_recorded(user,'AuxAnswerParameter',_u),
@@ -662,11 +788,16 @@ initHeader(_buf,_mod) :-
   pc_recorded(transactiontime,'AuxAnswerParameter',_tt),
   cb_version(_cbversion),
   cb_date_of_release(_reldate),
-  
-  appendBuffer(_buf,'{*\n'),
+
+  keyCommentChars(_start,_end), 
+  appendBuffer(_buf,_start),
+  appendBuffer(_buf,'\n'),
+
   appendBuffer(_buf,'* Module: '),
   appendBuffer(_buf,_cp),
   appendBuffer(_buf,'\n'),
+
+  appendBuffer(_buf,'* ---------------------------------------------------------\n'),
 
   appendBuffer(_buf,'* Listed for: '),
   appendBuffer(_buf,_u),
@@ -682,7 +813,11 @@ initHeader(_buf,_mod) :-
   appendBuffer(_buf,') \n'),
 *}
 
-  appendBuffer(_buf,'*}\n\n'),
+  appendBuffer(_buf,'*\n'),
+  appendModuleComments(_buf,_mod),
+
+  appendBuffer(_buf,_end),
+  appendBuffer(_buf,'\n\n'),
   !.
 
 initHeader_internal(_buf,_mod,_cp) :-
@@ -692,11 +827,13 @@ initHeader_internal(_buf,_mod,_cp) :-
   cb_date_of_release(_reldate),
   getModulePath(_mpath),
   pc_atom_to_term(_cp,_mpath),
-  appendBuffer(_buf,'{*\n'),
+  keyCommentChars(_start,_end), 
+  appendBuffer(_buf,_start),
+  appendBuffer(_buf,'\n'),
   appendBuffer(_buf,'* Module: '),
   appendBuffer(_buf,_cp),{* appendBuffer(_buf,'.sml'), *}
   appendBuffer(_buf,'\n'),
-  appendBuffer(_buf,'* -------------------------------------------------------\n'),
+  appendBuffer(_buf,'* ---------------------------------------------------------\n'),
 
   appendBuffer(_buf,'* This file has been extracted from a ConceptBase database.\n'),
   appendBuffer(_buf,'* Copyright is with the respective authors!\n\n'),
@@ -715,10 +852,52 @@ initHeader_internal(_buf,_mod,_cp) :-
   appendBuffer(_buf,_reldate),
   appendBuffer(_buf,') \n'),
 
-  appendBuffer(_buf,'}\n\n'),
-  appendBuffer(_buf,'{$set module='),
+  appendBuffer(_buf,'*\n'),
+  appendModuleComments(_buf,_mod),
+
+  appendBuffer(_buf,_end),
+  appendBuffer(_buf,'\n\n'),
+
+  appendBuffer(_buf,_start),
+  appendBuffer(_buf,'$set module='),
   appendBuffer(_buf,_cp),
-  appendBuffer(_buf,'}\n\n'),
+  appendBuffer(_buf,_end),
+  appendBuffer(_buf,'\n\n'),
+  !.
+
+appendModuleComments(_buf,_mod) :-
+  save_setof((_label,_comment),isModuleComment(_mod,_label,_comment),_labelledcomments),
+  concatComments(_labelledcomments,_atom),
+  appendBuffer(_buf,_atom),
+  !.
+appendModuleComments(_buf,_mod).
+
+
+
+isModuleComment(_mod,_label,_comment) :-
+  getCC(Proposition,comment,_cc),
+  prove_literal(P(_id,_mod,_label,_comid)),
+  prove_literal(In(_id,_cc)),
+  id2name(_comid,_commentstring),
+  unquoteAtom(_commentstring,_comment).
+
+
+
+concatComments([],'') :- !.
+
+
+
+concatComments([(_label,_comment)|_rest],_result) :- 
+  getFlag(currentAnswerFormat,'JSONIC'),!,
+  concatComments(_rest,_result1),
+  pc_atomconcat(['"',_label,'" : "',_comment,'",\n'],_line1),
+  pc_atomconcat(_line1,_result1,_result),
+  !.
+
+concatComments([(_label,_comment)|_rest],_result) :- 
+  concatComments(_rest,_result1),
+  pc_atomconcat(['* -',_label,': ',_comment,'\n'],_line1),
+  pc_atomconcat(_line1,_result1,_result),
   !.
 
 
@@ -808,29 +987,49 @@ printFragmentLists(_buf,[_fraglist1]) :-
 printSeparator(_buf,[]) :-
   !.
 
+printSeparator(_buf,[_f|_r]) :-
+  getFlag(currentAnswerFormat,'JSONIC'),!,
+  keyFrameSep(_sep),
+  appendBuffer(_buf,_sep).
+
 {* if rest is not empty *}
 printSeparator(_buf,[_f|_r]) :-
-  appendBuffer(_buf,'{---} '),
+  keyCommentChars(_start,_end),
+  appendBuffer(_buf,_start),
+  appendBuffer(_buf,'---'),
+  appendBuffer(_buf,_end),
+  appendBuffer(_buf,' '),
   !.
 
+printTTime(_buf,_tt) :-
+  getFlag(currentAnswerFormat,'JSONIC'),!.
 
 printTTime(_buf,_tt) :-
-  get_cb_feature(moduleGeneration,'split'),  
-  appendBuffer(_buf,'{* '),
+  get_cb_feature(moduleGeneration,'split'), 
+  keyCommentChars(_start,_end), 
+  appendBuffer(_buf,_start),
+  appendBuffer(_buf,' '),
   appendBuffer(_buf,_tt),
-  appendBuffer(_buf,' *}\n\n'),
+  appendBuffer(_buf,' '),
+  appendBuffer(_buf,_end),
+  appendBuffer(_buf,'\n\n'),
   !.
 printTTime(_buf,_tt) :-
   appendBuffer(_buf,'\n\n'),
   !.
 
 
+printFragments(_buf,[_fragA,_fragB|_rest]) :- 
+  changeIdentifierExp(_fragA,insertSelectExpression,_frag1),
+  build_frame(_frag1,_buf),
+  keyFrameSep(_sep),
+  appendBuffer(_buf,_sep),!,
+  printFragments(_buf,[_fragB|_rest]).
 
 
 printFragments(_buf,[_frag|_rest]) :- 
   changeIdentifierExp(_frag,insertSelectExpression,_frag1),
   build_frame(_frag1,_buf),
-  appendBuffer(_buf,'\n'),
   printFragments(_buf,_rest).
 
 
@@ -842,9 +1041,13 @@ printFragments(_buf,[]) :-
 printFragments(_buf,[_frag|_rest]) :- 
   timeFragment(_frag,_time),
   timetoatom(_time,_at),
-  appendBuffer(_buf,'{* '),
+  keyCommentChars(_start,_end),
+  appendBuffer(_buf,_start),
+  appendBuffer(_buf,' '),
   appendBuffer(_buf,_at),
-  appendBuffer(_buf,' *}\n'),
+  appendBuffer(_buf,' '),
+  appendBuffer(_buf,_end),
+  appendBuffer(_buf,'\n'),
   printFragments(_buf,_rest).
 
 printFragments(_buf,[_frag|_rest]) :- 
@@ -933,16 +1136,13 @@ setNotToSave :-
   setFlag(notToSave,_idlist),
   !.
 
+{* version as of 2018-09-02 *}
 getDoNotSaveQuery(_queryid) :-
-  write(1),nl,
-  name2id('DoNotSave_1',_queryid),   {* version as of 2018-09-02 *}
-  write(2),nl,
+  name2id('DoNotSave_1',_queryid),   
   !.
 
 getDoNotSaveQuery(_queryid) :-
-  write(3),nl,
   name2id('DoNotSave_LM',_queryid),   {* legacy version *}
-  write(4),nl,
   !.
 
 
