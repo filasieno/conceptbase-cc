@@ -34,3 +34,12 @@ Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
+
+----
+The ConceptBase.cc Copyright applies to program and Telos sources and binaries of the system.
+It also applies to the scripts and make files required to build the binaries of the system.
+It does however *not* apply to the user manual and tutorials contained in ProductPOOL/doc/UserManual and
+ProductPOOL/doc/Tutorial. These files are published academic papers authored and copyrighted
+by their creators. The LaTeX sources of these papers remain property of their authors and may
+only be altered by them and official mebers of the ConceptBase Team, see
+http://conceptbase.sourceforge.net/cbteam.html
