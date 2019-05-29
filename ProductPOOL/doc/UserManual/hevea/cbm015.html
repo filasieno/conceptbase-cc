@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="generator" content="hevea 2.23">
+<link rel="stylesheet" type="text/css" href="cb-style.css"><link rel="stylesheet" type="text/css" href="cbm.css">
+<title>CBserver Plug-Ins</title>
+</head>
+<body >
+<a href="cbm014.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="cbm016.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 id="sec206" class="chapter">Appendix&#XA0;F&#XA0;&#XA0;CBserver Plug-Ins</h1>
+<p>
+<a id="cap:lpi"></a></p><p>An LPI plug-in ("logic plug-in") is a small Prolog program that is attached
+to the CBserver (which is implemented in Prolog) at startup-time.
+It extends the functionality of the CBserver, 
+for example for user-defined builtin queries. A plug-in can also interface to
+the services of the operating system<sup><a id="text50" href="#note50">1</a></sup>.</p><p>You can create a file like <span style="font-family:monospace">myplugin.swi.lpi</span> to provide the implementation 
+for user-defined builtin queries or for call actions in 
+active rules (see section <a href="cbm005.html#sec%3Aeca">4</a>). You can use the full range of functions
+provided by the underlying Prolog system 
+(here: SWI-Prolog, <a href="http://www.swi-prolog.org">link</a>) and the functions of the CBserver to realize 
+your implementation. You can consult the the CB-Forum for some examples at
+<a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2768063">link</a>.
+You find there examples for sending emails 
+from active rules, and for extending the set of builtin queries and functions.</p>
+<h2 id="sec207" class="section">F.1&#XA0;&#XA0;Defining the plug-in</h2>
+<p>
+Once you have coded your file <span style="font-family:monospace">myplugin.swi.lpi</span>,
+there are two methods to attach it to the CBserver. The first method is to copy the file into an
+existing database directory created by the CBserver:</p><pre class="verbatim">  cbserver -g exit -d MYDB 
+  cp myplugin.swi.lpi MYDB
+</pre><p>The first command creates the database directory MYDB if not already existing and initializes
+it with the pre-defined system classes and objects. The second command copies
+the LPI file to the database directory. 
+This method makes the definitions only visible to a CBserver that loads the database MYDB.</p><p>The second method instructs ConceptBase to load your LPI code to <em>any</em> new database
+created by the CBserver. To do so, copy the LPI file into the system database directory that
+holds the definitions of predefined ConceptBase objects:</p><pre class="verbatim">  cp myplugin.swi.lpi &lt;CB_HOME&gt;/lib/SystemDB
+</pre><p>where <span style="font-family:monospace">CB_HOME</span> is the directory into which you installed ConceptBase.
+The number of LPI files is not limited. You may define zero, one or any number
+of plug-in files.</p><p>A couple of useful LPI plug-ins are published via the CB-Forum,
+see <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2768063">link</a>.
+Note that these plug-ins are copyrighted and typically come with their own
+license conditions that may be different to the license conditions
+of ConceptBase. If you plan to use the plugins for commercial purposes,
+you may have to acquire appropriate licenses from the plug-in&#X2019;s authors.</p>
+<h2 id="sec208" class="section">F.2&#XA0;&#XA0;Calling the plug-in</h2>
+<p>
+There are two ways to trigger the call of a procedure implemented by an LPI plugin.</p><ol class="enumerate" type=1><li class="li-enumerate">
+By explicitely calling a builtin query class (or function) whose code has been implemented by the LPI plugin.
+The LPI code would then look similar to the code in SYSTEM.SWI.builtin and you must have
+defined an instance of <span style="font-family:monospace">BuiltinQueryClass</span> that matches the signature of the
+LPI code. The call to the builtin query class may be enacted from the user interface, or
+it may be included as an <span style="font-family:monospace">ASKquery</span> call in an instance of <span style="font-family:monospace">AnswerFormat</span>. 
+Refer for more information to section <a href="cbm004.html#subsec%3Aexternalproc">3.2.5</a> and to the directory
+<span style="font-family:monospace">Examples/BuiltinQueries</span> in your ConceptBase installation directory.
+</li><li class="li-enumerate">By calling the implemented function as a CALL action of an active rule. See section <a href="cbm005.html#subsec%3Acounter">4.2.2</a>
+for an example. In that case, there does not need to be a definition of a builtin query
+class (or function) to declare the signature of the procedure.
+</li></ol><p>If the code of an LPI plugin realizes a ConceptBase function, e.g. selecting the first instance of a class,
+then you can use that function whereever functions are allowed. As an example,
+consider the definition of the LPI plugin <span style="font-family:monospace">selectfirst.swi.lpi</span> from 
+<a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d2984654/selectfirst.swi.lpi.txt">link</a>:</p><pre class="verbatim">  compute_selectfirst(_res,_class,_c1) :-
+        nonvar(_class),                              
+        cbserver:ask([In(_res,_class)]),             
+        !.
+
+  tell: 'selectfirst in Function isA Proposition with
+  parameter class: Proposition end'.
+</pre><p>The first clause is the Prolog code. The predicate must start with the prefix <span style="font-family:monospace">compute_</span> followed by the
+name of the function.
+The first argument is for the result of the function. Subsequently, each input parameter is
+represented by two arguments, one for the input parameter itself and a second as a placeholder
+of the type of the input parameter. 
+The second clause tells the new function as ConceptBase object so that it can be used like any other ConceptBase
+function. For technical reasons, the &#X2019;tell&#X2019; clause may not span over more than 5 lines. Use
+long lines if the object to be defined is large. The function object (here: <span style="font-family:monospace">selectfirst</span>) is stored
+in the <span style="font-family:monospace">System</span> module of the database. This is the root module of the module hierarchy, thus
+functions defined in this way are visible and executable in all sub-modules.
+If you omit the &#X2019;tell&#X2019; clause in the LPI file, then you need to tell it manually to the
+database. This can also be done in a module different to <span style="font-family:monospace">System</span>. In this case, the
+function can only be called in those modules where the function object is visible.</p><p>If you just want to invoke the procedure defined in an LPI plugin via the CALL clause of an active rule,
+you do not need to include a &#X2019;tell&#X2019; clause. Consider for example the SENDMAIL plugin from
+<a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2269675">link</a>.</p><p>You need to be very careful with testing your code. Only use this feature for functions
+that cannot be realized by a regular query class or by active rules. LPI code has the 
+full expressiveness of a programming language. Program errors may lead to crashes of the CBserver
+or to infinite loops or to harmful behavior such as deletion of files. 
+Query classes, deductive rules and integrity constraints can never loop infinitely 
+and can (to the best of our knowledge) only produce answer, not changes to your file system
+or interact with the operating system.
+Active rules could loop infinitely but also shall not change your file system and shall not 
+interact with the operating system unless you call such code explicitely in the active rule.</p><p>You can disable the loading of LPI plugins with the CBserver option <span style="font-family:monospace">-g nolpi</span>. The
+CBserver will then not load LPI plugins upon startup. This option might be useful for
+debugging or for disabling loading LPI plugins that are configured in the <span style="font-family:monospace">lib/SystemDB</span>
+sub-directory of your ConceptBase installation.</p>
+<h2 id="sec209" class="section">F.3&#XA0;&#XA0;Programming interface for the plug-ins</h2>
+<p>
+<a id="sec:cbserver-extensions"></a>
+The CBserver plug-ins need to interface to the functionalities of the CBserver, the Prolog
+runtime, and possibly the operating system. To simplify the programming of the CBserver
+plug-ins, we document here the interface of the module <span style="font-family:monospace">cbserver</span>. We assume
+that the code for the plug-ins is written in SWI-Prolog and the user is familiar with
+the SWI-Prolog system.</p><dl class="description"><dt class="dt-description"><span style="font-weight:bold">cbserver:ask(Q,Params,A)</span></dt><dd class="dd-description"> asks the query <span style="font-family:monospace">Q</span> with 
+parameters <span style="font-family:monospace">Params</span> to the CBserver. The answer is returned as
+a Prolog atom in <span style="font-family:monospace">A</span>. The atom holds the answer represented
+in the answer format of <span style="font-family:monospace">Q</span>, see also chapter <a href="cbm004.html#sec%3Aanswerformat">3</a>. <br>
+Example: <span style="font-family:monospace">cbserver:ask(find_classes,[bill/objname],A)</span></dd><dt class="dt-description"><span style="font-weight:bold">cbserver:ask(Preds)</span></dt><dd class="dd-description"> evaluates the predicates in list <span style="font-family:monospace">Preds</span>. The 
+predicate can backtrack and will bind in case of success the free variables
+in <span style="font-family:monospace">Preds</span>. We currently support only the following predicates: <span style="font-family:monospace">In</span>, 
+<span style="font-family:monospace">A</span>, <span style="font-family:monospace">AL</span>, and <span style="font-family:monospace">Isa</span>.<br>
+Example: <span style="font-family:monospace">cbserver:ask([In(X,Employee),A(X,salary,1000)])</span></dd><dt class="dt-description"><span style="font-weight:bold">cbserver:askAll(X,Preds,Set)</span></dt><dd class="dd-description"> finds all objects <span style="font-family:monospace">X</span> that satisfy
+the condition in <span style="font-family:monospace">Preds</span> and puts the result into the list <span style="font-family:monospace">Set</span>. 
+Supported predicates in <span style="font-family:monospace">Preds</span> are: <span style="font-family:monospace">In</span>, <span style="font-family:monospace">A</span>, <span style="font-family:monospace">AL</span>, and <span style="font-family:monospace">Isa</span>.<br>
+Example: <span style="font-family:monospace">cbserver:askAll(X,[In(X,Employee),A(X,salary,1000],S)</span></dd><dt class="dt-description"><span style="font-weight:bold">cbserver:tellFrames(F)</span></dt><dd class="dd-description"> tells all frames contained in the atom <span style="font-family:monospace">F</span>.
+The call will fail if there is any error in <span style="font-family:monospace">F</span>.<br>
+Example: <span style="font-family:monospace">cbserver:tellFrames(&#X2019;bill in Employee end&#X2019;)</span></dd><dt class="dt-description"><span style="font-weight:bold">cbserver:makeName(Id,A)</span></dt><dd class="dd-description"> converts an object identifier to a readable
+object name.</dd><dt class="dt-description"><span style="font-weight:bold">cbserver:makeId(A,Id)</span></dt><dd class="dd-description"> converts an object name (Prolog atom) into
+an object identifier used by the CBserver to identify Telos objects.
+If <span style="font-family:monospace">A</span> is already an object identifier, it is returned as well
+in <span style="font-family:monospace">Id</span>.</dd><dt class="dt-description"><span style="font-weight:bold">cbserver:arg2val(E,V)</span></dt><dd class="dd-description"> transforms an argument (either an object identifier
+or a functional expression) to a value (a number or a string). The value can then
+be used in Prolog style computations such as arithmetic expressions.</dd><dt class="dt-description"><span style="font-weight:bold">cbserver:val2arg(V,I)</span></dt><dd class="dd-description"> transforms a Prolog value (number, string) to an
+object identifier, possibly by creating a new object for the value. </dd><dt class="dt-description"><span style="font-weight:bold">cbserver:concat(X,Y)</span></dt><dd class="dd-description"> concats the strings (Prolog atoms) contained
+in the list <span style="font-family:monospace">X</span>. The result is returned in <span style="font-family:monospace">Y</span>.</dd></dl><p>Note that ConceptBase internally manages concepts by their object identifier. The
+programming interface instead addresses concepts (and objects) by their name, i.e. 
+the label of the object or the Prolog value corresponding to the label.
+You may have to use the procedure <span style="font-family:monospace">makeName</span> and <span style="font-family:monospace">makeId</span> to switch between
+the two representations. The two 
+procedures <span style="font-family:monospace">arg2val</span> and <span style="font-family:monospace">val2arg</span> are useful for defining new builtin
+functions on the basis of Prolog&#X2019;s arithmetic functions.
+Assume for example, that the object identifier <span style="font-family:monospace">id123</span> has been created to correspond to
+the real number <span style="font-family:monospace">1.5</span>. Then, the following relations hold: <span style="font-family:monospace">makeName(id123,&#X2019;1.5&#X2019;)</span>,
+<span style="font-family:monospace">arg2val(id123,</span>1.5<span style="font-family:monospace">)</span>. Hence, <span style="font-family:monospace">makeName</span> returns the label <span style="font-family:monospace">&#X2019;1.5&#X2019;</span> whereas
+<span style="font-family:monospace">arg2val</span> returns the number 1.5.</p><p>The interface shall be extended in the future to provide more functionality.
+Be sure that you only use this feature if user-defined query classes cannot
+realize your requirements!</p><hr class="footnoterule"><dl class="thefootnotes"><dt class="dt-thefootnotes">
+<a id="note50" href="#text50">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Since we currently supply the CBserver for Linux only, you need to run the CBserver
+on a local Linux computer in your network if you want to use the plug-ins.
+Note that we supply a ready-to-use
+virtual appliance that includes Linux and ConceptBase and that can be executed
+via a virtualization engine, see
+<a href="http://conceptbase.sourceforge.net/import-cb-appliance.html">link</a> for details.</div></dd></dl>
+<hr>
+<a href="cbm014.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="cbm016.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

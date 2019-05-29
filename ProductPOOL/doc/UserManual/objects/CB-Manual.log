@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.12)  27 MAY 2019 11:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.12)  29 MAY 2019 16:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -279,26 +279,26 @@ e
 (../Title.tex <telos.png, id=791, 473.77pt x 473.77pt>
 File: telos.png Graphic file (type png)
  <use telos.png>
-Package pdftex.def Info: telos.png used on input line 47.
-(pdftex.def)             Requested size: 284.52756pt x 284.53166pt.
-LaTeX Font Info:    Try loading font information for OT1+phv on input line 47.
+Package pdftex.def Info: telos.png used on input line 49.
+(pdftex.def)             Requested size: 227.62204pt x 227.61665pt.
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 49.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1phv.fd
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
 )
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <17.28> on input line 47.
+(Font)              <17.28> on input line 49.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 47.
+(Font)              <12> on input line 49.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 47.
+(Font)              <8> on input line 49.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 47.
+(Font)              <6> on input line 49.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 47.
+(Font)              <9> on input line 49.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 47.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 47.
+(Font)              <5> on input line 49.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 49.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
@@ -306,12 +306,12 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <../telos.png>]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 52.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.100 \end{titlepage}
+l.102 \end{titlepage}
                       [1])
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24.88> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 95.
@@ -346,7 +346,7 @@ LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 72.
  [7] [8]
-<cb_fig1.pdf, id=1085, 404.51125pt x 205.76875pt>
+<cb_fig1.pdf, id=1086, 404.51125pt x 205.76875pt>
 File: cb_fig1.pdf Graphic file (type pdf)
  <use cb_fig1.pdf>
 Package pdftex.def Info: cb_fig1.pdf used on input line 237.
@@ -380,7 +380,7 @@ onceptbase . sourceforge . net / conceptbase-[]cc-[]logo .
 Chapter 2.
 [14
 
-] [15] [16] [17] [18] <NeuEmpl.png, id=1284, 643.40375pt x 510.90875pt>
+] [15] [16] [17] [18] <NeuEmpl.png, id=1285, 643.40375pt x 510.90875pt>
 File: NeuEmpl.png Graphic file (type png)
 
 <use NeuEmpl.png>
@@ -434,21 +434,21 @@ ibute \OT1/ptm/m/n/10 are sim-i-lar to re-trieved at-tributes of query classes,
  []
 
 [42] (../Functions.tex [43] [44] [45] [46] [47] [48]) [49] [50]
-<entityvalue.png, id=1539, 450.9347pt x 185.94469pt>
+<entityvalue.png, id=1540, 450.9347pt x 185.94469pt>
 File: entityvalue.png Graphic file (type png)
  <use entityvalue.png>
 Package pdftex.def Info: entityvalue.png used on input line 2522.
 (pdftex.def)             Requested size: 227.62204pt x 93.863pt.
 
 [51 <../entityvalue.png>]
-<entitysuperclass.png, id=1551, 536.0025pt x 286.06876pt>
+<entitysuperclass.png, id=1552, 536.0025pt x 286.06876pt>
 File: entitysuperclass.png Graphic file (type png)
 
 <use entitysuperclass.png>
 Package pdftex.def Info: entitysuperclass.png used on input line 2599.
 (pdftex.def)             Requested size: 284.52756pt x 151.85143pt.
 
-<entityidentifier.png, id=1552, 453.19313pt x 185.94469pt>
+<entityidentifier.png, id=1553, 453.19313pt x 185.94469pt>
 File: entityidentifier.png Graphic file (type png)
 
 <use entityidentifier.png>
@@ -461,7 +461,7 @@ ble at [][]$\OT1/pcr/m/n/9 http : / / conceptbase . cc / deeptelos$[][]\OT1/ptm
 /m/n/10 . 
  []
 
-[53] <AcrossLevels.png, id=1576, 541.02126pt x 487.8225pt>
+[53] <AcrossLevels.png, id=1577, 541.02126pt x 487.8225pt>
 File: AcrossLevels.png Graphic file (type png)
 
 <use AcrossLevels.png>
@@ -539,7 +539,7 @@ Overfull \hbox (3.74991pt too wide) in paragraph at lines 201--221
  must be bound. The in-ser-tion of an at-tribute \OT1/pcr/m/n/10 A(x,ml,y)
  []
 
-[71] [72] <eca_queues.pdf, id=1690, 250.9375pt x 77.28876pt>
+[71] [72] <eca_queues.pdf, id=1691, 250.9375pt x 77.28876pt>
 File: eca_queues.pdf Graphic file (type pdf)
 
 <use eca_queues.pdf>
@@ -568,14 +568,14 @@ n/9 http : / / merkur . informatik . rwth-[]aachen . de / pub / bscw .
 Chapter 5.
 [81
 
-] <choose_modcontext.png, id=1752, 402.50375pt x 302.12875pt>
+] <choose_modcontext.png, id=1753, 402.50375pt x 302.12875pt>
 File: choose_modcontext.png Graphic file (type png)
 
 <use choose_modcontext.png>
 Package pdftex.def Info: choose_modcontext.png used on input line 131.
 (pdftex.def)             Requested size: 142.26378pt x 106.78392pt.
  [82] [83 <../choose_modcontext.png>]
-<mod_hierarchy.png, id=1768, 316.93407pt x 395.97937pt>
+<mod_hierarchy.png, id=1769, 316.93407pt x 395.97937pt>
 File: mod_hierarchy.png Graphic file (type png)
 
 <use mod_hierarchy.png>
@@ -676,7 +676,7 @@ Overfull \hbox (16.84142pt too wide) in paragraph at lines 1622--1627
 
 [115]) (../CBiva.tex [116]
 Chapter 8.
-<cbivamain.png, id=2017, 519.44063pt x 442.65375pt>
+<cbivamain.png, id=2018, 519.44063pt x 442.65375pt>
 File: cbivamain.png Graphic file (type png)
  <use cbivamain.png>
 Package pdftex.def Info: cbivamain.png used on input line 56.
@@ -690,20 +690,20 @@ Overfull \hbox (25.00003pt too wide) in paragraph at lines 82--88
  []
 
 [118 <../cbivamain.png>] [119] [120] [121]
-<historybuttons.pdf, id=2070, 388.45125pt x 119.44624pt>
+<historybuttons.pdf, id=2071, 388.45125pt x 119.44624pt>
 File: historybuttons.pdf Graphic file (type pdf)
 
 <use historybuttons.pdf>
 Package pdftex.def Info: historybuttons.pdf used on input line 306.
 (pdftex.def)             Requested size: 254.75433pt x 78.33717pt.
 
-<framebrowser.png, id=2072, 579.16376pt x 402.50375pt>
+<framebrowser.png, id=2073, 579.16376pt x 402.50375pt>
 File: framebrowser.png Graphic file (type png)
  <use framebrowser.png>
 Package pdftex.def Info: framebrowser.png used on input line 332.
 (pdftex.def)             Requested size: 312.9803pt x 217.5146pt.
 
-<displayqueries.png, id=2075, 616.3025pt x 527.9725pt>
+<displayqueries.png, id=2076, 616.3025pt x 527.9725pt>
 File: displayqueries.png Graphic file (type png)
 
 <use displayqueries.png>
@@ -711,39 +711,39 @@ Package pdftex.def Info: displayqueries.png used on input line 358.
 (pdftex.def)             Requested size: 312.9803pt x 268.12648pt.
  [122 <../historybuttons.pdf>] [123 <../framebrowser.png> <../displayqueries.pn
 g>]
-<queryeditor.pdf, id=2099, 338.26375pt x 368.37625pt>
+<queryeditor.pdf, id=2100, 338.26375pt x 368.37625pt>
 File: queryeditor.pdf Graphic file (type pdf)
  <use queryeditor.pdf>
 Package pdftex.def Info: queryeditor.pdf used on input line 392.
 (pdftex.def)             Requested size: 312.9803pt x 340.84947pt.
 
-<frametree.pdf, id=2101, 276.03125pt x 209.78375pt>
+<frametree.pdf, id=2102, 276.03125pt x 209.78375pt>
 File: frametree.pdf Graphic file (type pdf)
  <use frametree.pdf>
 Package pdftex.def Info: frametree.pdf used on input line 418.
 (pdftex.def)             Requested size: 256.0748pt x 194.6359pt.
 
 [124 <../queryeditor.pdf>] [125 <../frametree.pdf>]
-<overview.png, id=2127, 702.625pt x 602.25pt>
+<overview.png, id=2128, 702.625pt x 602.25pt>
 File: overview.png Graphic file (type png)
  <use overview.png>
 Package pdftex.def Info: overview.png used on input line 462.
 (pdftex.def)             Requested size: 382.12502pt x 327.5443pt.
  [126 <../overview.png>] [127] [128] [129] [130]
-<componentview.png, id=2172, 571.13374pt x 462.72874pt>
+<componentview.png, id=2173, 571.13374pt x 462.72874pt>
 File: componentview.png Graphic file (type png)
 
 <use componentview.png>
 Package pdftex.def Info: componentview.png used on input line 856.
 (pdftex.def)             Requested size: 256.0748pt x 207.47052pt.
  [131]
-<querytoserver.png, id=2184, 409.53pt x 192.72pt>
+<querytoserver.png, id=2185, 409.53pt x 192.72pt>
 File: querytoserver.png Graphic file (type png)
  <use querytoserver.png>
 Package pdftex.def Info: querytoserver.png used on input line 905.
 (pdftex.def)             Requested size: 170.71652pt x 80.339pt.
 
-<graphed_toolbar.png, id=2186, 456.20438pt x 108.405pt>
+<graphed_toolbar.png, id=2187, 456.20438pt x 108.405pt>
 File: graphed_toolbar.png Graphic file (type png)
 
 <use graphed_toolbar.png>
@@ -751,14 +751,14 @@ Package pdftex.def Info: graphed_toolbar.png used on input line 915.
 (pdftex.def)             Requested size: 424.58624pt x 100.89499pt.
  [132 <../componentview.png>] [133 <../querytoserver.png> <../graphed_toolbar.p
 ng>] [134]
-<createobject.png, id=2210, 682.55pt x 379.4175pt>
+<createobject.png, id=2211, 682.55pt x 379.4175pt>
 File: createobject.png Graphic file (type png)
  <use createobject.png>
 Package pdftex.def Info: createobject.png used on input line 1024.
 (pdftex.def)             Requested size: 339.67029pt x 188.8167pt.
 
 [135 <../createobject.png>]
-<graphed_addremove.png, id=2221, 307.1475pt x 256.96pt>
+<graphed_addremove.png, id=2222, 307.1475pt x 256.96pt>
 File: graphed_addremove.png Graphic file (type png)
 
 <use graphed_addremove.png>
@@ -770,33 +770,33 @@ Overfull \hbox (13.41376pt too wide) in paragraph at lines 1203--1203
  HAS_PARAMS)[] 
  []
 
-[138] <startserver.png, id=2247, 863.225pt x 331.2375pt>
+[138] <startserver.png, id=2248, 863.225pt x 331.2375pt>
 File: startserver.png Graphic file (type png)
  <use startserver.png>
 Package pdftex.def Info: startserver.png used on input line 1284.
 (pdftex.def)             Requested size: 382.12502pt x 146.62944pt.
 
-<connectserver.png, id=2249, 233.87375pt x 147.55125pt>
+<connectserver.png, id=2250, 233.87375pt x 147.55125pt>
 File: connectserver.png Graphic file (type png)
 
 <use connectserver.png>
 Package pdftex.def Info: connectserver.png used on input line 1300.
 (pdftex.def)             Requested size: 85.35826pt x 53.85237pt.
  [139 <../startserver.png> <../connectserver.png>]
-<session_display.png, id=2262, 383.4325pt x 300.12125pt>
+<session_display.png, id=2263, 383.4325pt x 300.12125pt>
 File: session_display.png Graphic file (type png)
 
 <use session_display.png>
 Package pdftex.def Info: session_display.png used on input line 1357.
 (pdftex.def)             Requested size: 199.16928pt x 155.8945pt.
  [140 <../session_display.png>]
-<graph_empl.png, id=2273, 666.49pt x 463.7325pt>
+<graph_empl.png, id=2274, 666.49pt x 463.7325pt>
 File: graph_empl.png Graphic file (type png)
  <use graph_empl.png>
 Package pdftex.def Info: graph_empl.png used on input line 1379.
 (pdftex.def)             Requested size: 382.12502pt x 265.8799pt.
 
-<graph_man.png, id=2275, 666.49pt x 461.725pt>
+<graph_man.png, id=2276, 666.49pt x 461.725pt>
 File: graph_man.png Graphic file (type png)
  <use graph_man.png>
 Package pdftex.def Info: graph_man.png used on input line 1386.
@@ -807,25 +807,25 @@ Overfull \hbox (5.23976pt too wide) in paragraph at lines 1388--1395
 fer-ent graph-i-cal ob-jects. The in-stances of \OT1/pcr/m/n/10 Manager
  []
 
-[141 <../graph_empl.png>] <graph_super.png, id=2287, 665.48625pt x 473.77pt>
+[141 <../graph_empl.png>] <graph_super.png, id=2288, 665.48625pt x 473.77pt>
 File: graph_super.png Graphic file (type png)
 
 <use graph_super.png>
 Package pdftex.def Info: graph_super.png used on input line 1423.
 (pdftex.def)             Requested size: 382.12502pt x 272.04695pt.
- <graph_impl.png, id=2289, 665.48625pt x 459.7175pt>
+ <graph_impl.png, id=2290, 665.48625pt x 459.7175pt>
 File: graph_impl.png Graphic file (type png)
 
 <use graph_impl.png>
 Package pdftex.def Info: graph_impl.png used on input line 1441.
 (pdftex.def)             Requested size: 382.12502pt x 263.97775pt.
- <telos_ed.png, id=2291, 650.43pt x 612.2875pt>
+ <telos_ed.png, id=2292, 650.43pt x 612.2875pt>
 File: telos_ed.png Graphic file (type png)
 
 <use telos_ed.png>
 Package pdftex.def Info: telos_ed.png used on input line 1456.
 (pdftex.def)             Requested size: 339.67029pt x 319.75537pt.
- <telos_ed_error.png, id=2294, 606.265pt x 554.07pt>
+ <telos_ed_error.png, id=2295, 606.265pt x 554.07pt>
 File: telos_ed_error.png Graphic file (type png)
 
 <use telos_ed_error.png>
@@ -833,26 +833,26 @@ Package pdftex.def Info: telos_ed_error.png used on input line 1465.
 (pdftex.def)             Requested size: 369.88582pt x 338.04138pt.
  [142 <../graph_man.png>] [143 <../graph_super.png> <../graph_impl.png>] [144 <
 ../telos_ed.png>]
-<graph_add_attr.png, id=2323, 663.47874pt x 463.7325pt>
+<graph_add_attr.png, id=2324, 663.47874pt x 463.7325pt>
 File: graph_add_attr.png Graphic file (type png)
 
 <use graph_add_attr.png>
 Package pdftex.def Info: graph_add_attr.png used on input line 1515.
 (pdftex.def)             Requested size: 339.67029pt x 237.40616pt.
- <graph_add_inst.png, id=2324, 666.49pt x 462.72874pt>
+ <graph_add_inst.png, id=2325, 666.49pt x 462.72874pt>
 File: graph_add_inst.png Graphic file (type png)
 
 <use graph_add_inst.png>
 Package pdftex.def Info: graph_add_inst.png used on input line 1517.
 (pdftex.def)             Requested size: 339.67029pt x 235.82614pt.
- <graph_commit.png, id=2325, 664.4825pt x 461.725pt>
+ <graph_commit.png, id=2326, 664.4825pt x 461.725pt>
 File: graph_commit.png Graphic file (type png)
 
 <use graph_commit.png>
 Package pdftex.def Info: graph_commit.png used on input line 1523.
 (pdftex.def)             Requested size: 339.67029pt x 236.02617pt.
  [145 <../telos_ed_error.png>] [146 <../graph_add_attr.png> <../graph_add_inst.
-png>] <query_answer.png, id=2341, 674.52pt x 592.2125pt>
+png>] <query_answer.png, id=2342, 674.52pt x 592.2125pt>
 File: query_answer.png Graphic file (type png)
 
 <use query_answer.png>
@@ -930,7 +930,7 @@ Underfull \hbox (badness 3536) in paragraph at lines 795--795
 []\OT1/ptm/m/n/10 Pentagon, Hexagon, Sep-
  []
 
-[169] <shapes.png, id=2479, 513.92pt x 293.095pt>
+[169] <shapes.png, id=2480, 513.92pt x 293.095pt>
 File: shapes.png Graphic file (type png)
  <use shapes.png>
 Package pdftex.def Info: shapes.png used on input line 843.
@@ -963,7 +963,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 180--181
  []
 
 [178] [179] [180] [181] [182]
-<er_incons.png, id=2552, 669.50125pt x 630.355pt>
+<er_incons.png, id=2553, 669.50125pt x 630.355pt>
 File: er_incons.png Graphic file (type png)
  <use er_incons.png>
 Package pdftex.def Info: er_incons.png used on input line 497.
@@ -1029,10 +1029,10 @@ st/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/ut
 mbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on CB-Manual.pdf (196 pages, 1924077 bytes).
+Output written on CB-Manual.pdf (196 pages, 1924277 bytes).
 PDF statistics:
- 2879 PDF objects out of 2984 (max. 8388607)
- 2507 compressed objects within 26 object streams
+ 2880 PDF objects out of 2984 (max. 8388607)
+ 2508 compressed objects within 26 object streams
  575 named destinations out of 1000 (max. 500000)
  1754 words of extra memory for PDF output out of 10000 (max. 10000000)
 

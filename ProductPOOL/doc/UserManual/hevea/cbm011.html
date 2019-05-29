@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="generator" content="hevea 2.23">
+<link rel="stylesheet" type="text/css" href="cb-style.css"><link rel="stylesheet" type="text/css" href="cbm.css">
+<title>O-Telos Axioms</title>
+</head>
+<body >
+<a href="cbm010.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="cbm012.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 id="sec170" class="chapter">Appendix&#XA0;B&#XA0;&#XA0;O-Telos Axioms</h1>
+<p>
+<a id="cha:otelos-axioms"></a></p><p>O-Telos is the variant of Telos (originally defined by John Mylopoulos,
+Alex Borgida, Manolis Koubarakis and others) that is used by the
+ConceptBase system.
+This list is the complete set of pre-defined axioms of O-Telos
+and thus defines the semantics of a O-Telos database (without user-defined
+rules and constraints).
+The subsequent axioms are written in a first-order logic syntax but all
+can be converted to Datalog with negation (though there is some choice
+in the conversion wrt. mapping to rules or constraints).</p><ul class="itemize"><li class="li-itemize">Axiom 1: Object identifiers are unique.<br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span><sub>1</sub>,<span style="font-style:italic">n</span><sub>1</sub>,<span style="font-style:italic">y</span><sub>1</sub>,<span style="font-style:italic">x</span><sub>2</sub>,<span style="font-style:italic">n</span><sub>2</sub>,<span style="font-style:italic">y</span><sub>2</sub> &#XA0;<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span><sub>1</sub>,<span style="font-style:italic">n</span><sub>1</sub>,<span style="font-style:italic">y</span><sub>1</sub>) &#X2227;
+<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span><sub>2</sub>,<span style="font-style:italic">n</span><sub>2</sub>,<span style="font-style:italic">y</span><sub>2</sub>) &#X21D2;<br>
+(<span style="font-style:italic">x</span><sub>1</sub>=<span style="font-style:italic">x</span><sub>2</sub>) &#X2227; (<span style="font-style:italic">n</span><sub>1</sub>=<span style="font-style:italic">n</span><sub>2</sub>) &#X2227; (<span style="font-style:italic">y</span><sub>1</sub>=<span style="font-style:italic">y</span><sub>2</sub>)
+</li><li class="li-itemize">Axiom 2: The name of individual objects is unique.<br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span><sub>1</sub>,<span style="font-style:italic">o</span><sub>2</sub>,<span style="font-style:italic">n</span> &#XA0;<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span><sub>1</sub>,<span style="font-style:italic">o</span><sub>1</sub>,<span style="font-style:italic">n</span>,<span style="font-style:italic">o</span><sub>1</sub>) &#X2227; <span style="font-style:italic">P</span>(<span style="font-style:italic">o</span><sub>2</sub>,<span style="font-style:italic">o</span><sub>2</sub>,<span style="font-style:italic">n</span>,<span style="font-style:italic">o</span><sub>2</sub>) &#X21D2;
+(<span style="font-style:italic">o</span><sub>1</sub>=<span style="font-style:italic">o</span><sub>2</sub>)
+</li><li class="li-itemize">Axiom 3: Names of attributes are unique in 
+conjunction with the source object.<br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span><sub>1</sub>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span><sub>1</sub>,<span style="font-style:italic">o</span><sub>2</sub>,<span style="font-style:italic">y</span><sub>2</sub> &#XA0;<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span><sub>1</sub>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span><sub>1</sub>) &#X2227;
+<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span><sub>2</sub>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span><sub>2</sub>) &#X21D2;
+(<span style="font-style:italic">o</span><sub>1</sub>=<span style="font-style:italic">o</span><sub>2</sub>) &#X2228; (<span style="font-style:italic">n</span>=<span style="font-style:italic">in</span>) &#X2228; (<span style="font-style:italic">n</span>=<span style="font-style:italic">isa</span>)
+</li><li class="li-itemize">Axiom 4: The name of instantiation and specialization objects
+(<span style="font-style:italic">in, isa</span>) is unique in conjunction with source and destination
+objects.<br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span><sub>1</sub>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span>,<span style="font-style:italic">o</span><sub>2</sub> &#XA0;<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span><sub>1</sub>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span>) &#X2227;
+<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span><sub>2</sub>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span>) &#X2227;
+((<span style="font-style:italic">n</span> = <span style="font-style:italic">in</span>) &#X2228; (<span style="font-style:italic">n</span> = <span style="font-style:italic">isa</span>)) &#X21D2; (<span style="font-style:italic">o</span><sub>1</sub>=<span style="font-style:italic">o</span><sub>2</sub>)
+</li><li class="li-itemize">Axioms 5,6,7,8: Solutions for the predicates <span style="font-style:italic">In</span>, <span style="font-style:italic">Isa</span>,
+and A are derived from the object base.<br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">c</span> &#XA0;<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">in</span>,<span style="font-style:italic">c</span>) &#X21D2; <span style="font-style:italic">In</span>(<span style="font-style:italic">x</span>,<span style="font-style:italic">c</span>) <br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span>,<span style="font-style:italic">c</span>,<span style="font-style:italic">d</span> &#XA0;<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">c</span>,<span style="font-style:italic">isa</span>,<span style="font-style:italic">d</span>) &#X21D2; <span style="font-style:italic">Isa</span>(<span style="font-style:italic">c</span>,<span style="font-style:italic">d</span>)<br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span>,<span style="font-style:italic">p</span>,<span style="font-style:italic">c</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">d</span> &#XA0;<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span>) &#X2227; <span style="font-style:italic">P</span>(<span style="font-style:italic">p</span>,<span style="font-style:italic">c</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">d</span>) &#X2227; <span style="font-style:italic">In</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">p</span>)
+&#X21D2; <span style="font-style:italic">AL</span>(<span style="font-style:italic">x</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span>)<br>
+&#X2200; &#XA0;<span style="font-style:italic">x</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span> &#XA0;<span style="font-style:italic">AL</span>(<span style="font-style:italic">x</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span>) &#X21D2; <span style="font-style:italic">A</span>(<span style="font-style:italic">x</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">y</span>)
+</li><li class="li-itemize">Axiom 9: An object <span style="font-style:italic">x</span> may not neglect an attribute definition
+in one of its classes.<br>
+&#X2200; &#XA0;<span style="font-style:italic">x</span>,<span style="font-style:italic">y</span>,<span style="font-style:italic">p</span>,<span style="font-style:italic">c</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">d</span> &#XA0;<span style="font-style:italic">In</span>(<span style="font-style:italic">x</span>,<span style="font-style:italic">c</span>) &#X2227; <span style="font-style:italic">A</span>(<span style="font-style:italic">x</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">y</span>) &#X2227;
+<span style="font-style:italic">P</span>(<span style="font-style:italic">p</span>,<span style="font-style:italic">c</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">d</span>) &#X21D2;<br>
+&#X2203; &#XA0;<span style="font-style:italic">o</span>,<span style="font-style:italic">n</span> &#XA0;<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span>) &#X2227; <span style="font-style:italic">In</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">p</span>)
+</li><li class="li-itemize">Axioms 10,11,12: The <span style="font-style:italic">isa</span> relation is a partial order
+on the object identifiers.<br>
+&#X2200; &#XA0;<span style="font-style:italic">c</span> &#XA0;<span style="font-style:italic">In</span>(<span style="font-style:italic">c</span>,#Obj) &#X21D2; <span style="font-style:italic">Isa</span>(<span style="font-style:italic">c</span>,<span style="font-style:italic">c</span>)<br>
+&#X2200; &#XA0;<span style="font-style:italic">c</span>,<span style="font-style:italic">d</span>,<span style="font-style:italic">e</span> &#XA0;<span style="font-style:italic">Isa</span>(<span style="font-style:italic">c</span>,<span style="font-style:italic">d</span>) &#X2227; <span style="font-style:italic">Isa</span>(<span style="font-style:italic">d</span>,<span style="font-style:italic">e</span>) &#X21D2;
+<span style="font-style:italic">Isa</span>(<span style="font-style:italic">c</span>,<span style="font-style:italic">e</span>)<br>
+&#X2200; &#XA0;<span style="font-style:italic">c</span>,<span style="font-style:italic">d</span> &#XA0;<span style="font-style:italic">Isa</span>(<span style="font-style:italic">c</span>,<span style="font-style:italic">d</span>) &#X2227; <span style="font-style:italic">Isa</span>(<span style="font-style:italic">d</span>,<span style="font-style:italic">c</span>) &#X21D2;
+(<span style="font-style:italic">c</span>=<span style="font-style:italic">d</span>)
+</li><li class="li-itemize">Axiom 13: Class membership of objects is inherited upwardly to
+the superclasses.<br>
+&#X2200; &#XA0;<span style="font-style:italic">p</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">c</span>,<span style="font-style:italic">d</span> &#XA0;<span style="font-style:italic">In</span>(<span style="font-style:italic">x</span>,<span style="font-style:italic">d</span>) &#X2227; <span style="font-style:italic">P</span>(<span style="font-style:italic">p</span>,<span style="font-style:italic">d</span>,<span style="font-style:italic">isa</span>,<span style="font-style:italic">c</span>) &#X21D2; <span style="font-style:italic">In</span>(<span style="font-style:italic">x</span>,<span style="font-style:italic">c</span>)
+</li><li class="li-itemize">Axiom 14: Attributes are "typed" by their attribute classes.<br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span>,<span style="font-style:italic">p</span> &#XA0;<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span>) &#X2227; <span style="font-style:italic">In</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">p</span>) &#X21D2;
+&#X2203; &#XA0;<span style="font-style:italic">c</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">d</span> &#XA0;<span style="font-style:italic">P</span>(<span style="font-style:italic">p</span>,<span style="font-style:italic">c</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">d</span>) &#X2227; <span style="font-style:italic">In</span>(<span style="font-style:italic">x</span>,<span style="font-style:italic">c</span>) &#X2227; <span style="font-style:italic">In</span>(<span style="font-style:italic">y</span>,<span style="font-style:italic">d</span>)
+</li><li class="li-itemize">Axiom 15: Subclasses which define attributes with the same
+name as attributes of their superclasses must refine these attributes.<br>
+&#X2200; &#XA0;<span style="font-style:italic">c</span>,<span style="font-style:italic">d</span>,<span style="font-style:italic">a</span><sub>1</sub>,<span style="font-style:italic">a</span><sub>2</sub>,<span style="font-style:italic">m</span>,<span style="font-style:italic">e</span>,<span style="font-style:italic">f</span><br>
+<span style="font-style:italic">Isa</span>(<span style="font-style:italic">d</span>,<span style="font-style:italic">c</span>) &#X2227; <span style="font-style:italic">P</span>(<span style="font-style:italic">a</span><sub>1</sub>,<span style="font-style:italic">c</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">e</span>) &#X2227;
+<span style="font-style:italic">P</span>(<span style="font-style:italic">a</span><sub>2</sub>,<span style="font-style:italic">d</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">f</span>) &#X21D2; <span style="font-style:italic">Isa</span>(<span style="font-style:italic">f</span>,<span style="font-style:italic">e</span>) &#X2227; <span style="font-style:italic">Isa</span>(<span style="font-style:italic">a</span><sub>2</sub>,<span style="font-style:italic">a</span><sub>1</sub>)
+</li><li class="li-itemize">Axiom 16: If an attribute is a refinement (subclass) of another
+attribute then it must also refine the source and destination
+components. <br>
+&#X2200; &#XA0;<span style="font-style:italic">c</span>,<span style="font-style:italic">d</span>,<span style="font-style:italic">a</span><sub>1</sub>,<span style="font-style:italic">a</span><sub>2</sub>,<span style="font-style:italic">m</span><sub>1</sub>,<span style="font-style:italic">m</span><sub>2</sub>,<span style="font-style:italic">e</span>,<span style="font-style:italic">f</span><br>
+<span style="font-style:italic">Isa</span>(<span style="font-style:italic">a</span><sub>2</sub>,<span style="font-style:italic">a</span><sub>1</sub>) &#X2227; <span style="font-style:italic">P</span>(<span style="font-style:italic">a</span><sub>1</sub>,<span style="font-style:italic">c</span>,<span style="font-style:italic">m</span><sub>1</sub>,<span style="font-style:italic">e</span>) &#X2227;
+<span style="font-style:italic">P</span>(<span style="font-style:italic">a</span><sub>2</sub>,<span style="font-style:italic">d</span>,<span style="font-style:italic">m</span><sub>2</sub>,<span style="font-style:italic">f</span>) &#X21D2; <span style="font-style:italic">Isa</span>(<span style="font-style:italic">d</span>,<span style="font-style:italic">c</span>) &#X2227; <span style="font-style:italic">Isa</span>(<span style="font-style:italic">f</span>,<span style="font-style:italic">e</span>)
+</li><li class="li-itemize">Axiom 17: For any object there is always a unique "smallest"
+attribute class with a given label <span style="font-style:italic">m</span>.<br>
+&#X2200; &#XA0;<span style="font-style:italic">x</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">y</span>,<span style="font-style:italic">c</span>,<span style="font-style:italic">d</span>,<span style="font-style:italic">a</span><sub>1</sub>,<span style="font-style:italic">a</span><sub>2</sub>,<span style="font-style:italic">e</span>,<span style="font-style:italic">f</span>
+&#XA0;(<span style="font-style:italic">In</span>(<span style="font-style:italic">x</span>,<span style="font-style:italic">c</span>) &#X2227; <span style="font-style:italic">In</span>(<span style="font-style:italic">x</span>,<span style="font-style:italic">d</span>) &#X2227;
+<span style="font-style:italic">P</span>(<span style="font-style:italic">a</span><sub>1</sub>,<span style="font-style:italic">c</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">e</span>) &#X2227; <span style="font-style:italic">P</span>(<span style="font-style:italic">a</span><sub>2</sub>,<span style="font-style:italic">d</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">f</span>)<br>
+&#X21D2; &#X2203; &#XA0;<span style="font-style:italic">g</span>,<span style="font-style:italic">a</span><sub>3</sub>,<span style="font-style:italic">h</span> &#XA0;<span style="font-style:italic">In</span>(<span style="font-style:italic">x</span>,<span style="font-style:italic">g</span>) &#X2227; <span style="font-style:italic">P</span>(<span style="font-style:italic">a</span><sub>3</sub>,<span style="font-style:italic">g</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">h</span>)
+&#X2227; <span style="font-style:italic">Isa</span>(<span style="font-style:italic">g</span>,<span style="font-style:italic">c</span>) &#X2227; <span style="font-style:italic">Isa</span>(<span style="font-style:italic">g</span>,<span style="font-style:italic">d</span>))
+</li><li class="li-itemize">Axioms 18-22: Membership to the builtin classes is determined
+by the object&#X2019;s format.<br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span> &#XA0;(<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span>) &#X21D4;
+<span style="font-style:italic">In</span>(<span style="font-style:italic">o</span>,#Obj))<br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span>,<span style="font-style:italic">n</span> &#XA0;(<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">o</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">o</span>) &#X2227; (<span style="font-style:italic">n</span> &#X2260; <span style="font-style:italic">in</span>) &#X2227; (<span style="font-style:italic">n</span> &#X2260; <span style="font-style:italic">isa</span>) &#X21D4;
+<span style="font-style:italic">In</span>(<span style="font-style:italic">o</span>,#Indiv))<br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">c</span> &#XA0;(<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">in</span>,<span style="font-style:italic">c</span>) &#X2227; (<span style="font-style:italic">o</span> &#X2260; <span style="font-style:italic">x</span>) &#X2227; (<span style="font-style:italic">o</span> &#X2260; <span style="font-style:italic">c</span>) &#X21D4;
+<span style="font-style:italic">In</span>(<span style="font-style:italic">o</span>,#Inst))<br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span>,<span style="font-style:italic">c</span>,<span style="font-style:italic">d</span> &#XA0;(<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">c</span>,<span style="font-style:italic">isa</span>,<span style="font-style:italic">d</span>) &#X2227; (<span style="font-style:italic">o</span> &#X2260; <span style="font-style:italic">c</span>) &#X2227; (<span style="font-style:italic">o</span> &#X2260; <span style="font-style:italic">d</span>) &#X21D4;
+<span style="font-style:italic">In</span>(<span style="font-style:italic">o</span>,#Spec))<br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span> &#XA0;(<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span>) &#X2227; (<span style="font-style:italic">o</span> &#X2260; <span style="font-style:italic">x</span>) &#X2227; (<span style="font-style:italic">o</span> &#X2260; <span style="font-style:italic">y</span>) &#X2227;
+(<span style="font-style:italic">n</span> &#X2260; <span style="font-style:italic">in</span>) &#X2227; (<span style="font-style:italic">n</span> &#X2260; <span style="font-style:italic">isa</span>)
+&#X21D4; <span style="font-style:italic">In</span>(<span style="font-style:italic">o</span>,#Attr))
+</li><li class="li-itemize">Axiom 23: Any object falls into one of the four builtin classes. <br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span> &#XA0;<span style="font-style:italic">In</span>(<span style="font-style:italic">o</span>,#Obj) &#X21D2;
+<span style="font-style:italic">In</span>(<span style="font-style:italic">o</span>,#Indiv) &#X2228;
+<span style="font-style:italic">In</span>(<span style="font-style:italic">o</span>,#Inst) &#X2228;
+<span style="font-style:italic">In</span>(<span style="font-style:italic">o</span>,#Spec) &#X2228;
+<span style="font-style:italic">In</span>(<span style="font-style:italic">o</span>,#Attr)
+</li><li class="li-itemize">Axioms 24-28: There are five builtin classes. <br>
+<span style="font-style:italic">P</span>(#<span style="font-style:italic">Obj</span>,#<span style="font-style:italic">Obj</span>,Proposition,#<span style="font-style:italic">Obj</span>)<br>
+<span style="font-style:italic">P</span>(#<span style="font-style:italic">Indiv</span>,#<span style="font-style:italic">Indiv</span>,Individual,#<span style="font-style:italic">Indiv</span>)<br>
+<span style="font-style:italic">P</span>(#<span style="font-style:italic">Attr</span>,#<span style="font-style:italic">Obj</span>,attribute,#<span style="font-style:italic">Obj</span>)<br>
+<span style="font-style:italic">P</span>(#<span style="font-style:italic">Inst</span>,#<span style="font-style:italic">Obj</span>,InstanceOf,#<span style="font-style:italic">Obj</span>)<br>
+<span style="font-style:italic">P</span>(#<span style="font-style:italic">Spec</span>,#<span style="font-style:italic">Obj</span>,IsA,#<span style="font-style:italic">Obj</span>)
+</li><li class="li-itemize">Axiom 29: Objects must be known before they are
+referenced. The operator &#X227C; is a (predefined) total
+order on the set of identifiers.<br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span> &#XA0;<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span>) &#X21D2; (<span style="font-style:italic">x</span> &#X227C; <span style="font-style:italic">o</span>) &#X2227; (<span style="font-style:italic">y</span> &#X227C; <span style="font-style:italic">o</span>)
+</li><li class="li-itemize">Axioms 30,31 (axiom schemas): For any object <span style="font-style:italic">P</span>(<span style="font-style:italic">p</span>,<span style="font-style:italic">c</span>,<span style="font-style:italic">m</span>,<span style="font-style:italic">d</span>) in the extensional
+object base we have two formulas for "rewriting" the <span style="font-style:italic">In</span> and
+<span style="font-style:italic">A</span> predicates. The <span style="font-style:italic">In</span> is mapped to a unary predicate where the class name
+is forming part of the predicate name and the <span style="font-style:italic">A</span> predicates is mapped to a binary
+predicate that carries the identifier of the class of the attribute in its predicate name.
+Internally, user-defined deductive rules that derive <span style="font-style:italic">In</span> and <span style="font-style:italic">A</span> predicates will
+also be rewritten accordingly. This extends the choices for static stratification.
+<br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span> &#XA0;<span style="font-style:italic">In</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">p</span>) &#X21D2; <span style="font-style:italic">In</span>.<span style="font-style:italic">p</span>(<span style="font-style:italic">o</span>)<br>
+&#X2200; &#XA0;<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span> &#XA0;<span style="font-style:italic">P</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span>) &#X2227; <span style="font-style:italic">In</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">p</span>) &#X21D2; <span style="font-style:italic">A</span>.<span style="font-style:italic">p</span>(<span style="font-style:italic">x</span>,<span style="font-style:italic">y</span>)</li></ul><p>The following axioms are taken from papers on Telos (i.e. formulated by Mylopoulos,
+Borgida, Koubarakis, Stanley and Greenspan): axioms 2, 3, 4, 10, 12, 13, 14.
+Axiom 1 is probably also in an earlier Telos paper though we could not 
+immediately find it there. The axioms 15 and 16 are similar to the structural
+ISA constraint of Taxis [<a href="cbm016.html#Taxis80">MBW80</a>] for attributes. 
+In O-Telos, we do however not inherit attributes downward to subclasses 
+but rather constrain refined attributes at subclasses in the sense
+of co-variance. 
+Moreover, attributes in O-Telos are objects as well, hence the notion of specialization is
+more complicated than for the Taxis case.
+Axiom 17 is needed
+to be able to uniquely match an attribution predicate to a most specific attribute.
+This is utilized in the compilation of logical expressions, in particular for
+generating triggers that only evaluate the affected logical expressions when an update
+occurs. The remaining axioms 18-28 are also specific to O-Telos. They define the five
+predefined objects in O-Telos. Axiom 29 takes care that objects cannot refer via
+its source/destination parts to objects that were defined later than the object itself.
+This virtually forbids to define an link between two objects when one of the objects is
+not yet defined. While this sounds natural, we need to posutlate it. Otherwise, we can&#X2019;t
+guarantee that we can refer to any object by a name.
+Axioms 30 and 31 are used to transfer instantiation
+and attribution facts from the extensional databases to the intensional database.
+They have more a technical purpose in the mapping of logical expressions to
+Datalog.</p><p>While O-Telos has just five predefined objects and 31 predefined axioms, the
+ConceptBase system has many more pre-defined objects to provide a better
+modeling experience and for representing concepts like query classes, active
+rules, functions etc. They are in a way also predefined but are less essential
+in understanding the foundations. So, O-Telos is the foundation of ConceptBase
+but ConceptBase has more pre-defined constructs than those mentioned in
+the axioms of O-Telos. </p><p>ConceptBase allows to add user-defined rules and constraints. The semantics
+of an O-Telos database including such rules and constraints is 
+the perfect model of the deductive database with the <span style="font-style:italic">P</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span>)
+as the only extensional predicate and all axioms and user-defined rules/constraints
+as deductive rules. Note that integrity constraints can be rewritten to deductive rules
+deriving the predicate <span style="font-style:italic">inconsistent</span>.</p><p>This list of axioms is excerpted from
+M.A.&#XA0;Jeusfeld: &#XC4;nderungskontrolle in deduktiven Objektbanken.
+Dissertation Universit&#XE4;t Passau, Germany, 1992. Available
+as Volume DISKI-19 from INFIX-Verlag, St. Augustin, Germany or
+via <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d340216/diski19.pdf">link</a> (in German).</p><p>Axioms 19-21 have been corrected after Christoph Radig found
+an example that led to the undesired instantiation of an
+individual object to #Inst or #Spec, respectively.</p>
+<hr>
+<a href="cbm010.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="cbm012.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>
