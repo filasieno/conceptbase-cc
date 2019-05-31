@@ -27,7 +27,15 @@ Detailed Changes since Version 8.0 (2019-05-27)
 ===============================================
 
 Version 8.1 aims at making the CBserver better integrated with current
-exchange formats.
+exchange formats. TWe are now referring to issue numbers as stored in
+the GitLab repository of ConceptBase.cc
+
+80-01 More complete support for JSON output format
+
+   The JSONIC format now should produce valid JSON code and is applicable for
+   the listModule query as well as any other query.
+   (Issue 1)
+
 
 
 
