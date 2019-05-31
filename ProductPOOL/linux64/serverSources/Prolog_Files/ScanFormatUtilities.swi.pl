@@ -95,6 +95,9 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 ,'convertLit'/2
 ,'convertArgs'/3
 ,'keyCommentChars'/2
+,'keyFrameListStart'/1
+,'keyFrameListEnd'/1
+,'keyFrameSep'/1
 ]).
 :- use_module('GlobalPredicates.swi.pl').
 :- use_module('debug.swi.pl').
@@ -173,6 +176,15 @@ keyCommentChars('{','}').
 
 keyPropertySep(',') :- getFlag(currentAnswerFormat,'JSONIC'),!.
 keyPropertySep(';').
+
+keyFrameListStart('[\n') :- getFlag(currentAnswerFormat,'JSONIC'),!.
+keyFrameListStart('').
+
+keyFrameListEnd(']\n') :- getFlag(currentAnswerFormat,'JSONIC'),!.
+keyFrameListEnd('').
+
+keyFrameSep(',\n') :- getFlag(currentAnswerFormat,'JSONIC'),!.
+keyFrameSep('\n').
 
 
 /******************************************************************************
@@ -301,7 +313,7 @@ outAttrBlocks(_indentLevel,[attrdecl(_catList, _propList)| _attrTail], _buf):-
 	outLabelList( _catList, _buf),
 	( getFlag(currentAnswerFormat,'JSONIC'),!;
 	  appendBuffer(_buf,'\n')),
-	getLabelPrefix(_catList,_prefix),nl,
+	getLabelPrefix(_catList,_prefix),
 	outPropBlock(_prefix,_indentLevel,_propList, _buf),
 	( getFlag(currentAnswerFormat,'JSONIC'),_attrTail\=[],appendBuffer(_buf,',\n'),!;
 	  appendBuffer(_buf,'\n')),
@@ -369,7 +381,7 @@ outPropBlock(_prefix,_indentLevel,[property(_label, 'SMLfragment'(what(_x),_inOm
 	appendBuffer(_buf,_olabel),
 	appendBuffer(_buf,' : '),
 	keyWith(_with,_withsymbol),
-	buildObjectHeader(what(_x), _inOmega, _in, _isa,_withsymbol, _buf),
+	buildObjectHeader(what(_x), _inOmega, _in, _isa, _with ,_withsymbol, _buf),
 	_indentLevel1 is _indentLevel + 1,
 	buildObjectBody(_indentLevel1,_with, _buf),
 	keyEnd(_end),
@@ -393,7 +405,7 @@ outPropBlock(_prefix,_indentLevel,[property(_label, 'SMLfragment'(what(_x),_inOm
 	appendBuffer(_buf,_olabel),
 	appendBuffer(_buf,' : '),
 	keyWith(_with,_withsymbol),
-	buildObjectHeader(what(_x), _inOmega, _in, _isa,_withsymbol, _buf),
+	buildObjectHeader(what(_x), _inOmega, _in, _isa, _with, _withsymbol, _buf),
 	_indentLevel1 is _indentLevel + 1,
 	buildObjectBody(_indentLevel1,_with, _buf),
 	keyEnd(_end),

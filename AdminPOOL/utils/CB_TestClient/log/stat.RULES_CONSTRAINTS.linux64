@@ -1,68 +1,68 @@
-2;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/RULES+CONSTRAINTS/Empl_woRuleIc;ok;119
-3;tell;;ok;73
-4;untell;;ok;106
-5;ask;get_object[Employee/objname];ok;83
-6;tell;;ok;116
-7;untell;;ok;111
-8;tell;QueryClass Test17 isA Employee with;ok;112
-9;ask;QueryClass Test17 isA Employee with;ok;83
-10;tell;Employee with rule;ok;115
-11;untell;Test17;ok;80
-12;ask;Test17;ok;84
-13;tell;Employee with;ok;117
-14;tell;Heribert in Employee with;ok;80
-15;tell;Heribert in Employee with;ok;107
-16;ask;get_object[Heribert/objname];ok;79
-17;untell;Individual Heribert in Employee with;ok;111
-18;tell;Manager with;ok;111
-19;untell;Eleonore with;ok;108
-20;tell;;ok;107
-21;tell;Manager with;ok;111
-22;tell;Employee with;ok;111
-23;untell;Employee with;ok;111
-24;tell;Heribert in Employee end;ok;107
-25;ask;get_object[Heribert/objname];ok;78
-26;untell;Individual Heribert in Employee;ok;112
-27;tell;Employee with;ok;110
-28;untell;Employee with;ok;123
-29;tell;Employee with;ok;75
-30;untell; Employee with attribute;ok;107
-31;tell;Employee with;ok;111
-32;ask;get_object[Heribert/objname];ok;80
-33;tell;Heribert in Employee end;ok;108
-34;tell;;ok;116
-35;tell;Employee with;ok;119
-36;tell;Employee with;ok;72
-37;ask;QueryClass Test27 isA Department with;ok;90
-38;untell;Verwaltung with;ok;106
-39;tell;Verwaltung with;ok;115
-40;ask;get_object[Verwaltung/objname];ok;80
-41;untell;Verwaltung with;ok;127
-42;tell;QueryClass Test27 isA Department with;ok;75
-43;ask;Test27;ok;80
-44;tell;;ok;116
-45;tell;;ok;113
-46;tell;;ok;109
-47;tell;;ok;115
-48;ask;get_object[Verwaltung/objname];ok;79
-49;untell;Verwaltung with;ok;113
-50;tell;Verwaltung with;ok;79
-51;tell;Verwaltung with;ok;115
-52;untell;Verwaltung with;ok;111
-53;ask;get_object[Verwaltung/objname];ok;83
-54;ask;get_object[;ok;79
-55;ask;QueryClass Test22 isA Manager with;ok;95
-56;tell;Manager with;ok;127
-57;tell;Verwaltung with;ok;71
-58;untell;Verwaltung with;ok;112
-59;tell;Employee with;ok;131
-60;tell;;ok;75
-61;tell;;ok;131
-62;tell;;ok;82
-63;ask;QueryClass TmpAsk_Test1 isA Employee with;ok;92
-64;ask;QueryClass TmpAsk_Test2 isA Department with;ok;92
-65;tell;Employee with;ok;118
-66;tell;QueryClass MruleTest { in Magic } isA Employee with;ok;75
-67;ask;QueryClass MruleTest { in Magic } isA Employee with;ok;99
-68;tell;Manager Oberboss with;ok;124
-69;ask;MruleTest;ok;66
+2;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/RULES+CONSTRAINTS/Empl_woRuleIc;ok;108
+3;tell;;ok;106
+4;untell;;ok;104
+5;ask;get_object[Employee/objname];ok;79
+6;tell;;ok;98
+7;untell;;ok;100
+8;tell;QueryClass Test17 isA Employee with;ok;108
+9;ask;QueryClass Test17 isA Employee with;ok;80
+10;tell;Employee with rule;ok;112
+11;untell;Test17;ok;81
+12;ask;Test17;ok;80
+13;tell;Employee with;ok;119
+14;tell;Heribert in Employee with;ok;73
+15;tell;Heribert in Employee with;ok;109
+16;ask;get_object[Heribert/objname];ok;80
+17;untell;Individual Heribert in Employee with;ok;102
+18;tell;Manager with;ok;113
+19;untell;Eleonore with;ok;99
+20;tell;;ok;105
+21;tell;Manager with;ok;108
+22;tell;Employee with;ok;108
+23;untell;Employee with;ok;100
+24;tell;Heribert in Employee end;ok;99
+25;ask;get_object[Heribert/objname];ok;80
+26;untell;Individual Heribert in Employee;ok;105
+27;tell;Employee with;ok;100
+28;untell;Employee with;ok;115
+29;tell;Employee with;ok;108
+30;untell; Employee with attribute;ok;100
+31;tell;Employee with;ok;116
+32;ask;get_object[Heribert/objname];ok;81
+33;tell;Heribert in Employee end;ok;109
+34;tell;;ok;119
+35;tell;Employee with;ok;128
+36;tell;Employee with;ok;76
+37;ask;QueryClass Test27 isA Department with;ok;87
+38;untell;Verwaltung with;ok;108
+39;tell;Verwaltung with;ok;111
+40;ask;get_object[Verwaltung/objname];ok;81
+41;untell;Verwaltung with;ok;103
+42;tell;QueryClass Test27 isA Department with;ok;104
+43;ask;Test27;ok;81
+44;tell;;ok;99
+45;tell;;ok;100
+46;tell;;ok;107
+47;tell;;ok;108
+48;ask;get_object[Verwaltung/objname];ok;80
+49;untell;Verwaltung with;ok;107
+50;tell;Verwaltung with;ok;80
+51;tell;Verwaltung with;ok;108
+52;untell;Verwaltung with;ok;107
+53;ask;get_object[Verwaltung/objname];ok;81
+54;ask;get_object[;ok;78
+55;ask;QueryClass Test22 isA Manager with;ok;92
+56;tell;Manager with;ok;108
+57;tell;Verwaltung with;ok;100
+58;untell;Verwaltung with;ok;104
+59;tell;Employee with;ok;112
+60;tell;;ok;99
+61;tell;;ok;141
+62;tell;;ok;74
+63;ask;QueryClass TmpAsk_Test1 isA Employee with;ok;88
+64;ask;QueryClass TmpAsk_Test2 isA Department with;ok;88
+65;tell;Employee with;ok;113
+66;tell;QueryClass MruleTest { in Magic } isA Employee with;ok;111
+67;ask;QueryClass MruleTest { in Magic } isA Employee with;ok;96
+68;tell;Manager Oberboss with;ok;115
+69;ask;MruleTest;ok;104

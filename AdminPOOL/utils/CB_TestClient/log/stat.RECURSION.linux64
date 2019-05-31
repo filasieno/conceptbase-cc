@@ -1,30 +1,30 @@
-2;tell;{* File: Barber.sml;ok;118
-3;ask;ShavedByBarber;ok;43
-4;tell;Class Person with;ok;150
-5;ask;SameGen[Lot/sgperson];ok;55
-6;ask;SameGenProper[Kain/sgperson];ok;81
-7;tell;{;ok;118
-8;ask;;ok;48
-9;tell;Class Position with;ok;124
-10;tell;Position 13 with;ok;82
-11;ask;Win;ok;48
-12;ask;Loose;ok;82
-13;ask;get_object[Man/objname];ok;79
-14;tell;Class Man  with;ok;128
-15;tell;lass Man  with;ok;76
+2;tell;{* File: Barber.sml;ok;109
+3;ask;ShavedByBarber;ok;83
+4;tell;Class Person with;ok;155
+5;ask;SameGen[Lot/sgperson];ok;53
+6;ask;SameGenProper[Kain/sgperson];ok;83
+7;tell;{;ok;102
+8;ask;;ok;80
+9;tell;Class Position with;ok;112
+10;tell;Position 13 with;ok;113
+11;ask;Win;ok;83
+12;ask;Loose;ok;80
+13;ask;get_object[Man/objname];ok;81
+14;tell;Class Man  with;ok;135
+15;tell;lass Man  with;ok;80
 16;ask;;ok;99
-17;tell;Class Object with;ok;134
-18;ask;Test1;ok;47
-19;ask;ObjectsWithTransDep;ok;86
+17;tell;Class Object with;ok;140
+18;ask;Test1;ok;43
+19;ask;ObjectsWithTransDep;ok;83
 20;tell;O1 with dep d1 : 09 end;ok;111
-21;tell;O1 with dep d1 : O9 end;ok;116
-22;ask;Test1;ok;87
-23;ask;ObjectsWithTransDep;ok;95
-24;tell;AANode in Class with;ok;132
-25;ask;get_object[AAReachableN2/objname];ok;43
-26;ask;Individual AAReachableN2 in QueryClass isA AANode with;ok;82
-27;ask;AAReachable[n2/start];ok;79
-28;ask;AAReachable[AAn2/start];ok;83
-29;tell;;ok;149
-30;ask;isEven[4/x];ok;56
-31;ask;isEven[3/x];ok;83
+21;tell;O1 with dep d1 : O9 end;ok;120
+22;ask;Test1;ok;44
+23;ask;ObjectsWithTransDep;ok;88
+24;tell;AANode in Class with;ok;142
+25;ask;get_object[AAReachableN2/objname];ok;40
+26;ask;Individual AAReachableN2 in QueryClass isA AANode with;ok;84
+27;ask;AAReachable[n2/start];ok;80
+28;ask;AAReachable[AAn2/start];ok;80
+29;tell;;ok;139
+30;ask;isEven[4/x];ok;48
+31;ask;isEven[3/x];ok;80

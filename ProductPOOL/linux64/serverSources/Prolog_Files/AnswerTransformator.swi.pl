@@ -170,6 +170,9 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
+
+
+
 :- style_check(-singleton).
 
 
@@ -538,18 +541,26 @@ fragments_to_string([_firstfrag|_r],_buf) :-
 /*									      */
 /* *************************************************************************** */
 
+fragments_to_frames(_list,_buf) :-
+   keyFrameListStart(_start),
+   keyFrameListEnd(_end),
+   appendBuffer(_buf,_start),
+   do_fragments_to_frames(_list,_buf),
+   appendBuffer(_buf,_end),
+   !.
 
-fragments_to_frames([],_buf).
+do_fragments_to_frames([],_buf).
 
-fragments_to_frames([_firstfrag],_buf) :-
+do_fragments_to_frames([_firstfrag],_buf) :-
 	build_frame(_firstfrag,_buf),
 	!.
 
-fragments_to_frames([_firstfrag|_rfrags],_buf) :-
+do_fragments_to_frames([_firstfrag|_rfrags],_buf) :-
 	build_frame(_firstfrag,_buf),
-	appendBuffer(_buf,'\n'),
+	keyFrameSep(_sep),
+	appendBuffer(_buf,_sep),
 	!,
-	fragments_to_frames(_rfrags,_buf).
+	do_fragments_to_frames(_rfrags,_buf).
 
 
 /* *******************************************************************************/
