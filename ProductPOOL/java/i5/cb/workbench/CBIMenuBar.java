@@ -168,6 +168,7 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
             (m.getItem(CBICommand.iDISPLAY_INSTANCES - CBICommand.iBROWSE_MENU)).setEnabled(bEnable);
             (m.getItem(CBICommand.iFRAME_BROWSER     - CBICommand.iBROWSE_MENU)).setEnabled(true); // always active
             (m.getItem(CBICommand.iQUERY_BROWSER     - CBICommand.iBROWSE_MENU)).setEnabled(bEnable);
+            (m.getItem(CBICommand.iQUERY_BROWSER_ALL - CBICommand.iBROWSE_MENU)).setEnabled(bEnable);
             (m.getItem(CBICommand.iFUNCTION_BROWSER  - CBICommand.iBROWSE_MENU)).setEnabled(bEnable);
             (m.getItem(CBICommand.iQUERY_EDITOR      - CBICommand.iBROWSE_MENU)).setEnabled(bEnable);
             (m.getItem(CBICommand.iGRAPH_EDITOR      - CBICommand.iBROWSE_MENU)).setEnabled(true); // always active
@@ -330,6 +331,10 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
 
         mi = new JMenuItem("Display Queries");
         mi.addActionListener(new CBICommand(CBICommand.iQUERY_BROWSER    , CBI));
+        m.add(mi);
+
+        mi = new JMenuItem("Display All Queries");
+        mi.addActionListener(new CBICommand(CBICommand.iQUERY_BROWSER_ALL, CBI));
         m.add(mi);
 
         mi = new JMenuItem("Display Functions");

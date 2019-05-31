@@ -258,6 +258,11 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
     public static final int iGRAPH_EDITOR=iBROWSE_MENU + 6;
 
     /**
+     * public constant for Browse|Display all queries
+     */
+    public static final int iQUERY_BROWSER_ALL=iBROWSE_MENU + 7;
+
+    /**
      * public constant for Options|Set Timeout
      */
     public static final int iSET_TIMEOUT=iOPTIONS_MENU + 0;
@@ -1053,6 +1058,16 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
             String[] listElements=CBclient.asParseObjectNames(result);
 
             QueryBrowser qb=new QueryBrowser(CBI, buttonLabels, listElements, "Display Queries");
+            CBI.add(qb);
+            break;
+        }
+
+        case iQUERY_BROWSER_ALL: {
+            String[] buttonLabels= {"Ask", "Telos Editor", "Cancel"};
+            String result=CBclient.ask("find_instances[QueryClass/class]", "OBJNAMES", "LABEL");
+            String[] listElements=CBclient.asParseObjectNames(result);
+
+            QueryBrowser qb=new QueryBrowser(CBI, buttonLabels, listElements, "Display All Queries");
             CBI.add(qb);
             break;
         }
