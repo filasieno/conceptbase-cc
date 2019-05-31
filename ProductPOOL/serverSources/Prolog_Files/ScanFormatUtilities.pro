@@ -95,6 +95,9 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(convertLit/2)
 #EXPORT(convertArgs/3)
 #EXPORT(keyCommentChars/2)
+#EXPORT(keyFrameListStart/1)
+#EXPORT(keyFrameListEnd/1)
+#EXPORT(keyFrameSep/1)
 #ENDMODDECL()
 
 
@@ -171,6 +174,15 @@ keyCommentChars('{','}').
 
 keyPropertySep(',') :- getFlag(currentAnswerFormat,'JSONIC'),!.
 keyPropertySep(';').
+
+keyFrameListStart('[\n') :- getFlag(currentAnswerFormat,'JSONIC'),!.
+keyFrameListStart('').
+
+keyFrameListEnd(']\n') :- getFlag(currentAnswerFormat,'JSONIC'),!.
+keyFrameListEnd('').
+
+keyFrameSep(',\n') :- getFlag(currentAnswerFormat,'JSONIC'),!.
+keyFrameSep('\n').
 
 
 {*****************************************************************************
@@ -367,7 +379,7 @@ outPropBlock(_prefix,_indentLevel,[property(_label, SMLfragment(what(_x),_inOmeg
 	appendBuffer(_buf,_olabel),
 	appendBuffer(_buf,' : '),
 	keyWith(_with,_withsymbol),
-	buildObjectHeader(what(_x), _inOmega, _in, _isa,_with,_withsymbol, _buf),
+	buildObjectHeader(what(_x), _inOmega, _in, _isa, _with ,_withsymbol, _buf),
 	_indentLevel1 is _indentLevel + 1,
 	buildObjectBody(_indentLevel1,_with, _buf),
 	keyEnd(_end),
@@ -391,7 +403,7 @@ outPropBlock(_prefix,_indentLevel,[property(_label, SMLfragment(what(_x),_inOmeg
 	appendBuffer(_buf,_olabel),
 	appendBuffer(_buf,' : '),
 	keyWith(_with,_withsymbol),
-	buildObjectHeader(what(_x), _inOmega, _in, _isa,_with,_withsymbol, _buf),
+	buildObjectHeader(what(_x), _inOmega, _in, _isa, _with, _withsymbol, _buf),
 	_indentLevel1 is _indentLevel + 1,
 	buildObjectBody(_indentLevel1,_with, _buf),
 	keyEnd(_end),

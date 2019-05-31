@@ -213,6 +213,9 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(UNTELL_FRAGMENTS/2,TellAndAsk)
 
 #IMPORT(getCC/3,Literals)
+#IMPORT(keyFrameListStart/1,ScanFormatUtilities)
+#IMPORT(keyFrameListEnd/1,ScanFormatUtilities)
+#IMPORT(keyFrameSep/1,ScanFormatUtilities)
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -608,6 +611,7 @@ listModuleContent(_frames,_modname) :-
   initHeader(_buf,_mod),
   extractModulePropositions(_mod,_allprops),
   getFrames(_buf,_allprops,_frames),
+  disposeBuffer(_buf),
   !.
 
 listModuleContent('{* no *}',_) :-
@@ -624,6 +628,7 @@ listModuleContent_internal(_frames,_mod,_modpath) :-
   initHeader_internal(_buf,_mod,_modpath),
   extractModulePropositions(_mod,_allprops),
   getFrames(_buf,_allprops,_frames),
+  disposeBuffer(_buf),
   !.
 
 
@@ -635,6 +640,18 @@ listModuleContent_internal(_frames,_mod,_modpath) :-
 getFrames(_buf,_allprops,_frames) :-
   getFragments(_allprops,_fraglistoflists),
   printFragmentLists(_buf,_fraglistoflists),
+  appendEndFramesElement(_buf),
+  keyFrameListEnd(_endlist),
+  appendBuffer(_buf,_endlist),
+  getStringFromBuffer(_frames,_buf),
+  !.
+
+appendEndFramesElement(_buf) :-
+  getFlag(currentAnswerFormat,'JSONIC'),
+  appendBuffer(_buf,'\n'),
+  !.
+
+appendEndFramesElement(_buf) :-
   keyCommentChars(_start,_end), 
   appendBuffer(_buf,_start),
   appendBuffer(_buf,' '),
@@ -642,8 +659,6 @@ getFrames(_buf,_allprops,_frames) :-
   appendBuffer(_buf,' '),
   appendBuffer(_buf,_end),
   appendBuffer(_buf,'\n'),
-  getStringFromBuffer(_frames,_buf),
-  disposeBuffer(_buf),
   !.
 
 getFragments(_allprops,_fraglistoflists) :-
@@ -760,6 +775,19 @@ modToModname(_modname,_) :-
   fail.
 
 
+initHeader(_buf,_mod) :-
+  getFlag(currentAnswerFormat,'JSONIC'),!,
+  pc_recorded(user,'AuxAnswerParameter',_u),
+  pc_recorded(currentpath,'AuxAnswerParameter',_cp),
+  pc_recorded(currentmodule,'AuxAnswerParameter',_cm),
+  pc_recorded(transactiontime,'AuxAnswerParameter',_tt),
+  keyFrameListStart(_start),
+  appendBuffer(_buf,_start),
+  appendBuffer(_buf,'"modulepath" : "'),
+  appendBuffer(_buf,_cp),
+  appendBuffer(_buf,'",\n'),
+  !.
+
 
 initHeader(_buf,_mod) :-
   pc_recorded(user,'AuxAnswerParameter',_u),
@@ -865,6 +893,15 @@ isModuleComment(_mod,_label,_comment) :-
 
 concatComments([],'') :- !.
 
+
+
+concatComments([(_label,_comment)|_rest],_result) :- 
+  getFlag(currentAnswerFormat,'JSONIC'),!,
+  concatComments(_rest,_result1),
+  pc_atomconcat(['"',_label,'" : "',_comment,'",\n'],_line1),
+  pc_atomconcat(_line1,_result1,_result),
+  !.
+
 concatComments([(_label,_comment)|_rest],_result) :- 
   concatComments(_rest,_result1),
   pc_atomconcat(['* -',_label,': ',_comment,'\n'],_line1),
@@ -943,11 +980,17 @@ fragToBeDropped( SMLfragment(what(_idofrule), in_omega([]), in([class(_bdmconstr
 printFragmentLists(_buf,[]) :- 
   appendBuffer(_buf,'\n').
 
-printFragmentLists(_buf,[fragments(_tt,_fraglist1)|_rest]) :- 
-  printTTime(_buf,_tt),
-  printFragments(_buf,_fraglist1),
-  printSeparator(_buf,_rest),
-  printFragmentLists(_buf,_rest).
+
+
+printFragmentLists(_buf,[fragments(_tt,_fraglist)]) :- 
+  printFragmentList(_buf,fragments(_tt,_fraglist)),  {* only one fragment list to be printed *}
+  !.
+
+
+printFragmentLists(_buf,[fragments(_tt,_fraglist),_x|_rest]) :- 
+  printFragmentList(_buf,fragments(_tt,_fraglist)),
+  printSeparator(_buf),
+  printFragmentLists(_buf,[_x|_rest]).
 
 
 printFragmentLists(_buf,[_fraglist1]) :- 
@@ -955,11 +998,27 @@ printFragmentLists(_buf,[_fraglist1]) :-
   appendBuffer(_buf,'\n').
 
 
-printSeparator(_buf,[]) :-
+printFragmentList(_buf,fragments(_tt,_fraglist)) :-
+  getFlag(currentAnswerFormat,'JSONIC'),!,
+  appendBuffer(_buf,'[\n'),
+  printFragments(_buf,_fraglist),
+  appendBuffer(_buf,']\n'),
   !.
 
-{* if rest is not empty *}
-printSeparator(_buf,[_f|_r]) :-
+printFragmentList(_buf,fragments(_tt,_fraglist)) :-
+  printTTime(_buf,_tt),
+  printFragments(_buf,_fraglist),
+  !.
+
+
+
+
+printSeparator(_buf) :-
+  getFlag(currentAnswerFormat,'JSONIC'),!,
+  keyFrameSep(_sep),
+  appendBuffer(_buf,_sep).
+
+printSeparator(_buf) :-
   keyCommentChars(_start,_end),
   appendBuffer(_buf,_start),
   appendBuffer(_buf,'---'),
@@ -967,6 +1026,10 @@ printSeparator(_buf,[_f|_r]) :-
   appendBuffer(_buf,' '),
   !.
 
+
+
+printTTime(_buf,_tt) :-
+  getFlag(currentAnswerFormat,'JSONIC'),!.
 
 printTTime(_buf,_tt) :-
   get_cb_feature(moduleGeneration,'split'), 
@@ -985,19 +1048,12 @@ printTTime(_buf,_tt) :-
 
 
 
-printFragments(_buf,[_frag|_rest]) :- 
-  changeIdentifierExp(_frag,insertSelectExpression,_frag1),
-  build_frame(_frag1,_buf),
-  appendBuffer(_buf,'\n'),
-  printFragments(_buf,_rest).
+printFragment(_buf,_frag) :- 
+  getFlag(currentAnswerFormat,'JSONIC'),
+  timeFragment(_frag,_time),
+  !.
 
-
-
-
-printFragments(_buf,[]) :- 
-  appendBuffer(_buf,'\n').
-
-printFragments(_buf,[_frag|_rest]) :- 
+printFragment(_buf,_frag) :- 
   timeFragment(_frag,_time),
   timetoatom(_time,_at),
   keyCommentChars(_start,_end),
@@ -1007,13 +1063,31 @@ printFragments(_buf,[_frag|_rest]) :-
   appendBuffer(_buf,' '),
   appendBuffer(_buf,_end),
   appendBuffer(_buf,'\n'),
-  printFragments(_buf,_rest).
+  !.
 
-printFragments(_buf,[_frag|_rest]) :- 
-  changeIdentifierExp(_frag,insertSelectExpression,_frag1),
-  build_frame(_frag1,_buf),
-  appendBuffer(_buf,'\n'),
-  printFragments(_buf,_rest).
+
+printFragment(_buf,_frag) :-
+  changeIdentifierExp(_frag,insertSelectExpression,_fragSel),
+  build_frame(_fragSel,_buf),
+  !.
+
+
+printFragments(_buf,[]) :- 
+  !.
+
+
+printFragments(_buf,[_frag]) :- 
+  printFragment(_buf,_frag),
+  appendBuffer(_buf,'\n'),  {* last in a list *}
+  !.
+
+
+printFragments(_buf,[_frag1|[_x|_rest]]) :- 
+  printFragment(_buf,_frag1),
+  keyFrameSep(_sep),
+  appendBuffer(_buf,_sep),!,
+  printFragments(_buf,[_x|_rest]).
+
 
 
 

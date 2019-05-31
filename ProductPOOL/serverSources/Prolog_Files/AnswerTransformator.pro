@@ -148,6 +148,9 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(quicksortLabels/3,GeneralUtilities)
 #IMPORT(write_lcall/1,Literals)
 #IMPORT(getFlag/2,GeneralUtilities)
+#IMPORT(keyFrameSep/1,ScanFormatUtilities)
+#IMPORT(keyFrameListStart/1,ScanFormatUtilities)
+#IMPORT(keyFrameListEnd/1,ScanFormatUtilities)
 
 #LOCAL(transform/2)
 #LOCAL(get_order/2)
@@ -536,18 +539,26 @@ fragments_to_string([_firstfrag|_r],_buf) :-
 {									      }
 { *************************************************************************** }
 
+fragments_to_frames(_list,_buf) :-
+   keyFrameListStart(_start),
+   keyFrameListEnd(_end),
+   appendBuffer(_buf,_start),
+   do_fragments_to_frames(_list,_buf),
+   appendBuffer(_buf,_end),
+   !.
 
-fragments_to_frames([],_buf).
+do_fragments_to_frames([],_buf).
 
-fragments_to_frames([_firstfrag],_buf) :-
+do_fragments_to_frames([_firstfrag],_buf) :-
 	build_frame(_firstfrag,_buf),
 	!.
 
-fragments_to_frames([_firstfrag|_rfrags],_buf) :-
+do_fragments_to_frames([_firstfrag|_rfrags],_buf) :-
 	build_frame(_firstfrag,_buf),
-	appendBuffer(_buf,'\n'),
+	keyFrameSep(_sep),
+	appendBuffer(_buf,_sep),
 	!,
-	fragments_to_frames(_rfrags,_buf).
+	do_fragments_to_frames(_rfrags,_buf).
 
 
 { ******************************************************************************}
