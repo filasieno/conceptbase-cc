@@ -653,6 +653,7 @@ appendEndFramesElement(_buf) :-
 
 appendEndFramesElement(_buf) :-
   keyCommentChars(_start,_end), 
+  appendBuffer(_buf,'\n'),
   appendBuffer(_buf,_start),
   appendBuffer(_buf,' '),
   appendBuffer(_buf,'-/-'),
@@ -995,14 +996,14 @@ printFragmentLists(_buf,[fragments(_tt,_fraglist),_x|_rest]) :-
 
 printFragmentLists(_buf,[_fraglist1]) :- 
   printFragments(_buf,_fraglist1),
-  appendBuffer(_buf,'\n').
+  appendBuffer(_buf,'\n\n').
 
 
 printFragmentList(_buf,fragments(_tt,_fraglist)) :-
   getFlag(currentAnswerFormat,'JSONIC'),!,
   appendBuffer(_buf,'[\n'),
   printFragments(_buf,_fraglist),
-  appendBuffer(_buf,']\n'),
+  appendBuffer(_buf,']'),
   !.
 
 printFragmentList(_buf,fragments(_tt,_fraglist)) :-
@@ -1020,6 +1021,7 @@ printSeparator(_buf) :-
 
 printSeparator(_buf) :-
   keyCommentChars(_start,_end),
+  appendBuffer(_buf,'\n'),
   appendBuffer(_buf,_start),
   appendBuffer(_buf,'---'),
   appendBuffer(_buf,_end),

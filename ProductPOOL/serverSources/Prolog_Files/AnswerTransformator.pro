@@ -551,6 +551,7 @@ do_fragments_to_frames([],_buf).
 
 do_fragments_to_frames([_firstfrag],_buf) :-
 	build_frame(_firstfrag,_buf),
+	appendBuffer(_buf,'\n'),
 	!.
 
 do_fragments_to_frames([_firstfrag|_rfrags],_buf) :-

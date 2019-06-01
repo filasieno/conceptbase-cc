@@ -152,7 +152,7 @@ keyWith(_,'{ ') :- getFlag(currentAnswerFormat,'JSONIC'),!.
 keyWith(with([]),'') :- !.
 keyWith(_,'with ').
 
-keyEnd('} ') :- getFlag(currentAnswerFormat,'JSONIC'),!.
+keyEnd('}') :- getFlag(currentAnswerFormat,'JSONIC'),!.
 keyEnd('end ').
 
 
@@ -181,8 +181,8 @@ keyFrameListStart('').
 keyFrameListEnd(']\n') :- getFlag(currentAnswerFormat,'JSONIC'),!.
 keyFrameListEnd('').
 
-keyFrameSep(',\n') :- getFlag(currentAnswerFormat,'JSONIC'),!.
-keyFrameSep('\n').
+keyFrameSep(',\n\n') :- getFlag(currentAnswerFormat,'JSONIC'),!.
+keyFrameSep('\n\n').
 
 
 {*****************************************************************************
@@ -212,7 +212,6 @@ build_frame(SMLfragment(what(_x), _inOmega, _in, _isa, _with), _buf):-
 	buildObjectBody(0,_with, _buf),
 	keyEnd(_end),
 	appendBuffer(_buf,_end),
-	appendBuffer(_buf,'\n'),
 	!.
 
 
