@@ -784,9 +784,12 @@ initHeader(_buf,_mod) :-
   pc_recorded(transactiontime,'AuxAnswerParameter',_tt),
   keyFrameListStart(_start),
   appendBuffer(_buf,_start),
-  appendBuffer(_buf,'"modulepath" : "'),
-  appendBuffer(_buf,_cp),
+  appendBuffer(_buf, '{ "module" : "'),
+  appendBuffer(_buf,_cm),
   appendBuffer(_buf,'",\n'),
+  appendBuffer(_buf,'  "modulepath" : "'),
+  appendBuffer(_buf,_cp),
+  appendBuffer(_buf,'" },\n\n'),
   !.
 
 

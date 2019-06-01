@@ -319,7 +319,7 @@ outAttrBlocks(_indentLevel,[attrdecl(_catList, _propList)| _attrTail], _buf):-
 
 
 {* for JSONIC: get a prefix to be added to a property label, e.g. single__name *}
-getLabelPrefix([attribute],'') :- !.  {* surpress attribute as prefix also in JSONIC *}
+{* getLabelPrefix([attribute],'') :- !.  surpress attribute as prefix also in JSONIC *}
 
 getLabelPrefix([_categorylabel],_prefix) :-
         getFlag(currentAnswerFormat,'JSONIC'),!,
