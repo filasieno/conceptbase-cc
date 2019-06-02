@@ -208,7 +208,7 @@ keyFrameSep('\n\n').
 build_frame(SMLfragment(what(_x), _inOmega, _in, _isa, _with), _buf):-
 	keyWith(_with,_withsymbol),
 	buildObjectHeader(what(_x), _inOmega, _in, _isa,_with,_withsymbol, _buf),
-	appendBuffer(_buf,'\n'),
+{*	appendBuffer(_buf,'\n'), *}
 	buildObjectBody(0,_with, _buf),
 	keyEnd(_end),
 	appendBuffer(_buf,_end),
@@ -249,7 +249,7 @@ buildObjectHeader(what(_x), in_omega(_classList1), in(_classList2), isa(_classLi
           appendIfNeeded(_buf,[_classList3,_attrList],',\n')),
 	isaBuild(isa(_classList3), _buf),
         ( _classList3=[],!;
-          appendIfNeeded(_buf,[_attrList],',')),
+          appendIfNeeded(_buf,[_attrList],',\n')),
         !.
 
 
@@ -1044,6 +1044,16 @@ infixName('GT','>').
    For example: the identifier select(select(ident1,!,ident2),^,ident3)
                 becomes  ident1!ident2^ident3
 ************************************************************************}
+
+outIdentifier(_x,_xAtom) :-
+	(_x = select( _inSelect, _selectSymbol, _ident);
+         _x = derive(_q,_slist)),
+        getFlag(currentAnswerFormat,'JSONIC'),!,
+        setFlag(currentAnswerFormat,'FRAME'),
+        do_outIdentifier(_x, _xAtom1),
+	pc_atomconcat(['"',_xAtom1,'"'],_xAtom),
+        setFlag(currentAnswerFormat,'JSONIC'),
+        !.
 
 outIdentifier(_x,_xAtom) :-
         getFlag(currentAnswerFormat,'JSONIC'),!,
