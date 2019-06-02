@@ -129,6 +129,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(makeId/2,cbserver)
 #IMPORT(is_list/1,GeneralUtilities)
 #IMPORT(getFlag/2,GeneralUtilities)
+#IMPORT(setFlag/2,GeneralUtilities)
 
 #IF(SWI)
 :- style_check(-singleton).
