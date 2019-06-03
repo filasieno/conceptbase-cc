@@ -1,7 +1,0 @@
-2;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/FLIGHT/BigFlights;ok;1937
-3;ask;DeadEndCity;ok;86
-4;ask;DeadStartCity;ok;78
-5;ask;KindaClique[antwerpen/startcity];ok;1033
-6;ask;find_instances[ReachableFrom[atlanta/start]/class];ok;2028
-7;ask;find_instances[UnReachableFrom[borkum/start]/class];ok;1298
-8;ask;find_instances[UnReachableFrom[atlanta/start]/class];ok;104

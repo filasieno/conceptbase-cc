@@ -1,6 +1,0 @@
-2;tell;;ok;136
-3;tell;;ok;119
-4;tell;;ok;64
-5;ask;find_attribute_values[bill/objname,Person!knows/cat];ok;93
-6;ask;find_attribute_values[bill/objname,Person!knows/cat];ok;84
-7;ask;find_attribute_values[john/objname,Person!knows/cat];ok;83
