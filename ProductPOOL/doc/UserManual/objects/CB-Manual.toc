@@ -45,7 +45,7 @@
 \contentsline {subsection}{\numberline {2.8.2}Datalog code}{55}{subsection.2.8.2}
 \contentsline {subsection}{\numberline {2.8.3}Examples}{56}{subsection.2.8.3}
 \contentsline {chapter}{\numberline {3}Answer Formats for Queries}{58}{chapter.3}
-\contentsline {section}{\numberline {3.1}Basic definitions}{60}{section.3.1}
+\contentsline {section}{\numberline {3.1}Basic definitions}{59}{section.3.1}
 \contentsline {section}{\numberline {3.2}Constructs in answer formats}{61}{section.3.2}
 \contentsline {subsection}{\numberline {3.2.1}Simple expressions in patterns}{61}{subsection.3.2.1}
 \contentsline {subsection}{\numberline {3.2.2}Pre-defined variables}{63}{subsection.3.2.2}
