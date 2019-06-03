@@ -1107,9 +1107,6 @@ do_outIdentifier(_id,_newid) :-
 
 do_outIdentifier(_name,_name) :-!.
 
-{do_outIdentifier(_x,_ex) :-}
-{	outGroundIdentifier(_x, _ex),}
-{	!.}
 
 
 
@@ -1161,54 +1158,6 @@ transformSlist([specialize(_x1,_x2)|_r], _atom) :-
 	)).
 
 
-
-
-
-{ ************************ outGroundIdentifier ************************ }
-{                                                       29-Jul-1988/MJf }
-{ outGroundIdentifier(_x, _ex)                                          }
-{   _x: real v integer v atom v string v assertion                      }
-{   _ex: atom                                                           }
-{                                                                       }
-{ Object identifiers which are no select expressions are transformed by }
-{ this little predicate (previously part of outIdentifier).             }
-{                                                                       }
-{ ********************************************************************* }
-
-{* for an assertion *}
-outGroundIdentifier(_assertion,_assertion) :-
-	assertion_string(_assertion).
-
-{* for a string *}
-outGroundIdentifier(_string,_string) :-
-	quotedAtom(_string).
-
-
-{* for a real or an integer or an atom or a special identifier to be enclosed in ' 2-AUG-1988/tr
-*}
-
-outGroundIdentifier(_a,_a) :-
-	integer(_a).
-
-outGroundIdentifier(_a,_a) :-
-	float(_a).
-
-outGroundIdentifier(_bimstring,_outstring) :-
-	bimstring(_bimstring),
-	!,
-	BimstringToString(_bimstring,_charlist),
-	atom2list(_atom,_charlist),
-	pc_atomconcat(['"',_atom,'"'],_outstring).
-
-outGroundIdentifier(_atom,_atom) :-
-	atom(_atom),
-	atom2list(_atom, _charList),
-	alphanumeric(_, _charList, []),
-	!.
-
-outGroundIdentifier(_atom,_quotedAtom) :-
-	atom(_atom),
-	pc_atomconcat(['\'', _atom, '\''], _quotedAtom).
 
 {***************************************************************************
    outSelectIdent(_select,_Name)
