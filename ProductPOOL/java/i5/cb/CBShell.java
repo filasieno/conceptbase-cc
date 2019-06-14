@@ -1080,8 +1080,10 @@ public class CBShell {
             System.out.println("Command arguments may then also span multiple lines.\n");
             System.out.println("More information is in the ConceptBase.cc User Manual.");
         }
-        else if (command.equals("exit") || command.equals("quit")) {
+        else if (command.equals("exit")) {
             exitShell(0);
+        } else if (command.equals("quit")) {
+            quitShell(0);
         }
         // if the command is a single token cf. Java conventions and CBShell is in interactive mode
         // then we interpret the single token as a query and process it via 'ask'
@@ -1156,6 +1158,15 @@ public class CBShell {
             System.out.println(ex.getMessage());
         }
 //        System.err.println("> Goodbye from CBShell");
+        System.exit(status);
+    }
+
+
+
+    /**
+     * Quit CBShell without explicitely stopping the CBserver
+    */
+    private void quitShell(int status) {
         System.exit(status);
     }
 
