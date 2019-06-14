@@ -151,7 +151,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 {* ticket #422: support the JSONIC frame format *}
 keyWith(_,'{ ') :- getFlag(currentAnswerFormat,'JSONIC'),!.
 keyWith(with([]),'') :- !.
-keyWith(_,'with ').
+keyWith(_,'with \n').
 
 keyEnd('}') :- getFlag(currentAnswerFormat,'JSONIC'),!.
 keyEnd('end ').
