@@ -653,6 +653,7 @@ appendEndFramesElement(_buf) :-
 
 appendEndFramesElement(_buf) :-
   keyCommentChars(_start,_end), 
+  appendBuffer(_buf,'\n'),
   appendBuffer(_buf,_start),
   appendBuffer(_buf,' '),
   appendBuffer(_buf,'-/-'),
@@ -781,11 +782,15 @@ initHeader(_buf,_mod) :-
   pc_recorded(currentpath,'AuxAnswerParameter',_cp),
   pc_recorded(currentmodule,'AuxAnswerParameter',_cm),
   pc_recorded(transactiontime,'AuxAnswerParameter',_tt),
+  modToModname(_mod,_modname),
   keyFrameListStart(_start),
   appendBuffer(_buf,_start),
-  appendBuffer(_buf,'"modulepath" : "'),
-  appendBuffer(_buf,_cp),
+  appendBuffer(_buf, '{ "module" : "'),
+  appendBuffer(_buf,_modname),
   appendBuffer(_buf,'",\n'),
+  appendBuffer(_buf,'  "modulepath" : "'),
+  appendBuffer(_buf,_cp),
+  appendBuffer(_buf,'" },\n\n'),
   !.
 
 
@@ -995,14 +1000,14 @@ printFragmentLists(_buf,[fragments(_tt,_fraglist),_x|_rest]) :-
 
 printFragmentLists(_buf,[_fraglist1]) :- 
   printFragments(_buf,_fraglist1),
-  appendBuffer(_buf,'\n').
+  appendBuffer(_buf,'\n\n').
 
 
 printFragmentList(_buf,fragments(_tt,_fraglist)) :-
   getFlag(currentAnswerFormat,'JSONIC'),!,
   appendBuffer(_buf,'[\n'),
   printFragments(_buf,_fraglist),
-  appendBuffer(_buf,']\n'),
+  appendBuffer(_buf,']'),
   !.
 
 printFragmentList(_buf,fragments(_tt,_fraglist)) :-
@@ -1020,6 +1025,7 @@ printSeparator(_buf) :-
 
 printSeparator(_buf) :-
   keyCommentChars(_start,_end),
+  appendBuffer(_buf,'\n'),
   appendBuffer(_buf,_start),
   appendBuffer(_buf,'---'),
   appendBuffer(_buf,_end),

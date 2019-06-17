@@ -83,7 +83,7 @@ public class CBinstaller extends JFrame implements ActionListener {
     boolean bExtractFromJar = false;  // true if the binaries are being extracted from CBinstaller.jar itself
 
     public CBinstaller() {
-        super("CBinstaller for ConceptBase (2018-10-08)");
+        super("CBinstaller for ConceptBase (2019-06-12)");
 
         UIManager.put("Label.font", new FontUIResource(new Font("Dialog", Font.PLAIN, 16)));
         UIManager.put("Button.font", new FontUIResource(new Font("Dialog", Font.PLAIN, 18)));

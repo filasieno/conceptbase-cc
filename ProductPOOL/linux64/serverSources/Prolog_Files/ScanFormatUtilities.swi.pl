@@ -133,6 +133,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
+
 :- style_check(-singleton).
 
 
@@ -152,9 +153,9 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 /** ticket #422: support the JSONIC frame format **/
 keyWith(_,'{ ') :- getFlag(currentAnswerFormat,'JSONIC'),!.
 keyWith(with([]),'') :- !.
-keyWith(_,'with ').
+keyWith(_,'with \n').
 
-keyEnd('} ') :- getFlag(currentAnswerFormat,'JSONIC'),!.
+keyEnd('}') :- getFlag(currentAnswerFormat,'JSONIC'),!.
 keyEnd('end ').
 
 
@@ -183,8 +184,8 @@ keyFrameListStart('').
 keyFrameListEnd(']\n') :- getFlag(currentAnswerFormat,'JSONIC'),!.
 keyFrameListEnd('').
 
-keyFrameSep(',\n') :- getFlag(currentAnswerFormat,'JSONIC'),!.
-keyFrameSep('\n').
+keyFrameSep(',\n\n') :- getFlag(currentAnswerFormat,'JSONIC'),!.
+keyFrameSep('\n\n').
 
 
 /******************************************************************************
@@ -210,11 +211,10 @@ keyFrameSep('\n').
 build_frame('SMLfragment'(what(_x), _inOmega, _in, _isa, _with), _buf):-
 	keyWith(_with,_withsymbol),
 	buildObjectHeader(what(_x), _inOmega, _in, _isa,_with,_withsymbol, _buf),
-	appendBuffer(_buf,'\n'),
+/**	appendBuffer(_buf,'\n'), **/
 	buildObjectBody(0,_with, _buf),
 	keyEnd(_end),
 	appendBuffer(_buf,_end),
-	appendBuffer(_buf,'\n'),
 	!.
 
 
@@ -252,7 +252,7 @@ buildObjectHeader(what(_x), in_omega(_classList1), in(_classList2), isa(_classLi
           appendIfNeeded(_buf,[_classList3,_attrList],',\n')),
 	isaBuild(isa(_classList3), _buf),
         ( _classList3=[],!;
-          appendIfNeeded(_buf,[_attrList],',')),
+          appendIfNeeded(_buf,[_attrList],',\n')),
         !.
 
 
@@ -322,7 +322,7 @@ outAttrBlocks(_indentLevel,[attrdecl(_catList, _propList)| _attrTail], _buf):-
 
 
 /** for JSONIC: get a prefix to be added to a property label, e.g. single__name **/
-getLabelPrefix([attribute],'') :- !.  /** surpress attribute as prefix also in JSONIC **/
+/** getLabelPrefix([attribute],'') :- !.  surpress attribute as prefix also in JSONIC **/
 
 getLabelPrefix([_categorylabel],_prefix) :-
         getFlag(currentAnswerFormat,'JSONIC'),!,
@@ -1049,6 +1049,16 @@ infixName('GT','>').
 *************************************************************************/
 
 outIdentifier(_x,_xAtom) :-
+	(_x = select( _inSelect, _selectSymbol, _ident);
+         _x = derive(_q,_slist)),
+        getFlag(currentAnswerFormat,'JSONIC'),!,
+        setFlag(currentAnswerFormat,'FRAME'),
+        do_outIdentifier(_x, _xAtom1),
+	pc_atomconcat(['"',_xAtom1,'"'],_xAtom),
+        setFlag(currentAnswerFormat,'JSONIC'),
+        !.
+
+outIdentifier(_x,_xAtom) :-
         getFlag(currentAnswerFormat,'JSONIC'),!,
 	esapeQuotes(_x,_x1),
 	do_outIdentifier(_x1, _xAtom1),
@@ -1099,9 +1109,6 @@ do_outIdentifier(_id,_newid) :-
 
 do_outIdentifier(_name,_name) :-!.
 
-/*do_outIdentifier(_x,_ex) :-*/
-/*	outGroundIdentifier(_x, _ex),*/
-/*	!.*/
 
 
 
@@ -1153,54 +1160,6 @@ transformSlist([specialize(_x1,_x2)|_r], _atom) :-
 	)).
 
 
-
-
-
-/* ************************ outGroundIdentifier ************************ */
-/*                                                       29-Jul-1988/MJf */
-/* outGroundIdentifier(_x, _ex)                                          */
-/*   _x: real v integer v atom v string v assertion                      */
-/*   _ex: atom                                                           */
-/*                                                                       */
-/* Object identifiers which are no select expressions are transformed by */
-/* this little predicate (previously part of outIdentifier).             */
-/*                                                                       */
-/* ********************************************************************* */
-
-/** for an assertion **/
-outGroundIdentifier(_assertion,_assertion) :-
-	assertion_string(_assertion).
-
-/** for a string **/
-outGroundIdentifier(_string,_string) :-
-	quotedAtom(_string).
-
-
-/** for a real or an integer or an atom or a special identifier to be enclosed in ' 2-AUG-1988/tr
-**/
-
-outGroundIdentifier(_a,_a) :-
-	integer(_a).
-
-outGroundIdentifier(_a,_a) :-
-	float(_a).
-
-outGroundIdentifier(_bimstring,_outstring) :-
-	bimstring(_bimstring),
-	!,
-	'BimstringToString'(_bimstring,_charlist),
-	atom2list(_atom,_charlist),
-	pc_atomconcat(['"',_atom,'"'],_outstring).
-
-outGroundIdentifier(_atom,_atom) :-
-	atom(_atom),
-	atom2list(_atom, _charList),
-	alphanumeric(_, _charList, []),
-	!.
-
-outGroundIdentifier(_atom,_quotedAtom) :-
-	atom(_atom),
-	pc_atomconcat(['\'', _atom, '\''], _quotedAtom).
 
 /****************************************************************************
    outSelectIdent(_select,_Name)
