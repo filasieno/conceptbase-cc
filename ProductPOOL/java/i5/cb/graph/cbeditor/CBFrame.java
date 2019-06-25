@@ -1192,9 +1192,9 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
           if (CBConfiguration.anyWindows())
             separator = "\\\\";  // complicated way to specify the backslash character for split
           String[] parts = getGelfile().split(separator);
-          gelname = " - " + parts[parts.length-1];
+          gelname = parts[parts.length-1] + " - ";
         }
-        super.setTitle(mainTitle + connectStatus + gelname);
+        super.setTitle(gelname + mainTitle + connectStatus);
     }
 
 
