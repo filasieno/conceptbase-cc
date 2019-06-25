@@ -589,13 +589,13 @@ selectCheapestPath1(_mVars,_cons,[_b|_bList],_binding,_bcost) :-
 {* writeCostsBinds([_b|_bList],[_c|_cList]),nl, *}
  	findCheaperBinding(_b,_c,_bList,_cList,_binding,_bcost).
 
-{*
+
 writeCostsBinds([],[]) :- !.
 
 writeCostsBinds([_b|_bList],[_c|_cList]) :-
   write(_c),write(' : '),write(_b),nl,
   writeCostsBinds(_bList,_cList).
-*}
+
 
 testAllmVarDet([],_,[]).
 testAllmVarDet([DI(_lit,_c,_v,_evCost)|_diList],_mVs,[DI(_lit,_c,_v,_evCost)|_erg]) :-

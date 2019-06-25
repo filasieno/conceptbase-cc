@@ -97,6 +97,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(isComplexComparisonLit/1,QO_preproc)
 #IMPORT(isComplexQlit/1,QO_preproc)
 #IMPORT(isSubsetOf/2,GeneralUtilities)
+#IMPORT(is_id/1,MetaUtilities)
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -200,6 +201,7 @@ determines(A_e(_x,_m,_y),[],[_x,_m,_y],100) .
 
 
 determines(In(_x,_id),[_id],[_x],10000):- id2name(_id,Proposition),!.
+determines(In(_x,_c),[_c],[_x],1000) :- is_id(_c),prove_literal(A(_,Proposition,IN,_c)),!.  {* _c is defined in DeepTelos *}
 determines(In(_x,_c),[_c],[_x],12).
 determines(In(_x,_c),[_x,_c],[],1) .
 determines(In(_x,_c),[_x],[_c],5) .
