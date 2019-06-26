@@ -116,6 +116,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(prove_explicit/1)
 #EXPORT(prove_literal/1)
 #EXPORT(prove_literals/1)
+#EXPORT(prove_upd_literals/1)
 #EXPORT(prove_edb_literals/1)
 #EXPORT(prove_edb_literal/1)
 #EXPORT(prove_upd_literal/1)
@@ -1052,6 +1053,10 @@ prove_edb_literal(Label( _id, _l)) :-
 prove_upd_literal(_lit) :-
   checkToEnableCacheDuringUpdate,
   prove_literal(_lit).
+
+prove_upd_literals(_lit) :-
+  checkToEnableCacheDuringUpdate,
+  prove_literals(_lit).
 
 
 
