@@ -23,7 +23,7 @@ cd $HOME/CBPOOL/ProductPOOL
   compileCB
   cd $HOME
   /bin/rm $STICKDIR/CBPOOL.zip
-  zip -r $STICKDIR/CBPOOL.zip CBPOOL -x *.git* CBPOOL/ProductPOOL/doc/UserManual/**\*
+  zip -r $STICKDIR/CBPOOL.zip CBPOOL -x \*.git* CBPOOL/ProductPOOL/doc/UserManual/**\*
   echo "CBPOOL put!"
 else
   echo "No USB stick or Dropbox folder found"
