@@ -74,6 +74,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #ENDMODDECL()
 
 #IMPORT(prove_literal/1,Literals)
+#IMPORT(prove_upd_literal/1,Literals)
 #IMPORT(append/3,GeneralUtilities)
 #IMPORT(empty/1,MetaUtilities)
 #IMPORT(findPositionsInList/3,MetaUtilities)
@@ -130,11 +131,10 @@ computeExtension(In(_x,_c),_cons,[]) :-
 	prepareLiteral(In(_x,_c),_cons,_newLit),
 	_newLit =..[In,_xNew,_id],
 	ground(_id),
-	prove_literal(In(_id,id_65)),!.   {* id_65 = QueryClass *}
+	prove_upd_literal(In(_id,id_65)),!.   {* id_65 = QueryClass *}
 
 computeExtension(_lit,_cons,_extList) :-
 	prepareLiteral(_lit,_cons,_newLit),
-	save_setof(_newLit,(prove_literal(_newLit),ground(_newLit)),_extList),!.
 
 
 {
