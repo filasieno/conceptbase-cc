@@ -202,7 +202,7 @@ determines(A_e(_x,_m,_y),[],[_x,_m,_y],100) .
 
 
 determines(In(_x,_id),[_id],[_x],10000):- id2name(_id,Proposition),!.
-determines(In(_x,_c),[_c],[_x],1000) :- is_id(_c),prove_literal(A(_,Proposition,IN,_c)),!.  {* _c is defined in DeepTelos *}
+determines(In(_x,_c),[_c],[_x],1000) :- is_id(_c),prove_upd_literal(A(_,Proposition,IN,_c)),!.  {* _c is defined in DeepTelos *}
 determines(In(_x,_c),[_c],[_x],12).
 determines(In(_x,_c),[_x,_c],[],1) .
 determines(In(_x,_c),[_x],[_c],5) .
