@@ -135,6 +135,7 @@ computeExtension(In(_x,_c),_cons,[]) :-
 
 computeExtension(_lit,_cons,_extList) :-
 	prepareLiteral(_lit,_cons,_newLit),
+	save_setof(_newLit,(prove_upd_literal(_newLit),ground(_newLit)),_extList),!.
 
 
 {
