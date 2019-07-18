@@ -19,8 +19,7 @@ fi
 if [ -d "$STICKDIR" ]; then
   cd $HOME
   unzip -o $STICKDIR/CBPOOL.zip
-  /bin/rm -rf $HOME/CBPOOL/ProductPOOL/linux/serverSources/Prolog_Files/objects.SWI/PrologObjects
-  /bin/rm -rf $HOME/CBPOOL/ProductPOOL/linux/serverSources/Prolog_Files/objects.SWI/PrologObjects
+  /bin/rm -rf $HOME/CBPOOL/ProductPOOL/linux*/serverSources/Prolog_Files/objects.SWI/PrologObjects
   echo "CBPOOL installed!"
 else
   echo "No USB stick or Dropbox folder found"
