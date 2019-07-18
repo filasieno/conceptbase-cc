@@ -21,6 +21,8 @@ if [ -d "$STICKDIR" ]; then
 
 cd $HOME/CBPOOL/ProductPOOL
   compileCB
+  /bin/rm -rf $HOME/CBPOOL/ProductPOOL/linux/serverSources/Prolog_Files/objects.SWI/PrologObjects
+  /bin/rm -rf $HOME/CBPOOL/ProductPOOL/linux/serverSources/Prolog_Files/objects.SWI/PrologObjects
   cd $HOME
   /bin/rm $STICKDIR/CBPOOL.zip
 #  zip -r $STICKDIR/CBPOOL.zip CBPOOL -x \*.git* CBPOOL/ProductPOOL/doc/UserManual/**\*
