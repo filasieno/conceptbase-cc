@@ -866,6 +866,25 @@ public class CBShell {
                 }
             }
         }
+        else if (command.equals("showModules") || command.equals("sub")) {
+            if (isConnected) {
+                String query="find_instances[Module/class]";
+                String queryRep="OBJNAMES";
+                String answerRep="LABEL";
+                String rollbackTime="Now";
+                try {
+                    currentAns=cbClient.ask(query,queryRep,answerRep,rollbackTime);
+                }
+                catch(Exception e) {
+                    System.err.println("Exception: " + e.getMessage());
+                }
+            }
+            else {
+                if (!isConnected) {
+                    System.err.println("Not connected to server");
+                }
+            }
+        }
         else if (command.equals("listClass") || command.equals("ls")) {
             if (isConnected) {
                 String className = "Individual";
@@ -1063,6 +1082,8 @@ public class CBShell {
             System.out.println("      shortcut for tell \"<module> in Module end\"");
             System.out.println("  showUsers   or  who");
             System.out.println("      display instances of CB_User, i.e. all users who have logged into this database");
+            System.out.println("  showModules   or  sub");
+            System.out.println("      display the currently vissible submodules");
             System.out.println("  showAnswer");
             System.out.println("      shows answer to the last query on stdout; use '> filename' for output redirection");
             System.out.println("  show <name>");
