@@ -51,7 +51,7 @@ There are four options for the answer format:
 
 The answer format {\tt JSONIC} is an alternative to {\tt FRAME}. Here is an example contrasting
 the two formats. The first two entries are in {\tt FRAME} format, the latter two in {\tt JSONIC}.
-If the attribute category is {\tt attribute}, then it is surpressed in the {\tt JSONIC} format.
+
 
 \begin{verbatim}
 Employee in Class isA Person,Agent with
@@ -83,9 +83,9 @@ end
 { "id" : "bill",
   "type" : ["Employee"],
   "salary/bsal" : "1000",
-  "name/firstname" : "\"William\#",
+  "name/firstname" : "\"William\"",
   "name/lastname" : "\"Smith\"",
-  "creator": "mjeu"
+  "attribute/creator": "mjeu"
 }
 \end{verbatim}
 

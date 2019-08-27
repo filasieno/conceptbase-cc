@@ -48,8 +48,7 @@ If that exists, it is selected, otherwise the format
 <span style="font-family:monospace">FRAME</span> is selected. If there are more than one,
 the first one is selected.
 </dd></dl><p>The answer format <span style="font-family:monospace">JSONIC</span> is an alternative to <span style="font-family:monospace">FRAME</span>. Here is an example contrasting
-the two formats. The first two entries are in <span style="font-family:monospace">FRAME</span> format, the latter two in <span style="font-family:monospace">JSONIC</span>.
-If the attribute category is <span style="font-family:monospace">attribute</span>, then it is surpressed in the <span style="font-family:monospace">JSONIC</span> format.</p><pre class="verbatim">Employee in Class isA Person,Agent with
+the two formats. The first two entries are in <span style="font-family:monospace">FRAME</span> format, the latter two in <span style="font-family:monospace">JSONIC</span>.</p><pre class="verbatim">Employee in Class isA Person,Agent with
   attribute
      salary: Integer;
      name: String
@@ -78,9 +77,9 @@ end
 { "id" : "bill",
   "type" : ["Employee"],
   "salary/bsal" : "1000",
-  "name/firstname" : "\"William\#",
+  "name/firstname" : "\"William\"",
   "name/lastname" : "\"Smith\"",
-  "creator": "mjeu"
+  "attribute/creator": "mjeu"
 }
 </pre><p>The command <span style="font-family:monospace">ask &lt;querycall&gt;</span>
 is a shortcut for

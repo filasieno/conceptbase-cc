@@ -1234,6 +1234,9 @@ to the CBShell variables \$1 to \$9. The CBShell variable \$0 is bound to the na
       show the list of users that have at any time been enrolled to this database;
       implemented by a query that displays the instances of the class {\tt CB\_User}
 
+\item[sub] :
+      show the list of visible submodules to which the user can branch via the 'cd' command
+
 \item[show {\it name}] :
       show the frame with the given name; shortcut for
       {\tt ask get\_object[{\it name}/objname]}
@@ -1277,6 +1280,9 @@ There are a couple of legacy commands that we support for backward compatibility
 
 \item[showUsers] :
       synonym for 'who'
+
+\item[showModules] :
+      synonym for 'sub'
 
 \item[listModule {\it mod}] :
       synonym for 'lm'

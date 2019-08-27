@@ -72,7 +72,7 @@ Version 8.1
 <br>
 University of Sk&#XF6;vde, 54128 Sk&#XF6;vde, Sweden
 <br>
-</h3><h3 class="titlerest">2017-05-27</h3></td></tr>
+</h3><h3 class="titlerest">2019-05-27</h3></td></tr>
 </table><p><span style="font-weight:bold">Abstract.</span> ConceptBase.cc (in short ConceptBase) is a multi-user deductive object manager 
 intended for conceptual modeling, metamodeling, and coordination in design
 environments. The system implements O-Telos, a dialect of Telos 
@@ -2963,8 +2963,7 @@ If that exists, it is selected, otherwise the format
 <span style="font-family:monospace">FRAME</span> is selected. If there are more than one,
 the first one is selected.
 </dd></dl><p>The answer format <span style="font-family:monospace">JSONIC</span> is an alternative to <span style="font-family:monospace">FRAME</span>. Here is an example contrasting
-the two formats. The first two entries are in <span style="font-family:monospace">FRAME</span> format, the latter two in <span style="font-family:monospace">JSONIC</span>.
-If the attribute category is <span style="font-family:monospace">attribute</span>, then it is surpressed in the <span style="font-family:monospace">JSONIC</span> format.</p><pre class="verbatim">Employee in Class isA Person,Agent with
+the two formats. The first two entries are in <span style="font-family:monospace">FRAME</span> format, the latter two in <span style="font-family:monospace">JSONIC</span>.</p><pre class="verbatim">Employee in Class isA Person,Agent with
   attribute
      salary: Integer;
      name: String
@@ -2993,9 +2992,9 @@ end
 { "id" : "bill",
   "type" : ["Employee"],
   "salary/bsal" : "1000",
-  "name/firstname" : "\"William\#",
+  "name/firstname" : "\"William\"",
   "name/lastname" : "\"Smith\"",
-  "creator": "mjeu"
+  "attribute/creator": "mjeu"
 }
 </pre><p>The command <span style="font-family:monospace">ask &lt;querycall&gt;</span>
 is a shortcut for
@@ -5750,8 +5749,9 @@ and the result is returned in the Telos editor window.
 	<span style="font-weight:bold">New Telos Editor:</span></dt><dd class="dd-description"> Opens a new Telos editor (see section <a href="#sec%3Atelos_ed">8.1.4</a>).
 	</dd><dt class="dt-description"><span style="font-weight:bold">Display Instances:</span></dt><dd class="dd-description"> Opens the display instances dialog (see section <a href="#sec%3Adisplay_instances">8.1.6</a>).
 	</dd><dt class="dt-description"><span style="font-weight:bold">Frame Browser:</span></dt><dd class="dd-description"> Opens the frame browser window (see section <a href="#sec%3Aframe_browser">8.1.7</a>).
-	</dd><dt class="dt-description"><span style="font-weight:bold">Display Queries:</span></dt><dd class="dd-description"> Shows all queries stored in the current database and provides a facility to
+	</dd><dt class="dt-description"><span style="font-weight:bold">Display Queries:</span></dt><dd class="dd-description"> Shows the &#X2019;visible&#X2019; (user-defined) queries stored in the current database and provides a facility to
 	call these queries (see section <a href="#sec%3Adisplay_queries">8.1.8</a>).
+</dd><dt class="dt-description"><span style="font-weight:bold">Display All Queries:</span></dt><dd class="dd-description"> Like above but includes the many built-in queries of ConceptBase.
 </dd><dt class="dt-description"><span style="font-weight:bold">Display Functions:</span></dt><dd class="dd-description"> Shows all functions stored in the current database 
 (see section <a href="#sec%3Adisplay_functions">8.1.9</a>).
 	</dd><dt class="dt-description"><span style="font-weight:bold">Query Editor:</span></dt><dd class="dd-description"> Opens the query editor (see section <a href="#sec%3Aquery_editor">8.1.10</a>).
@@ -9118,7 +9118,9 @@ you may not alter this report and you may not republish it, neither electronical
 Rather point to the original location
 of this report at <a href="http://conceptbase.cc/CB-Resources.html">link</a>.
 A version of the user manual is included in the ConceptBase.cc installation directory
-in sub-directory doc/UserManual.
+in sub-directory doc/UserManual. This report is published under a
+Creative Commons License Attribution-NonCommercial-NoDerivatives 4.0 International
+(<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">link</a>).
 </div></dd></dl>
 <!--END NOTES-->
 <!--HTMLFOOT-->
