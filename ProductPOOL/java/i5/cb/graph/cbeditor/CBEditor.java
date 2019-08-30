@@ -466,6 +466,27 @@ public class CBEditor extends GraphEditor {
        // --------------------------
 
 
+       // Checkbox for enabling derived links in CBGraph; GitLab issue #5
+       // --------------------------
+        JCheckBoxMenuItem jcbDerivedLinksEnable = new JCheckBoxMenuItem(bundle.getString("GMB_OptionsMenu_DerivedLinksCheckBx"));
+        jcbDerivedLinksEnable.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+                   CBConfiguration.setEnableDerivedLinks(true);
+                } else {
+                   CBConfiguration.setEnableDerivedLinks(false);
+                }
+            }
+        });
+        if (CBConfiguration.getEnableDerivedLinks())
+            jcbDerivedLinksEnable.setSelected(true);
+        else
+            jcbDerivedLinksEnable.setSelected(false);
+
+        m_graphMenuBar.getOptionsMenu().add(jcbDerivedLinksEnable);
+       // --------------------------
+
+
        // entries for the "Current connection" menu
 
         GraphMenu gmActiveCBFrame = new GraphMenu("GMB_ActiveFrame_Title",

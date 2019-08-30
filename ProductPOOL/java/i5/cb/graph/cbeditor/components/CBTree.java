@@ -49,6 +49,8 @@ import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.*;
 
+import i5.cb.CBConfiguration;
+
 
 
 /** Contains a {@link i5.cb.graph.cbeditor.CBUserObject}'s
@@ -166,11 +168,17 @@ public class CBTree extends JTree {
             newQueryNode.add(new WaitNode() );
         }
 
-        newAttribCatNode = new AttribCatNode(bundle.getString("queryLabel_outgoingAttr"), "find_used_attribute_categories["+ m_cbUO.toString() +"/objname]", AttribCatNode.OUTGOING);
+        String sQueryOutgoing = "find_attribute_categories[";
+        String sQueryIncoming = "find_incoming_attribute_categories[";
+        if (CBConfiguration.getEnableDerivedLinks()) {  // the default
+           sQueryOutgoing = "find_used_attribute_categories[";
+           sQueryIncoming = "find_used_incoming_attribute_categories[";
+        }
+        newAttribCatNode = new AttribCatNode(bundle.getString("queryLabel_outgoingAttr"), sQueryOutgoing + m_cbUO.toString() +"/objname]", AttribCatNode.OUTGOING);
         root.add(newAttribCatNode);
         newAttribCatNode.add(new WaitNode() );
 
-        newAttribCatNode = new  AttribCatNode(bundle.getString("queryLabel_incomingAttr"), "find_used_incoming_attribute_categories["+ m_cbUO.toString() +"/objname]", AttribCatNode.INCOMING);
+        newAttribCatNode = new  AttribCatNode(bundle.getString("queryLabel_incomingAttr"), sQueryIncoming + m_cbUO.toString() +"/objname]", AttribCatNode.INCOMING);
         root.add(newAttribCatNode);
         newAttribCatNode.add(new WaitNode() );
 
@@ -274,11 +282,13 @@ public class CBTree extends JTree {
                     newLabelNode.add(newQueryNode);
                     newQueryNode.add(new WaitNode() );
 
-                    newQuery = new CBQuery("find_all_referring_objects2["+m_cbUO.toString()+"/objname,"+ toAttrCat.toString() + "/cat]",
+                    if (CBConfiguration.getEnableDerivedLinks()) {
+                       newQuery = new CBQuery("find_all_referring_objects2["+m_cbUO.toString()+"/objname,"+ toAttrCat.toString() + "/cat]",
                                            m_cbFrame, m_cbUO.getTelosObject(), toAttrCat.toString(), "dst",toAttrCat);
-                    newQueryNode = new QueryNode(newQuery, bundle.getString("queryResult_All") );
-                    newLabelNode.add(newQueryNode);
-                    newQueryNode.add(new WaitNode() );
+                       newQueryNode = new QueryNode(newQuery, bundle.getString("queryResult_All") );
+                       newLabelNode.add(newQueryNode);
+                       newQueryNode.add(new WaitNode() );
+                    }
 
                 }
                 else {
@@ -288,11 +298,13 @@ public class CBTree extends JTree {
                     newLabelNode.add(newQueryNode);
                     newQueryNode.add(new WaitNode() );
 
-                    newQuery = new CBQuery("find_attribute_values["+m_cbUO.toString()+"/objname,"+ toAttrCat.toString() + "/cat]",
+                    if (CBConfiguration.getEnableDerivedLinks()) {
+                       newQuery = new CBQuery("find_attribute_values["+m_cbUO.toString()+"/objname,"+ toAttrCat.toString() + "/cat]",
                                            m_cbFrame, m_cbUO.getTelosObject(), toAttrCat.toString(), "src",toAttrCat);
-                    newQueryNode = new QueryNode(newQuery, bundle.getString("queryResult_All"));
-                    newLabelNode.add(newQueryNode);
-                    newQueryNode.add(new WaitNode() );
+                       newQueryNode = new QueryNode(newQuery, bundle.getString("queryResult_All"));
+                       newLabelNode.add(newQueryNode);
+                       newQueryNode.add(new WaitNode() );
+                    }
                 }
             }
             catch(Exception e) {
