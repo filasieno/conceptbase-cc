@@ -23,7 +23,7 @@ The list of tickets and their solutions is available at
 http://www-i5.informatik.rwth-aachen.de/cgi-bin/cvstrac/cvstrac.cgi/cbase/rptview?rn=4
 
 
-Detailed Changes since Version 8.0 (2019-05-27)
+Detailed Changes since Version 8.0 (2019-05-30)
 ===============================================
 
 Version 8.1 aims at making the CBserver better integrated with current
@@ -48,6 +48,15 @@ the GitLab repository of ConceptBase.cc
 
    The CBShell command 'sub' lists the currently visible modules; equivalent to
    'ls Module'
+
+81-04 Enable/disable derived links in CBGraph
+
+   A new option of CBGraph allows to enable/disable the display of derived links.
+   If disabled, CBGraph is faster in displaying the pop-up menues and showing the
+   incoming and outcoming links. However, it cannot show derived links in this case.
+   The option is included since some database are too large in combination with
+   recursive rules to show derived links.
+   (Issue 5)
 
 
 

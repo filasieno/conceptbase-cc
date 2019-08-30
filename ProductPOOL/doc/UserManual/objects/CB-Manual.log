@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.12)  3 JUN 2019 11:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.12)  27 AUG 2019 14:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -638,38 +638,38 @@ Overfull \hbox (16.71997pt too wide) in paragraph at lines 1175--1185
  []
 
 [110] [111]
-Overfull \hbox (18.14131pt too wide) in paragraph at lines 1328--1331
+Overfull \hbox (18.14131pt too wide) in paragraph at lines 1334--1337
 []\OT1/ptm/m/n/10 The com-plete ex-am-ple is avail-able from the CB-Forum at []
 []$\OT1/pcr/m/n/9 http : / / merkur . informatik . rwth-[]aachen .
  []
 
 [112] [113]
-Overfull \hbox (22.70233pt too wide) in paragraph at lines 1549--1555
+Overfull \hbox (22.70233pt too wide) in paragraph at lines 1555--1561
 \OT1/ptm/m/n/10 An sim-ple ex-am-ple is given in [][]$\OT1/pcr/m/n/9 http : / /
  merkur . informatik . rwth-[]aachen . de / pub / bscw . cgi / 3372687$[][]\OT1
 /ptm/m/n/10 .
  []
 
 
-Overfull \hbox (5.59067pt too wide) in paragraph at lines 1549--1555
+Overfull \hbox (5.59067pt too wide) in paragraph at lines 1555--1561
 \OT1/ptm/m/n/10 A more elab-o-rate ex-am-ple is avail-able in the CB-Forum at [
 ][]$\OT1/pcr/m/n/9 http : / / merkur . informatik . rwth-[]aachen .
  []
 
 [114]
-Overfull \hbox (1.68271pt too wide) in paragraph at lines 1568--1573
+Overfull \hbox (1.68271pt too wide) in paragraph at lines 1574--1579
 \OT1/pcr/m/n/10 4cbshell \OT1/ptm/m/n/10 from the CB-Forum at [][]$\OT1/pcr/m/n
 /9 http : / / merkur . informatik . rwth-[]aachen . de / pub / bscw . cgi /
  []
 
 
-Overfull \hbox (1.41376pt too wide) in paragraph at lines 1586--1586
+Overfull \hbox (1.41376pt too wide) in paragraph at lines 1592--1592
 []        \OT1/pcr/m/n/10 echo tell \"\\\"${file}\\\" in File with size s: ${fs
 ize} end\"[] 
  []
 
 
-Overfull \hbox (16.84142pt too wide) in paragraph at lines 1622--1627
+Overfull \hbox (16.84142pt too wide) in paragraph at lines 1628--1633
 []\OT1/ptm/m/n/10 An elab-o-rate ex-am-ple of this us-age is in the CB-Forum at
  [][]$\OT1/pcr/m/n/9 http : / / merkur . informatik . rwth-[]aachen .
  []
@@ -1029,7 +1029,7 @@ st/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/ut
 mbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on CB-Manual.pdf (196 pages, 1924354 bytes).
+Output written on CB-Manual.pdf (196 pages, 1924442 bytes).
 PDF statistics:
  2880 PDF objects out of 2984 (max. 8388607)
  2508 compressed objects within 26 object streams

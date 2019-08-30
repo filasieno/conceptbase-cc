@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="generator" content="hevea 2.23">
+<link rel="stylesheet" type="text/css" href="cb-style.css"><link rel="stylesheet" type="text/css" href="cbm.css">
+<title>The ConceptBase.cc Server</title>
+</head>
+<body >
+<a href="cbm006.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="cbm008.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 id="sec99" class="chapter">Chapter&#XA0;6&#XA0;&#XA0;The ConceptBase.cc Server</h1>
+<p>
+<a id="cha:cbserver"></a></p><p>The ConceptBase.cc server (CBserver) offers its services via a TCP/IP port to client
+programs.
+The main services are to TELL or UNTELL O-Telos objects
+and to ASK queries to the database. The operations are called by clients
+(for example, the user interfaces described in section <a href="cbm009.html#cha%3Aworkbench">8</a>).
+An arbitrary number of clients can connect to a CBserver.</p><p>The CBserver is started<sup><a id="text28" href="#note28">1</a></sup>
+by a command line</p><pre class="verbatim">   cbserver &lt;params&gt;
+</pre><p>assuming that the installation directory of ConceptBase.cc is
+added to the search path of executable programs. If it is not on the
+search path, then simply change the current directory to the installation
+directory of ConceptBase.cc or use its absolute path of the cbserver script.</p>
+<h2 id="sec100" class="section">6.1&#XA0;&#XA0;CBserver parameters</h2>
+<p>
+<a id="sec:cbsparams"></a></p><p>The following parameters are available for the &#X2019;cbserver&#X2019; command:</p><dl class="description"><dt class="dt-description">
+<span style="font-weight:bold">-d dbdir</span></dt><dd class="dd-description"> Set database <span style="font-family:monospace">dbdir</span> to be loaded. If the database does not exist, it
+is created and initialized with the O-Telos pre-defined objects.
+The database is maintained as a directory. Setting the database is mandatory
+except when the update mode is set to <span style="font-family:monospace">nonpersistent</span> (see below).
+You cannot start two concurrent servers which use the same database directory.
+To avoid this case, a file <span style="font-family:monospace">OB.lock</span> is created in the database directory
+when the first server is started. If the server crashes during its execution,
+the file <span style="font-family:monospace">OB.lock</span> will still exist in the directory. Before you
+restart the server, you might have to remove this file manually.</dd><dt class="dt-description"><span style="font-weight:bold">-db dbdir</span></dt><dd class="dd-description"> Like <span style="font-family:monospace">-d</span> but also sets the load/save/views directories to
+<span style="font-family:monospace">dbdir</span>, i.e. the CBserver will automatically maintain the module sources
+in <span style="font-family:monospace">dbdir</span> and also materialize the selected queries in the same directory.
+See section <a href="cbm006.html#sec%3Amodule_views">5.11</a> for details.</dd><dt class="dt-description"><span style="font-weight:bold">-new dbdir</span></dt><dd class="dd-description"> Like <span style="font-family:monospace">-d</span> but deletes any existing database at location
+<span style="font-family:monospace">dbdir</span> before it creates and initializes it.</dd><dt class="dt-description"><span style="font-weight:bold">-u updatemode</span></dt><dd class="dd-description"> controls update persistency.
+The allowed values are <span style="font-family:monospace">persistent</span> and <span style="font-family:monospace">nonpersistent</span>.
+If no database is provided by parameter "-d", then the default
+update mode is set to nonpersistent. Otherwise, the default is
+persistent.
+In nonpersistent mode, all updates are lost after the ConceptBase server
+is stopped. In persistent mode, updates are stored in the files of the database and
+will be available for future sessions.</dd><dt class="dt-description"><span style="font-weight:bold">-U untellmode</span></dt><dd class="dd-description"> controls the way how UNTELL is executed by the server.
+The allowed values are <span style="font-family:monospace">verbatim</span> and <span style="font-family:monospace">cleanup</span> (default).
+In verbatim mode, the UNTELL operation will only untell the facts 
+directly described by the O-Telos frame being submitted as argument.
+In cleanup mode, UNTELL will also try to remove the instantiation to the
+O-Telos system classes <span style="font-family:monospace">Individual</span>, <span style="font-family:monospace">Attribute</span>, <span style="font-family:monospace">InstanceOf</span> and <span style="font-family:monospace">IsA</span>. 
+By doing so, UNTELL behaves inverse to the TELL
+operation. More details are explained in subsection <a href="#sec%3Auntell">6.9</a>.</dd><dt class="dt-description"><span style="font-weight:bold">-port portnr</span></dt><dd class="dd-description"> sets the TCP/IP socket portnumber for client connections
+to the CBserver. The value <span style="font-family:monospace">portnr</span>
+must be between 2000 and 65535. If there is already a process using the
+portnumber, the CBserver will abort. The default value for
+the portnumber is 4001.</dd><dt class="dt-description"><span style="font-weight:bold">-p portnr</span></dt><dd class="dd-description"> is the same as "-port portnr". Deprecated since it conflicts with
+a predefined command line parameter of SWI-Prolog.</dd><dt class="dt-description"><span style="font-weight:bold">-version</span></dt><dd class="dd-description"> display version info and exit.</dd><dt class="dt-description"><span style="font-weight:bold">-help</span></dt><dd class="dd-description"> display list of CBserver options and exit.</dd><dt class="dt-description"><span style="font-weight:bold">-license</span></dt><dd class="dd-description"> display license and exit.</dd><dt class="dt-description"><span style="font-weight:bold">-t tracemode</span></dt><dd class="dd-description"> sets the tracemode of the CBserver.
+It is one of <span style="font-family:monospace">silent</span>, <span style="font-family:monospace">no</span>, <span style="font-family:monospace">minimal</span>, <span style="font-family:monospace">low</span>, <span style="font-family:monospace">high</span>, <span style="font-family:monospace">veryhigh</span>. The tracemode
+determines the amount of text displayed by the server during its execution.
+The tracemode does not influence the function but is used for debugging. The
+default tracemode is set to <span style="font-family:monospace">minimal</span> (only display CBserver interface).
+The tracemode <span style="font-family:monospace">low</span> will configure the CBserver to trace the CBserver interface
+calls plus answers, and the tracemode <span style="font-family:monospace">no</span> virtually disables tracing.
+The tracemode <span style="font-family:monospace">silent</span> is even surpressing the message &#X2019;CBserver ready&#X2019; when starting up
+the CBserver.
+The tracemode <span style="font-family:monospace">high</span> and <span style="font-family:monospace">veryhigh</span> are useful for debugging the system.
+In these two modes, an unlikely fatal signal like division by zero will not directly abort the
+CBserver process but start a debug dialog. Enter "h" for options to
+diagnose the problem in collaboration with the ConceptBase developers.</dd><dt class="dt-description"><span style="font-weight:bold">-c cachemode</span></dt><dd class="dd-description"> turns on the query cache to allow recursive query evaluation.
+The value <span style="font-family:monospace">cachemode</span> is one of <span style="font-family:monospace">off</span>, <span style="font-family:monospace">transient</span>, and <span style="font-family:monospace">keep</span> (default).
+In transient mode the cache is emptied before each transaction. In keep mode,
+the cache is emptied when the maximum number of entries in the cache is exceeded
+or an update has invalidated the cache. Further details are explained in section <a href="#sec%3Acbcache">6.7</a>.</dd><dt class="dt-description"><span style="font-weight:bold">-o optmode</span></dt><dd class="dd-description"> controls the optimizer for rules, constraints and queries.
+The value <span style="font-family:monospace">optmode</span> is one of <span style="font-family:monospace">0</span> (no optimization), <span style="font-family:monospace">1</span>
+(structural optimization by exploiting builtin O-Telos axioms),
+<span style="font-family:monospace">2</span> (optimizing join order), <span style="font-family:monospace">3</span> (combines 1 and 2), or
+<span style="font-family:monospace">4</span> (combines 1 and 2 with trigger pruning). Default
+and recommended is 4.</dd><dt class="dt-description"><span style="font-weight:bold">-r secs</span></dt><dd class="dd-description"> automatically restarts the CBserver after a crash, or when it was
+started with option -sm slave and the last client exits.
+The value <span style="font-family:monospace">secs</span> specifies how many seconds to wait before restart.
+You may want to use this option in a multi-user setting, where the CBserver
+runs on a different machine that the user clients. The -r option must be handled with
+great care since it can easily lead to an infinite loop of restarts, e.g. when
+a database file is corrupted. In such cases you might have to reboot the whole computer!</dd><dt class="dt-description"><span style="font-weight:bold">-s securitylevel</span></dt><dd class="dd-description"> configures the access control mechanism of
+ConceptBase. The value <span style="font-family:monospace">0</span> means that no access control is employed.
+Any user can ask, tell, untell, retell any object in any module. You
+can also untell objects defined in a super-module.
+Level <span style="font-family:monospace">1</span> (default) provides a very basic protection: one can only
+untell objects if they are defined in the current module. This
+prevents in particular undesired deletions of objects defined in
+the <span style="font-family:monospace">System</span> module.
+Level <span style="font-family:monospace">2</span> fully enables access control. First, untelling of objects must
+happen in the module where the object has been defined. Second, any
+transaction submitted by a user to the CBserver is checked against the
+permission rules as defined in section <a href="cbm006.html#sec%3Amodaccess">5.7</a>.
+Level <span style="font-family:monospace">3</span> enables at most read access to a module. In addition, the permission rules
+must allow read access. This level makes sense if you want to freeze a database state.
+Enable access control
+when you use ConceptBase in a multi-user setting and you want to avoid errorneous
+interferences between different users.</dd><dt class="dt-description"><span style="font-weight:bold">-e maxerrors</span></dt><dd class="dd-description"> sets the maximum number of errors to be displayed to a ConceptBase.cc
+client within one transaction. The value -1 means that no restriction is applied.
+Set to 0 to surpress any errors message and to a positive number to limit the
+displayed errors messages to that number. A low positive number can speed up the
+communication between ConceptBase client and server if a lot of error messages
+are generated. The default is 20.</dd><dt class="dt-description"><span style="font-weight:bold">-cc ccmode</span></dt><dd class="dd-description"> (predicate typing) controls to which extent the CBserver
+applies strict typing of
+attribution predicates <span style="font-family:monospace">(x m y)</span> occurring in the membership constraints
+of query classes.
+If the mode is set to <span style="font-family:monospace">strict</span> (=default), attribution predicates without a unique
+concerned class<sup><a id="text29" href="#note29">2</a></sup>
+shall not be accepted.
+If the mode is set to <span style="font-family:monospace">extended</span>, the search for concerned classes shall include
+subclasses (see section <a href="cbm003.html#sec%3ASemFormula">2.2.7</a>). 
+If the mode is set to <span style="font-family:monospace">off</span>, ConceptBase.cc
+also accepts queries with unstrictly-typed attribution predicates.
+The strict mode is preferable since it avoids certain semantic errors.
+Deduction rules and integrity constraints may never violate the
+predicate typing condition, even if the mode is set to <span style="font-family:monospace">off</span>.
+An example for a query using non-strict predicate typing is available from 
+the CB-Forum, see <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/1270138">link</a>.</dd><dt class="dt-description"><span style="font-weight:bold">-mu mumode</span></dt><dd class="dd-description"> (multi-user mode) specifies whether the CBerver should
+run in multi-user mode (value <span style="font-family:monospace">enabled</span>) or in single-user model (value <span style="font-family:monospace">disabled</span>).
+By default, the multi-user mode is enabled, allowing multiple users with different user
+names to connect to the CBserver. In single-user mode, only clients started
+by the same user (identified by her name) can connect to the CBserver.
+The single-user mode is recommended if you want to block other users from logging
+into your CBserver. Since the test is done only on the user name, a malicious
+attacker could use your user name for an account on another computer and then
+successfully log into your CBserver. Use Internet firewalls to protect
+against such attacks. If you specify an administrator user (option -a), then
+this use can always connect to the CBserver.</dd><dt class="dt-description"><span style="font-weight:bold">-v vmode</span></dt><dd class="dd-description"> controls whether view maintenance rules are generated (vmode=<span style="font-family:monospace">on</span>)
+or not (vmode=<span style="font-family:monospace">off</span>). View maintenance rules are used to keep a ConceptBase.cc
+view up-to-date upon changes to the object base. Default value for vmode is <span style="font-family:monospace">off</span>.</dd><dt class="dt-description"><span style="font-weight:bold">-mc maxcost</span></dt><dd class="dd-description"> this parameter defines the maximum cost level for a predicate in a 
+binding path that is used to compile a meta formula (see section <a href="cbm003.html#sec%3ACCmeta">2.2.9</a>). 
+The evaulation of a binding path yields fillers for the meta variables. Set maxcost to
+10 if such a predicate should have about one free variable. Set it to 100 if
+if may have two free variables. Default is 100. The higher the number, the more
+candidate paths are generated, increasing the likelihood that a binding path is 
+found. On the downside, a high value increases the compile time of meta formulas.</dd><dt class="dt-description"><span style="font-weight:bold">-pl pathlen</span></dt><dd class="dd-description"> sets a maximum length for binding path candidates. In principle,
+the number of candidates can explode with the path length. Like the previous parameter,
+the path length influences the ability of ConceptBase.cc to compile meta formulas. The
+default value is 5. If you set the value to 0, then no meta formula can be compiled.</dd><dt class="dt-description"><span style="font-weight:bold">-im imax</span></dt><dd class="dd-description"> sets the maximum number of iterations used to re-order attribution 
+predicates with one free variable. Evaluating such predicates first can lead
+to faster elimination of free variables and thus lead to better query and ECA
+performance. The default value is 3.</dd><dt class="dt-description"><span style="font-weight:bold">-eca emode</span></dt><dd class="dd-description"> controls the ECA sub-system. Possible values are <span style="font-family:monospace">unsafe</span>
+(ECArules are evaluated without safeguarding
+recursive deductive rules), <span style="font-family:monospace">off</span>
+(ECArules are not evaluated, even if some are defined), and <span style="font-family:monospace">safe</span>
+(ECA rules are evaluated with safeguarding recursive rules; this is the default).
+Use the mode <span style="font-family:monospace">unsafe</span> if none of your ECArules calls recursive predicates
+on the newest database state. This may lead to a limited speed-up.</dd><dt class="dt-description"><span style="font-weight:bold">-eo eomode</span></dt><dd class="dd-description"> controls the optimization of conditions of ECArules.
+Possible values are <span style="font-family:monospace">on</span> (default) and <span style="font-family:monospace">off</span>. The optimization is done by
+a re-ordering of predicates in the condition. Hence, you only want to turn of
+optimization to gain full control over the order of evalution in ECA conditions.</dd><dt class="dt-description"><span style="font-weight:bold">-load dir</span></dt><dd class="dd-description"> specifies the directory from which the CBserver will load
+module sources at start-up time. The module sources must have file names
+starting with <span style="font-family:monospace">System</span> and file type <span style="font-family:monospace">sml</span>. Typically, they are
+generated via the <span style="font-family:monospace">-save</span> flag in the preceding session of the CBserver.
+The default is <span style="font-family:monospace">none</span>, i.e. no module sources are loaded at CBserver
+start-up.</dd><dt class="dt-description"><span style="font-weight:bold">-save dir</span></dt><dd class="dd-description"> specifies the directory into which to save certain textual
+excerpts of the database, in particular module listings. The parameter has the
+default value <span style="font-family:monospace">none</span>, which disables the saving function. Currently,
+the CBserver only saves module listings. Each module is stored in one
+file with file type <span style="font-family:monospace">sml</span>. The directory <span style="font-family:monospace">dir</span> must exist.
+The module listing is performed when the CBserver is shut down (complete module
+tree is listed), or when a client tool logs out (home directory tree of
+the client tool is listed). The module listings uses the <span style="font-family:monospace">set module</span>
+directive to enable the import of the file to the right module location.
+See also section <a href="cbm006.html#sec%3Amodule_sources">5.10</a> for details.</dd><dt class="dt-description"><span style="font-weight:bold">-views dir</span></dt><dd class="dd-description"> specifies the directory into which the results of certain
+queries are materialized. See section <a href="cbm006.html#sec%3Amodule_views">5.11</a> for details.</dd><dt class="dt-description"><span style="font-weight:bold">-ms sep</span></dt><dd class="dd-description"> specifies the module separator to be used for saving module listings
+and views. If the separator is set to &#X2019;-&#X2019; (default), then all module sources and
+views are stored at the top level directory. If the module separator is set to &#X2019;/&#X2019;,
+then the files are stored in a deep sub-directory structure that mirrors the module
+structure.</dd><dt class="dt-description"><span style="font-weight:bold">-mg mgmode</span></dt><dd class="dd-description"> specifies whether module listings are generated with separators
+"<span style="font-family:monospace">{---}</span>" for each transaction occurring in the module (option <span style="font-family:monospace">split</span>) or
+without such separators
+(option <span style="font-family:monospace">whole</span>). The default is <span style="font-family:monospace">split</span>. The split option better supports
+cases where metaformulas are defined and used in the same module.</dd><dt class="dt-description"><span style="font-weight:bold">-rl rlmode</span></dt><dd class="dd-description"> controls the way how the CBserver creates labels for generated formulas.
+The default value is <span style="font-family:monospace">on</span>, instructing the CBserver to find a readable 
+label for the generated formula. It typically consists of the labels of
+the participating metaclass attributes occuring in the metaformula. 
+If set to <span style="font-family:monospace">off</span>, the CBserver will just take a system-generated label that contains
+a unique identifier. This is slightly less readable (if you want to inspect
+the generated formulas) but safe against certain possibilities of assigning
+the same label twice.</dd><dt class="dt-description"><span style="font-weight:bold">-ia tmax</span></dt><dd class="dd-description"> sets the maximum number of hours during which a client should
+interact with the CBserver to be regarded as active. Negative values
+are interpreted as &#X2019;infinity&#X2019;. This parameter is only used when a CBserver
+uses the -sm slave and -r options, or the -g public option.
+The default value for tmax is 2.0 hours.</dd><dt class="dt-description"><span style="font-weight:bold">-sm servermode</span></dt><dd class="dd-description"> sets the server mode. Possible values are
+<span style="font-family:monospace">master</span> (default) and <span style="font-family:monospace">slave</span>. In slave mode, the last client that
+leaves the CBserver will also shutdown the CBserver, provided that the CBserver
+and the client were started by the same user. This option is useful when
+a CBserver is only needed while still clients are registered. A master
+CBserver must always be stopped explicitly.</dd><dt class="dt-description"><span style="font-weight:bold">-st stratmode</span></dt><dd class="dd-description"> enables or disables the rule stratification test. Possible values are
+<span style="font-family:monospace">on</span> (default) and <span style="font-family:monospace">off</span>. If enables, then the query evaluator shall
+dynamically test whether stratification violations occur. They shall then
+be reported as an error. Disable the test, if you are sure that the answers
+are correct even though a stratification violation occurs.</dd><dt class="dt-description"><span style="font-weight:bold">-g cmd</span></dt><dd class="dd-description"> provides a special command to the CBserver. There are currently
+three such commands. The command <span style="font-family:monospace">nolpi</span> instructs the CBserver to ignore
+any plug-in file (see section <a href="cbm015.html#cap%3Alpi">F</a>). The command <span style="font-family:monospace">public</span> configures
+the CBserver as a public CBserver (see <a href="#sec%3Apubcbserver">6.6</a>).
+The command
+<span style="font-family:monospace">exit</span> instructs the CBserver to exit immediately after start-up. This can
+be useful to combination with the option <span style="font-family:monospace">-views</span>, <span style="font-family:monospace">-db</span> and <span style="font-family:monospace">-save</span>
+to materialize some excerpts from a stored database.</dd><dt class="dt-description"><span style="font-weight:bold">-a user</span></dt><dd class="dd-description"> designates <span style="font-family:monospace">user</span> as &#X2019;administrator&#X2019; of this CBserver. 
+For the time being this just gives the right to shutdown the CBserver. By default,
+the user who started the CBserver is its administrator. This user shall
+also keep the right to shutdown the server, even when another user is the
+designated administrator. If you specify the user name with host, e.g. 
+<span style="font-family:monospace">billy@myhost</span>, then only the user <span style="font-family:monospace">billy</span> on host <span style="font-family:monospace">myhost</span> is
+recognized as additional administrator. </dd></dl><p><br>
+</p><p>If a CBserver is started without any parameter, then the update mode shall be set
+to <span style="font-family:monospace">nonpersistent</span>, the trace mode to <span style="font-family:monospace">no</span>, multi-user mode is disabled,
+and the server mode to <span style="font-family:monospace">slave</span>. The other parameters are set to their defaults.
+Such a CBserver is useful as companion of tools that need it only while they
+are running. </p><pre class="verbatim">   cbserver
+</pre><p>A ConceptBase client running on the same computer will then connect to this
+CBserver, when it uses &#X2019;localhost&#X2019; as host and 4001 as port number. Since
+the CBserver runs un slave mode, it will shut down when its client disconnects.</p>
+<h2 id="sec101" class="section">6.2&#XA0;&#XA0;ConceptBase under Windows 10</h2>
+<p>
+<a id="sec:win10"></a>
+The CBserver is only compiled for Linux architectures. This means that user of
+other platforms must rely on a Linux system to utilize ConceptBase. The traditional
+way is to start the CBserver on such a Linux system and then connect to it, possibly
+using a so-called public CBserver (see section <a href="#sec%3Apubcbserver">6.6</a>).
+Since April 2017, this detour is no longer required for users of Windows 10 (64bit,
+Creators Update). This version of Windows is capable to let Linux programs
+run under the &#X2019;bash&#X2019; utility, which is basically a whole Linux system under Windows
+that realizes calls to the Linux API by hooks to the Windows API. Hence, it is not
+a virtual machine, it lets you run the Linux (64bit) variant of the CBserver
+natively on Windows 10.</p><p>To enable the Linux capability on Windows 10, follow the instructions at
+<a href="http://conceptbase.sourceforge.net/CB-WinLinux.html">link</a>. Note that you must have
+installed Java (64bit) on your Windows machine, not Java (32bit) to take full advantage
+of this feature. You can check whether your Java is 64bit by calling the following command
+in a Windows command window.</p><pre class="verbatim">   java -d64 -version
+</pre><p>Users of older Windows versions and of other operating systems can continue to use the
+public CBserver (see section <a href="#sec%3Apubcbserver">6.6</a>) to take advantage of ConceptBase.</p>
+<h2 id="sec102" class="section">6.3&#XA0;&#XA0;Database format</h2>
+<p>A ConceptBase database is a directory that contains at least the following files:</p><ul class="itemize"><li class="li-itemize">
+OB.symbol: a binary file that associates object names (like &#X2019;MyClass&#X2019;) with
+object identifiers. 
+</li><li class="li-itemize">OB.telos: binary file storing all propositions
+</li><li class="li-itemize">OB.rule: text file containing the generated Prolog code for rules, constraints,
+and queries
+</li><li class="li-itemize">OB.ruleinfo: text file containing argument information about queries and some
+formation for the cost-based formula optimizer
+</li><li class="li-itemize">OB.ecarule: text file containing the generated Prolog code for active rules
+</li></ul><p>The database files may only be updated via the ConceptBase server. Their
+initial state is bootstrapped from textual Telos frames that define the
+pre-defined objects of O-Telos. Since the pre-defined objects can change
+from version to version, we cannot guarantee binary compatibility of 
+ConceptBase databases. You can easily export the textual definitions from
+a databases via the -save option. Those definitions can then be 
+imported to the new ConceptBase version.
+The database directory may contain further text files with filetype &#X2019;lpi&#X2019;. These are
+Prolog plugins loaded at startup time, see also section <a href="cbm015.html#cap%3Alpi">F</a>.</p>
+<h2 id="sec103" class="section">6.4&#XA0;&#XA0;Modifying the system database</h2>
+<p>A new database is created from the database lib/SystemDB in your ConceptBase
+installation directory. The System database contains exactly the objects
+of the root module <span style="font-family:monospace">System</span>. They include for example the definitions
+of the objects <span style="font-family:monospace">Proposition</span>, <span style="font-family:monospace">Individual</span>, <span style="font-family:monospace">Attribute</span>,
+<span style="font-family:monospace">InstanceOf</span>, and <span style="font-family:monospace">IsA</span>. Further the objects <span style="font-family:monospace">Class</span>,
+<span style="font-family:monospace">QueryClass</span>, <span style="font-family:monospace">Function</span>, <span style="font-family:monospace">ECArule</span>, <span style="font-family:monospace">Module</span>
+and many more are defined that are needed to formulate queries and
+to use the capabilities of the system. </p><p>Whenever a new database is created, the files from
+this System database are copied into the new database directory. This allows experienced
+ConceptBase users to adapt the System database to their needs. Just start a 
+ConceptBase server with</p><pre class="verbatim">cbserver -d $CB_HOME/lib/SystemDB -s 0
+</pre><p>Replace <span style="font-family:monospace">$CB_HOME</span> by the path to your ConceptBase installation directory.
+Then start a CBIva user interface, connect to the CBserver and switch to the
+module <span style="font-family:monospace">System</span>. Assume you want to predefine the class <span style="font-family:monospace">Container</span>
+and declare a <span style="font-family:monospace">Model</span> as subclass of <span style="font-family:monospace">Container</span>:</p><pre class="verbatim">Container with
+  attribute
+     contains: Proposition
+end
+Model isA Container end
+</pre><p>You can also add rules and constraints about containers, e.g. that containers
+may not contain themselves.
+A more significant extension would be to add active rules to the system database.
+For example, the active rules
+in CB-Forum at <a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/3260276">link</a> changes the semantics of the UNTELL operation.
+Such definitions are subsequently included in any new database that you create.
+Be careful with deleting system objects. The code of the CBserver relies on
+the existence of certain system objects. </p>
+<h2 id="sec104" class="section">6.5&#XA0;&#XA0;Tracing and restarting</h2>
+<p><br>
+
+The trace of the CBserver can be saved by redirecting its
+output, e.g.</p><pre class="verbatim">cbserver -r 10 -port 4444 -t high -d MYDB &gt;&gt; mylogfile.log
+</pre><p>The CBserver can also be started directly from the ConceptBase.cc
+User Interface (see section <a href="cbm009.html#cha%3Aworkbench">8</a>) and most parameters can
+be specified interactively. The command line version is recommended when
+one CBserver serves multiple users or when user interface and server shall run
+on different machines.
+The parameter <span style="font-family:monospace">-r 10</span> instructs the CBserver to restart after 10 seconds if 
+a crash has occurred.</p><p>A special error message during the startup of the CBserver
+is the following:
+</p><pre class="verbatim">### FATAL ERROR:
+Application is locked by hostname, PID 1234 
+### CBserver aborted
+</pre><p>This messsage is printed if there is still a file with the name OB.lock
+in the database directory (option -d). The OB.lock file should avoid that
+two servers are using the same database directory. The file may be left over of a previous
+CBserver if the server was not stopped correctly (e.g. aborted by Ctrl-C or it crashed).
+If you get this error message, make sure that there is no other server running
+that uses this directory and then delete the file OB.lock. Then, the 
+CBserver should start correctly.</p>
+<h2 id="sec105" class="section">6.6&#XA0;&#XA0;Public CBservers</h2>
+<p>
+<a id="sec:pubcbserver"></a></p><p>A public CBserver is a ConceptBase server that is accessible from 
+the whole network. As such this is a property that any CBserver has, except when
+the multi-user capability is disabled, or when your firewall prevents
+external access.</p><p>If you work with an existing database, you may want to specify some access rights rules like suggested in section <a href="cbm006.html#sec%3Amodaccess">5.7</a>.
+We neglect them in this simple example.
+Now, start the public CBserver with suitable parameters under Linux/Unix:</p><pre class="verbatim"><span style="font-size:small">cbserver -r 2 -a jonny -g public -ia 0.5 -u nonpersistent -d MDB &amp;&gt; log.txt &amp;
+</span></pre><p>The option <span style="font-family:monospace">-g public</span> enables the slave mode implicitely and tells <span style="font-family:monospace">oHome</span>
+as an instance of <span style="font-family:monospace">AutoHomeModule</span>. The combination of the slave mode and the
+option <span style="font-family:monospace">-r</span> instructs CBserver to stop and
+restart when the last client exits.
+The update mode is nonpersistent. As a consequence, the restarted CBserver
+will use the unchanged state of <span style="font-family:monospace">MDB</span>. This is useful, if you want to provide
+the service of CBserver to a larger group of (anonymous) users. They can log in
+with a client, operate on the database in nonpersistent mode and eventually leave
+the CBserver. When the last active client<sup><a id="text30" href="#note30">3</a></sup>
+leaves the CBserver, then CBserver will freshly start up
+after 2 seconds. Due to the option <span style="font-family:monospace">-u nonpersistent</span>
+user-defined objects are only stored at the public CBserver
+while there are still active clients enrolled to the public CBserver. </p><p>The parameter <span style="font-family:monospace">-a</span> sets the administrator user of the public CBserver. This user
+is allowed to shutdown the CBserver from a client.
+The auto home feature will assign different users to individual workspaces.
+Unless you introduce access rights (and enable them via the CBserver option <span style="font-family:monospace">-s 2</span>)
+the users can also manipulate the modules of other users. However, the CBserver is
+restarted whenever the last client logs off. Hence, the definitions of different users
+are not permanently stored on the CBserver.
+The parameter <span style="font-family:monospace">-ia</span> used here instructs the CBserver to regard a client as active of it
+had its last interaction within 0.5 hours. Clients that were inactive for a longer
+time will not prevent the CBserver from restarting when another (active) client 
+logs off the CBserver.</p><p>Consider the following alternative command to start a public CBserver:</p><pre class="verbatim"><span style="font-size:small">cbserver -t no -r 2 -a jonny -g public -ia -1 -d ALLDB &amp;&gt; /dev/null &amp;
+</span></pre><p>Here, the updates are stored persistently in the database ALLDB. Changes to modules are not lost
+when the last active client leaves the CBserver. There is no log file created as well.
+The option &#X2019;-ia -1&#X2019; used here instructs the CBserver to regard any client as active,
+regardless of how long ago its last interaction occurred.</p><p>Configure the CBIva interface to use the public CBserver via the variable <span style="font-family:monospace">PublicCBserver</span>.
+It can be set by the menu item "Options/Edit Options Manually" of CBIva, see section <a href="cbm009.html#sec%3Aconfig">8.4</a>.
+A value different from <span style="font-family:monospace">none</span> enables the use of the public CBserver by CBGraph.
+You can optionally append a port number like "cbserver.acme.com/4002". The default value
+for the port number is 4001. Installations of ConceptBase on platforms, for which no binaries of the CBserver
+exist, may use a default public CBserver. This is the case OS-X and older versions of Windows<sup><a id="text31" href="#note31">4</a></sup>.</p><p>Don&#X2019;t forget to save the options after changing the variable.</p><p>The best way to interact with a public CBserver is to use graph files, see section
+<a href="cbm009.html#sec%3Acbgraphcmd">8.2.3</a>. Assume that a public CBserver is running on host <span style="font-family:monospace">cbserver.acme.com</span>.
+and that <span style="font-family:monospace">cbserver.acme.com</span> was configured as the public CBserver to be used.
+Then, calling</p><pre class="verbatim">cbgraph graph1.gel 
+</pre><p>will connect to the public CBserver instead of &#X2019;localhost&#X2019;. The port number for the connection is taken
+from the graph file.
+Do not forget to save the graph file before exiting CBGraph if the public CBserver was started
+in non-persistent mode.
+If you subsequently open the graph file, it will attempt to connect to the same host.
+You can force it to attempt the connection to localhost instead by</p><pre class="verbatim">cbgraph -host localhost graph1.gel 
+</pre>
+<h2 id="sec106" class="section">6.7&#XA0;&#XA0;The tabling subsystem</h2>
+<p>
+<a id="sec:cbcache"></a></p><p>Since version V5.2.4 ConceptBase.cc features a new query evaluation method,
+which uses a so-called tabling cache to store intermediate results of predicates
+that are called during the top-down (SLDNF) query evaluation. Assume, for example, that
+an employee &#X2019;bill&#X2019; has two projects &#X2019;p1&#X2019; and &#X2019;p2&#X2019;. Then, the
+result of a predicate &#X2019;(bill hasProject x)&#X2019; with variable x would be
+the set {(bill hasProject p1),(bill hasProject p2)} consisting of facts. 
+We call this fact set also the <em>extension</em> of the predicate.</p><p>After a completed predicate evaluation, the tabling cache of the predicate holds
+its extension. Tabling speeds up query evaluation and
+prevents infinite loops when ConceptBase.cc evaluates
+recursive queries and deductive rules. Essentially, the
+tabled evaluation allows to compute dynamically stratified
+semantics of the Datalog database underlying ConceptBase.cc.
+Plenty of examples for recursive rules and queries are provided
+in the online ConceptBase Forum.</p><p>The CBserver provides three tabling cache modes to control the
+behavior during query evaluation:</p><dl class="description"><dt class="dt-description"><span style="font-weight:bold">-c off</span></dt><dd class="dd-description"> In this mode, the cache is completely disabled. Use this mode
+when your models do not include recursive rules.
+The mode is only provided for backward compatibility and has no advantages.</dd><dt class="dt-description"><span style="font-weight:bold">-c keep</span></dt><dd class="dd-description"> The cache is only emptied when necessary, in particular when the cache
+has been invalidated by an update to the database, or when the maximum number
+of facts in the cache is exceeded. The maximum number is currently set
+to 20000. Exceeding the maximum is not an error. It only indicates that the cache
+is marked for being emptied. If necessary, the cache emptying takes place before
+a transaction. The keep mode is on average consuming more main memory than the
+transient mode but speeds up response time enormously in case of re-use of query
+results. The &#X2019;keep&#X2019; mode is the default mode for tabling.</dd><dt class="dt-description"><span style="font-weight:bold">-c transient</span></dt><dd class="dd-description"> The tabling cache is emptied before
+each transaction (ask, tell, untell, retell). A subsequent query is always
+evaluated starting with an empty cache. This mode is somewhat &#X2019;safer&#X2019; than the
+&#X2019;keep&#X2019; mode since it starts each query with an empty cache state. 
+While the answer to a query is in principal independent from the cache mode,
+the cache mode has a certain influence on the persistence of objects created
+within a transaction. Specifically, results of arithmetic expressions 
+computed during one transaction shall be removed after the transaction
+when the cache mode is &#X2019;transient&#X2019;. In cache mode &#X2019;keep&#X2019;, these objects
+continue to exist and are visible to future transactions. </dd></dl><p>ConceptBase will only call tabled evaluation for deductive predicates.
+Other predicates are evaluated by the regular SLDNF engine of the
+underlying Prolog engine.
+By default, the tabling cache mode is activated in mode <span style="font-family:monospace">keep</span>.
+Some statistics on cache usage are written to the terminal window of
+the ConceptBase server when the tracemode has been set to <span style="font-family:monospace">veryhigh</span>. </p><p>Acknowledgements: The techniques for the
+tabled query evaluator of ConceptBase.cc are inspired by the &#X2019;tabled evaluation&#X2019; [<a href="cbm016.html#ssw94">SSW94</a>, <a href="cbm016.html#chenwarren96">CW96</a>].
+We do however not delay the evaluation of negated predicates but rather re-order
+them at compile time to guarantee that all variables are bound at call time.
+Tabled evaluation is also implemented in XSB [<a href="http://xsb.sourceforge.net/">link</a>]
+and DES [<a href="http://www.fdi.ucm.es/profesor/fernan/des/">link</a>].</p>
+<h2 id="sec107" class="section">6.8&#XA0;&#XA0;Database persistency</h2>
+<p>
+<a id="sec:persistency"></a></p><p>The default update mode is &#X2019;persistent&#X2019;. In persistent mode, all changes
+to the database are written to the file system at the directory specified in
+the parameter &#X2019;-d&#X2019;. Persistent mode is suitable when a CBserver
+runs for a longer period of time and is directly updated by
+application programs. 
+If ConceptBase.cc is used for testing and modeling
+purposes, the update mode &#X2019;nonpersistent&#X2019; is an interesting alternative.
+We discuss two scenarios for the nonpersistent mode and one for the
+persistent mode.
+<br>
+</p><p><span style="font-weight:bold">Scenario 1: Single-user modeling</span>. When a user needs to model a certain
+application domain with classes and meta classes, he usually works
+with external Telos files (aka source models, file extension &#X2019;.sml&#X2019;).
+These files can include comments like usual with program source code.
+The recommended mode here is &#X2019;-u nonpersistent&#X2019; without specifying a
+database. The user can load the source models
+into such a non-persistent server and make corrections to the source
+files in case of errors or design changes. Here, ConceptBase is
+mostly used to check and analyze the models.
+Recommended options:
+</p><pre class="verbatim">cbserver -u nonpersistent -mu disabled
+</pre><p><span style="font-weight:bold">Scenario 2: Lab assignments</span>.
+Assume that a teacher wants students to exercise a certain modelling task
+using ConceptBase.cc. Then, he would prepare some Telos files with necessary
+definitions (e.g. some meta classes) and load them into a persistent
+ConceptBase server. After that, he can restart the ConceptBase server
+in non-persistent mode on the same database created before. Student
+can then work on their extensions while the state of the database
+can easily be set back to the original state defined by the teacher.
+The module system of ConceptBase.cc can be used to support multiple
+students to work on the same server without interfering with each other,
+see section <a href="cbm006.html#sec%3Amodule">5</a>.
+Recommended options:
+</p><pre class="verbatim">cbserver -d MYDB -s 2 -mu enabled -u nonpersistent
+</pre><p>The second scenario might also be useful in modeling. If there are some
+parts that are regarded as stable, the modeller can decide to make
+them persistent and only add/modify those Telos models that are still
+subject to change. In particular for large Telos models, this strategy
+saves time.
+Note that the updates by the users are lost when the non-persistent
+CBserver is stopped. This might be useful, if you want to re-use the same
+initial database MYDB several times, e.g. for different user groups.
+<br>
+</p><p><span style="font-weight:bold">Scenario 3: Project work</span>.
+Here the students work for several days on a given task. Changes shall 
+not be lost. The use of the <span style="font-family:monospace">-db</span> option will not only store the database
+in binary form but also store the source code of all modules as text
+files in directory MYDB.
+Recommended options:
+</p><pre class="verbatim">cbserver -db MYDB -s 2 -mu enabled 
+</pre><p>If ConceptBase.cc is used in a multi-user setting, then one can combine
+the update mode with the module feature (see section <a href="cbm006.html#sec%3Amodule">5</a>).
+In this scenario, multiple users access the same CBserver.
+A common super module (e.g. the module <span style="font-family:monospace">oHome</span>) carries the common
+objects of the users. Each user can be assigned to her own hown module
+(a sub module of the common super module) and create and update 
+objects in this workspace without interfering with other users.
+If several groups of users shall share their definitions, then they would
+be assigned to the same home module. The home module may have sub modules
+for testing and releasing definitions. By employing access rights to
+modules, one can also design which user has which read/write permissions.
+The builtin query <span style="font-family:monospace">listModule</span> allows to save the contents of a
+module to a Telos source file (see section <a href="cbm006.html#sec%3Amodule_content">5.8</a>).</p>
+<h2 id="sec108" class="section">6.9&#XA0;&#XA0;The UNTELL operation</h2>
+<p>
+<a id="sec:untell"></a></p><p>ConceptBase.cc realizes the concept of a historical database. The TELL operation
+submits O-Telos frames to the CBserver. The CBserver extracts the &#X2019;novelty&#X2019;
+of the submitted frames and translates it into a set of P-facts to be stored
+in the object store. Any P-fact has a so-called <em>belief time</em> associated to
+it (see section <a href="cbm003.html#sec%3Arepresentation">2.1</a>). The belief time is an interval (<span style="font-style:italic">t</span><sub>1</sub>,<span style="font-style:italic">t</span><sub>2</sub>) whose left boundary <span style="font-style:italic">t</span><sub>1</sub> is the time point when
+the P-fact was inserted to the object store, i.e. the time when the transaction
+was executed that led to the insertion of the P-fact. The right boundary <span style="font-style:italic">t</span><sub>2</sub> specifies
+the time point after which the CBserver assumes the P-fact to be not true anymore.
+It is initialized with &#X2019;Now&#X2019; when the P-fact is created. This symbolic value
+is interpreted as the current time. You may also interpret such a time interval to be right
+open.</p><p>The UNTELL operation terminates the belief time of P-facts specified in an O-Telos
+frame. The value
+&#X2019;Now&#X2019; is replaced by the time<sup><a id="text32" href="#note32">5</a></sup>
+when the UNTELL operation is executed. </p><p>From the user&#X2019;s perspective, a TELL operation is about creating some objects and
+the UNTELL operation is about deleting them<sup><a id="text33" href="#note33">6</a></sup>. Many users expect the UNTELL operation to be symmetric to the TELL operation,
+i.e. untelling a frame that has been told before should remove the frame completely. 
+This is however not the case for the following reasons:</p><ul class="itemize"><li class="li-itemize">
+An O-Telos frame being argument of a TELL or UNTELL operation is not necessarily all
+the information about an object but just some. 
+</li><li class="li-itemize">Other objects might refer to an object told previously. An UNTELL operation would then
+be rejected to preserve referential integrity.
+</li><li class="li-itemize">ConceptBase.cc adds instantiation to the builtin classes <span style="font-family:monospace">Individual</span>,
+<span style="font-family:monospace">Attribute</span>, <span style="font-family:monospace">InstanceOf</span>, and <span style="font-family:monospace">IsA</span> depending on the type of the object.
+</li></ul><p>The last reason is most significant in preventing symmetry. As an example consider the O-Telos 
+frame (referred to as frame 1).</p><pre class="verbatim">  bill in Employee with
+    name
+     bname: "William"
+  end
+</pre><p>ConceptBase.cc will recognize that <span style="font-family:monospace">bill</span> is an individual and that <span style="font-family:monospace">bill!bname</span> is an
+attribute. This information is attached internally to the P-facts, more precisely, it is derivable
+from the structure of the corresponding P-facts.
+Assume that you started a CBserver with untell model <span style="font-family:monospace">verbatim</span> (see below).
+When you ASK the CBserver for the frame of <span style="font-family:monospace">bill</span>
+after the TELL operation on frame 1, you will get frame 2:</p><pre class="verbatim">  Individual bill in Employee with
+    attribute,name
+     bname: "William"
+  end
+</pre><p>Hence, the instantiation to the builtin classes <span style="font-family:monospace">Individual</span> and 
+<span style="font-family:monospace">Attribute</span> is added to the frame. If we submit the original
+frame 1 to an UNTELL operation, ConceptBase.cc assumes by default that only two facts should be untold:</p><ol class="enumerate" type=1><li class="li-enumerate">
+The instantiation of <span style="font-family:monospace">bill</span> to <span style="font-family:monospace">Employee</span>.
+</li><li class="li-enumerate">The instantiation of the attribute <span style="font-family:monospace">bill!bname</span> to its attribute category <span style="font-family:monospace">Employee!name</span>.
+</li></ol><p>As a consequence, the object <span style="font-family:monospace">bill</span> and its attribute continue to exist after the UNTELL on frame 1.
+It would look like (frame 3):</p><pre class="verbatim">  Individual bill with
+    attribute
+     bname: "William"
+  end
+</pre><p>Only by untelling this frame 3 as a second operation or by untelling the completed frame 2, the
+object <span style="font-family:monospace">bill</span> and its attribute <span style="font-family:monospace">bill!bname</span> shall be made historical.</p><p>This assymmetry of TELL and UNTELL is regarded by some ConceptBase.cc users as unnatural behavior.
+They expect that an UNTELL is also supposed to affect the objects themselves, not just their
+instantiation to classes. To support those users, we provide a so-called untell mode (see parameter
+-U in the list of CBserver command line parameters). The untell mode <span style="font-family:monospace">verbatim</span> will cause
+ConceptBase.cc to behave as explained above. 
+The mode <span style="font-family:monospace">cleanup</span> (default) will take care to remove the objects themselves
+provided that they have no other instantiations to classes except instantiation to the four
+builtin classes <span style="font-family:monospace">Individual</span>, <span style="font-family:monospace">Attribute</span>, <span style="font-family:monospace">InstanceOf</span>, and <span style="font-family:monospace">IsA</span>. Furthermore,
+no other object may be linked to the object subject to be untold. </p>
+<h3 id="sec109" class="subsection">6.9.1&#XA0;&#XA0;Cascading UNTELL</h3>
+<p>
+<a id="sec:cascuntell"></a></p><p>You can use ECArules to realize a cascading UNTELL, i.e.  if an object is deleted then
+all its links to other objects are deleted as well, leading to potential follow-up deletions.
+The required ECArules are provided in 
+<a href="http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/3260276">link</a>.
+You only need to add the ECArules to your database to enact the cascading UNTELL.
+You should be careful with using the cascading UNTELL. For example, untelling
+a system class will also untell all instantiations to it. Use the CBserver
+option <span style="font-family:monospace">-s 1</span> to prevent such undesired deletions.</p>
+<h2 id="sec110" class="section">6.10&#XA0;&#XA0;Memory consumption and performance</h2>
+<p>
+<a id="sec:restrictions"></a></p><p>ConceptBase.cc stores objects in a dedicated object store maintained in
+main memory. A P-fact <span style="font-style:italic">P</span>(<span style="font-style:italic">o</span>,<span style="font-style:italic">x</span>,<span style="font-style:italic">n</span>,<span style="font-style:italic">y</span>) consumes about 800 bytes of main memory.
+That means that one can store roughly 1 million P-facts in 1 GB of main memory.
+A typical Telos frame is stored with roughly 10 P-facts. Hence, 1 GB of main
+memory allows you to store around 100.000 Telos frames.
+On 32 bit CPUs, this results in a maximum of roughly 400.000 frames that
+can fit into 4 GB of addressable main memory. This restriction virtually
+vanishes with 64 bit CPUs.</p><p>A single TELL/UNTELL operation submitted to the CBserver should
+not contain more than about 2000 frames (at about 5 attributes per frame).
+Otherwise, the compiler can run out of stack memory.</p><p>The raw performance of the object store, i.e. the time needed to reconstruct a 
+frame for a given object identifier, is virtually independent from
+the number of P-facts that it stores. However, if you have defined many rules
+or integrity constraints, the performance may well degrade significantly
+with the number of stored P-facts. The same holds for queries. 
+We tested the response times for standard queries such as computing the
+transitive closure in relation to varying database sizes. Results indicate that
+ConceptBase apparently approximates in many cases the theoretic optimum. </p><p>The performance of the active rule evaluator (section <a href="cbm005.html#sec%3Aeca">4</a>) is currently 
+rather limited. We measured around 100 rule firings per second. This can be a 
+performance bottleneck when many active rules are being processed.</p>
+<h2 id="sec111" class="section">6.11&#XA0;&#XA0;The Java API to the CBserver</h2>
+<p>
+<a id="sec:javaapi"></a></p><p>The application programming interface (API)
+to the ConceptBase server (CBserver) is realized by the Java class 
+<span style="font-family:monospace">LocalCBclient</span>.
+Most (Java) application programmers presumably only need the simple String-based
+part of <span style="font-family:monospace">LocalCBclient</span> to interact with a CBserver. <span style="font-family:monospace">LocalCBclient</span> uses
+socket-based data streams to realize the communication.
+We define here the methods of this String-based API. If the argument starts with an "s",
+then the data type is <span style="font-family:monospace">String</span>. If it starts with an "i", then the data type
+is <span style="font-family:monospace">int</span>.</p><pre class="verbatim">LocalCBclient cbClient = new LocalCBclient();
+</pre><ul class="itemize"><li class="li-itemize">
+This constructor provides the API object <span style="font-family:monospace">cbClient</span> to be used for the
+subsequent method calls.
+</li></ul><pre class="verbatim">sAnswer = cbClient.cbserver();
+</pre><ul class="itemize"><li class="li-itemize">
+This method attempts to start a single-user CBserver in "slave mode" 
+on localhost with port number 4001.
+The method only works on platforms for which the CBserver was compiled. This is currently
+limited to Linux and Windows 10 (see also section <a href="#sec%3Awin10">6.2</a>). In other cases,
+you need to start a CBserver on a host system that supports the CBserver and then use the &#X2019;connect&#X2019;
+method. If the CBserver was successfully started, the method returns "yes", otherwise "no".
+If the cbClient is already connected to a CBserver, then the method also returns "yes".
+The CBserver shall automatically shut-down when the last client disconnects from it.
+</li></ul><pre class="verbatim">sAnswer = cbClient.connect(sHost, iPort, sTool, sUser);
+</pre><ul class="itemize"><li class="li-itemize">
+This method connects your Java program to the CBserver specified by <span style="font-family:monospace">sHost</span> (the domain
+name of the computer on which your CBserver runs on) and <span style="font-family:monospace">iPort</span> (the port number is 
+an integer; usually 4001). The string sTool shall be a self-selected name of your
+tool, e.g. <span style="font-family:monospace">"ModelerXY"</span> and sUser is a string containing a user name (typically your
+user name). If you use <span style="font-family:monospace">null</span> as username, then the <span style="font-family:monospace">cbClient</span> will use the
+login name of the computer user that started the Java program.
+The return value is <span style="font-family:monospace">"yes"</span> if successful and <span style="font-family:monospace">"no"</span> else. Use the boolean-valued
+function <span style="font-family:monospace">cbClient.isConnected()</span> to check whether <span style="font-family:monospace">cbClient</span> is currently
+connected to a CBserver. If the socket connection breaks down, then the <span style="font-family:monospace">cbClient</span> will
+set the connection status to unconnected.
+</li></ul><pre class="verbatim">sAnswer = cbClient.connect();
+</pre><ul class="itemize"><li class="li-itemize">
+Connects to the public CBserver (see section <a href="#sec%3Apubcbserver">6.6</a>)
+if configured for your installation.
+Otherwise, attempts to start a single-user "slave" local CBserver on port 4001 if not started.
+Connects to the local CBserver with the default tool name "LocalCBClient" and <span style="font-family:monospace">null</span> as username.
+It behaves similar to the "connect" command of CBShell.
+</li></ul><pre class="verbatim">sAnswer = cbClient.disconnect();
+</pre><ul class="itemize"><li class="li-itemize">
+This method disconnects connects your Java program from the CBserver.
+The return value is <span style="font-family:monospace">"yes"</span> if successful and <span style="font-family:monospace">"no"</span> else. If the CBserver was started in
+"slave mode" and the cbClient is the last remaining client of the CBserver, it will shut down.
+</li></ul><pre class="verbatim">sAnswer = cbClient.pwd();
+</pre><ul class="itemize"><li class="li-itemize">
+This method outputs your current working module path, e.g. <span style="font-family:monospace">"System-oHome"</span>.
+</li></ul><pre class="verbatim">sAnswer = cbClient.mkdir(sModule);
+</pre><ul class="itemize"><li class="li-itemize">
+This method creates a new submodude (e.g. <span style="font-family:monospace">"MyMod"</span>) in the current module.
+</li></ul><pre class="verbatim">sAnswer = cbClient.cd(sModule);
+</pre><ul class="itemize"><li class="li-itemize">
+This method changes the current module to <span style="font-family:monospace">sModule</span>, e.g. <span style="font-family:monospace">"MyMod"</span>.
+</li></ul><pre class="verbatim">sAnswer = cbClient.tells(sFrames);
+</pre><ul class="itemize"><li class="li-itemize">
+This method tells (=defines) the objects given by the string sFrames to the
+current module of the CBserver. 
+The return value is <span style="font-family:monospace">"yes"</span> if successful and a string containing user-readable error messages else.
+</li></ul><pre class="verbatim">sAnswer = cbClient.untells(sFrames);
+</pre><ul class="itemize"><li class="li-itemize">
+This method untells (=removes) the objects given by the string <span style="font-family:monospace">sFrames</span> from the
+current module of the CBserver. 
+The return value is <span style="font-family:monospace">"yes"</span> if successful and a string containing user-readable error messages else.
+</li></ul><pre class="verbatim">sAnswer = cbClient.asks(sQuery,sFormat);
+</pre><ul class="itemize"><li class="li-itemize">
+This method asks the query call <span style="font-family:monospace">sQuery</span> (given by a String) to the CBserver 
+The return value is a string containing the answer to the query.
+The return value is <span style="font-family:monospace">"no"</span> in case of errors, e.g. when the query is not defined.
+The query call can have arguments, e.g. <span style="font-family:monospace">"get_object[Class/objname]"</span>. 
+The CBserver shall use the answer format <span style="font-family:monospace">sFormat</span> for the result. Thus,
+if you want to define your own answer format, then use the facilities
+described in section <a href="cbm004.html#sec%3Aanswerformat">3</a>. The query shall be answered
+in the context of the current module and the current time (<span style="font-family:monospace">"Now"</span>).
+The answer <span style="font-family:monospace">"nil"</span> stands for an empty answer.
+</li></ul><pre class="verbatim">sAnswer = cbClient.asks(sQuery);
+</pre><ul class="itemize"><li class="li-itemize">
+Same as <span style="font-family:monospace">cbClient.asks(sQuery,"default")</span>, i.e. the CBserver determines the
+applicable answer format (in most cases: <span style="font-family:monospace">"FRAME"</span>).
+</li></ul><pre class="verbatim">sAnswer = cbClient.clientid();
+</pre><ul class="itemize"><li class="li-itemize">
+Return the identifier by which this client is registered to a CBserver.
+</li></ul><pre class="verbatim">sAnswer = cbClient.clearall();
+</pre><ul class="itemize"><li class="li-itemize">
+Attempt to delete all objects from the current module. Returns "yes" if
+successfull, otherwise "no". Calls the &#X2019;purgeModule&#X2019; query described in section
+<a href="cbm006.html#sec%3Amodule_purge">5.9</a>. Use this method with great care since it wipes out
+the whole module content.
+</li></ul><p><br>
+
+Below is the listing of the Java program <span style="font-family:monospace">TinyClient.java</span> that uses the 
+String-valued API:</p><pre class="verbatim"><span style="font-size:small">import i5.cb.api.*;
+public class TinyClient {
+  private static LocalCBclient cbClient = null;
+  public static void main(String argv[])  {
+    String sAnswer;
+    cbClient=new LocalCBclient();
+    sAnswer = cbClient.connect("cbserver.acme.org",4001,"TinyClient",null);
+    sAnswer = cbClient.tells("Employee in Class end");
+    sAnswer = cbClient.asks("get_object[Employee/objname]");
+    System.out.println(sAnswer);
+    sAnswer = cbClient.disconnect();
+  }
+}
+</span></pre><p>You need to compile the Java program with the <span style="font-family:monospace">cb.jar</span> library. This is available 
+from the ConceptBase installation directory (referred here as CB_HOME). To compile the Java
+program call</p><pre class="verbatim">  javac -classpath $CB_HOME/lib/classes/cb.jar TinyClient.java
+</pre><p>Before running the client, make sure that the CBserver runs on the specified Linux computer
+(here "cbserver.acme.org") under the specified port number (here 4001), and that
+this port number is accessible from your client computer.
+You may want to configure that CBserver as a public CBserver (see section <a href="#sec%3Apubcbserver">6.6</a>)
+to have a save way to connect your Java program to it.</p><p>The Java program can then be started under Linux as follows:</p><pre class="verbatim">  java -classpath $CB_HOME/lib/classes/cb.jar:. TinyClient
+</pre><p>Under Windows, you should use:</p><pre class="verbatim">  java -classpath c:\conceptbase\lib\classes\cb.jar;. TinyClient
+</pre><p>The Java source code for <span style="font-family:monospace">TinyClient.java</span>, <span style="font-family:monospace">TinyClient2.java</span> (uses the cbserver method),
+<span style="font-family:monospace">TinyClient3.java</span> (uses the connect method),
+and a more elaborate example 
+<span style="font-family:monospace">SimpleClient.java</span> is included in the directory <span style="font-family:monospace">examples/Clients/JavaClient</span>
+of your ConceptBase installation directory.</p>
+<hr class="footnoterule"><dl class="thefootnotes"><dt class="dt-thefootnotes">
+<a id="note28" href="#text28">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">You can also start the CBserver from within the ConceptBase.cc user interface CBIva. Details are in the 
+installation guide distributed with ConceptBase.cc and in section <a href="cbm009.html#sec%3Asession">8.3</a>.</div></dd><dt class="dt-thefootnotes"><a id="note29" href="#text29">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">The concerned class is a consequence of the predicate typing condition
+of section <a href="cbm003.html#sec%3ACBL">2.2</a>. You can roughly compare it to typing of variables
+in programming languages.</div></dd><dt class="dt-thefootnotes"><a id="note30" href="#text30">3</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">An active client is a client 
+whose last interaction with the CBserver was less than a certain
+number of hours ago, specified with the CBserver parameter <span style="font-family:monospace">-ia</span>.</div></dd><dt class="dt-thefootnotes"><a id="note31" href="#text31">4</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Windows 10 (64bit) Creators Update has the ability to activate a Linux sub-system
+which can then be used to start CBserver transparently.
+If you had previously used a public CBserver under Windows 10 and now want to utilize a local CBserver,
+then reset the variable <span style="font-family:monospace">PublicCBserver</span> to <span style="font-family:monospace">none</span>.</div></dd><dt class="dt-thefootnotes"><a id="note32" href="#text32">5</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">ConceptBase takes the system time using timezone Coordinated Universal Time (UTC) of the computer on
+which it is running and rounds it to milliseconds. The time is captured when the transaction is initiated,
+i.e. all P-facts told or untold in the transaction will use that transaction time.
+</div></dd><dt class="dt-thefootnotes"><a id="note33" href="#text33">6</a></dt><dd class="dd-thefootnotes"><div class="footnotetext"> &#X2019;Deleted&#X2019; objects can however be recovered
+by setting the so-called roll-back time before an ASK transaction is issued.
+Only ASK transaction are allowed on historical database state. It makes little
+sense to update a historical state. That would be &#X2019;falsifying&#X2019; the history of stored P-facts.</div></dd></dl>
+<hr>
+<a href="cbm006.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="cbm008.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

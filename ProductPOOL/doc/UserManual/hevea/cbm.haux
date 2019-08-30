@@ -1,0 +1,447 @@
+\@titleaux{
+\begin{figure}[hptb]
+    \centerline{\includegraphics[width=8cm]{telos}}
+\end{figure}
+{\sf
+ConceptBase.cc User Manual} \\
+{\sf Version \relnr\ \thanks{Copyright 1987-2019 by The ConceptBase Team. All rights reserved.
+See \url{http://conceptbase.cc/cbteam.html} for details.
+This report is published by The ConceptBase Team via http://conceptbase.cc.
+You can use this report for private and academic purposes. Use in a commercial
+context is only permitted for user's self-study of ConceptBase.cc.
+If you publish research results or sell products or services based on ConceptBase.cc,
+then include a reference to this user manual. Unless you are member of the ConceptBase Team, 
+you may not alter this report and you may not republish it, neither electronically nor as hardcopies. 
+Rather point to the original location
+of this report at \url{http://conceptbase.cc/CB-Resources.html}.
+A version of the user manual is included in the ConceptBase.cc installation directory
+in sub-directory doc/UserManual. This report is published under a
+Creative Commons License Attribution-NonCommercial-NoDerivatives 4.0 International
+(\url{https://creativecommons.org/licenses/by-nc-nd/4.0/}).
+}}
+}
+\@@addtocsec{htoc}{sec2}{-1}{\@print{Chapter&#XA0;1}\quad{}Introduction{}}
+\newlabel{cha:Introduction}{{1}{X}}
+\citation{DWQIS99}
+\citation{rd92}
+\citation{EberleinDiss}
+\citation{USU96}
+\citation{MEMO}
+\citation{rjg91}
+\citation{hjek90}
+\citation{Emisa}
+\citation{jjm09}
+\citation{jeus09}
+\citation{mbjk90}
+\citation{JIIS}
+\citation{jeus92}
+\citation{jjm09}
+\@@addtocsec{htoc}{sec3}{0}{\@print{1.1}\quad{}Background: Telos and O-Telos{}}
+\citation{STAN86}
+\citation{mbjk90}
+\citation{jeus92}
+\citation{JARK93}
+\@@addtocsec{htoc}{sec4}{0}{\@print{1.2}\quad{}The architecture of ConceptBase.cc{}}
+\newlabel{sec:architecture}{{1.2}{X}}
+\newlabel{fig:cb_fig1}{{1.1}{X}}
+\citation{Lud2010}
+\@@addtocsec{htoc}{sec5}{0}{\@print{1.3}\quad{}Hardware and software requirements{}}
+\newlabel{sec:requirements}{{1.3}{X}}
+\@@addtocsec{htoc}{sec6}{1}{\@print{1.3.1}\quad{}Installation{}}
+\newlabel{sec:installation}{{1.3.1}{X}}
+\@@addtocsec{htoc}{sec7}{0}{\@print{1.4}\quad{}Overview of this manual{}}
+\newlabel{sec:overview}{{1.4}{X}}
+\@@addtocsec{htoc}{sec8}{0}{\@print{1.5}\quad{}Differences to earlier versions{}}
+\newlabel{sec:differences}{{1.5}{X}}
+\@@addtocsec{htoc}{sec9}{0}{\@print{1.6}\quad{}License terms{}}
+\newlabel{sec:license}{{1.6}{X}}
+\citation{JIIS}
+\@@addtocsec{htoc}{sec10}{0}{\@print{1.7}\quad{}Disclaimer{}}
+\newlabel{sec:disclaimer}{{1.7}{X}}
+\@@addtocsec{htoc}{sec11}{-1}{\@print{Chapter&#XA0;2}\quad{}O-Telos by ConceptBase.cc{}}
+\newlabel{cap:language}{{2}{X}}
+\citation{mbjk90}
+\citation{mbjk90}
+\citation{jeus92}
+\@@addtocsec{htoc}{sec12}{0}{\@print{2.1}\quad{}Propositions and frames{}}
+\newlabel{sec:representation}{{2.1}{X}}
+\citation{jeus92}
+\citation{jeus92}
+\newlabel{fig:NeuEmpl}{{2.1}{X}}
+\citation{All83}
+\@@addtocsec{htoc}{sec13}{0}{\@print{2.2}\quad{}Rules and constraints{}}
+\newlabel{sec:CBL}{{2.2}{X}}
+\@@addtocsec{htoc}{sec14}{1}{\@print{2.2.1}\quad{}Basic predicates{}}
+\@@addtocsec{htoc}{sec15}{1}{\@print{2.2.2}\quad{}Notes on attribution{}}
+\@@addtocsec{htoc}{sec16}{1}{\@print{2.2.3}\quad{}Assigning attribute categories to explicit attributes{}}
+\newlabel{sec:aepred}{{2.2.3}{X}}
+\@@addtocsec{htoc}{sec17}{1}{\@print{2.2.4}\quad{}Reserved words{}}
+\@@addtocsec{htoc}{sec18}{1}{\@print{2.2.5}\quad{}Comparison predicates{}}
+\@@addtocsec{htoc}{sec19}{1}{\@print{2.2.6}\quad{}Typed variables{}}
+\@@addtocsec{htoc}{sec20}{1}{\@print{2.2.7}\quad{}Semantic restrictions on formulas{}}
+\newlabel{sec:SemFormula}{{2.2.7}{X}}
+\@@addtocsec{htoc}{sec21}{1}{\@print{2.2.8}\quad{}Rule and constraint syntax{}}
+\newlabel{sec:rulesyntax}{{2.2.8}{X}}
+\@@addtocsec{htoc}{sec22}{1}{\@print{2.2.9}\quad{}Meta formulas{}}
+\newlabel{sec:CCmeta}{{2.2.9}{X}}
+\@@addtocsec{htoc}{sec24}{1}{\@print{2.2.10}\quad{}Further object references{}}
+\newlabel{sec:ObjRef}{{2.2.10}{X}}
+\@@addtocsec{htoc}{sec25}{1}{\@print{2.2.11}\quad{}User-definable error messages for integrity constraints{}}
+\newlabel{sec:ErrMessIC}{{2.2.11}{X}}
+\@@addtocsec{htoc}{sec26}{1}{\@print{2.2.12}\quad{}Immutable properties{}}
+\newlabel{sec:Immutable}{{2.2.12}{X}}
+\@@addtocsec{htoc}{sec27}{0}{\@print{2.3}\quad{}Query classes{}}
+\newlabel{sec:CBQL}{{2.3}{X}}
+\citation{stau90}
+\@@addtocsec{htoc}{sec28}{1}{\@print{2.3.1}\quad{}Query definitions versus query calls{}}
+\newlabel{sec:qdefvscalls}{{2.3.1}{X}}
+\@@addtocsec{htoc}{sec29}{1}{\@print{2.3.2}\quad{}Query classes and deductive integrity checking{}}
+\newlabel{sec:qcic}{{2.3.2}{X}}
+\@@addtocsec{htoc}{sec30}{1}{\@print{2.3.3}\quad{}Nested query calls and shortcuts{}}
+\newlabel{sec:cqc}{{2.3.3}{X}}
+\@@addtocsec{htoc}{sec31}{1}{\@print{2.3.4}\quad{}Reified query calls{}}
+\newlabel{sec:reifiedquery}{{2.3.4}{X}}
+\@@addtocsec{htoc}{sec32}{0}{\@print{2.4}\quad{}View definitions{}}
+\newlabel{sec:views}{{2.4}{X}}
+\@@addtocsec{htoc}{sec33}{0}{\@print{2.5}\quad{}Functions{}}
+\newlabel{sec:functions}{{2.5}{X}}
+\@@addtocsec{htoc}{sec34}{1}{\@print{2.5.1}\quad{}Functions as special queries{}}
+\@@addtocsec{htoc}{sec35}{1}{\@print{2.5.2}\quad{}Shortcuts for function calls and functional expressions{}}
+\@@addtocsec{htoc}{sec36}{1}{\@print{2.5.3}\quad{}Example function calls and definitions{}}
+\@@addtocsec{htoc}{sec37}{1}{\@print{2.5.4}\quad{}Programmed functions{}}
+\newlabel{sec:UserFunctions}{{2.5.4}{X}}
+\@@addtocsec{htoc}{sec38}{1}{\@print{2.5.5}\quad{}Recursive function definitions{}}
+\@@addtocsec{htoc}{sec39}{0}{\@print{2.6}\quad{}Query evaluation strategies{}}
+\newlabel{sec:qev}{{2.6}{X}}
+\citation{ssw94}
+\@@addtocsec{htoc}{sec40}{0}{\@print{2.7}\quad{}Multi-level modeling with ConceptBase{}}
+\newlabel{sec:mlm}{{2.7}{X}}
+\citation{DDI2014}
+\citation{RLGW2014}
+\citation{DDI2014}
+\citation{DPZ2002}
+\@@addtocsec{htoc}{sec41}{1}{\@print{2.7.1}\quad{}Expressing semantics at the metamodel level{}}
+\newlabel{sec:semmm}{{2.7.1}{X}}
+\newlabel{fig:entityvalue}{{2.2}{X}}
+\citation{OMG2011}
+\newlabel{fig:entitysuperclass}{{2.3}{X}}
+\newlabel{fig:entityidentifier}{{2.4}{X}}
+\@@addtocsec{htoc}{sec42}{1}{\@print{2.7.2}\quad{}DeepTelos{}}
+\newlabel{sec:deeptelos}{{2.7.2}{X}}
+\citation{JN2016}
+\@@addtocsec{htoc}{sec43}{1}{\@print{2.7.3}\quad{}Crossing abstraction levels{}}
+\newlabel{sec:crosslev}{{2.7.3}{X}}
+\newlabel{fig:AcrossLevels}{{2.5}{X}}
+\@@addtocsec{htoc}{sec44}{0}{\@print{2.8}\quad{}Datalog queries and rules{}}
+\newlabel{sec:datalog}{{2.8}{X}}
+\@@addtocsec{htoc}{sec45}{1}{\@print{2.8.1}\quad{}Extended query model{}}
+\@@addtocsec{htoc}{sec46}{1}{\@print{2.8.2}\quad{}Datalog code{}}
+\@@addtocsec{htoc}{sec47}{1}{\@print{2.8.3}\quad{}Examples{}}
+\@@addtocsec{htoc}{sec48}{-1}{\@print{Chapter&#XA0;3}\quad{}Answer Formats for Queries{}}
+\newlabel{sec:answerformat}{{3}{X}}
+\@@addtocsec{htoc}{sec49}{0}{\@print{3.1}\quad{}Basic definitions{}}
+\@@addtocsec{htoc}{sec50}{0}{\@print{3.2}\quad{}Constructs in answer formats{}}
+\@@addtocsec{htoc}{sec51}{1}{\@print{3.2.1}\quad{}Simple expressions in patterns{}}
+\@@addtocsec{htoc}{sec52}{1}{\@print{3.2.2}\quad{}Pre-defined variables{}}
+\@@addtocsec{htoc}{sec53}{1}{\@print{3.2.3}\quad{}Iterations over expressions{}}
+\@@addtocsec{htoc}{sec54}{1}{\@print{3.2.4}\quad{}Special characters{}}
+\@@addtocsec{htoc}{sec55}{1}{\@print{3.2.5}\quad{}Function patterns{}}
+\newlabel{subsec:externalproc}{{3.2.5}{X}}
+\@@addtocsec{htoc}{sec56}{1}{\@print{3.2.6}\quad{}Calling queries in answer formats{}}
+\newlabel{subsec:askquery}{{3.2.6}{X}}
+\@@addtocsec{htoc}{sec57}{1}{\@print{3.2.7}\quad{}Expressions in head and tail{}}
+\@@addtocsec{htoc}{sec58}{1}{\@print{3.2.8}\quad{}Conditional expressions{}}
+\@@addtocsec{htoc}{sec59}{1}{\@print{3.2.9}\quad{}Views and path expressions{}}
+\@@addtocsec{htoc}{sec60}{0}{\@print{3.3}\quad{}Parameterized answer formats{}}
+\@@addtocsec{htoc}{sec61}{0}{\@print{3.4}\quad{}File type of answer formats{}}
+\newlabel{sec:af_filetype}{{3.4}{X}}
+\@@addtocsec{htoc}{sec62}{0}{\@print{3.5}\quad{}Bulk query calls{}}
+\newlabel{sec:bulkqueries}{{3.5}{X}}
+\@@addtocsec{htoc}{sec63}{-1}{\@print{Chapter&#XA0;4}\quad{}Active Rules{}}
+\newlabel{sec:eca}{{4}{X}}
+\@@addtocsec{htoc}{sec64}{0}{\@print{4.1}\quad{}Definition of ECArules{}}
+\@@addtocsec{htoc}{sec65}{1}{\@print{4.1.1}\quad{}ECAassertion{}}
+\@@addtocsec{htoc}{sec66}{1}{\@print{4.1.2}\quad{}Events{}}
+\@@addtocsec{htoc}{sec67}{1}{\@print{4.1.3}\quad{}Conditions{}}
+\@@addtocsec{htoc}{sec68}{1}{\@print{4.1.4}\quad{}Actions{}}
+\@@addtocsec{htoc}{sec69}{1}{\@print{4.1.5}\quad{}Priorities{}}
+\@@addtocsec{htoc}{sec70}{1}{\@print{4.1.6}\quad{}Coupling mode of an ECA rule{}}
+\@@addtocsec{htoc}{sec71}{1}{\@print{4.1.7}\quad{}Execution Semantics{}}
+\newlabel{fig:eca_queues}{{4.1}{X}}
+\@@addtocsec{htoc}{sec72}{1}{\@print{4.1.8}\quad{}Switching Queues{}}
+\@@addtocsec{htoc}{sec73}{1}{\@print{4.1.9}\quad{}Activate and Deactivate ECA rules{}}
+\@@addtocsec{htoc}{sec74}{1}{\@print{4.1.10}\quad{}Depth{}}
+\@@addtocsec{htoc}{sec75}{1}{\@print{4.1.11}\quad{}User-definable Error Messages{}}
+\@@addtocsec{htoc}{sec76}{1}{\@print{4.1.12}\quad{}Constraints{}}
+\@@addtocsec{htoc}{sec77}{0}{\@print{4.2}\quad{}Examples{}}
+\@@addtocsec{htoc}{sec78}{1}{\@print{4.2.1}\quad{}Materialization of views by active rules{}}
+\@@addtocsec{htoc}{sec79}{1}{\@print{4.2.2}\quad{}Counter{}}
+\newlabel{subsec:counter}{{4.2.2}{X}}
+\@@addtocsec{htoc}{sec80}{1}{\@print{4.2.3}\quad{}Timestamps{}}
+\@@addtocsec{htoc}{sec81}{1}{\@print{4.2.4}\quad{}Simulation of Petri Nets{}}
+\@@addtocsec{htoc}{sec82}{0}{\@print{4.3}\quad{}Optimization of ECA rules{}}
+\@@addtocsec{htoc}{sec83}{0}{\@print{4.4}\quad{}Limitations of the current implementation{}}
+\@@addtocsec{htoc}{sec84}{-1}{\@print{Chapter&#XA0;5}\quad{}The Module System{}}
+\newlabel{sec:module}{{5}{X}}
+\@@addtocsec{htoc}{sec85}{0}{\@print{5.1}\quad{}Definition of modules{}}
+\@@addtocsec{htoc}{sec86}{0}{\@print{5.2}\quad{}Switching between module contexts{}}
+\newlabel{sec:switching_modules}{{5.2}{X}}
+\newlabel{fig:choose_modcontext}{{5.1}{X}}
+\@@addtocsec{htoc}{sec87}{0}{\@print{5.3}\quad{}Using nested modules{}}
+\newlabel{sec:nested_modules}{{5.3}{X}}
+\newlabel{fig:mod_hierarchy}{{5.2}{X}}
+\@@addtocsec{htoc}{sec88}{0}{\@print{5.4}\quad{}Exporting and importing objects{}}
+\@@addtocsec{htoc}{sec89}{0}{\@print{5.5}\quad{}Modules and metamodeling{}}
+\newlabel{sec:metamodule}{{5.5}{X}}
+\@@addtocsec{htoc}{sec90}{0}{\@print{5.6}\quad{}Setting user home modules{}}
+\newlabel{sec:homemodule}{{5.6}{X}}
+\@@addtocsec{htoc}{sec91}{0}{\@print{5.7}\quad{}Limiting access to modules{}}
+\newlabel{sec:modaccess}{{5.7}{X}}
+\@@addtocsec{htoc}{sec92}{1}{\@print{5.7.1}\quad{}Access to System module{}}
+\newlabel{sec:system_access}{{5.7.1}{X}}
+\@@addtocsec{htoc}{sec93}{0}{\@print{5.8}\quad{}Listing the module content{}}
+\newlabel{sec:module_content}{{5.8}{X}}
+\@@addtocsec{htoc}{sec94}{1}{\@print{5.8.1}\quad{}Restrictions of {\tt listModule}{}}
+\newlabel{sec:listmod}{{5.8.1}{X}}
+\@@addtocsec{htoc}{sec95}{0}{\@print{5.9}\quad{}Purging a module{}}
+\newlabel{sec:module_purge}{{5.9}{X}}
+\@@addtocsec{htoc}{sec96}{0}{\@print{5.10}\quad{}Saving and loading module sources{}}
+\newlabel{sec:module_sources}{{5.10}{X}}
+\@@addtocsec{htoc}{sec97}{0}{\@print{5.11}\quad{}Server-side materialization of query results{}}
+\newlabel{sec:module_views}{{5.11}{X}}
+\@@addtocsec{htoc}{sec98}{1}{\@print{5.11.1}\quad{}Post-export command{}}
+\@@addtocsec{htoc}{sec99}{-1}{\@print{Chapter&#XA0;6}\quad{}The ConceptBase.cc Server{}}
+\newlabel{cha:cbserver}{{6}{X}}
+\@@addtocsec{htoc}{sec100}{0}{\@print{6.1}\quad{}CBserver parameters{}}
+\newlabel{sec:cbsparams}{{6.1}{X}}
+\@@addtocsec{htoc}{sec101}{0}{\@print{6.2}\quad{}ConceptBase under Windows 10{}}
+\newlabel{sec:win10}{{6.2}{X}}
+\@@addtocsec{htoc}{sec102}{0}{\@print{6.3}\quad{}Database format{}}
+\@@addtocsec{htoc}{sec103}{0}{\@print{6.4}\quad{}Modifying the system database{}}
+\@@addtocsec{htoc}{sec104}{0}{\@print{6.5}\quad{}Tracing and restarting{}}
+\@@addtocsec{htoc}{sec105}{0}{\@print{6.6}\quad{}Public CBservers{}}
+\newlabel{sec:pubcbserver}{{6.6}{X}}
+\@@addtocsec{htoc}{sec106}{0}{\@print{6.7}\quad{}The tabling subsystem{}}
+\newlabel{sec:cbcache}{{6.7}{X}}
+\citation{ssw94}
+\citation{chenwarren96}
+\@@addtocsec{htoc}{sec107}{0}{\@print{6.8}\quad{}Database persistency{}}
+\newlabel{sec:persistency}{{6.8}{X}}
+\@@addtocsec{htoc}{sec108}{0}{\@print{6.9}\quad{}The UNTELL operation{}}
+\newlabel{sec:untell}{{6.9}{X}}
+\@@addtocsec{htoc}{sec109}{1}{\@print{6.9.1}\quad{}Cascading UNTELL{}}
+\newlabel{sec:cascuntell}{{6.9.1}{X}}
+\@@addtocsec{htoc}{sec110}{0}{\@print{6.10}\quad{}Memory consumption and performance{}}
+\newlabel{sec:restrictions}{{6.10}{X}}
+\@@addtocsec{htoc}{sec111}{0}{\@print{6.11}\quad{}The Java API to the CBserver{}}
+\newlabel{sec:javaapi}{{6.11}{X}}
+\@@addtocsec{htoc}{sec112}{-1}{\@print{Chapter&#XA0;7}\quad{}The CBShell Utility{}}
+\newlabel{cha:cbshell}{{7}{X}}
+\@@addtocsec{htoc}{sec113}{0}{\@print{7.1}\quad{}Syntax{}}
+\@@addtocsec{htoc}{sec114}{0}{\@print{7.2}\quad{}Options{}}
+\@@addtocsec{htoc}{sec115}{0}{\@print{7.3}\quad{}Commands{}}
+\@@addtocsec{htoc}{sec116}{1}{\@print{7.3.1}\quad{}Argument delimiters{}}
+\newlabel{sec:argdelim}{{7.3.1}{X}}
+\@@addtocsec{htoc}{sec117}{0}{\@print{7.4}\quad{}Interactive use of CBShell{}}
+\newlabel{sec:cbshellinteractive}{{7.4}{X}}
+\@@addtocsec{htoc}{sec118}{0}{\@print{7.5}\quad{}Positional parameters{}}
+\newlabel{sec:cbshellvars}{{7.5}{X}}
+\@@addtocsec{htoc}{sec119}{0}{\@print{7.6}\quad{}Executable CBShell scripts{}}
+\newlabel{sec:execcbshell}{{7.6}{X}}
+\@@addtocsec{htoc}{sec120}{0}{\@print{7.7}\quad{}CBShell scripts within regular shell scripts{}}
+\newlabel{sec:shellintegration}{{7.7}{X}}
+\@@addtocsec{htoc}{sec121}{0}{\@print{7.8}\quad{}CBShell in a pipe{}}
+\newlabel{sec:cbshellpipe}{{7.8}{X}}
+\@@addtocsec{htoc}{sec122}{-1}{\@print{Chapter&#XA0;8}\quad{}The ConceptBase.cc Usage Environment{}}
+\newlabel{cha:workbench}{{8}{X}}
+\@@addtocsec{htoc}{sec123}{0}{\@print{8.1}\quad{}The workbench CBIva{}}
+\newlabel{fig:cbivamain}{{8.1}{X}}
+\@@addtocsec{htoc}{sec124}{1}{\@print{8.1.1}\quad{}The tool bar{}}
+\@@addtocsec{htoc}{sec125}{1}{\@print{8.1.2}\quad{}The menu bar{}}
+\newlabel{sec:menubar}{{8.1.2}{X}}
+\@@addtocsec{htoc}{sec126}{1}{\@print{8.1.3}\quad{}The status bar{}}
+\@@addtocsec{htoc}{sec127}{1}{\@print{8.1.4}\quad{}Telos editor{}}
+\newlabel{sec:telos_ed}{{8.1.4}{X}}
+\@@addtocsec{htoc}{sec129}{1}{\@print{8.1.5}\quad{}History window{}}
+\newlabel{sec:history_window}{{8.1.5}{X}}
+\newlabel{fig:historybuttons}{{8.2}{X}}
+\@@addtocsec{htoc}{sec130}{1}{\@print{8.1.6}\quad{}Display instances{}}
+\newlabel{sec:display_instances}{{8.1.6}{X}}
+\@@addtocsec{htoc}{sec131}{1}{\@print{8.1.7}\quad{}Frame browser{}}
+\newlabel{sec:frame_browser}{{8.1.7}{X}}
+\newlabel{fig:framebrowser}{{8.3}{X}}
+\@@addtocsec{htoc}{sec132}{1}{\@print{8.1.8}\quad{}Display queries{}}
+\newlabel{sec:display_queries}{{8.1.8}{X}}
+\newlabel{fig:displayqueries}{{8.4}{X}}
+\@@addtocsec{htoc}{sec133}{1}{\@print{8.1.9}\quad{}Display functions{}}
+\newlabel{sec:display_functions}{{8.1.9}{X}}
+\@@addtocsec{htoc}{sec134}{1}{\@print{8.1.10}\quad{}Query editor{}}
+\newlabel{sec:query_editor}{{8.1.10}{X}}
+\newlabel{fig:queryeditor}{{8.5}{X}}
+\@@addtocsec{htoc}{sec135}{1}{\@print{8.1.11}\quad{}Tree browser{}}
+\newlabel{sec:tree_browser}{{8.1.11}{X}}
+\newlabel{fig:frametree}{{8.6}{X}}
+\@@addtocsec{htoc}{sec136}{0}{\@print{8.2}\quad{}The graph editor CBGraph{}}
+\newlabel{sec:graphed}{{8.2}{X}}
+\@@addtocsec{htoc}{sec137}{1}{\@print{8.2.1}\quad{}Overview{}}
+\newlabel{fig:overview}{{8.7}{X}}
+\@@addtocsec{htoc}{sec138}{1}{\@print{8.2.2}\quad{}Starting CBGraph via CBIva{}}
+\@@addtocsec{htoc}{sec139}{1}{\@print{8.2.3}\quad{}The {\tt cbgraph} command{}}
+\newlabel{sec:cbgraphcmd}{{8.2.3}{X}}
+\@@addtocsec{htoc}{sec140}{1}{\@print{8.2.4}\quad{}Redirecting the CBserver location{}}
+\@@addtocsec{htoc}{sec141}{1}{\@print{8.2.5}\quad{}Moving objects{}}
+\newlabel{sec:moveobj}{{8.2.5}{X}}
+\@@addtocsec{htoc}{sec142}{1}{\@print{8.2.6}\quad{}Menu bar{}}
+\newlabel{sec:optionsmenu}{{8.2.6}{X}}
+\newlabel{fig:componentview}{{8.8}{X}}
+\newlabel{fig:querytoserver}{{8.9}{X}}
+\@@addtocsec{htoc}{sec148}{1}{\@print{8.2.7}\quad{}Tool bar{}}
+\newlabel{fig:graphed_toolbar}{{8.10}{X}}
+\@@addtocsec{htoc}{sec149}{1}{\@print{8.2.8}\quad{}Popup menu{}}
+\newlabel{sec:graphed:PopupMenu}{{8.2.8}{X}}
+\@@addtocsec{htoc}{sec150}{1}{\@print{8.2.9}\quad{}Editing of Telos objects{}}
+\newlabel{sec:graph_edit}{{8.2.9}{X}}
+\newlabel{fig:createobject}{{8.11}{X}}
+\newlabel{fig:graphed_addremove}{{8.12}{X}}
+\@@addtocsec{htoc}{sec151}{1}{\@print{8.2.10}\quad{}Caching of query results within CBGraph{}}
+\newlabel{sec:graphed_cache}{{8.2.10}{X}}
+\@@addtocsec{htoc}{sec152}{1}{\@print{8.2.11}\quad{}Graph files{}}
+\newlabel{sec:gel}{{8.2.11}{X}}
+\@@addtocsec{htoc}{sec153}{0}{\@print{8.3}\quad{}An example session with ConceptBase{}}
+\newlabel{sec:session}{{8.3}{X}}
+\@@addtocsec{htoc}{sec154}{1}{\@print{8.3.1}\quad{}Starting ConceptBase{}}
+\newlabel{fig:startserver}{{8.13}{X}}
+\@@addtocsec{htoc}{sec155}{1}{\@print{8.3.2}\quad{}Connecting CBIva to another CBserver{}}
+\newlabel{fig:connectserver}{{8.14}{X}}
+\@@addtocsec{htoc}{sec156}{1}{\@print{8.3.3}\quad{}Loading objects from external files{}}
+\@@addtocsec{htoc}{sec157}{1}{\@print{8.3.4}\quad{}Displaying objects{}}
+\newlabel{fig:session_display}{{8.15}{X}}
+\@@addtocsec{htoc}{sec158}{1}{\@print{8.3.5}\quad{}Browsing objects{}}
+\newlabel{fig:graph_empl}{{8.16}{X}}
+\newlabel{fig:graph_man}{{8.17}{X}}
+\newlabel{fig:graph_super}{{8.18}{X}}
+\newlabel{fig:graph_impl}{{8.19}{X}}
+\@@addtocsec{htoc}{sec159}{1}{\@print{8.3.6}\quad{}Editing Telos objects{}}
+\newlabel{fig:telos_ed}{{8.20}{X}}
+\newlabel{fig:telos_ed_error}{{8.21}{X}}
+\newlabel{fig:graph_add_attr}{{8.22}{X}}
+\newlabel{fig:graph_add_inst}{{8.23}{X}}
+\newlabel{fig:graph_commit}{{8.24}{X}}
+\@@addtocsec{htoc}{sec162}{1}{\@print{8.3.7}\quad{}Using the query facility{}}
+\newlabel{fig:query_answer}{{8.25}{X}}
+\@@addtocsec{htoc}{sec163}{0}{\@print{8.4}\quad{}Configuration file{}}
+\newlabel{sec:config}{{8.4}{X}}
+\@@addtocsec{htoc}{sec164}{-1}{\@print{Appendix&#XA0;A}\quad{}Syntax Specifications{}}
+\newlabel{cha:syntax}{{A}{X}}
+\@@addtocsec{htoc}{sec165}{0}{\@print{A.1}\quad{}Syntax specifications for Telos frames{}}
+\newlabel{sec:telos objects}{{A.1}{X}}
+\@@addtocsec{htoc}{sec166}{0}{\@print{A.2}\quad{}Syntax of the rule and constraint language{}}
+\newlabel{sec:assertion language}{{A.2}{X}}
+\@@addtocsec{htoc}{sec167}{0}{\@print{A.3}\quad{}Syntax of active rules{}}
+\newlabel{sec:ecasyntax}{{A.3}{X}}
+\@@addtocsec{htoc}{sec168}{0}{\@print{A.4}\quad{}Terminal symbols{}}
+\newlabel{sec:terminal symbols}{{A.4}{X}}
+\@@addtocsec{htoc}{sec169}{0}{\@print{A.5}\quad{}Syntax specifications for SML fragments{}}
+\newlabel{sec:fragments}{{A.5}{X}}
+\@@addtocsec{htoc}{sec170}{-1}{\@print{Appendix&#XA0;B}\quad{}O-Telos Axioms{}}
+\newlabel{cha:otelos-axioms}{{B}{X}}
+\citation{Taxis80}
+\@@addtocsec{htoc}{sec171}{-1}{\@print{Appendix&#XA0;C}\quad{}Graphical Types{}}
+\newlabel{cha:graph-typen}{{C}{X}}
+\@@addtocsec{htoc}{sec172}{0}{\@print{C.1}\quad{}The graphical type model{}}
+\@@addtocsec{htoc}{sec173}{0}{\@print{C.2}\quad{}The standard graphical types{}}
+\newlabel{GTsforGB}{{C.2}{X}}
+\@@addtocsec{htoc}{sec174}{1}{\@print{C.2.1}\quad{}The extended graphical type model{}}
+\@@addtocsec{htoc}{sec175}{1}{\@print{C.2.2}\quad{}Default graphical types{}}
+\@@addtocsec{htoc}{sec176}{0}{\@print{C.3}\quad{}Customizing the graphical types{}}
+\newlabel{GTsCust}{{C.3}{X}}
+\@@addtocsec{htoc}{sec177}{1}{\@print{C.3.1}\quad{}Graphical properties of nodes and links{}}
+\newlabel{sec:graph-props}{{C.3.1}{X}}
+\@@addtocsec{htoc}{sec178}{1}{\@print{C.3.2}\quad{}Node levels{}}
+\newlabel{sec:nodelevel}{{C.3.2}{X}}
+\@@addtocsec{htoc}{sec179}{1}{\@print{C.3.3}\quad{}Click actions{}}
+\newlabel{sec:clickactions}{{C.3.3}{X}}
+\@@addtocsec{htoc}{sec180}{1}{\@print{C.3.4}\quad{}Providing a new implementation for a graphical type{}}
+\@@addtocsec{htoc}{sec181}{1}{\@print{C.3.5}\quad{}Shapes{}}
+\newlabel{sec:shapes}{{C.3.5}{X}}
+\newlabel{fig:shapes}{{C.1}{X}}
+\@@addtocsec{htoc}{sec182}{1}{\@print{C.3.6}\quad{}Icons{}}
+\newlabel{sec:icons}{{C.3.6}{X}}
+\@@addtocsec{htoc}{sec183}{0}{\@print{C.4}\quad{}Object-specific graphical properties{}}
+\newlabel{gproperty}{{C.4}{X}}
+\@@addtocsec{htoc}{sec184}{0}{\@print{C.5}\quad{}Graphical types for derived links{}}
+\newlabel{gtypederived}{{C.5}{X}}
+\@@addtocsec{htoc}{sec185}{-1}{\@print{Appendix&#XA0;D}\quad{}Examples{}}
+\newlabel{cap:examples}{{D}{X}}
+\@@addtocsec{htoc}{sec186}{0}{\@print{D.1}\quad{}Example model: the employee model{}}
+\newlabel{sec:employee-model}{{D.1}{X}}
+\@@addtocsec{htoc}{sec187}{0}{\@print{D.2}\quad{}A Telos modeling example - ER diagrams{}}
+\newlabel{sec:ER-diagrams}{{D.2}{X}}
+\@@addtocsec{htoc}{sec188}{1}{\@print{D.2.1}\quad{}The basic model{}}
+\newlabel{subsec:ER-basic-model}{{D.2.1}{X}}
+\@@addtocsec{htoc}{sec189}{1}{\@print{D.2.2}\quad{}The use of meta formulas{}}
+\newlabel{fig:er_incons}{{D.1}{X}}
+\@@addtocsec{htoc}{sec194}{1}{\@print{D.2.3}\quad{}Limitations and final remarks{}}
+\@@addtocsec{htoc}{sec195}{-1}{\@print{Appendix&#XA0;E}\quad{}Predefined Query Classes{}}
+\newlabel{cap:builtin-queries}{{E}{X}}
+\@@addtocsec{htoc}{sec196}{0}{\@print{E.1}\quad{}Query classes and generic query classes{}}
+\@@addtocsec{htoc}{sec197}{1}{\@print{E.1.1}\quad{}Instances and classes{}}
+\@@addtocsec{htoc}{sec198}{1}{\@print{E.1.2}\quad{}Specializations and generalizations{}}
+\@@addtocsec{htoc}{sec199}{1}{\@print{E.1.3}\quad{}Attributes{}}
+\@@addtocsec{htoc}{sec200}{1}{\@print{E.1.4}\quad{}Links between objects{}}
+\@@addtocsec{htoc}{sec201}{1}{\@print{E.1.5}\quad{}Other queries{}}
+\@@addtocsec{htoc}{sec202}{0}{\@print{E.2}\quad{}Functions{}}
+\newlabel{cap:builtin-queries:functions}{{E.2}{X}}
+\@@addtocsec{htoc}{sec203}{1}{\@print{E.2.1}\quad{}Computation and counting{}}
+\@@addtocsec{htoc}{sec204}{1}{\@print{E.2.2}\quad{}String manipulation{}}
+\@@addtocsec{htoc}{sec205}{0}{\@print{E.3}\quad{}Builtin query classes{}}
+\@@addtocsec{htoc}{sec206}{-1}{\@print{Appendix&#XA0;F}\quad{}CBserver Plug-Ins{}}
+\newlabel{cap:lpi}{{F}{X}}
+\@@addtocsec{htoc}{sec207}{0}{\@print{F.1}\quad{}Defining the plug-in{}}
+\@@addtocsec{htoc}{sec208}{0}{\@print{F.2}\quad{}Calling the plug-in{}}
+\@@addtocsec{htoc}{sec209}{0}{\@print{F.3}\quad{}Programming interface for the plug-ins{}}
+\newlabel{sec:cbserver-extensions}{{F.3}{X}}
+\@addcontentsline{htoc}{-1}{References}
+\bibcite{All83}{All83}
+\bibcite{BBMR89}{BBMR89}
+\bibcite{bcg87}{BCG*87}
+\bibcite{BMS84}{BMS84}
+\bibcite{chen76}{Chen76}
+\bibcite{chenwarren96}{CW96}
+\bibcite{DPZ2002}{DPZ2002}
+\bibcite{EberleinDiss}{Eber97}
+\bibcite{GALL90}{Gall90}
+\bibcite{hjek90}{HJEK90}
+\bibcite{JARK93}{Jark93}
+\bibcite{jj91}{JeJa91}
+\bibcite{js92}{JeSt92}
+\bibcite{jeus92}{Jeus92}
+\bibcite{jeus09}{Jeus09}
+\citation{jjm09}
+\bibcite{JIIS}{JGJ*95}
+\bibcite{jjm09}{JJM*09}
+\bibcite{ISHandbook}{JJN*98}
+\bibcite{DWQIS99}{JJQV99}
+\bibcite{jjr88}{JJR88}
+\bibcite{jjr90}{JJR90}
+\bibcite{Emisa}{JJS*99}
+\bibcite{JN2016}{JN2016}
+\bibcite{JQJ98}{JQJ98}
+\bibcite{Lud2010}{Lud2010}
+\bibcite{mbjk90}{MBJK90}
+\bibcite{Taxis80}{MBW80}
+\bibcite{DDI2014}{NJS*14}
+\bibcite{USU96}{NJJ*96}
+\bibcite{OMG2011}{OMG11}
+\bibcite{Qui96}{Quix96}
+\bibcite{MEMO}{QSJ02}
+\bibcite{rd92}{RaDh92}
+\bibcite{rjg91}{RJG*91}
+\bibcite{RLGW2014}{RLGW14}
+\bibcite{ssw94}{SSW94}
+\bibcite{SIGA91}{SIGA91}
+\bibcite{SJ96}{StJa96}
+\bibcite{Soi96}{Soir96}
+\bibcite{STAN86}{Stan86}
+\bibcite{stau90}{Stau90}
+\bibcite{TKDE90}{TKDE90}

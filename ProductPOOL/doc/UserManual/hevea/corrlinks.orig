@@ -1,0 +1,28 @@
+cp cbm.html cbm-temp.html
+sed -e "1,100s~<IMG SRC=\"cbm002.png\">~<a href=\"http://conceptbase.cc\"><IMG SRC=\"cbm002.png\"></a>~g"  cbm-temp.html > cbm.html
+
+cp cbm.html cbm-temp.html
+sed -e "s~>\.</A>~>link</A>\.~g"  cbm-temp.html > cbm.html
+
+cp cbm.html cbm-temp.html
+sed -e "s~>(</A>~>link</A>(~g"  cbm-temp.html > cbm.html
+
+cp cbm.html cbm-temp.html
+sed -e "s~>)</A>~>link</A>)~g"  cbm-temp.html > cbm.html
+
+cp cbm.html cbm-temp.html
+sed -e "s~>\]</A>~>link</A>\]~g"  cbm-temp.html > cbm.html
+
+cp cbm.html cbm-temp.html
+sed -e "s~>:</A>~>link</A>:~g"  cbm-temp.html > cbm.html
+
+cp cbm.html cbm-temp.html
+sed -e "s~>t</A>~>link</A> t~g"  cbm-temp.html > cbm.html
+
+cp cbm.html cbm-temp.html
+sed -e "s~>f</A>~>link</A> f~g"  cbm-temp.html > cbm.html
+
+cp cbm.html cbm-temp.html
+sed -e "s~>i</A>~>link</A> i~g"  cbm-temp.html > cbm.html
+
+
