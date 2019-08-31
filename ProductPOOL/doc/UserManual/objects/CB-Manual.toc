@@ -142,7 +142,7 @@
 \contentsline {subsubsection}{File menu}{130}{section*.4}
 \contentsline {subsubsection}{Edit menu}{131}{section*.5}
 \contentsline {subsubsection}{Options menu}{131}{section*.6}
-\contentsline {subsubsection}{View menu}{131}{section*.7}
+\contentsline {subsubsection}{View menu}{132}{section*.7}
 \contentsline {subsubsection}{Current connection menu}{132}{section*.8}
 \contentsline {subsection}{\numberline {8.2.7}Tool bar}{133}{subsection.8.2.7}
 \contentsline {subsection}{\numberline {8.2.8}Popup menu}{134}{subsection.8.2.8}
@@ -154,11 +154,11 @@
 \contentsline {subsection}{\numberline {8.3.2}Connecting CBIva to another CBserver}{139}{subsection.8.3.2}
 \contentsline {subsection}{\numberline {8.3.3}Loading objects from external files}{140}{subsection.8.3.3}
 \contentsline {subsection}{\numberline {8.3.4}Displaying objects}{140}{subsection.8.3.4}
-\contentsline {subsection}{\numberline {8.3.5}Browsing objects}{141}{subsection.8.3.5}
+\contentsline {subsection}{\numberline {8.3.5}Browsing objects}{140}{subsection.8.3.5}
 \contentsline {subsection}{\numberline {8.3.6}Editing Telos objects}{142}{subsection.8.3.6}
 \contentsline {subsubsection}{Editing Telos objects with the Telos editor}{142}{section*.9}
 \contentsline {subsubsection}{Editing Telos objects using CBGraph}{144}{section*.10}
-\contentsline {subsection}{\numberline {8.3.7}Using the query facility}{146}{subsection.8.3.7}
+\contentsline {subsection}{\numberline {8.3.7}Using the query facility}{147}{subsection.8.3.7}
 \contentsline {section}{\numberline {8.4}Configuration file}{147}{section.8.4}
 \contentsline {chapter}{\numberline {A}Syntax Specifications}{150}{appendix.A}
 \contentsline {section}{\numberline {A.1}Syntax specifications for Telos frames}{150}{section.A.1}

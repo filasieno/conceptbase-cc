@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.12)  27 AUG 2019 14:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.12)  30 AUG 2019 12:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -734,38 +734,37 @@ Package pdftex.def Info: overview.png used on input line 463.
 File: componentview.png Graphic file (type png)
 
 <use componentview.png>
-Package pdftex.def Info: componentview.png used on input line 857.
+Package pdftex.def Info: componentview.png used on input line 863.
 (pdftex.def)             Requested size: 256.0748pt x 207.47052pt.
- [131]
-<querytoserver.png, id=2185, 409.53pt x 192.72pt>
+ [131] [132 <../componentview.png>]
+<querytoserver.png, id=2192, 409.53pt x 192.72pt>
 File: querytoserver.png Graphic file (type png)
  <use querytoserver.png>
-Package pdftex.def Info: querytoserver.png used on input line 906.
+Package pdftex.def Info: querytoserver.png used on input line 912.
 (pdftex.def)             Requested size: 170.71652pt x 80.339pt.
 
-<graphed_toolbar.png, id=2187, 456.20438pt x 108.405pt>
+<graphed_toolbar.png, id=2194, 456.20438pt x 108.405pt>
 File: graphed_toolbar.png Graphic file (type png)
 
 <use graphed_toolbar.png>
-Package pdftex.def Info: graphed_toolbar.png used on input line 916.
+Package pdftex.def Info: graphed_toolbar.png used on input line 922.
 (pdftex.def)             Requested size: 424.58624pt x 100.89499pt.
- [132 <../componentview.png>] [133 <../querytoserver.png> <../graphed_toolbar.p
-ng>] [134]
-<createobject.png, id=2211, 682.55pt x 379.4175pt>
+ [133 <../querytoserver.png> <../graphed_toolbar.png>] [134] <createobject.png,
+ id=2211, 682.55pt x 379.4175pt>
 File: createobject.png Graphic file (type png)
- <use createobject.png>
-Package pdftex.def Info: createobject.png used on input line 1025.
-(pdftex.def)             Requested size: 339.67029pt x 188.8167pt.
 
-[135 <../createobject.png>]
+<use createobject.png>
+Package pdftex.def Info: createobject.png used on input line 1031.
+(pdftex.def)             Requested size: 339.67029pt x 188.8167pt.
+ [135 <../createobject.png>]
 <graphed_addremove.png, id=2222, 307.1475pt x 256.96pt>
 File: graphed_addremove.png Graphic file (type png)
 
 <use graphed_addremove.png>
-Package pdftex.def Info: graphed_addremove.png used on input line 1097.
+Package pdftex.def Info: graphed_addremove.png used on input line 1103.
 (pdftex.def)             Requested size: 199.16928pt x 166.626pt.
  [136 <../graphed_addremove.png>] [137]
-Overfull \hbox (13.41376pt too wide) in paragraph at lines 1204--1204
+Overfull \hbox (13.41376pt too wide) in paragraph at lines 1210--1210
 []   \OT1/pcr/m/n/10 Integer saveflag (bit0: HAS_IMAGE, bit1: HAS_SOURCE, bit2:
  HAS_PARAMS)[] 
  []
@@ -773,98 +772,99 @@ Overfull \hbox (13.41376pt too wide) in paragraph at lines 1204--1204
 [138] <startserver.png, id=2248, 863.225pt x 331.2375pt>
 File: startserver.png Graphic file (type png)
  <use startserver.png>
-Package pdftex.def Info: startserver.png used on input line 1285.
+Package pdftex.def Info: startserver.png used on input line 1291.
 (pdftex.def)             Requested size: 382.12502pt x 146.62944pt.
 
 <connectserver.png, id=2250, 233.87375pt x 147.55125pt>
 File: connectserver.png Graphic file (type png)
 
 <use connectserver.png>
-Package pdftex.def Info: connectserver.png used on input line 1301.
+Package pdftex.def Info: connectserver.png used on input line 1307.
 (pdftex.def)             Requested size: 85.35826pt x 53.85237pt.
- [139 <../startserver.png> <../connectserver.png>]
-<session_display.png, id=2263, 383.4325pt x 300.12125pt>
+ [139 <../startserver.png>]
+<session_display.png, id=2262, 383.4325pt x 300.12125pt>
 File: session_display.png Graphic file (type png)
 
 <use session_display.png>
-Package pdftex.def Info: session_display.png used on input line 1358.
+Package pdftex.def Info: session_display.png used on input line 1364.
 (pdftex.def)             Requested size: 199.16928pt x 155.8945pt.
- [140 <../session_display.png>]
-<graph_empl.png, id=2274, 666.49pt x 463.7325pt>
+ <graph_empl.png, id=2265, 666.49pt x 463.7325pt>
 File: graph_empl.png Graphic file (type png)
- <use graph_empl.png>
-Package pdftex.def Info: graph_empl.png used on input line 1380.
-(pdftex.def)             Requested size: 382.12502pt x 265.8799pt.
 
+<use graph_empl.png>
+Package pdftex.def Info: graph_empl.png used on input line 1386.
+(pdftex.def)             Requested size: 382.12502pt x 265.8799pt.
+ [140 <../connectserver.png>]
 <graph_man.png, id=2276, 666.49pt x 461.725pt>
 File: graph_man.png Graphic file (type png)
  <use graph_man.png>
-Package pdftex.def Info: graph_man.png used on input line 1387.
+Package pdftex.def Info: graph_man.png used on input line 1393.
 (pdftex.def)             Requested size: 382.12502pt x 264.72891pt.
 
-Overfull \hbox (5.23976pt too wide) in paragraph at lines 1389--1396
+Overfull \hbox (5.23976pt too wide) in paragraph at lines 1395--1402
 []\OT1/ptm/m/n/10 Note that dif-fer-ent ob-ject types are rep-re-sented by dif-
 fer-ent graph-i-cal ob-jects. The in-stances of \OT1/pcr/m/n/10 Manager
  []
 
-[141 <../graph_empl.png>] <graph_super.png, id=2288, 665.48625pt x 473.77pt>
+[141 <../session_display.png> <../graph_empl.png>]
+<graph_super.png, id=2288, 665.48625pt x 473.77pt>
 File: graph_super.png Graphic file (type png)
-
-<use graph_super.png>
-Package pdftex.def Info: graph_super.png used on input line 1424.
+ <use graph_super.png>
+Package pdftex.def Info: graph_super.png used on input line 1430.
 (pdftex.def)             Requested size: 382.12502pt x 272.04695pt.
- <graph_impl.png, id=2290, 665.48625pt x 459.7175pt>
-File: graph_impl.png Graphic file (type png)
 
-<use graph_impl.png>
-Package pdftex.def Info: graph_impl.png used on input line 1442.
+<graph_impl.png, id=2290, 665.48625pt x 459.7175pt>
+File: graph_impl.png Graphic file (type png)
+ <use graph_impl.png>
+Package pdftex.def Info: graph_impl.png used on input line 1448.
 (pdftex.def)             Requested size: 382.12502pt x 263.97775pt.
- <telos_ed.png, id=2292, 650.43pt x 612.2875pt>
+
+[142 <../graph_man.png>] <telos_ed.png, id=2300, 650.43pt x 612.2875pt>
 File: telos_ed.png Graphic file (type png)
 
 <use telos_ed.png>
-Package pdftex.def Info: telos_ed.png used on input line 1457.
+Package pdftex.def Info: telos_ed.png used on input line 1463.
 (pdftex.def)             Requested size: 339.67029pt x 319.75537pt.
- <telos_ed_error.png, id=2295, 606.265pt x 554.07pt>
+ [143 <../graph_super.png> <../graph_impl.png>]
+<telos_ed_error.png, id=2311, 606.265pt x 554.07pt>
 File: telos_ed_error.png Graphic file (type png)
-
-<use telos_ed_error.png>
-Package pdftex.def Info: telos_ed_error.png used on input line 1466.
+ <use telos_ed_error.png>
+Package pdftex.def Info: telos_ed_error.png used on input line 1472.
 (pdftex.def)             Requested size: 369.88582pt x 338.04138pt.
- [142 <../graph_man.png>] [143 <../graph_super.png> <../graph_impl.png>] [144 <
-../telos_ed.png>]
-<graph_add_attr.png, id=2324, 663.47874pt x 463.7325pt>
+
+[144 <../telos_ed.png>]
+<graph_add_attr.png, id=2323, 663.47874pt x 463.7325pt>
 File: graph_add_attr.png Graphic file (type png)
 
 <use graph_add_attr.png>
-Package pdftex.def Info: graph_add_attr.png used on input line 1516.
+Package pdftex.def Info: graph_add_attr.png used on input line 1522.
 (pdftex.def)             Requested size: 339.67029pt x 237.40616pt.
- <graph_add_inst.png, id=2325, 666.49pt x 462.72874pt>
+ <graph_add_inst.png, id=2324, 666.49pt x 462.72874pt>
 File: graph_add_inst.png Graphic file (type png)
 
 <use graph_add_inst.png>
-Package pdftex.def Info: graph_add_inst.png used on input line 1518.
+Package pdftex.def Info: graph_add_inst.png used on input line 1524.
 (pdftex.def)             Requested size: 339.67029pt x 235.82614pt.
- <graph_commit.png, id=2326, 664.4825pt x 461.725pt>
+ <graph_commit.png, id=2325, 664.4825pt x 461.725pt>
 File: graph_commit.png Graphic file (type png)
 
 <use graph_commit.png>
-Package pdftex.def Info: graph_commit.png used on input line 1524.
+Package pdftex.def Info: graph_commit.png used on input line 1530.
 (pdftex.def)             Requested size: 339.67029pt x 236.02617pt.
  [145 <../telos_ed_error.png>] [146 <../graph_add_attr.png> <../graph_add_inst.
 png>] <query_answer.png, id=2342, 674.52pt x 592.2125pt>
 File: query_answer.png Graphic file (type png)
 
 <use query_answer.png>
-Package pdftex.def Info: query_answer.png used on input line 1568.
+Package pdftex.def Info: query_answer.png used on input line 1574.
 (pdftex.def)             Requested size: 339.67029pt x 298.22908pt.
- [147 <../graph_commit.png>]
-Overfull \hbox (13.47055pt too wide) in paragraph at lines 1613--1614
+ [147 <../graph_commit.png>] [148 <../query_answer.png>]
+Overfull \hbox (13.47055pt too wide) in paragraph at lines 1619--1620
 []\OT1/ptm/m/n/10 Background color of the desk-top of CB-Graph (comma-separated
 
  []
 
-[148 <../query_answer.png>]) (../SyntaxDef.tex [149]
+) (../SyntaxDef.tex [149]
 Appendix A.
 [150
 
@@ -1029,7 +1029,7 @@ st/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/ut
 mbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on CB-Manual.pdf (196 pages, 1924442 bytes).
+Output written on CB-Manual.pdf (196 pages, 1924654 bytes).
 PDF statistics:
  2880 PDF objects out of 2984 (max. 8388607)
  2508 compressed objects within 26 object streams
