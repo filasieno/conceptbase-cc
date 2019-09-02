@@ -1,0 +1,18 @@
+2;tell;Proposition with;ok;100
+3;setModule;M0;ok;78
+4;tell;MyAxioms in Class with;ok;124
+5;setModule;M1;ok;40
+6;tell;Employee in Class with;ok;132
+7;setModule;M11;ok;40
+8;tell;Manager in Class with;ok;128
+9;setModule;M111;ok;38
+10;tell;bill in Manager with;ok;100
+11;untell;bill with ;ok;97
+12;ask;find_instances[Employee/class];ok;77
+13;setModule;M12;ok;81
+14;ask;find_instances[Employee/class];ok;80
+15;setModule;oHome;ok;79
+16;setModule;MX;ok;81
+17;tell;Employee in Class with;ok;104
+18;tell;bill in Manager with;ok;101
+19;untell;bill with;ok;104

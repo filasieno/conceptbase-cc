@@ -1,0 +1,3 @@
+ASK; find_attribute_values[bill/objname,Person!knows/cat], CBGraphEditorResult[DefaultJavaPalette/pal,bill/obj,Attribute/cat,src/objtype], Now];ALL;0.030000;3434
+ASK; find_attribute_values[bill/objname,Person!knows/cat], CBGraphEditorResult[DefaultJavaPalette/pal,bill/obj,Person!knows/cat,src/objtype], Now];ALL;0.000000;3461
+ASK; find_attribute_values[john/objname,Person!knows/cat], CBGraphEditorResult[DefaultJavaPalette/pal,john/obj,Person!knows/cat,src/objtype], Now];ALL;0.000000;3484

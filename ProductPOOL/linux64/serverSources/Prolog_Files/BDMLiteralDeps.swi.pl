@@ -81,6 +81,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 :- use_module('Literals.swi.pl').
 
+:- use_module('PropositionProcessor.swi.pl').
+
 :- use_module('BDMTransFormula.swi.pl').
 :- use_module('GeneralUtilities.swi.pl').
 
@@ -208,6 +210,18 @@ getConcernedClass('A'(_x,_l,_y), _class) :-
   _classes = [_class],                                      /** result is unique **/
   !.
 
+/* (b2) Look in subclasses of derived by DeepTelos as well; see issue #4 */
+
+getConcernedClass('A'(_x,_l,_y), _class) :-
+  retrieve_proposition('P'(_ISA,id_0,'ISA',id_0)),   /** DeepTelos ISA is defined **/
+  'VarTabLookup'(_x,_type),
+	is_list(_type),
+        getTypeMember(_R1,_type),
+	checkArgLabel(_R1),   /** may not be tagged as 'UNKNOWN' **/
+        prove_upd_literal('Adot'(_ISA,_Rx,_R)),
+	\+(prove_literal('In'(_R,id_65))),    /** id_65=QueryClass **/
+  prove_literal('P'(_class,_R,_l,_)),
+  atom(_class),!.
 
 
   
@@ -493,6 +507,23 @@ getConcernedClass(vars(_a,_b),_ranges,'A'(_x,_l,_y), _class) :-
   _classes = [_class],                                      /** result is unique **/
   !.
 
+
+/* (b2) Look in subclasses of derived by DeepTelos as well; see issue #4 */
+
+getConcernedClass(vars(_a,_b),_ranges,'A'(_x,_l,_y), _class) :-
+  retrieve_proposition('P'(_ISA,id_0,'ISA',id_0)),  /** DeepTelos ISA is defined **/
+  member(_x,_a),
+  'GetEntry'(_ranges,_x,_Rx1),
+  ((is_list(_Rx1),
+	getTypeMember(_Rx,_Rx1)
+   );
+    \+(is_list(_Rx1)),
+	_Rx = _Rx1
+  ),
+  prove_upd_literal('Adot'(_ISA,_Rx,_R)),
+  \+(prove_literal('In'(_R,id_65))),  /** id_65=QueryClass **/
+  prove_literal('P'(_class,_R,_l,_)),
+  atom(_class),!.
 
 
 /* (c) Else: _x is a constant, use it's classes to find concerned class */

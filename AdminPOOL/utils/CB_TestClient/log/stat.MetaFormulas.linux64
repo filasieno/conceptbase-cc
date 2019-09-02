@@ -1,0 +1,41 @@
+2;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/MetaFormulas/MetaFormulas;ok;198
+3;tell;Blub in NonEmptyClass;ok;81
+4;tell;Class Test with;ok;192
+5;tell;bla in Test;ok;60
+6;tell;bla in Test with;ok;96
+7;tell;bla in Test with;ok;96
+8;tell;bla in Test with;ok;95
+9;tell;bla2 in Test with;ok;100
+10;tell;bla3 in Test with;ok;100
+11;tell;bla3 in Test with;ok;95
+12;tell;bla3 in Test with;ok;96
+13;ask;get_object[Proposition/objname];ok;81
+14;ask;get_object[Proposition!cardinality/objname];ok;78
+15;tell;Class Test2 with;ok;123
+16;tell;blub in Test2 with;ok;63
+17;tell;blub in Test2 with;ok;100
+18;tell;blub in Test2 with;ok;77
+19;tell;blub in Test2 with;ok;99
+20;tell;blub in Test2 with;ok;99
+21;tell;blub in Test2 with;ok;99
+22;tell;EntityType E1 end;ok;120
+23;ask;find_instances[E1/class];ok;40
+24;ask;find_instances[E2/class];ok;79
+25;tell;EntityType E3 with;ok;126
+26;ask;find_instances[E1/class];ok;44
+27;ask;find_instances[E2/class];ok;79
+28;ask;find_instances[E3/class];ok;80
+29;tell;IsaType in Class with;ok;105
+30;tell;Human in EntityType with;ok;100
+31;tell;billy_the_kid in Student with;ok;99
+32;tell;ISA1 in IsaType with;ok;121
+33;tell;billy_the_kid in Student with;ok;59
+34;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/MetaFormulas/MetaIn;ok;194
+35;ask;ShowMetaClasses[10000/obj];ok;42
+36;ask;ShowMetaClasses[20000/obj];ok;82
+37;ask;ShowMetaClasses[bill/obj];ok;77
+38;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/MetaFormulas/InverseOf;ok;608
+39;ask;MeetingWithParticipants;ok;40
+40;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/MetaFormulas/LinkSemantics2;ok;311
+41;ask;AncestorOf;ok;40
+42;ask;KnownPersonFor;ok;131

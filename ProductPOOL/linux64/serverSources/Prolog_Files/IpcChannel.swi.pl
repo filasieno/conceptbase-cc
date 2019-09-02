@@ -592,12 +592,13 @@ serve_goal( _fd) :-    /*error*/
 serve_goal2( 0, _fd, _out, _parserOutput ) :-
 	'GetIpcMessageFromC'( _parserOutput, _ipcmessage ),
 	solve_goal( _ipcmessage, _fd, _out ),
+/**	WriteTrace(veryhigh,IpcChannel,[_ipcmessage]),  **/
 	!.
 
 /** ipcmessage is broken; still try to recover sender and receiver **/
 serve_goal2( 0, _fd, _out, _parserOutput ) :-
         'GetIpcMessageFromC'( _parserOutput, ipcmessage(_s,_r,_m,_a) ),
-/**	write('error reading ipcmessage method argument\n'), **/
+	write('IpcChannel: error in ipcmessage '), write(ipcmessage(_s,_r,_m,_a)),nl,
         report_error( 'IPC1', 'IpcChannel', []), 
         solve_goal(ipcmessage(_s,_r,error,error), _fd, _out ),
 	handle_error_message_queue(error),
@@ -627,9 +628,12 @@ get_ipcmessage( _fptr, _msg, _out ,_fd,_inp) :-
 	pc_pointer(_msg),
 	( \+(pc_isNullPointer(_msg));
 	 (pc_isNullPointer(_msg), !, fail)
-	)/*,
+	),
+/** to trace how the original message looked like
 	pc_stringtoatom(_msg,_atom),
-	write(ipcmsg(_atom)),nl*/.
+	write(ipcmsg(_atom)),nl,
+**/
+	!.
 
 
 

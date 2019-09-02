@@ -83,6 +83,7 @@ public class CBConfiguration {
     private final static String KEY_OPTION_MODULE_SEPARATOR="ModuleSeparator";
     private final static String KEY_OPTION_CBIVA_SMALLFONT="CBIvaSmallFont";
     private final static String KEY_OPTION_CBIVA_LARGEFONT="CBIvaLargeFont";
+    private final static String KEY_OPTION_DERIVED_LINKS="DerivedLinks";
 
     private final static String KEY_OPTION_DEBUG_LEVEL="DebugLevel";
 
@@ -809,12 +810,33 @@ public class CBConfiguration {
          return result;
      }
 
+
      public static void setEnableClickActions(boolean newvalue) {
          if (newvalue)
              m_Properties.setProperty(KEY_OPTION_CLICK_ACTIONS,VALUE_TRUE);
          else
              m_Properties.setProperty(KEY_OPTION_CLICK_ACTIONS,VALUE_FALSE);
       }
+
+
+     // by default CBGraph can display derived links; but it can be disabled if computation is too expensive
+     public static boolean getEnableDerivedLinks() {
+         boolean result = true;  // enabled by default
+         try {
+           result = m_Properties.getProperty(KEY_OPTION_DERIVED_LINKS).equals(VALUE_TRUE);
+         } catch (Exception e) {
+           // do nothing
+         }
+         return result;
+     }
+
+     public static void setEnableDerivedLinks(boolean newvalue) {
+         if (newvalue)
+             m_Properties.setProperty(KEY_OPTION_DERIVED_LINKS,VALUE_TRUE);
+         else
+             m_Properties.setProperty(KEY_OPTION_DERIVED_LINKS,VALUE_FALSE);
+      }
+
 
     public static Level getDebugLevel() {
         return Level.parse(m_Properties.getProperty(KEY_OPTION_DEBUG_LEVEL));

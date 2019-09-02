@@ -107,6 +107,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 :- use_module('Literals.swi.pl').
 
+
+
 :- use_module('SearchSpace.swi.pl').
 
 
@@ -195,7 +197,7 @@ handleRuleTriggerInsertCase(_triggerFired) :-
 
 
 handleDeleteTriggerDeleteCase :-
-	'WriteTrace'(veryhigh,'MetaBDMEvaluation',['TestMetaFormulaTriggerDelete']),
+	'WriteTrace'(veryhigh,'MetaBDMEvaluation',['TestMetaFormulaTriggerDelete1']),
 	'TestMetaFormulaTrigger_Delete'(_deleteTrigger),
 	fireDeleteTrigger(_deleteTrigger),
 	changeInsertTriggerExtension(_deleteTrigger),
@@ -204,7 +206,7 @@ handleDeleteTriggerDeleteCase :-
 handleDeleteTriggerDeleteCase([]) :- !.
 handleDeleteTriggerDeleteCase(_triggerFired) :-
 	/*_triggerFired \== 0*/
-	'WriteTrace'(veryhigh,'MetaBDMEvaluation',['TestMetaFormulaDeleteTrigger']),
+	'WriteTrace'(veryhigh,'MetaBDMEvaluation',['TestMetaFormulaDeleteTrigger2']),
 	'TestMetaFormulaTrigger_Delete'(_deleteTrigger),
 	fireDeleteTrigger(_deleteTrigger),
 	changeInsertTriggerExtension(_deleteTrigger),
@@ -264,7 +266,7 @@ handleInsertCase(_,_) :-
 
 findDeleteTriggerToFire([],[]).
 findDeleteTriggerToFire(['applyPredicateIfDelete@BDMCompile'(_lit,_rfID,_Procedure)|_deleteTrigger],_deleteTriggerToFire) :-
-	prove_literal(_lit),!,/*nl,*/
+	prove_upd_literal(_lit),!,/*nl,*/
 	findDeleteTriggerToFire(_deleteTrigger,_deleteTriggerToFire).
 
 findDeleteTriggerToFire([_t|_deleteTrigger],[_t|_deleteTriggerToFire]) :-
@@ -309,7 +311,7 @@ findInsertTriggerToFire([_t|_insertTriggerRules],_insertTriggerToFire,_oldInsert
 	getEPred(_t,'EPred'(_literal,_extList)),
 	_literal =.. ['In',_x,_c],
 	is_id(_c),
-	prove_literal('In'(_c,_qid)),!,
+	prove_upd_literal('In'(_c,_qid)),!,
 	findInsertTriggerToFire(_insertTriggerRules,_insertTriggerToFire,_oldInsertTrigger,_newExtensions,_qid).
 
 
@@ -352,7 +354,7 @@ removeLitFromExtension(_lit,[_t|_insertTriggerToChange]) :-
 
 filterInsertTrigger([],[],[],[]).
 filterInsertTrigger( ['applyPredicateIfInsert@BDMCompile'(_lit,_rfID,_previousEPreds,_Procedure)| _trigger],[_oldT|_oldTrigger],[_newExt|_newExts],_ProcedureList) :-
-	prove_literals(_previousEPreds),!,
+	prove_upd_literals(_previousEPreds),!,
 	change_BDMFormula(_oldT,'applyPredicateIfInsert@BDMCompile'(_lit,_rfID,_previousEPreds,_Procedure)),
 	replaceVariables('applyPredicateIfInsert@BDMCompile'(_lit,_rfID,_previousEPreds,_Procedure),
 		_newExt,_ProcedureList1),
@@ -384,7 +386,7 @@ testPreviousEPreds(_ListOfTrigger,_triggerToDelete) :-
 testPreviousEPreds([],_toDelete,_toDelete).
 testPreviousEPreds([_t|_listOfTrigger],_toDelete,_allToDelete) :-
 	getPreviousEPreds(_t,_previousEPreds),
-	prove_literals(_previousEPreds),!,
+	prove_upd_literals(_previousEPreds),!,
 	testPreviousEPreds(_listOfTrigger,_toDelete,_allToDelete).
 testPreviousEPreds([_t|_listOfTrigger],_toDelete,_allToDelete) :-
 	getPreviousEPreds(_t,_previousEPreds),

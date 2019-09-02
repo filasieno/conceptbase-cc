@@ -76,6 +76,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 :- use_module('debug.swi.pl').
 
 :- use_module('Literals.swi.pl').
+
 :- use_module('GeneralUtilities.swi.pl').
 :- use_module('MetaUtilities.swi.pl').
 
@@ -97,6 +98,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 :- use_module('PrologCompatibility.swi.pl').
 
 :- use_module('QO_preproc.swi.pl').
+
 
 
 
@@ -131,11 +133,11 @@ computeExtension('In'(_x,_c),_cons,[]) :-
 	prepareLiteral('In'(_x,_c),_cons,_newLit),
 	_newLit =..['In',_xNew,_id],
 	ground(_id),
-	prove_literal('In'(_id,id_65)),!.   /** id_65 = QueryClass **/
+	prove_upd_literal('In'(_id,id_65)),!.   /** id_65 = QueryClass **/
 
 computeExtension(_lit,_cons,_extList) :-
 	prepareLiteral(_lit,_cons,_newLit),
-	save_setof(_newLit,(prove_literal(_newLit),ground(_newLit)),_extList),!.
+	save_setof(_newLit,(prove_upd_literal(_newLit),ground(_newLit)),_extList),!.
 
 
 /*
@@ -202,6 +204,7 @@ determines('A_e'(_x,_m,_y),[],[_x,_m,_y],100) .
 
 
 determines('In'(_x,_id),[_id],[_x],10000):- id2name(_id,'Proposition'),!.
+determines('In'(_x,_c),[_c],[_x],1000) :- is_id(_c),prove_upd_literal('A'(_,'Proposition','IN',_c)),!.  /** _c is defined in DeepTelos **/
 determines('In'(_x,_c),[_c],[_x],12).
 determines('In'(_x,_c),[_x,_c],[],1) .
 determines('In'(_x,_c),[_x],[_c],5) .

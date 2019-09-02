@@ -1,0 +1,24 @@
+#!/bin/sh
+
+CB_HOME=${CB_HOME:=/home/cbase/CB_NewStruct/CB_Product}
+export CB_HOME
+
+# default java
+JAVAEXEC=java
+# We prefer to use one of the following javas; the last one is most preferred
+
+# take java5 if installed
+if [ -x /usr/lib/jvm/java-1.5.0-sun/bin/java ]; then
+  JAVAEXEC=/usr/lib/jvm/java-1.5.0-sun/bin/java
+fi
+# take openjdk if installed
+if [ -x /usr/lib/jvm/java-6-openjdk/bin/java ]; then
+  JAVAEXEC=/usr/lib/jvm/java-6-openjdk/bin/java
+fi
+
+exec $JAVAEXEC -DCB_HOME="$CB_HOME" -jar "$CB_HOME/lib/classes/cb.jar"
+
+
+
+
+
