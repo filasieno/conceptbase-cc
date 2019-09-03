@@ -2,5 +2,8 @@ conceptbase/
 *~
 /ProductPOOL/**/EXPORT/*
 /ProductPOOL/**/classes/*
+*.1
+*.2
+*.3
 
 
