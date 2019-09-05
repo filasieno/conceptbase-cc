@@ -93,6 +93,7 @@ public class FrameTree extends JInternalFrame implements ActionListener {
 
         this.tree = new JTree(DTM);
 
+/* This is the Motif part that does not compile anymore with Java 9; issue #6
         try {
             javax.swing.plaf.TreeUI uiTree = new com.sun.java.swing.plaf.motif.MotifTreeUI();
             tree.setUI(uiTree);
@@ -100,7 +101,8 @@ public class FrameTree extends JInternalFrame implements ActionListener {
         }
         catch (Exception exc) {
             System.err.println("Error loading L&F: " + exc);
-        }
+        }6
+*/
 
 
 

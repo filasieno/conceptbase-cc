@@ -264,6 +264,8 @@ public class TECommand implements ActionListener {
                     break;
                 }
 
+/* FrameTree no longer in use since it depends on the old Motif package;
+   It does not compile under Java 9 anymore, issue #6
             case iPM_OBJECT_TREE: {
                     String sSelected=te.getTelosTextArea().getSelectedText();
                     if (sSelected != null)  {
@@ -274,6 +276,10 @@ public class TECommand implements ActionListener {
                         te.getCBIva().getStatusBar().insertMessage("No Object Selected");
                     }
                 }
+*/
+
+
+
         }
     }
 

@@ -296,9 +296,11 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
         mi.addActionListener(new CBICommand(CBICommand.iLOAD_OBJECT, CBI));
         mEdit.add(mi);
 
+/* no longer use FrameTree; issue #6
         mi=new JMenuItem("View Object as Tree");
         mi.addActionListener(new CBICommand(CBICommand.iPM_OBJECT_TREE,CBI));
         mEdit.add(mi);
+*/
 
 
         miLPIcall = new JMenuItem("Prolog Call");

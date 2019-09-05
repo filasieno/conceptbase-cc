@@ -932,6 +932,8 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
         }
         break;
 
+/* FrameTree no longer in use since it depends on the old Motif package;
+   It does not compile under Java 9 anymore, issue #6
         case iPM_OBJECT_TREE: {
             if(te == null) {
                 CBI.getStatusBar().insertMessage("no Telos Editor selected");
@@ -947,6 +949,7 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
             }
         }
         break;
+*/
 
         /*
          * Edit|Load Object

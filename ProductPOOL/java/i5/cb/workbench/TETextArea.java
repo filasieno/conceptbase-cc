@@ -117,9 +117,11 @@ public class TETextArea extends JTextArea {
         miLoOb.addActionListener(new TECommand(TECommand.iPM_LOAD_OBJECT,te));
         pmTextAreaPopup.add(miLoOb);
 
+/* no longer use FrameTree; issue #6
         mi=new JMenuItem("View Object as Tree");
         mi.addActionListener(new TECommand(TECommand.iPM_OBJECT_TREE,te));
         pmTextAreaPopup.add(mi);
+*/
 
         mi=new JMenuItem("Display in GraphEditor");
         mi.addActionListener(tecToGrEd);
