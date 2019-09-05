@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2019-08-27
+                      2019-09-05
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -57,6 +57,14 @@ the GitLab repository of ConceptBase.cc
    The option is included since some database are too large in combination with
    recursive rules to show derived links.
    (Issue 5)
+
+81-05 Remove FrameTree from CIBiva
+
+   FrameTree ("View Object as Tree") is no longer includes in CBIva since it depends
+   on the legacy package Motif, which is not supported by Java 9 and newer. FrameTree
+   never gained popularity for inspecting a database. So, users will probably not
+   note that it is missung.
+   (Issue 6)
 
 
 
