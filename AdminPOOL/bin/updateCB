@@ -24,7 +24,7 @@ else
 fi
 
 echo 'Unpacking ...'
-unzip -oq $CBPOOLZIP
+unzip -o -q $CBPOOLZIP
 echo 'Compiling ...'
 (cd $CB_WORK/; CB_Make clean; CB_Make touch_src; CB_Make all) 1> /dev/null 2> /dev/null
 echo 'Installing ...'
