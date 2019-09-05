@@ -140,7 +140,7 @@ calls to builtin query classes like {\tt get\_object[Class/objname]} may only oc
         (see section \ref{sec:qdefvscalls}) listed in the Telos editor are asked
         and the result is returned in the Telos editor window.
 	\item[Load Object:] Load the Telos frame of an object into the Telos editor.
-	\item[View Object as Tree:] Opens a new window and shows the object in tree browser.
+%	\item[View Object as Tree:] Opens a new window and shows the object in tree browser.
 	\end{description}
 \item[Browse:]
 	\begin{description}
@@ -252,7 +252,7 @@ the following items.
 \begin{description}
 \item[Display Instances:] Displays the instances of the currently marked object
 \item[Load Object:] Loads the Telos frame of the currently marked object into the Telos editor
-\item[View Object as Tree:] Opens the tree browser with the currently marked object as root
+%\item[View Object as Tree:] Opens the tree browser with the currently marked object as root
 \item[Display in Graph Editor:] Shows the currently marked object in CBGraph.
 \item[Change Module:] Changes the module context to the module path defined by the currently marked text
 \item[Clear,Cut,Copy,Paste:] same as in the menu bar
@@ -409,6 +409,9 @@ button to store the query in the object base.
 
 \subsection{Tree browser}
 \label{sec:tree_browser}
+
+{\bf Note: The tree browser has been removed from CBIva due to legacy dependencies on
+packages no longer supported by Java.}
 
 The Tree browser (see figure \ref{fig:frametree}) displays the super classes, classes and
 attributes of an object in a tree. To start the tree browser,
