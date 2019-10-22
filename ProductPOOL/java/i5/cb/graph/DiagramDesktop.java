@@ -1672,14 +1672,14 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
             allBounds.y = 0;
         }
 
-        // add an extra pixel on all sides of the allBound rectangle avoid nodes to touch its borders
+        // add 2 extra pixel on all sides of the allBound rectangle avoid nodes to touch its borders
         if (allBounds.x > 0) {
-            allBounds.width = allBounds.width + 2;
-            allBounds.x = allBounds.x - 1;
+            allBounds.width = allBounds.width + 4;
+            allBounds.x = allBounds.x - 2;
         }
         if (allBounds.y > 0) {
-            allBounds.height = allBounds.height + 2;
-            allBounds.y = allBounds.y - 1;
+            allBounds.height = allBounds.height + 4;
+            allBounds.y = allBounds.y - 2;
         }
 
         java.awt.image.BufferedImage offScreen = new java.awt.image.BufferedImage(
