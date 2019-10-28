@@ -789,7 +789,7 @@ result OK "<result>
 </result>
 "
 ask "get_object[WorksIn!emp/objname,FALSE/dedIn,FALSE/dedIsa,TRUE/dedWith]" OBJNAMES  FRAME  Now
-result OK "Proposition!attribute WorksIn!emp in RelationshipType!role,Class!revNec,Inconsistent with  
+result OK "Proposition!attribute WorksIn!emp in RelationshipType!role with  
   graphtype
     COMPUTED_graphtype_id_[0-9]+ : DefaultAttributeGT
   attribute,minmax

@@ -1,21 +1,21 @@
 2;tell;has_attribute in BuiltinQueryClass with;ok;94
-3;tell;Class Employee with;ok;106
-4;ask;has_attribute[Integer/attrtype,salary/attrname,Manager/objname];ok;79
-5;ask;has_attribute[Real/attrtype,salary/attrname,Manager/objname];ok;80
-6;ask;has_attribute[salary/attrname,Manager/objname];ok;81
-7;tell;John in Employee with;ok;100
+3;tell;Class Employee with;ok;95
+4;ask;has_attribute[Integer/attrtype,salary/attrname,Manager/objname];ok;81
+5;ask;has_attribute[Real/attrtype,salary/attrname,Manager/objname];ok;79
+6;ask;has_attribute[salary/attrname,Manager/objname];ok;80
+7;tell;John in Employee with;ok;95
 8;ask;get_object[John/objname];ok;80
-9;tell;23456 in Integer end;ok;95
-10;ask;changeAttributeValue[John!js/attribute,23456/newvalue];ok;79
-11;ask;get_object[John/objname];ok;78
+9;tell;23456 in Integer end;ok;100
+10;ask;changeAttributeValue[John!js/attribute,23456/newvalue];ok;80
+11;ask;get_object[John/objname];ok;80
 12;ask;rename[Johnny/newname,John/oldname];ok;79
-13;ask;get_object[Johnny/objname];ok;80
-14;ask;rename[12345/newname,23456/oldname];ok;79
-15;ask;get_object_star[D*/objname];ok;80
-16;ask;COUNT[Class/class];ok;83
-17;ask;AVG[Integer/class];ok;79
+13;ask;get_object[Johnny/objname];ok;79
+14;ask;rename[12345/newname,23456/oldname];ok;80
+15;ask;get_object_star[D*/objname];ok;83
+16;ask;COUNT[Class/class];ok;80
+17;ask;AVG[Integer/class];ok;80
 18;ask;AVG_Attribute[Johnny/objname,Employee!salary/attrcat];ok;79
-19;ask;MAX[Integer/class];ok;80
+19;ask;MAX[Integer/class];ok;87
 20;ask;MIN[Integer];ok;81
-21;ask;345*456;ok;79
+21;ask;345*456;ok;80
 22;ask;SUM[Integer/class];ok;80
