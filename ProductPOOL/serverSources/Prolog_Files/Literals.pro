@@ -1259,14 +1259,15 @@ prove_In(_x,_c) :-
 ded_In(_x,_c) :-
    ground(_c),   { _c has to be ground, otherwise we would scan all Isa-relationships here }
    prove_literal(Isa_e(_sub,_c)),
-   name2id(QueryClass,_QueryClass),
-   \+ prove_In_e(_sub,_QueryClass),     {* id_65 = QueryClass *}
+   \+ prove_In_e(_sub,id_65),     {* id_65 = QueryClass *}
    prove_by_cache(In(_x,_sub)).   {* this only evaluates the deductive rules for In(.,.)! *}
 
 { if _c is free, find deduced classes of _x and then their superclasses }
 ded_In(_x,_c) :-
    var(_c),
    !,
+   isDeducable(In(_x,_sub)),
+   \+ prove_In_e(_sub,id_65),     {* id_65 = QueryClass *}
    prove_by_cache(In(_x,_sub)),   {* this only evaluates the deductive rules for In(.,.)! *}
    (
    _c=_sub;   {* Ticket #145: _sub itself is also a class of _x! *}
