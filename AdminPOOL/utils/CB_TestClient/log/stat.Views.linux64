@@ -1,15 +1,15 @@
-2;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/QUERIES/Employee_Classes;ok;114
-3;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/QUERIES/Employee_Instances;ok;133
-4;ask;get_object[View/objname];ok;39
-5;tell;View EmpDept isA Employee with;ok;138
-6;ask;get_object[EmpDept/objname];ok;40
-7;ask;get_object[SV_EmpDept_dept/objname];ok;80
-8;ask;EmpDept;ok;84
-9;tell;View EmpOptionalSalary isA Employee with;ok;105
-10;ask;EmpOptionalSalary;ok;84
-11;tell;View EmpDept2 isA Employee with;ok;142
-12;ask;EmpDept2;ok;44
-13;tell;Employee with attribute likes : Employee end;ok;104
-14;ask;EmpDept_likes_head;ok;52
-15;tell;View EmpDept3 isA Employee with;ok;120
-16;ask;EmpDept3;ok;60
+2;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/QUERIES/Employee_Classes;ok;134
+3;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/QUERIES/Employee_Instances;ok;92
+4;ask;get_object[View/objname];ok;40
+5;tell;View EmpDept isA Employee with;ok;119
+6;ask;get_object[EmpDept/objname];ok;43
+7;ask;get_object[SV_EmpDept_dept/objname];ok;79
+8;ask;EmpDept;ok;97
+9;tell;View EmpOptionalSalary isA Employee with;ok;117
+10;ask;EmpOptionalSalary;ok;48
+11;tell;View EmpDept2 isA Employee with;ok;214
+12;ask;EmpDept2;ok;48
+13;tell;Employee with attribute likes : Employee end;ok;115
+14;ask;EmpDept_likes_head;ok;56
+15;tell;View EmpDept3 isA Employee with;ok;127
+16;ask;EmpDept3;ok;68
