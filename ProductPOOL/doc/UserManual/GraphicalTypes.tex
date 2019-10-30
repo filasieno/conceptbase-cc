@@ -381,7 +381,9 @@ just numbers, e.g.\ use "1" instead of 1 as attribute value.
     Initial size of the node in pixels, e.g. "20x20";
     the non-numeric values "resizable" (node size can be resized) and
     "wrap" (node size can be resized and label will be wrapped) are allowed as well.
-    If set, the user can also resize the element via mouse actions
+    The value "wrap\_" works like "wrap" but shall also replace "\_" in the node label by
+    a blank. This allows to handle very long labels in combinantion with the labellength property.
+    If the size property is set, the user can also resize the element via mouse actions
     (default: undefined, then the size is set by CBGraph).
 
 \item[location:]
@@ -848,9 +850,9 @@ the object label occupies. This is fine for the shapes that are close
 to a rectangle. The other shapes should be used in combination with
 the size "resizable".
 
-A variant of the "resizable" option is the "wrap" option. It will additionally
+A variant of the "resizable" option is the "wrap"/"wrap\_" option. It will additionally
 wrap the node label text according to the current node size.
-The "wrap" option renders the node label with the HTML implementation of Java.
+The "wrap"/"wrap\_" option renders the node label with the HTML implementation of Java.
 
 
 Examples for the use of resizable shapes graphical types can be found in
