@@ -384,11 +384,16 @@ abstract public class CBUserObject {
             sLabel = getProperty("label");
         }
         boolean wrapLabel = false;
-        if (hasProperty("size"))
-           wrapLabel =  getProperty("size").equals("wrap");
+        boolean replaceUnderScore = false;
+        if (hasProperty("size")) {
+           wrapLabel =  getProperty("size").equals("wrap") || getProperty("size").equals("wrap_");
+           replaceUnderScore = getProperty("size").equals("wrap_");
+        }
         if (sLabel.length()>labellength) {
            sLabel=sLabel.substring(0,labellength-4) + " ...";
         }
+        if (replaceUnderScore) 
+          sLabel = sLabel.replaceAll("_"," ");
         if (wrapLabel) {
            sLabel="<html><p>" + sLabel + "</p></html>";
         }
