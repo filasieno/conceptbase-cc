@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2019-09-05
+                      2019-10-30
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -65,6 +65,12 @@ the GitLab repository of ConceptBase.cc
    never gained popularity for inspecting a database. So, users will probably not
    note that it is missung.
    (Issue 6)
+
+81-06 New value "wrap_" for graphical property "size"
+
+   The new value "wrap_" for the "size" graphical property works like "wrap" (i.e. the node label is
+   displayed via HTML renderer. In addition, it replaces occurences of "_" by " " to support
+   very long object names that are concatenated via "_".
 
 
 
