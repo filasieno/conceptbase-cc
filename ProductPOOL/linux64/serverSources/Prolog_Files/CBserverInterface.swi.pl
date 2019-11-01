@@ -1340,6 +1340,11 @@ enactModuleContext(_module_name,error) :-
   !.
 
 
+/** issue #7: we are already in the right module, hence no module change **/
+/** needed and no need to empty the cache                                **/
+enactModulePath(_mod) :-
+  getModulePath(_mod),
+  !.
 
 enactModulePath(_mod) :-
   atom(_mod),

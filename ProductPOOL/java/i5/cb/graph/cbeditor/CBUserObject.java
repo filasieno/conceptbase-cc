@@ -537,7 +537,7 @@ abstract public class CBUserObject {
               height = Integer.parseInt(size.split("x")[1]);
               fixedsizeset = true;
             } catch (Exception e) {
-              if (!size.equals("resizable") && !size.equals("wrap"))
+              if (!size.equals("resizable") && !size.startsWith("wrap"))
                  System.err.println("Value for size property should be a dimension like \"20x30\" or \"resizable\"");
               // nothing to be done here; we allow also values like "resizable", see DiagramNode
             }

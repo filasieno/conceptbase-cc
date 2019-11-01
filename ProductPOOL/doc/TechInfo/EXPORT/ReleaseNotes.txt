@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2019-09-05
+                      2019-10-31
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -66,7 +66,19 @@ the GitLab repository of ConceptBase.cc
    note that it is missung.
    (Issue 6)
 
+81-06 New value "wrap_" for graphical property "size"
 
+   The new value "wrap_" for the "size" graphical property works like "wrap" (i.e. the node label is
+   displayed via HTML renderer. In addition, it replaces occurences of "_" by " " to support
+   very long object names that are concatenated via "_".
+
+81-07 Performance blocker related to cache use
+
+   The cache of pre-computed predicate facts is emptied when the module context is changed. Due to a bug,
+   this happened also in situations where the module stayed the same. This resulted in many
+   unnecessary recomputations of derived facts, in particular when using the graph editor.
+   Should be solved now.
+   (Issue 7)
 
 
 
