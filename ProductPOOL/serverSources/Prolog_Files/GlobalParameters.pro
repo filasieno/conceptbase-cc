@@ -90,8 +90,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
-cb_version('8.1.10').
-cb_date_of_release('2019-10-31'). { set via environment variable CB_DATE in startCBserver; see serverSources/Makefile }
+cb_version('8.1.11').
+cb_date_of_release('2019-11-07'). { set via environment variable CB_DATE in startCBserver; see serverSources/Makefile }
 cb_location('Skovde').            {* place where CBserver is compiled, updated in startCBserver *}
 
 cb_copyright_time('Copyright 1987-2019').              {keep up to date!}
@@ -344,7 +344,7 @@ default_cb_feature(multiuser,enabled).          {* values: enabled,disabled }
 default_cb_feature(UpdateMode,unknown).         {* values: persistent,nonpersistent,unknown *}
 default_cb_feature(UntellMode,cleanup).         {* values: verbatim,cleanup *}
 default_cb_feature(securityLevel,'1').          {* values: 0,1,2,... *}
-default_cb_feature(TraceMode,minimal).          {* values: silent,no,minimal,low,high,veryhigh *}
+default_cb_feature(TraceMode,no).          {* values: silent,no,minimal,low,high,veryhigh *}
 default_cb_feature(defaultCacheMode,keep).      {* values: off,transient,keep *}
 default_cb_feature(ViewMaintenanceRules,off).   {* values: off,on *}
 default_cb_feature(RangeFormOptimizing,'4').    {* values: 0,1,2,3,4 *}

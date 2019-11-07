@@ -104,7 +104,7 @@ a predefined command line parameter of SWI-Prolog.
 It is one of {\tt silent}, {\tt no}, {\tt minimal}, {\tt low}, {\tt high}, {\tt veryhigh}. The tracemode
 determines the amount of text displayed by the server during its execution.
 The tracemode does not influence the function but is used for debugging. The
-default tracemode is set to {\tt minimal} (only display CBserver interface).
+default tracemode is set to {\tt no} (only display CBserver interface).
 The tracemode {\tt low} will configure the CBserver to trace the CBserver interface
 calls plus answers, and the tracemode {\tt no} virtually disables tracing.
 The tracemode {\tt silent} is even surpressing the message 'CBserver ready' when starting up
@@ -557,6 +557,15 @@ You can force it to attempt the connection to localhost instead by
 cbgraph -host localhost graph1.gel 
 \end{verbatim}
 
+If you are using ConceptBase under Linux, then the CBserver is running by default on your local computer
+("localhost"). The same is true for Windows 10 with an enabled Linux subsystem. Users on Mac
+computers or older Windows versions are by default using a public CBserver at the university where
+ConceptBase is developed. This public server is meant for testing the system. {\bf DO NOT USE it for
+managing confidential information!} If you plan to use ConceptBase in a serious way, we
+recommend that you set up a protected Linux server on your own network that runs the CBserver.
+Users can set up the variable "PublicCBserver" in CBIva to the address of the protected Linux server
+to automatically connect to that server, see section \ref{sec:config}. You can also connect to that
+server manually via the "Connect" function of the ConceptBase clients CBIva, CBGraph, and CBShell.
 
 
 

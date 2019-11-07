@@ -83,7 +83,7 @@ public class CBinstaller extends JFrame implements ActionListener {
     boolean bExtractFromJar = false;  // true if the binaries are being extracted from CBinstaller.jar itself
 
     public CBinstaller() {
-        super("CBinstaller for ConceptBase (2019-06-12)");
+        super("CBinstaller for ConceptBase (2019-11-07)");
 
         UIManager.put("Label.font", new FontUIResource(new Font("Dialog", Font.PLAIN, 16)));
         UIManager.put("Button.font", new FontUIResource(new Font("Dialog", Font.PLAIN, 18)));
@@ -576,6 +576,7 @@ public class CBinstaller extends JFrame implements ActionListener {
             if (!bLinux)
                 msg = msg + "\nThis ConceptBase installation may use the public CBserver at cbserver.iit.his.se, port number 4001,\n"
                           + "by default. You may have to open this outgoing port in your home network/firewall.\n"
+                          + "DO NOT USE the public CBserver for processing confidential information!\n"
                           + "Read ConceptBase.cc User Manual, section Public CBservers for details!\n"
                           + "If you are using Windows 10, then consider to install the Linux sub-system to be able to\n" 
                           + "run the CBserver locally, see http://conceptbase.sourceforge.net/CB-WinLinux.html.";
