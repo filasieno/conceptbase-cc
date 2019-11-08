@@ -153,7 +153,8 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
             (m.getItem(CBICommand.iASK         - CBICommand.iEDIT_MENU+1)).setEnabled(bEnable);
             (m.getItem(CBICommand.iCALL_QUERY  - CBICommand.iEDIT_MENU+1)).setEnabled(bEnable);
             (m.getItem(CBICommand.iLOAD_OBJECT - CBICommand.iEDIT_MENU+2)).setEnabled(bEnable);
-            (m.getItem(CBICommand.iPM_OBJECT_TREE - CBICommand.iEDIT_MENU+2)).setEnabled(bEnable);
+// TreeBrowser no longer part of CBIva
+//           (m.getItem(CBICommand.iPM_OBJECT_TREE - CBICommand.iEDIT_MENU+2)).setEnabled(bEnable);
 
 
 
