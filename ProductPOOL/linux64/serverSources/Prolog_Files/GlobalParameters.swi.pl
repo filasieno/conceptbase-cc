@@ -92,8 +92,13 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
+<<<<<<< HEAD
 cb_version('8.1.11').
 cb_date_of_release('2019-11-07'). /* set via environment variable CB_DATE in startCBserver; see serverSources/Makefile */
+=======
+cb_version('8.1.10').
+cb_date_of_release('2019-10-31'). /* set via environment variable CB_DATE in startCBserver; see serverSources/Makefile */
+>>>>>>> 675096c2e6b531a4a2eb8768d3c669920db38873
 cb_location('Skovde').            /** place where CBserver is compiled, updated in startCBserver **/
 
 cb_copyright_time('Copyright 1987-2019').              /*keep up to date!*/

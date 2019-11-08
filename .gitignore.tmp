@@ -3,17 +3,12 @@ conceptbase/
 /ProductPOOL/**/EXPORT/*
 /ProductPOOL/**/classes/*
 /ProductPOOL/**/objects/*
-/ProductPOOL/**/objects.SWI/*
 *.1
 *.2
 *.3
 /linux/**/Prolog_Files/*.swi.pl
 /linux64/**/Prolog_Files/*.swi.pl
 /linuxarm/**/Prolog_Files/*.swi.pl
-/ProductPOOL/java/classes/*.jar
-/ProductPOOL/**/serverSources/objects.SWI/CBserver
-/ProductPOOL/**/serverSources/EXPORT/CBserver
-
 /AdminPOOL/utils/CB_TestClient/log/OLD/
 /AdminPOOL/utils/CB_TestClient/log/*.*
 

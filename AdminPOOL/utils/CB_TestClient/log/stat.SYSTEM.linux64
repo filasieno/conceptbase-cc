@@ -1,0 +1,16 @@
+2;tellModel;$CB_WORK/lib/SML1;ok;78
+3;tellModel;$CB_WORK/lib/SML2;ok;78
+4;tellModel;$CB_WORK/lib/AssertionModel;ok;79
+5;tellModel;$CB_WORK/lib/RuleModel;ok;79
+6;tellModel;$CB_WORK/lib/ConstraintModel;ok;80
+7;tellModel;$CB_WORK/lib/AssertionsForClasses;ok;79
+8;tellModel;$CB_WORK/lib/QueryModel;ok;80
+9;tellModel;$CB_WORK/lib/SystemClasses;ok;98
+10;tellModel;$CB_WORK/lib/CompleteBDMRuleConstraintModel;ok;79
+11;tellModel;$CB_WORK/lib/StandardQueries;ok;80
+12;tellModel;$CB_WORK/lib/SystemQueries;ok;100
+13;tellModel;$CB_WORK/lib/graphical_types;ok;89
+14;tellModel;$CB_WORK/lib/JavaGraphicalTypes;ok;113
+15;tellModel;$CB_WORK/lib/JavaGTsInstances;ok;115
+16;tellModel;$CB_WORK/lib/ECA-Model;ok;91
+17;tellModel;$CB_WORK/lib/Module;ok;102

@@ -1,0 +1,30 @@
+2;tell;{* File: Barber.sml;ok;102
+3;ask;ShavedByBarber;ok;99
+4;tell;Class Person with;ok;136
+5;ask;SameGen[Lot/sgperson];ok;48
+6;ask;SameGenProper[Kain/sgperson];ok;85
+7;tell;{;ok;120
+8;ask;;ok;47
+9;tell;Class Position with;ok;150
+10;tell;Position 13 with;ok;72
+11;ask;Win;ok;94
+12;ask;Loose;ok;88
+13;ask;get_object[Man/objname];ok;79
+14;tell;Class Man  with;ok;134
+15;tell;lass Man  with;ok;91
+16;ask;;ok;108
+17;tell;Class Object with;ok;147
+18;ask;Test1;ok;44
+19;ask;ObjectsWithTransDep;ok;82
+20;tell;O1 with dep d1 : 09 end;ok;131
+21;tell;O1 with dep d1 : O9 end;ok;119
+22;ask;Test1;ok;43
+23;ask;ObjectsWithTransDep;ok;88
+24;tell;AANode in Class with;ok;152
+25;ask;get_object[AAReachableN2/objname];ok;48
+26;ask;Individual AAReachableN2 in QueryClass isA AANode with;ok;88
+27;ask;AAReachable[n2/start];ok;84
+28;ask;AAReachable[AAn2/start];ok;81
+29;tell;;ok;149
+30;ask;isEven[4/x];ok;43
+31;ask;isEven[3/x];ok;87

@@ -103,11 +103,16 @@
 \contentsline {section}{\numberline {6.5}Tracing and restarting}{101}{section.6.5}
 \contentsline {section}{\numberline {6.6}Public CBservers}{102}{section.6.6}
 \contentsline {section}{\numberline {6.7}The tabling subsystem}{103}{section.6.7}
+<<<<<<< HEAD
 \contentsline {section}{\numberline {6.8}Database persistency}{104}{section.6.8}
+=======
+\contentsline {section}{\numberline {6.8}Database persistency}{103}{section.6.8}
+>>>>>>> 675096c2e6b531a4a2eb8768d3c669920db38873
 \contentsline {section}{\numberline {6.9}The UNTELL operation}{104}{section.6.9}
 \contentsline {subsection}{\numberline {6.9.1}Cascading UNTELL}{106}{subsection.6.9.1}
 \contentsline {section}{\numberline {6.10}Memory consumption and performance}{106}{section.6.10}
 \contentsline {section}{\numberline {6.11}The Java API to the CBserver}{106}{section.6.11}
+<<<<<<< HEAD
 \contentsline {chapter}{\numberline {7}The CBShell Utility}{110}{chapter.7}
 \contentsline {section}{\numberline {7.1}Syntax}{110}{section.7.1}
 \contentsline {section}{\numberline {7.2}Options}{110}{section.7.2}
@@ -207,3 +212,104 @@
 \contentsline {section}{\numberline {F.2}Calling the plug-in}{191}{section.F.2}
 \contentsline {section}{\numberline {F.3}Programming interface for the plug-ins}{192}{section.F.3}
 \contentsline {chapter}{References}{193}{appendix*.15}
+=======
+\contentsline {chapter}{\numberline {7}The CBShell Utility}{109}{chapter.7}
+\contentsline {section}{\numberline {7.1}Syntax}{109}{section.7.1}
+\contentsline {section}{\numberline {7.2}Options}{109}{section.7.2}
+\contentsline {section}{\numberline {7.3}Commands}{110}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Argument delimiters}{112}{subsection.7.3.1}
+\contentsline {section}{\numberline {7.4}Interactive use of CBShell}{112}{section.7.4}
+\contentsline {section}{\numberline {7.5}Positional parameters}{113}{section.7.5}
+\contentsline {section}{\numberline {7.6}Executable CBShell scripts}{114}{section.7.6}
+\contentsline {section}{\numberline {7.7}CBShell scripts within regular shell scripts}{114}{section.7.7}
+\contentsline {section}{\numberline {7.8}CBShell in a pipe}{115}{section.7.8}
+\contentsline {chapter}{\numberline {8}The ConceptBase.cc Usage Environment}{117}{chapter.8}
+\contentsline {section}{\numberline {8.1}The workbench CBIva}{117}{section.8.1}
+\contentsline {subsection}{\numberline {8.1.1}The tool bar}{117}{subsection.8.1.1}
+\contentsline {subsection}{\numberline {8.1.2}The menu bar}{118}{subsection.8.1.2}
+\contentsline {subsection}{\numberline {8.1.3}The status bar}{121}{subsection.8.1.3}
+\contentsline {subsection}{\numberline {8.1.4}Telos editor}{121}{subsection.8.1.4}
+\contentsline {subsubsection}{Tell transactions}{121}{section*.3}
+\contentsline {subsection}{\numberline {8.1.5}History window}{122}{subsection.8.1.5}
+\contentsline {subsection}{\numberline {8.1.6}Display instances}{122}{subsection.8.1.6}
+\contentsline {subsection}{\numberline {8.1.7}Frame browser}{122}{subsection.8.1.7}
+\contentsline {subsection}{\numberline {8.1.8}Display queries}{122}{subsection.8.1.8}
+\contentsline {subsection}{\numberline {8.1.9}Display functions}{123}{subsection.8.1.9}
+\contentsline {subsection}{\numberline {8.1.10}Query editor}{124}{subsection.8.1.10}
+\contentsline {subsection}{\numberline {8.1.11}Tree browser}{124}{subsection.8.1.11}
+\contentsline {section}{\numberline {8.2}The graph editor CBGraph}{126}{section.8.2}
+\contentsline {subsection}{\numberline {8.2.1}Overview}{126}{subsection.8.2.1}
+\contentsline {subsection}{\numberline {8.2.2}Starting CBGraph via CBIva}{127}{subsection.8.2.2}
+\contentsline {subsection}{\numberline {8.2.3}The {\tt cbgraph} command}{127}{subsection.8.2.3}
+\contentsline {subsection}{\numberline {8.2.4}Redirecting the CBserver location}{129}{subsection.8.2.4}
+\contentsline {subsection}{\numberline {8.2.5}Moving objects}{129}{subsection.8.2.5}
+\contentsline {subsection}{\numberline {8.2.6}Menu bar}{130}{subsection.8.2.6}
+\contentsline {subsubsection}{File menu}{130}{section*.4}
+\contentsline {subsubsection}{Edit menu}{131}{section*.5}
+\contentsline {subsubsection}{Options menu}{131}{section*.6}
+\contentsline {subsubsection}{View menu}{132}{section*.7}
+\contentsline {subsubsection}{Current connection menu}{132}{section*.8}
+\contentsline {subsection}{\numberline {8.2.7}Tool bar}{133}{subsection.8.2.7}
+\contentsline {subsection}{\numberline {8.2.8}Popup menu}{134}{subsection.8.2.8}
+\contentsline {subsection}{\numberline {8.2.9}Editing of Telos objects}{135}{subsection.8.2.9}
+\contentsline {subsection}{\numberline {8.2.10}Caching of query results within CBGraph}{137}{subsection.8.2.10}
+\contentsline {subsection}{\numberline {8.2.11}Graph files}{137}{subsection.8.2.11}
+\contentsline {section}{\numberline {8.3}An example session with ConceptBase}{138}{section.8.3}
+\contentsline {subsection}{\numberline {8.3.1}Starting ConceptBase}{139}{subsection.8.3.1}
+\contentsline {subsection}{\numberline {8.3.2}Connecting CBIva to another CBserver}{139}{subsection.8.3.2}
+\contentsline {subsection}{\numberline {8.3.3}Loading objects from external files}{140}{subsection.8.3.3}
+\contentsline {subsection}{\numberline {8.3.4}Displaying objects}{140}{subsection.8.3.4}
+\contentsline {subsection}{\numberline {8.3.5}Browsing objects}{140}{subsection.8.3.5}
+\contentsline {subsection}{\numberline {8.3.6}Editing Telos objects}{142}{subsection.8.3.6}
+\contentsline {subsubsection}{Editing Telos objects with the Telos editor}{142}{section*.9}
+\contentsline {subsubsection}{Editing Telos objects using CBGraph}{144}{section*.10}
+\contentsline {subsection}{\numberline {8.3.7}Using the query facility}{147}{subsection.8.3.7}
+\contentsline {section}{\numberline {8.4}Configuration file}{147}{section.8.4}
+\contentsline {chapter}{\numberline {A}Syntax Specifications}{150}{appendix.A}
+\contentsline {section}{\numberline {A.1}Syntax specifications for Telos frames}{150}{section.A.1}
+\contentsline {section}{\numberline {A.2}Syntax of the rule and constraint language}{151}{section.A.2}
+\contentsline {section}{\numberline {A.3}Syntax of active rules}{153}{section.A.3}
+\contentsline {section}{\numberline {A.4}Terminal symbols}{154}{section.A.4}
+\contentsline {section}{\numberline {A.5}Syntax specifications for SML fragments}{155}{section.A.5}
+\contentsline {chapter}{\numberline {B}O-Telos Axioms}{157}{appendix.B}
+\contentsline {chapter}{\numberline {C}Graphical Types}{160}{appendix.C}
+\contentsline {section}{\numberline {C.1}The graphical type model}{160}{section.C.1}
+\contentsline {section}{\numberline {C.2}The standard graphical types}{161}{section.C.2}
+\contentsline {subsection}{\numberline {C.2.1}The extended graphical type model}{161}{subsection.C.2.1}
+\contentsline {subsection}{\numberline {C.2.2}Default graphical types}{162}{subsection.C.2.2}
+\contentsline {section}{\numberline {C.3}Customizing the graphical types}{163}{section.C.3}
+\contentsline {subsection}{\numberline {C.3.1}Graphical properties of nodes and links}{164}{subsection.C.3.1}
+\contentsline {subsection}{\numberline {C.3.2}Node levels}{166}{subsection.C.3.2}
+\contentsline {subsection}{\numberline {C.3.3}Click actions}{167}{subsection.C.3.3}
+\contentsline {subsection}{\numberline {C.3.4}Providing a new implementation for a graphical type}{168}{subsection.C.3.4}
+\contentsline {subsection}{\numberline {C.3.5}Shapes}{169}{subsection.C.3.5}
+\contentsline {subsection}{\numberline {C.3.6}Icons}{171}{subsection.C.3.6}
+\contentsline {section}{\numberline {C.4}Object-specific graphical properties}{173}{section.C.4}
+\contentsline {section}{\numberline {C.5}Graphical types for derived links}{174}{section.C.5}
+\contentsline {chapter}{\numberline {D}Examples}{176}{appendix.D}
+\contentsline {section}{\numberline {D.1}Example model: the employee model}{176}{section.D.1}
+\contentsline {section}{\numberline {D.2}A Telos modeling example - ER diagrams}{176}{section.D.2}
+\contentsline {subsection}{\numberline {D.2.1}The basic model}{176}{subsection.D.2.1}
+\contentsline {subsection}{\numberline {D.2.2}The use of meta formulas}{178}{subsection.D.2.2}
+\contentsline {subsubsection}{Example: {\em necessary} and {\em single}}{178}{section*.11}
+\contentsline {subsubsection}{Metaformulas defining sets of rules}{180}{section*.12}
+\contentsline {paragraph}{Assignment of graphical types:}{180}{section*.13}
+\contentsline {paragraph}{Handling inconsistencies}{181}{section*.14}
+\contentsline {subsection}{\numberline {D.2.3}Limitations and final remarks}{183}{subsection.D.2.3}
+\contentsline {chapter}{\numberline {E}Predefined Query Classes}{185}{appendix.E}
+\contentsline {section}{\numberline {E.1}Query classes and generic query classes}{185}{section.E.1}
+\contentsline {subsection}{\numberline {E.1.1}Instances and classes}{185}{subsection.E.1.1}
+\contentsline {subsection}{\numberline {E.1.2}Specializations and generalizations}{185}{subsection.E.1.2}
+\contentsline {subsection}{\numberline {E.1.3}Attributes}{186}{subsection.E.1.3}
+\contentsline {subsection}{\numberline {E.1.4}Links between objects}{186}{subsection.E.1.4}
+\contentsline {subsection}{\numberline {E.1.5}Other queries}{186}{subsection.E.1.5}
+\contentsline {section}{\numberline {E.2}Functions}{186}{section.E.2}
+\contentsline {subsection}{\numberline {E.2.1}Computation and counting}{187}{subsection.E.2.1}
+\contentsline {subsection}{\numberline {E.2.2}String manipulation}{187}{subsection.E.2.2}
+\contentsline {section}{\numberline {E.3}Builtin query classes}{188}{section.E.3}
+\contentsline {chapter}{\numberline {F}CBserver Plug-Ins}{189}{appendix.F}
+\contentsline {section}{\numberline {F.1}Defining the plug-in}{189}{section.F.1}
+\contentsline {section}{\numberline {F.2}Calling the plug-in}{190}{section.F.2}
+\contentsline {section}{\numberline {F.3}Programming interface for the plug-ins}{191}{section.F.3}
+\contentsline {chapter}{References}{192}{appendix*.15}
+>>>>>>> 675096c2e6b531a4a2eb8768d3c669920db38873

@@ -1,0 +1,15 @@
+2;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/QUERIES/Employee_Classes;ok;149
+3;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/QUERIES/Employee_Instances;ok;107
+4;ask;get_object[View/objname];ok;39
+5;tell;View EmpDept isA Employee with;ok;114
+6;ask;get_object[EmpDept/objname];ok;83
+7;ask;get_object[SV_EmpDept_dept/objname];ok;79
+8;ask;EmpDept;ok;89
+9;tell;View EmpOptionalSalary isA Employee with;ok;117
+10;ask;EmpOptionalSalary;ok;48
+11;tell;View EmpDept2 isA Employee with;ok;150
+12;ask;EmpDept2;ok;51
+13;tell;Employee with attribute likes : Employee end;ok;112
+14;ask;EmpDept_likes_head;ok;56
+15;tell;View EmpDept3 isA Employee with;ok;122
+16;ask;EmpDept3;ok;64
