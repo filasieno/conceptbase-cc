@@ -1367,7 +1367,13 @@ public class DiagramEdge
 			m_sDestEdgeHead = at.createTransformedShape(m_sDestEdgeHead);
 		//zoom edge stroke
 		float newWidth = m_sEdgeStroke.getLineWidth()*factor/oldFactor;
-		m_sEdgeStroke = new BasicStroke(newWidth,m_sEdgeStroke.getEndCap(),m_sEdgeStroke.getLineJoin());
+		// issue #10: keep the dash parameters originally from 'edgestyle' parameter when zooming
+		m_sEdgeStroke = new BasicStroke(newWidth,
+						m_sEdgeStroke.getEndCap(),
+						m_sEdgeStroke.getLineJoin(),
+						m_sEdgeStroke.getMiterLimit(),
+						m_sEdgeStroke.getDashArray(),
+						m_sEdgeStroke.getDashPhase());
      
 		repaint();
 	}
