@@ -1486,6 +1486,9 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
     }
 
     public void setZoom(float z) {
+
+          this.getGraphInternalFrame().setStatusString("Zooming to factor " + z + " ..."); 
+
           float oldZ = getZoom();
           zoomer.setFactor(z);
           JViewport viewport =((JScrollPane)(this.getGraphInternalFrame().getContentPane())).getViewport();
@@ -1506,8 +1509,8 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
           Vector ve = this.getDiagramEdges(false);
           for(int i =0; i<ve.size();i++){
-          	DiagramEdge DE = (DiagramEdge)(ve.elementAt(i));
-          	zoomer.zoom(DE);
+          	DiagramEdge edge = (DiagramEdge)(ve.elementAt(i));
+          	zoomer.zoom(edge);
           }
 
 
