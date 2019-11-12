@@ -1367,19 +1367,22 @@ public class DiagramEdge
 			m_sDestEdgeHead = at.createTransformedShape(m_sDestEdgeHead);
 		//zoom edge stroke
 		float newWidth = m_sEdgeStroke.getLineWidth() * (factor/oldFactor);
-		// issue #10: keep the dash parameters originally from 'edgestyle' parameter when zooming
-		float[] dasharray = m_sEdgeStroke.getDashArray();
-                for (int i=0; i < dasharray.length; i++) {
-		   dasharray[i] = dasharray[i] * (factor/oldFactor);
-                }
-		float dashphase = m_sEdgeStroke.getDashPhase() * (factor/oldFactor);
-		m_sEdgeStroke = new BasicStroke(newWidth,
+		
+                if (m_sEdgeStroke.getDashArray() == null) {
+		   m_sEdgeStroke = new BasicStroke(newWidth,m_sEdgeStroke.getEndCap(),m_sEdgeStroke.getLineJoin());
+                } else { // issue #10: keep the dash parameters originally from 'edgestyle' parameter when zooming
+		   float[] dasharray = m_sEdgeStroke.getDashArray();
+                   for (int i=0; i < dasharray.length; i++) {
+		      dasharray[i] = dasharray[i] * (factor/oldFactor);
+                   }
+		   float dashphase = m_sEdgeStroke.getDashPhase() * (factor/oldFactor);
+		   m_sEdgeStroke = new BasicStroke(newWidth,
 						m_sEdgeStroke.getEndCap(),
 						m_sEdgeStroke.getLineJoin(),
 						m_sEdgeStroke.getMiterLimit(),
 						dasharray,
 						dashphase);
-     
+                }
 		repaint();
 	}
 	private float factor,oldFactor;
