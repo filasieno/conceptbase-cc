@@ -138,7 +138,7 @@ processBuiltin(_qname,_result,_substlist) :-
 
 do_processBuiltin(get_object,_result,_substlist) :-
 	pc_member(substitute(_x,objname),_substlist),
-	pc_member(substitute(_dedin,dedIn),_substlist),
+	pc_member(substitute(_dedIn,dedIn),_substlist),
 	pc_member(substitute(_dedIsa,dedIsa),_substlist),
 	pc_member(substitute(_dedWith,dedWith),_substlist),
 	eval(_x, replaceSelectExpression, _objID),
