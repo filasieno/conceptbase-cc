@@ -1266,7 +1266,8 @@ ded_In(_x,_c) :-
 ded_In(_x,_c) :-
    var(_c),
    !,
-   isDeducable(In(_x,_sub)),
+{*   isDeducable(In(_x,_sub)),   ---> this version does not bind _sub *}
+   IS_DEDUCABLE(In(_x,_sub)),
    \+ prove_In_e(_sub,id_65),     {* id_65 = QueryClass *}
    prove_by_cache(In(_x,_sub)),   {* this only evaluates the deductive rules for In(.,.)! *}
    (
