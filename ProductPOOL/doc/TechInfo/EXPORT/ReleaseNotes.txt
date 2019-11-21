@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2019-10-31
+                      2019-11-11
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -79,6 +79,11 @@ the GitLab repository of ConceptBase.cc
    unnecessary recomputations of derived facts, in particular when using the graph editor.
    Should be solved now.
    (Issue 7)
+
+81-08 Zooming now respects edgestyles
+
+   Zooming in CBGraph resulted in edges styles liked "dashed" being lost this is now solved.
+   (Issue 10)
 
 
 

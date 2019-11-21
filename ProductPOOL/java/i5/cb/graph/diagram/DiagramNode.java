@@ -650,6 +650,7 @@ public class DiagramNode
          // depending on its "align" property
          compLoc = new Point((m_dSmallComponentSize.width - compSize.width)/2,
                              (m_dSmallComponentSize.height -compSize.height)/2);
+
          if (m_userObject != null && m_userObject instanceof CBUserObject)
             compLoc = ((CBUserObject)m_userObject).getAlignedLocation(m_dSmallComponentSize,compSize);
          this.getRootPane().setSize(m_dSmallComponentSize);
@@ -669,7 +670,9 @@ public class DiagramNode
          compLoc = new Point((m_dComponentSize.width - compSize.width)/2,
                              (m_dComponentSize.height -compSize.height)/2);
          this.getContentPane().setBounds(compLoc.x,compLoc.y,compSize.width,compSize.height);
-         this.getContentPane().validate();
+         this.getContentPane().revalidate();
+         this.pack();
+         this.revalidate();
        }
     }
 
@@ -721,7 +724,9 @@ public class DiagramNode
       System.out.print(lev+" ");
       for (int i=0;i<lev;i++)
          System.out.print(" ");
-      System.out.println(comp.toString());
+      if (lev==3) {
+        System.out.println(comp.toString() + ": " + comp.getSize());
+      }
       for (int ind=0; ind<comp.getComponentCount(); ind++) {
         printComp(lev+1,(JComponent)comp.getComponent(ind));
       }
