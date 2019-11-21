@@ -1500,6 +1500,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
               DiagramNode DN = (DiagramNode) (v.elementAt(ii));
               zoomer.zoom(DN);
               DN.resizeComponents();  // ticket #216: adapt size of the inner components of DN
+              // System.out.println(DN + "\n");
               Rectangle b=DN.getBounds();
               if(b.x+b.width>max.width)
               	max.width=b.x+b.width;

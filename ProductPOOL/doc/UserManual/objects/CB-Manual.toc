@@ -1,315 +1,209 @@
-\contentsline {chapter}{\numberline {1}Introduction}{6}{chapter.1}
-\contentsline {section}{\numberline {1.1}Background: Telos and O-Telos}{7}{section.1.1}
-\contentsline {section}{\numberline {1.2}The architecture of ConceptBase.cc}{9}{section.1.2}
-\contentsline {section}{\numberline {1.3}Hardware and software requirements}{10}{section.1.3}
-\contentsline {subsection}{\numberline {1.3.1}Installation}{10}{subsection.1.3.1}
-\contentsline {section}{\numberline {1.4}Overview of this manual}{11}{section.1.4}
-\contentsline {section}{\numberline {1.5}Differences to earlier versions}{11}{section.1.5}
-\contentsline {section}{\numberline {1.6}License terms}{12}{section.1.6}
-\contentsline {section}{\numberline {1.7}Disclaimer}{13}{section.1.7}
-\contentsline {chapter}{\numberline {2}O-Telos by ConceptBase.cc}{14}{chapter.2}
-\contentsline {section}{\numberline {2.1}Propositions and frames}{14}{section.2.1}
-\contentsline {section}{\numberline {2.2}Rules and constraints}{21}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}Basic predicates}{21}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}Notes on attribution}{22}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}Assigning attribute categories to explicit attributes}{24}{subsection.2.2.3}
-\contentsline {subsection}{\numberline {2.2.4}Reserved words}{26}{subsection.2.2.4}
-\contentsline {subsection}{\numberline {2.2.5}Comparison predicates}{26}{subsection.2.2.5}
-\contentsline {subsection}{\numberline {2.2.6}Typed variables}{26}{subsection.2.2.6}
-\contentsline {subsection}{\numberline {2.2.7}Semantic restrictions on formulas}{27}{subsection.2.2.7}
-\contentsline {subsection}{\numberline {2.2.8}Rule and constraint syntax}{29}{subsection.2.2.8}
-\contentsline {subsection}{\numberline {2.2.9}Meta formulas}{29}{subsection.2.2.9}
-\contentsline {subsubsection}{Tell order for meta formulas}{32}{section*.2}
-\contentsline {subsection}{\numberline {2.2.10}Further object references}{32}{subsection.2.2.10}
-\contentsline {subsection}{\numberline {2.2.11}User-definable error messages for integrity constraints}{32}{subsection.2.2.11}
-\contentsline {subsection}{\numberline {2.2.12}Immutable properties}{34}{subsection.2.2.12}
-\contentsline {section}{\numberline {2.3}Query classes}{34}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}Query definitions versus query calls}{38}{subsection.2.3.1}
-\contentsline {subsection}{\numberline {2.3.2}Query classes and deductive integrity checking}{39}{subsection.2.3.2}
-\contentsline {subsection}{\numberline {2.3.3}Nested query calls and shortcuts}{40}{subsection.2.3.3}
-\contentsline {subsection}{\numberline {2.3.4}Reified query calls}{41}{subsection.2.3.4}
-\contentsline {section}{\numberline {2.4}View definitions}{42}{section.2.4}
-\contentsline {section}{\numberline {2.5}Functions}{43}{section.2.5}
-\contentsline {subsection}{\numberline {2.5.1}Functions as special queries}{43}{subsection.2.5.1}
-\contentsline {subsection}{\numberline {2.5.2}Shortcuts for function calls and functional expressions}{45}{subsection.2.5.2}
-\contentsline {subsection}{\numberline {2.5.3}Example function calls and definitions}{45}{subsection.2.5.3}
-\contentsline {subsection}{\numberline {2.5.4}Programmed functions}{47}{subsection.2.5.4}
-\contentsline {subsection}{\numberline {2.5.5}Recursive function definitions}{48}{subsection.2.5.5}
-\contentsline {section}{\numberline {2.6}Query evaluation strategies}{49}{section.2.6}
-\contentsline {section}{\numberline {2.7}Multi-level modeling with ConceptBase}{50}{section.2.7}
-\contentsline {subsection}{\numberline {2.7.1}Expressing semantics at the metamodel level}{50}{subsection.2.7.1}
-\contentsline {subsection}{\numberline {2.7.2}DeepTelos}{53}{subsection.2.7.2}
-\contentsline {subsection}{\numberline {2.7.3}Crossing abstraction levels}{53}{subsection.2.7.3}
-\contentsline {section}{\numberline {2.8}Datalog queries and rules}{54}{section.2.8}
-\contentsline {subsection}{\numberline {2.8.1}Extended query model}{55}{subsection.2.8.1}
-\contentsline {subsection}{\numberline {2.8.2}Datalog code}{55}{subsection.2.8.2}
-\contentsline {subsection}{\numberline {2.8.3}Examples}{56}{subsection.2.8.3}
-\contentsline {chapter}{\numberline {3}Answer Formats for Queries}{58}{chapter.3}
-\contentsline {section}{\numberline {3.1}Basic definitions}{59}{section.3.1}
-\contentsline {section}{\numberline {3.2}Constructs in answer formats}{61}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}Simple expressions in patterns}{61}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Pre-defined variables}{63}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}Iterations over expressions}{63}{subsection.3.2.3}
-\contentsline {subsection}{\numberline {3.2.4}Special characters}{64}{subsection.3.2.4}
-\contentsline {subsection}{\numberline {3.2.5}Function patterns}{64}{subsection.3.2.5}
-\contentsline {subsection}{\numberline {3.2.6}Calling queries in answer formats}{65}{subsection.3.2.6}
-\contentsline {subsection}{\numberline {3.2.7}Expressions in head and tail}{66}{subsection.3.2.7}
-\contentsline {subsection}{\numberline {3.2.8}Conditional expressions}{66}{subsection.3.2.8}
-\contentsline {subsection}{\numberline {3.2.9}Views and path expressions}{67}{subsection.3.2.9}
-\contentsline {section}{\numberline {3.3}Parameterized answer formats}{67}{section.3.3}
-\contentsline {section}{\numberline {3.4}File type of answer formats}{68}{section.3.4}
-\contentsline {section}{\numberline {3.5}Bulk query calls}{68}{section.3.5}
-\contentsline {chapter}{\numberline {4}Active Rules}{69}{chapter.4}
-\contentsline {section}{\numberline {4.1}Definition of ECArules}{69}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}ECAassertion}{70}{subsection.4.1.1}
-\contentsline {subsection}{\numberline {4.1.2}Events}{70}{subsection.4.1.2}
-\contentsline {subsection}{\numberline {4.1.3}Conditions}{70}{subsection.4.1.3}
-\contentsline {subsection}{\numberline {4.1.4}Actions}{71}{subsection.4.1.4}
-\contentsline {subsection}{\numberline {4.1.5}Priorities}{72}{subsection.4.1.5}
-\contentsline {subsection}{\numberline {4.1.6}Coupling mode of an ECA rule}{72}{subsection.4.1.6}
-\contentsline {subsection}{\numberline {4.1.7}Execution Semantics}{73}{subsection.4.1.7}
-\contentsline {subsection}{\numberline {4.1.8}Switching Queues}{74}{subsection.4.1.8}
-\contentsline {subsection}{\numberline {4.1.9}Activate and Deactivate ECA rules}{75}{subsection.4.1.9}
-\contentsline {subsection}{\numberline {4.1.10}Depth}{75}{subsection.4.1.10}
-\contentsline {subsection}{\numberline {4.1.11}User-definable Error Messages}{75}{subsection.4.1.11}
-\contentsline {subsection}{\numberline {4.1.12}Constraints}{75}{subsection.4.1.12}
-\contentsline {section}{\numberline {4.2}Examples}{75}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Materialization of views by active rules}{75}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Counter}{76}{subsection.4.2.2}
-\contentsline {subsection}{\numberline {4.2.3}Timestamps}{77}{subsection.4.2.3}
-\contentsline {subsection}{\numberline {4.2.4}Simulation of Petri Nets}{78}{subsection.4.2.4}
-\contentsline {section}{\numberline {4.3}Optimization of ECA rules}{79}{section.4.3}
-\contentsline {section}{\numberline {4.4}Limitations of the current implementation}{79}{section.4.4}
-\contentsline {chapter}{\numberline {5}The Module System}{81}{chapter.5}
-\contentsline {section}{\numberline {5.1}Definition of modules}{82}{section.5.1}
-\contentsline {section}{\numberline {5.2}Switching between module contexts}{82}{section.5.2}
-\contentsline {section}{\numberline {5.3}Using nested modules}{83}{section.5.3}
-\contentsline {section}{\numberline {5.4}Exporting and importing objects}{84}{section.5.4}
-\contentsline {section}{\numberline {5.5}Modules and metamodeling}{85}{section.5.5}
-\contentsline {section}{\numberline {5.6}Setting user home modules}{86}{section.5.6}
-\contentsline {section}{\numberline {5.7}Limiting access to modules}{88}{section.5.7}
-\contentsline {subsection}{\numberline {5.7.1}Access to System module}{90}{subsection.5.7.1}
-\contentsline {section}{\numberline {5.8}Listing the module content}{91}{section.5.8}
-\contentsline {subsection}{\numberline {5.8.1}Restrictions of {\tt listModule}}{91}{subsection.5.8.1}
-\contentsline {section}{\numberline {5.9}Purging a module}{92}{section.5.9}
-\contentsline {section}{\numberline {5.10}Saving and loading module sources}{92}{section.5.10}
-\contentsline {section}{\numberline {5.11}Server-side materialization of query results}{93}{section.5.11}
-\contentsline {subsection}{\numberline {5.11.1}Post-export command}{94}{subsection.5.11.1}
-\contentsline {chapter}{\numberline {6}The ConceptBase.cc Server}{96}{chapter.6}
-\contentsline {section}{\numberline {6.1}CBserver parameters}{96}{section.6.1}
-\contentsline {section}{\numberline {6.2}ConceptBase under Windows 10}{100}{section.6.2}
-\contentsline {section}{\numberline {6.3}Database format}{100}{section.6.3}
-\contentsline {section}{\numberline {6.4}Modifying the system database}{101}{section.6.4}
-\contentsline {section}{\numberline {6.5}Tracing and restarting}{101}{section.6.5}
-\contentsline {section}{\numberline {6.6}Public CBservers}{102}{section.6.6}
-\contentsline {section}{\numberline {6.7}The tabling subsystem}{103}{section.6.7}
-<<<<<<< HEAD
-\contentsline {section}{\numberline {6.8}Database persistency}{104}{section.6.8}
-=======
-\contentsline {section}{\numberline {6.8}Database persistency}{103}{section.6.8}
->>>>>>> 675096c2e6b531a4a2eb8768d3c669920db38873
-\contentsline {section}{\numberline {6.9}The UNTELL operation}{104}{section.6.9}
-\contentsline {subsection}{\numberline {6.9.1}Cascading UNTELL}{106}{subsection.6.9.1}
-\contentsline {section}{\numberline {6.10}Memory consumption and performance}{106}{section.6.10}
-\contentsline {section}{\numberline {6.11}The Java API to the CBserver}{106}{section.6.11}
-<<<<<<< HEAD
-\contentsline {chapter}{\numberline {7}The CBShell Utility}{110}{chapter.7}
-\contentsline {section}{\numberline {7.1}Syntax}{110}{section.7.1}
-\contentsline {section}{\numberline {7.2}Options}{110}{section.7.2}
-\contentsline {section}{\numberline {7.3}Commands}{111}{section.7.3}
-\contentsline {subsection}{\numberline {7.3.1}Argument delimiters}{113}{subsection.7.3.1}
-\contentsline {section}{\numberline {7.4}Interactive use of CBShell}{113}{section.7.4}
-\contentsline {section}{\numberline {7.5}Positional parameters}{114}{section.7.5}
-\contentsline {section}{\numberline {7.6}Executable CBShell scripts}{115}{section.7.6}
-\contentsline {section}{\numberline {7.7}CBShell scripts within regular shell scripts}{115}{section.7.7}
-\contentsline {section}{\numberline {7.8}CBShell in a pipe}{116}{section.7.8}
-\contentsline {chapter}{\numberline {8}The ConceptBase.cc Usage Environment}{118}{chapter.8}
-\contentsline {section}{\numberline {8.1}The workbench CBIva}{118}{section.8.1}
-\contentsline {subsection}{\numberline {8.1.1}The tool bar}{118}{subsection.8.1.1}
-\contentsline {subsection}{\numberline {8.1.2}The menu bar}{119}{subsection.8.1.2}
-\contentsline {subsection}{\numberline {8.1.3}The status bar}{122}{subsection.8.1.3}
-\contentsline {subsection}{\numberline {8.1.4}Telos editor}{122}{subsection.8.1.4}
-\contentsline {subsubsection}{Tell transactions}{122}{section*.3}
-\contentsline {subsection}{\numberline {8.1.5}History window}{123}{subsection.8.1.5}
-\contentsline {subsection}{\numberline {8.1.6}Display instances}{123}{subsection.8.1.6}
-\contentsline {subsection}{\numberline {8.1.7}Frame browser}{123}{subsection.8.1.7}
-\contentsline {subsection}{\numberline {8.1.8}Display queries}{123}{subsection.8.1.8}
-\contentsline {subsection}{\numberline {8.1.9}Display functions}{124}{subsection.8.1.9}
-\contentsline {subsection}{\numberline {8.1.10}Query editor}{125}{subsection.8.1.10}
-\contentsline {subsection}{\numberline {8.1.11}Tree browser}{125}{subsection.8.1.11}
-\contentsline {section}{\numberline {8.2}The graph editor CBGraph}{127}{section.8.2}
-\contentsline {subsection}{\numberline {8.2.1}Overview}{127}{subsection.8.2.1}
-\contentsline {subsection}{\numberline {8.2.2}Starting CBGraph via CBIva}{128}{subsection.8.2.2}
-\contentsline {subsection}{\numberline {8.2.3}The {\tt cbgraph} command}{128}{subsection.8.2.3}
-\contentsline {subsection}{\numberline {8.2.4}Redirecting the CBserver location}{130}{subsection.8.2.4}
-\contentsline {subsection}{\numberline {8.2.5}Moving objects}{130}{subsection.8.2.5}
-\contentsline {subsection}{\numberline {8.2.6}Menu bar}{131}{subsection.8.2.6}
-\contentsline {subsubsection}{File menu}{131}{section*.4}
-\contentsline {subsubsection}{Edit menu}{132}{section*.5}
-\contentsline {subsubsection}{Options menu}{132}{section*.6}
-\contentsline {subsubsection}{View menu}{133}{section*.7}
-\contentsline {subsubsection}{Current connection menu}{133}{section*.8}
-\contentsline {subsection}{\numberline {8.2.7}Tool bar}{134}{subsection.8.2.7}
-\contentsline {subsection}{\numberline {8.2.8}Popup menu}{135}{subsection.8.2.8}
-\contentsline {subsection}{\numberline {8.2.9}Editing of Telos objects}{136}{subsection.8.2.9}
-\contentsline {subsection}{\numberline {8.2.10}Caching of query results within CBGraph}{138}{subsection.8.2.10}
-\contentsline {subsection}{\numberline {8.2.11}Graph files}{138}{subsection.8.2.11}
-\contentsline {section}{\numberline {8.3}An example session with ConceptBase}{139}{section.8.3}
-\contentsline {subsection}{\numberline {8.3.1}Starting ConceptBase}{140}{subsection.8.3.1}
-\contentsline {subsection}{\numberline {8.3.2}Connecting CBIva to another CBserver}{140}{subsection.8.3.2}
-\contentsline {subsection}{\numberline {8.3.3}Loading objects from external files}{141}{subsection.8.3.3}
-\contentsline {subsection}{\numberline {8.3.4}Displaying objects}{141}{subsection.8.3.4}
-\contentsline {subsection}{\numberline {8.3.5}Browsing objects}{141}{subsection.8.3.5}
-\contentsline {subsection}{\numberline {8.3.6}Editing Telos objects}{143}{subsection.8.3.6}
-\contentsline {subsubsection}{Editing Telos objects with the Telos editor}{143}{section*.9}
-\contentsline {subsubsection}{Editing Telos objects using CBGraph}{145}{section*.10}
-\contentsline {subsection}{\numberline {8.3.7}Using the query facility}{148}{subsection.8.3.7}
-\contentsline {section}{\numberline {8.4}Configuration file}{148}{section.8.4}
-\contentsline {chapter}{\numberline {A}Syntax Specifications}{151}{appendix.A}
-\contentsline {section}{\numberline {A.1}Syntax specifications for Telos frames}{151}{section.A.1}
-\contentsline {section}{\numberline {A.2}Syntax of the rule and constraint language}{152}{section.A.2}
-\contentsline {section}{\numberline {A.3}Syntax of active rules}{154}{section.A.3}
-\contentsline {section}{\numberline {A.4}Terminal symbols}{155}{section.A.4}
-\contentsline {section}{\numberline {A.5}Syntax specifications for SML fragments}{156}{section.A.5}
-\contentsline {chapter}{\numberline {B}O-Telos Axioms}{158}{appendix.B}
-\contentsline {chapter}{\numberline {C}Graphical Types}{161}{appendix.C}
-\contentsline {section}{\numberline {C.1}The graphical type model}{161}{section.C.1}
-\contentsline {section}{\numberline {C.2}The standard graphical types}{162}{section.C.2}
-\contentsline {subsection}{\numberline {C.2.1}The extended graphical type model}{162}{subsection.C.2.1}
-\contentsline {subsection}{\numberline {C.2.2}Default graphical types}{163}{subsection.C.2.2}
-\contentsline {section}{\numberline {C.3}Customizing the graphical types}{164}{section.C.3}
-\contentsline {subsection}{\numberline {C.3.1}Graphical properties of nodes and links}{165}{subsection.C.3.1}
-\contentsline {subsection}{\numberline {C.3.2}Node levels}{167}{subsection.C.3.2}
-\contentsline {subsection}{\numberline {C.3.3}Click actions}{168}{subsection.C.3.3}
-\contentsline {subsection}{\numberline {C.3.4}Providing a new implementation for a graphical type}{169}{subsection.C.3.4}
-\contentsline {subsection}{\numberline {C.3.5}Shapes}{170}{subsection.C.3.5}
-\contentsline {subsection}{\numberline {C.3.6}Icons}{172}{subsection.C.3.6}
-\contentsline {section}{\numberline {C.4}Object-specific graphical properties}{174}{section.C.4}
-\contentsline {section}{\numberline {C.5}Graphical types for derived links}{175}{section.C.5}
-\contentsline {chapter}{\numberline {D}Examples}{177}{appendix.D}
-\contentsline {section}{\numberline {D.1}Example model: the employee model}{177}{section.D.1}
-\contentsline {section}{\numberline {D.2}A Telos modeling example - ER diagrams}{177}{section.D.2}
-\contentsline {subsection}{\numberline {D.2.1}The basic model}{177}{subsection.D.2.1}
-\contentsline {subsection}{\numberline {D.2.2}The use of meta formulas}{179}{subsection.D.2.2}
-\contentsline {subsubsection}{Example: {\em necessary} and {\em single}}{179}{section*.11}
-\contentsline {subsubsection}{Metaformulas defining sets of rules}{181}{section*.12}
-\contentsline {paragraph}{Assignment of graphical types:}{181}{section*.13}
-\contentsline {paragraph}{Handling inconsistencies}{182}{section*.14}
-\contentsline {subsection}{\numberline {D.2.3}Limitations and final remarks}{184}{subsection.D.2.3}
-\contentsline {chapter}{\numberline {E}Predefined Query Classes}{186}{appendix.E}
-\contentsline {section}{\numberline {E.1}Query classes and generic query classes}{186}{section.E.1}
-\contentsline {subsection}{\numberline {E.1.1}Instances and classes}{186}{subsection.E.1.1}
-\contentsline {subsection}{\numberline {E.1.2}Specializations and generalizations}{186}{subsection.E.1.2}
-\contentsline {subsection}{\numberline {E.1.3}Attributes}{187}{subsection.E.1.3}
-\contentsline {subsection}{\numberline {E.1.4}Links between objects}{187}{subsection.E.1.4}
-\contentsline {subsection}{\numberline {E.1.5}Other queries}{187}{subsection.E.1.5}
-\contentsline {section}{\numberline {E.2}Functions}{187}{section.E.2}
-\contentsline {subsection}{\numberline {E.2.1}Computation and counting}{188}{subsection.E.2.1}
-\contentsline {subsection}{\numberline {E.2.2}String manipulation}{188}{subsection.E.2.2}
-\contentsline {section}{\numberline {E.3}Builtin query classes}{189}{section.E.3}
-\contentsline {chapter}{\numberline {F}CBserver Plug-Ins}{190}{appendix.F}
-\contentsline {section}{\numberline {F.1}Defining the plug-in}{190}{section.F.1}
-\contentsline {section}{\numberline {F.2}Calling the plug-in}{191}{section.F.2}
-\contentsline {section}{\numberline {F.3}Programming interface for the plug-ins}{192}{section.F.3}
-\contentsline {chapter}{References}{193}{appendix*.15}
-=======
-\contentsline {chapter}{\numberline {7}The CBShell Utility}{109}{chapter.7}
-\contentsline {section}{\numberline {7.1}Syntax}{109}{section.7.1}
-\contentsline {section}{\numberline {7.2}Options}{109}{section.7.2}
-\contentsline {section}{\numberline {7.3}Commands}{110}{section.7.3}
-\contentsline {subsection}{\numberline {7.3.1}Argument delimiters}{112}{subsection.7.3.1}
-\contentsline {section}{\numberline {7.4}Interactive use of CBShell}{112}{section.7.4}
-\contentsline {section}{\numberline {7.5}Positional parameters}{113}{section.7.5}
-\contentsline {section}{\numberline {7.6}Executable CBShell scripts}{114}{section.7.6}
-\contentsline {section}{\numberline {7.7}CBShell scripts within regular shell scripts}{114}{section.7.7}
-\contentsline {section}{\numberline {7.8}CBShell in a pipe}{115}{section.7.8}
-\contentsline {chapter}{\numberline {8}The ConceptBase.cc Usage Environment}{117}{chapter.8}
-\contentsline {section}{\numberline {8.1}The workbench CBIva}{117}{section.8.1}
-\contentsline {subsection}{\numberline {8.1.1}The tool bar}{117}{subsection.8.1.1}
-\contentsline {subsection}{\numberline {8.1.2}The menu bar}{118}{subsection.8.1.2}
-\contentsline {subsection}{\numberline {8.1.3}The status bar}{121}{subsection.8.1.3}
-\contentsline {subsection}{\numberline {8.1.4}Telos editor}{121}{subsection.8.1.4}
-\contentsline {subsubsection}{Tell transactions}{121}{section*.3}
-\contentsline {subsection}{\numberline {8.1.5}History window}{122}{subsection.8.1.5}
-\contentsline {subsection}{\numberline {8.1.6}Display instances}{122}{subsection.8.1.6}
-\contentsline {subsection}{\numberline {8.1.7}Frame browser}{122}{subsection.8.1.7}
-\contentsline {subsection}{\numberline {8.1.8}Display queries}{122}{subsection.8.1.8}
-\contentsline {subsection}{\numberline {8.1.9}Display functions}{123}{subsection.8.1.9}
-\contentsline {subsection}{\numberline {8.1.10}Query editor}{124}{subsection.8.1.10}
-\contentsline {subsection}{\numberline {8.1.11}Tree browser}{124}{subsection.8.1.11}
-\contentsline {section}{\numberline {8.2}The graph editor CBGraph}{126}{section.8.2}
-\contentsline {subsection}{\numberline {8.2.1}Overview}{126}{subsection.8.2.1}
-\contentsline {subsection}{\numberline {8.2.2}Starting CBGraph via CBIva}{127}{subsection.8.2.2}
-\contentsline {subsection}{\numberline {8.2.3}The {\tt cbgraph} command}{127}{subsection.8.2.3}
-\contentsline {subsection}{\numberline {8.2.4}Redirecting the CBserver location}{129}{subsection.8.2.4}
-\contentsline {subsection}{\numberline {8.2.5}Moving objects}{129}{subsection.8.2.5}
-\contentsline {subsection}{\numberline {8.2.6}Menu bar}{130}{subsection.8.2.6}
-\contentsline {subsubsection}{File menu}{130}{section*.4}
-\contentsline {subsubsection}{Edit menu}{131}{section*.5}
-\contentsline {subsubsection}{Options menu}{131}{section*.6}
-\contentsline {subsubsection}{View menu}{132}{section*.7}
-\contentsline {subsubsection}{Current connection menu}{132}{section*.8}
-\contentsline {subsection}{\numberline {8.2.7}Tool bar}{133}{subsection.8.2.7}
-\contentsline {subsection}{\numberline {8.2.8}Popup menu}{134}{subsection.8.2.8}
-\contentsline {subsection}{\numberline {8.2.9}Editing of Telos objects}{135}{subsection.8.2.9}
-\contentsline {subsection}{\numberline {8.2.10}Caching of query results within CBGraph}{137}{subsection.8.2.10}
-\contentsline {subsection}{\numberline {8.2.11}Graph files}{137}{subsection.8.2.11}
-\contentsline {section}{\numberline {8.3}An example session with ConceptBase}{138}{section.8.3}
-\contentsline {subsection}{\numberline {8.3.1}Starting ConceptBase}{139}{subsection.8.3.1}
-\contentsline {subsection}{\numberline {8.3.2}Connecting CBIva to another CBserver}{139}{subsection.8.3.2}
-\contentsline {subsection}{\numberline {8.3.3}Loading objects from external files}{140}{subsection.8.3.3}
-\contentsline {subsection}{\numberline {8.3.4}Displaying objects}{140}{subsection.8.3.4}
-\contentsline {subsection}{\numberline {8.3.5}Browsing objects}{140}{subsection.8.3.5}
-\contentsline {subsection}{\numberline {8.3.6}Editing Telos objects}{142}{subsection.8.3.6}
-\contentsline {subsubsection}{Editing Telos objects with the Telos editor}{142}{section*.9}
-\contentsline {subsubsection}{Editing Telos objects using CBGraph}{144}{section*.10}
-\contentsline {subsection}{\numberline {8.3.7}Using the query facility}{147}{subsection.8.3.7}
-\contentsline {section}{\numberline {8.4}Configuration file}{147}{section.8.4}
-\contentsline {chapter}{\numberline {A}Syntax Specifications}{150}{appendix.A}
-\contentsline {section}{\numberline {A.1}Syntax specifications for Telos frames}{150}{section.A.1}
-\contentsline {section}{\numberline {A.2}Syntax of the rule and constraint language}{151}{section.A.2}
-\contentsline {section}{\numberline {A.3}Syntax of active rules}{153}{section.A.3}
-\contentsline {section}{\numberline {A.4}Terminal symbols}{154}{section.A.4}
-\contentsline {section}{\numberline {A.5}Syntax specifications for SML fragments}{155}{section.A.5}
-\contentsline {chapter}{\numberline {B}O-Telos Axioms}{157}{appendix.B}
-\contentsline {chapter}{\numberline {C}Graphical Types}{160}{appendix.C}
-\contentsline {section}{\numberline {C.1}The graphical type model}{160}{section.C.1}
-\contentsline {section}{\numberline {C.2}The standard graphical types}{161}{section.C.2}
-\contentsline {subsection}{\numberline {C.2.1}The extended graphical type model}{161}{subsection.C.2.1}
-\contentsline {subsection}{\numberline {C.2.2}Default graphical types}{162}{subsection.C.2.2}
-\contentsline {section}{\numberline {C.3}Customizing the graphical types}{163}{section.C.3}
-\contentsline {subsection}{\numberline {C.3.1}Graphical properties of nodes and links}{164}{subsection.C.3.1}
-\contentsline {subsection}{\numberline {C.3.2}Node levels}{166}{subsection.C.3.2}
-\contentsline {subsection}{\numberline {C.3.3}Click actions}{167}{subsection.C.3.3}
-\contentsline {subsection}{\numberline {C.3.4}Providing a new implementation for a graphical type}{168}{subsection.C.3.4}
-\contentsline {subsection}{\numberline {C.3.5}Shapes}{169}{subsection.C.3.5}
-\contentsline {subsection}{\numberline {C.3.6}Icons}{171}{subsection.C.3.6}
-\contentsline {section}{\numberline {C.4}Object-specific graphical properties}{173}{section.C.4}
-\contentsline {section}{\numberline {C.5}Graphical types for derived links}{174}{section.C.5}
-\contentsline {chapter}{\numberline {D}Examples}{176}{appendix.D}
-\contentsline {section}{\numberline {D.1}Example model: the employee model}{176}{section.D.1}
-\contentsline {section}{\numberline {D.2}A Telos modeling example - ER diagrams}{176}{section.D.2}
-\contentsline {subsection}{\numberline {D.2.1}The basic model}{176}{subsection.D.2.1}
-\contentsline {subsection}{\numberline {D.2.2}The use of meta formulas}{178}{subsection.D.2.2}
-\contentsline {subsubsection}{Example: {\em necessary} and {\em single}}{178}{section*.11}
-\contentsline {subsubsection}{Metaformulas defining sets of rules}{180}{section*.12}
-\contentsline {paragraph}{Assignment of graphical types:}{180}{section*.13}
-\contentsline {paragraph}{Handling inconsistencies}{181}{section*.14}
-\contentsline {subsection}{\numberline {D.2.3}Limitations and final remarks}{183}{subsection.D.2.3}
-\contentsline {chapter}{\numberline {E}Predefined Query Classes}{185}{appendix.E}
-\contentsline {section}{\numberline {E.1}Query classes and generic query classes}{185}{section.E.1}
-\contentsline {subsection}{\numberline {E.1.1}Instances and classes}{185}{subsection.E.1.1}
-\contentsline {subsection}{\numberline {E.1.2}Specializations and generalizations}{185}{subsection.E.1.2}
-\contentsline {subsection}{\numberline {E.1.3}Attributes}{186}{subsection.E.1.3}
-\contentsline {subsection}{\numberline {E.1.4}Links between objects}{186}{subsection.E.1.4}
-\contentsline {subsection}{\numberline {E.1.5}Other queries}{186}{subsection.E.1.5}
-\contentsline {section}{\numberline {E.2}Functions}{186}{section.E.2}
-\contentsline {subsection}{\numberline {E.2.1}Computation and counting}{187}{subsection.E.2.1}
-\contentsline {subsection}{\numberline {E.2.2}String manipulation}{187}{subsection.E.2.2}
-\contentsline {section}{\numberline {E.3}Builtin query classes}{188}{section.E.3}
-\contentsline {chapter}{\numberline {F}CBserver Plug-Ins}{189}{appendix.F}
-\contentsline {section}{\numberline {F.1}Defining the plug-in}{189}{section.F.1}
-\contentsline {section}{\numberline {F.2}Calling the plug-in}{190}{section.F.2}
-\contentsline {section}{\numberline {F.3}Programming interface for the plug-ins}{191}{section.F.3}
-\contentsline {chapter}{References}{192}{appendix*.15}
->>>>>>> 675096c2e6b531a4a2eb8768d3c669920db38873
+\contentsline {chapter}{\numberline {1}Introduction}{8}{chapter.1}
+\contentsline {section}{\numberline {1.1}Background: Telos and O-Telos}{9}{section.1.1}
+\contentsline {section}{\numberline {1.2}The architecture of ConceptBase.cc}{11}{section.1.2}
+\contentsline {section}{\numberline {1.3}Hardware and software requirements}{12}{section.1.3}
+\contentsline {subsection}{\numberline {1.3.1}Installation}{12}{subsection.1.3.1}
+\contentsline {section}{\numberline {1.4}Overview of this manual}{13}{section.1.4}
+\contentsline {section}{\numberline {1.5}Differences to earlier versions}{13}{section.1.5}
+\contentsline {section}{\numberline {1.6}License terms}{14}{section.1.6}
+\contentsline {section}{\numberline {1.7}Disclaimer}{15}{section.1.7}
+\contentsline {chapter}{\numberline {2}O-Telos by ConceptBase.cc}{16}{chapter.2}
+\contentsline {section}{\numberline {2.1}Propositions and frames}{16}{section.2.1}
+\contentsline {section}{\numberline {2.2}Rules and constraints}{23}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Basic predicates}{23}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Notes on attribution}{24}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}Assigning attribute categories to explicit attributes}{26}{subsection.2.2.3}
+\contentsline {subsection}{\numberline {2.2.4}Reserved words}{28}{subsection.2.2.4}
+\contentsline {subsection}{\numberline {2.2.5}Comparison predicates}{28}{subsection.2.2.5}
+\contentsline {subsection}{\numberline {2.2.6}Typed variables}{28}{subsection.2.2.6}
+\contentsline {subsection}{\numberline {2.2.7}Semantic restrictions on formulas}{29}{subsection.2.2.7}
+\contentsline {subsection}{\numberline {2.2.8}Rule and constraint syntax}{31}{subsection.2.2.8}
+\contentsline {subsection}{\numberline {2.2.9}Meta formulas}{31}{subsection.2.2.9}
+\contentsline {subsubsection}{Tell order for meta formulas}{34}{section*.2}
+\contentsline {subsection}{\numberline {2.2.10}Further object references}{34}{subsection.2.2.10}
+\contentsline {subsection}{\numberline {2.2.11}User-definable error messages for integrity constraints}{34}{subsection.2.2.11}
+\contentsline {subsection}{\numberline {2.2.12}Immutable properties}{36}{subsection.2.2.12}
+\contentsline {section}{\numberline {2.3}Query classes}{36}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Query definitions versus query calls}{40}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}Query classes and deductive integrity checking}{41}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.3}Nested query calls and shortcuts}{42}{subsection.2.3.3}
+\contentsline {subsection}{\numberline {2.3.4}Reified query calls}{43}{subsection.2.3.4}
+\contentsline {section}{\numberline {2.4}View definitions}{44}{section.2.4}
+\contentsline {section}{\numberline {2.5}Functions}{45}{section.2.5}
+\contentsline {subsection}{\numberline {2.5.1}Functions as special queries}{45}{subsection.2.5.1}
+\contentsline {subsection}{\numberline {2.5.2}Shortcuts for function calls and functional expressions}{47}{subsection.2.5.2}
+\contentsline {subsection}{\numberline {2.5.3}Example function calls and definitions}{47}{subsection.2.5.3}
+\contentsline {subsection}{\numberline {2.5.4}Programmed functions}{49}{subsection.2.5.4}
+\contentsline {subsection}{\numberline {2.5.5}Recursive function definitions}{50}{subsection.2.5.5}
+\contentsline {section}{\numberline {2.6}Query evaluation strategies}{51}{section.2.6}
+\contentsline {section}{\numberline {2.7}Multi-level modeling with ConceptBase}{52}{section.2.7}
+\contentsline {subsection}{\numberline {2.7.1}Expressing semantics at the metamodel level}{52}{subsection.2.7.1}
+\contentsline {subsection}{\numberline {2.7.2}DeepTelos}{55}{subsection.2.7.2}
+\contentsline {subsection}{\numberline {2.7.3}Crossing abstraction levels}{55}{subsection.2.7.3}
+\contentsline {section}{\numberline {2.8}Datalog queries and rules}{56}{section.2.8}
+\contentsline {subsection}{\numberline {2.8.1}Extended query model}{57}{subsection.2.8.1}
+\contentsline {subsection}{\numberline {2.8.2}Datalog code}{57}{subsection.2.8.2}
+\contentsline {subsection}{\numberline {2.8.3}Examples}{58}{subsection.2.8.3}
+\contentsline {chapter}{\numberline {3}Answer Formats for Queries}{60}{chapter.3}
+\contentsline {section}{\numberline {3.1}Basic definitions}{61}{section.3.1}
+\contentsline {section}{\numberline {3.2}Constructs in answer formats}{63}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Simple expressions in patterns}{63}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Pre-defined variables}{65}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Iterations over expressions}{65}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}Special characters}{66}{subsection.3.2.4}
+\contentsline {subsection}{\numberline {3.2.5}Function patterns}{66}{subsection.3.2.5}
+\contentsline {subsection}{\numberline {3.2.6}Calling queries in answer formats}{67}{subsection.3.2.6}
+\contentsline {subsection}{\numberline {3.2.7}Expressions in head and tail}{68}{subsection.3.2.7}
+\contentsline {subsection}{\numberline {3.2.8}Conditional expressions}{68}{subsection.3.2.8}
+\contentsline {subsection}{\numberline {3.2.9}Views and path expressions}{69}{subsection.3.2.9}
+\contentsline {section}{\numberline {3.3}Parameterized answer formats}{69}{section.3.3}
+\contentsline {section}{\numberline {3.4}File type of answer formats}{70}{section.3.4}
+\contentsline {section}{\numberline {3.5}Bulk query calls}{70}{section.3.5}
+\contentsline {chapter}{\numberline {4}Active Rules}{71}{chapter.4}
+\contentsline {section}{\numberline {4.1}Definition of ECArules}{71}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}ECAassertion}{72}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Events}{72}{subsection.4.1.2}
+\contentsline {subsection}{\numberline {4.1.3}Conditions}{72}{subsection.4.1.3}
+\contentsline {subsection}{\numberline {4.1.4}Actions}{73}{subsection.4.1.4}
+\contentsline {subsection}{\numberline {4.1.5}Priorities}{74}{subsection.4.1.5}
+\contentsline {subsection}{\numberline {4.1.6}Coupling mode of an ECA rule}{74}{subsection.4.1.6}
+\contentsline {subsection}{\numberline {4.1.7}Execution Semantics}{75}{subsection.4.1.7}
+\contentsline {subsection}{\numberline {4.1.8}Switching Queues}{76}{subsection.4.1.8}
+\contentsline {subsection}{\numberline {4.1.9}Activate and Deactivate ECA rules}{77}{subsection.4.1.9}
+\contentsline {subsection}{\numberline {4.1.10}Depth}{77}{subsection.4.1.10}
+\contentsline {subsection}{\numberline {4.1.11}User-definable Error Messages}{77}{subsection.4.1.11}
+\contentsline {subsection}{\numberline {4.1.12}Constraints}{77}{subsection.4.1.12}
+\contentsline {section}{\numberline {4.2}Examples}{77}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Materialization of views by active rules}{77}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Counter}{78}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Timestamps}{79}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {4.2.4}Simulation of Petri Nets}{80}{subsection.4.2.4}
+\contentsline {section}{\numberline {4.3}Optimization of ECA rules}{81}{section.4.3}
+\contentsline {section}{\numberline {4.4}Limitations of the current implementation}{81}{section.4.4}
+\contentsline {chapter}{\numberline {5}The Module System}{83}{chapter.5}
+\contentsline {section}{\numberline {5.1}Definition of modules}{84}{section.5.1}
+\contentsline {section}{\numberline {5.2}Switching between module contexts}{84}{section.5.2}
+\contentsline {section}{\numberline {5.3}Using nested modules}{85}{section.5.3}
+\contentsline {section}{\numberline {5.4}Exporting and importing objects}{86}{section.5.4}
+\contentsline {section}{\numberline {5.5}Modules and metamodeling}{87}{section.5.5}
+\contentsline {section}{\numberline {5.6}Setting user home modules}{88}{section.5.6}
+\contentsline {section}{\numberline {5.7}Limiting access to modules}{90}{section.5.7}
+\contentsline {subsection}{\numberline {5.7.1}Access to System module}{92}{subsection.5.7.1}
+\contentsline {section}{\numberline {5.8}Listing the module content}{93}{section.5.8}
+\contentsline {subsection}{\numberline {5.8.1}Restrictions of {\tt listModule}}{93}{subsection.5.8.1}
+\contentsline {section}{\numberline {5.9}Purging a module}{94}{section.5.9}
+\contentsline {section}{\numberline {5.10}Saving and loading module sources}{94}{section.5.10}
+\contentsline {section}{\numberline {5.11}Server-side materialization of query results}{95}{section.5.11}
+\contentsline {subsection}{\numberline {5.11.1}Post-export command}{96}{subsection.5.11.1}
+\contentsline {chapter}{\numberline {6}The ConceptBase.cc Server}{98}{chapter.6}
+\contentsline {section}{\numberline {6.1}CBserver parameters}{98}{section.6.1}
+\contentsline {section}{\numberline {6.2}ConceptBase under Windows 10}{102}{section.6.2}
+\contentsline {section}{\numberline {6.3}Database format}{102}{section.6.3}
+\contentsline {section}{\numberline {6.4}Modifying the system database}{103}{section.6.4}
+\contentsline {section}{\numberline {6.5}Tracing and restarting}{103}{section.6.5}
+\contentsline {section}{\numberline {6.6}Public CBservers}{104}{section.6.6}
+\contentsline {section}{\numberline {6.7}The tabling subsystem}{105}{section.6.7}
+\contentsline {section}{\numberline {6.8}Database persistency}{106}{section.6.8}
+\contentsline {section}{\numberline {6.9}The UNTELL operation}{106}{section.6.9}
+\contentsline {subsection}{\numberline {6.9.1}Cascading UNTELL}{108}{subsection.6.9.1}
+\contentsline {section}{\numberline {6.10}Memory consumption and performance}{108}{section.6.10}
+\contentsline {section}{\numberline {6.11}The Java API to the CBserver}{108}{section.6.11}
+\contentsline {chapter}{\numberline {7}The CBShell Utility}{112}{chapter.7}
+\contentsline {section}{\numberline {7.1}Syntax}{112}{section.7.1}
+\contentsline {section}{\numberline {7.2}Options}{112}{section.7.2}
+\contentsline {section}{\numberline {7.3}Commands}{113}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Argument delimiters}{115}{subsection.7.3.1}
+\contentsline {section}{\numberline {7.4}Interactive use of CBShell}{115}{section.7.4}
+\contentsline {section}{\numberline {7.5}Positional parameters}{116}{section.7.5}
+\contentsline {section}{\numberline {7.6}Executable CBShell scripts}{117}{section.7.6}
+\contentsline {section}{\numberline {7.7}CBShell scripts within regular shell scripts}{117}{section.7.7}
+\contentsline {section}{\numberline {7.8}CBShell in a pipe}{118}{section.7.8}
+\contentsline {chapter}{\numberline {8}The ConceptBase.cc Usage Environment}{120}{chapter.8}
+\contentsline {section}{\numberline {8.1}The workbench CBIva}{120}{section.8.1}
+\contentsline {subsection}{\numberline {8.1.1}The tool bar}{120}{subsection.8.1.1}
+\contentsline {subsection}{\numberline {8.1.2}The menu bar}{121}{subsection.8.1.2}
+\contentsline {subsection}{\numberline {8.1.3}The status bar}{124}{subsection.8.1.3}
+\contentsline {subsection}{\numberline {8.1.4}Telos editor}{124}{subsection.8.1.4}
+\contentsline {subsubsection}{Tell transactions}{124}{section*.3}
+\contentsline {subsection}{\numberline {8.1.5}History window}{125}{subsection.8.1.5}
+\contentsline {subsection}{\numberline {8.1.6}Display instances}{125}{subsection.8.1.6}
+\contentsline {subsection}{\numberline {8.1.7}Frame browser}{125}{subsection.8.1.7}
+\contentsline {subsection}{\numberline {8.1.8}Display queries}{125}{subsection.8.1.8}
+\contentsline {subsection}{\numberline {8.1.9}Display functions}{126}{subsection.8.1.9}
+\contentsline {subsection}{\numberline {8.1.10}Query editor}{127}{subsection.8.1.10}
+\contentsline {subsection}{\numberline {8.1.11}Tree browser}{127}{subsection.8.1.11}
+\contentsline {section}{\numberline {8.2}The graph editor CBGraph}{129}{section.8.2}
+\contentsline {subsection}{\numberline {8.2.1}Overview}{129}{subsection.8.2.1}
+\contentsline {subsection}{\numberline {8.2.2}Starting CBGraph via CBIva}{130}{subsection.8.2.2}
+\contentsline {subsection}{\numberline {8.2.3}The {\tt cbgraph} command}{130}{subsection.8.2.3}
+\contentsline {subsection}{\numberline {8.2.4}Redirecting the CBserver location}{132}{subsection.8.2.4}
+\contentsline {subsection}{\numberline {8.2.5}Moving objects}{132}{subsection.8.2.5}
+\contentsline {subsection}{\numberline {8.2.6}Menu bar}{133}{subsection.8.2.6}
+\contentsline {subsubsection}{File menu}{133}{section*.4}
+\contentsline {subsubsection}{Edit menu}{134}{section*.5}
+\contentsline {subsubsection}{Options menu}{134}{section*.6}
+\contentsline {subsubsection}{View menu}{135}{section*.7}
+\contentsline {subsubsection}{Current connection menu}{135}{section*.8}
+\contentsline {subsection}{\numberline {8.2.7}Tool bar}{136}{subsection.8.2.7}
+\contentsline {subsection}{\numberline {8.2.8}Popup menu}{137}{subsection.8.2.8}
+\contentsline {subsection}{\numberline {8.2.9}Editing of Telos objects}{138}{subsection.8.2.9}
+\contentsline {subsection}{\numberline {8.2.10}Caching of query results within CBGraph}{140}{subsection.8.2.10}
+\contentsline {subsection}{\numberline {8.2.11}Graph files}{140}{subsection.8.2.11}
+\contentsline {section}{\numberline {8.3}An example session with ConceptBase}{141}{section.8.3}
+\contentsline {subsection}{\numberline {8.3.1}Starting ConceptBase}{142}{subsection.8.3.1}
+\contentsline {subsection}{\numberline {8.3.2}Connecting CBIva to another CBserver}{142}{subsection.8.3.2}
+\contentsline {subsection}{\numberline {8.3.3}Loading objects from external files}{143}{subsection.8.3.3}
+\contentsline {subsection}{\numberline {8.3.4}Displaying objects}{143}{subsection.8.3.4}
+\contentsline {subsection}{\numberline {8.3.5}Browsing objects}{143}{subsection.8.3.5}
+\contentsline {subsection}{\numberline {8.3.6}Editing Telos objects}{145}{subsection.8.3.6}
+\contentsline {subsubsection}{Editing Telos objects with the Telos editor}{145}{section*.9}
+\contentsline {subsubsection}{Editing Telos objects using CBGraph}{147}{section*.10}
+\contentsline {subsection}{\numberline {8.3.7}Using the query facility}{150}{subsection.8.3.7}
+\contentsline {section}{\numberline {8.4}Configuration file}{150}{section.8.4}
+\contentsline {chapter}{\numberline {A}Syntax Specifications}{153}{appendix.A}
+\contentsline {section}{\numberline {A.1}Syntax specifications for Telos frames}{153}{section.A.1}
+\contentsline {section}{\numberline {A.2}Syntax of the rule and constraint language}{154}{section.A.2}
+\contentsline {section}{\numberline {A.3}Syntax of active rules}{156}{section.A.3}
+\contentsline {section}{\numberline {A.4}Terminal symbols}{157}{section.A.4}
+\contentsline {section}{\numberline {A.5}Syntax specifications for SML fragments}{158}{section.A.5}
+\contentsline {chapter}{\numberline {B}O-Telos Axioms}{160}{appendix.B}
+\contentsline {chapter}{\numberline {C}Graphical Types}{163}{appendix.C}
+\contentsline {section}{\numberline {C.1}The graphical type model}{163}{section.C.1}
+\contentsline {section}{\numberline {C.2}The standard graphical types}{164}{section.C.2}
+\contentsline {subsection}{\numberline {C.2.1}The extended graphical type model}{164}{subsection.C.2.1}
+\contentsline {subsection}{\numberline {C.2.2}Default graphical types}{165}{subsection.C.2.2}
+\contentsline {section}{\numberline {C.3}Customizing the graphical types}{166}{section.C.3}
+\contentsline {subsection}{\numberline {C.3.1}Graphical properties of nodes and links}{167}{subsection.C.3.1}
+\contentsline {subsection}{\numberline {C.3.2}Node levels}{169}{subsection.C.3.2}
+\contentsline {subsection}{\numberline {C.3.3}Click actions}{170}{subsection.C.3.3}
+\contentsline {subsection}{\numberline {C.3.4}Providing a new implementation for a graphical type}{171}{subsection.C.3.4}
+\contentsline {subsection}{\numberline {C.3.5}Shapes}{172}{subsection.C.3.5}
+\contentsline {subsection}{\numberline {C.3.6}Icons}{174}{subsection.C.3.6}
+\contentsline {section}{\numberline {C.4}Object-specific graphical properties}{176}{section.C.4}
+\contentsline {section}{\numberline {C.5}Graphical types for derived links}{177}{section.C.5}
+\contentsline {chapter}{\numberline {D}Examples}{179}{appendix.D}
+\contentsline {section}{\numberline {D.1}Example model: the employee model}{179}{section.D.1}
+\contentsline {section}{\numberline {D.2}A Telos modeling example - ER diagrams}{179}{section.D.2}
+\contentsline {subsection}{\numberline {D.2.1}The basic model}{179}{subsection.D.2.1}
+\contentsline {subsection}{\numberline {D.2.2}The use of meta formulas}{181}{subsection.D.2.2}
+\contentsline {subsubsection}{Example: {\em necessary} and {\em single}}{181}{section*.11}
+\contentsline {subsubsection}{Metaformulas defining sets of rules}{183}{section*.12}
+\contentsline {paragraph}{Assignment of graphical types:}{183}{section*.13}
+\contentsline {paragraph}{Handling inconsistencies}{184}{section*.14}
+\contentsline {subsection}{\numberline {D.2.3}Limitations and final remarks}{186}{subsection.D.2.3}
+\contentsline {chapter}{\numberline {E}Predefined Query Classes}{188}{appendix.E}
+\contentsline {section}{\numberline {E.1}Query classes and generic query classes}{188}{section.E.1}
+\contentsline {subsection}{\numberline {E.1.1}Instances and classes}{188}{subsection.E.1.1}
+\contentsline {subsection}{\numberline {E.1.2}Specializations and generalizations}{188}{subsection.E.1.2}
+\contentsline {subsection}{\numberline {E.1.3}Attributes}{189}{subsection.E.1.3}
+\contentsline {subsection}{\numberline {E.1.4}Links between objects}{189}{subsection.E.1.4}
+\contentsline {subsection}{\numberline {E.1.5}Other queries}{189}{subsection.E.1.5}
+\contentsline {section}{\numberline {E.2}Functions}{189}{section.E.2}
+\contentsline {subsection}{\numberline {E.2.1}Computation and counting}{190}{subsection.E.2.1}
+\contentsline {subsection}{\numberline {E.2.2}String manipulation}{190}{subsection.E.2.2}
+\contentsline {section}{\numberline {E.3}Builtin query classes}{191}{section.E.3}
+\contentsline {chapter}{\numberline {F}CBserver Plug-Ins}{192}{appendix.F}
+\contentsline {section}{\numberline {F.1}Defining the plug-in}{192}{section.F.1}
+\contentsline {section}{\numberline {F.2}Calling the plug-in}{193}{section.F.2}
+\contentsline {section}{\numberline {F.3}Programming interface for the plug-ins}{194}{section.F.3}
+\contentsline {chapter}{References}{195}{appendix*.15}

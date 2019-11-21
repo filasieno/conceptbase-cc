@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2019-11-11
+                      2019-11-21
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -27,7 +27,7 @@ Detailed Changes since Version 8.0 (2019-05-30)
 ===============================================
 
 Version 8.1 aims at making the CBserver better integrated with current
-exchange formats. TWe are now referring to issue numbers as stored in
+exchange formats. We are now referring to issue numbers as stored in
 the GitLab repository of ConceptBase.cc
 
 81-01 More complete support for JSON output format
@@ -84,6 +84,15 @@ the GitLab repository of ConceptBase.cc
 
    Zooming in CBGraph resulted in edges styles liked "dashed" being lost this is now solved.
    (Issue 10)
+
+81-09 Showing derived classes of an object in CBGraph
+
+   CB_Graph uses the query find_classes to display explicit and derived classes of an object
+   via the pop-up menu "instance of". This query happended not to show classes that were
+   derived via deductive rules. Only instantiation to query classes and superclasses was
+   shown. This is now resolved.
+   (Issue 11)
+
 
 
 
