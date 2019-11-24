@@ -1,22 +1,22 @@
-2;tell;TestQuery in QueryClass isA GenericQueryClass with  ;ok;145
-3;tell;Individual TestFormatWithExternalCall in AnswerFormat with;ok;88
-4;ask;TestQuery;ok;42
-5;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/externalcall;ok;150
-6;ask;get_object[EmpDept/objname];ok;40
+2;tell;TestQuery in QueryClass isA GenericQueryClass with  ;ok;121
+3;tell;Individual TestFormatWithExternalCall in AnswerFormat with;ok;72
+4;ask;TestQuery;ok;83
+5;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/externalcall;ok;159
+6;ask;get_object[EmpDept/objname];ok;43
 7;ask;get_object[SV_EmpDept_dept/objname];ok;78
-8;ask;EmpDept;ok;89
-9;ask;get_object[E1/objname];ok;78
-10;ask;find_instances[AnswerFormat/class];ok;79
-11;ask;get_object[EmpDeptFormatWithExternalCall/objname];ok;81
-12;untell;EmpDeptFormatWithExternalCall with;ok;115
-13;ask;EmpDept;ok;79
-14;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/iterations;ok;122
-15;ask;PersonWithParents3;ok;39
-16;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/simple_answerformats1;ok;119
-17;ask;PersonWithParents;ok;40
-18;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/simple_answerformats2;ok;123
-19;ask;PersonWithParents2;ok;44
-20;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/recursive-answers;ok;111
-21;ask;PersonQ;ok;104
-22;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/views;ok;118
-23;ask;EmpDept;ok;43
+8;ask;EmpDept;ok;86
+9;ask;get_object[E1/objname];ok;83
+10;ask;find_instances[AnswerFormat/class];ok;82
+11;ask;get_object[EmpDeptFormatWithExternalCall/objname];ok;78
+12;untell;EmpDeptFormatWithExternalCall with;ok;118
+13;ask;EmpDept;ok;43
+14;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/iterations;ok;132
+15;ask;PersonWithParents3;ok;51
+16;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/simple_answerformats1;ok;121
+17;ask;PersonWithParents;ok;43
+18;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/simple_answerformats2;ok;125
+19;ask;PersonWithParents2;ok;47
+20;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/recursive-answers;ok;123
+21;ask;PersonQ;ok;61
+22;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/AnswerFormat/views;ok;115
+23;ask;EmpDept;ok;87

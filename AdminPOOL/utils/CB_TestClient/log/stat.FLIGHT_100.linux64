@@ -1,6 +1,6 @@
-2;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/FLIGHT/city;ok;96
-3;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/FLIGHT/c100;ok;152
-4;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/FLIGHT/cities100;ok;43
-5;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/FLIGHT/fl100;ok;221
-6;tell;QueryClass connected1 isA city with;ok;89
-7;ask;connected2;ok;62
+2;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/FLIGHT/city;ok;106
+3;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/FLIGHT/c100;ok;126
+4;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/FLIGHT/cities100;ok;51
+5;tellModel;/home/jeusfeld/CBPOOL/conceptbase/examples/FLIGHT/fl100;ok;191
+6;tell;QueryClass connected1 isA city with;ok;90
+7;ask;connected2;ok;52
