@@ -17,4 +17,9 @@ conceptbase/
 /AdminPOOL/utils/CB_TestClient/log/OLD/
 /AdminPOOL/utils/CB_TestClient/log/*.*
 
+/ProductPOOL/doc/TechInfo/EXPORT/ReleaseNotes.txt
+/ProductPOOL/java/classes/CBinstaller.jar
+/ProductPOOL/java/classes/cb.jar
+/ProductPOOL/linux64/serverSources/EXPORT/CBserver
+/ProductPOOL/linux64/serverSources/objects.SWI/CBserver
 

@@ -93,6 +93,8 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     String m_bgimage; // background image for the DiagramDesktop of this CBFrame
     String m_longtitle; //long title of the palette of this CBFrame
     String m_Context;  // name of an object, model or module that characterizes this CBFrame
+    String m_queryOutgoing = "find_used_attribute_categories" ; //the outgoing query name
+    String m_queryIncoming = "find_used_incoming_attribute_categories" ; //the incoming query name
     String m_UserHome = "System"+CBConfiguration.getModuleSeparator()+"oHome";  // module path of the home module of the user
     HashMap m_PropertiesOfGraphicalTypes;
     HashMap m_implementedBy;
@@ -368,6 +370,22 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
 
     public CBclient getCBclient(){
         return m_cbClient;
+    }
+
+    /** Gets the name of the outgoing query (used categories) for the CBGraph popup menu
+     * @return the query name
+     */
+
+    public String getOutgoingQuery(){
+        return m_queryOutgoing;
+    }
+
+   /** Gets the name of the incoming query (used categories) for the CBGraph popup menu
+     * @return the query name
+     */
+
+    public String getIncomingQuery(){
+        return m_queryIncoming;
     }
 
 
@@ -1107,6 +1125,10 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
                       m_bgimage = sPropertyValue;
                    else if (sPropertyName.equals("longtitle"))
                       m_longtitle = sPropertyValue;
+                   else if (sPropertyName.equals("queryincoming"))
+                      m_queryIncoming = sPropertyValue;
+                   else if (sPropertyName.equals("queryoutgoing"))
+                      m_queryOutgoing = sPropertyValue;
                 }  
 
                 Sibling = Sibling.getNextSibling();
