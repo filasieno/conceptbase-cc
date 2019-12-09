@@ -168,8 +168,8 @@ public class CBTree extends JTree {
             newQueryNode.add(new WaitNode() );
         }
 
-        String sQueryOutgoing = m_cbFrame.getOutgoingQuery() + "[";
-        String sQueryIncoming = m_cbFrame.getIncomingQuery() + "[";
+        String sQueryOutgoing = m_cbFrame.getOutgoingCatsQuery() + "[";
+        String sQueryIncoming = m_cbFrame.getIncomingCatsQuery() + "[";
 /*
         if (CBConfiguration.getEnableDerivedLinks()) { 
            sQueryOutgoing = "find_used_attribute_categories[";
