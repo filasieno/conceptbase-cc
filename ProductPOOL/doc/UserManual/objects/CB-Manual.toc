@@ -11,17 +11,17 @@
 \contentsline {section}{\numberline {2.1}Propositions and frames}{14}{section.2.1}
 \contentsline {section}{\numberline {2.2}Rules and constraints}{21}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}Basic predicates}{21}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}Notes on attribution}{22}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}Assigning attribute categories to explicit attributes}{24}{subsection.2.2.3}
+\contentsline {subsection}{\numberline {2.2.2}Notes on attribution}{23}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}Assigning attribute categories to explicit attributes}{25}{subsection.2.2.3}
 \contentsline {subsection}{\numberline {2.2.4}Reserved words}{26}{subsection.2.2.4}
 \contentsline {subsection}{\numberline {2.2.5}Comparison predicates}{26}{subsection.2.2.5}
 \contentsline {subsection}{\numberline {2.2.6}Typed variables}{26}{subsection.2.2.6}
 \contentsline {subsection}{\numberline {2.2.7}Semantic restrictions on formulas}{27}{subsection.2.2.7}
 \contentsline {subsection}{\numberline {2.2.8}Rule and constraint syntax}{29}{subsection.2.2.8}
-\contentsline {subsection}{\numberline {2.2.9}Meta formulas}{29}{subsection.2.2.9}
+\contentsline {subsection}{\numberline {2.2.9}Meta formulas}{30}{subsection.2.2.9}
 \contentsline {subsubsection}{Tell order for meta formulas}{32}{section*.2}
 \contentsline {subsection}{\numberline {2.2.10}Further object references}{32}{subsection.2.2.10}
-\contentsline {subsection}{\numberline {2.2.11}User-definable error messages for integrity constraints}{32}{subsection.2.2.11}
+\contentsline {subsection}{\numberline {2.2.11}User-definable error messages for integrity constraints}{33}{subsection.2.2.11}
 \contentsline {subsection}{\numberline {2.2.12}Immutable properties}{34}{subsection.2.2.12}
 \contentsline {section}{\numberline {2.3}Query classes}{34}{section.2.3}
 \contentsline {subsection}{\numberline {2.3.1}Query definitions versus query calls}{38}{subsection.2.3.1}
@@ -30,9 +30,9 @@
 \contentsline {subsection}{\numberline {2.3.4}Reified query calls}{41}{subsection.2.3.4}
 \contentsline {section}{\numberline {2.4}View definitions}{42}{section.2.4}
 \contentsline {section}{\numberline {2.5}Functions}{43}{section.2.5}
-\contentsline {subsection}{\numberline {2.5.1}Functions as special queries}{43}{subsection.2.5.1}
+\contentsline {subsection}{\numberline {2.5.1}Functions as special queries}{44}{subsection.2.5.1}
 \contentsline {subsection}{\numberline {2.5.2}Shortcuts for function calls and functional expressions}{45}{subsection.2.5.2}
-\contentsline {subsection}{\numberline {2.5.3}Example function calls and definitions}{45}{subsection.2.5.3}
+\contentsline {subsection}{\numberline {2.5.3}Example function calls and definitions}{46}{subsection.2.5.3}
 \contentsline {subsection}{\numberline {2.5.4}Programmed functions}{47}{subsection.2.5.4}
 \contentsline {subsection}{\numberline {2.5.5}Recursive function definitions}{48}{subsection.2.5.5}
 \contentsline {section}{\numberline {2.6}Query evaluation strategies}{49}{section.2.6}

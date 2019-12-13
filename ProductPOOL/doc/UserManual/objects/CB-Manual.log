@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.12)  9 DEC 2019 15:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.12)  11 DEC 2019 16:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -395,80 +395,81 @@ yr,mo,d,h,min,sec,millisec))"\OT1/ptm/m/n/10 .
  []
 
 [21] [22] [23] [24] [25]
-Underfull \hbox (badness 2103) in paragraph at lines 916--916
+Underfull \hbox (badness 2103) in paragraph at lines 927--927
 [][][]\OT1/ptm/m/n/8 For the ex-am-ple of sub-sec-tion [][]2.1[][] among oth-er
 s the ground pred-i-cates \OT1/pcr/m/n/8 (mary in Manager)\OT1/ptm/m/n/8 , \OT1
 /pcr/m/n/8 (Manager isA
  []
 
-[26] [27]
-Overfull \hbox (16.08034pt too wide) in paragraph at lines 1125--1130
+[26] [27] [28]
+Overfull \hbox (16.08034pt too wide) in paragraph at lines 1136--1141
 \OT1/ptm/m/n/10 pred-i-cate \OT1/pcr/m/n/10 (x dept PR) \OT1/ptm/m/n/10 can be 
 uniquely at-tached to its so-called \OT1/ptm/m/it/10 con-cerned class \OT1/pcr/
 m/n/10 GuestEmployee!dept\OT1/ptm/m/n/10 . 
  []
 
-[28]
-Underfull \hbox (badness 8056) in paragraph at lines 1194--1194
+
+Underfull \hbox (badness 8056) in paragraph at lines 1205--1205
 [][][]\OT1/ptm/m/n/8 Use multi-sets as dis-cussed in [][]$\OT1/pcr/m/n/9 http :
  / / merkur . informatik . rwth-[]aachen . de / pub / bscw . cgi /
  []
 
 [29]
-Overfull \hbox (1.41376pt too wide) in paragraph at lines 1273--1273
+Overfull \hbox (1.41376pt too wide) in paragraph at lines 1284--1284
 []    \OT1/pcr/m/n/10 forall x,y,z/VAR  (x in Person) and (y in Person) and (z 
 in Person)[] 
  []
 
 [30] [31] [32] [33] [34] [35] [36] [37] [38] [39]
-Overfull \hbox (1.17062pt too wide) in paragraph at lines 2141--2152
+Overfull \hbox (1.17062pt too wide) in paragraph at lines 2152--2163
 \OT1/ptm/m/n/10 ram-e-ters of a query (or func-tion) have fillers in the query 
 call. In such cases, one can write \OT1/pcr/m/n/10 Q[x1,x2,...]
  []
 
 [40] [41]
-Overfull \hbox (3.14029pt too wide) in paragraph at lines 2253--2258
+Overfull \hbox (3.14029pt too wide) in paragraph at lines 2264--2269
 []\OT1/ptm/m/n/10 Attributes of the cat-e-gory []\OT1/pcr/m/n/10 inherited_attr
 ibute \OT1/ptm/m/n/10 are sim-i-lar to re-trieved at-tributes of query classes,
 
  []
 
 [42] (../Functions.tex [43] [44] [45] [46] [47] [48]) [49] [50]
-<entityvalue.png, id=1545, 450.9347pt x 185.94469pt>
+<entityvalue.png, id=1546, 450.9347pt x 185.94469pt>
 File: entityvalue.png Graphic file (type png)
  <use entityvalue.png>
-Package pdftex.def Info: entityvalue.png used on input line 2522.
+Package pdftex.def Info: entityvalue.png used on input line 2533.
 (pdftex.def)             Requested size: 227.62204pt x 93.863pt.
 
 [51 <../entityvalue.png>]
-<entitysuperclass.png, id=1557, 536.0025pt x 286.06876pt>
+<entitysuperclass.png, id=1558, 536.0025pt x 286.06876pt>
 File: entitysuperclass.png Graphic file (type png)
 
 <use entitysuperclass.png>
-Package pdftex.def Info: entitysuperclass.png used on input line 2599.
+Package pdftex.def Info: entitysuperclass.png used on input line 2610.
 (pdftex.def)             Requested size: 284.52756pt x 151.85143pt.
 
-<entityidentifier.png, id=1558, 453.19313pt x 185.94469pt>
+<entityidentifier.png, id=1559, 453.19313pt x 185.94469pt>
 File: entityidentifier.png Graphic file (type png)
 
 <use entityidentifier.png>
-Package pdftex.def Info: entityidentifier.png used on input line 2612.
+Package pdftex.def Info: entityidentifier.png used on input line 2623.
 (pdftex.def)             Requested size: 227.62204pt x 93.39201pt.
- [52 <../entitysuperclass.png> <../entityidentifier.png>]
-Overfull \hbox (6.61115pt too wide) in paragraph at lines 2655--2656
+ [52 <../entitysuperclass.png>]
+Overfull \hbox (6.61115pt too wide) in paragraph at lines 2666--2667
 []\OT1/ptm/m/n/10 Further dis-cus-sion and ex-am-ples of DeepTe-los are avail-a
 ble at [][]$\OT1/pcr/m/n/9 http : / / conceptbase . cc / deeptelos$[][]\OT1/ptm
 /m/n/10 . 
  []
 
-[53] <AcrossLevels.png, id=1582, 541.02126pt x 487.8225pt>
+[53 <../entityidentifier.png>]
+<AcrossLevels.png, id=1583, 541.02126pt x 487.8225pt>
 File: AcrossLevels.png Graphic file (type png)
-
-<use AcrossLevels.png>
-Package pdftex.def Info: AcrossLevels.png used on input line 2714.
+ <use AcrossLevels.png>
+Package pdftex.def Info: AcrossLevels.png used on input line 2725.
 (pdftex.def)             Requested size: 256.0748pt x 230.89929pt.
-) (../DatalogQuery.tex [54 <../AcrossLevels.png (PNG copy)>] [55]) (../AnswerFo
-rmat.tex [56] [57]
+)
+(../DatalogQuery.tex [54 <../AcrossLevels.png (PNG copy)>] [55] [56])
+(../AnswerFormat.tex [57]
 Chapter 3.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
 (Font)              Font shape `OT1/ptm/b/it' tried instead on input line 39.
@@ -539,7 +540,7 @@ Overfull \hbox (3.74991pt too wide) in paragraph at lines 201--221
  must be bound. The in-ser-tion of an at-tribute \OT1/pcr/m/n/10 A(x,ml,y)
  []
 
-[71] [72] <eca_queues.pdf, id=1696, 250.9375pt x 77.28876pt>
+[71] [72] <eca_queues.pdf, id=1697, 250.9375pt x 77.28876pt>
 File: eca_queues.pdf Graphic file (type pdf)
 
 <use eca_queues.pdf>
@@ -568,14 +569,14 @@ n/9 http : / / merkur . informatik . rwth-[]aachen . de / pub / bscw .
 Chapter 5.
 [81
 
-] <choose_modcontext.png, id=1758, 402.50375pt x 302.12875pt>
+] <choose_modcontext.png, id=1759, 402.50375pt x 302.12875pt>
 File: choose_modcontext.png Graphic file (type png)
 
 <use choose_modcontext.png>
 Package pdftex.def Info: choose_modcontext.png used on input line 131.
 (pdftex.def)             Requested size: 142.26378pt x 106.78392pt.
  [82] [83 <../choose_modcontext.png>]
-<mod_hierarchy.png, id=1774, 316.93407pt x 395.97937pt>
+<mod_hierarchy.png, id=1775, 316.93407pt x 395.97937pt>
 File: mod_hierarchy.png Graphic file (type png)
 
 <use mod_hierarchy.png>
@@ -676,7 +677,7 @@ Overfull \hbox (16.84142pt too wide) in paragraph at lines 1637--1642
 
 [116]) (../CBiva.tex [117]
 Chapter 8.
-<cbivamain.png, id=2028, 519.44063pt x 442.65375pt>
+<cbivamain.png, id=2029, 519.44063pt x 442.65375pt>
 File: cbivamain.png Graphic file (type png)
  <use cbivamain.png>
 Package pdftex.def Info: cbivamain.png used on input line 56.
@@ -690,20 +691,20 @@ Overfull \hbox (25.00003pt too wide) in paragraph at lines 82--88
  []
 
 [119 <../cbivamain.png>] [120] [121] [122]
-<historybuttons.pdf, id=2081, 388.45125pt x 119.44624pt>
+<historybuttons.pdf, id=2082, 388.45125pt x 119.44624pt>
 File: historybuttons.pdf Graphic file (type pdf)
 
 <use historybuttons.pdf>
 Package pdftex.def Info: historybuttons.pdf used on input line 307.
 (pdftex.def)             Requested size: 254.75433pt x 78.33717pt.
 
-<framebrowser.png, id=2083, 579.16376pt x 402.50375pt>
+<framebrowser.png, id=2084, 579.16376pt x 402.50375pt>
 File: framebrowser.png Graphic file (type png)
  <use framebrowser.png>
 Package pdftex.def Info: framebrowser.png used on input line 333.
 (pdftex.def)             Requested size: 312.9803pt x 217.5146pt.
 
-<displayqueries.png, id=2086, 616.3025pt x 527.9725pt>
+<displayqueries.png, id=2087, 616.3025pt x 527.9725pt>
 File: displayqueries.png Graphic file (type png)
 
 <use displayqueries.png>
@@ -711,53 +712,53 @@ Package pdftex.def Info: displayqueries.png used on input line 359.
 (pdftex.def)             Requested size: 312.9803pt x 268.12648pt.
  [123 <../historybuttons.pdf>] [124 <../framebrowser.png> <../displayqueries.pn
 g>]
-<queryeditor.pdf, id=2110, 338.26375pt x 368.37625pt>
+<queryeditor.pdf, id=2111, 338.26375pt x 368.37625pt>
 File: queryeditor.pdf Graphic file (type pdf)
  <use queryeditor.pdf>
 Package pdftex.def Info: queryeditor.pdf used on input line 393.
 (pdftex.def)             Requested size: 312.9803pt x 340.84947pt.
 
-[125 <../queryeditor.pdf>] <frametree.pdf, id=2124, 276.03125pt x 209.78375pt>
+[125 <../queryeditor.pdf>] <frametree.pdf, id=2125, 276.03125pt x 209.78375pt>
 File: frametree.pdf Graphic file (type pdf)
 
 <use frametree.pdf>
 Package pdftex.def Info: frametree.pdf used on input line 422.
 (pdftex.def)             Requested size: 256.0748pt x 194.6359pt.
  [126 <../frametree.pdf>]
-<overview.png, id=2138, 702.625pt x 602.25pt>
+<overview.png, id=2139, 702.625pt x 602.25pt>
 File: overview.png Graphic file (type png)
  <use overview.png>
 Package pdftex.def Info: overview.png used on input line 466.
 (pdftex.def)             Requested size: 382.12502pt x 327.5443pt.
  [127 <../overview.png>] [128] [129] [130] [131]
-<componentview.png, id=2184, 571.13374pt x 462.72874pt>
+<componentview.png, id=2185, 571.13374pt x 462.72874pt>
 File: componentview.png Graphic file (type png)
 
 <use componentview.png>
 Package pdftex.def Info: componentview.png used on input line 867.
 (pdftex.def)             Requested size: 256.0748pt x 207.47052pt.
  [132] [133 <../componentview.png>]
-<querytoserver.png, id=2202, 409.53pt x 192.72pt>
+<querytoserver.png, id=2203, 409.53pt x 192.72pt>
 File: querytoserver.png Graphic file (type png)
  <use querytoserver.png>
 Package pdftex.def Info: querytoserver.png used on input line 916.
 (pdftex.def)             Requested size: 170.71652pt x 80.339pt.
 
-<graphed_toolbar.png, id=2204, 456.20438pt x 108.405pt>
+<graphed_toolbar.png, id=2205, 456.20438pt x 108.405pt>
 File: graphed_toolbar.png Graphic file (type png)
 
 <use graphed_toolbar.png>
 Package pdftex.def Info: graphed_toolbar.png used on input line 926.
 (pdftex.def)             Requested size: 424.58624pt x 100.89499pt.
  [134 <../querytoserver.png> <../graphed_toolbar.png>] [135] <createobject.png,
- id=2221, 682.55pt x 379.4175pt>
+ id=2222, 682.55pt x 379.4175pt>
 File: createobject.png Graphic file (type png)
 
 <use createobject.png>
 Package pdftex.def Info: createobject.png used on input line 1035.
 (pdftex.def)             Requested size: 339.67029pt x 188.8167pt.
  [136 <../createobject.png>]
-<graphed_addremove.png, id=2232, 307.1475pt x 256.96pt>
+<graphed_addremove.png, id=2233, 307.1475pt x 256.96pt>
 File: graphed_addremove.png Graphic file (type png)
 
 <use graphed_addremove.png>
@@ -769,33 +770,33 @@ Overfull \hbox (13.41376pt too wide) in paragraph at lines 1214--1214
  HAS_PARAMS)[] 
  []
 
-[139] <startserver.png, id=2258, 863.225pt x 331.2375pt>
+[139] <startserver.png, id=2259, 863.225pt x 331.2375pt>
 File: startserver.png Graphic file (type png)
  <use startserver.png>
 Package pdftex.def Info: startserver.png used on input line 1295.
 (pdftex.def)             Requested size: 382.12502pt x 146.62944pt.
 
-<connectserver.png, id=2260, 233.87375pt x 147.55125pt>
+<connectserver.png, id=2261, 233.87375pt x 147.55125pt>
 File: connectserver.png Graphic file (type png)
 
 <use connectserver.png>
 Package pdftex.def Info: connectserver.png used on input line 1311.
 (pdftex.def)             Requested size: 85.35826pt x 53.85237pt.
  [140 <../startserver.png>]
-<session_display.png, id=2272, 383.4325pt x 300.12125pt>
+<session_display.png, id=2273, 383.4325pt x 300.12125pt>
 File: session_display.png Graphic file (type png)
 
 <use session_display.png>
 Package pdftex.def Info: session_display.png used on input line 1368.
 (pdftex.def)             Requested size: 199.16928pt x 155.8945pt.
- <graph_empl.png, id=2275, 666.49pt x 463.7325pt>
+ <graph_empl.png, id=2276, 666.49pt x 463.7325pt>
 File: graph_empl.png Graphic file (type png)
 
 <use graph_empl.png>
 Package pdftex.def Info: graph_empl.png used on input line 1390.
 (pdftex.def)             Requested size: 382.12502pt x 265.8799pt.
  [141 <../connectserver.png>]
-<graph_man.png, id=2287, 666.49pt x 461.725pt>
+<graph_man.png, id=2288, 666.49pt x 461.725pt>
 File: graph_man.png Graphic file (type png)
  <use graph_man.png>
 Package pdftex.def Info: graph_man.png used on input line 1397.
@@ -807,52 +808,52 @@ fer-ent graph-i-cal ob-jects. The in-stances of \OT1/pcr/m/n/10 Manager
  []
 
 [142 <../session_display.png> <../graph_empl.png>]
-<graph_super.png, id=2298, 665.48625pt x 473.77pt>
+<graph_super.png, id=2299, 665.48625pt x 473.77pt>
 File: graph_super.png Graphic file (type png)
  <use graph_super.png>
 Package pdftex.def Info: graph_super.png used on input line 1434.
 (pdftex.def)             Requested size: 382.12502pt x 272.04695pt.
 
-<graph_impl.png, id=2300, 665.48625pt x 459.7175pt>
+<graph_impl.png, id=2301, 665.48625pt x 459.7175pt>
 File: graph_impl.png Graphic file (type png)
  <use graph_impl.png>
 Package pdftex.def Info: graph_impl.png used on input line 1452.
 (pdftex.def)             Requested size: 382.12502pt x 263.97775pt.
 
-[143 <../graph_man.png>] <telos_ed.png, id=2311, 650.43pt x 612.2875pt>
+[143 <../graph_man.png>] <telos_ed.png, id=2312, 650.43pt x 612.2875pt>
 File: telos_ed.png Graphic file (type png)
 
 <use telos_ed.png>
 Package pdftex.def Info: telos_ed.png used on input line 1467.
 (pdftex.def)             Requested size: 339.67029pt x 319.75537pt.
  [144 <../graph_super.png> <../graph_impl.png>]
-<telos_ed_error.png, id=2321, 606.265pt x 554.07pt>
+<telos_ed_error.png, id=2322, 606.265pt x 554.07pt>
 File: telos_ed_error.png Graphic file (type png)
  <use telos_ed_error.png>
 Package pdftex.def Info: telos_ed_error.png used on input line 1476.
 (pdftex.def)             Requested size: 369.88582pt x 338.04138pt.
 
 [145 <../telos_ed.png>]
-<graph_add_attr.png, id=2333, 663.47874pt x 463.7325pt>
+<graph_add_attr.png, id=2334, 663.47874pt x 463.7325pt>
 File: graph_add_attr.png Graphic file (type png)
 
 <use graph_add_attr.png>
 Package pdftex.def Info: graph_add_attr.png used on input line 1526.
 (pdftex.def)             Requested size: 339.67029pt x 237.40616pt.
- <graph_add_inst.png, id=2334, 666.49pt x 462.72874pt>
+ <graph_add_inst.png, id=2335, 666.49pt x 462.72874pt>
 File: graph_add_inst.png Graphic file (type png)
 
 <use graph_add_inst.png>
 Package pdftex.def Info: graph_add_inst.png used on input line 1528.
 (pdftex.def)             Requested size: 339.67029pt x 235.82614pt.
- <graph_commit.png, id=2335, 664.4825pt x 461.725pt>
+ <graph_commit.png, id=2336, 664.4825pt x 461.725pt>
 File: graph_commit.png Graphic file (type png)
 
 <use graph_commit.png>
 Package pdftex.def Info: graph_commit.png used on input line 1534.
 (pdftex.def)             Requested size: 339.67029pt x 236.02617pt.
  [146 <../telos_ed_error.png>] [147 <../graph_add_attr.png> <../graph_add_inst.
-png>] <query_answer.png, id=2352, 674.52pt x 592.2125pt>
+png>] <query_answer.png, id=2353, 674.52pt x 592.2125pt>
 File: query_answer.png Graphic file (type png)
 
 <use query_answer.png>
@@ -930,7 +931,7 @@ Underfull \hbox (badness 3536) in paragraph at lines 797--797
 []\OT1/ptm/m/n/10 Pentagon, Hexagon, Sep-
  []
 
-[170] <shapes.png, id=2490, 513.92pt x 293.095pt>
+[170] <shapes.png, id=2491, 513.92pt x 293.095pt>
 File: shapes.png Graphic file (type png)
  <use shapes.png>
 Package pdftex.def Info: shapes.png used on input line 845.
@@ -963,7 +964,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 180--181
  []
 
 [181] [182] [183] [184] [185]
-<er_incons.png, id=2572, 669.50125pt x 630.355pt>
+<er_incons.png, id=2573, 669.50125pt x 630.355pt>
 File: er_incons.png Graphic file (type png)
  <use er_incons.png>
 Package pdftex.def Info: er_incons.png used on input line 497.
@@ -1006,8 +1007,8 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 116.
  ) 
 Here is how much of TeX's memory you used:
- 6669 strings out of 494953
- 96970 string characters out of 6180976
+ 6670 strings out of 494953
+ 96977 string characters out of 6180976
  181420 words of memory out of 5000000
  9215 multiletter control sequences out of 15000+600000
  38209 words of font info for 79 fonts, out of 8000000 for 9000
@@ -1029,10 +1030,10 @@ st/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/ut
 mbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on CB-Manual.pdf (199 pages, 1939804 bytes).
+Output written on CB-Manual.pdf (199 pages, 1941442 bytes).
 PDF statistics:
- 2901 PDF objects out of 2984 (max. 8388607)
- 2526 compressed objects within 26 object streams
- 579 named destinations out of 1000 (max. 500000)
+ 2902 PDF objects out of 2984 (max. 8388607)
+ 2527 compressed objects within 26 object streams
+ 580 named destinations out of 1000 (max. 500000)
  1762 words of extra memory for PDF output out of 10000 (max. 10000000)
 
