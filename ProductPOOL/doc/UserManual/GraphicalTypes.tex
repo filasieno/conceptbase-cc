@@ -1237,7 +1237,90 @@ is specified in the graphical palette as follows:
 Their link name is fixed in the database is fixed. Derived attributes in contrast can have any link name.
 
 
+\section{Palette-specific methods to expand related objects}
+\label{palette-expand}
 
+Nodes and links in the graph editor CBGraph can be expanded to show their instances/classes, subclasses/superclasses, and attributes/relations.
+For the latter, the default behavior of CBGraph is to determine which attribute/relation categories are actually used by
+the selected object and then create the suitable popup-menu for the object by only shows those categories that are actually
+used. The queries to compute these categories are:
+
+{\small
+\begin{verbatim}
+   find_used_attribute_categories 
+      in GenericQueryClass isA Proposition!attribute with 
+      parameter,required
+       objname : Proposition
+     constraint
+       r : $  exists x/Proposition AD(this,~objname,x)  $
+   end 
+
+   find_used_incoming_attribute_categories
+      in GenericQueryClass isA Proposition!attribute with 
+      parameter,required
+       objname : Proposition
+     constraint
+       r : $  exists x/Proposition AD(this,x,~objname)  $ 
+   end 
+\end{verbatim}
+}
+
+This is convenient but can also be a very costly operation in case that
+the object is occuring in many derived facts (derived relations, derived attributes).
+
+A way out of this dilemma are dedicated queries that computes the eligible
+categories of the derived outgoing and incoming attributes/relations. Consider the
+example below:
+
+{\small
+\begin{verbatim}
+   MyPalette in Class,JavaGraphicalPalette isA XPalette with 
+      contains
+       gt1: THING_GT;
+       ...
+     palproperty
+       outcatquery : "alt_used_attribute_categories";
+       incatquery  : "alt_used_incoming_attribute_categories"
+   end
+\end{verbatim}
+}
+
+The two new palette properties {\tt outcatquery} and {\tt incatquery} specify the
+replacement queries for the default queries.
+Note that you need to define these queries as well, e.g.:
+
+{\small
+\begin{verbatim}
+   alt_used_attribute_categories
+     in GenericQueryClass isA Proposition!attribute with 
+     parameter,required
+        objname : Proposition
+     constraint
+        r : $ exists gt/JavaGraphicalType 
+               (~objname graphtype gt) and (gt forOutgoing ~this)  $
+   end 
+\end{verbatim}
+}
+
+In this case, the applicable attribute categories are attached to the graphical types of objects:
+
+
+
+{\small
+\begin{verbatim}
+   THING_GT in Class,JavaGraphicalType with 
+     property
+      ...
+     rule
+       gtrule : $ forall x/Thing (x graphtype THING_GT) $
+     forOutgoing
+       out1 : Thing!aproperty
+   end 
+\end{verbatim}
+}
+
+
+The new feature allows to hide certain attribute/relation properties from the pop-up menu. 
 
 
 

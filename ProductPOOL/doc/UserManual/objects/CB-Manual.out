@@ -172,25 +172,26 @@
 \BOOKMARK [2][-]{subsection.C.3.6}{Icons}{section.C.3}% 172
 \BOOKMARK [1][-]{section.C.4}{Object-specific graphical properties}{appendix.C}% 173
 \BOOKMARK [1][-]{section.C.5}{Graphical types for derived links}{appendix.C}% 174
-\BOOKMARK [0][-]{appendix.D}{Examples}{}% 175
-\BOOKMARK [1][-]{section.D.1}{Example model: the employee model}{appendix.D}% 176
-\BOOKMARK [1][-]{section.D.2}{A Telos modeling example - ER diagrams}{appendix.D}% 177
-\BOOKMARK [2][-]{subsection.D.2.1}{The basic model}{section.D.2}% 178
-\BOOKMARK [2][-]{subsection.D.2.2}{The use of meta formulas}{section.D.2}% 179
-\BOOKMARK [2][-]{subsection.D.2.3}{Limitations and final remarks}{section.D.2}% 180
-\BOOKMARK [0][-]{appendix.E}{Predefined Query Classes}{}% 181
-\BOOKMARK [1][-]{section.E.1}{Query classes and generic query classes}{appendix.E}% 182
-\BOOKMARK [2][-]{subsection.E.1.1}{Instances and classes}{section.E.1}% 183
-\BOOKMARK [2][-]{subsection.E.1.2}{Specializations and generalizations}{section.E.1}% 184
-\BOOKMARK [2][-]{subsection.E.1.3}{Attributes}{section.E.1}% 185
-\BOOKMARK [2][-]{subsection.E.1.4}{Links between objects}{section.E.1}% 186
-\BOOKMARK [2][-]{subsection.E.1.5}{Other queries}{section.E.1}% 187
-\BOOKMARK [1][-]{section.E.2}{Functions}{appendix.E}% 188
-\BOOKMARK [2][-]{subsection.E.2.1}{Computation and counting}{section.E.2}% 189
-\BOOKMARK [2][-]{subsection.E.2.2}{String manipulation}{section.E.2}% 190
-\BOOKMARK [1][-]{section.E.3}{Builtin query classes}{appendix.E}% 191
-\BOOKMARK [0][-]{appendix.F}{CBserver Plug-Ins}{}% 192
-\BOOKMARK [1][-]{section.F.1}{Defining the plug-in}{appendix.F}% 193
-\BOOKMARK [1][-]{section.F.2}{Calling the plug-in}{appendix.F}% 194
-\BOOKMARK [1][-]{section.F.3}{Programming interface for the plug-ins}{appendix.F}% 195
-\BOOKMARK [0][-]{appendix*.15}{References}{}% 196
+\BOOKMARK [1][-]{section.C.6}{Palette-specific methods to expand related objects}{appendix.C}% 175
+\BOOKMARK [0][-]{appendix.D}{Examples}{}% 176
+\BOOKMARK [1][-]{section.D.1}{Example model: the employee model}{appendix.D}% 177
+\BOOKMARK [1][-]{section.D.2}{A Telos modeling example - ER diagrams}{appendix.D}% 178
+\BOOKMARK [2][-]{subsection.D.2.1}{The basic model}{section.D.2}% 179
+\BOOKMARK [2][-]{subsection.D.2.2}{The use of meta formulas}{section.D.2}% 180
+\BOOKMARK [2][-]{subsection.D.2.3}{Limitations and final remarks}{section.D.2}% 181
+\BOOKMARK [0][-]{appendix.E}{Predefined Query Classes}{}% 182
+\BOOKMARK [1][-]{section.E.1}{Query classes and generic query classes}{appendix.E}% 183
+\BOOKMARK [2][-]{subsection.E.1.1}{Instances and classes}{section.E.1}% 184
+\BOOKMARK [2][-]{subsection.E.1.2}{Specializations and generalizations}{section.E.1}% 185
+\BOOKMARK [2][-]{subsection.E.1.3}{Attributes}{section.E.1}% 186
+\BOOKMARK [2][-]{subsection.E.1.4}{Links between objects}{section.E.1}% 187
+\BOOKMARK [2][-]{subsection.E.1.5}{Other queries}{section.E.1}% 188
+\BOOKMARK [1][-]{section.E.2}{Functions}{appendix.E}% 189
+\BOOKMARK [2][-]{subsection.E.2.1}{Computation and counting}{section.E.2}% 190
+\BOOKMARK [2][-]{subsection.E.2.2}{String manipulation}{section.E.2}% 191
+\BOOKMARK [1][-]{section.E.3}{Builtin query classes}{appendix.E}% 192
+\BOOKMARK [0][-]{appendix.F}{CBserver Plug-Ins}{}% 193
+\BOOKMARK [1][-]{section.F.1}{Defining the plug-in}{appendix.F}% 194
+\BOOKMARK [1][-]{section.F.2}{Calling the plug-in}{appendix.F}% 195
+\BOOKMARK [1][-]{section.F.3}{Programming interface for the plug-ins}{appendix.F}% 196
+\BOOKMARK [0][-]{appendix*.15}{References}{}% 197

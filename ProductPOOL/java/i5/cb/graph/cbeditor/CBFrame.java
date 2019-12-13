@@ -1118,6 +1118,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
                      Values=Values.getNextSibling();
                    } // while
 
+                   // System.out.println(sPropertyName +  " = " + sPropertyValue);
                    // a new pair sPropertyName/sPropertyValue  is found, so store it in instance variables
                    if (sPropertyName.equals("bgcolor")) 
                       m_bgcolor = sPropertyValue;
