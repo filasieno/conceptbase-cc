@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2019-12-09
+                      2020-01-07
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -102,6 +102,11 @@ the GitLab repository of ConceptBase.cc
    the default queries would deliver too many choices or when their computation
    is too costly, e.g. die to many derived attributes.
    (Issue 5)
+
+81-11 Allow object labels like 2020_01_07
+
+   The tokenizer of ConceptBase now also supports object labels like 2020_01_07.
+   (Issue 13)
 
 
 
