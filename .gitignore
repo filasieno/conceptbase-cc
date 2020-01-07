@@ -27,5 +27,6 @@ conceptbase/
 /ProductPOOL/linux64/serverSources/EXPORT/CBserver
 /ProductPOOL/linux64/serverSources/objects.SWI/CBserver
 
+*.html
 
 
