@@ -528,8 +528,10 @@ public class ObjectBaseInterface implements ITelosObjectSet {
      * @return the attribute object with the given source and label
      **/
     public Attribute getAttribute( TelosObject source, String sLabel ) {
+
+        //2019-12-10: FALSE/dedWith instead TRUE/dedWith is sufficient for use of getAttribute in CBGraph
         ITelosObjectSet tos=askFrame("get_object[" + Transform.toObjectName(source).toString() +
-                                     "/objname,FALSE/dedIn,FALSE/dedIsa,TRUE/dedWith]");
+                                     "/objname,FALSE/dedIn,FALSE/dedIsa,FALSE/dedWith]");
 
         //System.out.println("**** TOS in getAttribute ***");
         //java.util.Enumeration en=tos.elements();

@@ -2330,7 +2330,7 @@ do_setCallState(_cacheSlotId,_newstate) :-
   !.
 do_setCallState(_cacheSlotId,_newstate) :-
   _cacheSlotId = (_argkey,_predname),
-  pc_record(_argkey,_predname,[sync]),    {* initialize cache with sync point for iterate_prove_explicit *}
+  pc_record(_argkey,_predname,['sync']),    {* initialize cache with sync point for iterate_prove_explicit *}
   pc_record(_predname,_argkey,_newstate),             {* initialize call state *}
 {*  writeCallPath('1 Call Path: '), *}
   !.
@@ -2344,7 +2344,7 @@ updateCallState(_cacheSlotId,_oldstate,_newstate) :-
 
 initCallState(_cacheSlotId) :-
   _cacheSlotId = (_argkey,_predname),
-  pc_record(_argkey,_predname,[sync]),    {* initialize cache with sync point for iterate_prove_explicit *}
+  pc_record(_argkey,_predname,['sync']),    {* initialize cache with sync point for iterate_prove_explicit *}
   pc_record(_predname,_argkey,'pending'),             {* initialize call state *}
 {*  writeCallPath('1 Call Path: '), *}
   !.
@@ -2389,16 +2389,16 @@ getmember('delta',_lit,_lits) :-
 getmember(_,_lit,_lits) :-
   any_member(_lit,_lits).  {* else all facts! *}
 
-deltamember(_lit,[sync|_rest]) :- !, deltamember2(_lit,_rest).
+deltamember(_lit,['sync'|_rest]) :- !, deltamember2(_lit,_rest).
 deltamember(_lit,[_lit|_]).
 deltamember(_lit,[_|_rest]) :- deltamember(_lit,_rest).
 
-deltamember2(_lit,[sync|_rest]) :- !,fail.
+deltamember2(_lit,['sync'|_rest]) :- !,fail.
 deltamember2(_lit,[_lit|_]).
 deltamember2(_lit,[_|_rest]) :- deltamember2(_lit,_rest).
 
 {* ticket #409: 'sync is only a separator, not a cached fact *}
-any_member(_x,[_x|_]) :- _x \== sync.
+any_member(_x,[_x|_]) :- _x \== 'sync'.
 any_member(_x,[_|_r]) :- any_member(_x,_r).
 
 
@@ -2485,7 +2485,7 @@ isNegatedNonComplete(_cacheSlotId) :-
   isNegatedCall(_cacheSlotId),              {* call is negated   *}
   getCacheContent(_cacheSlotId,_state,_facts), 
   _state \== 'completed',                   {* cache not completed *}
-  (_facts = []; _facts = [sync]),            {* and cache is empty *}
+  (_facts = []; _facts = ['sync']),            {* and cache is empty *}
   !.
 
 
@@ -2760,20 +2760,20 @@ setPendingDirty(_cacheSlotId,[_|_rest]) :-
 {* cache denoted by (_argkey,_predname).                          *}
 
 addSyncPoint((_argkey,_predname)) :-
-  pc_recorded(_argkey,_predname,[sync|_lits]),  {* there is already a sync as first cache entry *}
+  pc_recorded(_argkey,_predname,['sync'|_lits]),  {* there is already a sync as first cache entry *}
   !.
 
 {* if we have a sync as 2nd entry, we just move it to the head instead of adding a new *}
 {* sync point. This keeps the caches small and makes lookup faster                     *}
 addSyncPoint((_argkey,_predname)) :-
-  pc_recorded(_argkey,_predname,[_lit,sync|_restlits]),
-  _lit \== sync,
-  pc_rerecord(_argkey,_predname,[sync,_lit|_restlits]),  {* move sync point to head *}
+  pc_recorded(_argkey,_predname,[_lit,'sync'|_restlits]),
+  _lit \== 'sync',
+  pc_rerecord(_argkey,_predname,['sync',_lit|_restlits]),  {* move sync point to head *}
   !.
 
 addSyncPoint((_argkey,_predname)) :-
   pc_recorded(_argkey,_predname,_lits),
-  pc_rerecord(_argkey,_predname,[sync|_lits]),  {* add a new sync point *}
+  pc_rerecord(_argkey,_predname,['sync'|_lits]),  {* add a new sync point *}
   incrementCacheSize,                                 {* a sync also counts as cache entry *}
   !.
 
@@ -3419,7 +3419,10 @@ eraseCallStates(_).
 printCacheStatistics(_why) :-
   get_cb_feature(TraceMode,_tracemode),
   conforms(veryhigh,_tracemode),   {* print statistics if tracemode=xxx or higher *}
-  !,
+  do_printCacheStatistics(_why).
+printCacheStatistics(_why).
+
+do_printCacheStatistics(_why) :-
   pc_record('NPREDS',0),
   pc_record('SIZE',0),
   pc_record('EMPTY',0),
@@ -3443,7 +3446,7 @@ printCacheStatistics(_why) :-
 
 
 
-printCacheStatistics(_why).
+
 
 
 printThem(0,_,_,_,_,_,_,_,_why) :-
@@ -3518,7 +3521,7 @@ incrementSIZE(_lits) :-
 
 lengthWithoutSync([],0) :- !.
 
-lengthWithoutSync([sync|_rest],_len) :-
+lengthWithoutSync(['sync'|_rest],_len) :-
   !,
   lengthWithoutSync(_rest,_len).
 
@@ -3529,7 +3532,7 @@ lengthWithoutSync([_x|_rest],_len) :-
 
 
 incrementEMPTY(_l) :-
-  (_l = []; _l = [sync]),
+  (_l = []; _l = ['sync']),
   !,
   pc_recorded('EMPTY',_empty),
   _empty1 is _empty + 1,

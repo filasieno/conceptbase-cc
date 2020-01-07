@@ -664,12 +664,17 @@ The object {\tt x} is an explicit instance of class {\tt c}, or of one of the
 individual objects is {\tt Individual}, attribution objects  have the system class {\tt Attribute},
 instantiation objects the system class {\tt InstanceOf}, and specialization objects have the system
 class {\tt IsA}.
-\item {\tt A\_e(x,m,y)}or {\tt :(x m y):}\\
+\item {\tt A\_e(x,m,y)} or {\tt :(x m y):}\\
 The objects {\tt x} and {\tt y} are linked by an explict attribute with attribute category {\tt m}.
 The attribute category is either explicitly assigned to the attribute or derived by a rule (see 
 subsection \ref{sec:aepred}).
-\item {\tt Isa\_e(c,d)}or {\tt :(c isA d):}\\
+\item {\tt Isa\_e(c,d)} or {\tt :(c isA d):}\\
 The class {\tt c} is a direct subclass of class {\tt d}.
+\item {\tt AD(p,x,y)}\\
+The objects {\tt x} and {\tt y} are linked by an explicit or derived relation/attribute
+of category {\tt m}, where {\tt P(p,c,m,d)} defines the attribute category. This predicate
+is mostly used for internal purposes of ConceptBase. The predicate is computationally expensive
+when the first argument is a variable. 
 \end{enumerate}
 
 The above predicates can be used, for example,
@@ -677,7 +682,13 @@ to define defaults values (see
 \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2396075})
 Since deduction should be transparent to the user,
 one should avoid using the above predicates if the proper predicates {\tt In(x,c)} and
-{\tt A(x,n,y)} can do the job.
+{\tt A(x,m,y)} can do the job.
+
+The predicate {\tt A(x,m,y)} is translated by the ConceptBase to the {\tt AD(p,x,y)} predicate, where 
+the first argument is a constant. For example, $$
+\forall ~e/Employee~ \exists ~s/Integer ~A(e,salary,s) $$
+would be translated to $$
+\forall ~e/Employee~ \exists ~s/Integer ~AD(Employee!salary,e,s) $$
 
 
 \subsection{Notes on attribution}
