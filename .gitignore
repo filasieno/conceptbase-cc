@@ -7,10 +7,8 @@ conceptbase/
 *.1
 *.2
 *.3
-
 *.class
 /ProductPOOL/java/docs/**/*.html
-
 /linux/**/Prolog_Files/*.swi.pl
 /linux64/**/Prolog_Files/*.swi.pl
 /linuxarm/**/Prolog_Files/*.swi.pl
@@ -26,6 +24,6 @@ conceptbase/
 /ProductPOOL/java/classes/cb.jar
 /ProductPOOL/linux64/serverSources/EXPORT/CBserver
 /ProductPOOL/linux64/serverSources/objects.SWI/CBserver
-
-
+*.html
+*.pl
 
