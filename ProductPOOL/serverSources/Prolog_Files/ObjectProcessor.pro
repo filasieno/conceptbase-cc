@@ -189,6 +189,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(pc_atomprefix/2,PrologCompatibility)
 #IMPORT(setCacheInvalid/0,Literals)
 #IMPORT(speedy/1,GeneralUtilities)
+#IMPORT(getFlag/2,GeneralUtilities)
 
 
 #DYNAMIC(i_import/1)
@@ -742,6 +743,7 @@ changeSMLs([_h|_t],[_ch|_ct])	:-
 {****************************************************************}
 
 insert_import_relationships	:-
+	systemModuleDefined, {* only do this when the System module is fully defined *}
 	callExactlyOnce((
 			M_SearchSpace(_m),
 			Module(_mid),
@@ -801,6 +803,7 @@ importRel(_id1,_id2,_m,_n) :-
 
 
 insert_export_relationships	:-
+	systemModuleDefined, {* only do this when the System module is fully defined *}
 	M_SearchSpace(_n),
 	_id1 = id_1528, {* id_1528=Module!exports *}
 
@@ -1074,6 +1077,16 @@ incrementModuleUpdateCount(_mid) :-
 incrementModuleUpdateCount(_mid) :-
   pc_record(_mid,MODULE_UPDATES,1),
   !.
+
+
+systemModuleDefined :-
+  getFlag(missingObjects,'yes'),  {* set in Literals.pro *}
+  !,
+  fail.
+systemModuleDefined.
+
+
+
 
 
 

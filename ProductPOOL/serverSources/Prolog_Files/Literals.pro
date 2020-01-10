@@ -324,6 +324,7 @@ checkCorrectID(_name,_label,_id) :-
 checkCorrectID(_name,_label,_id) :-
   write('Literals.pro: '),write(_name),write('!'),write(_label),
   write(' does not (yet) exist! Some predicates may not work as expected.'),nl,
+  setFlag(missingObjects,'yes'),   {* an updating transaction may not see the cache at all *}
   !.
 
 
@@ -472,7 +473,6 @@ prove_literal(Adot_label(_cc,_x,_y,_catom)) :-
 { ticket #330, support for :(x m/l y): }
 prove_literal(Aedot_label(_cc,_x,_y,_l)) :-  
         get_Adot_label(_cc,_x,_y,_l).
-
 
 {* ticket #207: improve support for A_e *}
 prove_literal(Aedot(_cc,_x,_y)) :-  

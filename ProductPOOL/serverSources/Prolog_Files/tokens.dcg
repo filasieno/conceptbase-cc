@@ -117,7 +117,7 @@ buildTokens2([]) ==>
 
 
 token(ident(_i)) ==>	/* scanning identifiers and transformation to a atom */
-	identifier(_w), where ['WriteTrace'(low,tokens,[transformIdentifier(_w,_i)]),transformIdentifier(_w,_i),!].
+	identifier(_w), where [transformIdentifier(_w,_i),!].
 
 
 token(ident(_i)) ==>
