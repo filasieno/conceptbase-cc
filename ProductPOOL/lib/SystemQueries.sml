@@ -279,7 +279,8 @@ GenericQueryClass find_referring_objects2 in HiddenObject isA Proposition with
      objname : Proposition;
      cat : Attribute
   constraint
-     r : $ exists a/Attribute l/Label P(a,this,l,~objname) and In(a,~cat) $
+{*     r : $ exists a/Attribute l/Label P(a,this,l,~objname) and In(a,~cat) $ *}
+     r : $ AeD(~cat,this,~objname) $
 end
 
 GenericQueryClass find_all_referring_objects2 in HiddenObject isA Proposition with
@@ -287,7 +288,8 @@ GenericQueryClass find_all_referring_objects2 in HiddenObject isA Proposition wi
      objname : Proposition;
      cat : Attribute
   attribute,constraint
-     r : $ exists l/Label Label(~cat,l) and A(this,l,~objname) $
+{*     r : $ exists l/Label Label(~cat,l) and A(this,l,~objname) $ *}
+     r : $ AD(~cat,this,~objname) $
 end
 
 {* 27-Aug-2007: M.Jeusfeld; attributes that have formulas as values can never be *}
