@@ -26,4 +26,5 @@ conceptbase/
 /ProductPOOL/linux64/serverSources/objects.SWI/CBserver
 *.html
 *.pl
+*.search-index.zip
 
