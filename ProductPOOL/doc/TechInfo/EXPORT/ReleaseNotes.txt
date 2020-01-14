@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2020-01-07
+                      2020-01-14
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -101,6 +101,8 @@ the GitLab repository of ConceptBase.cc
    find_used_incoming_attribute_categories. This feature is useful when
    the default queries would deliver too many choices or when their computation
    is too costly, e.g. die to many derived attributes.
+   Further, the queries to compute explicit and derived incoming
+   links are replaced by more efficient versions.
    (Issue 5)
 
 81-11 Allow object labels like 2020_01_07
