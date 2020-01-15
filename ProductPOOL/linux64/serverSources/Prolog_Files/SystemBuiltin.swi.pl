@@ -102,6 +102,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
+
 :- use_module('cbserver.swi.pl').
 
 
@@ -249,6 +250,21 @@ do_processBuiltin(listModule,_result,[substitute(_modname,module)]) :-
 
 /** in case of missing access rights or other errors **/
 do_processBuiltin(listModule,'{* no *}',_) :-
+   !.
+
+do_processBuiltin(listModuleReloadable,_result,[]) :-
+   getModule(_mod),
+   listModuleContentReloadable(_result,_mod),
+   !.
+
+do_processBuiltin(listModuleReloadable,_result,[substitute(_modname,module)]) :-
+   getModule(_oldmod),
+   listModuleContentReloadable(_result,_modname),
+   setModule(_oldmod),
+   !.
+
+/** in case of missing access rights or other errors **/
+do_processBuiltin(listModuleReloadable,'{* no *}',_) :-
    !.
 
 

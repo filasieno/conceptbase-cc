@@ -95,6 +95,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 ,'load_sml'/1
 ,'loadedLPI'/1
 ,'listModuleContent'/2
+,'listModuleContentReloadable'/2
 ,'purgeModuleContent'/2
 ,'saveModuleTree'/2
 ,'loadModuleTree'/1
@@ -618,6 +619,23 @@ listModuleContent('{* no *}',_) :-
   write('!!! ConfigurationUtilities: Error with listModuleContent'),nl,
   !.
 
+listModuleContentReloadable(_frames,_modname) :-
+  emptyCache,  /** ticket #351 **/
+  checkAndSwitch(_modname,_mod),
+  createBuffer(_buf,large),  /** see also ticket #263 **/
+  pc_time(setNotToSave,_T1),
+  'WriteListOnTrace'(high,['   ... ',_T1, ' sec used for DoNotSave query']),
+  getModulePath(_modpath),
+  initHeader_reloadable(_buf,_mod,_modpath),
+  extractModulePropositions(_mod,_allprops),
+  getFrames(_buf,_allprops,_frames),
+  disposeBuffer(_buf),
+  !.
+
+listModuleContentReloadable('{* no *}',_) :-
+  write('!!! ConfigurationUtilities: Error with listModuleContentReloadable'),nl,
+  !.
+
 
 listModuleContent_internal(_frames,_mod,_modpath) :-
   emptyCache,  /** ticket #351 **/
@@ -631,6 +649,9 @@ listModuleContent_internal(_frames,_mod,_modpath) :-
   disposeBuffer(_buf),
   !.
 
+listModuleContent_internal('{* no *}',_,_) :-
+  write('!!! ConfigurationUtilities: Error with listModuleContent_internal'),nl,
+  !.
 
 
 /** ticket #384: we split allprops into sublists, one per transaction **/
@@ -832,6 +853,48 @@ initHeader(_buf,_mod) :-
   appendBuffer(_buf,_end),
   appendBuffer(_buf,'\n\n'),
   !.
+
+initHeader_reloadable(_buf,_mod,_mpath) :-
+  pc_recorded(user,'AuxAnswerParameter',_u),
+  pc_recorded(transactiontime,'AuxAnswerParameter',_tt),
+  cb_version(_cbversion),
+  cb_date_of_release(_reldate),
+  pc_atom_to_term(_cp,_mpath),
+  keyCommentChars(_start,_end), 
+  appendBuffer(_buf,_start),
+  appendBuffer(_buf,'\n'),
+  appendBuffer(_buf,'* Module: '),
+  appendBuffer(_buf,_cp),/** appendBuffer(_buf,'.sml'), **/
+  appendBuffer(_buf,'\n'),
+  appendBuffer(_buf,'* ---------------------------------------------------------\n'),
+
+  appendBuffer(_buf,'* This file has been extracted from a ConceptBase database.\n'),
+  appendBuffer(_buf,'* Copyright is with the respective authors.\n\n'),
+
+  appendBuffer(_buf,'* Time extracted: '),
+  appendBuffer(_buf,_tt),
+  appendBuffer(_buf,' (UTC) \n'),
+
+
+  appendBuffer(_buf,'* CBserver version: '),
+  appendBuffer(_buf,_cbversion),
+  appendBuffer(_buf,' ('),
+  appendBuffer(_buf,_reldate),
+  appendBuffer(_buf,') \n'),
+
+  appendBuffer(_buf,'*\n'),
+  appendModuleComments(_buf,_mod),
+
+  appendBuffer(_buf,_end),
+  appendBuffer(_buf,'\n\n'),
+
+  appendBuffer(_buf,_start),
+  appendBuffer(_buf,'$set module='),
+  appendBuffer(_buf,_cp),
+  appendBuffer(_buf,_end),
+  appendBuffer(_buf,'\n\n'),
+  !.
+
 
 initHeader_internal(_buf,_mod,_cp) :-
   pc_recorded(user,'AuxAnswerParameter',_u),
