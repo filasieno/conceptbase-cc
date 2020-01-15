@@ -268,5 +268,10 @@ purgeModule in HiddenObject,BuiltinQueryClass with
 end
 
 
+{* builtin reloadable module listing; M. Jeusfeld/2020-01-15 *}
+listModuleReloadable in BuiltinQueryClass with
+  parameter
+     module: Module
+end
 
 
