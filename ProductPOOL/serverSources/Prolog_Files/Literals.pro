@@ -1303,6 +1303,16 @@ prove_In_eh(_x,_c) :-
    IsA_axiom_1(In_i(_x,_c)).                         {In_i}
 
 
+{* used to cover the fact that the instantiatian of an explicit attribute to its attribute category is derived by a a rule *}
+{* useful to find these categories via AD(_cc,_x,_y) called with variable _cc *}
+ded_In_cc(_id,_cc) :-
+   var(_cc),
+   !,
+   IS_DEDUCABLE(In(_id,_cc)),  {* if there is more than one rule head, we shall backtrack *}
+   prove_by_cache(In(_id,_cc)).
+
+
+
 {get_A(_x,_ml,_y) :-				}
 {	retrieve_proposition(P(_id1,_x,_l,_y)),	}
 {        attribute(P(_id1,_x,_l,_y)),		}
@@ -1324,11 +1334,11 @@ get_A(_x,_ml,_y) :-
 { dotted A predicates: make distinction upon instantiation of x}
 
 get_Adot(_cc,_x,_y,_id1) :-
-  (atom(_x);atom(_y)),
+  (atom(_x); atom(_y)),
   !,
   retrieve_proposition(P( _id1, _x, _l, _y)),
   attribute(P( _id1, _x, _l, _y)),
-  prove_In_e(_id1,_cc).
+  (prove_In_e(_id1,_cc); ded_In_cc(_id1,_cc)).   {* ded_In_cc case only needed for calls where _cc is a variable *}
 
 get_Adot(_cc,_x,_y,_id1) :-
   prove_In_e(_id1,_cc),

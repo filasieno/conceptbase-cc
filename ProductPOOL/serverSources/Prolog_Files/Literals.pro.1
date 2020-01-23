@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2013 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -28,12 +28,12 @@ of the ConceptBase Team.
 
 The ConceptBase Team is represented by
 
+Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
-Manfred Jeusfeld, University of Skoevde, 54128 Skoevde, Sweden
 Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
-This license is a FreeBSD copyright license.
+This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
 {
@@ -116,6 +116,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(prove_explicit/1)
 #EXPORT(prove_literal/1)
 #EXPORT(prove_literals/1)
+#EXPORT(prove_upd_literals/1)
 #EXPORT(prove_edb_literals/1)
 #EXPORT(prove_edb_literal/1)
 #EXPORT(prove_upd_literal/1)
@@ -136,6 +137,9 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(evalFunctionArg/2)
 #EXPORT(checkCorrectIDs/0)
 #EXPORT(printCacheStatistics/1)
+#EXPORT(emptyCache/0)
+#EXPORT(getCC/3)
+#EXPORT(setCacheInvalid/0)
 #ENDMODDECL()
 
 
@@ -227,7 +231,15 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
     {* Temporaerer ModulSearchSpace *}
 
 #DYNAMIC(IS_DEDUCABLE/1)
+#DYNAMIC(DEDUCED_ACs/1)
     {* Local precomputed facts *}
+
+
+
+
+#IF(SWI)
+:- style_check(-singleton).
+#ENDIF(SWI)
 
 
 
@@ -250,8 +262,8 @@ bound(_x).
 
 checkCorrectIDs :-
   checkCorrectID(Proposition,attribute,id_6),
-  checkCorrectID(Module,contains,id_1527),
-  checkCorrectID(ECArule,active,id_1409),
+  checkCorrectID(Module,contains,id_1529),
+  checkCorrectID(ECArule,active,id_1411),
   checkCorrectID(GraphicalPalette,contains,id_879),
   checkCorrectID(JavaGraphicalType,priority,id_886),
   checkCorrectID(Proposition,graphtype,id_876),
@@ -267,15 +279,18 @@ checkCorrectIDs :-
   checkCorrectID(Function,id_106),
   checkCorrectID(Integer,id_18),
   checkCorrectID(DatalogRule,id_91),
-  checkCorrectID(ECArule,id_1401),
+  checkCorrectID(ECArule,id_1403),
   checkCorrectID(GenericQueryClass,id_72),
   checkCorrectID(View,id_80),
   checkCorrectID(BuiltinQueryClass,id_77),
   checkCorrectID(String,id_24),
   checkCorrectID(Real,id_21),
-  checkCorrectID(DefaultJavaPalette,id_1015),
+  checkCorrectID(DefaultJavaPalette,id_1019),
   checkCorrectID(find_instances,id_448),
   checkCorrectID(JavaGraphicalPalette,id_891),
+  checkCorrectID(MSFOLrule,id_46),
+  checkCorrectID(Module,imports,id_1527),
+  checkCorrectID(Module,exports,id_1528),
   !.
 
 checkCorrectIDs :-
@@ -288,8 +303,8 @@ checkCorrectID(_l,_id) :-
 
 checkCorrectID(_l,_id) :-
   name2id(_l,_id1),
-  put(7),write('!!! ALARM !!! WRONG OBJECT ID in Literals.pro: '),write([_l,current(_id1),expected(_id)]),
-  write(' INFORM CONCEPTBASE DEVELOPERS!'),nl,
+  put(7),write('!!! SYSTEM ID MISMATCH, execute on Prolog sources: '),
+  write('replaceString '),write(_id),write(' '),write(_id1),write(' *.pro'),nl,
   !.
 
 
@@ -302,13 +317,14 @@ checkCorrectID(_name,_label,_id) :-
 
 checkCorrectID(_name,_label,_id) :-
   getCC(_name,_label,_id1),
-  put(7),write('!!! ALARM !!! WRONG OBJECT ID in Literals.pro: '),write([_name,_label,current(_id1),expected(_id)]),
-  write(' INFORM CONCEPTBASE DEVELOPERS!'),nl,
+  put(7),write('!!! SYSTEM ID MISMATCH, execute on Prolog sources: '),
+  write('replaceString '),write(_id),write(' '),write(_id1),write(' *.pro'),nl,
   !.
 
 checkCorrectID(_name,_label,_id) :-
   write('Literals.pro: '),write(_name),write('!'),write(_label),
   write(' does not (yet) exist! Some predicates may not work as expected.'),nl,
+  setFlag(missingObjects,'yes'),   {* an updating transaction may not see the cache at all *}
   !.
 
 
@@ -349,6 +365,12 @@ prove_literal(AD(_cc,_x,_y)) :-
         prove_literal(Adot(_cc,_x,_y)).
 
 
+{* ticket #414: this predicate should be used for the builtin query find_explicit_attribute_values *}
+
+prove_literal(AeD(_cc,_x,_y)) :-
+        get_Aedot(_cc,_x,_y).
+
+
 
 {Bei Anfrage-Auswertung, wenn prove_literal(Adot(_cc,_x,_ml,_y)) und _x oder _y nach einer Instanz von ExternalObject oder
  ExternalQuery referenziert ist, muessen alle Instanzen von der ggf. in CB eingeladen werden. Damit Auswertung fortfuehren kann.}
@@ -363,7 +385,7 @@ prove_literal(Adot(_cc,_x,_y)) :-
   	!,
 	prove_literal(Adot(_cc,_x,_y)).
 
-prove_literal(Adot(id_1527,_x,_y)) :-   {* id_1527=Module!contains *}  {* see checkCorrectIDs *}
+prove_literal(Adot(id_1529,_x,_y)) :-   {* id_1529=Module!contains *}  {* see checkCorrectIDs *}
     !,
     retrieve_proposition_noimport(_x,P(_y,_,_,_)).
 
@@ -448,6 +470,10 @@ prove_literal(Adot_label(_cc,_x,_y,_catom)) :-
 	get_computed_atom(_ml,_y,_catom).
 
 
+{ ticket #330, support for :(x m/l y): }
+prove_literal(Aedot_label(_cc,_x,_y,_l)) :-  
+        get_Adot_label(_cc,_x,_y,_l).
+
 {* ticket #207: improve support for A_e *}
 prove_literal(Aedot(_cc,_x,_y)) :-  
         get_Aedot(_cc,_x,_y).  { #195 }
@@ -512,6 +538,11 @@ prove_literal(In(_x,_c)) :-
 {* y's for which Q(y,...) can be shown.                                      *}
 {* See also CBNEWS.doc, point 215.                                           *}
 
+{* ticket #412: special case for singleton classes *}
+prove_literal(In(_x,_x)) :-
+  var(_x),!,
+  prove_In(_x,id_0),  {* id_0 = Proposition; provide a range for _x }
+  prove_In(_x,_x).
 
 prove_literal(In(_x,_querycall)) :-
   compound(_querycall),
@@ -695,16 +726,44 @@ prove_literal(A_e(_x,_m,_y)) :-
 { deductive A predicate, i.e. only deductive rules are applied. 7-6-95/CQ}
 {* Note: the _cc argument is a free variable here! The A_d literal     *}
 {* is being called by PropositionToFragment                            *}
+
+{* too slow, replaced by the subsequent two clauses
 prove_literal(A_d(_x,_m,_y)) :-
         (ground(_x);ground(_y)),
-	!,  {no other clauses below applicable }
+	!,  
 	ded_Adot(_cc,_x,_y),
         retrieve_proposition(P(_cc,_c,_m,_d)).
+*}
+
+
+prove_literal(A_d(_x,_m,_y)) :-
+        ground(_x),
+        DEDUCED_ACs(_acs),
+	!,  
+        member(P(_cc,_c,_m,_d),_acs),
+{*
+        isDeducableAttribution(_cc),
+        retrieve_proposition(P(_cc,_c,_m,_d)),
+        attribute(P(_cc,_c,_m,_d)),
+*}
+        prove_literal(In(_x,_c)),
+	ded_Adot(_cc,_x,_y).
+
+prove_literal(A_d(_x,_m,_y)) :-
+        ground(_y),
+        DEDUCED_ACs(_acs),
+	!,  
+        member(P(_cc,_c,_m,_d),_acs),
+        prove_literal(In(_y,_d)),
+	ded_Adot(_cc,_x,_y).
+
 
 prove_literal(A_d(_x,_m,_y)) :-
 	!,
         retrieve_proposition(P(_cc,_c,_m,_d)),
+        attribute(P(_cc,_c,_m,_d)),
 	ded_Adot(_cc,_x,_y).
+
 
 
 
@@ -995,6 +1054,10 @@ prove_upd_literal(_lit) :-
   checkToEnableCacheDuringUpdate,
   prove_literal(_lit).
 
+prove_upd_literals(_lit) :-
+  checkToEnableCacheDuringUpdate,
+  prove_literals(_lit).
+
 
 
 
@@ -1012,6 +1075,12 @@ prove_upd_literal(_lit) :-
 { *************************************************************************** }
 
 prove_literals( []).
+
+prove_literals( [ not(_Literal) | _restLiterals]) :-
+        ground(_Literal),
+        !,
+        \+ prove_literal( _Literal),
+        prove_literals( _restLiterals).
 
 prove_literals( [ _Literal | _restLiterals]) :-
         prove_literal( _Literal),
@@ -1163,6 +1232,12 @@ replace_ids([_id|_r],[_n|_nr]) :-
 replace_id(_x,_x) :- var(_x),!.
 
 replace_id(_id,_n) :- is_id(_id),id2name(_id,_n).
+replace_id(_term,_n) :-
+  _term =.. [_f|_args],
+  _args \= [],
+  replace_ids([_f|_args],_res),
+  _n =.. _res,
+  !.
 replace_id(_id,_id).
 
 
@@ -1184,14 +1259,16 @@ prove_In(_x,_c) :-
 ded_In(_x,_c) :-
    ground(_c),   { _c has to be ground, otherwise we would scan all Isa-relationships here }
    prove_literal(Isa_e(_sub,_c)),
-   name2id(QueryClass,_QueryClass),
-   \+ prove_In_e(_sub,_QueryClass),     {* id_65 = QueryClass *}
+   \+ prove_In_e(_sub,id_65),     {* id_65 = QueryClass *}
    prove_by_cache(In(_x,_sub)).   {* this only evaluates the deductive rules for In(.,.)! *}
 
 { if _c is free, find deduced classes of _x and then their superclasses }
 ded_In(_x,_c) :-
    var(_c),
    !,
+{*   isDeducable(In(_x,_sub)),   ---> this version does not bind _sub *}
+   IS_DEDUCABLE(In(_x,_sub)),
+   \+ prove_In_e(_sub,id_65),     {* id_65 = QueryClass *}
    prove_by_cache(In(_x,_sub)),   {* this only evaluates the deductive rules for In(.,.)! *}
    (
    _c=_sub;   {* Ticket #145: _sub itself is also a class of _x! *}
@@ -1268,8 +1345,25 @@ get_Adot(_cc,_x,_y,_id1) :-
 {* We assume that the argument cc (concerned class) is always bound.     *}
 
 
+get_Aedot(_cc,_x,_y) :-    
+   ground(_cc),
+   _cc = id_6, {* id_6 = Proposition!attribute *}
+   !,
+   retrieve_proposition(P(_id,_x,_l,_y)),
+   attribute(P(_id,_x,_l,_y)).
+
+
 get_Aedot(_cc,_x,_y) :-
+   ground(_cc),
    prove_C_Adot(_cc,_x,_,_y).
+
+get_Aedot(_cc,_x,_y) :-
+   var(_cc),
+   !,
+   retrieve_proposition(P(_id,_x,_l,_y)),
+   attribute(P(_id,_x,_l,_y)),
+   prove_In_e(_id,_cc).
+
 
 get_Aedot(_cc,_x,_y) :-
    IS_DEDUCABLE(In(_id,_cc)),  {* if there is more than one rule head, we shall backtrack *}
@@ -1598,13 +1692,10 @@ prove_by_cache(_card,_mode,_lit) :-
 
 {* otherwise the cache is utilized: *}
 prove_by_cache(_card,_,_lit) :-
- write('About to prove by cache: '),write_lcall(_lit),nl, 
-  isDeducable(_lit),    {* _lit is in fact deducable by rules *}
-write(1),
+  isDeducable(_lit),   {* _lit is in fact deducable by rules *}
   getAbstractCall(_lit,_cacheSlotId,_clit),   {* _clit is the representation of _lit used for the cache *}
-writeCacheSlot(_cacheSlotId),write(' created'),nl, 
   definePred(_lit,_cacheSlotId),
- write('About to save_prove: '),write_lcall(_lit),nl, 
+{* write('About to save_prove: '),write_lcall(_lit),nl, *}
   !,
   save_prove(_card,_lit,_clit,_cacheSlotId).
 
@@ -1663,7 +1754,7 @@ welcome_fresh_call(_cacheSlotId) :-
 {* _cacheSlotId has no state, i.e. called for the first time *}
 welcome_fresh_call(_cacheSlotId) :- 
   initCallState(_cacheSlotId),    {* sets state to pending and initializes the cache *}
-  writeCacheSlot(_cacheSlotId),write(' called'),nl, 
+{*  writeCacheSlot(_cacheSlotId),write(' called'),nl, *}
   pushActiveCall(_cacheSlotId), 
   !.
 
@@ -1903,6 +1994,7 @@ iterate_prove_explicit(_lit,_clit,_cacheSlotId) :-
 
 
 
+
 transCallState(_cacheSlotId,_oldstate,'NoMoreFacts') :-
   (
    _oldstate='pending';
@@ -1912,9 +2004,37 @@ transCallState(_cacheSlotId,_oldstate,'NoMoreFacts') :-
   setCallState(_cacheSlotId,'completed'),
 {*  writeCallPath('slot completed '),  *}
   checkSubSumptionObligations(_cacheSlotId),
+  checkDirtyReader(_cacheSlotId),
+  !.
+
+{* ticket #388: this negated predicate has an empty extension that may have to be checked for
+   matching calls in the current ACTIVE call path *}
+transCallState(_cacheSlotId,'dirty','NoMoreFacts') :-
+  isNegatedNonComplete(_cacheSlotId),  {* this imposes a constraint on subsuming cache slots *}
+  establishSubsumptionObligation('NEGSUBSUMEDBY',_cacheSlotId),
   !.
 
 transCallState(_cacheSlotId,_,_) :- !.
+
+
+
+
+
+{* ticket #388 *}
+checkDirtyReader(_supplier) :-
+   get_cb_feature(stratificationTest,on),  {* only check when stratification tests are enabled *}
+   \+ stratificationErrorFound,   {* if stratification error was already found, we skip this test *}
+   isDirtyReader(_consumer,_supplier),
+   isNegatedNonComplete(_consumer),
+{*   writeCacheSlot(_consumer),write(' is still dirty reader of '), writeCacheSlot(_supplier),nl, *}
+   raiseStratificationError,
+   _consumer=(_ca,_cp),
+   readablePredname(_cp,_sign,_predname),
+   readableArgkey(_ca,_argkeylist),
+   report_error(STRATIFICATION_VIOLATION4,Literals,[_sign,_predname,_argkeylist]),
+   !.
+
+checkDirtyReader(_).
 
 
 {* This is to derive one solution for a ground call        *}
@@ -1926,6 +2046,7 @@ transCallState(_cacheSlotId,_,_) :- !.
 prove_once_and_store(_lit,_clit,_cacheSlotId) :-
   prove_explicit(_lit),
   storeToCache(_clit,_cacheSlotId),
+  checkDirtyReader(_cacheSlotId),  {* ticket #388 *}
   setCallState(_cacheSlotId,'completed'),
   !.
 prove_once_and_store(_lit,_clit,_cacheSlotId) :-
@@ -2009,18 +2130,38 @@ storePred(_lit,(_argkey,_predname),_prednames) :-
 {* free variables. Otherwise we wouldn't call both rules in save_prove.  *}
 
 
+{* work-around for ticket #325: the test of isDeducable fails for a strange *}
+{* reason for certain ground predicates. We thus make the test for the non- *}
+{* ground version of the predicate.                                         *}
 
 isDeducable(Adot(_cc,_x,_y)) :-
-  ground(_cc),ground(_x),ground(_y),
-  isDeducable(Adot(_cc,_,_)),
+  ground(_cc),ground(_x),ground(_y), 
+  isDeducable_ng(Adot(_cc,_,_)),
   !.
-
+isDeducable(In(_x,_c)) :-
+  ground(_x),ground(_c), 
+  isDeducable_ng(In(_,_c)),
+  !.
 isDeducable(_lit) :-
+  isDeducable_ng(_lit).
+
+
+isDeducable_ng(_lit) :-
   \+ notDeducable(_lit),  {* double negation to prevent variable unification *}
   !.
 notDeducable(_lit) :-
   \+ IS_DEDUCABLE(_lit),   {* see also precompute_DEDUCABLE *}
   !.
+
+
+isDeducableAttribution(_cc) :-
+  IS_DEDUCABLE(Adot(_cc,_x,_y));
+  IS_DEDUCABLE(Adot_label(_cc,_x,_y,_l)).
+
+isDeducableAttribute(P(_cc,_c,_m,_d)) :-
+  isDeducableAttribution(_cc),
+  retrieve_proposition(P(_cc,_c,_m,_d)).
+  
 
 
 {* checkIsDeducableByRule is a service function for FragmentToPropositions *}
@@ -2041,13 +2182,48 @@ checkIsDeducableByRule(_lit) :-
 {* rather fast.                                                    *}
 
 
+{*
 precompute_DEDUCABLE :-
   retractall(IS_DEDUCABLE(_)),
   cleanCachedSpeedyFacts,   
   isRuleHead(_head),
   checkToAddIsDeducable(_head),
   fail.
+precompute_DEDUCABLE :-
+  retractall(DEDUCED_ACs(_)),
+  save_setof(_cc,isDeducableAttribution(_cc),_ccs),
+  assert(DEDUCED_ACs(_ccs)),
+  !.
 precompute_DEDUCABLE.
+*}
+
+
+precompute_DEDUCABLE :-
+  retractall(IS_DEDUCABLE(_)),
+  retractall(DEDUCED_ACs(_)),
+  cleanCachedSpeedyFacts, 
+  save_setof(_dlit,deducableLit(_dlit),_dlits),
+  storeDeducableLits(_dlits),
+  save_setof(_ac,isDeducableAttribute(_ac),_acs),
+  storeDeducableAttributes(_acs),
+  !.
+precompute_DEDUCABLE.
+
+deducableLit(_dlit) :-
+  isRuleHead(_head),
+  matchRuleHead(_head,_dlit).
+
+storeDeducableLits([]).
+
+storeDeducableLits([_lit|_rest]) :-
+  assert(IS_DEDUCABLE(_lit)),
+  tryStore(IS_DEDUCABLE(_lit)),
+  storeDeducableLits(_rest).
+
+
+storeDeducableAttributes(_acs) :-
+  assert(DEDUCED_ACs(_acs)).
+
 
 {* This procedure is also used in PROLOGruleProcessor.pro to keep the facts *}
 {* IS_DEDUCABLE up-to-date during a transaction that adds no rules/queries  *}
@@ -2072,7 +2248,7 @@ tryStore(IS_DEDUCABLE(_lit)) :-
   !.
 {* case 2: it was not stored *}
 tryStore(IS_DEDUCABLE(_lit)) :-
-{*  write('IS_DEDUCABLE:'),write_lcall(_lit),nl,  *}
+{*  write('IS_DEDUCABLE:'),write_lcall(_lit),nl, *}
   assert(IS_DEDUCABLE(_lit)).
 
 
@@ -2154,7 +2330,7 @@ do_setCallState(_cacheSlotId,_newstate) :-
   !.
 do_setCallState(_cacheSlotId,_newstate) :-
   _cacheSlotId = (_argkey,_predname),
-  pc_record(_argkey,_predname,[sync]),    {* initialize cache with sync point for iterate_prove_explicit *}
+  pc_record(_argkey,_predname,['sync']),    {* initialize cache with sync point for iterate_prove_explicit *}
   pc_record(_predname,_argkey,_newstate),             {* initialize call state *}
 {*  writeCallPath('1 Call Path: '), *}
   !.
@@ -2168,7 +2344,7 @@ updateCallState(_cacheSlotId,_oldstate,_newstate) :-
 
 initCallState(_cacheSlotId) :-
   _cacheSlotId = (_argkey,_predname),
-  pc_record(_argkey,_predname,[sync]),    {* initialize cache with sync point for iterate_prove_explicit *}
+  pc_record(_argkey,_predname,['sync']),    {* initialize cache with sync point for iterate_prove_explicit *}
   pc_record(_predname,_argkey,'pending'),             {* initialize call state *}
 {*  writeCallPath('1 Call Path: '), *}
   !.
@@ -2194,6 +2370,8 @@ getCacheContent(_cacheSlotId,_state,_lits) :-
   pc_recorded(_argkey,_predname,_lits).
 
 
+
+
   
 
 
@@ -2209,15 +2387,19 @@ getmember('delta',_lit,_lits) :-
   deltamember(_lit,_lits).    {* only entries that were added in last iteration *}
 
 getmember(_,_lit,_lits) :-
-  pc_member(_lit,_lits).  {* else all facts! *}
+  any_member(_lit,_lits).  {* else all facts! *}
 
-deltamember(_lit,[sync|_rest]) :- !, deltamember2(_lit,_rest).
+deltamember(_lit,['sync'|_rest]) :- !, deltamember2(_lit,_rest).
 deltamember(_lit,[_lit|_]).
 deltamember(_lit,[_|_rest]) :- deltamember(_lit,_rest).
 
-deltamember2(_lit,[sync|_rest]) :- !,fail.
+deltamember2(_lit,['sync'|_rest]) :- !,fail.
 deltamember2(_lit,[_lit|_]).
 deltamember2(_lit,[_|_rest]) :- deltamember2(_lit,_rest).
+
+{* ticket #409: 'sync is only a separator, not a cached fact *}
+any_member(_x,[_x|_]) :- _x \== 'sync'.
+any_member(_x,[_|_r]) :- any_member(_x,_r).
 
 
 
@@ -2290,9 +2472,12 @@ setCurrentDirty(_cacheSlotId) :-
 {* take care of dirty reads to own cache when call is negated!!!   *}
 checkOnStoreEmptynessObligation(_cacheSlotId) :-
   isNegatedNonComplete(_cacheSlotId),
-  storeEmptynessObligation(_cacheSlotId),   {* then is must remain empty *}
+  storeEmptynessObligation(_cacheSlotId),         {* then it must remain empty *}
+  formNegation(_cacheSlotId,_positive_cacheSlotId),
+  storeEmptynessObligation(_positive_cacheSlotId),   {* ticket #374: add the positive predicate as well *}
 {*  writeCallPath('9 Call Path: '), *}
   !.
+
 checkOnStoreEmptynessObligation(_).
 
 
@@ -2300,8 +2485,9 @@ isNegatedNonComplete(_cacheSlotId) :-
   isNegatedCall(_cacheSlotId),              {* call is negated   *}
   getCacheContent(_cacheSlotId,_state,_facts), 
   _state \== 'completed',                   {* cache not completed *}
-  (_facts = []; _facts = [sync]),            {* and cache is empty *}
+  (_facts = []; _facts = ['sync']),            {* and cache is empty *}
   !.
+
 
 storeEmptynessObligation(_cacheSlotId) :-
   pc_recorded(EMPTYNESSOBLIGATIONS,_currenttests),
@@ -2327,6 +2513,7 @@ removeEmptynessObligation(_,_). {* never fail *}
 updateEmptynessObligations(_tests) :-
   pc_rerecord(EMPTYNESSOBLIGATIONS,_tests),
   !.
+
 
 
 
@@ -2383,10 +2570,8 @@ resetStratificationError.
 
 
 setDependency(_consumer,_supplier) :-
-  _consumer = (_ca,_cp),
-  _supplier = (_sa,_sp),
-  pc_atomconcat(_ca,_cp,_consumerId),  {* combine the two components identifying a call *}
-  pc_atomconcat(_sa,_sp,_supplierId),
+  cacheSlot_term2atom(_consumer,_consumerId),  {* combine the two components identifying a call *}
+  cacheSlot_term2atom(_supplier,_supplierId),
   storeDependency(_consumerId,_supplierId),
   !.
 
@@ -2398,7 +2583,11 @@ storeDependency(_consumerId,_supplierId) :-
 
 storeDependency(_consumerId,_supplierId) :-
   pc_record(_consumerId,READSDIRTYFROM,[_supplierId]),
-{*  write_callid(_consumerId),write(' reads dirty from '),write_callid(_supplierId),nl, *}
+{*
+  cacheSlot_atom2term(_consumerId,_consumer),
+  cacheSlot_atom2term(_supplierId,_supplier),
+  writeCacheSlot(_consumer),write(' reads dirty from '),writeCacheSlot(_supplier),nl,  
+*}
   !.
 
 tryStoreDep(_consumerId,_supplierId,_suppliers) :-
@@ -2407,17 +2596,47 @@ tryStoreDep(_consumerId,_supplierId,_suppliers) :-
 
 tryStoreDep(_consumerId,_supplierId,_suppliers) :-
   pc_rerecord(_consumerId,READSDIRTYFROM,[_supplierId|_suppliers]),
-{*  write_callid(_consumerId),write(' reads dirty from '),write_callid(_supplierId),nl,  *}
+{*
+  cacheSlot_atom2term(_consumerId,_consumer),
+  cacheSlot_atom2term(_supplierId,_supplier),
+  writeCacheSlot(_consumer),write(' reads dirty from '),writeCacheSlot(_supplier),nl, 
+*} 
   !.
 
+
+{* conversion between term-like and atom-like form of a cacheslot id *}
+
+cacheSlot_term2atom( (_ca,_cp), _cacheslot_atom) :-
+  pc_atomconcat(_ca,_cp,_cacheslot_atom).
+
+cacheSlot_atom2term(_cacheslot_atom, (_argkey,_cp)) :-
+  atom(_cacheslot_atom),
+  pc_save_atom_to_term(_cacheslot_atom,_term),
+  _term =.. [_sign,_args,_pred],
+  makeArgkey(_args,_argkey),  {* _argkey is actually an atom like '[a,b]' *}
+  pc_atomconcat(_sign,_pred,_cp),
+  !.
+ 
+
 {* example callid: '[Xx1]+id_1621' *} 
+
 write_callid(_callid) :-
   atom(_callid),
-  pc_atom_to_term(_callid,_term),
+  pc_save_atom_to_term(_callid,_term),
   _term = _arglist+_functor,
   _call =.. [_functor|_arglist],
-  write_lcall(_call),
+  write('+'),write_lcall(_call),
   !.
+
+write_callid(_callid) :-
+  atom(_callid),
+  pc_save_atom_to_term(_callid,_term),
+  _term = _arglist-_functor,
+  _call =.. [_functor|_arglist],
+  write('-'),write_lcall(_call),
+  !.
+
+
 
 write_callid(_callid) :- write(_callid).
   
@@ -2427,17 +2646,15 @@ write_callid(_callid) :- write(_callid).
 {* both arguments have to be instantiated.                                                          *}
 
 readsDirtyFrom(_consumer,_supplier) :-
-  _consumer = (_ca,_cp),
-  _supplier = (_sa,_sp),
-  pc_atomconcat(_ca,_cp,_consumerId),
-  pc_atomconcat(_sa,_sp,_supplierId),
+  cacheSlot_term2atom(_consumer,_consumerId),
+  cacheSlot_term2atom(_supplier,_supplierId),
   pc_recorded(_consumerId,'READSDIRTYFROM',_suppliers),
   memberchk(_supplierId,_suppliers),
   !.
 
 readsDirtyFrom_Atom(_consumerId,_supplier) :-
-  _supplier = (_sa,_sp),
-  pc_atomconcat(_sa,_sp,_supplierId),
+  atom(_consumerId),
+  cacheSlot_term2atom(_supplier,_supplierId),
   pc_recorded(_consumerId,'READSDIRTYFROM',_suppliers),
   memberchk(_supplierId,_suppliers),
   !.
@@ -2543,20 +2760,20 @@ setPendingDirty(_cacheSlotId,[_|_rest]) :-
 {* cache denoted by (_argkey,_predname).                          *}
 
 addSyncPoint((_argkey,_predname)) :-
-  pc_recorded(_argkey,_predname,[sync|_lits]),  {* there is already a sync as first cache entry *}
+  pc_recorded(_argkey,_predname,['sync'|_lits]),  {* there is already a sync as first cache entry *}
   !.
 
 {* if we have a sync as 2nd entry, we just move it to the head instead of adding a new *}
 {* sync point. This keeps the caches small and makes lookup faster                     *}
 addSyncPoint((_argkey,_predname)) :-
-  pc_recorded(_argkey,_predname,[_lit,sync|_restlits]),
-  _lit \== sync,
-  pc_rerecord(_argkey,_predname,[sync,_lit|_restlits]),  {* move sync point to head *}
+  pc_recorded(_argkey,_predname,[_lit,'sync'|_restlits]),
+  _lit \== 'sync',
+  pc_rerecord(_argkey,_predname,['sync',_lit|_restlits]),  {* move sync point to head *}
   !.
 
 addSyncPoint((_argkey,_predname)) :-
   pc_recorded(_argkey,_predname,_lits),
-  pc_rerecord(_argkey,_predname,[sync|_lits]),  {* add a new sync point *}
+  pc_rerecord(_argkey,_predname,['sync'|_lits]),  {* add a new sync point *}
   incrementCacheSize,                                 {* a sync also counts as cache entry *}
   !.
 
@@ -2570,8 +2787,7 @@ storeToCache(_lit,(_argkey,_predname)) :-
   pc_rerecord(_argkey,_predname,[_lit]),
   checkEmptynessObligations((_argkey,_predname)),
   incrementCacheSize,
-  write('New fact '),write_lcall(_lit), write(' for '),write_predname(_predname),write_lcall(_argkey),nl, 
-  establishSubsumptionObligation( (_argkey,_predname) ),
+  establishSubsumptionObligation('SUBSUMEDBY', (_argkey,_predname) ),
   markWritten(_argkey,_predname),
   !.
 
@@ -2592,10 +2808,11 @@ storeLit(_lit,_argkey,_predname,_lits) :-
 storeLit(_lit,_argkey,_predname,_lits) :-
   pc_rerecord(_argkey,_predname,[_lit|_lits]),
   checkEmptynessObligations((_argkey,_predname)),      {* ticket #79 *}
+  checkNegSubsumptionObligation((_argkey,_predname),_lit),  {* ticket #388 *}
 {*  writeCallPath('3 Call Path'), *}
   incrementCacheSize,
-  write('New fact '),write_lcall(_lit), write(' for '),write_predname(_predname),write_lcall(_argkey),nl, 
-  establishSubsumptionObligation( (_argkey,_predname) ),  {* see CBNEWS[210] *}
+{*  write('New fact '),write_lcall(_lit), write(' for '),write_predname(_predname),write_lcall(_argkey),nl, *}
+  establishSubsumptionObligation('SUBSUMEDBY', (_argkey,_predname) ),  {* see CBNEWS[210] *}
   markWritten(_argkey,_predname).
 
 
@@ -2660,15 +2877,15 @@ isWritten(_cacheSlotId) :-
 {* Whenever a fact is stored in the cache of a negated call, we need to *}
 {* watch for subsumption obligations:                                   *}
 
-establishSubsumptionObligation(_cacheSlotId) :-
+establishSubsumptionObligation(_SUBREL,_cacheSlotId) :-
   isNegatedCall(_cacheSlotId),   {* only this case can establish stratification violations *}
-  findSubsumingCacheSlots(_cacheSlotId),
+  findSubsumingCacheSlots(_SUBREL,_cacheSlotId),
   !.
-establishSubsumptionObligation(_).  {* never fail *}
+establishSubsumptionObligation(_,_).  {* never fail *}
 
-findSubsumingCacheSlots(_cacheSlotId) :-
+findSubsumingCacheSlots(_SUBREL,_cacheSlotId) :-
   pc_recorded(ACTIVE,'LIST',_allSlots),   {* only search in those caches which are in the current call path *}
-  scanSubsumingSlots(_cacheSlotId,_allSlots),
+  scanSubsumingSlots(_SUBREL,_cacheSlotId,_allSlots),
   !.
 
 isNegatedCall(_cacheSlotId) :-
@@ -2676,16 +2893,21 @@ isNegatedCall(_cacheSlotId) :-
   pc_atomprefix('-',1,_cpA),
   !.
 
+isPositiveCall(_cacheSlotId) :-
+  _cacheSlotId = (_caA,_cpA),
+  pc_atomprefix('+',1,_cpA),
+  !.
 
-scanSubsumingSlots(_cacheSlotId,[]) :- !.
 
-scanSubsumingSlots(_cacheSlotId,[_subsumingSlot|_restCandidateSlots]) :-
+scanSubsumingSlots(_SUBREL,_cacheSlotId,[]) :- !.
+
+scanSubsumingSlots(_SUBREL,_cacheSlotId,[_subsumingSlot|_restCandidateSlots]) :-
   isSubsumedBy(_cacheSlotId,_subsumingSlot),
-  createSubsumptionObligation(_cacheSlotId,_subsumingSlot),
-  scanSubsumingSlots(_cacheSlotId,_restCandidateSlots).
+  createSubsumptionObligation(_SUBREL,_cacheSlotId,_subsumingSlot),
+  scanSubsumingSlots(_SUBREL,_cacheSlotId,_restCandidateSlots).
 
-scanSubsumingSlots(_cacheSlotId,[_|_restCandidateSlots]) :-
-  scanSubsumingSlots(_cacheSlotId,_restCandidateSlots).
+scanSubsumingSlots(_SUBREL,_cacheSlotId,[_|_restCandidateSlots]) :-
+  scanSubsumingSlots(_SUBREL,_cacheSlotId,_restCandidateSlots).
 
 isSubsumedBy(_cacheSlotId,_subsumingSlot) :-
   _cacheSlotId = (_caA,_cpA),
@@ -2695,12 +2917,9 @@ isSubsumedBy(_cacheSlotId,_subsumingSlot) :-
   !.
 
 matchingPreds(_predA,_predB) :-
-  pc_atomprefix('-',1,_predA), {* the subsumed predicate is negated *}
-  pc_atomprefix('+',1,_predB), {* the subsuming predicate is positive *}
-{*
-  pc_atomconcat('-',_predrest,_predA),
-  pc_atomconcat('+',_predrest,_predB),
-*}
+  pc_atomconcat('-',_predname,_predA),  {* the subsumed predicate is negated *}
+  pc_atomconcat('+',_predname,_predB),  {* the subsuming predicate is positive *}
+  {* predname must be the same for both predA and predB *}
   !.
 
 {* matchingArgs is much like Prolog match but note that the arguments *}
@@ -2723,29 +2942,29 @@ matchingArg(_x,_y) :-
   pc_atomprefix('Xx',2,_y).    {* _y is a free variable; use Xx so that we can reconstruct the Prolog call *}
 
 
-createSubsumptionObligation(_cacheSlotId,_subsumingSlot) :-
-{*  writeCacheSlot(_cacheSlotId),write(' is subsumed by '),writeCacheSlot(_subsumingSlot),nl, *}
+createSubsumptionObligation(_SUBREL,_cacheSlotId,_subsumingSlot) :-
+{*  writeCacheSlot(_cacheSlotId),write(' '), write(_SUBREL), write(' '),writeCacheSlot(_subsumingSlot),nl, *}
   _cacheSlotId = (_ca,_cp),
-  addSubsuming(_ca,_subsumingSlot).
+  addSubsuming(_SUBREL,_ca,_subsumingSlot).
 
 
 {* The storage of the subsumtion obligation is with the usual pc_record/pc_recorded methods *}
 
-addSubsuming(_argkey,_subsumingSlot) :-
-  pc_recorded(_argkey,SUBSUMEDBY,_currentSubsumers),
+addSubsuming(_SUBREL,_argkey,_subsumingSlot) :-
+  pc_recorded(_argkey,_SUBREL,_currentSubsumers),
   storeSubsuming(_argkey,_subsumingSlot,_currentSubsumers),
   !.
 
-addSubsuming(_argkey,_subsumingSlot) :-
-  pc_record(_argkey,SUBSUMEDBY,[_subsumingSlot]),
+addSubsuming(_SUBREL,_argkey,_subsumingSlot) :-
+  pc_record(_argkey,_SUBREL,[_subsumingSlot]),
   !.
 
-storeSubsuming(_argkey,_subsumingSlot,_currentSubsumers) :-
+storeSubsuming(_SUBREL,_argkey,_subsumingSlot,_currentSubsumers) :-
   memberchk(_subsumingSlot,_currentSubsumers),
   !.
 
-storeSubsuming(_argkey,_subsumingSlot,_currentSubsumers) :-
-  pc_rerecord(_argkey,SUBSUMEDBY,[_subsumingSlot|_currentSubsumers]),
+storeSubsuming(_SUBREL_argkey,_subsumingSlot,_currentSubsumers) :-
+  pc_rerecord(_argkey,_SUBREL,[_subsumingSlot|_currentSubsumers]),
   !.
 
 
@@ -2755,6 +2974,10 @@ storeSubsuming(_argkey,_subsumingSlot,_currentSubsumers) :-
 {* evaluated ...                                                       *}
 {* Since we need to test all subsumption obligations, we need to use   *}
 {* Prolog negation.                                                    *}
+
+checkSubSumptionObligations(_completedCashSlot) :-
+  get_cb_feature(stratificationTest,off),  {* nothing to test if stratification test is disabled *}
+  !.
 
 checkSubSumptionObligations(_completedCashSlot) :-
   \+ missingFactInSubsumed(_completedCashSlot),
@@ -2781,14 +3004,44 @@ missingInCache(_argkey,_cacheSlotId) :-
   !.
 
 
+{* #388: check that forbidden facts are not on cacheSlotId *}
+
+checkNegSubsumptionObligation(_subsumingSlot,_lit) :-
+  get_cb_feature(stratificationTest,off),  {* nothing to test if stratification test is disabled *}
+  !.
+
+checkNegSubsumptionObligation(_subsumingSlot,_lit) :-
+  \+ forbiddenFactInSubsumed(_subsumingSlot,_lit).
+
+forbiddenFactInSubsumed(_subsumingSlot,_lit) :-
+  pc_current_key(_argkey,'NEGSUBSUMEDBY'),
+  pc_recorded(_argkey,NEGSUBSUMEDBY,_cacheslots),
+  memberchk(_subsumingSlot,_cacheslots),
+  forbiddenOccursInCache(_argkey,_subsumingSlot,_lit).
+
+{* tfact is the fact that just has been added to subsumingSlot *}
+forbiddenOccursInCache(_argkey,_subsumingSlot,_tfact) :-
+  _subsumingSlot = (_ca,_cp),
+  formCacheFact(_argkey,_ca,_tfact2),
+  _tfact == _tfact2,
+  readablePredname(_cp,_sign,_predname),
+  readableArgkey(_argkey,_argkeylist1),
+  readableArgkey(_ca,_argkeylist2),
+  raiseStratificationError,  {* beeinflusst TellAndAsk.pro *}
+  report_error(STRATIFICATION_VIOLATION3,Literals,[_sign,_predname,_argkeylist1,_argkeylist2]),
+  !.
+
+
+
+
 {* This forms the expected fact out of two argkeys. For example, if we *}
 {* have argkey1=[a,b,c] and argkey2=[a,b,x1] then t(c) is the expected *}
 {* cache fact.                                                         *}
 {* Note that all variables start with 'Xx' cf. getAbstractCall          *}
 
 formCacheFact(_argkey1,_argkey2,_tfact) :-
-  pc_atom_to_term(_argkey1,_args1),
-  pc_atom_to_term(_argkey2,_args2),
+  pc_save_atom_to_term(_argkey1,_args1),
+  pc_save_atom_to_term(_argkey2,_args2),
   extractBinds(_args1,_args2,_args),
   _tfact =.. [t|_args],
   !.
@@ -2803,13 +3056,14 @@ extractBinds([_x|_rest1],[_y|_rest2],[_x|_rest]) :-
   extractBinds(_rest1,_rest2,_rest).
 
 
-{* Ticket #79: test whether a a cache slot is non-emty even if we require it to *}
-{* be empty. When called, we know that the cache of _cacheSlotId is non-empty.  *} 
+{* Ticket #79: test whether a a cache slot is non-empty even if we require it to *}
+{* be empty. When called, we know that the cache of _cacheSlotId is non-empty.   *} 
 
 checkEmptynessObligations(_cacheSlotId) :-
+  get_cb_feature(stratificationTest,on),  {* nothing to test if stratification test is disabled *}
   pc_recorded(EMPTYNESSOBLIGATIONS,_currenttests),
-  memberchk(_cacheSlotId,_currenttests),  {* YES, this one must be emty! *}
-  raiseStratificationError,  {* beeinflusst TellAndAsk.pro *}
+  memberchk(_cacheSlotId,_currenttests),  {* YES, this one must be empty! *}
+  raiseStratificationError,  {* caught in TellAndAsk.pro *}
   _cacheSlotId=(_ca,_cp),
   readablePredname(_cp,_sign,_predname),
   readableArgkey(_ca,_argkeylist),
@@ -2835,10 +3089,20 @@ getAbstractCall(_lit,(_argkey,_predname),_clit) :-
   makeArgsAbstract(_orig_args,_abstract_args),
   makeArgkey(_abstract_args,_argkey),
   getFreeVars(_orig_args,_freevars),
-  _clit =.. ['t'|_freevars],
+  makeClit(_freevars,_clit),
 {*  write('Generated the cache predicate '),write(_clit),nl, *}
 {*  write('Call '),write_lcall(_lit),write(' has argkey '),write(_argkey),nl, *}
   !.
+
+
+{* ticket #409: use _x instead t(_x) as 'cached literal' if the litaral call has only one free variable *}
+makeClit([_x],_x) :- !.
+
+{* otherwise: use t(_x1,...) *}
+makeClit(_freevars,_clit) :- 
+   _clit =.. ['t'|_freevars].
+
+
 
 {* This case is apparently not leading to faster access times 
 lit2PredArgs(In(_x,_c),_c,[_x]) :-
@@ -2995,11 +3259,18 @@ checkToEmptyCacheOnStratificationError.
 {* cache on the fly because it would lead to inconsistent evaluations of          *}
 {* prove_by_cache. See also remark in CBNEWS.doc[215].  14-Oct-2004/M.Jeusfeld    *}
 setCacheSizeExceeded :-
-  WriteTrace('veryhigh',Literals,['Will empty cache before next transaction']),
   get_cb_feature(maxCacheSize,_m),
   _m1 is _m+1,
+  getCacheSize(_n),
+  _n < _m1,
   setCacheSize(_m1),
+  WriteTrace('veryhigh',Literals,['Will empty cache before next transaction']),
   !.
+setCacheSizeExceeded.
+
+{* the external interface to setCacheSizeExceeded *}
+setCacheInvalid :-
+   setCacheSizeExceeded.
 
 
 
@@ -3100,6 +3371,16 @@ setCacheModeDefault :-
 
 
 
+{* erase the cache without a specific reason *}
+emptyCache :-
+  eraseCachedFacts('to empty the cache'),
+  !.
+emptyCache.
+
+  
+
+
+
 eraseCachedFacts(_why) :-
   printCacheStatistics(_why),   {* not essential for CB *}
   pc_recorded('CachePredicate',_prednames),
@@ -3112,6 +3393,7 @@ eraseCachedFacts(_) :-
   pc_erase_all(CachePredicate),   {* this also has to go *}
   pc_erase_all(READSDIRTYFROM),   {* erase the dirty read dependencies *}
   pc_erase_all(SUBSUMEDBY),   {* erase the subsumption dependencies *}
+  pc_erase_all(NEGSUBSUMEDBY),   {* erase the negative subsumption dependencies, #388 *}
   pc_erase_all(EMPTYNESSOBLIGATIONS),   {* erase the emptyness obligations *}
   deleteAskQueryBuffers,   {* filled in AnswerTransformUtilities.pro *}
 {*  WriteOnTrace('low','%%% Cache cleared again -- '), WriteNewlineOnTrace('low'), *}
@@ -3137,7 +3419,10 @@ eraseCallStates(_).
 printCacheStatistics(_why) :-
   get_cb_feature(TraceMode,_tracemode),
   conforms(veryhigh,_tracemode),   {* print statistics if tracemode=xxx or higher *}
-  !,
+  do_printCacheStatistics(_why).
+printCacheStatistics(_why).
+
+do_printCacheStatistics(_why) :-
   pc_record('NPREDS',0),
   pc_record('SIZE',0),
   pc_record('EMPTY',0),
@@ -3161,7 +3446,7 @@ printCacheStatistics(_why) :-
 
 
 
-printCacheStatistics(_why).
+
 
 
 printThem(0,_,_,_,_,_,_,_,_why) :-
@@ -3236,7 +3521,7 @@ incrementSIZE(_lits) :-
 
 lengthWithoutSync([],0) :- !.
 
-lengthWithoutSync([sync|_rest],_len) :-
+lengthWithoutSync(['sync'|_rest],_len) :-
   !,
   lengthWithoutSync(_rest,_len).
 
@@ -3247,7 +3532,7 @@ lengthWithoutSync([_x|_rest],_len) :-
 
 
 incrementEMPTY(_l) :-
-  (_l = []; _l = [sync]),
+  (_l = []; _l = ['sync']),
   !,
   pc_recorded('EMPTY',_empty),
   _empty1 is _empty + 1,
