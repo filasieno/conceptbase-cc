@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2020-01-14
+                      2020-01-23
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -109,6 +109,13 @@ the GitLab repository of ConceptBase.cc
 
    The tokenizer of ConceptBase now also supports object labels like 2020_01_07.
    (Issue 13)
+
+81-12 Derived attribute categories of explicit attributes in CBGraph
+
+   CBGraph can now expand derived attribute categories of explicit attributes.
+   Such explicit attributes have their instatiation to their attribute
+   category derived by a deductive rule.
+   (Issue 15)
 
 
 

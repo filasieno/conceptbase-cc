@@ -1185,8 +1185,8 @@ to the CBShell variables \$1 to \$9. The CBShell variable \$0 is bound to the na
       asks a query; possible query formats are {\tt OBJNAMES} and {\tt FRAMES};
       the answer representation can
       be {\tt LABEL}, {\tt FRAME}, {\tt JSONIC}, {\tt default}, or a user-defined answer format; the rollback
-      time should be
-      {\tt Now}. If the query format is {\tt OBJNAMES}, then {\it Query} is a string
+      time shall normally be set to {\tt Now}. See also subsection \ref{sec:rollbacktime} for more information.
+      If the query format is {\tt OBJNAMES}, then {\it Query} is a string
       in double quotes containing a
       query call (or a comma-separated list if query calls). It the query format is {\tt FRAMES},
       then {\it Query} is a string of Telos frames including a query definition.
@@ -1343,6 +1343,25 @@ Graphviz [\url{http://graphviz.org}] specifications from ConceptBase.cc:
 The complete example is available from the CB-Forum at \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2519759}.
 Another resource for CBShell scripts is the list of test scripts at
 \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2596438}.
+
+\subsection{Rollback time for ASK}
+\label{sec:rollbacktime}
+
+The 'ask' and 'hypoAsk' commands allow to specify a so-called rollback time for the query.
+Normally the rollback time is set to 'Now', i.e.\ the current database state. You can
+also specify a precise millisecond specify the database state on which you want to evaluate
+the query, e.g. 'millisecond(2020,2,7,12,27,10,230)', that is 2010-02-07T12:27:10.230UTC.
+Since this is a bit cumbersome, you can also specify the name of any object as 'rollbacktime'
+argument. Then, the CBserver shall take the starttime of that object as the rollback time,
+for example 
+
+\begin{verbatim}
+   ask get\_object[AccountBill/objname] OBJNAMES FRAME transfer1
+\end{verbatim}
+
+where 'transfer1' is just another object name.
+
+
 
 
 \subsection{Argument delimiters}
