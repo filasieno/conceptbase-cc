@@ -309,7 +309,11 @@ GenericQueryClass find_used_attribute_categories in HiddenObject isA Attribute w
   required,parameter
     objname : Proposition
 attribute,constraint
-    r : $  exists x/Proposition AD(this,~objname,x)  $
+    r : $  exists x/Proposition AD(this,~objname,x) and 
+                (this <> Class!rule) and (this <> Class!constraint) and 
+                (this <> Proposition!applyConstraintIfInsert) and (this <> Proposition!applyConstraintIfDelete) and 
+                (this <> Proposition!applyRuleIfInsert) and (this <> Proposition!applyRuleIfDelete) and 
+                (this <> Proposition!deducedBy) $
 end
 
 GenericQueryClass find_attribute_values in HiddenObject isA Proposition with
