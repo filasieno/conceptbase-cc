@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2019 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -326,6 +326,7 @@ checkCorrectID(_name,_label,_id) :-
 checkCorrectID(_name,_label,_id) :-
   write('Literals.pro: '),write(_name),write('!'),write(_label),
   write(' does not (yet) exist! Some predicates may not work as expected.'),nl,
+  setFlag(missingObjects,'yes'),   /** an updating transaction may not see the cache at all **/
   !.
 
 
@@ -474,7 +475,6 @@ prove_literal('Adot_label'(_cc,_x,_y,_catom)) :-
 /* ticket #330, support for :(x m/l y): */
 prove_literal('Aedot_label'(_cc,_x,_y,_l)) :-  
         get_Adot_label(_cc,_x,_y,_l).
-
 
 /** ticket #207: improve support for A_e **/
 prove_literal('Aedot'(_cc,_x,_y)) :-  
@@ -1261,14 +1261,16 @@ prove_In(_x,_c) :-
 ded_In(_x,_c) :-
    ground(_c),   /* _c has to be ground, otherwise we would scan all Isa-relationships here */
    prove_literal('Isa_e'(_sub,_c)),
-   name2id('QueryClass',_QueryClass),
-   \+ prove_In_e(_sub,_QueryClass),     /** id_65 = QueryClass **/
+   \+ prove_In_e(_sub,id_65),     /** id_65 = QueryClass **/
    prove_by_cache('In'(_x,_sub)).   /** this only evaluates the deductive rules for In(.,.)! **/
 
 /* if _c is free, find deduced classes of _x and then their superclasses */
 ded_In(_x,_c) :-
    var(_c),
    !,
+/**   isDeducable(In(_x,_sub)),   ---> this version does not bind _sub **/
+   'IS_DEDUCABLE'('In'(_x,_sub)),
+   \+ prove_In_e(_sub,id_65),     /** id_65 = QueryClass **/
    prove_by_cache('In'(_x,_sub)),   /** this only evaluates the deductive rules for In(.,.)! **/
    (
    _c=_sub;   /** Ticket #145: _sub itself is also a class of _x! **/
@@ -1303,6 +1305,16 @@ prove_In_eh(_x,_c) :-
    'IsA_axiom_1'('In_i'(_x,_c)).                         /*In_i*/
 
 
+/** used to cover the fact that the instantiatian of an explicit attribute to its attribute category is derived by a a rule **/
+/** useful to find these categories via AD(_cc,_x,_y) called with variable _cc **/
+ded_In_cc(_id,_cc) :-
+   var(_cc),
+   !,
+   'IS_DEDUCABLE'('In'(_id,_cc)),  /** if there is more than one rule head, we shall backtrack **/
+   prove_by_cache('In'(_id,_cc)).
+
+
+
 /*get_A(_x,_ml,_y) :-				*/
 /*	retrieve_proposition(P(_id1,_x,_l,_y)),	*/
 /*        attribute(P(_id1,_x,_l,_y)),		*/
@@ -1324,11 +1336,11 @@ get_A(_x,_ml,_y) :-
 /* dotted A predicates: make distinction upon instantiation of x*/
 
 get_Adot(_cc,_x,_y,_id1) :-
-  (atom(_x);atom(_y)),
+  (atom(_x); atom(_y)),
   !,
   retrieve_proposition('P'( _id1, _x, _l, _y)),
   attribute('P'( _id1, _x, _l, _y)),
-  prove_In_e(_id1,_cc).
+  (prove_In_e(_id1,_cc); ded_In_cc(_id1,_cc)).   /** ded_In_cc case only needed for calls where _cc is a variable **/
 
 get_Adot(_cc,_x,_y,_id1) :-
   prove_In_e(_id1,_cc),
@@ -2330,7 +2342,7 @@ do_setCallState(_cacheSlotId,_newstate) :-
   !.
 do_setCallState(_cacheSlotId,_newstate) :-
   _cacheSlotId = (_argkey,_predname),
-  pc_record(_argkey,_predname,[sync]),    /** initialize cache with sync point for iterate_prove_explicit **/
+  pc_record(_argkey,_predname,['sync']),    /** initialize cache with sync point for iterate_prove_explicit **/
   pc_record(_predname,_argkey,_newstate),             /** initialize call state **/
 /**  writeCallPath('1 Call Path: '), **/
   !.
@@ -2344,7 +2356,7 @@ updateCallState(_cacheSlotId,_oldstate,_newstate) :-
 
 initCallState(_cacheSlotId) :-
   _cacheSlotId = (_argkey,_predname),
-  pc_record(_argkey,_predname,[sync]),    /** initialize cache with sync point for iterate_prove_explicit **/
+  pc_record(_argkey,_predname,['sync']),    /** initialize cache with sync point for iterate_prove_explicit **/
   pc_record(_predname,_argkey,'pending'),             /** initialize call state **/
 /**  writeCallPath('1 Call Path: '), **/
   !.
@@ -2389,16 +2401,16 @@ getmember('delta',_lit,_lits) :-
 getmember(_,_lit,_lits) :-
   any_member(_lit,_lits).  /** else all facts! **/
 
-deltamember(_lit,[sync|_rest]) :- !, deltamember2(_lit,_rest).
+deltamember(_lit,['sync'|_rest]) :- !, deltamember2(_lit,_rest).
 deltamember(_lit,[_lit|_]).
 deltamember(_lit,[_|_rest]) :- deltamember(_lit,_rest).
 
-deltamember2(_lit,[sync|_rest]) :- !,fail.
+deltamember2(_lit,['sync'|_rest]) :- !,fail.
 deltamember2(_lit,[_lit|_]).
 deltamember2(_lit,[_|_rest]) :- deltamember2(_lit,_rest).
 
 /** ticket #409: 'sync is only a separator, not a cached fact **/
-any_member(_x,[_x|_]) :- _x \== sync.
+any_member(_x,[_x|_]) :- _x \== 'sync'.
 any_member(_x,[_|_r]) :- any_member(_x,_r).
 
 
@@ -2485,7 +2497,7 @@ isNegatedNonComplete(_cacheSlotId) :-
   isNegatedCall(_cacheSlotId),              /** call is negated   **/
   getCacheContent(_cacheSlotId,_state,_facts), 
   _state \== 'completed',                   /** cache not completed **/
-  (_facts = []; _facts = [sync]),            /** and cache is empty **/
+  (_facts = []; _facts = ['sync']),            /** and cache is empty **/
   !.
 
 
@@ -2760,20 +2772,20 @@ setPendingDirty(_cacheSlotId,[_|_rest]) :-
 /** cache denoted by (_argkey,_predname).                          **/
 
 addSyncPoint((_argkey,_predname)) :-
-  pc_recorded(_argkey,_predname,[sync|_lits]),  /** there is already a sync as first cache entry **/
+  pc_recorded(_argkey,_predname,['sync'|_lits]),  /** there is already a sync as first cache entry **/
   !.
 
 /** if we have a sync as 2nd entry, we just move it to the head instead of adding a new **/
 /** sync point. This keeps the caches small and makes lookup faster                     **/
 addSyncPoint((_argkey,_predname)) :-
-  pc_recorded(_argkey,_predname,[_lit,sync|_restlits]),
-  _lit \== sync,
-  pc_rerecord(_argkey,_predname,[sync,_lit|_restlits]),  /** move sync point to head **/
+  pc_recorded(_argkey,_predname,[_lit,'sync'|_restlits]),
+  _lit \== 'sync',
+  pc_rerecord(_argkey,_predname,['sync',_lit|_restlits]),  /** move sync point to head **/
   !.
 
 addSyncPoint((_argkey,_predname)) :-
   pc_recorded(_argkey,_predname,_lits),
-  pc_rerecord(_argkey,_predname,[sync|_lits]),  /** add a new sync point **/
+  pc_rerecord(_argkey,_predname,['sync'|_lits]),  /** add a new sync point **/
   incrementCacheSize,                                 /** a sync also counts as cache entry **/
   !.
 
@@ -3419,7 +3431,10 @@ eraseCallStates(_).
 printCacheStatistics(_why) :-
   get_cb_feature('TraceMode',_tracemode),
   conforms(veryhigh,_tracemode),   /** print statistics if tracemode=xxx or higher **/
-  !,
+  do_printCacheStatistics(_why).
+printCacheStatistics(_why).
+
+do_printCacheStatistics(_why) :-
   pc_record('NPREDS',0),
   pc_record('SIZE',0),
   pc_record('EMPTY',0),
@@ -3443,7 +3458,7 @@ printCacheStatistics(_why) :-
 
 
 
-printCacheStatistics(_why).
+
 
 
 printThem(0,_,_,_,_,_,_,_,_why) :-
@@ -3518,7 +3533,7 @@ incrementSIZE(_lits) :-
 
 lengthWithoutSync([],0) :- !.
 
-lengthWithoutSync([sync|_rest],_len) :-
+lengthWithoutSync(['sync'|_rest],_len) :-
   !,
   lengthWithoutSync(_rest,_len).
 
@@ -3529,7 +3544,7 @@ lengthWithoutSync([_x|_rest],_len) :-
 
 
 incrementEMPTY(_l) :-
-  (_l = []; _l = [sync]),
+  (_l = []; _l = ['sync']),
   !,
   pc_recorded('EMPTY',_empty),
   _empty1 is _empty + 1,

@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2019 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -102,6 +102,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
+
 :- use_module('cbserver.swi.pl').
 
 
@@ -140,7 +141,7 @@ processBuiltin(_qname,_result,_substlist) :-
 
 do_processBuiltin(get_object,_result,_substlist) :-
 	pc_member(substitute(_x,objname),_substlist),
-	pc_member(substitute(_dedin,dedIn),_substlist),
+	pc_member(substitute(_dedIn,dedIn),_substlist),
 	pc_member(substitute(_dedIsa,dedIsa),_substlist),
 	pc_member(substitute(_dedWith,dedWith),_substlist),
 	eval(_x, replaceSelectExpression, _objID),
@@ -249,6 +250,21 @@ do_processBuiltin(listModule,_result,[substitute(_modname,module)]) :-
 
 /** in case of missing access rights or other errors **/
 do_processBuiltin(listModule,'{* no *}',_) :-
+   !.
+
+do_processBuiltin(listModuleReloadable,_result,[]) :-
+   getModule(_mod),
+   listModuleContentReloadable(_result,_mod),
+   !.
+
+do_processBuiltin(listModuleReloadable,_result,[substitute(_modname,module)]) :-
+   getModule(_oldmod),
+   listModuleContentReloadable(_result,_modname),
+   setModule(_oldmod),
+   !.
+
+/** in case of missing access rights or other errors **/
+do_processBuiltin(listModuleReloadable,'{* no *}',_) :-
    !.
 
 
