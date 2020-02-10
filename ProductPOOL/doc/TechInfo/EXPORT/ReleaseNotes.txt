@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2020-01-23
+                      2020-02-07
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -116,6 +116,14 @@ the GitLab repository of ConceptBase.cc
    Such explicit attributes have their instatiation to their attribute
    category derived by a deductive rule.
    (Issue 15)
+
+81-13 Use starttime of an object as query rollbacktime
+
+   The 'ASK' command of the CBserver now supports to use any object name as parameter
+   for the rollback time of a query. The CBserver then takes the start time of that object
+   as rollbacktime. Note that any object in ConceptBase has a starttime tag, i.e. the time
+   when it was created in the database.
+   (Issue 16)
 
 
 
