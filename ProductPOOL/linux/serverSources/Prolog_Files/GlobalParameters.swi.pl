@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2019 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -92,11 +92,11 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
-cb_version('8.1.07').
-cb_date_of_release('2019-07-17'). /* set via environment variable CB_DATE in startCBserver; see serverSources/Makefile */
+cb_version('8.1.17').
+cb_date_of_release('2020-01-24'). /* set via environment variable CB_DATE in startCBserver; see serverSources/Makefile */
 cb_location('Skovde').            /** place where CBserver is compiled, updated in startCBserver **/
 
-cb_copyright_time('Copyright 1987-2019').              /*keep up to date!*/
+cb_copyright_time('Copyright 1987-2020').              /*keep up to date!*/
 
 
 :- dynamic 'cb_installation'/1 .
@@ -346,7 +346,7 @@ default_cb_feature(multiuser,enabled).          /** values: enabled,disabled */
 default_cb_feature('UpdateMode',unknown).         /** values: persistent,nonpersistent,unknown **/
 default_cb_feature('UntellMode',cleanup).         /** values: verbatim,cleanup **/
 default_cb_feature(securityLevel,'1').          /** values: 0,1,2,... **/
-default_cb_feature('TraceMode',minimal).          /** values: silent,no,minimal,low,high,veryhigh **/
+default_cb_feature('TraceMode',no).          /** values: silent,no,minimal,low,high,veryhigh **/
 default_cb_feature(defaultCacheMode,keep).      /** values: off,transient,keep **/
 default_cb_feature('ViewMaintenanceRules',off).   /** values: off,on **/
 default_cb_feature('RangeFormOptimizing','4').    /** values: 0,1,2,3,4 **/

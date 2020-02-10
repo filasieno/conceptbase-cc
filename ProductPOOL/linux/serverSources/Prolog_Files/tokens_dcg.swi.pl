@@ -19,300 +19,314 @@
 
 :- use_module('MSFOLassertionParserUtilities.swi.pl').
 
-:- style_check(-singleton) .
 
-buildTokens(_G465, _G492, _G495)  :-
- blanksorcomment(_G492, _G517),
- buildTokens2(_G465, _G517, _G495),
+'IMPORT'('WriteTrace'/3, 'GeneralUtilities')  :-
+ style_check(-singleton) .
+
+buildTokens(_G534, _G561, _G564)  :-
+ blanksorcomment(_G561, _G586),
+ buildTokens2(_G534, _G586, _G564),
  ! .
 
-buildTokens2([_G551|_G552], _G586, _G589)  :-
- token(_G551, _G586, _G614),
- blanksorcomment(_G614, _G636),
- buildTokens(_G552, _G636, _G589),
+buildTokens2([_G620|_G621], _G655, _G658)  :-
+ token(_G620, _G655, _G683),
+ blanksorcomment(_G683, _G705),
+ buildTokens(_G621, _G705, _G658),
  ! .
 
-buildTokens2([], _G689, _G689)  :-
+buildTokens2([], _G758, _G758)  :-
  ! .
 
-token(ident(_G705), _G737, _G740)  :-
- identifier(_G709, _G737, _G740),
- transformIdentifier(_G709, _G705),
+token(ident(_G774), _G806, _G809)  :-
+ identifier(_G778, _G806, _G809),
+ transformIdentifier(_G778, _G774),
  ! .
 
-token(ident(_G781), _G813, _G816)  :-
- implicit_var(_G785, _G813, _G816),
- pc_atomconcat(_G785, _G781),
+token(ident(_G850), _G882, _G885)  :-
+ implicit_var(_G854, _G882, _G885),
+ pc_atomconcat(_G854, _G850),
  ! .
 
-token(ident(_G857), ['\''|_G912], _G898)  :-
- specialIdentifier(_G864, _G912, _G898),
- pc_atomconcat(_G864, _G857),
+token(ident(_G926), ['\''|_G981], _G967)  :-
+ specialIdentifier(_G933, _G981, _G967),
+ pc_atomconcat(_G933, _G926),
  ! .
 
-token(realNumber(_G942), _G974, _G977)  :-
- realNumber(_G946, _G974, _G977),
- pc_atomconcat(_G946, _G942),
+token(realNumber(_G1011), _G1043, _G1046)  :-
+ realNumber(_G1015, _G1043, _G1046),
+ pc_atomconcat(_G1015, _G1011),
  ! .
 
-token(intNumber(_G1018), _G1050, _G1053)  :-
- intNumber(_G1022, _G1050, _G1053),
- pc_atomconcat(_G1022, _G1018),
+token(intNumber(_G1087), _G1119, _G1122)  :-
+ intNumber(_G1091, _G1119, _G1122),
+ pc_atomconcat(_G1091, _G1087),
  ! .
 
-token(select(_G1094), _G1120, _G1123)  :-
- select(_G1094, _G1120, _G1123),
+token(select(_G1163), _G1189, _G1192)  :-
+ select(_G1163, _G1189, _G1192),
  ! .
 
-token(select2(_G1161), _G1187, _G1190)  :-
- select2(_G1161, _G1187, _G1190),
+token(select2(_G1230), _G1256, _G1259)  :-
+ select2(_G1230, _G1256, _G1259),
  ! .
 
-token(assertion(_G1228), [$|_G1286], _G1272)  :-
- assertionString(_G1235, _G1286, _G1272),
- pc_atomconcat([$|_G1235], _G1228),
+token(assertion(_G1297), [$|_G1355], _G1341)  :-
+ assertionString(_G1304, _G1355, _G1341),
+ pc_atomconcat([$|_G1304], _G1297),
  ! .
 
-token(string(_G1316), ['"'|_G1374], _G1360)  :-
- string(_G1323, _G1374, _G1360),
- pc_atomconcat(['"'|_G1323], _G1316),
+token(string(_G1385), ['"'|_G1443], _G1429)  :-
+ string(_G1392, _G1443, _G1429),
+ pc_atomconcat(['"'|_G1392], _G1385),
  ! .
 
-token(_G1404, _G1434, _G1437)  :-
- delimiter(_G1406, _G1434, _G1437),
- pc_atomconcat(_G1406, _G1404),
+token(_G1473, _G1503, _G1506)  :-
+ delimiter(_G1475, _G1503, _G1506),
+ pc_atomconcat(_G1475, _G1473),
  ! .
 
-token(_G1478, [_G1480|_G1519], _G1519)  :-
- report_error(tokensSYNERR2, tokens_dcg, [_G1480]),
+token(_G1547, [_G1549|_G1588], _G1588)  :-
+ report_error(tokensSYNERR2, tokens_dcg, [_G1549]),
  !,
  fail .
 
-identifier([_G1541|_G1542], _G1565, _G1568)  :-
- character(_G1541, _G1565, _G1593),
- alphanumeric(_G1542, _G1593, _G1568) .
+identifier([_G1610|_G1611], _G1634, _G1637)  :-
+ character(_G1610, _G1634, _G1662),
+ alphanumeric(_G1611, _G1662, _G1637) .
 
-identifier([_G1628], _G1647, _G1650)  :-
- character(_G1628, _G1647, _G1650) .
+identifier([_G1697], _G1716, _G1719)  :-
+ character(_G1697, _G1716, _G1719) .
 
-specialIdentifier([], ['\''|_G1705], _G1705)  :-
+identifier([_G1754|_G1755], _G1778, _G1781)  :-
+ digit(_G1754, _G1778, _G1806),
+ nonInteger(_G1755, _G1806, _G1781) .
+
+nonInteger([_G1841|_G1842], _G1865, _G1868)  :-
+ digit(_G1841, _G1865, _G1893),
+ nonInteger(_G1842, _G1893, _G1868) .
+
+nonInteger([_G1928|_G1929], _G1952, _G1955)  :-
+ character(_G1928, _G1952, _G1980),
+ alphanumeric(_G1929, _G1980, _G1955) .
+
+nonInteger([_G2015], _G2034, _G2037)  :-
+ character(_G2015, _G2034, _G2037) .
+
+specialIdentifier([], ['\''|_G2092], _G2092)  :-
  true .
 
-specialIdentifier([_G1721|_G1722], _G1745, _G1748)  :-
- printableChar(_G1721, _G1745, _G1773),
- specialIdentifier(_G1722, _G1773, _G1748) .
+specialIdentifier([_G2108|_G2109], _G2132, _G2135)  :-
+ printableChar(_G2108, _G2132, _G2160),
+ specialIdentifier(_G2109, _G2160, _G2135) .
 
-implicit_var([~|_G1809], [~|_G1850], _G1836)  :-
- identifier(_G1809, _G1850, _G1836) .
+implicit_var([~|_G2196], [~|_G2237], _G2223)  :-
+ identifier(_G2196, _G2237, _G2223) .
 
-implicit_var([~|_G1875], [~, '"'|_G1939], _G1922)  :-
- string(_G1885, _G1939, _G1922),
- pc_atomconcat(['"'|_G1885], _G1875),
+implicit_var([~|_G2262], [~, '"'|_G2326], _G2309)  :-
+ string(_G2272, _G2326, _G2309),
+ pc_atomconcat(['"'|_G2272], _G2262),
  ! .
 
-realNumber(_G1969, _G2002, _G2005)  :-
- realNumber2(_G1971, _G2002, _G2030),
- realExponent(_G1973, _G2030, _G2005),
- append(_G1971, _G1973, _G1969) .
+realNumber(_G2356, _G2389, _G2392)  :-
+ realNumber2(_G2358, _G2389, _G2417),
+ realExponent(_G2360, _G2417, _G2392),
+ append(_G2358, _G2360, _G2356) .
 
-realNumber2(_G2068, _G2110, _G2113)  :-
- digits(_G2070, _G2110, ['.'|_G2152]),
- digits(_G2075, _G2152, _G2113),
- append(_G2070, ['.'|_G2075], _G2068) .
+realNumber2(_G2455, _G2497, _G2500)  :-
+ digits(_G2457, _G2497, ['.'|_G2539]),
+ digits(_G2462, _G2539, _G2500),
+ append(_G2457, ['.'|_G2462], _G2455) .
 
-realNumber2(['.'|_G2180], ['.'|_G2221], _G2207)  :-
- digits(_G2180, _G2221, _G2207) .
+realNumber2(['.'|_G2567], ['.'|_G2608], _G2594)  :-
+ digits(_G2567, _G2608, _G2594) .
 
-realNumber2([-, _G2248|_G2249], [-|_G2295], _G2281)  :-
- digit(_G2248, _G2295, _G2309),
- realNumber2(_G2249, _G2309, _G2281) .
+realNumber2([-, _G2635|_G2636], [-|_G2682], _G2668)  :-
+ digit(_G2635, _G2682, _G2696),
+ realNumber2(_G2636, _G2696, _G2668) .
 
-realExponent([_G2344, _G2347|_G2348], [_G2344, _G2347|_G2427], _G2410)  :-
- memberchk(_G2344, ['E', e]),
- memberchk(_G2347, [+, -]),
- digits(_G2348, _G2427, _G2410) .
+realExponent([_G2731, _G2734|_G2735], [_G2731, _G2734|_G2814], _G2797)  :-
+ memberchk(_G2731, ['E', e]),
+ memberchk(_G2734, [+, -]),
+ digits(_G2735, _G2814, _G2797) .
 
-realExponent([], _G2479, _G2479)  :-
+realExponent([], _G2866, _G2866)  :-
  true .
 
-select(_G2495, [_G2495|_G2535], _G2535)  :-
- memberchk(_G2495, [!, ^, @]) .
+select(_G2882, [_G2882|_G2922], _G2922)  :-
+ memberchk(_G2882, [!, ^, @]) .
 
-select(_G2551, [=, >|_G2586], _G2586)  :-
- pc_atomconcat(=, >, _G2551) .
+select(_G2938, [=, >|_G2973], _G2973)  :-
+ pc_atomconcat(=, >, _G2938) .
 
-select(_G2605, [-, >|_G2640], _G2640)  :-
- pc_atomconcat(-, >, _G2605) .
+select(_G2992, [-, >|_G3027], _G3027)  :-
+ pc_atomconcat(-, >, _G2992) .
 
-select2(dot, ['.'|_G2679], _G2679)  :-
+select2(dot, ['.'|_G3066], _G3066)  :-
  true .
 
-select2(bar, [ ('|')|_G2715], _G2715)  :-
+select2(bar, [ ('|')|_G3102], _G3102)  :-
  true .
 
-intNumber(_G2731, _G2747, _G2750)  :-
- digits(_G2731, _G2747, _G2750) .
+intNumber(_G3118, _G3134, _G3137)  :-
+ digits(_G3118, _G3134, _G3137) .
 
-intNumber([-|_G2786], [-|_G2827], _G2813)  :-
- digits(_G2786, _G2827, _G2813) .
+intNumber([-|_G3173], [-|_G3214], _G3200)  :-
+ digits(_G3173, _G3214, _G3200) .
 
-assertionString([$], [$|_G2874], _G2874)  :-
+assertionString([$], [$|_G3261], _G3261)  :-
  true .
 
-assertionString([_G2890|_G2891], [_G2890|_G2932], _G2918)  :-
- assertionString(_G2891, _G2932, _G2918) .
+assertionString([_G3277|_G3278], [_G3277|_G3319], _G3305)  :-
+ assertionString(_G3278, _G3319, _G3305) .
 
-string(['"'], ['"'|_G2979], _G2979)  :-
+string(['"'], ['"'|_G3366], _G3366)  :-
  true .
 
-string([\, '"'|_G2999], [\, '"'|_G3049], _G3032)  :-
- string(_G2999, _G3049, _G3032) .
+string([\, '"'|_G3386], [\, '"'|_G3436], _G3419)  :-
+ string(_G3386, _G3436, _G3419) .
 
-string([_G3073|_G3074], [\, _G3073|_G3141], _G3124)  :-
- memberchk(_G3073, [$, \]),
- string(_G3074, _G3141, _G3124) .
+string([_G3460|_G3461], [\, _G3460|_G3528], _G3511)  :-
+ memberchk(_G3460, [$, \]),
+ string(_G3461, _G3528, _G3511) .
 
-string([_G3168|_G3169], [_G3168|_G3210], _G3196)  :-
- string(_G3169, _G3210, _G3196) .
+string([_G3555|_G3556], [_G3555|_G3597], _G3583)  :-
+ string(_G3556, _G3597, _G3583) .
 
-comment(['(', *|_G3268], _G3255)  :-
- ignoreChar1(_G3268, _G3255) .
+comment(['(', *|_G3655], _G3642)  :-
+ ignoreChar1(_G3655, _G3642) .
 
-comment(['{'|_G3313], _G3303)  :-
- ignoreChar2(_G3313, _G3303) .
+comment(['{'|_G3700], _G3690)  :-
+ ignoreChar2(_G3700, _G3690) .
 
-ignoreChar1([*, ')'|_G3356], _G3356)  :-
+ignoreChar1([*, ')'|_G3743], _G3743)  :-
  ! .
 
-ignoreChar1([_G3371|_G3399], _G3389)  :-
- ignoreChar1(_G3399, _G3389) .
+ignoreChar1([_G3758|_G3786], _G3776)  :-
+ ignoreChar1(_G3786, _G3776) .
 
-ignoreChar2(['}'|_G3439], _G3439)  :-
+ignoreChar2(['}'|_G3826], _G3826)  :-
  ! .
 
-ignoreChar2([_G3451|_G3479], _G3469)  :-
- ignoreChar2(_G3479, _G3469) .
+ignoreChar2([_G3838|_G3866], _G3856)  :-
+ ignoreChar2(_G3866, _G3856) .
 
-alphanumeric([_G3496|_G3497], _G3520, _G3523)  :-
- alphachar(_G3496, _G3520, _G3548),
- alphanumeric(_G3497, _G3548, _G3523) .
+alphanumeric([_G3883|_G3884], _G3907, _G3910)  :-
+ alphachar(_G3883, _G3907, _G3935),
+ alphanumeric(_G3884, _G3935, _G3910) .
 
-alphanumeric([_G3583], _G3602, _G3605)  :-
- alphachar(_G3583, _G3602, _G3605) .
+alphanumeric([_G3970], _G3989, _G3992)  :-
+ alphachar(_G3970, _G3989, _G3992) .
 
-alphachar(_G3640, _G3656, _G3659)  :-
- character(_G3640, _G3656, _G3659) .
+alphachar(_G4027, _G4043, _G4046)  :-
+ character(_G4027, _G4043, _G4046) .
 
-alphachar(_G3694, _G3710, _G3713)  :-
- digit(_G3694, _G3710, _G3713) .
+alphachar(_G4081, _G4097, _G4100)  :-
+ digit(_G4081, _G4097, _G4100) .
 
-digits([_G3748|_G3749], _G3772, _G3775)  :-
- digit(_G3748, _G3772, _G3800),
- digits(_G3749, _G3800, _G3775) .
+digits([_G4135|_G4136], _G4159, _G4162)  :-
+ digit(_G4135, _G4159, _G4187),
+ digits(_G4136, _G4187, _G4162) .
 
-digits([_G3835], _G3854, _G3857)  :-
- digit(_G3835, _G3854, _G3857) .
+digits([_G4222], _G4241, _G4244)  :-
+ digit(_G4222, _G4241, _G4244) .
 
-digit(_G3892, [_G3892|_G3929], _G3929)  :-
- '0'@=<_G3892,
- _G3892@=<'9' .
+digit(_G4279, [_G4279|_G4316], _G4316)  :-
+ '0'@=<_G4279,
+ _G4279@=<'9' .
 
-character(_G3948, [_G3948|_G3985], _G3985)  :-
- 'A'@=<_G3948,
- _G3948@=<'Z' .
+character(_G4335, [_G4335|_G4372], _G4372)  :-
+ 'A'@=<_G4335,
+ _G4335@=<'Z' .
 
-character(_G4004, [_G4004|_G4041], _G4041)  :-
- a@=<_G4004,
- _G4004@=<z .
+character(_G4391, [_G4391|_G4428], _G4428)  :-
+ a@=<_G4391,
+ _G4391@=<z .
 
-character(_G4060, [_G4060|_G4172], _G4172)  :-
- pc_ascii(_G4060, _G4066),
- memberchk(_G4066, [228, 246, 252, 223, 196, 214, 220, 225, 233, 243, 250, 224, 232, 242, 249, 226, 234, 244, 251, 235, 239, 238, 236, 241, 209]) .
+character(_G4447, [_G4447|_G4559], _G4559)  :-
+ pc_ascii(_G4447, _G4453),
+ memberchk(_G4453, [228, 246, 252, 223, 196, 214, 220, 225, 233, 243, 250, 224, 232, 242, 249, 226, 234, 244, 251, 235, 239, 238, 236, 241, 209]) .
 
-character(_G4191, [_G4191|_G4240], _G4240)  :-
- pc_ascii(_G4191, _G4197),
- memberchk(_G4197, [128, 134, 135, 143]) .
+character(_G4578, [_G4578|_G4627], _G4627)  :-
+ pc_ascii(_G4578, _G4584),
+ memberchk(_G4584, [128, 134, 135, 143]) .
 
-character(_G4259, [_G4259|_G4305], _G4305)  :-
- pc_ascii(_G4259, _G4265),
- memberchk(_G4265, [185, 178, 179]) .
+character(_G4646, [_G4646|_G4695], _G4695)  :-
+ pc_ascii(_G4646, _G4652),
+ memberchk(_G4652, [95, 185, 178, 179]) .
 
-character('_', ['_'|_G4344], _G4344)  :-
+printableChar(_G4714, [_G4714|_G4757], _G4757)  :-
+ pc_ascii(_G4714, _G4720),
+ _G4720>30,
+ _G4720=<254 .
+
+delimiter([\, =, =], [\, =, =|_G4814], _G4814)  :-
  true .
 
-printableChar(_G4360, [_G4360|_G4403], _G4403)  :-
- pc_ascii(_G4360, _G4366),
- _G4366>30,
- _G4366=<254 .
-
-delimiter([\, =, =], [\, =, =|_G4460], _G4460)  :-
+delimiter([\, =], [\, =|_G4865], _G4865)  :-
  true .
 
-delimiter([\, =], [\, =|_G4511], _G4511)  :-
+delimiter([=, '.', '.'], [=, '.', '.'|_G4919], _G4919)  :-
  true .
 
-delimiter([=, '.', '.'], [=, '.', '.'|_G4565], _G4565)  :-
+delimiter([=, =, >], [=, =, >|_G4976], _G4976)  :-
  true .
 
-delimiter([=, =, >], [=, =, >|_G4622], _G4622)  :-
+delimiter([<, =, =, >], [<, =, =, >|_G5039], _G5039)  :-
  true .
 
-delimiter([<, =, =, >], [<, =, =, >|_G4685], _G4685)  :-
+delimiter([=, =], [=, =|_G5093], _G5093)  :-
  true .
 
-delimiter([=, =], [=, =|_G4739], _G4739)  :-
+delimiter([=, >], [=, >|_G5141], _G5141)  :-
  true .
 
-delimiter([=, >], [=, >|_G4787], _G4787)  :-
+delimiter([=, <], [=, <|_G5189], _G5189)  :-
  true .
 
-delimiter([=, <], [=, <|_G4835], _G4835)  :-
+delimiter([>, =], [>, =|_G5237], _G5237)  :-
  true .
 
-delimiter([>, =], [>, =|_G4883], _G4883)  :-
+delimiter([<, =], [<, =|_G5285], _G5285)  :-
  true .
 
-delimiter([<, =], [<, =|_G4931], _G4931)  :-
+delimiter([<, >], [<, >|_G5333], _G5333)  :-
  true .
 
-delimiter([<, >], [<, >|_G4979], _G4979)  :-
+delimiter([_G5352], [_G5352|_G5404], _G5404)  :-
+ memberchk(_G5352, ['(', ')', '[', ']', '{', '}']) .
+
+delimiter([_G5420], [_G5420|_G5478], _G5478)  :-
+ memberchk(_G5420, [ (','), (;), :, =, &, '_', >, <]) .
+
+delimiter([_G5494], [_G5494|_G5528], _G5528)  :-
+ pc_ascii(_G5494, 96) .
+
+delimiter([_G5544], [_G5544|_G5590], _G5590)  :-
+ memberchk(_G5544, [+, -, *, /]) .
+
+delimiter([#], [#|_G5629], _G5629)  :-
  true .
 
-delimiter([_G4998], [_G4998|_G5050], _G5050)  :-
- memberchk(_G4998, ['(', ')', '[', ']', '{', '}']) .
-
-delimiter([_G5066], [_G5066|_G5124], _G5124)  :-
- memberchk(_G5066, [ (','), (;), :, =, &, '_', >, <]) .
-
-delimiter([_G5140], [_G5140|_G5174], _G5174)  :-
- pc_ascii(_G5140, 96) .
-
-delimiter([_G5190], [_G5190|_G5236], _G5236)  :-
- memberchk(_G5190, [+, -, *, /]) .
-
-delimiter([#], [#|_G5275], _G5275)  :-
- true .
-
-blanksorcomment(_G5311, _G5314)  :-
- comment(_G5311, _G5332),
+blanksorcomment(_G5665, _G5668)  :-
+ comment(_G5665, _G5686),
  !,
- blanksorcomment(_G5332, _G5314) .
+ blanksorcomment(_G5686, _G5668) .
 
-blanksorcomment(_G5379, _G5382)  :-
- blanks(_G5379, _G5400),
+blanksorcomment(_G5733, _G5736)  :-
+ blanks(_G5733, _G5754),
  !,
- blanksorcomment(_G5400, _G5382) .
+ blanksorcomment(_G5754, _G5736) .
 
-blanksorcomment(_G5441, _G5441)  :-
+blanksorcomment(_G5795, _G5795)  :-
  ! .
 
-blanks(_G5465, _G5468)  :-
- blankchar(_G5465, _G5486),
- blanks(_G5486, _G5468) .
+blanks(_G5819, _G5822)  :-
+ blankchar(_G5819, _G5840),
+ blanks(_G5840, _G5822) .
 
-blanks(_G5519, _G5522)  :-
- blankchar(_G5519, _G5522) .
+blanks(_G5873, _G5876)  :-
+ blankchar(_G5873, _G5876) .
 
-blankchar([_G5546|_G5590], _G5590)  :-
- pc_ascii(_G5546, _G5550),
- memberchk(_G5550, [32, 9, 10, 13]) .
+blankchar([_G5900|_G5944], _G5944)  :-
+ pc_ascii(_G5900, _G5904),
+ memberchk(_G5904, [32, 9, 10, 13]) .

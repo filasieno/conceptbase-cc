@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2019 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -187,6 +187,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 :- use_module('ECAruleManager.swi.pl').
 
 :- use_module('ExternalConnection.swi.pl').
+
 
 
 
@@ -744,6 +745,7 @@ changeSMLs([_h|_t],[_ch|_ct])	:-
 /******************************************************************/
 
 insert_import_relationships	:-
+	systemModuleDefined, /** only do this when the System module is fully defined **/
 	callExactlyOnce((
 			'M_SearchSpace'(_m),
 			'Module'(_mid),
@@ -803,6 +805,7 @@ importRel(_id1,_id2,_m,_n) :-
 
 
 insert_export_relationships	:-
+	systemModuleDefined, /** only do this when the System module is fully defined **/
 	'M_SearchSpace'(_n),
 	_id1 = id_1528, /** id_1528=Module!exports **/
 
@@ -1076,6 +1079,16 @@ incrementModuleUpdateCount(_mid) :-
 incrementModuleUpdateCount(_mid) :-
   pc_record(_mid,'MODULE_UPDATES',1),
   !.
+
+
+systemModuleDefined :-
+  getFlag(missingObjects,'yes'),  /** set in Literals.pro **/
+  !,
+  fail.
+systemModuleDefined.
+
+
+
 
 
 
