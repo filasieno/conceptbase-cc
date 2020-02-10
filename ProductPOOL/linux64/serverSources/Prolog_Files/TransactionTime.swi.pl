@@ -103,6 +103,9 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 :- use_module('PrologCompatibility.swi.pl').
 
 
+:- use_module('GeneralUtilities.swi.pl').
+
+
 
 :- dynamic 'belief@time'/1 .
 :- dynamic 'sys@time'/1 .
@@ -187,7 +190,22 @@ remove_transaction_time.
 /*                                                   16-02-90 MSt   */
 /* **************************************************************** */
 
+/** allow using the starttime of objects as rollback time; issue #16 **/
+set_RollBack_time(_objname) :-
+  atom(_objname),
+  _objname \= 'Now',
+  _objname \= 'Always',
+  name2id(_objname,_id),
+  id2starttime(_id,_tt),
+  _tt = tt(millisecond(_y,_mo,_d,_h,_mi,_s,_us)),
+  do_set_RollBack_time(millisecond(_y,_mo,_d,_h,_mi,_s,_us)),
+  !.
+
 set_RollBack_time(_belieftime) :-
+  do_set_RollBack_time(_belieftime).
+
+
+do_set_RollBack_time(_belieftime) :-
  atom(_belieftime),
  (((_belieftime = 'Now'; _belieftime = 'Always'),_term = _belieftime);
   ( _belieftime \= 'Now', _belieftime \= 'Always',pc_atom_to_term(_belieftime,_term))),
@@ -196,32 +214,34 @@ set_RollBack_time(_belieftime) :-
  set_search_point_bim2c(_us,_s,_mi,_h,_d,_mo,_y),	/* ??-??-1995 TL */
  fail.
 
-set_RollBack_time(_belieftime) :-
+do_set_RollBack_time(_belieftime) :-
   compound(_belieftime),
   startPoint(_belieftime,_bt), 		/* convert timepoint into millisecond format */
   _bt = millisecond(_y,_mo,_d,_h,_mi,_s,_us),
   set_search_point_bim2c(_us,_s,_mi,_h,_d,_mo,_y),	/* ??-??-1995 TL */
   fail.
 
-set_RollBack_time(_belieftime) :-
+do_set_RollBack_time(_belieftime) :-
  atom(_belieftime),
  (((_belieftime = 'Now'; _belieftime = 'Always'),_term = _belieftime);
   ( _belieftime \= 'Now', _belieftime \= 'Always',pc_atom_to_term(_belieftime,_term))),
  retract('belief@time'(_x)),
  assert('belief@time'(_term)),!.
 
-set_RollBack_time(_belieftime) :-
+do_set_RollBack_time(_belieftime) :-
  retract('belief@time'(_x)),
  assert('belief@time'(_belieftime)),!.
 
-set_RollBack_time(_belieftime) :-
+do_set_RollBack_time(_belieftime) :-
  atom(_belieftime),
  (((_belieftime = 'Now'; _belieftime = 'Always'),_term = _belieftime);
   ( _belieftime \= 'Now', _belieftime \= 'Always',pc_atom_to_term(_belieftime,_term))),
  assert('belief@time'(_term)),!.
 
-set_RollBack_time(_belieftime) :-
+do_set_RollBack_time(_belieftime) :-
  assert('belief@time'(_belieftime)),!.
+
+
 
 /* ************ g e t _ R o l l B a c k _ t i m e ***************** */
 /*                                                                  */
