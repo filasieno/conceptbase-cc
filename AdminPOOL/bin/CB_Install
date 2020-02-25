@@ -39,6 +39,7 @@ PRODUCT_DIRS="include \
 	examples \
 	examples/Clients \
 	examples/Clients/PrologClient \
+	examples/Clients/SWI-CLIENT \
 	examples/Clients/C++Client \
 	examples/Clients/JavaClient \
 	examples/Clients/C_Client \
@@ -89,6 +90,7 @@ NORMAL_EXPORT="doc/UserManual \
 	examples/AnswerFormat \
 	examples/Clients/JavaClient \
 	examples/Clients/PrologClient \
+	examples/Clients/SWI-CLIENT \
 	examples/Clients/C++Client \
 	examples/Clients/C_Client \
 	examples/libtelos \
@@ -213,6 +215,9 @@ cp $CB_POOL/clientSources/libCBview/testlib.cc $CB_PRODUCT/examples/Clients/C++C
 
 cp $CB_POOL/examples/Clients/JavaClient/*.java $CB_PRODUCT/examples/Clients/JavaClient
 cp $CB_POOL/examples/Clients/JavaClient/README $CB_PRODUCT/examples/Clients/JavaClient
+
+cp $CB_POOL/examples/Clients/SWI-CLIENT/*.pl $CB_PRODUCT/examples/Clients/SWI-CLIENT
+cp $CB_POOL/examples/Clients/SWI-CLIENT/*.txt $CB_PRODUCT/examples/Clients/SWI-CLIENT
 
 #cp $CB_POOL/examples/Clients/PrologClient/*.pro $CB_PRODUCT/examples/Clients/PrologClient
 #cp $CB_POOL/examples/Clients/PrologClient/*.o $CB_PRODUCT/examples/Clients/PrologClient
