@@ -157,7 +157,7 @@ aux_query_read_result(Result) :-
 	X2 = ipcanswer(_Server_str, _, Result0),
 	Result = (ok, Result0), !.
 	
-aux_query_read_result((error, 'unexpected_error in aux_query_read_result')) :-
+aux_query_read_result((error, 'unexpected_error in aux_query_read_result')).
 	
 % ------------------------------------------------------------------------------------	
 
@@ -169,6 +169,7 @@ cb_mon_init_ipc(R1, R2) :-
 	cb_is_ok(R1),
 	cb_init_ipc(4001, R2).
 	
+cb_mon_init_ipc(R, R).
 	
 cb_init_ipc(Result) :-
 	cb_init_ipc(4001, Result).
