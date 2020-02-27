@@ -26,10 +26,10 @@ http://conceptbase.sourceforge.net/userManual81/cbm007.html
 
 
 Step 2: Start SWI-Prolog in another command window
-=================================================
+==================================================
 
 
-% swipl
+$ swipl
 Welcome to SWI-Prolog (Multi-threaded, 64 bits, Version 7.2.3)
 Copyright (c) 1990-2015 University of Amsterdam, VU Amsterdam
 SWI-Prolog comes with ABSOLUTELY NO WARRANTY. This is free software,
@@ -64,5 +64,40 @@ _Result = (ok, ok).
 README file written by Manfred Jeusfeld
 
 
+
+Step 3: Direct use of the cb_ipc with SWI-Prolog
+================================================
+
+
+$ swipl
+Welcome to SWI-Prolog (Multi-threaded, 64 bits, Version 7.2.3)
+Copyright (c) 1990-2015 University of Amsterdam, VU Amsterdam
+SWI-Prolog comes with ABSOLUTELY NO WARRANTY. This is free software,
+and you are welcome to redistribute it under certain conditions.
+Please visit http://www.swi-prolog.org for details.
+
+For help, use ?- help(Topic). or ?- apropos(Word).
+
+?- [cb_ipc].
+true.
+
+?- cb_init_ipc(localhost,4001,Result).
+Result = (ok, connected).
+
+?- cb_enroll_me("Manfred",Result).
+Result = (ok, ok).
+
+?- cb_tell("Employee in Class with attribute empno: Integer; name: String end",Result).
+Result = (ok, ok).
+
+?- cb_tell("bill in Employee with empno billsempno: 123 end",Result).
+Result = (ok, ok).
+
+?- cb_ask("get_object[bill/objname]",Result).
+[]
+Result = (ok, "bill in Employee with \n   empno\n    billsempno : 123\nend \n").
+
+?- cb_cancel_me(Result).
+Result = (ok, ok).
 
 
