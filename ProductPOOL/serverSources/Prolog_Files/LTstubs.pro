@@ -76,6 +76,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(tmp_rules_ins/1,PROLOGruleProcessor)
 #IMPORT(tmp_rules_del/1,PROLOGruleProcessor)
 #IMPORT(pc_inttoatom/2,PrologCompatibility)
+#IMPORT(id2starttime/2,BIM2C)
+#IMPORT(id2endtime/2,BIM2C)
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -119,9 +121,20 @@ RBTimeRelevantRule(id(_id,_sid)) :-
 
 
 RBTimeRelevantRule(id(_id,_sid)) :-
+{	getTTime(_id,_t),  not the ID of the rule }
 	RuleTTime(id(_id,_sid),_t),			{ 2-Sept-1996 LWEB }
 	correct_belieftime(_t),
 	retrieve_proposition(P(_id,_,_,_)).		{ 2-Sept-1996 LWEB }
+
+
+getTTime(_id,_t) :-
+	id2endtime(_id,'infinity'),
+	!,
+	id2starttime(_id,_t).
+
+getTTime(_id,tt(_t1,_t2)) :-
+	id2starttime(_id,tt(_t1)),
+	id2endtime(_id,tt(_t2)).
 
 
 
