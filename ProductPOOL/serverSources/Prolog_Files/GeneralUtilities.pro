@@ -1187,8 +1187,8 @@ copyright_notice(_tool) :-
    WriteListOnTrace(minimal,['> ', _copyyears, ' by The ConceptBase Team. All rights reserved.']),
    WriteListOnTrace(minimal,['> Distributed under a FreeBSD license. Call "cbserver -license" for details.']),
    WriteNewlineOnTrace(minimal),
-   WriteListOnTrace(minimal,['>    M.Jeusfeld,University of Skovde,54128 Skovde/Sweden']),
-   WriteListOnTrace(minimal,['>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany']),
+   WriteListOnTrace(minimal,['>    Contact: M.Jeusfeld,University of Skovde,54128 Skovde/Sweden']),
+{*   WriteListOnTrace(minimal,['>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany']), *}
    WriteListOnTrace(minimal,['>    http://conceptbase.cc']),
    WriteNewlineOnTrace(minimal),
    (
