@@ -50,7 +50,7 @@ using namespace std;
 TDB *database;                         // die Datenbank
 
 QUERYLIST *querylist;                  // Query-Verwaltung fuer retrieve_proposition-Aufrufe
-QUERYLIST *literals[LITANZ];           // Query-Verwaltung fuer Literale
+QUERYLIST *litlist[LITANZ];           // Query-Verwaltung fuer Literale
 
 TOID Attribute, IsA, InstanceOf, Individual, Proposition;
 				       // wozu sollen die schon gut sein?
@@ -180,7 +180,7 @@ int init( char *filename )
   database->set_search_time(TIMEPOINT(INFINITY,0));
 //  for (int j=0;j<4;j++) Ptrans[j] = trans2[j];
   querylist = new QUERYLIST;
-  for (int j=0;j<LITANZ;j++) literals[j] = new QUERYLIST;
+  for (int j=0;j<LITANZ;j++) litlist[j] = new QUERYLIST;
 //  printf("ready.\n");
   return 1;
 }
@@ -188,7 +188,7 @@ int init( char *filename )
 int done() {
 //  printf("closing down extern C-database...\n");
   delete querylist;
-  for (int j=0;j<LITANZ;j++) delete literals[j];
+  for (int j=0;j<LITANZ;j++) delete litlist[j];
   delete database;
 //  printf("done.\n");
   return 1;
@@ -568,7 +568,7 @@ int findM(int i,char *out[]) 	//  Suchen: organisiert Datenaustausch,
 
 
 int Literal_freequery(int i,int WhatLit) {      // Aufgabe der Queryliste
-   literals[WhatLit]->freequery(i);
+   litlist[WhatLit]->freequery(i);
    return 1;
  }
 
@@ -602,11 +602,11 @@ int Literal_getquery(char *tuple[2],int WhatLit) {
   int nr=-1;
 
   switch (WhatLit) {
-  case In_s: nr=literals[WhatLit]->addquery(new inSQUERY);break;
-  case In_i: nr=literals[WhatLit]->addquery(new inIQUERY);break;
-  case system_class: nr=literals[WhatLit]->addquery(new SystemQUERY);break;
-  case Isa:nr=literals[WhatLit]->addquery(new IsaQUERY);break;
-  case Attr_s: nr=literals[WhatLit]->addquery(new attrSQUERY);break;
+  case In_s: nr=litlist[WhatLit]->addquery(new inSQUERY);break;
+  case In_i: nr=litlist[WhatLit]->addquery(new inIQUERY);break;
+  case system_class: nr=litlist[WhatLit]->addquery(new SystemQUERY);break;
+  case Isa:nr=litlist[WhatLit]->addquery(new IsaQUERY);break;
+  case Attr_s: nr=litlist[WhatLit]->addquery(new attrSQUERY);break;
   default: printf("in Literal_getQuery(...) wurde ein nicht auswertbarer Literal-typ uebergeben(%d)...\n",WhatLit);break;
   };
 
@@ -641,7 +641,7 @@ int Literal_getquery(char *tuple[2],int WhatLit) {
   cout.flush();
   #endif
 
-  database->start_Literal(*((QUERY2*) &(literals[WhatLit]->getpos(nr))),toid1,toid2,pattern,
+  database->start_Literal(*((QUERY2*) &(litlist[WhatLit]->getpos(nr))),toid1,toid2,pattern,
     Literals(WhatLit));
 
   #if DLEVEL >= 5
@@ -666,25 +666,25 @@ int Literal_find(int i,char *out[],int WhatLit) 	//  Suchen: organisiert Datenau
     TOID toid;
     int j;
 #if DLEVEL >= 12
-    literals[WhatLit]->getpos(i).test();
+    litlist[WhatLit]->getpos(i).test();
 #endif
 
 
-    if (database->get_tuple(literals[WhatLit]->getpos(i),toid))
+    if (database->get_tuple(litlist[WhatLit]->getpos(i),toid))
 	{
 
 	    for (j=0;j<2;j++) out[j] = Ptrans2[j];
 
-            switch (literals[WhatLit]->getpos(i).ask_pattern())
+            switch (litlist[WhatLit]->getpos(i).ask_pattern())
 		{
 		case FREE_ID_1:
 		    database->toid2oid(toid,out[0]);
-		    if (literals[WhatLit]->getpos(i).DummyId2(toid))
+		    if (litlist[WhatLit]->getpos(i).DummyId2(toid))
 			database->toid2oid(toid,out[1]);
 		    break;
 		case FREE_ID_2:
 		    database->toid2oid(toid,out[1]);
-		    if (literals[WhatLit]->getpos(i).DummyId1(toid))
+		    if (litlist[WhatLit]->getpos(i).DummyId1(toid))
 			database->toid2oid(toid,out[0]);
 		    break;
 		case FREE_ID_1 + FREE_ID_2:
@@ -692,9 +692,9 @@ int Literal_find(int i,char *out[],int WhatLit) 	//  Suchen: organisiert Datenau
 		    database->toid2oid(toid.Dst(),out[1]);
 		    break;
 		case 0:
-		    if (literals[WhatLit]->getpos(i).DummyId1(toid))
+		    if (litlist[WhatLit]->getpos(i).DummyId1(toid))
 			database->toid2oid(toid,out[0]);
-		    if (literals[WhatLit]->getpos(i).DummyId2(toid))
+		    if (litlist[WhatLit]->getpos(i).DummyId2(toid))
 			database->toid2oid(toid,out[1]);
 		    break;
 		default:
@@ -705,19 +705,19 @@ int Literal_find(int i,char *out[],int WhatLit) 	//  Suchen: organisiert Datenau
 #endif
 
 #if DLEVEL >= 5
-	    literals[WhatLit]->getpos(i).test();
+	    litlist[WhatLit]->getpos(i).test();
 	    printf("\n");
 #endif
 	    return 1;
 	}
 
     out[0] = Ptrans2[0];
-    if (literals[WhatLit]->getpos(i).DummyId1(toid))
+    if (litlist[WhatLit]->getpos(i).DummyId1(toid))
 	database->toid2oid(toid,out[0]);
     else out[0][0] = 0;
 
     out[1] = Ptrans2[1];
-    if (literals[WhatLit]->getpos(i).DummyId2(toid))
+    if (litlist[WhatLit]->getpos(i).DummyId2(toid))
 	database->toid2oid(toid,out[1]);
     else out[1][0] = 0;
 
@@ -802,9 +802,9 @@ int Literal4_getquery(char *tuple[4],int WhatLit) {
 
   int nr=-1;
   switch (WhatLit) {
-  case Adot: nr=literals[WhatLit]->addquery(new AdotQUERY);break;
-  case Aidot: nr=literals[WhatLit]->addquery(new AidotQUERY);break;
-  case ALabelLit: nr=literals[WhatLit]->addquery(new ALQUERY);break;
+  case Adot: nr=litlist[WhatLit]->addquery(new AdotQUERY);break;
+  case Aidot: nr=litlist[WhatLit]->addquery(new AidotQUERY);break;
+  case ALabelLit: nr=litlist[WhatLit]->addquery(new ALQUERY);break;
   default: printf("Literalstyp %d konnte nicht ausgewertet werden (Literal4_getQuery)!\n",WhatLit);
   }
 
@@ -847,11 +847,11 @@ int Literal4_getquery(char *tuple[4],int WhatLit) {
 
   switch(WhatLit)
   {
-  case Adot: database->start_Literal4(*((QUERY4a*) &(literals[WhatLit]->getpos(nr))),cc,x,ml,tuple[2],y
+  case Adot: database->start_Literal4(*((QUERY4a*) &(litlist[WhatLit]->getpos(nr))),cc,x,ml,tuple[2],y
                                            ,pattern,Literals(WhatLit));
-  case Aidot: database->start_Literal4(*((QUERY4a*) &(literals[WhatLit]->getpos(nr))),cc,x,ml,tuple[2],y
+  case Aidot: database->start_Literal4(*((QUERY4a*) &(litlist[WhatLit]->getpos(nr))),cc,x,ml,tuple[2],y
                                            ,pattern,Literals(WhatLit));
-  case ALabelLit:database->start_Literal4(*((QUERY4b*) &(literals[WhatLit]->getpos(nr))),x,ml,tuple[1],l,tuple[2],y
+  case ALabelLit:database->start_Literal4(*((QUERY4b*) &(litlist[WhatLit]->getpos(nr))),x,ml,tuple[1],l,tuple[2],y
                                       ,pattern,Literals(WhatLit));
   }
 
@@ -874,13 +874,13 @@ int Literal4_find(int i,char *out[],int WhatLit) 	//  Suchen: organisiert Datena
     TOID toid,cc;
     int j;
 #if DLEVEL >= 12
-    literals[WhatLit]->getpos(i).test();
+    litlist[WhatLit]->getpos(i).test();
 #endif
 
-    if (database->get_tuple(literals[WhatLit]->getpos(i),toid))
+    if (database->get_tuple(litlist[WhatLit]->getpos(i),toid))
 	{
 	    // no concerned class: nothing to do!
-	    if (!literals[WhatLit]->getpos(i).DummyCC(cc))
+	    if (!litlist[WhatLit]->getpos(i).DummyCC(cc))
 		return 0;
 
 	    for (j=0;j<4;j++) out[j] = Ptrans2[j];
@@ -905,22 +905,22 @@ int Literal4_find(int i,char *out[],int WhatLit) 	//  Suchen: organisiert Datena
 	}
 
     out[0] = Ptrans2[0];
-    if (literals[WhatLit]->getpos(i).DummyId(cc))
+    if (litlist[WhatLit]->getpos(i).DummyId(cc))
 	database->toid2oid(cc,out[0]);
     else out[0][0] = 0;
 
     out[1] = Ptrans2[1];
-    if (literals[WhatLit]->getpos(i).DummySrc(toid))
+    if (litlist[WhatLit]->getpos(i).DummySrc(toid))
 	database->toid2oid(toid,out[1]);
     else out[1][0] = 0;
 
     out[3] = Ptrans2[3];
-    if (literals[WhatLit]->getpos(i).DummyDst(toid))
+    if (litlist[WhatLit]->getpos(i).DummyDst(toid))
 	database->toid2oid(toid,out[3]);
     else out[3][0] = 0;
 
     out[2] = Ptrans;
-    if (!literals[WhatLit]->getpos(i).DummyLab(out[2]))
+    if (!litlist[WhatLit]->getpos(i).DummyLab(out[2]))
 	out[2][0]=0;
 
 #if DLEVEL >= 5
@@ -970,7 +970,7 @@ int Literal3_getquery(char *tuple[3],int WhatLit) {
 
   int nr=-1;
   switch (WhatLit) {
-  case ALit: nr=literals[WhatLit]->addquery(new AQUERY);break;
+  case ALit: nr=litlist[WhatLit]->addquery(new AQUERY);break;
   default:
       {
 #if DLEVEL >= 3
@@ -1011,7 +1011,7 @@ int Literal3_getquery(char *tuple[3],int WhatLit) {
   cout.flush();
   #endif
 
-  database->start_Literal3(*((QUERY3*) &(literals[WhatLit]->getpos(nr))),x,ml,tuple[1],y
+  database->start_Literal3(*((QUERY3*) &(litlist[WhatLit]->getpos(nr))),x,ml,tuple[1],y
 			   ,pattern,Literals(WhatLit));
 
   #if DLEVEL >= 10
@@ -1031,10 +1031,10 @@ int Literal3_find(int i,char *out[],int WhatLit) 	//  Suchen: organisiert Datena
     TOID toid;
     int j;
 #if DLEVEL >= 12
-    literals[WhatLit]->getpos(i).test();
+    litlist[WhatLit]->getpos(i).test();
 #endif
 
-    if (database->get_tuple(literals[WhatLit]->getpos(i),toid))
+    if (database->get_tuple(litlist[WhatLit]->getpos(i),toid))
 	{
 	    for (j=0;j<3;j++) out[j] = Ptrans2[j];
 	    out[1] = Ptrans;
@@ -1054,17 +1054,17 @@ int Literal3_find(int i,char *out[],int WhatLit) 	//  Suchen: organisiert Datena
 	}
 
     out[0] = Ptrans2[0];
-    if (literals[WhatLit]->getpos(i).DummySrc(toid))
+    if (litlist[WhatLit]->getpos(i).DummySrc(toid))
 	database->toid2oid(toid,out[0]);
     else out[0][0] = 0;
 
     out[2] = Ptrans2[2];
-    if (literals[WhatLit]->getpos(i).DummyDst(toid))
+    if (litlist[WhatLit]->getpos(i).DummyDst(toid))
 	database->toid2oid(toid,out[2]);
     else out[2][0] = 0;
 
     out[1] = Ptrans;
-    if (!literals[WhatLit]->getpos(i).DummyLab(out[1]))
+    if (!litlist[WhatLit]->getpos(i).DummyLab(out[1]))
 	out[1][0]=0;
 
 #if DLEVEL >= 5
@@ -1088,7 +1088,7 @@ int star_getquery(char *label) {
   #endif
 
 
-  int nr=literals[3]->addquery(new starQUERY);	// 3 == star
+  int nr=litlist[3]->addquery(new starQUERY);	// 3 == star
   if (nr == -1)
   {
       printf("\nConceptBase Object Storage:\n");
@@ -1102,7 +1102,7 @@ int star_getquery(char *label) {
   cout.flush();
   #endif
 
-  database->start_star(*((QUERY1*) &(literals[star]->getpos(nr))),label);
+  database->start_star(*((QUERY1*) &(litlist[star]->getpos(nr))),label);
 
   #if DLEVEL >= 4
   cout << "getquery: ready.\n";
@@ -1122,11 +1122,11 @@ int star_find(int i,char *out[]) 	//  Suchen: organisiert Datenaustausch,
     TOID toid;
     int j;
 #if DLEVEL >= 12
-    literals[star]->getpos(i).test();
+    litlist[star]->getpos(i).test();
 #endif
 
 
-    if (database->get_tuple(literals[star]->getpos(i),toid))
+    if (database->get_tuple(litlist[star]->getpos(i),toid))
 	{
 
 	    for (j=0;j<1;j++) out[j] = Ptrans2[j];
@@ -1138,7 +1138,7 @@ int star_find(int i,char *out[]) 	//  Suchen: organisiert Datenaustausch,
 #endif
 
 #if DLEVEL >= 4
-	    literals[star]->getpos(i).test();
+	    litlist[star]->getpos(i).test();
 	    printf("\n");
 #endif
 	    return 1;
