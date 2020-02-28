@@ -1,7 +1,7 @@
 Steps to configure a ConceptBase development environment ***
 Manfred Jeusfeld
 
-2007-11-29 (2019-03-25)
+2007-11-29 (2020-02-28)
 
 
 This file documents how to set-up a Linux or Unix system as a development
@@ -30,7 +30,7 @@ Install the following packages
       libreadline6   (see also below!)
       libncursesw5-dev
       bash (the main shell for ConceptBase scripts)
-      openjdk-8-jdk  (Java 6 and Java 7 JDKs also work))
+      openjdk-8-jdk  (Java 6 and Java 7 JDKs also work, newer versions up to Java 11 also seem to work)
       libxpm-dev     (needed for SWI-Prolog)
       libjpeg62-dev  (needed for SWI-Prolog)
       libxft-dev     (needed for SWI-Prolog)
@@ -284,6 +284,13 @@ Preferably, disable some packages in build
 Otherwise, you may have to install quite a number of X11 libriaries
 to let ./build succeed.
 
+Since gcc-4.4 is not available for newer Raspbian version (or difficult to get),
+you may also get away by creating a symbolic link like:
+   sudo ln -s /usr/bin/clang /usr/bin/gcc-4.4
+Clang is a replacement for gcc/g++ that seems to be more backwards compatible than gcc.
+Note that Raspbian may not offer older versions of clang. But the current version
+provided in 2020 seems to be compatible enough to compile the ConceptBase sources.
+
 The compilation requires that a subdirectory tree
   ProductPOOL/linuxarm
 exists. If it does not exist on your computer, you can copy it
@@ -302,11 +309,11 @@ if you want to compile the Java files as well.
 Afterwards, compile with
   compileCB
 
+(outdated.)
 If you get an error message about a missting library (lib)stdc++, then uninstall g++-4.4
 and then re-install it again
-
-sudo apt-get remove g++-4.4
-sudo apt-get install g++-4.4
+  sudo apt-get remove g++-4.4
+  sudo apt-get install g++-4.4
 
 
 
