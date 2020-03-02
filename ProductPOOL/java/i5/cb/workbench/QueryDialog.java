@@ -140,7 +140,7 @@ public class  QueryDialog extends JInternalFrame implements ActionListener {
         allAnswerFormats[0]="default";
         allAnswerFormats[1]="FRAME";
         allAnswerFormats[2]="LABEL";
-        allAnswerFormats[3]="FRAGMENT";
+        allAnswerFormats[3]="FRAGMENTswi";
         allAnswerFormats[4]="JSONIC";
         for(int i=0;i<asAnswerFormats.length;i++)
             allAnswerFormats[i+5]=asAnswerFormats[i];
