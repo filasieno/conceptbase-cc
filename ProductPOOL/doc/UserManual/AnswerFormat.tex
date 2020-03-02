@@ -36,6 +36,14 @@ There are four options for the answer format:
       the answer shall be returned as a list of Telos frames. 
 \item[{\tt JSONIC}:]
       the answer shall be returned as a list of JSON-like frames (experimental).
+\item[{\tt FRAGMENT}:]
+      return the answer objects as so-called SMLfragments (deprecated)
+\item[{\tt FRAGMENTswi}:]
+      return the answer objects a SWI-Prolog list of terms
+      smlFragment(O,In1,In2,Isa,With), each representing one answer object
+\item[{\tt VIEW}:]
+      return the as complex Telos frames (a frame can contain another frame as attribute); 
+      to be used when you ask a View query
 \item[{\em answer-format-name}:]
       Finally, the name of a user-defined answer format can be provided, like {\tt MyFormat}.
       This will override any answer format that is assigned via the {\tt forQuery} attribute
@@ -121,7 +129,8 @@ Subsequently, the specification of such user-defined answer formats is presented
 
 \section{Basic definitions}
 
-By default, ConceptBase displays answers to queries in the FRAME format (see `A' and `B' below). For many applications, other answer
+By default, ConceptBase displays answers to queries in the FRAME format (see `A' and `B' below). 
+For many applications, other answer
 representations are more useful. For example, relational data is more readable in a table structure. Another important example are XML data. If
 ConceptBase is integrated into a Web-based information system, then answers in HTML format are quite useful. For this reason, answer format
 definitions are provided.
