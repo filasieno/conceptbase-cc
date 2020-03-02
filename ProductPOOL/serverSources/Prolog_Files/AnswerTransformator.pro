@@ -255,7 +255,7 @@ trans_answer([_fa|_resans],_format,_r) :-	{ test if _format is an instance of An
 	trans_answer(_resans,_format,_r).
 
 trans_answer([_fa|_resans],_f,_r) :-			{ test if _f is a parameterized AnswerFormat }
-    not(pc_member(_f,['FRAME','LABEL','FRAGMENT','VIEW','NONE','JSONIC'])),
+    not(pc_member(_f,['FRAME','LABEL','FRAGMENT','FRAGMENTswi','VIEW','NONE','JSONIC'])),
 	pc_stringtoatom(_Objstring,_f),
 	ObjNameStringToList(_Objstring,_sml_objnamelist),
 	EliminateClassInList(_sml_objnamelist,_objnamelist),
@@ -297,6 +297,13 @@ tf_answer(_fa,FRAGMENT,_answerFrames) :-
 	transform(_fa,_fragmentlist),
 	fragments_to_string(_fragmentlist,_answerFrames),
 	appendBuffer(_answerFrames,'\n').
+
+tf_answer(_fa,FRAGMENTswi,_answerFrames) :-
+	!,
+	transform(_fa,_fragmentlist),
+	appendBuffer(_answerFrames,'['),
+	fragmentsSwi_to_string(_fragmentlist,_answerFrames),
+	appendBuffer(_answerFrames,']\n').
 
 
 
@@ -526,6 +533,18 @@ fragments_to_string([_firstfrag|_r],_buf) :-
 	appendBuffer(_buf,_atom),
 	!,
 	fragments_to_string(_r,_buf).
+
+
+{* for SWI-friendly output *}
+
+fragmentsSwi_to_string([],_buf).
+
+fragmentsSwi_to_string([SMLfragment(_w,_in1,_in2,_isa,_with)|_r],_buf) :-
+	term_to_atom(smlFragment(_w,_in1,_in2,_isa,_with),_atom),  {* SWI builtin! *}
+	appendBuffer(_buf,_atom),
+	appendBuffer(_buf,',\n'),
+	!,
+	fragmentsSwi_to_string(_r,_buf).
 
 
 { ***************** f r a g m e n t s _ t o _ f r a m e s ******************* }

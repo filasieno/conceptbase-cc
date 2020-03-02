@@ -1041,7 +1041,7 @@ infixName('GT','>').
    _smlName   ground atom list
    _editorName   free atom
    outIdentifier transforms the form of the identifier used in the
-   smlFragment to the form the editor uses the identifier .
+   SMLfragment to the form the editor uses the identifier .
    For example: the identifier select(select(ident1,!,ident2),^,ident3)
                 becomes  ident1!ident2^ident3
 ************************************************************************}
