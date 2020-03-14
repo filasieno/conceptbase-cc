@@ -1,0 +1,21 @@
+#!/bin/bash
+# forcefully update to the current origin/master branch of the GIT repository
+
+# exit on error
+set -e
+
+INGITDIR=`git rev-parse --is-inside-work-tree`
+
+if [ ! "$INGITDIR" = "true" ]; then
+  echo "Not in a GIT directory"
+  exit 1
+fi
+
+
+# 1: fetch all from repository
+git fetch --all
+# 2: prepare the commit
+git reset --hard origin/master
+
+
+
