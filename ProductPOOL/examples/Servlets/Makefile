@@ -38,7 +38,7 @@ INFO_TXT=Beispiel fuer die Benutzung von Servlets mit CB
 
 # exportierte Dateien fuer die Verteilversion
 EXPORTFILES=Paper.sml \
-   PaperForm.html \
+#   PaperForm.html \
    PaperInst.sml \
    README \
    default.cfg \
