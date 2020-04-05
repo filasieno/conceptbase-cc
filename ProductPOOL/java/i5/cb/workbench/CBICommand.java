@@ -519,9 +519,9 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
                 JOptionPane.showMessageDialog(CBI, "No Telos Editor selected");
                 return;
             }
-            FileDialog fd=new FileDialog(CBI, "Save Telos Editor", FileDialog.LOAD);
+            FileDialog fd=new FileDialog(CBI, "Save Telos Editor", FileDialog.SAVE);
             fd.setDirectory(CBI.getLoadModel());
-            fd.setFile("*.sml;*.txt");
+            fd.setFile(CBI.getStatusBar().getDisplayedModule()+".sml.txt");
             fd.setFilenameFilter(new FilenameFilter(){
                                      public boolean accept(File dir, String name){
                                      return (name.endsWith(".sml") || name.endsWith(".txt"));

@@ -76,6 +76,17 @@ public class StatusBar extends JPanel {
      */
     private JTextField tfStatusLabel;
 
+
+   /**
+     * return the module name displayed in status Bar of CBIva
+     *
+     * @return  module name displayed in status Bar of CBIva
+     */
+
+    public String getDisplayedModule() {
+        return displayedModule;
+    }
+
     /**
      * setzt den Status auf CONNECTED/DISCONNECTED
      *
