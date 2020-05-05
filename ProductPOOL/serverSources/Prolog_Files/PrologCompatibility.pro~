@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2016 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -28,8 +28,8 @@ of the ConceptBase Team.
 
 The ConceptBase Team is represented by
 
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
@@ -88,6 +88,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(pc_atomprefix/3)
 #EXPORT(pc_member/2)
 #EXPORT(pc_cputime/1)
+#EXPORT(pc_gettime/1)
 #ENDMODDECL()
 
 #IF(SWI)
@@ -301,6 +302,8 @@ pc_member(_x,[_|_r]) :- pc_member(_x,_r).
 
 pc_cputime(_t) :-
   cputime(_t).
+
+pc_gettime(_t) :- get_time(_t).  {* not sure whether BIM-Prolog supported this ... *} 
 
 #ENDIF(BIM)
 
@@ -630,6 +633,8 @@ pc_member(_x,[_|_r]) :- pc_member(_x,_r).
 
 pc_cputime(_t) :-
   _t is cputime.
+
+pc_gettime(_t) :- get_time(_t).  {* time in seconds as floating point number passed since 1970-01-01 *} 
 
 
 #ENDIF(SWI)

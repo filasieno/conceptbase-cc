@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2018 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -90,11 +90,11 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
-cb_version('8.0.20').
-cb_date_of_release('2018-08-24'). { set via environment variable CB_DATE in startCBserver; see serverSources/Makefile }
+cb_version('8.1.20').
+cb_date_of_release('2020-03-02'). { set via environment variable CB_DATE in startCBserver; see serverSources/Makefile }
 cb_location('Skovde').            {* place where CBserver is compiled, updated in startCBserver *}
 
-cb_copyright_time('Copyright 1987-2018').              {keep up to date!}
+cb_copyright_time('Copyright 1987-2020').              {keep up to date!}
 
 
 #DYNAMIC(cb_installation/1)
@@ -201,7 +201,9 @@ portnr(4001).
 {** Controls the way how ConceptBase applies its security policy.           **}
 {** Settings:                                                               **}
 {**     0 = no access control enabled, users can freely tell, ask, untell   **}
-{**     1 = normal access control by query CB_Permitted                     **}
+{**     1 = basic protection, updates only in current module                **}
+{**     2 = normal access control by query CB_Permitted                     **}
+{**     3 = at most READ access permitted                                   **}
 {**                                                                         **}
 {*****************************************************************************}
 
@@ -342,7 +344,7 @@ default_cb_feature(multiuser,enabled).          {* values: enabled,disabled }
 default_cb_feature(UpdateMode,unknown).         {* values: persistent,nonpersistent,unknown *}
 default_cb_feature(UntellMode,cleanup).         {* values: verbatim,cleanup *}
 default_cb_feature(securityLevel,'1').          {* values: 0,1,2,... *}
-default_cb_feature(TraceMode,minimal).          {* values: silent,no,minimal,low,high,veryhigh *}
+default_cb_feature(TraceMode,no).          {* values: silent,no,minimal,low,high,veryhigh *}
 default_cb_feature(defaultCacheMode,keep).      {* values: off,transient,keep *}
 default_cb_feature(ViewMaintenanceRules,off).   {* values: off,on *}
 default_cb_feature(RangeFormOptimizing,'4').    {* values: 0,1,2,3,4 *}
@@ -371,7 +373,7 @@ default_cb_feature(inactivityInterval,2.0).     {* time in hours that characteri
 default_cb_feature(moduleGeneration,'split').   {* values 'whole'=one module source per module, *}
                                                 {*        'split' = separator per transaction (default) *}
 default_cb_feature(stratificationTest,'on').    {* values: on or off  *}
-default_cb_feature(sortLimit,1000).             {* lists with more than this number of elements are not sorted in AnswerTransform  *}
+default_cb_feature(sortLimit,5000).             {* lists with more than this number of elements are not sorted in AnswerTransform  *}
 
 
 {* Only features with a 'long name' are displayed in the terminal window of the CBserver *}

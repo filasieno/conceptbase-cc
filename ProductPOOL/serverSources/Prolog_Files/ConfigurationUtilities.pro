@@ -976,6 +976,10 @@ concatComments([(_label,_comment)|_rest],_result) :-
   pc_atomconcat(_line1,_result1,_result),
   !.
 
+{* never fail *}
+concatComments([_|_rest],_result) :- 
+  concatComments(_rest,_result).
+
 
 pruneProps(_all,_pruned) :-
   pruneProps(_all,[],_pruned).
