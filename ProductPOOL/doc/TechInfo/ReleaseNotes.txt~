@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2018-06-14
+                      2020-02-07
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -21,6 +21,110 @@ The ConceptBase Forum (CB-Forum) is accessible via
 
 The list of tickets and their solutions is available at
 http://www-i5.informatik.rwth-aachen.de/cgi-bin/cvstrac/cvstrac.cgi/cbase/rptview?rn=4
+
+
+Detailed Changes since Version 8.0 (2019-05-30)
+===============================================
+
+Version 8.1 aims at making the CBserver better integrated with current
+exchange formats. We are now referring to issue numbers as stored in
+the GitLab repository of ConceptBase.cc
+
+81-01 More complete support for JSON output format
+
+   The JSONIC format now should produce valid JSON code and is applicable for
+   the listModule query as well as any other query.
+   (Issue 1)
+
+81-02 Use subclass relationships derived by DeepTelos to compile formulas
+
+   DeepTelos is an extension to Telos that derives specializations between
+   classes (powertype pattern). These specializations are now taken into
+   account for checking the type-safety of predicates in rules and
+   constraints.
+   (Issue 4) 
+
+81-03 New CBShell command 'sub'
+
+   The CBShell command 'sub' lists the currently visible modules; equivalent to
+   'ls Module'
+
+81-04 Enable/disable derived links in CBGraph
+
+   A new option of CBGraph allows to enable/disable the display of derived links.
+   If disabled, CBGraph is faster in displaying the pop-up menues and showing the
+   incoming and outcoming links. However, it cannot show derived links in this case.
+   The option is included since some database are too large in combination with
+   recursive rules to show derived links.
+   (Issue 5)
+
+81-05 Remove FrameTree from CIBiva
+
+   FrameTree ("View Object as Tree") is no longer includes in CBIva since it depends
+   on the legacy package Motif, which is not supported by Java 9 and newer. FrameTree
+   never gained popularity for inspecting a database. So, users will probably not
+   note that it is missung.
+   (Issue 6)
+
+81-06 New value "wrap_" for graphical property "size"
+
+   The new value "wrap_" for the "size" graphical property works like "wrap" (i.e. the node label is
+   displayed via HTML renderer. In addition, it replaces occurences of "_" by " " to support
+   very long object names that are concatenated via "_".
+
+81-07 Performance blocker related to cache use
+
+   The cache of pre-computed predicate facts is emptied when the module context is changed. Due to a bug,
+   this happened also in situations where the module stayed the same. This resulted in many
+   unnecessary recomputations of derived facts, in particular when using the graph editor.
+   Should be solved now.
+   (Issue 7)
+
+81-08 Zooming now respects edgestyles
+
+   Zooming in CBGraph resulted in edges styles liked "dashed" being lost this is now solved.
+   (Issue 10)
+
+81-09 Showing derived classes of an object in CBGraph
+
+   CB_Graph uses the query find_classes to display explicit and derived classes of an object
+   via the pop-up menu "instance of". This query happended not to show classes that were
+   derived via deductive rules. Only instantiation to query classes and superclasses was
+   shown. This is now resolved.
+   (Issue 11)
+
+81-10 Palette-specific method to get used attribute categories for CBGraph
+
+   The graphical palette can now define two so-called palproperties for
+   incoming and outgoing attribute categories. The queries specified there
+   replace the default queries find_used_attribute_categories and
+   find_used_incoming_attribute_categories. This feature is useful when
+   the default queries would deliver too many choices or when their computation
+   is too costly, e.g. die to many derived attributes.
+   Further, the queries to compute explicit and derived incoming
+   links are replaced by more efficient versions.
+   (Issue 5)
+
+81-11 Allow object labels like 2020_01_07
+
+   The tokenizer of ConceptBase now also supports object labels like 2020_01_07.
+   (Issue 13)
+
+81-12 Derived attribute categories of explicit attributes in CBGraph
+
+   CBGraph can now expand derived attribute categories of explicit attributes.
+   Such explicit attributes have their instatiation to their attribute
+   category derived by a deductive rule.
+   (Issue 15)
+
+81-13 Use starttime of an object as query rollbacktime
+
+   The 'ASK' command of the CBserver now supports to use any object name as parameter
+   for the rollback time of a query. The CBserver then takes the start time of that object
+   as rollbacktime. Note that any object in ConceptBase has a starttime tag, i.e. the time
+   when it was created in the database.
+   (Issue 16)
+
 
 
 
@@ -230,6 +334,101 @@ other modeling tools.
    The two functions QT ("quote") and UQ ("unquote") are now behaving in a more predictable way.
    A string, which is already quoted, is unchanged by QT. A string, which does not have quotes,
    is left unchanged by UQ.
+
+80-33 Unsorted answers
+   Answer sets processed via AnswerFormat are sorted by default. This can now be switched off by
+   setting the orderBy flag of the answer format to "none". 
+   (Ticket 416)
+
+80-34 More efficient listModule
+   The listModule function is very slow when a module has many objects. The reason is a recursive and
+   thus inefficient implementation of a query callled DoNotSave_LM. This is now replaced by a more
+   efficient query definition. 
+   (Ticket 417)
+
+80-35 Display the connection details in Telos Editor
+   The Telos Editor text frame now displays the connection details host:port in its title when
+   connected.
+
+80-36 Compatibility with Java 9
+   We made small changes to the Java sources and compile flags to make it compatible with Java 9.
+   (Tickets 419, 420)
+
+80-37 Experimental frame format JSONIC
+   An experimental alternative Telos frame format JSONIC is offered as answer format for listModule.
+   Currently, only the export of the JSONIC frames is supported. Yash K. has written an Eclipse editor
+   supporting this format and converting is to standard Telos FRAME format.
+   (Ticket 422)
+
+80-38 Method to clear the contents of a module
+   The API method clearall() of LocalCBclient untells all objects defined in the current module
+   if that module has no non-empty sub-module. The method is based on the new builtin query
+   class purgeModule. Note that untelling is not equivalent to deleting. Untold objects are
+   just marked by the transaction time (tell,untell). Thus, consecutive calls of clearall()
+   can increase the memory footprint.
+   (Ticket 423) 
+
+80-39 Stack overflow when compiling complex ECA rule sets
+   The compilation of large cyclic ECA rules could cause stack overflows of the CBserver.
+   The problem was an ill-designed tracing procedure that created too many recursive calls was very
+   large parameters. The issue has been resolved.
+   (Ticket 424) 
+
+80-40 Manage the location of nodes in the graph editor
+   The graph editor provides a new option "Freeze / Unfreeze" to lock the position of a node.
+   The option is provided in the pop-up menu associated to the right mouse button.
+   A frozen node can be unlocked by selecting the option a second time. Moreover,
+   CBGraph now checks for graphical type properties "freeze" and "location" sent by the CBserver.
+   The property "freeze" leads to freezing the node. The property "location" designated the
+   (initial) location of a node. The new function also applies to edges since edges are
+   also regarded as special nodes.
+   (Ticket 426)
+
+80-41 Read-only mode for ConceptBase
+   The CBserver option -s 3 (securityLevel) will enforce read-only access, i.e. no updates are
+   possible to any module. Queries creating new numbers (e.g. COUNT queries) are still possible
+   though.
+   (Ticket 427)
+
+80-42 Problem with connecting to publis CBserver that use different port numbers
+   CBIva/CBGraph did not work with public CBservers that used port numbers like 4002. This is now resolved.
+   (Ticket 428)
+
+80-42 GEL filename not initialized correctly
+   Under certain circumstances, the window to select the location where a GEL file should be stored
+   was not initialized with the location of the currently loaded GEL file.
+   (Ticket 429)
+
+80-43 Display GEL filename also in internal frame of CBGraph
+   The graph internal frame of CBGraph now also displays the GEL file name. If a new GEL file is loaded,
+   it gets its own new frame.
+   (Ticket 430)
+
+80-44 More flexible use of dedicated answer format when calling a query
+   The dedicated 'forQuery' answer format is now only be used when specified by the user in the
+   query call or when the user used 'default' as answer format. Otherwise the answer format provided in
+   the query call is selected.
+   (Ticket 431)
+
+80-45 Functional expressions in predicates
+   Functional expressions and complex query calls are only allowing in comparison predicates such as 
+   (x < f(y)+1) and in instantiation predicates of conditions such as (x in Q[F(x)/arg1]). They may not
+   occur in attribution predicates such as (x m y+1). This is now corrected.
+   (Ticket 432)
+
+80-46 JSON-like answer format
+   You can now use an experimental JSON-like answer format JSONIC instead of FRAME to get the answer 
+   of a query returned as JSON objects. The new feature is not yet bullet-proof but could be useful
+   for post-processing the answers of simple ConceptBase queries. Dedicated answer formats are not
+   constrained by this feature, i.e. you can define your own JSON-like answer format for specific queries.
+   JSONIC works for all queries.
+   (Ticket 433)
+
+80-47 Add module comments to listModule header
+   Comment lines defined for a module object (instance of class Module) are included in the header
+   generated by listModule. It can be used to specify authors, license and other meta data 
+   relevant for the module source.
+   (Ticket 434)
 
 
 
