@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2017 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -116,6 +116,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(prove_explicit/1)
 #EXPORT(prove_literal/1)
 #EXPORT(prove_literals/1)
+#EXPORT(prove_upd_literals/1)
 #EXPORT(prove_edb_literals/1)
 #EXPORT(prove_edb_literal/1)
 #EXPORT(prove_upd_literal/1)
@@ -230,7 +231,11 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
     {* Temporaerer ModulSearchSpace *}
 
 #DYNAMIC(IS_DEDUCABLE/1)
+#DYNAMIC(DEDUCED_ACs/1)
     {* Local precomputed facts *}
+
+
+
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -283,7 +288,10 @@ checkCorrectIDs :-
   checkCorrectID(DefaultJavaPalette,id_1019),
   checkCorrectID(find_instances,id_448),
   checkCorrectID(JavaGraphicalPalette,id_891),
-  checkCorrectID(MSFOLrule,id_41),
+  checkCorrectID(MSFOLrule,id_46),
+  checkCorrectID(Module,imports,id_1527),
+  checkCorrectID(Module,exports,id_1528),
+  checkCorrectID(Class,rule,id_0000),
   !.
 
 checkCorrectIDs :-
@@ -317,6 +325,7 @@ checkCorrectID(_name,_label,_id) :-
 checkCorrectID(_name,_label,_id) :-
   write('Literals.pro: '),write(_name),write('!'),write(_label),
   write(' does not (yet) exist! Some predicates may not work as expected.'),nl,
+  setFlag(missingObjects,'yes'),   {* an updating transaction may not see the cache at all *}
   !.
 
 
@@ -355,6 +364,12 @@ prove_literal(AD(_cc,_x,_y)) :-
         ground(_cc),
         !,
         prove_literal(Adot(_cc,_x,_y)).
+
+
+{* ticket #414: this predicate should be used for the builtin query find_explicit_attribute_values *}
+
+prove_literal(AeD(_cc,_x,_y)) :-
+        get_Aedot(_cc,_x,_y).
 
 
 
@@ -460,7 +475,6 @@ prove_literal(Adot_label(_cc,_x,_y,_catom)) :-
 prove_literal(Aedot_label(_cc,_x,_y,_l)) :-  
         get_Adot_label(_cc,_x,_y,_l).
 
-
 {* ticket #207: improve support for A_e *}
 prove_literal(Aedot(_cc,_x,_y)) :-  
         get_Aedot(_cc,_x,_y).  { #195 }
@@ -525,6 +539,11 @@ prove_literal(In(_x,_c)) :-
 {* y's for which Q(y,...) can be shown.                                      *}
 {* See also CBNEWS.doc, point 215.                                           *}
 
+{* ticket #412: special case for singleton classes *}
+prove_literal(In(_x,_x)) :-
+  var(_x),!,
+  prove_In(_x,id_0),  {* id_0 = Proposition; provide a range for _x }
+  prove_In(_x,_x).
 
 prove_literal(In(_x,_querycall)) :-
   compound(_querycall),
@@ -708,16 +727,44 @@ prove_literal(A_e(_x,_m,_y)) :-
 { deductive A predicate, i.e. only deductive rules are applied. 7-6-95/CQ}
 {* Note: the _cc argument is a free variable here! The A_d literal     *}
 {* is being called by PropositionToFragment                            *}
+
+{* too slow, replaced by the subsequent two clauses
 prove_literal(A_d(_x,_m,_y)) :-
         (ground(_x);ground(_y)),
-	!,  {no other clauses below applicable }
+	!,  
 	ded_Adot(_cc,_x,_y),
         retrieve_proposition(P(_cc,_c,_m,_d)).
+*}
+
+
+prove_literal(A_d(_x,_m,_y)) :-
+        ground(_x),
+        DEDUCED_ACs(_acs),
+	!,  
+        member(P(_cc,_c,_m,_d),_acs),
+{*
+        isDeducableAttribution(_cc),
+        retrieve_proposition(P(_cc,_c,_m,_d)),
+        attribute(P(_cc,_c,_m,_d)),
+*}
+        prove_literal(In(_x,_c)),
+	ded_Adot(_cc,_x,_y).
+
+prove_literal(A_d(_x,_m,_y)) :-
+        ground(_y),
+        DEDUCED_ACs(_acs),
+	!,  
+        member(P(_cc,_c,_m,_d),_acs),
+        prove_literal(In(_y,_d)),
+	ded_Adot(_cc,_x,_y).
+
 
 prove_literal(A_d(_x,_m,_y)) :-
 	!,
         retrieve_proposition(P(_cc,_c,_m,_d)),
+        attribute(P(_cc,_c,_m,_d)),
 	ded_Adot(_cc,_x,_y).
+
 
 
 
@@ -1008,6 +1055,10 @@ prove_upd_literal(_lit) :-
   checkToEnableCacheDuringUpdate,
   prove_literal(_lit).
 
+prove_upd_literals(_lit) :-
+  checkToEnableCacheDuringUpdate,
+  prove_literals(_lit).
+
 
 
 
@@ -1209,14 +1260,16 @@ prove_In(_x,_c) :-
 ded_In(_x,_c) :-
    ground(_c),   { _c has to be ground, otherwise we would scan all Isa-relationships here }
    prove_literal(Isa_e(_sub,_c)),
-   name2id(QueryClass,_QueryClass),
-   \+ prove_In_e(_sub,_QueryClass),     {* id_65 = QueryClass *}
+   \+ prove_In_e(_sub,id_65),     {* id_65 = QueryClass *}
    prove_by_cache(In(_x,_sub)).   {* this only evaluates the deductive rules for In(.,.)! *}
 
 { if _c is free, find deduced classes of _x and then their superclasses }
 ded_In(_x,_c) :-
    var(_c),
    !,
+{*   isDeducable(In(_x,_sub)),   ---> this version does not bind _sub *}
+   IS_DEDUCABLE(In(_x,_sub)),
+   \+ prove_In_e(_sub,id_65),     {* id_65 = QueryClass *}
    prove_by_cache(In(_x,_sub)),   {* this only evaluates the deductive rules for In(.,.)! *}
    (
    _c=_sub;   {* Ticket #145: _sub itself is also a class of _x! *}
@@ -1251,6 +1304,16 @@ prove_In_eh(_x,_c) :-
    IsA_axiom_1(In_i(_x,_c)).                         {In_i}
 
 
+{* used to cover the fact that the instantiatian of an explicit attribute to its attribute category is derived by a a rule *}
+{* useful to find these categories via AD(_cc,_x,_y) called with variable _cc *}
+ded_In_cc(_id,_cc) :-
+   var(_cc),
+   !,
+   IS_DEDUCABLE(In(_id,_cc)),  {* if there is more than one rule head, we shall backtrack *}
+   prove_by_cache(In(_id,_cc)).
+
+
+
 {get_A(_x,_ml,_y) :-				}
 {	retrieve_proposition(P(_id1,_x,_l,_y)),	}
 {        attribute(P(_id1,_x,_l,_y)),		}
@@ -1272,11 +1335,11 @@ get_A(_x,_ml,_y) :-
 { dotted A predicates: make distinction upon instantiation of x}
 
 get_Adot(_cc,_x,_y,_id1) :-
-  (atom(_x);atom(_y)),
+  (atom(_x); atom(_y)),
   !,
   retrieve_proposition(P( _id1, _x, _l, _y)),
   attribute(P( _id1, _x, _l, _y)),
-  prove_In_e(_id1,_cc).
+  (prove_In_e(_id1,_cc); ded_In_cc(_id1,_cc)).   {* ded_In_cc case only needed for calls where _cc is a variable *}
 
 get_Adot(_cc,_x,_y,_id1) :-
   prove_In_e(_id1,_cc),
@@ -1293,8 +1356,25 @@ get_Adot(_cc,_x,_y,_id1) :-
 {* We assume that the argument cc (concerned class) is always bound.     *}
 
 
+get_Aedot(_cc,_x,_y) :-    
+   ground(_cc),
+   _cc = id_6, {* id_6 = Proposition!attribute *}
+   !,
+   retrieve_proposition(P(_id,_x,_l,_y)),
+   attribute(P(_id,_x,_l,_y)).
+
+
 get_Aedot(_cc,_x,_y) :-
+   ground(_cc),
    prove_C_Adot(_cc,_x,_,_y).
+
+get_Aedot(_cc,_x,_y) :-
+   var(_cc),
+   !,
+   retrieve_proposition(P(_id,_x,_l,_y)),
+   attribute(P(_id,_x,_l,_y)),
+   prove_In_e(_id,_cc).
+
 
 get_Aedot(_cc,_x,_y) :-
    IS_DEDUCABLE(In(_id,_cc)),  {* if there is more than one rule head, we shall backtrack *}
@@ -2085,6 +2165,16 @@ notDeducable(_lit) :-
   !.
 
 
+isDeducableAttribution(_cc) :-
+  IS_DEDUCABLE(Adot(_cc,_x,_y));
+  IS_DEDUCABLE(Adot_label(_cc,_x,_y,_l)).
+
+isDeducableAttribute(P(_cc,_c,_m,_d)) :-
+  isDeducableAttribution(_cc),
+  retrieve_proposition(P(_cc,_c,_m,_d)).
+  
+
+
 {* checkIsDeducableByRule is a service function for FragmentToPropositions *}
 {* Will deliver all literal patterns _lit that are derivable by a rule.    *}
 
@@ -2103,13 +2193,48 @@ checkIsDeducableByRule(_lit) :-
 {* rather fast.                                                    *}
 
 
+{*
 precompute_DEDUCABLE :-
   retractall(IS_DEDUCABLE(_)),
   cleanCachedSpeedyFacts,   
   isRuleHead(_head),
   checkToAddIsDeducable(_head),
   fail.
+precompute_DEDUCABLE :-
+  retractall(DEDUCED_ACs(_)),
+  save_setof(_cc,isDeducableAttribution(_cc),_ccs),
+  assert(DEDUCED_ACs(_ccs)),
+  !.
 precompute_DEDUCABLE.
+*}
+
+
+precompute_DEDUCABLE :-
+  retractall(IS_DEDUCABLE(_)),
+  retractall(DEDUCED_ACs(_)),
+  cleanCachedSpeedyFacts, 
+  save_setof(_dlit,deducableLit(_dlit),_dlits),
+  storeDeducableLits(_dlits),
+  save_setof(_ac,isDeducableAttribute(_ac),_acs),
+  storeDeducableAttributes(_acs),
+  !.
+precompute_DEDUCABLE.
+
+deducableLit(_dlit) :-
+  isRuleHead(_head),
+  matchRuleHead(_head,_dlit).
+
+storeDeducableLits([]).
+
+storeDeducableLits([_lit|_rest]) :-
+  assert(IS_DEDUCABLE(_lit)),
+  tryStore(IS_DEDUCABLE(_lit)),
+  storeDeducableLits(_rest).
+
+
+storeDeducableAttributes(_acs) :-
+  assert(DEDUCED_ACs(_acs)).
+
 
 {* This procedure is also used in PROLOGruleProcessor.pro to keep the facts *}
 {* IS_DEDUCABLE up-to-date during a transaction that adds no rules/queries  *}
@@ -2134,7 +2259,7 @@ tryStore(IS_DEDUCABLE(_lit)) :-
   !.
 {* case 2: it was not stored *}
 tryStore(IS_DEDUCABLE(_lit)) :-
-{*  write('IS_DEDUCABLE:'),write_lcall(_lit),nl,  *}
+{*  write('IS_DEDUCABLE:'),write_lcall(_lit),nl, *}
   assert(IS_DEDUCABLE(_lit)).
 
 
@@ -2216,7 +2341,7 @@ do_setCallState(_cacheSlotId,_newstate) :-
   !.
 do_setCallState(_cacheSlotId,_newstate) :-
   _cacheSlotId = (_argkey,_predname),
-  pc_record(_argkey,_predname,[sync]),    {* initialize cache with sync point for iterate_prove_explicit *}
+  pc_record(_argkey,_predname,['sync']),    {* initialize cache with sync point for iterate_prove_explicit *}
   pc_record(_predname,_argkey,_newstate),             {* initialize call state *}
 {*  writeCallPath('1 Call Path: '), *}
   !.
@@ -2230,7 +2355,7 @@ updateCallState(_cacheSlotId,_oldstate,_newstate) :-
 
 initCallState(_cacheSlotId) :-
   _cacheSlotId = (_argkey,_predname),
-  pc_record(_argkey,_predname,[sync]),    {* initialize cache with sync point for iterate_prove_explicit *}
+  pc_record(_argkey,_predname,['sync']),    {* initialize cache with sync point for iterate_prove_explicit *}
   pc_record(_predname,_argkey,'pending'),             {* initialize call state *}
 {*  writeCallPath('1 Call Path: '), *}
   !.
@@ -2273,15 +2398,19 @@ getmember('delta',_lit,_lits) :-
   deltamember(_lit,_lits).    {* only entries that were added in last iteration *}
 
 getmember(_,_lit,_lits) :-
-  pc_member(_lit,_lits).  {* else all facts! *}
+  any_member(_lit,_lits).  {* else all facts! *}
 
-deltamember(_lit,[sync|_rest]) :- !, deltamember2(_lit,_rest).
+deltamember(_lit,['sync'|_rest]) :- !, deltamember2(_lit,_rest).
 deltamember(_lit,[_lit|_]).
 deltamember(_lit,[_|_rest]) :- deltamember(_lit,_rest).
 
-deltamember2(_lit,[sync|_rest]) :- !,fail.
+deltamember2(_lit,['sync'|_rest]) :- !,fail.
 deltamember2(_lit,[_lit|_]).
 deltamember2(_lit,[_|_rest]) :- deltamember2(_lit,_rest).
+
+{* ticket #409: 'sync is only a separator, not a cached fact *}
+any_member(_x,[_x|_]) :- _x \== 'sync'.
+any_member(_x,[_|_r]) :- any_member(_x,_r).
 
 
 
@@ -2367,7 +2496,7 @@ isNegatedNonComplete(_cacheSlotId) :-
   isNegatedCall(_cacheSlotId),              {* call is negated   *}
   getCacheContent(_cacheSlotId,_state,_facts), 
   _state \== 'completed',                   {* cache not completed *}
-  (_facts = []; _facts = [sync]),            {* and cache is empty *}
+  (_facts = []; _facts = ['sync']),            {* and cache is empty *}
   !.
 
 
@@ -2642,20 +2771,20 @@ setPendingDirty(_cacheSlotId,[_|_rest]) :-
 {* cache denoted by (_argkey,_predname).                          *}
 
 addSyncPoint((_argkey,_predname)) :-
-  pc_recorded(_argkey,_predname,[sync|_lits]),  {* there is already a sync as first cache entry *}
+  pc_recorded(_argkey,_predname,['sync'|_lits]),  {* there is already a sync as first cache entry *}
   !.
 
 {* if we have a sync as 2nd entry, we just move it to the head instead of adding a new *}
 {* sync point. This keeps the caches small and makes lookup faster                     *}
 addSyncPoint((_argkey,_predname)) :-
-  pc_recorded(_argkey,_predname,[_lit,sync|_restlits]),
-  _lit \== sync,
-  pc_rerecord(_argkey,_predname,[sync,_lit|_restlits]),  {* move sync point to head *}
+  pc_recorded(_argkey,_predname,[_lit,'sync'|_restlits]),
+  _lit \== 'sync',
+  pc_rerecord(_argkey,_predname,['sync',_lit|_restlits]),  {* move sync point to head *}
   !.
 
 addSyncPoint((_argkey,_predname)) :-
   pc_recorded(_argkey,_predname,_lits),
-  pc_rerecord(_argkey,_predname,[sync|_lits]),  {* add a new sync point *}
+  pc_rerecord(_argkey,_predname,['sync'|_lits]),  {* add a new sync point *}
   incrementCacheSize,                                 {* a sync also counts as cache entry *}
   !.
 
@@ -2971,10 +3100,20 @@ getAbstractCall(_lit,(_argkey,_predname),_clit) :-
   makeArgsAbstract(_orig_args,_abstract_args),
   makeArgkey(_abstract_args,_argkey),
   getFreeVars(_orig_args,_freevars),
-  _clit =.. ['t'|_freevars],
+  makeClit(_freevars,_clit),
 {*  write('Generated the cache predicate '),write(_clit),nl, *}
 {*  write('Call '),write_lcall(_lit),write(' has argkey '),write(_argkey),nl, *}
   !.
+
+
+{* ticket #409: use _x instead t(_x) as 'cached literal' if the litaral call has only one free variable *}
+makeClit([_x],_x) :- !.
+
+{* otherwise: use t(_x1,...) *}
+makeClit(_freevars,_clit) :- 
+   _clit =.. ['t'|_freevars].
+
+
 
 {* This case is apparently not leading to faster access times 
 lit2PredArgs(In(_x,_c),_c,[_x]) :-
@@ -3291,7 +3430,10 @@ eraseCallStates(_).
 printCacheStatistics(_why) :-
   get_cb_feature(TraceMode,_tracemode),
   conforms(veryhigh,_tracemode),   {* print statistics if tracemode=xxx or higher *}
-  !,
+  do_printCacheStatistics(_why).
+printCacheStatistics(_why).
+
+do_printCacheStatistics(_why) :-
   pc_record('NPREDS',0),
   pc_record('SIZE',0),
   pc_record('EMPTY',0),
@@ -3315,7 +3457,7 @@ printCacheStatistics(_why) :-
 
 
 
-printCacheStatistics(_why).
+
 
 
 printThem(0,_,_,_,_,_,_,_,_why) :-
@@ -3390,7 +3532,7 @@ incrementSIZE(_lits) :-
 
 lengthWithoutSync([],0) :- !.
 
-lengthWithoutSync([sync|_rest],_len) :-
+lengthWithoutSync(['sync'|_rest],_len) :-
   !,
   lengthWithoutSync(_rest,_len).
 
@@ -3401,7 +3543,7 @@ lengthWithoutSync([_x|_rest],_len) :-
 
 
 incrementEMPTY(_l) :-
-  (_l = []; _l = [sync]),
+  (_l = []; _l = ['sync']),
   !,
   pc_recorded('EMPTY',_empty),
   _empty1 is _empty + 1,

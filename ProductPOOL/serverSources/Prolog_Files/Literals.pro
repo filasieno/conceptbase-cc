@@ -291,6 +291,7 @@ checkCorrectIDs :-
   checkCorrectID(MSFOLrule,id_46),
   checkCorrectID(Module,imports,id_1527),
   checkCorrectID(Module,exports,id_1528),
+  checkCorrectID(Class,rule,id_59),
   !.
 
 checkCorrectIDs :-
