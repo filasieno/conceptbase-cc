@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2020-02-07
+                      2020-05-06
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -124,6 +124,16 @@ the GitLab repository of ConceptBase.cc
    as rollbacktime. Note that any object in ConceptBase has a starttime tag, i.e. the time
    when it was created in the database.
    (Issue 16)
+
+81-14 Less transaction separators for listModule
+
+   The builtin listModule query is used to extract the Telos sources of a module.
+   The query inserts transaction separators "{---}" to indicate the locations when
+   a new transaction was used to add new objects. This is useful to safely tell the
+   sources when some transactions added new rules. The downside is a considerable slowdown
+   when a module was created in an incremental way. ConceptBase now minimizes
+   the number of such separators to thise that are essential.
+   (Issue 18)
 
 
 
