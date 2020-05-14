@@ -48,6 +48,8 @@ import java.awt.event.ActionListener;
 import java.util.Collection;
 
 import javax.swing.*;
+import java.awt.*;
+
 
 /**
  * This ActionListener handles most ConceptBase specific Events.

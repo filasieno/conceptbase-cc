@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2015 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -28,8 +28,8 @@ of the ConceptBase Team.
 
 The ConceptBase Team is represented by
 
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
@@ -48,6 +48,8 @@ import java.awt.event.ActionListener;
 import java.util.Collection;
 
 import javax.swing.*;
+import java.awt.*;
+
 
 /**
  * This ActionListener handles most ConceptBase specific Events.
@@ -126,15 +128,15 @@ public class CBCommand implements ActionListener, java.io.Serializable{
         switch(actionId){
 
             case FILE_CLOSE:
-                 this.close();  // defined in superclass GraphEditor
+                 m_cbEditor.close();  // defined in class GraphEditor
                  break;
             case FILE_CONNECT:
-                //java.util.logging.Logger.global.fine("selected 'Connect' item / pressed 'Connect' button");
+                //java.util.logging.Logger.getLogger("global").fine("selected 'Connect' item / pressed 'Connect' button");
                 assert(m_cbEditor != null): "CBCommand.actionPerformed: m_cbEditor may not be null";
                 new CBConnectionDialog(m_cbEditor).setVisible(true);
                 break;
             case FILE_ADDNEWNODE:
-                //java.util.logging.Logger.global.fine("selected 'Connect' item / pressed 'Connect' button");
+                //java.util.logging.Logger.getLogger("global").fine("selected 'Connect' item / pressed 'Connect' button");
                 new AddNodeDialog(m_cbEditor, (CBFrame)m_cbEditor.getActiveGraphInternalFrame()).setVisible(true);
                 break;
             case EDIT_FINDRELATIONS:
@@ -169,7 +171,7 @@ public class CBCommand implements ActionListener, java.io.Serializable{
                 ( (CBFrame)m_cbEditor.getActiveGraphInternalFrame() ).changeGraphModule();
                break;
             case ACTIVEFRAME_SUBMITQUERY :
-                java.util.logging.Logger.global.fine("Submit query");
+                java.util.logging.Logger.getLogger("global").fine("Submit query");
                 new SubmitQueryDialog(m_cbEditor).setVisible(true);
                 break;
 
@@ -232,6 +234,12 @@ public class CBCommand implements ActionListener, java.io.Serializable{
             case ADD_COMMIT:
                 if(m_cbEditor.getActiveGraphInternalFrame()!=null) {
                     ((CBFrame)(m_cbEditor.getActiveGraphInternalFrame())).commitChanges();
+                    // reset the Icon of the commit button to normal icon
+                    // JButton tb_commit = m_cbEditor.getToolBarButton(m_cbEditor.getCBBundle().getString("Toolbar_Commit"));
+                    JButton tb_commit = m_cbEditor.getToolBarButton("Toolbar_Commit");
+                    //Image image = Toolkit.getDefaultToolkit().getImage(CBConstants.CB_RESOURCE_DIR + "/toolbar_commit.gif");
+                    //tb_commit.setIcon(new ImageIcon(image));
+                    tb_commit.setBorder(new javax.swing.border.LineBorder(java.awt.Color.BLACK));
                 }
                 else {
                     JOptionPane.showMessageDialog(m_cbEditor,"Select an internal frame","No frame selected",JOptionPane.INFORMATION_MESSAGE);
