@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2020-05-06
+                      2020-05-15
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -125,7 +125,11 @@ the GitLab repository of ConceptBase.cc
    when it was created in the database.
    (Issue 16)
 
+81-14 Highlight commit button
 
+   When an object is marked as to be added or deleted, then the "toolbar_commit" button
+   is highlighted to remind the user that the changes still have to be sent to the database.
+   (Issue 21)
 
 
 

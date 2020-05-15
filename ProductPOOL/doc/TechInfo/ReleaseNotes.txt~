@@ -125,15 +125,6 @@ the GitLab repository of ConceptBase.cc
    when it was created in the database.
    (Issue 16)
 
-81-14 Less transaction separators for listModule
-
-   The builtin listModule query is used to extract the Telos sources of a module.
-   The query inserts transaction separators "{---}" to indicate the locations when
-   a new transaction was used to add new objects. This is useful to safely tell the
-   sources when some transactions added new rules. The downside is a considerable slowdown
-   when a module was created in an incremental way. ConceptBase now minimizes
-   the number of such separators to thise that are essential.
-   (Issue 18)
 
 
 
