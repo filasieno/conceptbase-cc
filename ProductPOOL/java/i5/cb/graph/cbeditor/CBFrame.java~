@@ -174,6 +174,21 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     }
 
 
+    /** Checks wether there are any objected marked as to be added or to be deleted
+     *
+     * @return true if there is any object marked to be added or to be deleted
+     */
+
+    public boolean transactionQueueNotEmpty() {
+        if (m_DiagHashObjectsToAdd != null && m_DiagHashObjectsToDelete != null) {
+           return ( !m_DiagHashObjectsToAdd.isEmpty() || !m_DiagHashObjectsToDelete.isEmpty() );
+        } else {
+           return false;
+        }
+    }
+
+
+
 
     /** Connects to a ConceptBase Server
      *
@@ -1342,6 +1357,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
         if(!m_DiagHashObjectsToAdd.contains(to)){
             m_DiagHashObjectsToAdd.add(to);
             firePropertyChange("update",null,null);
+            getCBEditor().highlightButton("Toolbar_Commit",transactionQueueNotEmpty());
             return true;
         }
         return false;
@@ -1354,6 +1370,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     public void addObjectToDelete(DiagramClassHashtableEntry to){
         m_DiagHashObjectsToDelete.add(to);
         firePropertyChange("update",null,null);
+        getCBEditor().highlightButton("Toolbar_Commit",transactionQueueNotEmpty());
     }
 
     public void commitChanges(){
@@ -1414,10 +1431,12 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
                     msg,
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
+            getCBEditor().highlightButton("Toolbar_Commit",transactionQueueNotEmpty());  // update background of commit button
             return;
         }
         validateNodes();
         JOptionPane.showMessageDialog(getCBEditor(),"Changes committed");
+        getCBEditor().highlightButton("Toolbar_Commit",transactionQueueNotEmpty());  // update background of commit button
     }
 
     public void setDiagramDesktop(DiagramDesktop diagramDesktop) {

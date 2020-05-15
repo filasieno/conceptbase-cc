@@ -168,6 +168,7 @@ public class SelectObjectsDialog extends JInternalFrame implements ActionListene
           }
   }
   private void closeDialog() {
+        cbFrame.updateToolbar();
         this.setVisible(false);
         dispose();
         try

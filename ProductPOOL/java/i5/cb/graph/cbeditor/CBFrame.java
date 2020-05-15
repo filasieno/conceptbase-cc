@@ -174,6 +174,21 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     }
 
 
+    /** Checks wether there are any objected marked as to be added or to be deleted
+     *
+     * @return true if there is any object marked to be added or to be deleted
+     */
+
+    public boolean transactionQueueNotEmpty() {
+        if (m_DiagHashObjectsToAdd != null && m_DiagHashObjectsToDelete != null) {
+           return ( !m_DiagHashObjectsToAdd.isEmpty() || !m_DiagHashObjectsToDelete.isEmpty() );
+        } else {
+           return false;
+        }
+    }
+
+
+
 
     /** Connects to a ConceptBase Server
      *
@@ -1332,6 +1347,9 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     }
 
 
+
+
+
     /** adds the given TelosObject to the set that will be added to CB by pressing
      *  the confirm button
      *  @param to Telosobject to add
@@ -1342,7 +1360,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
         if(!m_DiagHashObjectsToAdd.contains(to)){
             m_DiagHashObjectsToAdd.add(to);
             firePropertyChange("update",null,null);
-            getCBEditor().highlightButton("Toolbar_Commit",true);
+            updateToolbar();
             return true;
         }
         return false;
@@ -1355,7 +1373,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     public void addObjectToDelete(DiagramClassHashtableEntry to){
         m_DiagHashObjectsToDelete.add(to);
         firePropertyChange("update",null,null);
-        getCBEditor().highlightButton("Toolbar_Commit",true);
+        updateToolbar();
     }
 
     public void commitChanges(){
@@ -1416,17 +1434,28 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
                     msg,
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
+            updateToolbar();
             return;
         }
         validateNodes();
-        getCBEditor().highlightButton("Toolbar_Commit",false);  // set background of commit button back to default
         JOptionPane.showMessageDialog(getCBEditor(),"Changes committed");
+        updateToolbar();
     }
 
     public void setDiagramDesktop(DiagramDesktop diagramDesktop) {
         super.setDiagramDesktop(diagramDesktop);
         diagramDesktop.setInvalidNodesMethod(CBConfiguration.getInvalidOjsMethod(null, null));
     }
+
+
+    /** Maintain the highlightning of some CBGraph buttons based on the current state
+     *
+     */
+    public void updateToolbar() {
+        getCBEditor().highlightButton("Toolbar_Commit",transactionQueueNotEmpty());
+        // more buttons could be added
+    }
+
 
     /**
      * Validates all DiagramNodes on the active DiagramDesktop.
