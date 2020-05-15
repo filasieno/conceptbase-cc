@@ -604,6 +604,27 @@ public class CBEditor extends GraphEditor {
 
     }//extendToolBar
 
+
+    /**
+     * Sets the background color of a toolbar button to light green
+     *
+     * @param sHandle
+     *            the name associated to the button, e.g. "Toolbar_Commit"
+     * @param highlight
+     *            true if button showd be highlighted, else false
+     */
+    public void highlightButton(String sHandle, boolean highlight) {
+       JButton button = this.getToolBarButton(sHandle);
+       if (button == null)
+         return;
+       if (highlight)
+         button.setBackground(new Color(170,240,160));  // set background of the button to light green
+       else
+         button.setBackground(null);  // set background of the button to default
+    }
+
+
+
     /**
      * Gets the resourcebundle which fits best to a given locale The cbBundle is
      * sometimes needed for translation purposes

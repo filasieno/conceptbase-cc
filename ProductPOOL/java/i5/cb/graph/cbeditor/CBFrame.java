@@ -1342,6 +1342,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
         if(!m_DiagHashObjectsToAdd.contains(to)){
             m_DiagHashObjectsToAdd.add(to);
             firePropertyChange("update",null,null);
+            getCBEditor().highlightButton("Toolbar_Commit",true);
             return true;
         }
         return false;
@@ -1354,6 +1355,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     public void addObjectToDelete(DiagramClassHashtableEntry to){
         m_DiagHashObjectsToDelete.add(to);
         firePropertyChange("update",null,null);
+        getCBEditor().highlightButton("Toolbar_Commit",true);
     }
 
     public void commitChanges(){
@@ -1417,6 +1419,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
             return;
         }
         validateNodes();
+        getCBEditor().highlightButton("Toolbar_Commit",false);  // set background of commit button back to default
         JOptionPane.showMessageDialog(getCBEditor(),"Changes committed");
     }
 

@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2017 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -93,6 +93,8 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     String m_bgimage; // background image for the DiagramDesktop of this CBFrame
     String m_longtitle; //long title of the palette of this CBFrame
     String m_Context;  // name of an object, model or module that characterizes this CBFrame
+    String m_queryOutgoingCats = "find_used_attribute_categories" ; //the outgoing query name
+    String m_queryIncomingCats = "find_used_incoming_attribute_categories" ; //the incoming query name
     String m_UserHome = "System"+CBConfiguration.getModuleSeparator()+"oHome";  // module path of the home module of the user
     HashMap m_PropertiesOfGraphicalTypes;
     HashMap m_implementedBy;
@@ -370,6 +372,22 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
         return m_cbClient;
     }
 
+    /** Gets the name of the outgoing query (used categories) for the CBGraph popup menu
+     * @return the query name
+     */
+
+    public String getOutgoingCatsQuery(){
+        return m_queryOutgoingCats;
+    }
+
+   /** Gets the name of the incoming query (used categories) for the CBGraph popup menu
+     * @return the query name
+     */
+
+    public String getIncomingCatsQuery(){
+        return m_queryIncomingCats;
+    }
+
 
     /** True if this CBFrame shall attempt to use a public CBserver 
     */
@@ -381,7 +399,8 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     /** True if this CBFrame is actually using a public CBserver 
     */
     public boolean usingPublicCBserver() {
-        return CBConfiguration.getPublicCBserverHost().equals(m_sHost);
+        return CBConfiguration.getPublicCBserverHost().equals(m_sHost) &&
+               CBConfiguration.getPublicCBserverPort().equals(m_sPort);
     }
 
 
@@ -603,7 +622,8 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
       if (usePublicCBserver() && newHost.equals("localhost")) {
         setStatusString("Connecting to public CBserver ...");
         connectToServerFromDisconnected(CBConfiguration.getPublicCBserverHost(),newPort,newContext);
-      } else if (newHost.equals("localhost")) {
+      }
+      if (!m_bIsConnected && newHost.equals("localhost")) {
         setStatusString("Starting up local CBserver on port " + newPort + " ...");
         boolean started = CBclient.startLocalCBserver(newPort);
         if (started) {
@@ -648,7 +668,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
          String sModSource = (String) in.readObject();
          if (isConnected() && getCBEditor().getWriteCBModule()) {
             // ticket #384: make sure the module exists
-            getObi().getCBClient().tell(effectiveModuleName(modName)+" in Module end");  
+            getObi().getCBClient().tell(getLastModuleName(modName)+" in Module end");  
             CBanswer ans=getObi().getCBClient().setModule(effectiveModuleName(modName));
             if (ans.getCompletion() == CBanswer.OK ) {
               setStatusString("Telling source for "+modName+" ...");
@@ -686,6 +706,18 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
      else
         return modName;
     }
+
+    // return the last module name (like MyMod) in a path like System-oHome-MyMod 
+    private String getLastModuleName(String modPath) {
+      if (modPath.contains(CBConfiguration.getModuleSeparator())) {
+         String[] modules = modPath.split(CBConfiguration.getModuleSeparator(modPath));
+         return modules[modules.length-1] ;
+      } else {
+         return modPath;
+      }
+    }
+
+     
 
 
     /**
@@ -818,7 +850,12 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
         String sGraphType=(String)in.readObject();
 
         //create Query
-        if(to instanceof TelosLink && ((TelosLink) to).isImplicit()) {
+        //ticket #410: implicit attributes may have a user-defined graphtype matching "ImplicitGT_*"
+        boolean hasImplicitGT = false;
+        if (sGraphType != null) {
+          hasImplicitGT = (sGraphType.startsWith("ImplicitGT_"));
+        }
+        if(to instanceof TelosLink && ((TelosLink) to).isImplicit() && !hasImplicitGT) {
             try {
                 if(to instanceof i5.cb.telos.object.Specialization){
                     implby=(String) m_implementedBy.get("ImplicitIsAGT");
@@ -1081,6 +1118,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
                      Values=Values.getNextSibling();
                    } // while
 
+                   // System.out.println(sPropertyName +  " = " + sPropertyValue);
                    // a new pair sPropertyName/sPropertyValue  is found, so store it in instance variables
                    if (sPropertyName.equals("bgcolor")) 
                       m_bgcolor = sPropertyValue;
@@ -1088,6 +1126,10 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
                       m_bgimage = sPropertyValue;
                    else if (sPropertyName.equals("longtitle"))
                       m_longtitle = sPropertyValue;
+                   else if (sPropertyName.equals("incatquery"))
+                      m_queryIncomingCats = sPropertyValue;
+                   else if (sPropertyName.equals("outcatquery"))
+                      m_queryOutgoingCats = sPropertyValue;
                 }  
 
                 Sibling = Sibling.getNextSibling();
@@ -1119,8 +1161,15 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     }
 
 
+   /**
+   Ticket #406: The CBserver returns the graphical palette including some implicit (=for derived links)
+   and default graphtypes. If they are defined by rules, then there could be several fillers,
+   separated by commas. Hence, we need to pick the right one of such a list is returned.
+   We take the last one from such a list that does not equal the default one. Hence, any overruling
+   definition supersedes the default ones defined in the Telos class DefaultJavaPalette.
+   */
+
    private static String pickGraphtypeName(String defaultGT,String gtCandidates) {
-System.out.println("gtCandidates="+gtCandidates);
       if (gtCandidates == null) 
         return defaultGT;
       String[] gtList = gtCandidates.split(",");
@@ -1141,6 +1190,10 @@ System.out.println("gtCandidates="+gtCandidates);
     public void setFrameTitle() {
         if (m_longtitle == null)
           m_longtitle = m_sPalette;
+        if (getDiagramDesktop().isEdited() && !m_longtitle.startsWith("*"))
+          m_longtitle = "*" + m_longtitle;
+        if (!getDiagramDesktop().isEdited() && m_longtitle.startsWith("*"))
+          m_longtitle = m_longtitle.substring(1);
         if (m_longtitle.equals(""))
           setFrameTitle(compressedPath(m_Context));
         else
@@ -1153,10 +1206,18 @@ System.out.println("gtCandidates="+gtCandidates);
 
     public void setFrameTitle(String mainTitle) {
         m_sTitle = mainTitle;
+        String gelname = "";
         String connectStatus = "  -- offline";
         if (isConnected())
-           connectStatus = "  -- " + getHost() + ":" + getPort();
-        super.setTitle(mainTitle + connectStatus);
+           connectStatus = " - " + getHost() + ":" + getPort();
+        if (getGelfile() != null) {
+          String separator = "/";  // path separator
+          if (CBConfiguration.anyWindows())
+            separator = "\\\\";  // complicated way to specify the backslash character for split
+          String[] parts = getGelfile().split(separator);
+          gelname = parts[parts.length-1] + " - ";
+        }
+        super.setTitle(gelname + mainTitle + connectStatus);
     }
 
 

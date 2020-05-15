@@ -193,6 +193,7 @@ public class CBCommand implements ActionListener, java.io.Serializable{
                     m_cbEditor.getDesktopPane().add(cod,JLayeredPane.MODAL_LAYER);
                     cod.setVisible(true);
                     cod.setLocation(m_cbEditor.getDesktopPane().getWidth()-cod.getPreferredSize().width,0);
+                    // m_cbEditor.highlightButton("Toolbar_Commit",true);
                 }
                 else {
                     JOptionPane.showMessageDialog(m_cbEditor,"Select an internal frame","No frame selected",JOptionPane.INFORMATION_MESSAGE);
@@ -234,12 +235,7 @@ public class CBCommand implements ActionListener, java.io.Serializable{
             case ADD_COMMIT:
                 if(m_cbEditor.getActiveGraphInternalFrame()!=null) {
                     ((CBFrame)(m_cbEditor.getActiveGraphInternalFrame())).commitChanges();
-                    // reset the Icon of the commit button to normal icon
-                    // JButton tb_commit = m_cbEditor.getToolBarButton(m_cbEditor.getCBBundle().getString("Toolbar_Commit"));
-                    JButton tb_commit = m_cbEditor.getToolBarButton("Toolbar_Commit");
-                    //Image image = Toolkit.getDefaultToolkit().getImage(CBConstants.CB_RESOURCE_DIR + "/toolbar_commit.gif");
-                    //tb_commit.setIcon(new ImageIcon(image));
-                    tb_commit.setBorder(new javax.swing.border.LineBorder(java.awt.Color.BLACK));
+
                 }
                 else {
                     JOptionPane.showMessageDialog(m_cbEditor,"Select an internal frame","No frame selected",JOptionPane.INFORMATION_MESSAGE);

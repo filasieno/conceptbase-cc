@@ -234,6 +234,7 @@ public class CBCommand implements ActionListener, java.io.Serializable{
             case ADD_COMMIT:
                 if(m_cbEditor.getActiveGraphInternalFrame()!=null) {
                     ((CBFrame)(m_cbEditor.getActiveGraphInternalFrame())).commitChanges();
+
                 }
                 else {
                     JOptionPane.showMessageDialog(m_cbEditor,"Select an internal frame","No frame selected",JOptionPane.INFORMATION_MESSAGE);
