@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2016 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -110,6 +110,12 @@ public class GraphEditor
 
     protected JLabel m_statusConnectionLabel;
 
+
+    /**
+     * The current command line arguments by which CBGraph was started or that are imported from the GEL file
+     */
+    protected String[] s_cbgraphParams = null; 
+
     /**
      * Here the information about a single node is displayed
      */
@@ -127,10 +133,7 @@ public class GraphEditor
 
     private GraphInternalFrameListener m_graphInternalFrameListener;
 
-    /**
-     * true if this GraphEditor is currently in play mode (clickactions are performed)
-    */
-    private b_playMode = false;   
+    private boolean bSizeSet = false; // to control setting the size of this GraphEditor
 
     /**
      * Instanciates a new GraphEditor Object and specifies the bShowInfoWindow Flag. If the
@@ -327,21 +330,34 @@ public class GraphEditor
     }
 
 
-   public void setPlayMode(boolean newmode) {
-      b_playMode = newmode;
+
+    /**
+     * Set the current CBGraph startup parameters; can come from the args of the cbgraph script call or
+     * from the GEL file; only set if the parameters specify the synchronization of module sources
+     */
+   public void setCBGraphParams(String[] newparams) {
+     s_cbgraphParams = newparams;
    }
 
     /**
-     * Returns the playmode of this GraphEditor; if true, then clickactions are allowed and will
-     * influence the way how the validation of graph nodes in CBFrameWorker/CBQuery works.
+     * Get the current CBGraph startup parameters
      */
-
-   public boolean getPlayMode() {
-      return b_playMode;
+   public String[] getCBGraphParams() {
+     return s_cbgraphParams;
    }
 
 
 
+    /**
+     * The GraphEditor frame title is of the form "CBGraph - <subtitle>". This method updates the subtitle, e.g.
+     * by the name of the currently loaded graph file.
+     */
+   public void setSubtitle(String subtitle) {
+     String[] parts = this.getTitle().split("-");
+     if (parts.length == 2) {
+       this.setTitle(parts[0].trim() + " - " + subtitle);
+     }
+   }
 
     /**
      * Returns a button from the toolbar
@@ -385,7 +401,7 @@ public class GraphEditor
         java.net.URL picURL = this.getClass().getResource(pic);
 
         if (picURL != null) { // an image button is created
-            Image image = Toolkit.getDefaultToolkit().getImage(picURL);
+            Image image = java.awt.Toolkit.getDefaultToolkit().getImage(picURL);
             button = new JButton(new ImageIcon(image));
             button.setMargin(new Insets(0, 0, 0, 0));
         } else { // a text button is created - cannot be translated at the moment
@@ -591,14 +607,25 @@ public class GraphEditor
             dialog.setCurrentDirectory(currentLayoutDir);
 
             // if CBEditor was started with a single file as argument then we preset it as selected file if possible
+
+            if (gif.getGelfile() != null) {
+              File selfile = new File(gif.getGelfile());
+              dialog.setSelectedFile(selfile);
+            }
+
+/*
+
             if (this instanceof CBEditor) {
               CBEditor cbed = (CBEditor)this;
               if ( cbed.gelFilenames != null &&
                    cbed.gelFilenames.size == 1) {
-                 File selfile = new File(cbed.gelFilenames.get(0));
-                 dialog.setSelectedFile(selfile);
+                 if (!cbed.gelFilenames.get(0).toLowerCase().endsWith("ohome.gel")) {
+                    File selfile = new File(cbed.gelFilenames.get(0));
+                    dialog.setSelectedFile(selfile);
+                 }
               }
             }
+*/
 
             if (dialog.showSaveDialog(this) != GELFileChooser.APPROVE_OPTION)
                 return;
@@ -641,6 +668,7 @@ public class GraphEditor
             gif.getDiagramDesktop().setEdited(false);
             FOStream.close(); 
             gif.setStatusString("Saved graph to "+saveFile.getName());
+            gif.setGelfile(saveFile.getAbsolutePath());
          } catch (IOException e) {
             Logger.getLogger("global").warning(e.getMessage());
          }
@@ -659,11 +687,16 @@ public class GraphEditor
 
 
     public File getGelFileForLoad(String filename) throws IOException {
+      File selfile = null;
+      CBEditor cbed = null;
+      if (this instanceof CBEditor) {
+         cbed = (CBEditor) this;
+      }
+
       if (filename == null) {
          // -- a dialog is created to choose a file
          GELFileChooser dialog;
-         if (this instanceof CBEditor) {
-           CBEditor cbed = (CBEditor)this;
+         if (cbed != null) {
            dialog = new GELFileChooser(cbed.getWriteCBModule());  // adds a checkbox for including sources
          }
          else
@@ -686,36 +719,39 @@ public class GraphEditor
            return null;
          else {
            currentLayoutDir=dialog.getCurrentDirectory();  // memorize directory of gelfile
-           File selfile = dialog.getSelectedFile();
-           // user can change the read/write of modules by the includeSources checkbox in GELFileChooser
-           if (this instanceof CBEditor) {
-              CBEditor cbed = (CBEditor)this;
-              cbed.setWriteCBModule(dialog.includeSources()); // from checkbox for including sources
-              // memorize the selected file for later save
+           selfile = dialog.getSelectedFile();
+         }
+         if (cbed != null)
+           cbed.setWriteCBModule(dialog.includeSources()); // memorize checkbox info for including sources
+      }
+      else {
+        selfile = new File(filename);
+        // memorize directory of gelfile in currentLayoutDir
+        if (selfile.exists() && !selfile.isDirectory()) {
+          File dir = selfile.getParentFile();  
+          if (dir != null && !filename.toLowerCase().endsWith("ohome.gel")) {
+            currentLayoutDir = dir;
+          } else { // Attempt current dir if filename had no path expression
+            dir = new File(System.getProperty("user.home"));
+            if (dir != null && dir.isDirectory()) {
+// System.out.println("set "+System.getProperty("user.home"));
+              currentLayoutDir = dir;
+            }
+          }
+        }
+      }
+
+      if (cbed != null && selfile != null) {
               if (cbed.gelFilenames == null) 
                 cbed.gelFilenames = new StringArray();
               if (cbed.gelFilenames.size == 0)
-                 cbed.gelFilenames.add(selfile.getName());
-            }
-           return selfile;
-         }
-
+                 cbed.gelFilenames.add(selfile.getAbsolutePath());
+              else if (cbed.gelFilenames.size == 1)  // we have loaded a new GEL file replacing the previous one
+                 cbed.gelFilenames.replace(0,selfile.getAbsolutePath());
       }
-      else {
-        File gelfile = new File(filename);
-        // memorize directory of gelfile in currentLayoutDir
-        if(gelfile.exists() && !gelfile.isDirectory()){
-          File dir = gelfile.getParentFile();  
-          if (dir != null)
-            currentLayoutDir = dir;
-          else { // Attempt current dir if filename had no path expression
-            dir = new File(".");
-            if (dir != null && dir.isDirectory())
-              currentLayoutDir = dir;
-          }
-        }
-        return gelfile;
-        }
+
+      return selfile;
+
     }
 
 
@@ -725,7 +761,20 @@ public class GraphEditor
     */
 
     public void loadGraphInternalFrame() throws IOException, ClassNotFoundException {
-       loadGraphInternalFrame(getActiveGraphInternalFrame(),null);
+      if (this instanceof CBEditor) {
+        // current gif is empty --> reuse it
+        if (getActiveGraphInternalFrame() != null && getActiveGraphInternalFrame() instanceof CBFrame &&
+            getActiveGraphInternalFrame().getDiagramDesktop() != null &&
+            getActiveGraphInternalFrame().getDiagramDesktop().getDiagramNodes().size() == 0) {
+           loadGraphInternalFrame(getActiveGraphInternalFrame(),null);
+        } else {
+           CBEditor cbed = (CBEditor) this;
+           CBFrame newframe = cbed.addNewCBFrame();
+           loadGraphInternalFrame(newframe,null);
+        }
+      } else {
+        loadGraphInternalFrame(getActiveGraphInternalFrame(),null);
+      }
     }
 
 
@@ -779,6 +828,7 @@ public class GraphEditor
               // GEL file contains the three dimension objects
               
               this.setSize(fitToScreen(d1));
+              this.bSizeSet = true;
               Dimension d2 = (Dimension) in.readObject();
               frame.setSize(fitToGE(d1,d2));
               dd.setSize((Dimension) in.readObject());
@@ -788,7 +838,12 @@ public class GraphEditor
             frame.setDiagramDesktop(dd);
             dd.load(in);
             FIStream.close();
-            frame.setStatusString(loadFile.getName() + " loaded");
+            if (!loadFile.getName().toLowerCase().endsWith("ohome.gel")) {
+               frame.setStatusString(loadFile.getName() + " loaded");
+               this.setSubtitle(loadFile.getAbsolutePath());
+               this.repaint();
+            }
+            frame.setGelfile(loadFile.getAbsolutePath());
 
             //getActiveGraphInternalFrame().validateNodes();
         }
@@ -805,9 +860,15 @@ public class GraphEditor
     public Dimension fitToScreen(Dimension d) {
       Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
       int w = d.width;
+      int oldw = this.getSize().width;
+      if (this.bSizeSet && oldw > w)  // do not get smaller than originally
+        w = oldw;
       if (w > screenSize.width - 63)
         w = screenSize.width - 63;
       int h = d.height;
+      int oldh = this.getSize().height;
+      if (this.bSizeSet && oldh > h)
+        h = oldh;      
       if (h > screenSize.height - 24)
         h = screenSize.height - 24;
       return new Dimension(w,h);
@@ -835,10 +896,10 @@ public class GraphEditor
      */
     public GraphInternalFrame getActiveGraphInternalFrame() {
         for (int i = 0; i < m_vGraphInternalFrames.size(); i++) {
-            GraphInternalFrame gif =
-                (GraphInternalFrame) m_vGraphInternalFrames.get(i);
-            if (gif.isSelected())
+            GraphInternalFrame gif = (GraphInternalFrame) m_vGraphInternalFrames.get(i);
+            if (gif.isSelected()) {
                 return gif;
+            }
         }
         return null;
     }
@@ -1096,28 +1157,42 @@ public class GraphEditor
 
     public void saveGraphIfNeeded() {
        DiagramDesktop dd = null;
+       String filename = null;
        if (this.getActiveGraphInternalFrame() != null) {
           dd = this.getActiveGraphInternalFrame().getDiagramDesktop();
+          filename = this.getActiveGraphInternalFrame().getGelfile();
        }
-       saveGraphIfNeeded(dd);
+       saveGraphIfNeeded(dd,filename);
     }
 
     public void saveGraphIfNeeded(DiagramDesktop dd) {
+       String filename = null;
+       if (this.getActiveGraphInternalFrame() != null) {
+          filename = this.getActiveGraphInternalFrame().getGelfile();
+       }
+       saveGraphIfNeeded(dd,filename);
+    }
+
+    public void saveGraphIfNeeded(DiagramDesktop dd,String gelFilename) {
           if (!(this instanceof CBEditor))
             return;
           CBEditor cbed = (CBEditor)this;
           if (cbed.gelFilenames == null)
             return;
-          String gelFilename = null;
-          if (cbed.gelFilenames.size == 1)
+  
+          if (gelFilename == null && cbed.gelFilenames.size == 1)
             gelFilename = cbed.gelFilenames.get(0);
-          else
+          if (gelFilename == null)
             return;
+          if (gelFilename.toLowerCase().endsWith("ohome.gel")) {
+            return;
+          }
           if (
-                gelFilename.startsWith("/tmp")      ||    // Linux temporary directory
-                gelFilename.indexOf("Temp\\") != -1 ||    // Windows temporary directory
-                gelFilename.indexOf("Tmp\\") != -1  ||    // another Windows temporary directory
-                gelFilename.indexOf("Downloads\\") != -1  // the Windows download directory
+                gelFilename.toLowerCase().startsWith("/tmp")      ||    // Linux temporary directory
+                gelFilename.toLowerCase().indexOf("temp\\") != -1 ||    // Windows temporary directory
+                gelFilename.toLowerCase().indexOf("tmp\\") != -1  ||    // another Windows temporary directory
+                gelFilename.toLowerCase().indexOf("\\temporary") != -1  ||   // yet another Windows temporary directory
+                gelFilename.toLowerCase().indexOf("downloads\\") != -1  // the Windows download directory
              )
             return; // GEL is in a temporary directory; will not propose to save it
           if (dd != null && dd.isEdited()) {

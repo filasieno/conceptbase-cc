@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2016 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -28,8 +28,8 @@ of the ConceptBase Team.
 
 The ConceptBase Team is represented by
 
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
@@ -110,10 +110,10 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
     public final static int HAS_SOURCE = 2;  
 
     /**
-     * Mask to check whether the element XXX shall be saved/loaded; stored in bit 2 of an int number
-     * currently unused
+     * Mask to check whether CBGraph was started with special parameters (e.g. on synchronizing with the CBserver)
      */
-    public final static int HAS_XXX = 4;  
+    public final static int HAS_PARAMS = 4;  
+
 
 
     /**
@@ -177,6 +177,9 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
     /** flag indicating whether we are currently saving a screenshop */
     private boolean m_ScreenshotTaken = false;
 
+    /** holds the CBserver host name originally loaded from a GEL file */
+    private String cHostOrig = null;  
+
     /**
      * Creates a new <code>DiagramDesktop</code>.
      *
@@ -206,6 +209,17 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         this.setSize(width, height);
         this.setPreferredSize(new Dimension(width, height));
     }
+
+
+    public GraphEditor getGraphEditor() {
+      if (graphInternalFrame != null)
+        return graphInternalFrame.getGraphEditor();
+      else
+        return null;
+    }
+
+ 
+
 
     /**
      * returns the location of a rectangle with dimension newDimension that lies
@@ -551,8 +565,11 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
         node.addPropertyChangeListener(this);
         if (!bOneOfMany) {
-            node.setLocation(findPlaceNearTo(new Point(60, 60), node.getSize(),
-                    GEConstants.E_POSITION));
+            if (node.getDesignatedLocation() == null)
+               node.setLocation(findPlaceNearTo(new Point(60, 60), node.getSize(),
+                      GEConstants.E_POSITION));
+            else
+               node.setLocation(node.getDesignatedLocation());
         }
         super.add(node, NODE_LAYER);
         // set the precise position of the node in the layered pane; ticket #371
@@ -1022,7 +1039,10 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
                currentNode.setSmallComponentVisible();
             htNodeToHandle.put(currentNode, Integer.toString(i));
             graphInternalFrame.saveUserObject(currentNode.getUserObject(), out);
-            out.writeObject(currentNode.getBounds());
+            Rectangle r = currentNode.getBounds();
+            codeFrozenStatus(currentNode.isFrozen(),r);  // ticket #426
+            out.writeObject(r);
+            
             java.util.logging.Logger.getLogger("global").finer("currentNode: "
                     + currentNode.getUserObject() + "; Bounds: "
                     + currentNode.getBounds());
@@ -1071,6 +1091,8 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
           cLongTitle = cbf.getLongTitle();
           cPalette = cbf.getGraphicalPalette();
         }
+        if (cHost.equals("localhost") && cHostOrig != null)
+          cHost = cHostOrig;  // to preserve the original host information
         out.writeObject(cHost);
         out.writeObject(cPort);
         out.writeObject(cModule);
@@ -1079,7 +1101,10 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
         int saveflag = 0;  // to accumulate which optional elements will be saved in the GEL file
 
-        //  bit2: HAS_XXX
+        //  bit2: HAS_PARAMS
+        if (cbf != null && cbf.getCBEditor().getCBGraphParams() != null) {
+           saveflag = saveflag | HAS_PARAMS;
+        }
 
         //  bit1: HAS_SOURCE
         if (cbf != null && cbf.getCBEditor().getReadCBModule()) {
@@ -1091,6 +1116,12 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
         out.writeObject(new Integer(saveflag));
 
+       // add saving HAS_PARAMS etc. here, i.e. from higher bits to lower bits
+       // If HAS_PARAMS is set, then we save the current CBGraph parameters also in the GEL file
+
+        if ((saveflag & HAS_PARAMS) > 0) {
+           out.writeObject(cbf.getCBEditor().getCBGraphParams());
+        }
 
         // add saving HAS_SOURCE etc. here, i.e. from higher bits to lower bits
 
@@ -1162,13 +1193,16 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
             currentUserObject = graphInternalFrame.loadUserObject(in);
             currentBounds = (Rectangle) in.readObject();
+            boolean frozen = getFreezeStatus(currentBounds);
+            unfreezeRectangle(currentBounds);
             java.util.logging.Logger.getLogger("global").finer("currentUserObject: "
                     + currentUserObject + "; Bounds: " + currentBounds);
             if (currentUserObject != null) {
                 currentNode = new DiagramNode(currentUserObject, newDiagClass);
                 currentNode.setBounds(currentBounds);
                 currentNode.setSmallComponentSize(currentNode.getSize()); 
-                htHandleToNode.put(Integer.toString(i), currentNode);
+                currentNode.setFrozen(frozen);
+                htHandleToNode.put(Integer.toString(i), currentNode);         
             }
         }
 
@@ -1214,8 +1248,11 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
           if (cbf.getCBEditor().getOverridePort() != null)
              cPort = cbf.getCBEditor().getOverridePort();
 
+
  //         System.out.println(cHost+':'+cPort+'/'+cModule);
           if (cbf != null)  {
+            if (cbf.isConnected() && cbf.usingPublicCBserver()) 
+              cHost = cbf.getHost();  // to re-use the same public CBserver when loading a new GEL file while connected
             cbf.setLongTitle(cTitle);
             cbf.setGraphicalPalette(cPalette);
             cbf.setContext(cModule);
@@ -1232,12 +1269,25 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
           Integer i0 = (Integer) in.readObject();
           int saveflag = i0.intValue(); //saveflag indicates which optional elements are stored in the GEL file
 
+
+          // HAS_PARAMS flag indicates we stored the command line parameters +r,+w,+rw etc with this GEL file
+          // We then will evaluate the stored parameters as if they were supplied by the command line
+          if ((saveflag & HAS_PARAMS) > 0) {
+            String [] newparams = (String[]) in.readObject();
+            if (cbf != null && cbf.getCBEditor().getCBGraphParams() == null) {
+              cbf.getCBEditor().analyzeCmdArgs(newparams);  // can call setReadCBModule and setWriteCBModule
+            }
+          }
+
           // HAS_SOURCE: module sources are stored in the GEL file
           if (cbf != null && (saveflag & HAS_SOURCE) > 0) {
              if (!cbf.isConnected() &&  // the previous reconnectView failed
                  (cbf.getCBEditor().getWriteCBModule() ||   // module sources are requested either for read or write
-                  cbf.getCBEditor().getReadCBModule() ))
-               cbf.startLocalServerAndConnect(cHost,cPort,cModule);   
+                  cbf.getCBEditor().getReadCBModule() )) {
+               if (!cHost.equals("localhost"))
+                 cHostOrig = cHost;  // memorize for later save()
+               cbf.startLocalServerAndConnect("localhost",cPort,cModule);
+             }   
              cbf.loadModuleSources(in);
           }
 
@@ -1274,6 +1324,20 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
     public Collection getInvalidNodes() {
         return m_cInvalidNodes;
+    }
+
+
+    private void codeFrozenStatus(boolean frozen, Rectangle r) {
+      if (frozen)
+        r.width = -r.width;
+    }
+
+    private void unfreezeRectangle(Rectangle r) {
+      r.width = Math.abs(r.width);
+    }
+
+    private boolean getFreezeStatus(Rectangle r) {
+      return (r.width < 0);
     }
 
 
@@ -1422,6 +1486,9 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
     }
 
     public void setZoom(float z) {
+
+          this.getGraphInternalFrame().setStatusString("Zooming to factor " + z + " ..."); 
+
           float oldZ = getZoom();
           zoomer.setFactor(z);
           JViewport viewport =((JScrollPane)(this.getGraphInternalFrame().getContentPane())).getViewport();
@@ -1433,6 +1500,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
               DiagramNode DN = (DiagramNode) (v.elementAt(ii));
               zoomer.zoom(DN);
               DN.resizeComponents();  // ticket #216: adapt size of the inner components of DN
+              // System.out.println(DN + "\n");
               Rectangle b=DN.getBounds();
               if(b.x+b.width>max.width)
               	max.width=b.x+b.width;
@@ -1442,8 +1510,8 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
           Vector ve = this.getDiagramEdges(false);
           for(int i =0; i<ve.size();i++){
-          	DiagramEdge DE = (DiagramEdge)(ve.elementAt(i));
-          	zoomer.zoom(DE);
+          	DiagramEdge edge = (DiagramEdge)(ve.elementAt(i));
+          	zoomer.zoom(edge);
           }
 
 
@@ -1608,17 +1676,17 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
             allBounds.y = 0;
         }
 
-        // add an extra pixel on all sides of the allBound rectangle avoid nodes to touch its borders
+        // add 2 extra pixel on all sides of the allBound rectangle avoid nodes to touch its borders
         if (allBounds.x > 0) {
-            allBounds.width = allBounds.width + 2;
-            allBounds.x = allBounds.x - 1;
+            allBounds.width = allBounds.width + 4;
+            allBounds.x = allBounds.x - 2;
         }
         if (allBounds.y > 0) {
-            allBounds.height = allBounds.height + 2;
-            allBounds.y = allBounds.y - 1;
+            allBounds.height = allBounds.height + 4;
+            allBounds.y = allBounds.y - 2;
         }
 
-        java.awt.image.BufferedImage offScreen = new java.awt.image.BufferedImage(
+        BufferedImage offScreen = new java.awt.image.BufferedImage(
                 getSize().width, getSize().height,
                 java.awt.image.BufferedImage.TYPE_INT_RGB);
 
@@ -1633,10 +1701,41 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
             ((JLabel) it.next()).setOpaque(false);
         }
 
-        return offScreen.getSubimage(allBounds.x, allBounds.y, allBounds.width,
+        BufferedImage subimage = offScreen.getSubimage(allBounds.x, allBounds.y, allBounds.width,
                 allBounds.height);
+        return scaleImage(subimage,4.0);
 
     } //getImageOfDesktop
+
+    // scale the image for better readability
+    private BufferedImage scaleImage1(BufferedImage img, double scale) {
+       int imgWidth = img.getWidth();
+       int imgHeight = img.getHeight();
+       int width = (int)(imgWidth*scale);
+       int height = (int)(imgHeight*scale);
+       BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+       Graphics2D g = newImage.createGraphics();
+       try {
+           g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                   RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+           //g.setBackground(img.getBackground());
+           g.clearRect(0, 0, width, height);
+           g.drawImage(img, 0, 0, width, height, null);
+       } finally {
+           g.dispose();
+       }
+       return newImage;
+   }
+
+    private BufferedImage scaleImage(BufferedImage before, double factor) {
+       int w = before.getWidth();
+       int h = before.getHeight();
+       BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+       AffineTransform at = new AffineTransform();
+       at.scale(factor, factor);
+       AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+       return scaleOp.filter(before, after);
+   }
 
     /**
      * Prints this diagramDesktop
@@ -1717,13 +1816,17 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
      *            a <code>DiagramNode</code> value
      * @param bIsSelected
      *            a <code>boolean</code> value
+     * @param bIsLeftClick
+     *            a <code>boolean</code> value
      */
-    public void setNodeSelected(DiagramNode node, boolean bIsSelected) {
+    public void setNodeSelected(DiagramNode node, boolean bIsSelected, boolean bIsLeftClick) {
 
         assert (this.getDiagramNodes().contains(node)) : "DiagramDesktop.setNodeSelected: '"
                 + node.getUserObject().toString()
                 + "' must be inside this DiagramDesktop";
 
+        if (node.isFrozen()) 
+          return;   // frozen nodes are not selectable
         if (bIsSelected) {
             if (m_cSelectedNodes.size() == 0)  // first node selected
               setSquareDots(true);  // set little square dots on edges opaque
@@ -1731,7 +1834,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
             if (!node.isSelected()) {
                 this.setLayer(node, NODE_LAYER.intValue()+node.getNodeLevel(), 0);
             }
-            if (i5.cb.CBConfiguration.isNodeLevelAware() 
+            if (i5.cb.CBConfiguration.isNodeLevelAware() && bIsLeftClick
                 && bIsSelected && node.getNodeLevel() < 0) {
                selectContainedNodes(node);   // ticket #371: automagically add the nodes contained in 'node'
             }
@@ -1744,6 +1847,14 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         //node.setSelected(bIsSelected);
         repaint();
     } //setNodeSelected
+
+
+    // 2-arg version of setNodeSelected for legacy support
+    public void setNodeSelected(DiagramNode node, boolean bIsSelected) {
+        setNodeSelected(node,bIsSelected, true);
+    }
+
+
 
     /**
      * Unselects all nodes that might be selected.
@@ -1773,7 +1884,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
     /**
      * Selects all nodes of this DiagramDesktop that are geometrically contained
-     * in cnode; cnode is a diagram node with nodelevel < 0, hence used as a graphical container
+     * in cnode; cnode is a diagram node with nodelevel below 0, hence used as a graphical container
      */
     public void selectContainedNodes(DiagramNode cnode) {
         // selects all proper nodes, i.e. without nodes on edges
@@ -2124,6 +2235,16 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
     }
 
      /**
+     * Freeze / Unfreeze a diagram node's position
+     *
+     */
+    
+    public void toggleFrozen(DiagramNode dn) {
+        dn.setFrozen(!dn.isFrozen());
+        // System.out.println("Freeze "+dn.getLabel()+": "+dn.isFrozen());
+    }
+
+     /**
      * Control whether the square dot symbolizing the node on an edge with empty labels shall be visible;
      * initially such square dots are not visible (opaque=false). When a node is selected on the diagram
      * desktop then the square dots are made visible; when no more nodes are selected (e.g. by clicking
@@ -2159,6 +2280,11 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
     public void setEdited(boolean newvalue) {
       if (m_isEdited != newvalue) {
         m_isEdited = newvalue;
+        CBFrame cbf= null;
+        if (graphInternalFrame instanceof CBFrame)
+          cbf = (CBFrame)graphInternalFrame; 
+        if (cbf != null)
+          cbf.setFrameTitle();
       }
     }
 

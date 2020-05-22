@@ -1686,7 +1686,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
             allBounds.y = allBounds.y - 2;
         }
 
-        java.awt.image.BufferedImage offScreen = new java.awt.image.BufferedImage(
+        BufferedImage offScreen = new java.awt.image.BufferedImage(
                 getSize().width, getSize().height,
                 java.awt.image.BufferedImage.TYPE_INT_RGB);
 
@@ -1701,10 +1701,33 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
             ((JLabel) it.next()).setOpaque(false);
         }
 
-        return offScreen.getSubimage(allBounds.x, allBounds.y, allBounds.width,
+        BufferedImage subimage = offScreen.getSubimage(allBounds.x, allBounds.y, allBounds.width,
                 allBounds.height);
+        return scaleImage(subimage,2.0);
 
     } //getImageOfDesktop
+
+    // scale the image for better readability
+    // inspired by https://stackoverflow.com/questions/4216123/how-to-scale-a-bufferedimage
+    private BufferedImage scaleImage(BufferedImage img, double scale) {
+       int imgWidth = img.getWidth();
+       int imgHeight = img.getHeight();
+       int width = (int)(imgWidth*scale);
+       int height = (int)(imgHeight*scale);
+       BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+       Graphics2D g = newImage.createGraphics();
+       try {
+           g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                   RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+           //g.setBackground(img.getBackground());
+           g.clearRect(0, 0, width, height);
+           g.drawImage(img, 0, 0, width, height, null);
+       } finally {
+           g.dispose();
+       }
+       return newImage;
+   }
+
 
     /**
      * Prints this diagramDesktop
