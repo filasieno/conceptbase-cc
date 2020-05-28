@@ -1703,12 +1703,14 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
         BufferedImage subimage = offScreen.getSubimage(allBounds.x, allBounds.y, allBounds.width,
                 allBounds.height);
-        return scaleImage(subimage,4.0);
+        // return scaleImage(subimage,2.0);
+        return subimage;
 
     } //getImageOfDesktop
 
     // scale the image for better readability
-    private BufferedImage scaleImage1(BufferedImage img, double scale) {
+    // inspired by https://stackoverflow.com/questions/4216123/how-to-scale-a-bufferedimage
+    private BufferedImage scaleImage(BufferedImage img, double scale) {
        int imgWidth = img.getWidth();
        int imgHeight = img.getHeight();
        int width = (int)(imgWidth*scale);
@@ -1727,15 +1729,6 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
        return newImage;
    }
 
-    private BufferedImage scaleImage(BufferedImage before, double factor) {
-       int w = before.getWidth();
-       int h = before.getHeight();
-       BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-       AffineTransform at = new AffineTransform();
-       at.scale(factor, factor);
-       AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-       return scaleOp.filter(before, after);
-   }
 
     /**
      * Prints this diagramDesktop

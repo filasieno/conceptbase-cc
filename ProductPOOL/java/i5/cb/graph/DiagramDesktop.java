@@ -1703,7 +1703,8 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
         BufferedImage subimage = offScreen.getSubimage(allBounds.x, allBounds.y, allBounds.width,
                 allBounds.height);
-        return scaleImage(subimage,2.0);
+        // return scaleImage(subimage,2.0); // return a magnified version of the image
+        return subimage;  // return a non-magnified version of the image
 
     } //getImageOfDesktop
 
