@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2017 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -468,7 +468,9 @@ labelInSubst([_|_rest],_label) :-
 
 
 
+{* this clause produces readable labels but labelIsUnused does not cater for multiple generalization *}
 createAssertionLabel(_class,_proposedLabel,_newLabel) :- 
+        fail, {* currently disabled *}
         get_cb_feature(readableFormulaLabel,on),  {* see ticket #271 *}
 	_proposedLabel \= 'none',
 	candidateSuffixLabel(_suf),  {* try all allowed suffixes *}
@@ -476,8 +478,15 @@ createAssertionLabel(_class,_proposedLabel,_newLabel) :-
         labelIsUnused(_class,_newLabel),  {* see ticket #271 *}
         !.
 
-{* otherwise: take a system-generated unique label *}
-createAssertionLabel(_class,_,_newLabel) :-
+
+createAssertionLabel(_class,_proposedLabel,_newLabel) :-
+	uniqueAtom(_formulaID),
+	_proposedLabel \= 'none',
+        pc_atomconcat([_proposedLabel,,'_',_formulaID,'_generated'],_newLabel),
+	!.
+
+{* otherwise: only a system-generated unique label *}
+createAssertionLabel(_class,_proposedLabel,_newLabel) :-
 	uniqueAtom(_formulaID),
         pc_atomconcat(_formulaID,'generated',_newLabel),
 	!.
@@ -579,6 +588,10 @@ is_incrementalQueryUpdate(P(_aid,_qID,_l,_y)) :-
 	!.
 is_incrementalQueryUpdate(P(_aid,_qID,_l,_y)) :-
 	getCC(GenericQueryClass,parameter,_cc),
+        prove_edb_literal(In_e(_aid,_cc)),
+	!.
+is_incrementalQueryUpdate(P(_aid,_qID,_l,_y)) :-
+	getCC(QueryClass,constraint,_cc),
         prove_edb_literal(In_e(_aid,_cc)),
 	!.
 
