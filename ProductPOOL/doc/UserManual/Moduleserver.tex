@@ -750,6 +750,12 @@ as CBserver parameter (see section \ref{sec:cbsparams}).
 The separator is technically a comment. However, CBGraph and CBIva
 shall use such separator line to split a sequence
 of frames into separate TELL transactions.
+This is the default behaviour (or when you start the CBserver with
+parameter {\tt -mg split}). The third option is to start the CBserver with
+parameter {\tt -mg minsplit}. This minimizes the number of separator line.
+They are only included if the previous transaction did create or modify a
+deductive rule. The third option meant to spead up module loading
+from sources. 
 
 If a module path does not exist or the current user has no
 read permission on modules in the path, then the answer

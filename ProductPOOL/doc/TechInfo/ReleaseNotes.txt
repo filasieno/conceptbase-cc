@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2020-05-15
+                      2020-05-31
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -130,6 +130,12 @@ the GitLab repository of ConceptBase.cc
    When an object is marked as to be added or deleted, then the "toolbar_commit" button
    is highlighted to remind the user that the changes still have to be sent to the database.
    (Issue 21)
+
+81-15 Minsplit option for listModule
+
+   The CBserver parameter -mg minsplit can be used to minimize the number of separator lines
+   in module sources created via listModule.
+   (Issue 18)
 
 
 

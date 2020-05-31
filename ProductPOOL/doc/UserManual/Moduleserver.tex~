@@ -743,6 +743,14 @@ module is defining the essential objects that ConceptBase requires to
 run correctly. You can list the {\tt System} module but you should
 not change it. 
 
+If the content of a module was created by separate transactions, then
+{\tt listModule} shall indicate them by a separator line "{\tt \{---\}}".
+This separator is disabled when you specify {\tt -mg whole}
+as CBserver parameter (see section \ref{sec:cbsparams}).
+The separator is technically a comment. However, CBGraph and CBIva
+shall use such separator line to split a sequence
+of frames into separate TELL transactions.
+
 If a module path does not exist or the current user has no
 read permission on modules in the path, then the answer
 "\{* no *\}" is returned.
@@ -773,6 +781,25 @@ define a submodule {\tt UData} to hold the sample data. By nesting the
 submodules in this way, the sample data objects can "see" the definitions
 of the example ER model. And the example ER model can "see" the objects
 of the ER notation.
+
+\section{Purging a module} \label{sec:module_purge}
+% written by M.Jeusfeld, 30-Oct-2018
+
+The builtin query {\tt purgeModule} attempts to delete all propositions
+of the current module or the module that is specified as a parameter.
+The operation fails if the module contains a non-empty submodule. 
+Further, the operation may non be applied to the {\tt System} module.
+
+The operation requires that the user has appropriate permissions on the module
+to be purged. 
+
+The query {\tt purgeModule} is declared as a hidden object. Hence, it shall not show
+up in the 'Display queries' dialogue of CBIva. The current implementation is experimental.
+An alternative is to list the contents of the current module and then
+applying the UNTELL operation to the whole content.
+
+
+
 
 
 \section{Saving and loading module sources} \label{sec:module_sources}
@@ -948,7 +975,7 @@ to extract all required views. For example, the CBShell script
 
 \begin{verbatim}
    connect alpha 4001 
-   ask Q1[x/param] OBJNAMES FRAME Now
+   ask Q1[x/param] OBJNAMES default Now
    showAnswer
    exit
 \end{verbatim}

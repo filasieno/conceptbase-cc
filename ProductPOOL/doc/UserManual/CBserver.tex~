@@ -1,5 +1,5 @@
 % The ConceptBase User Manual (CB-Manual)
-% Copyright 1987-2018 by The ConceptBase Team
+% Copyright 1987-2020 by The ConceptBase Team
 % The CB-Manual may only be updated by members of the ConceptBase Team
 % as listed on http://conceptbase.cc
 % The TeX sources of the CB-Manual and the accompanying
@@ -104,7 +104,7 @@ a predefined command line parameter of SWI-Prolog.
 It is one of {\tt silent}, {\tt no}, {\tt minimal}, {\tt low}, {\tt high}, {\tt veryhigh}. The tracemode
 determines the amount of text displayed by the server during its execution.
 The tracemode does not influence the function but is used for debugging. The
-default tracemode is set to {\tt minimal} (only display CBserver interface).
+default tracemode is set to {\tt no} (only display CBserver interface).
 The tracemode {\tt low} will configure the CBserver to trace the CBserver interface
 calls plus answers, and the tracemode {\tt no} virtually disables tracing.
 The tracemode {\tt silent} is even surpressing the message 'CBserver ready' when starting up
@@ -141,13 +141,16 @@ ConceptBase. The value {\tt 0} means that no access control is employed.
 Any user can ask, tell, untell, retell any object in any module. You
 can also untell objects defined in a super-module.
 Level {\tt 1} (default)  provides a very basic protection: one can only
-untell objects when the are defined in the current module. This
+untell objects if they are defined in the current module. This
 prevents in particular undesired deletions of objects defined in
 the {\tt System} module.
 Level {\tt 2} fully enables access control. First, untelling of objects must
 happen in the module where the object has been defined. Second, any
 transaction submitted by a user to the CBserver is checked against the
-permission rules as defined in section \ref{sec:modaccess}. Enable access control
+permission rules as defined in section \ref{sec:modaccess}.
+Level {\tt 3} enables at most read access to a module. In addition, the permission rules
+must allow read access. This level makes sense if you want to freeze a database state.
+Enable access control
 when you use ConceptBase in a multi-user setting and you want to avoid errorneous
 interferences between different users.
 
@@ -554,6 +557,15 @@ You can force it to attempt the connection to localhost instead by
 cbgraph -host localhost graph1.gel 
 \end{verbatim}
 
+If you are using ConceptBase under Linux, then the CBserver is running by default on your local computer
+("localhost"). The same is true for Windows 10 with an enabled Linux subsystem. Users on Mac
+computers or older Windows versions are by default using a public CBserver at the university where
+ConceptBase is developed. This public server is meant for testing the system. {\bf DO NOT USE it for
+managing confidential information!} If you plan to use ConceptBase in a serious way, we
+recommend that you set up a protected Linux server on your own network that runs the CBserver.
+Users can set up the variable "PublicCBserver" in CBIva to the address of the protected Linux server
+to automatically connect to that server, see section \ref{sec:config}. You can also connect to that
+server manually via the "Connect" function of the ConceptBase clients CBIva, CBGraph, and CBShell.
 
 
 
@@ -877,21 +889,22 @@ subsequent method calls.
 \end{itemize}
 
 \begin{verbatim}
-answer = cbClient.cbserver();
+sAnswer = cbClient.cbserver();
 \end{verbatim}
 
 \begin{itemize}
-\item This method attempts to start a single-user CBserver on localhost with port number 4001.
+\item This method attempts to start a single-user CBserver in "slave mode" 
+on localhost with port number 4001.
 The method only works on platforms for which the CBserver was compiled. This is currently
 limited to Linux and Windows 10 (see also section \ref{sec:win10}). In other cases,
 you need to start a CBserver on a host system that supports the CBserver and then use the 'connect'
-method. If the CBserver was successfully started, the method returnes "yes", otherwise "no".
+method. If the CBserver was successfully started, the method returns "yes", otherwise "no".
 If the cbClient is already connected to a CBserver, then the method also returns "yes".
 The CBserver shall automatically shut-down when the last client disconnects from it.
 \end{itemize}
 
 \begin{verbatim}
-answer = cbClient.connect(sHost, iPort, sTool, sUser);
+sAnswer = cbClient.connect(sHost, iPort, sTool, sUser);
 \end{verbatim}
 
 \begin{itemize}
@@ -907,38 +920,51 @@ connected to a CBserver. If the socket connection breaks down, then the {\tt cbC
 set the connection status to unconnected.
 \end{itemize}
 
+\begin{verbatim}
+sAnswer = cbClient.connect();
+\end{verbatim}
+
+\begin{itemize}
+\item Connects to the public CBserver  (see section \ref{sec:pubcbserver})
+if configured for your installation.
+Otherwise, attempts to start a single-user "slave" local CBserver on port 4001 if not started.
+Connects to the local CBserver with the default tool name "LocalCBClient" and {\tt null} as username.
+It behaves similar to the "connect" command of CBShell.
+\end{itemize}
+
 
 \begin{verbatim}
-answer = cbClient.disconnect();
+sAnswer = cbClient.disconnect();
 \end{verbatim}
 \begin{itemize}
 \item This method disconnects connects your Java program from the CBserver.
-The return value is {\tt "yes"} if successful and {\tt "no"} else.
+The return value is {\tt "yes"} if successful and {\tt "no"} else. If the CBserver was started in
+"slave mode" and the cbClient is the last remaining client of the CBserver, it will shut down.
 \end{itemize}
 
 \begin{verbatim}
-answer = cbClient.pwd();
+sAnswer = cbClient.pwd();
 \end{verbatim}
 \begin{itemize}
 \item This method outputs your current working module path, e.g. {\tt "System-oHome"}.
 \end{itemize}
 
 \begin{verbatim}
-answer = cbClient.mkdir(sModule);
+sAnswer = cbClient.mkdir(sModule);
 \end{verbatim}
 \begin{itemize}
 \item This method creates a new submodude (e.g. {\tt "MyMod"}) in the current module.
 \end{itemize}
 
 \begin{verbatim}
-answer = cbClient.cd(sModule);
+sAnswer = cbClient.cd(sModule);
 \end{verbatim}
 \begin{itemize}
 \item This method changes the current module to {\tt sModule}, e.g. {\tt "MyMod"}.
 \end{itemize}
 
 \begin{verbatim}
-answer = cbClient.tells(sFrames);
+sAnswer = cbClient.tells(sFrames);
 \end{verbatim}
 \begin{itemize}
 \item This method tells (=defines) the objects given by the string sFrames to the
@@ -947,7 +973,7 @@ The return value is {\tt "yes"} if successful and a string containing user-reada
 \end{itemize}
 
 \begin{verbatim}
-answer = cbClient.untells(sFrames);
+sAnswer = cbClient.untells(sFrames);
 \end{verbatim}
 \begin{itemize}
 \item This method untells (=removes) the objects given by the string {\tt sFrames} from the
@@ -956,7 +982,7 @@ The return value is {\tt "yes"} if successful and a string containing user-reada
 \end{itemize}
 
 \begin{verbatim}
-answer = cbClient.asks(sQuery,sFormat);
+sAnswer = cbClient.asks(sQuery,sFormat);
 \end{verbatim}
 \begin{itemize}
 \item This method asks the query call {\tt sQuery} (given by a String) to the CBserver 
@@ -971,12 +997,30 @@ The answer {\tt "nil"} stands for an empty answer.
 \end{itemize}
 
 \begin{verbatim}
-answer = cbClient.asks(sQuery);
+sAnswer = cbClient.asks(sQuery);
 \end{verbatim}
 \begin{itemize}
 \item Same as {\tt cbClient.asks(sQuery,"default")}, i.e. the CBserver determines the
 applicable answer format (in most cases: {\tt "FRAME"}).
 \end{itemize}
+
+\begin{verbatim}
+sAnswer = cbClient.clientid();
+\end{verbatim}
+\begin{itemize}
+\item Return the identifier by which this client is registered to a CBserver.
+\end{itemize}
+
+\begin{verbatim}
+sAnswer = cbClient.clearall();
+\end{verbatim}
+\begin{itemize}
+\item Attempt to delete all objects from the current module. Returns "yes" if
+successfull, otherwise "no". Calls the 'purgeModule' query described in section
+\ref{sec:module_purge}. Use this method with great care since it wipes out
+the whole module content.
+\end{itemize}
+
 
 
 \vspace{0.5cm}
@@ -989,13 +1033,13 @@ import i5.cb.api.*;
 public class TinyClient {
   private static LocalCBclient cbClient = null;
   public static void main(String argv[])  {
-    String answer;
+    String sAnswer;
     cbClient=new LocalCBclient();
-    answer = cbClient.connect("cbserver.acme.org",4001,"TinyClient",null);
-    answer = cbClient.tells("Employee in Class end");
-    answer = cbClient.asks("get_object[Employee/objname]");
-    System.out.println(answer);
-    answer = cbClient.disconnect();
+    sAnswer = cbClient.connect("cbserver.acme.org",4001,"TinyClient",null);
+    sAnswer = cbClient.tells("Employee in Class end");
+    sAnswer = cbClient.asks("get_object[Employee/objname]");
+    System.out.println(sAnswer);
+    sAnswer = cbClient.disconnect();
   }
 }
 \end{verbatim}
@@ -1027,7 +1071,8 @@ Under Windows, you should use:
   java -classpath c:\conceptbase\lib\classes\cb.jar;. TinyClient
 \end{verbatim}
 
-The Java source code for {\tt TinyClient.java}, {\tt TinyClient2.java} (uses the start method),
+The Java source code for {\tt TinyClient.java}, {\tt TinyClient2.java} (uses the cbserver method),
+{\tt TinyClient3.java} (uses the connect method),
  and a more elaborate example 
 {\tt SimpleClient.java} is included in the directory {\tt examples/Clients/JavaClient}
 of your ConceptBase installation directory.
@@ -1139,9 +1184,9 @@ to the CBShell variables \$1 to \$9. The CBShell variable \$0 is bound to the na
 \item[ask {\it Query} {[{\it QueryFormat} [{\it AnswerRep} [{\it RollbackTime}]]]}] :
       asks a query; possible query formats are {\tt OBJNAMES} and {\tt FRAMES};
       the answer representation can
-      be {\tt LABEL}, {\tt FRAME}, {\tt default}, or a user-defined answer format; the rollback
-      time should be
-      {\tt Now}. If the query format is {\tt OBJNAMES}, then {\it Query} is a string
+      be {\tt LABEL}, {\tt FRAME}, {\tt FRAGMENT}, {\tt FRAGMENTswi}, {\tt JSONIC}, {\tt default}, or a user-defined answer format; the rollback
+      time shall normally be set to {\tt Now}. See also subsection \ref{sec:rollbacktime} for more information.
+      If the query format is {\tt OBJNAMES}, then {\it Query} is a string
       in double quotes containing a
       query call (or a comma-separated list if query calls). It the query format is {\tt FRAMES},
       then {\it Query} is a string of Telos frames including a query definition.
@@ -1198,6 +1243,9 @@ to the CBShell variables \$1 to \$9. The CBShell variable \$0 is bound to the na
       show the list of users that have at any time been enrolled to this database;
       implemented by a query that displays the instances of the class {\tt CB\_User}
 
+\item[sub] :
+      show the list of visible submodules to which the user can branch via the 'cd' command
+
 \item[show {\it name}] :
       show the frame with the given name; shortcut for
       {\tt ask get\_object[{\it name}/objname]}
@@ -1242,6 +1290,9 @@ There are a couple of legacy commands that we support for backward compatibility
 \item[showUsers] :
       synonym for 'who'
 
+\item[showModules] :
+      synonym for 'sub'
+
 \item[listModule {\it mod}] :
       synonym for 'lm'
 
@@ -1282,7 +1333,7 @@ Graphviz [\url{http://graphviz.org}] specifications from ConceptBase.cc:
    connect
    tellModel ERD-graphviz2
    tellModel UniversityModel
-   ask ShowERD[UniversityModel/erd] OBJNAMES FRAME Now
+   ask ShowERD[UniversityModel/erd] OBJNAMES default Now
    showAnswer
    exit
 \end{verbatim}
@@ -1292,6 +1343,25 @@ Graphviz [\url{http://graphviz.org}] specifications from ConceptBase.cc:
 The complete example is available from the CB-Forum at \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2519759}.
 Another resource for CBShell scripts is the list of test scripts at
 \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2596438}.
+
+\subsection{Rollback time for ASK}
+\label{sec:rollbacktime}
+
+The 'ask' and 'hypoAsk' commands allow to specify a so-called rollback time for the query.
+Normally the rollback time is set to 'Now', i.e.\ the current database state. You can
+also specify a precise millisecond specify the database state on which you want to evaluate
+the query, e.g. 'millisecond(2020,2,7,12,27,10,230)', that is 2010-02-07T12:27:10.230UTC.
+Since this is a bit cumbersome, you can also specify the name of any object as 'rollbacktime'
+argument. Then, the CBserver shall take the starttime of that object as the rollback time,
+for example 
+
+\begin{verbatim}
+   ask get_object[AccountBill/objname] OBJNAMES FRAME transfer1
+\end{verbatim}
+
+where 'transfer1' is just another object name.
+
+
 
 
 \subsection{Argument delimiters}
