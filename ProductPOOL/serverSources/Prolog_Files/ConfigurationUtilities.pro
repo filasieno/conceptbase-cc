@@ -561,6 +561,9 @@ purgeTransactions(_,error) :-
   !.
 
 
+purgeTransaction(fragments(_ttatom,_,_fraglist),_compl) :-
+  purgeTransaction(fragments(_ttatom,_fraglist),_compl).  {* cater for the 3-arg version, issue #18 *}
+
 purgeTransaction(fragments(_ttatom,_fraglist),_compl) :-
   UNTELL_FRAGMENTS(_fraglist,_compl),
   !.
@@ -1053,15 +1056,21 @@ printFragmentLists(_buf,[]) :-
   appendBuffer(_buf,'\n').
 
 
+{* compatibility with 2-arg version of fragments *}
+printFragmentLists(_buf,[fragments(_tt,_fraglist)]) :-
+  printFragmentLists(_buf,[fragments(_tt,'ruleFound',_fraglist)]). 
 
-printFragmentLists(_buf,[fragments(_tt,_fraglist)]) :- 
-  printFragmentList(_buf,fragments(_tt,_fraglist)),  {* only one fragment list to be printed *}
+printFragmentLists(_buf,[fragments(_tt,_rulefound,_fraglist)]) :- 
+  printFragmentList(_buf,fragments(_tt,_rulefound,_fraglist)),  {* only one fragment list to be printed *}
   !.
 
+{* compatibility with 2-arg version of fragments *}
+printFragmentLists(_buf,[fragments(_tt_fraglist),_x|_rest]) :-
+  printFragmentLists(_buf,[fragments(_tt,'ruleFound',_fraglist),_x|_rest]).
 
-printFragmentLists(_buf,[fragments(_tt,_fraglist),_x|_rest]) :- 
-  printFragmentList(_buf,fragments(_tt,_fraglist)),
-  printSeparator(_buf),
+printFragmentLists(_buf,[fragments(_tt,_rulefound,_fraglist),_x|_rest]) :- 
+  printFragmentList(_buf,fragments(_tt,_rulefound,_fraglist)),
+  printSeparator(_buf,_rulefound),
   printFragmentLists(_buf,[_x|_rest]).
 
 
@@ -1069,8 +1078,11 @@ printFragmentLists(_buf,[_fraglist1]) :-
   printFragments(_buf,_fraglist1),
   appendBuffer(_buf,'\n\n').
 
-
+{* compatibility with 2-arg version of fragments *}
 printFragmentList(_buf,fragments(_tt,_fraglist)) :-
+   printFragmentList(_buf,fragments(_tt,'ruleFound',_fraglist)).
+
+printFragmentList(_buf,fragments(_tt,_rulefound,_fraglist)) :-
   getFlag(currentAnswerFormat,'JSONIC'),!,
   appendBuffer(_buf,'[\n'),
   printFragments(_buf,_fraglist),
@@ -1078,6 +1090,9 @@ printFragmentList(_buf,fragments(_tt,_fraglist)) :-
   !.
 
 printFragmentList(_buf,fragments(_tt,_fraglist)) :-
+  printFragmentList(_buf,fragments(_tt,'ruleFound',_fraglist)).
+
+printFragmentList(_buf,fragments(_tt,_rulefound,_fraglist)) :-
   printTTime(_buf,_tt),
   printFragments(_buf,_fraglist),
   !.
@@ -1085,12 +1100,16 @@ printFragmentList(_buf,fragments(_tt,_fraglist)) :-
 
 
 
-printSeparator(_buf) :-
+printSeparator(_buf,_rulefound) :-
   getFlag(currentAnswerFormat,'JSONIC'),!,
   keyFrameSep(_sep),
   appendBuffer(_buf,_sep).
 
-printSeparator(_buf) :-
+
+
+{* output a transaction separator if the previously printed transaction had a rule *}
+printSeparator(_buf,_rulefound) :-
+  needToSplitTransaction(_rulefound),
   keyCommentChars(_start,_end),
   appendBuffer(_buf,'\n'),
   appendBuffer(_buf,_start),
@@ -1099,13 +1118,30 @@ printSeparator(_buf) :-
   appendBuffer(_buf,' '),
   !.
 
+printSeparator(_buf,_) :-
+  appendBuffer(_buf,'\n'),
+  !.
+
+
+{* if CBserver parameter -g is set to 'split' then we always put a split comment between transactions *}
+needToSplitTransaction(_rulefound) :-
+  get_cb_feature(moduleGeneration,'split'),
+  !.
+
+{* if CBserver parameter -g is set to 'minsplit' then we put a split comment between transactions in  *}
+{* a rule was found in  the first transaction. Issue #18                                              *}
+needToSplitTransaction('ruleFound') :-
+  get_cb_feature(moduleGeneration,'minsplit'),
+  !.
 
 
 printTTime(_buf,_tt) :-
   getFlag(currentAnswerFormat,'JSONIC'),!.
 
 printTTime(_buf,_tt) :-
-  get_cb_feature(moduleGeneration,'split'), 
+  (get_cb_feature(moduleGeneration,'split');
+   get_cb_feature(moduleGeneration,'minsplit')
+  ),
   keyCommentChars(_start,_end), 
   appendBuffer(_buf,_start),
   appendBuffer(_buf,' '),
@@ -1286,10 +1322,11 @@ convertPropositionsToFragments(_allprops,_fraglistoflists) :-
 
 transactionsToFragments([],[]) :- !.
 
-transactionsToFragments([_trans|_resttrans],[fragments(_ttatom,_fraglist)|_restfraglist]) :-
+transactionsToFragments([_trans|_resttrans],[fragments(_ttatom,_rulefound,_fraglist)|_restfraglist]) :-
   transactionToFragments(_trans,_fraglist0),
   getfirstTT(_trans,_tt),
   timetoatom(noniso,_tt,_ttatom),
+  checkRuleFound(_tt,_trans,_rulefound),
   pruneFrags(_fraglist0,_fraglist),
   transactionsToFragments(_resttrans,_restfraglist).
 
@@ -1298,6 +1335,32 @@ transactionToFragments(_props,_fraglist) :-
   structureAllprops(_props,_runlist),
   convertRuns(_runlist,_fraglist),
   !.
+
+
+
+{* issue #18: at transaction time _t, Prolog code for a rule was stored *}
+checkRuleFound(_t,_proplist,'ruleFound') :-
+  RuleTTime(_ruleid,tt(_t)),
+  !.
+
+checkRuleFound(_t,_proplist,_rulefound) :-
+  do_checkRuleFound(_t,_proplist,_rulefound).
+
+
+do_checkRuleFound(_tt,[],'noRuleFound').
+
+{* issue #18: another indication that a rule was stored *}
+do_checkRuleFound(_tt,[P(_id,_x,'*instanceof',_class)|_],'ruleFound') :-
+  (_class = id_46;  {* id_46=MSFOLrule *}
+   _class = id_59;  {* id_59=Class!rule *}
+   _class = id_407  {* id_407=MSFOLrule!specialrule *}
+  ),
+  !.
+
+
+do_checkRuleFound(_tt,[_|_rest],_rulefound) :-
+  do_checkRuleFound(_tt,_rest,_rulefound).
+
 
 
 convertRuns(_allruns,_fraglist) :-

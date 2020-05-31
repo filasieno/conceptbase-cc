@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2017 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -174,14 +174,14 @@ dataBase('<none>').
 
 
 startCBserver :-
-{*    WriteListOnTrace(low,['Starting ConceptBase server ...']), *}
     warnings_off,
 #IF(SWI)
     set_prolog_flag(float_format, '%.12g'),  {* see ticket #178 *}
     require([swritef/3]),autoload,
 #ENDIF(SWI)
-    setDefaultPortnumber,
+    setDefaultPortnumber,!,
     setOptions,
+    WriteListOnTrace(minimal,['>>> Upstarting new ConceptBase.cc server ... ']),
     loadWinSock,
     loadSessionCounter,
     initializeCBstate,
@@ -488,13 +488,14 @@ setOptions :-
         current_prolog_flag(argv,[_prog|_args]),
         length(_args,_x),
         setSlaveModeIfNoArg(_x),
-        assert_argv(_args,_y),
+        assert_argv(_args,_y),!,
         setOption(_y).
 
 :- dynamic argv/2 .
 
 assert_argv(_l,-1) :-
     my_member('-version',_l),
+    set_cb_feature(TraceMode,'no'),
     !.
 
 assert_argv(_l,-2) :-
@@ -568,8 +569,9 @@ setOption(_n) :-
         _nn is _n1 - 1,
         argv(_n,_narg),
         argv(_n1,_n1arg),
-        setOption(_n1arg,_narg),
-        setOption(_nn).
+        setOption(_nn),  {* to make sure that the arguments are processed in the original order 1,2,3... *}
+        setOption(_n1arg,_narg).
+
 
 
 setOption(_optId,_parameter) :-
@@ -590,7 +592,7 @@ writeLicense :-
 nl,
 write('The ConceptBase.cc Copyright'),nl,
 nl,
-write('Copyright 1987-2017 The ConceptBase Team. All rights reserved.'),nl,
+write('Copyright 1987-2020 The ConceptBase Team. All rights reserved.'),nl,
 nl,
 write('Redistribution and use in source and binary forms, with or without modification, are permitted'),nl,
 write('provided that the following conditions are met:'),nl,
@@ -658,7 +660,7 @@ writeHelpMessage :-
     write('-v on|off       : Turn on/off generation of view maintenance rules (default: off)'),nl,
     write('-r <repdelay>   : automatically restart the server after crash'),nl,
     write('                  <repdelay> specifies how many seconds to wait before restart'),nl,
-    write('-s <seclevel>   : sets the security level of ConceptBase (0=disabled, 1=local untell, 2=enabled)'),nl,
+    write('-s <seclevel>   : sets the security level of ConceptBase (0=disabled, 1=local untell, 2=enabled, 3=readonly)'),nl,
     write('                  default: 1'),nl,
     write('-e <maxerr>     : sets the maximum number of error messages to be displayed (default: 20)'),nl,
     write('-a <user>       : sets the admin user of the CBserver (default: user who started the CBserver)'),nl, 
@@ -687,7 +689,7 @@ writeHelpMessage :-
     write('-ia <tmax>      : specifies the number of hours tmax in which an interaction of a client'),nl,
     write('                  should occur to keep it considered alive, default: '),write(_tmax),nl,
     write('-sm master|slave : a slave CBserver will shutdown when the last local client leaves; default: master'),nl,
-    write('-st on|off      : enables or disabled the rule stratification tests; default: on'),nl,
+    write('-st on|off      : enables or disables the rule stratification tests; default: on'),nl,
     write('-g <cmd>        : provides a special command to the CBserver; possible values \'public\', \'nolpi\' and \'exit\''),nl,
     write('                  the command \'public\' starts the CBserver in public mode; '),nl,
     write('                  the command \'nolpi\' disables the loading of CBserver plugins; '),nl,
@@ -937,8 +939,8 @@ Option('-s',
           set_cb_feature(securityLevel,_x),
           !
         ),
-        my_member(_x,['0','1','2']),
-        ['You have specified \'',_x,'\' as the security level (option \'-s\').\nThis parameter must be 0 or 1.']
+        my_member(_x,['0','1','2','3']),
+        ['You have specified \'',_x,'\' as the security level (option \'-s\').\nThis parameter must be 0,1,2, or 3.']
 ).
 
 Option('-st',

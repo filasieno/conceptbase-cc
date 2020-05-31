@@ -666,7 +666,7 @@ writeHelpMessage :-
     write('-a <user>       : sets the admin user of the CBserver (default: user who started the CBserver)'),nl, 
     write('-mu <mumode>    : enabled: multi-user mode is enabled (default), disabled: single-user mode'),nl,
     write('-ms <sep>       : sets the module separator for saving sources and views (values \'-\' or \'/\')'),nl,
-    write('-mg split|whole : controls how module sources are generated; default: split'),nl,
+    write('-mg split|whole|minsplit : controls how module sources are generated; default: split'),nl,
     write('-cc strict|off|extended  : controls the predicate typing; default: strict '),nl,
     write('-mc <cost>      : specifies the maximum allowed cost for a binding predicate in meta formulas'),nl,
     write('                  default: '),write(_mc),write(' (approx. 2 free variables in binding predicate)'),nl,
@@ -1092,8 +1092,8 @@ Option('-mg',
           set_cb_feature(moduleGeneration,_x),
           !
         ),
-        my_member(_x,['split','whole']),
-        ['The parameter -rl must be \'split\'  or \'whole\', .']
+        my_member(_x,['split','minsplit','whole']),
+        ['The parameter -rl must be \'split\', \'minsplit\', or \'whole\', .']
 ).
 
 

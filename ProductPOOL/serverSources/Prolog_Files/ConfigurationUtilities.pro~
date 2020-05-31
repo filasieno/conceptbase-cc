@@ -1106,8 +1106,10 @@ printSeparator(_buf,_rulefound) :-
   appendBuffer(_buf,_sep).
 
 
+
 {* output a transaction separator if the previously printed transaction had a rule *}
-printSeparator(_buf,'ruleFound') :-
+printSeparator(_buf,_rulefound) :-
+  needToSplitTransaction(_rulefound)
   keyCommentChars(_start,_end),
   appendBuffer(_buf,'\n'),
   appendBuffer(_buf,_start),
@@ -1121,12 +1123,25 @@ printSeparator(_buf,_) :-
   !.
 
 
+{* if CBserver parameter -g is set to 'split' then we always put a split comment between transactions *}
+needToSplitTransaction(_rulefound) :-
+  get_cb_feature(moduleGeneration,'split'),
+  !.
+
+{* if CBserver parameter -g is set to 'minsplit' then we put a split comment between transactions in  *}
+{* a rule was found in  the first transaction. Issue #18                                              *}
+needToSplitTransaction('ruleFound') :-
+  get_cb_feature(moduleGeneration,'minsplit'),
+  !.
+
 
 printTTime(_buf,_tt) :-
   getFlag(currentAnswerFormat,'JSONIC'),!.
 
 printTTime(_buf,_tt) :-
-  get_cb_feature(moduleGeneration,'split'), 
+  (get_cb_feature(moduleGeneration,'split');
+   get_cb_feature(moduleGeneration,'minsplit')
+  ),
   keyCommentChars(_start,_end), 
   appendBuffer(_buf,_start),
   appendBuffer(_buf,' '),
@@ -1323,9 +1338,9 @@ transactionToFragments(_props,_fraglist) :-
 
 
 
+{* issue #18: at transaction time _t, Prolog code for a rule was stored *}
 checkRuleFound(_t,_proplist,'ruleFound') :-
   RuleTTime(_ruleid,tt(_t)),
-write('rule found: '),write(RuleTTime(_ruleid,tt(_t))),nl,
   !.
 
 checkRuleFound(_t,_proplist,_rulefound) :-
@@ -1334,13 +1349,12 @@ checkRuleFound(_t,_proplist,_rulefound) :-
 
 do_checkRuleFound(_tt,[],'noRuleFound').
 
-{* see also issue #18 *}
+{* issue #18: another indication that a rule was stored *}
 do_checkRuleFound(_tt,[P(_id,_x,'*instanceof',_class)|_],'ruleFound') :-
   (_class = id_46;  {* id_46=MSFOLrule *}
    _class = id_59;  {* id_59=Class!rule *}
    _class = id_407  {* id_407=MSFOLrule!specialrule *}
   ),
-write('rule found: '),write(P(_id,_x,'*instanceof',_class)),nl,
   !.
 
 
