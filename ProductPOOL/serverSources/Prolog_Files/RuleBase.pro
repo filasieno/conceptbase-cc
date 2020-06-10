@@ -558,6 +558,7 @@ orderLocalRules(_rulesNotHandled,_rulesHandled,_recRules,_rulesOrdered) :-
 findRecRules([],[]) :- !.
 findRecRules([_recRuleCand|_recRuleCands],_recRules) :-
 	findCompleteCyclesWithRule(_recRuleCand,_cycles),
+{* write('cycles='),write(_cycles),nl,nl, *}
 	findRecRules(_recRuleCands,_recRules1),
 	append(_cycles,_recRules1,_recRules),!.
 
@@ -570,11 +571,22 @@ findRecRules([_recRuleCand|_recRuleCands],_recRules) :-
 {*---------------------------------------------------------*}
 #MODE( findCompleteCyclesWithRule(i,o))
 
+{* old method: find all cycles for _recRuleCand *}
+{*
 findCompleteCyclesWithRule(_recRuleCand,_resultList) :-
 	tmpRuleInfo(_recRuleCand,_cat,_objId,_ids,_head,_tail,_depIds,_vartab,_optPar,_relAlgExp),
 	findall(_result,
 		findCycleWithRule(_recRuleCand,_recRuleCand,[],_depIds,_result),
 		_resultList).
+*}
+
+{* Issue #22; new method: find only the first cycle for _recRuleCand *}
+findCompleteCyclesWithRule(_recRuleCand,[_result]) :-
+	tmpRuleInfo(_recRuleCand,_cat,_objId,_ids,_head,_tail,_depIds,_vartab,_optPar,_relAlgExp),
+	findCycleWithRule(_recRuleCand,_recRuleCand,[],_depIds,_result),
+	!.
+findCompleteCyclesWithRule(_recRuleCand,[]).
+
 
 
 #MODE( findCycleWithRule(i,i,i,i,o))

@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2015 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -28,8 +28,8 @@ of the ConceptBase Team.
 
 The ConceptBase Team is represented by
 
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
@@ -99,6 +99,11 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(is_id/1,MetaUtilities)
 #IMPORT(getFlag/2,GeneralUtilities)
 #IMPORT(setFlag/2,GeneralUtilities)
+
+#IF(SWI)
+:- style_check(-singleton).
+#ENDIF(SWI)
+
 
 
 {*=========================================================*}
@@ -553,6 +558,7 @@ orderLocalRules(_rulesNotHandled,_rulesHandled,_recRules,_rulesOrdered) :-
 findRecRules([],[]) :- !.
 findRecRules([_recRuleCand|_recRuleCands],_recRules) :-
 	findCompleteCyclesWithRule(_recRuleCand,_cycles),
+{* write('cycles='),write(_cycles),nl,nl, *}
 	findRecRules(_recRuleCands,_recRules1),
 	append(_cycles,_recRules1,_recRules),!.
 
@@ -565,11 +571,22 @@ findRecRules([_recRuleCand|_recRuleCands],_recRules) :-
 {*---------------------------------------------------------*}
 #MODE( findCompleteCyclesWithRule(i,o))
 
+{* old method: find all cycles for _recRuleCand *}
+{*
 findCompleteCyclesWithRule(_recRuleCand,_resultList) :-
 	tmpRuleInfo(_recRuleCand,_cat,_objId,_ids,_head,_tail,_depIds,_vartab,_optPar,_relAlgExp),
 	findall(_result,
 		findCycleWithRule(_recRuleCand,_recRuleCand,[],_depIds,_result),
 		_resultList).
+*}
+
+{* new method: find only the first cycle for _recRuleCand *}
+findCompleteCyclesWithRule(_recRuleCand,[_result]) :-
+	tmpRuleInfo(_recRuleCand,_cat,_objId,_ids,_head,_tail,_depIds,_vartab,_optPar,_relAlgExp),
+	findCycleWithRule(_recRuleCand,_recRuleCand,[],_depIds,_result),
+	!.
+findCompleteCyclesWithRule(_recRuleCand,[]).
+
 
 
 #MODE( findCycleWithRule(i,i,i,i,o))

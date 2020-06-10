@@ -366,7 +366,7 @@ pc_atomconcat([_atom1,_atom2],_atom) :-
 
 pc_atomconcat([_atom1|_rest],_atom) :-
   pc_atomconcat(_rest,_atom2),
-  atom_concat(_atom1,_atom2,_atom).
+  pc_atomconcat(_atom1,_atom2,_atom).
 
 
 
