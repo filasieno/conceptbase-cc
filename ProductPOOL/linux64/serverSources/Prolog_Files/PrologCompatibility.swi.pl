@@ -167,13 +167,23 @@ pc_atomconcat([_atom1,_atom2],_atom) :-
 
 pc_atomconcat([_atom1|_rest],_atom) :-
   pc_atomconcat(_rest,_atom2),
-  atom_concat(_atom1,_atom2,_atom).
+  pc_atomconcat(_atom1,_atom2,_atom).
 
 
 
 /* atom3 is the concatenation of atom1 and atom2 */
 pc_atomconcat(_atom1,_atom2,_atom3) :-
+    (atom(_atom1),atom(_atom2);
+     atom(_atom1),atom(_atom3);
+     atom(_atom2),atom(_atom3)),
+    !,
     atom_concat(_atom1,_atom2,_atom3).
+
+pc_atomconcat(_atom1,_atom2,_atom3) :-
+   write('!!! Prolog Compopatibility: Insufficient instantiation in call '),
+   write(pc_atomconcat(_atom1,_atom2,_atom3)),
+   nl,!,
+   fail.
 
 
 pc_atompart(_atom,_part,_start,_len) :-

@@ -84,9 +84,11 @@ Fuer die Faelle: literal mit aussen_Schachtlung new,red,ins,...			HW/jun.98*/
 :- use_module('Literals.swi.pl').
 
 
+
 :- use_module('PrologCompatibility.swi.pl').
 
 :- use_module('MetaUtilities.swi.pl').
+
 
 
 :- style_check(-singleton).
@@ -708,5 +710,9 @@ qo_inSysClass(_x,_c) :-
 
 
 
+/** call prove_upd_literal instead prove_literal because qo_prove_literal is called during updates where **/
+/** tabling is normally disabled. However, the literal _la may involve recursive rules and thus          **/
+/** we need to use the "tabled" evaluation of the predicate. Issue #23                                   **/
 qo_prove_literal(_l) :-
-	prove_literal(_l).
+	prove_upd_literal(_l).
+

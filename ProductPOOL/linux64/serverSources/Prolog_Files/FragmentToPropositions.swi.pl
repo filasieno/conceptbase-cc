@@ -470,7 +470,9 @@ labelInSubst([_|_rest],_label) :-
 
 
 
+/** this clause produces readable labels but labelIsUnused does not cater for multiple generalization **/
 createAssertionLabel(_class,_proposedLabel,_newLabel) :- 
+        fail, /** currently disabled **/
         get_cb_feature(readableFormulaLabel,on),  /** see ticket #271 **/
 	_proposedLabel \= 'none',
 	candidateSuffixLabel(_suf),  /** try all allowed suffixes **/
@@ -478,8 +480,15 @@ createAssertionLabel(_class,_proposedLabel,_newLabel) :-
         labelIsUnused(_class,_newLabel),  /** see ticket #271 **/
         !.
 
-/** otherwise: take a system-generated unique label **/
-createAssertionLabel(_class,_,_newLabel) :-
+
+createAssertionLabel(_class,_proposedLabel,_newLabel) :-
+	uniqueAtom(_formulaID),
+	_proposedLabel \= 'none',
+        pc_atomconcat([_proposedLabel,'_',_formulaID,'_generated'],_newLabel),
+	!.
+
+/** otherwise: only a system-generated unique label **/
+createAssertionLabel(_class,_proposedLabel,_newLabel) :-
 	uniqueAtom(_formulaID),
         pc_atomconcat(_formulaID,'generated',_newLabel),
 	!.

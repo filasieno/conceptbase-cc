@@ -78,6 +78,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
+:- use_module('BIM2C.swi.pl').
+
 
 
 :- style_check(-singleton).
@@ -121,9 +123,20 @@ and RuleTTime(RD(ID,_id2),_t2) as facts.
 
 
 'RBTimeRelevantRule'(id(_id,_sid)) :-
+/*	getTTime(_id,_t),  not the ID of the rule */
 	'RuleTTime'(id(_id,_sid),_t),			/* 2-Sept-1996 LWEB */
 	correct_belieftime(_t),
 	retrieve_proposition('P'(_id,_,_,_)).		/* 2-Sept-1996 LWEB */
+
+
+getTTime(_id,_t) :-
+	id2endtime(_id,'infinity'),
+	!,
+	id2starttime(_id,_t).
+
+getTTime(_id,tt(_t1,_t2)) :-
+	id2starttime(_id,tt(_t1)),
+	id2endtime(_id,tt(_t2)).
 
 
 

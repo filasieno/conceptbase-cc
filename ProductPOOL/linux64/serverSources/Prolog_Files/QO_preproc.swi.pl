@@ -135,7 +135,8 @@ preOptimize(_ruleSetIn,_ranges,_ruleSet) :-
 
 
 	/** 3. Minimierung der Argumentlisten         **/
-	fixMinArgRuleSet(_ruleSetOut1,_ruleSet),!.
+	fixMinArgRuleSet(_ruleSetOut1,_ruleSet),
+	!.
 
 
 
@@ -381,7 +382,6 @@ acceptableInQueryConstraint(_lit).
 filterConcernedClass(_,[],_,_,[]).
 
 filterConcernedClass('A'(_x,_l,_y),[_cc|_ccCands],_const,_varsWithClasses,[_cc|_ccList]) :-
-
 	/** Quellklasse lesen **/
 	getSource(_cc,_sc),
 	(
@@ -397,6 +397,7 @@ filterConcernedClass('A'(_x,_l,_y),[_cc|_ccCands],_const,_varsWithClasses,[_cc|_
 				oder eine Spezialisierung/Generalisierung einer dieser
 				Klassen
 			**/
+			\+ memberchk(_x,_const),
 			select(_x-_classesX,_varsWithClasses,_),
 			(
 				(memberchk(_sc,_classesX));
@@ -421,6 +422,7 @@ filterConcernedClass('A'(_x,_l,_y),[_cc|_ccCands],_const,_varsWithClasses,[_cc|_
 				oder eine Spezialisierung/Generalisierung
 				einer dieser Klassen
 			**/
+			\+ memberchk(_y,_const),
 			select(_y-_classesY,_varsWithClasses,_),
 			(
 				(memberchk(_dc,_classesY));

@@ -137,6 +137,13 @@ the GitLab repository of ConceptBase.cc
    in module sources created via listModule.
    (Issue 18)
 
+81-16 Bug in compilation of recursive rule sets removed
+
+   The optimizer for recursive rule sets could produce enormous lists of recursive rule sets
+   consisting of many duplicates. This could sent the compiler into a trail stack overflow.
+   This is now removed by only computing one cyclic rule set chain per rule.
+   (Issue 22)
+
 
 
 Detailed Changes since Version 8.0 (2016-11-28)

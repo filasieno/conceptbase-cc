@@ -293,6 +293,7 @@ checkCorrectIDs :-
   checkCorrectID('MSFOLrule',id_46),
   checkCorrectID('Module',imports,id_1527),
   checkCorrectID('Module',exports,id_1528),
+  checkCorrectID('Class',rule,id_59),
   !.
 
 checkCorrectIDs :-
@@ -1427,8 +1428,10 @@ ded_Adot(_cc,_x,_y) :-
 ded_Adot(_cc,_x,_y) :-
    (ground(_x);ground(_y)),
    !,
-   'IS_DEDUCABLE'('Adot'(_cc,_x,_y)),  /** if there is more than one rule head, we shall backtrack **/
+   isDeducableAttribution(_cc),
+   /*IS_DEDUCABLE(Adot(_cc,_x,_y)),*/  /** if there is more than one rule head, we shall backtrack **/
    prove_by_cache('Adot'(_cc,_x,_y)).
+
 
 
 
@@ -2014,6 +2017,7 @@ transCallState(_cacheSlotId,_oldstate,'NoMoreFacts') :-
    _oldstate='incomplete'  /** ticket #79: complete a cache slot also at exiting monster_iterate **/
   ),
   setCallState(_cacheSlotId,'completed'),
+/** writeCacheSlot( _cacheSlotId ), write(' completed'),nl, **/
 /**  writeCallPath('slot completed '),  **/
   checkSubSumptionObligations(_cacheSlotId),
   checkDirtyReader(_cacheSlotId),
@@ -2075,6 +2079,7 @@ prove_once_and_store(_lit,_clit,_cacheSlotId) :-
 prove_and_store(_lit,_clit,_cacheSlotId) :-
   prove_explicit(_lit),            /** one execution of the matching deductive rule set **/
   addToCache(_clit,_cacheSlotId),
+/** issue #19 write_lcall(_lit),nl, **/
   fail.  /** until prove_explicit has no more solution **/
 
 

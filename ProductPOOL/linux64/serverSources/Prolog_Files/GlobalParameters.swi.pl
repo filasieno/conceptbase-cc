@@ -92,8 +92,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
-cb_version('8.1.18').
-cb_date_of_release('2020-02-07'). /* set via environment variable CB_DATE in startCBserver; see serverSources/Makefile */
+cb_version('8.1.25').
+cb_date_of_release('2020-06-11'). /* set via environment variable CB_DATE in startCBserver; see serverSources/Makefile */
 cb_location('Skovde').            /** place where CBserver is compiled, updated in startCBserver **/
 
 cb_copyright_time('Copyright 1987-2020').              /*keep up to date!*/
@@ -374,6 +374,7 @@ default_cb_feature(moduleSeparator,'-').        /** values: '-' or '/' **/
 default_cb_feature(inactivityInterval,2.0).     /** time in hours that characterize an inactive client **/
 default_cb_feature(moduleGeneration,'split').   /** values 'whole'=one module source per module, **/
                                                 /**        'split' = separator per transaction (default) **/
+                                                /**        'minsplit' = separator per transaction when needed **/
 default_cb_feature(stratificationTest,'on').    /** values: on or off  **/
 default_cb_feature(sortLimit,5000).             /** lists with more than this number of elements are not sorted in AnswerTransform  **/
 
