@@ -147,6 +147,7 @@ generateDatalog(_OID,_ruleIDS,_ruleRF,_ranges,_optClauseDLs) :-
 	LT(rule(_cond,_concl),_vars,_clauseDLs),
 	preOptimize(_clauseDLs,_ranges,_optClauseDLs),
 	store_vm_rules(view(_OID,_ruleIDS,_ranges),_optClauseDLs).
+
 { store_vm_rules(view(_OID,_ruleIDS,_ranges),_optClauseDLs) Generierung der Sichtenwartungsregeln fuer alle Regeln in CB!}
 {Denn aus den in VMruleGenerator.pro erzeugten Vmrules werden noch die zugehoerigen Ruleinfos generiert, benoetigt hier noch}
 {_OID,_ruleIDS, und Vartab zuruecklierfern zu VMruleGenerator.pro .}

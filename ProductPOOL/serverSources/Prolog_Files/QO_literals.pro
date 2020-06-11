@@ -80,11 +80,13 @@ Fuer die Faelle: literal mit aussen_Schachtlung new,red,ins,...			HW/jun.98}
 #IMPORT(splitListAtElem/4,QO_utils)
 #IMPORT(union/3,QO_utils)
 #IMPORT(prove_literal/1,Literals)
+#IMPORT(prove_upd_literal/1,Literals)
 #IMPORT(sys_In/2,Literals)
 #IMPORT(name2id/2,GeneralUtilities)
 #IMPORT(pc_atomconcat/2,PrologCompatibility)
 #IMPORT(pc_atomconcat/3,PrologCompatibility)
 #IMPORT(is_id/1,MetaUtilities)
+#IMPORT(write_lcall/1,Literals)
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -706,5 +708,9 @@ qo_inSysClass(_x,_c) :-
 
 #MODE( qo_prove_literal(?))
 
+{* call prove_upd_literal instead prove_literal because qo_prove_literal is called during updates where *}
+{* tabling is normally disabled. However, the literal _la may involve recursive rules and thus          *}
+{* we need to use the "tabled" evaluation of the predicate. Issue #23                                   *}
 qo_prove_literal(_l) :-
-	prove_literal(_l).
+	prove_upd_literal(_l).
+

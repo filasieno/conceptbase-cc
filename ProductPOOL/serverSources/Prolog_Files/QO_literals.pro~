@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2015 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -28,8 +28,8 @@ of the ConceptBase Team.
 
 The ConceptBase Team is represented by
 
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
@@ -80,11 +80,18 @@ Fuer die Faelle: literal mit aussen_Schachtlung new,red,ins,...			HW/jun.98}
 #IMPORT(splitListAtElem/4,QO_utils)
 #IMPORT(union/3,QO_utils)
 #IMPORT(prove_literal/1,Literals)
+#IMPORT(prove_upd_literal/1,Literals)
 #IMPORT(sys_In/2,Literals)
 #IMPORT(name2id/2,GeneralUtilities)
 #IMPORT(pc_atomconcat/2,PrologCompatibility)
 #IMPORT(pc_atomconcat/3,PrologCompatibility)
 #IMPORT(is_id/1,MetaUtilities)
+#IMPORT(write_lcall/1,Literals)
+
+#IF(SWI)
+:- style_check(-singleton).
+#ENDIF(SWI)
+
 
 
 
@@ -702,4 +709,5 @@ qo_inSysClass(_x,_c) :-
 #MODE( qo_prove_literal(?))
 
 qo_prove_literal(_l) :-
-	prove_literal(_l).
+	prove_upd_literal(_l).
+

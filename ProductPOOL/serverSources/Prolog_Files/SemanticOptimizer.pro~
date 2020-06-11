@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2015 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -28,8 +28,8 @@ of the ConceptBase Team.
 
 The ConceptBase Team is represented by
 
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
@@ -96,6 +96,10 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(isFunctionLit/2,QO_preproc)
 #IMPORT(getFlag/2,GeneralUtilities)
 #IMPORT(is_list/1,GeneralUtilities)
+
+#IF(SWI)
+:- style_check(-singleton).
+#ENDIF(SWI)
 
 
 {===========================================================}
@@ -224,7 +228,9 @@ do_optimizeRangeform(_rangeform,_rangeform).
 
 
 applyOptimizationMethods(_rangeform,_optrangeform) :-
+write(1),nl,
   optRangeform(_rangeform,_optrangeform1),               {* general optimizations *}
+write(2),nl,
   eliminateDomainByEQ(_optrangeform1,_optrangeform).     {* special pattern 1 *}
 
 
