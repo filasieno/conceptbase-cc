@@ -1287,6 +1287,12 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
                if (!cHost.equals("localhost"))
                  cHostOrig = cHost;  // memorize for later save()
                cbf.startLocalServerAndConnect("localhost",cPort,cModule);
+              // if a local (empty) CBserver is started on the fly, we always write the module sources from the GEL file
+              if (!cbf.getCBEditor().getWriteCBModule()) {
+                 this.getGraphInternalFrame().setStatusString("Set to tell module sources to fresh CBserver");
+                 this.getGraphInternalFrame().repaint();
+                 cbf.getCBEditor().setWriteCBModule(true);  
+              }
              }   
              cbf.loadModuleSources(in);
           }
