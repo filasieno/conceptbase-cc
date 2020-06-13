@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2020-06-11
+                      2020-06-13
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -151,6 +151,15 @@ the GitLab repository of ConceptBase.cc
    protected by thye tabling mechanism for recursive rules during updates. This problem is now
    solved by suing prove_upd_literal, which re-enacts tabling during updates.
    (Issue 23)
+
+81-18 Override the +r flag of CBGraph when a fresh CBserver was started
+
+   The CBGraph flag +r indicates that module sources from the GEL file should not be told to the
+   CBserver when loading the GEL file. We now override this flag when the CBserver was started on
+   on the fly by CBGraph. Such a CBserver has an empty database (except system objects) and
+   most users would want that the module sources would be told to such a fresh CBserver.
+   If the CBserver was already running before the GEL file is loaded, then the +r flag is
+   honored as expected.
 
 
 

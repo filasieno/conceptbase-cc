@@ -579,7 +579,9 @@ with the CBserver:
   displays objects of module "System-oHome-M1", then the save function will store the module sources
   of 'oHome'  and 'M1'  to the graph file. We say "CBGraph reads the sources from the CBserver and
   saves them to the graph file". This option disables writing the module sources from the graph file to the 
-  CBserver when CBGraph is started.
+  CBserver when CBGraph is started. An exception is applied when CBGraph needs to start a local 
+  CBserver on the fly. Such a CBserver has an empty database (except system objects) and
+  the module sources are told to such a fresh CBserver as if the "+rw" flag had been applied.
 \item[+w] This option enables the reverse direction. It will instruct CBGraph to extract module sources
   from the given graph file (or any graph file that is loaded via CBGraph) and tell them to the CBserver
   that it is connected to. You have to start a CBserver as a separate process using the hostname and

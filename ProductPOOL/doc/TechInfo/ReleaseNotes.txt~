@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2020-05-31
+                      2020-06-13
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -143,6 +143,22 @@ the GitLab repository of ConceptBase.cc
    consisting of many duplicates. This could sent the compiler into a trail stack overflow.
    This is now removed by only computing one cyclic rule set chain per rule.
    (Issue 22)
+
+81-17 Bug with unsafe call of prove_literal
+
+   The rule optimizer QO*.pro uses prove_literal to check the classes of some objects defined in
+   an update to the database. This can lead to infinite loops because prove_literal is not
+   protected by thye tabling mechanism for recursive rules during updates. This problem is now
+   solved by suing prove_upd_literal, which re-enacts tabling during updates.
+   (Issue 23)
+
+81-18 Override the +r flag of CBGraph when a fresh CBserver was started
+   The CBGraph flag +r indicates that module sources from the GEL file should not be told to the
+   CBserver when loading the GEL file. We now override this flag when the CBserver was started on
+   on the fly by CBGraph. Such a CBserver has an empty database (except system objects) and
+   most users would want that the module sources would be told to such a fresh CBserver.
+   If the CBserver was already running before the GEL file is loaded, then the +r flag is
+   honored as expected.
 
 
 
