@@ -1310,6 +1310,7 @@ ded_In_cc(_id,_cc) :-
    var(_cc),
    !,
    IS_DEDUCABLE(In(_id,_cc)),  {* if there is more than one rule head, we shall backtrack *}
+   \+ prove_In_e(_cc,id_65),     {* id_65 = QueryClass *}
    prove_by_cache(In(_id,_cc)).
 
 

@@ -1424,19 +1424,12 @@ ded_Adot(_cc,_x,_y) :-
 {* dedWith set to TRUE.                                                       *}
 
 ded_Adot(_cc,_x,_y) :-
-   ground(_x),
+   (ground(_x);ground(_y)),
    !,
    isDeducableAttribution(_cc),
    {IS_DEDUCABLE(Adot(_cc,_x,_y)),}  {* if there is more than one rule head, we shall backtrack *}
    prove_by_cache(Adot(_cc,_x,_y)).
 
-ded_Adot(_cc,_x,_y) :-
-   ground(_y),
-   prove_In_e(_x,_D),
-   retrieve_proposition(P(_cc,_C,_m,_D)),
-   isDeducableAttribution(_cc),
-   !,
-   prove_by_cache(Adot(_cc,_x,_y)).
 
 
 
