@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2017 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -46,7 +46,7 @@ import i5.cb.graph.shapes.IGraphShape;
 import i5.cb.graph.shapes.GraphShapePolygon;
 import i5.cb.graph.shapes.PolygonShape;
 import i5.cb.telos.object.ObjectBaseInterface;
-import i5.cb.telos.object.TelosObject;
+import i5.cb.telos.object.*;
 import i5.cb.graph.DiagramDesktop;
 
 import java.awt.*;
@@ -148,7 +148,8 @@ abstract public class CBUserObject {
                     return false;  // ticket #397: if there are some gproperties, then the two objects are regarded not equal
                 if(getProperty("GraphType") == null && other.getProperty("GraphType") == null)
                     return true;
-                if(getProperty("GraphType").equals(other.getProperty("GraphType")))
+                if(getProperty("GraphType") != null && other.getProperty("GraphType") != null &&
+                   getProperty("GraphType").equals(other.getProperty("GraphType")))
                     return true;
             }
         }
@@ -217,6 +218,7 @@ abstract public class CBUserObject {
         // Check whether we have already created a user object for this telos object
         CBUserObject cbuo=dc.getCBUserObject(to);
         String objname = to.toString();  // name of the TelosOject to
+// System.out.println("CBUO: handling: "+objname);
         if(cbuo!=null) {
             java.util.logging.Logger.getLogger("global").fine("Found UserObject for " + objname);
             return cbuo;
@@ -237,10 +239,29 @@ abstract public class CBUserObject {
             //get the sets of all Properties and the implementing classe of currentType
             gtProperties=(CBGraphTypePropertySet) graphTypeProperties.get(currentType);
             implby=(String) implementation.get(currentType);
-// System.out.println("CBUO: graphtype("+objname+")="+currentType);
         }
+
+        // ticket #410: support user-defined graphical types for deduced/derived/implicit links
+        boolean isDerived = false;
+        if (to instanceof Attribute) {
+         Attribute attr = (Attribute) to;
+         isDerived = attr.isImplicit();
+        }
+        if (implby==null && isDerived) {
+          String candType = "ImplicitGT_"+to.getLabel();
+          CBGraphTypePropertySet cGtProperties = (CBGraphTypePropertySet) cbf.getPropertiesOfGraphicalTypes().get(candType);
+          if (cGtProperties != null) {
+             gtProperties=cGtProperties;
+             currentType = candType;
+             implby=(String) implementation.get(currentType);
+          }
+        }
+
+
         // Now, set the properties of the CBUserObject
         if(implby!=null) {
+            if (!implby.contains(".cbeditor."))
+               implby = "i5.cb.graph.cbeditor." + implby;
             try {
                 Class cls=Class.forName(implby);
                 Object obj=cls.newInstance();
@@ -288,6 +309,8 @@ abstract public class CBUserObject {
         //Save GraphType for saving
         cbuo.setProperty("GraphType",currentType);
 
+ // System.out.println("CBUO: graphtype("+cbuo.toString()+")="+currentType);
+
         // Set properties of cbuo from its graphtype properties
         if(gtProperties!=null) {
             en=gtProperties.getProperties();
@@ -304,6 +327,7 @@ abstract public class CBUserObject {
         // these setting then overrule/augment the settings via the graphtype properties
         // The "**" is prepended to the objname to avoid collusions with entries for regular graphtypes
         gtProperties=(CBGraphTypePropertySet) graphTypeProperties.get("**"+objname);  // set in CBQuery, "gproperty" tag
+// System.out.println("CBUO getGTproperties of "+objname+"="+gtProperties);
         if(gtProperties!=null) {
             en=gtProperties.getProperties();
             java.util.Iterator iterator=en.iterator();
@@ -360,11 +384,16 @@ abstract public class CBUserObject {
             sLabel = getProperty("label");
         }
         boolean wrapLabel = false;
-        if (hasProperty("size"))
-           wrapLabel =  getProperty("size").equals("wrap");
+        boolean replaceUnderScore = false;
+        if (hasProperty("size")) {
+           wrapLabel =  getProperty("size").equals("wrap") || getProperty("size").equals("wrap_");
+           replaceUnderScore = getProperty("size").equals("wrap_");
+        }
         if (sLabel.length()>labellength) {
            sLabel=sLabel.substring(0,labellength-4) + " ...";
         }
+        if (replaceUnderScore) 
+          sLabel = sLabel.replaceAll("_"," ");
         if (wrapLabel) {
            sLabel="<html><p>" + sLabel + "</p></html>";
         }
@@ -421,9 +450,9 @@ abstract public class CBUserObject {
             if (hasProperty("bgcolor") && hasProperty("edgewidth")) {  // define the dot depending on edgewidth and bgcolor
               dotColorString = getProperty("bgcolor");
               if (dotColorString.equals(edgeColorString)) 
-                dotSize = Math.round(Float.parseFloat(getProperty("edgewidth"))) + 2;
+                dotSize = Math.round(Float.parseFloat(getProperty("edgewidth"))) + 5;
               else // a little smaller if the color of the dot is different from the edge color
-                dotSize = Math.round(Float.parseFloat(getProperty("edgewidth"))) + 1; 
+                dotSize = Math.round(Float.parseFloat(getProperty("edgewidth"))) + 4; 
             } else { // default
               dotSize = 6;
               dotColorString = edgeColorString;
@@ -508,7 +537,7 @@ abstract public class CBUserObject {
               height = Integer.parseInt(size.split("x")[1]);
               fixedsizeset = true;
             } catch (Exception e) {
-              if (!size.equals("resizable") && !size.equals("wrap"))
+              if (!size.equals("resizable") && !size.startsWith("wrap"))
                  System.err.println("Value for size property should be a dimension like \"20x30\" or \"resizable\"");
               // nothing to be done here; we allow also values like "resizable", see DiagramNode
             }
@@ -526,6 +555,37 @@ abstract public class CBUserObject {
                smallComponent.setMinimumSize(dSC);
                smallComponent.setSize(dSC);
                smallComponent.setPreferredSize(dSC);
+            }
+        }
+
+        // allow to set nodes (and nodes on edges) to frozen status via graphtype property "freeze"; ticket #426
+        if(hasProperty("freeze") ) {
+            String freeze = getProperty("freeze");
+            DiagramNode dn = getDiagramNode();
+            if (dn != null) {
+               if (freeze.equals("yes")) {
+                  dn.setFrozen(true);
+               } else if (freeze.equals("yes")) {
+                  dn.setFrozen(false);
+               }
+            }
+        }
+
+        // allow to set node's designated location; ticket #426
+        if(hasProperty("location") ) {
+            String location = getProperty("location");
+            Point p = new Point(60,60);
+            boolean designated = false;
+            try{
+              p.x = Integer.parseInt(location.split(",")[0]);
+              p.y = Integer.parseInt(location.split(",")[1]);
+              designated = true;
+            } catch (Exception e) {
+                System.err.println("Value for location should be like \"50,80\"");
+            }
+            DiagramNode dn = getDiagramNode();
+            if (dn != null && designated) {
+              dn.designateLocation(p);
             }
         }
 
@@ -1028,7 +1088,7 @@ abstract public class CBUserObject {
  
         view.setSize(width?prefSize:0,width?0:prefSize);
  
-        float w = view.getPreferredSpan(javax.swing.text.View.X_AXIS) + 1.0f;
+        float w = view.getPreferredSpan(javax.swing.text.View.X_AXIS);
         float h = view.getPreferredSpan(javax.swing.text.View.Y_AXIS);
  
         return new java.awt.Dimension((int) Math.ceil(w),

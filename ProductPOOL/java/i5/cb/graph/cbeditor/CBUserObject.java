@@ -450,9 +450,9 @@ abstract public class CBUserObject {
             if (hasProperty("bgcolor") && hasProperty("edgewidth")) {  // define the dot depending on edgewidth and bgcolor
               dotColorString = getProperty("bgcolor");
               if (dotColorString.equals(edgeColorString)) 
-                dotSize = Math.round(Float.parseFloat(getProperty("edgewidth"))) + 2;
+                dotSize = Math.round(Float.parseFloat(getProperty("edgewidth"))) + 4;
               else // a little smaller if the color of the dot is different from the edge color
-                dotSize = Math.round(Float.parseFloat(getProperty("edgewidth"))) + 1; 
+                dotSize = Math.round(Float.parseFloat(getProperty("edgewidth"))) + 3; 
             } else { // default
               dotSize = 6;
               dotColorString = edgeColorString;
