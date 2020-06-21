@@ -1707,6 +1707,17 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
             ((JLabel) it.next()).setOpaque(false);
         }
 
+// System.out.println("offscreen width="+offScreen.getWidth()+"  height="+offScreen.getHeight());
+// System.out.println("subimage x="+allBounds.x+"  y="+allBounds.y);
+// System.out.println("subimage width="+allBounds.width+"  height="+allBounds.height);
+
+        if (allBounds.x+allBounds.width > offScreen.getWidth()) {
+          allBounds.width = offScreen.getWidth() - allBounds.x;
+        }
+        if (allBounds.y+allBounds.height > offScreen.getHeight()) {
+          allBounds.height = offScreen.getHeight() - allBounds.y;
+        }
+
         BufferedImage subimage = offScreen.getSubimage(allBounds.x, allBounds.y, allBounds.width,
                 allBounds.height);
         // return scaleImage(subimage,2.0); // return a magnified version of the image
