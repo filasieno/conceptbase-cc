@@ -1340,7 +1340,7 @@ get_Adot(_cc,_x,_y,_id1) :-
   !,
   retrieve_proposition(P( _id1, _x, _l, _y)),
   attribute(P( _id1, _x, _l, _y)),
-  (prove_In_e(_id1,_cc); ded_In_cc(_id1,_cc)).   {* ded_In_cc case only needed for calls where _cc is a variable *}
+  ( prove_In_e(_id1,_cc) ; ded_In_cc(_id1,_cc) ).   {* ded_In_cc case only needed for calls where _cc is a variable *}
 
 get_Adot(_cc,_x,_y,_id1) :-
   prove_In_e(_id1,_cc),

@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2017 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -463,7 +463,7 @@ cb_errorMessage( NON_UNIQUE_ATTRIBUTE, [_1,_2,_3,_4],
                   'The class ',_2,' has an attribute named ', _4, ' and another superclass ', _3,
                   ' of ',_1, ' (being no super- or subclass of ',_2, ' ) defines a different',
                   ' attribute with the same name. This makes the attribute non-unique for ',
-                  _1,'. Please define attribute ',_4,' for ',_1,' explicitely or re-order the',
+                  _1,'. Please define attribute ',_4,' for ',_1,' explicitly or re-order the',
                   ' specialization hierarchy!']).
 
 cb_errorMessage( NOOBJECT, [_1,_2],
@@ -683,6 +683,18 @@ cb_errorMessage( UNTELL13, [_1,_2,_3,_4,_5],
 cb_errorMessage( UNTELL14,[_1,_2],
 		 ['Unable to untell attribute ',_1, ' in class ',_2]).
 
+{30-Oct-2018/MJf: }
+cb_errorMessage( UNTELL15,[_1],
+		 ['Unable to purge module ',_1]).
+
+{30-Oct-2018/MJf: }
+cb_errorMessage( UNTELL16,[_1],
+		 ['Current module has a sub-module ',_1]).
+
+{30-Oct-2018/MJf: }
+cb_errorMessage( UNTELL17,[_1],
+		 ['Unable to delete proposition ',_1]).
+
 
 
 { * ERROR MESSAGES FOR QUERYPROCESSOR *}
@@ -878,7 +890,8 @@ cb_errorMessage(MSERR1,[_1],['The Metaformula to be processed contains the follo
 
 cb_errorMessage(MSERR2,[_1],['The range-formula ',_1,' cannot be converted into a partially evaluatable formula by the system.']).
 
-cb_errorMessage(MSERR3,[_1],['The meta-level variables ',_1,' cannot be instantiated using partial evaluation.']).
+cb_errorMessage(MSERR3,[_1],['The meta-level variables ',_1,' cannot be instantiated using partial evaluation. A reason could be that the variables ', _1, ' are "exists"-quantified.',
+'Rewrite the formula or use a query class instead of an integrity constraint.']).
 
 cb_errorMessage(MSERR4,[_1],['The meta-level variables cannot be instantiated using partial evaluation of
  literals ',_1,' because the cost-model prohibits any path suggested.']).
@@ -902,7 +915,7 @@ cb_errorMessage( ECA1,[_1,_2],
                  ['Violation in ask part of ECA rule ', _2, ' by event ',_1,'.\n']).
 
 cb_errorMessage( ECA2,[_1,_2],
-                 [_1, ' aborts current transaction.\n']).
+                 [_1, ' rejects current transaction.\n']).
 
 cb_errorMessage( ECA3,[_1,_2],
 	['Object ',_1,' is not an instance of QueryClass. Rule : ',_2,' .\n']).
@@ -942,7 +955,7 @@ cb_errorMessage( ECA14,	[_n],
 	['Error : ECA-Rule ',_n,' refers',' to one or more object names that',' do not exist.\n']).		{ LWEB }
 
 cb_errorMessage( ECA15,[_1,_2],
-                 [_1, ' aborts current transaction due to error in ',_2, '.\n']).
+                 [_1, ' rejects current transaction due to error in ',_2, '.\n']).
 
 cb_errorMessage(ECA_TELL_ERR,[_n],
         ['Unable to tell ECArule ',_n,'.']).
@@ -1033,6 +1046,9 @@ cb_errorMessage(NOFUNCTIONBODY,[_fun],
 cb_errorMessage(INDIVCC,[_cc],
        ['The label ',_cc, ' belongs to an individual object (not an attribute). ', 'It may not be used as label ',
         'of an attribution predicate.']).
+
+cb_errorMessage(DERIVEARG,[_q],
+       ['The formula contains an attribution predicate with a query call argument: ',_q]).
 
 cb_errorMessage(FILELOADERR,[_1],['File ',_1,' could not be loaded.']). 
 

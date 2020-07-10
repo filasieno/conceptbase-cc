@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2016 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -28,8 +28,8 @@ of the ConceptBase Team.
 
 The ConceptBase Team is represented by
 
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
@@ -310,6 +310,7 @@ metaSimplify(rangerule(_litVars,_fInMF,_conclLit),_accForm,_ePredList,_triggerLi
 metaSimplify(_fInMF,_accForm,_ePredList,_triggerList,_substList) :-
 
 	metaFormulaAnalysis(_fInMF,_mLits,_mVars,_status),
+write(metaFormulaAnalysis(_fInMF,_mLits,_mVars,_status)),nl,nl,
 	{ not_empty(_mVars), gilt, da nicht simpleFormula wg. cut}
 
 	{* erster Fehlerfall:
@@ -322,9 +323,12 @@ metaSimplify(_fInMF,_accForm,_ePredList,_triggerList,_substList) :-
 
         {* evaluate certain literals in _fInMF that can have only one solution *}
         {* ticket #276                                                         *}
+write(delPseudoIns(_fT1MF)),nl,nl,
         exploitFunctionalDependencies(_mVars,_fT1MF,_fFD),
+write(exploitFunctionalDependencies(_fFD)),nl,nl,
 
 	convertIntoMFForm(_fFD,_f,_status2),
+write(convertIntoMFForm(_fFD,_f,_status2)),nl,nl,
 
 	{* zweiter Fehlerfall:
 	   status2 \== 0
@@ -333,7 +337,9 @@ metaSimplify(_fInMF,_accForm,_ePredList,_triggerList,_substList) :-
 	*}
 	(_status2 == 0;(report_error(MSERR2,MetaSimplifier,[_fFD]),fail)),!,
  	computeSearchSpace(_f,_cons,_vars,_lits),
+write(computeSearchSpace(_lits)),nl,nl,
  	listDifference(_mVars,_vars,_testList),
+write(listDifference(_testList)),nl,nl,
 
 	{* dritter Fehlerfall:
 	   Es gibt Meta-Variablen, die nicht durch partielle Auswerung
@@ -380,8 +386,8 @@ findBindingPath(_mVars,_cons,_vars,_lits,_) :-
 
 findBindingPathWithCostLevel(_mVars,_cons,_vars,_lits,_mcost,_bPath) :-        
 	findBindingPathsForVars(_mVars,_cons,_vars,_lits,_mcost,_bPaths),
+	WriteTrace(veryhigh,MetaSimplifier,['Candidate binding paths:',_bPaths]),
 	not_empty(_bPaths),
-write('Candidate paths: '),write(_bPaths),nl
  	selectCheapestPath(_mVars,_cons,_bPaths,_bPath,0),
         !.
 

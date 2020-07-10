@@ -1310,6 +1310,7 @@ ded_In_cc(_id,_cc) :-
    var(_cc),
    !,
    IS_DEDUCABLE(In(_id,_cc)),  {* if there is more than one rule head, we shall backtrack *}
+   \+ prove_In_e(_cc,id_65),     {* id_65 = QueryClass *}
    prove_by_cache(In(_id,_cc)).
 
 
@@ -1339,7 +1340,11 @@ get_Adot(_cc,_x,_y,_id1) :-
   !,
   retrieve_proposition(P( _id1, _x, _l, _y)),
   attribute(P( _id1, _x, _l, _y)),
-  (prove_In_e(_id1,_cc); ded_In_cc(_id1,_cc)).   {* ded_In_cc case only needed for calls where _cc is a variable *}
+  (prove_In_e(_id1,_cc),
+   \+ prove_In_e(_cc,id_65),     {* id_65 = QueryClass *}
+  ;
+   ded_In_cc(_id1,_cc)
+  ).   {* ded_In_cc case only needed for calls where _cc is a variable *}
 
 get_Adot(_cc,_x,_y,_id1) :-
   prove_In_e(_id1,_cc),

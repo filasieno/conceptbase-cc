@@ -211,7 +211,20 @@ getConcernedClass(A(_x,_l,_y), _class) :-
 { (b2) Look in subclasses of derived by DeepTelos as well; see issue #4 }
 
 getConcernedClass(A(_x,_l,_y), _class) :-
-  retrieve_proposition(P(_ISA,id_0,ISA,id_0)),   {* DeepTelos ISA is defined *}
+  getCC('Proposition','ISA',_ISA),   {* DeepTelos ISA is defined *}
+  VarTabLookup(_x,_type),
+	is_list(_type),
+        getTypeMember(_R1,_type),
+	checkArgLabel(_R1),   {* may not be tagged as 'UNKNOWN' *}
+        prove_upd_literal(Adot(_ISA,_Rx,_R)),
+	\+(prove_literal(In(_R,id_65))),    {* id_65=QueryClass *}
+  prove_literal(P(_class,_R,_l,_)),
+  atom(_class),!.
+
+{ (b3) Look in subclasses of derived by MLT-Telos as well; see issue #4 }
+
+getConcernedClass(A(_x,_l,_y), _class) :-
+  getCC('TYPE',specializes,_ISA),   {* MLT-Telos "specializes" is defined *}
   VarTabLookup(_x,_type),
 	is_list(_type),
         getTypeMember(_R1,_type),
