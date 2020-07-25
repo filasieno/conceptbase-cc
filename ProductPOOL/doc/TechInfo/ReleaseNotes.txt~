@@ -153,6 +153,7 @@ the GitLab repository of ConceptBase.cc
    (Issue 23)
 
 81-18 Override the +r flag of CBGraph when a fresh CBserver was started
+
    The CBGraph flag +r indicates that module sources from the GEL file should not be told to the
    CBserver when loading the GEL file. We now override this flag when the CBserver was started on
    on the fly by CBGraph. Such a CBserver has an empty database (except system objects) and
