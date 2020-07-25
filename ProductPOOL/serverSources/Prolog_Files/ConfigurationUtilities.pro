@@ -1535,7 +1535,8 @@ doClassesToCategories([class(_cat)|_restclasses],[_m|_restcats]) :-
 
 
 makeFragment(_x,_props,_fragment) :-
-  collectClasses(_x,_props,_classes),
+  collectClasses(_x,_props,_classes1),
+  augmentClasses(_x,_classes1,_classes), {* issue #25 *}
   collectSuperClasses(_x,_props,_superclasses),
   collectAttrDecls(_x,_props,_attrdecls),
   _fragment=SMLfragment(what(_x),
@@ -1562,6 +1563,21 @@ collectClasses(_InIsa,_x,[P(_id,_x,_InIsa,_c)|_rest],_sofar,_classes) :-
 
 collectClasses(_InIsa,_x,[_|_rest],_sofar,_classes) :-
   collectClasses(_InIsa,_x,_rest,_sofar,_classes).
+
+
+{* Issue #25: fragments without any class get their stored classes to avoid Telos code  *}
+{* that cannot be told again after a RETELL has separated the class definition from the *}
+{* definition of an attribute                                                           *}
+augmentClasses(_x,[],_classes) :-
+  save_setof(class(_c),prove_literal(In_s(_x,_c)),_classes),
+  !.
+augmentClasses(_x,_classes,_classes).
+
+
+makeClasslist([],[]).
+makeClasslist([_id|_restids],[class(_id)|_restclasses]) :-
+  makeClasslist(_restids,_restclasses).
+
 
 
 collectAttrDecls(_x,_props,_attrdecls) :-
