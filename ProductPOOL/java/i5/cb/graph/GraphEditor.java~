@@ -401,7 +401,7 @@ public class GraphEditor
         java.net.URL picURL = this.getClass().getResource(pic);
 
         if (picURL != null) { // an image button is created
-            Image image = java.awt.Toolkit.getDefaultToolkit().getImage(picURL);
+            Image image = Toolkit.getDefaultToolkit().getImage(picURL);
             button = new JButton(new ImageIcon(image));
             button.setMargin(new Insets(0, 0, 0, 0));
         } else { // a text button is created - cannot be translated at the moment
@@ -886,8 +886,8 @@ public class GraphEditor
       if (w > geSize.width - 2)
         w = geSize.width - 2;
       int h = gifSize.height;
-      if (h > geSize.height - 111)  // the toolbar plus border of the graph editor is 111 points high
-        h = geSize.height - 111;
+      if (h > geSize.height - 101)  // the toolbar plus border of the graph editor is 111 points high
+        h = geSize.height - 101;
       return new Dimension(w,h);
     }
 

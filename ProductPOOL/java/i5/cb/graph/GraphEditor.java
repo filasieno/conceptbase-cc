@@ -886,8 +886,8 @@ public class GraphEditor
       if (w > geSize.width - 2)
         w = geSize.width - 2;
       int h = gifSize.height;
-      if (h > geSize.height - 111)  // the toolbar plus border of the graph editor is 111 points high
-        h = geSize.height - 111;
+      if (h > geSize.height - 91)  // the toolbar plus border of the graph editor is 111 (91!) points high
+        h = geSize.height - 91;
       return new Dimension(w,h);
     }
 
