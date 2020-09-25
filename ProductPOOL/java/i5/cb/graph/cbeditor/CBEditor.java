@@ -70,6 +70,7 @@ public class CBEditor extends GraphEditor {
     private boolean m_readCBModule = false;
     private boolean m_dumpSourceFiles= false;
     private boolean m_CommandLineOptionsPresent = false;
+    private boolean m_demoMode = false;
     public StringArray gelFilenames = null;
     private String m_overrideHost = null;
     private String m_overridePort = null;
@@ -162,6 +163,8 @@ public class CBEditor extends GraphEditor {
         CBEditor editor = new CBEditor(null);
         editor.setVisible(true);
         editor.analyzeCmdArgs(args);
+
+
         for (int i = 0; i < editor.gelFilenames.size; i++) {
           String filename = editor.gelFilenames.get(i);
           CBFrame newFrame = new CBFrame(editor, "new CBFrame "+filename, CBConstants.DEFAULT_PALETTE);
@@ -177,6 +180,16 @@ public class CBEditor extends GraphEditor {
           }
           newFrame.repaint();
         }
+
+        // issue #26: disable some menu items in the "demo mode"
+        if (editor.m_demoMode) {
+          for (int pos = 0; pos < editor.m_graphMenuBar.getFileMenu().getItemCount()-1; pos++) { 
+             JMenuItem jmi = editor.getGraphMenuBar().getFileMenu().getItem(pos);
+             if (jmi != null)
+               jmi.setEnabled(false);
+          }
+        }
+
         // if no GEL files were provided then just open an empty unconnected inner frame
         if (editor.gelFilenames.size == 0) 
           editor.openStartFrame();
@@ -200,6 +213,8 @@ public class CBEditor extends GraphEditor {
          }  
       }
     }
+
+
 
     /**
      * scan for command line arguments, set options and GEL filenames if they occur
@@ -238,6 +253,9 @@ public class CBEditor extends GraphEditor {
             this.setReadCBModule(true);
             this.setWriteCBModule(true);
             specificArgs = specificArgs + " +rw";
+         }
+         else if (cmdargs[i].equals("-demo")) {   // issue #26: disable some menu items in the "demo mode"
+            m_demoMode = true;
          }
          else if (cmdargs[i].equals("+f")) {  // for dumping module sources to a text file
             this.setReadCBModule(true);
@@ -299,7 +317,7 @@ public class CBEditor extends GraphEditor {
         GraphMenuItem close = new GraphMenuItem("GMB_FileMenu_Close",
                 CBConstants.CB_BUNDLE_NAME, 'S', true);
         close.addActionListener(new CBCommand(CBCommand.FILE_CLOSE, this));
-        // adds a new MenuItem at first Position
+        // adds a new MenuItem at second but last position
         m_graphMenuBar.getFileMenu().add(close,
                 m_graphMenuBar.getFileMenu().getItemCount() - 1);
 
@@ -602,6 +620,7 @@ public class CBEditor extends GraphEditor {
                 getCBBundle(getLocale()).getString("Toolbar_Commit"))
                 .setEnabled(false);
 
+
     }//extendToolBar
 
 
@@ -711,6 +730,15 @@ public class CBEditor extends GraphEditor {
 
    public String getOverridePort() {
      return m_overridePort;
+   }
+
+   // issue #26: "demo mode" flkag is used for disabling some menu items
+   public boolean getDemoMode() {
+     return m_demoMode;
+   }
+
+   public boolean getFullMode() {
+     return !m_demoMode;
    }
 
 
@@ -824,10 +852,10 @@ public class CBEditor extends GraphEditor {
         cbf.setItemEnabled("GMB_OptionsMenu_DDBackground", true);
         cbf.setMenuEnabled("GMB_OptionsMenu_CBComponent", true);
 
-        cbf.setItemEnabled("GMB_FileMenu_Load", true);
-        cbf.setItemEnabled("GMB_FileMenu_Save", true);
-        cbf.setItemEnabled("GMB_FileMenu_Print", true);
-        cbf.setItemEnabled("GMB_FileMenu_ScreenShot", true);
+        cbf.setItemEnabled("GMB_FileMenu_Load", getFullMode());
+        cbf.setItemEnabled("GMB_FileMenu_Save", getFullMode());
+        cbf.setItemEnabled("GMB_FileMenu_Print", getFullMode());
+        cbf.setItemEnabled("GMB_FileMenu_ScreenShot", getFullMode());
 
         cbf.setItemEnabled("GMB_ActiveFrameMenu_SubmitQuery", false);
         cbf.setItemEnabled("GMB_ActiveFrameMenu_ValidateObjects", false);

@@ -347,10 +347,11 @@ public class CBFrameWorker implements java.beans.PropertyChangeListener, IFrameW
             cbf.setItemEnabled("GMB_OptionsMenu_DDBackground", true);
             cbf.setMenuEnabled("GMB_OptionsMenu_CBComponent", true);
 
-            cbf.setItemEnabled("GMB_FileMenu_Load", true);
-            cbf.setItemEnabled("GMB_FileMenu_Save", true);
-            cbf.setItemEnabled("GMB_FileMenu_Print", true);
-            cbf.setItemEnabled("GMB_FileMenu_ScreenShot", true);
+            // issue #26: "demo mode" flag is used for disabling some menu items
+            cbf.setItemEnabled("GMB_FileMenu_Load", cbEditor.getFullMode());
+            cbf.setItemEnabled("GMB_FileMenu_Save", cbEditor.getFullMode());
+            cbf.setItemEnabled("GMB_FileMenu_Print", cbEditor.getFullMode());
+            cbf.setItemEnabled("GMB_FileMenu_ScreenShot", cbEditor.getFullMode());
 
             cbf.setItemEnabled("GMB_ActiveFrameMenu_SubmitQuery", true);
             cbf.setItemEnabled("GMB_ActiveFrameMenu_ValidateObjects", true);

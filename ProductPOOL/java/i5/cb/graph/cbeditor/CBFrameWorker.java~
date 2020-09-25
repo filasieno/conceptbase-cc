@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2016 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -347,10 +347,11 @@ public class CBFrameWorker implements java.beans.PropertyChangeListener, IFrameW
             cbf.setItemEnabled("GMB_OptionsMenu_DDBackground", true);
             cbf.setMenuEnabled("GMB_OptionsMenu_CBComponent", true);
 
-            cbf.setItemEnabled("GMB_FileMenu_Load", true);
-            cbf.setItemEnabled("GMB_FileMenu_Save", true);
-            cbf.setItemEnabled("GMB_FileMenu_Print", true);
-            cbf.setItemEnabled("GMB_FileMenu_ScreenShot", true);
+            // issue #26: "demo mode" flkag is used for disabling some menu items
+            cbf.setItemEnabled("GMB_FileMenu_Load", cbEditor.getFullMode());
+            cbf.setItemEnabled("GMB_FileMenu_Save", cbEditor.getFullMode());
+            cbf.setItemEnabled("GMB_FileMenu_Print", cbEditor.getFullMode());
+            cbf.setItemEnabled("GMB_FileMenu_ScreenShot", cbEditor.getFullMode());
 
             cbf.setItemEnabled("GMB_ActiveFrameMenu_SubmitQuery", true);
             cbf.setItemEnabled("GMB_ActiveFrameMenu_ValidateObjects", true);
@@ -471,7 +472,6 @@ public class CBFrameWorker implements java.beans.PropertyChangeListener, IFrameW
         CBUserObject newUserObject = null; 
         for(int i=0; i<storedDiagramNodes.size(); i++){
             DiagramNode dn=(DiagramNode) storedDiagramNodes.get(i);
-System.out.println(i+" "+dn.getUserObject().toString());
             dc = (CBDiagramClass)dn.getDiagramClass();
             if(checkCurrentFlag() == FLAG_STOP) {
                 break;
