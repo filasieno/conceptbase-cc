@@ -75,8 +75,8 @@ public class CBEditor extends GraphEditor {
     private String m_overrideHost = null;
     private String m_overridePort = null;
 
-    public static final String CBGRAPH_VERSION = "2.1.01";
-    public static final String CBGRAPH_DATE = "2018-04-20";
+    public static final String CBGRAPH_VERSION = "2.1.02";
+    public static final String CBGRAPH_DATE = "2020-09-25";
     public static final String JAVA_VERSION = System.getProperty("java.runtime.version");
 
     /**

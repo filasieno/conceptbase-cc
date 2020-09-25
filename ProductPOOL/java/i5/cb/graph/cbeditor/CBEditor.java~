@@ -732,6 +732,7 @@ public class CBEditor extends GraphEditor {
      return m_overridePort;
    }
 
+   // issue #26: "demo mode" flkag is used for disabling some menu items
    public boolean getDemoMode() {
      return m_demoMode;
    }
