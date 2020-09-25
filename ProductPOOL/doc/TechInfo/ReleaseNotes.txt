@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2020-07-25
+                      2020-09-25
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -167,6 +167,13 @@ the GitLab repository of ConceptBase.cc
    could not be compiled when sent to a new CBserver since the order of frames was preventing the 
    integrity checker to pass the frames. This issue is now fixed.
    (Issue 25)
+
+81-19 Demo mode for CBGraph
+
+   The command line parameter "-demo" disables certain menu items, in particular in the File
+   menu. This mode is meant for use in demonstration scenerios where unexperienced users interact
+   with CBGraph.
+   (Issue 26)
 
 
 
