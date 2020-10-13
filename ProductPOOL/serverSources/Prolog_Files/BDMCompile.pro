@@ -387,8 +387,11 @@ ExamIcLiterals(_sign, _lit, _ranges, _rangeform, _IcId, _vars) :-
   ExamIcLiteralsCC(_sign, _lit, _class, _ranges, _rangeform, _IcId, _vars),
   !.
 
+
 {* Issue #28: another case that an integrity constraint cannot be compiled correctly *}
 ExamIcLiterals(_sign, _lit, _ranges, _rangeform, _IcId, _vars) :-
+   get_cb_feature(forceConcernedClass,_ccmode),
+   _ccmode \= 'off',
    increment('error_number@F2P'),
    report_error(NOSPEC, BDMCompile, [objectName(_IcId),formula(_lit)]),
    !,
