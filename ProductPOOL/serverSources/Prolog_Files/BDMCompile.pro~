@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2014 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -28,8 +28,8 @@ of the ConceptBase Team.
 
 The ConceptBase Team is represented by
 
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
@@ -147,6 +147,10 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 #GLOBAL(ExamIcLiterals/6 )
 #GLOBAL(ExamCondLitsForRuleOrIc/10 )
+
+#IF(SWI)
+:- style_check(-singleton).
+#ENDIF(SWI)
 
 
 { ==================== }
@@ -383,6 +387,16 @@ ExamIcLiterals(_sign, _lit, _ranges, _rangeform, _IcId, _vars) :-
   ExamIcLiteralsCC(_sign, _lit, _class, _ranges, _rangeform, _IcId, _vars),
   !.
 
+
+ExamIcLiterals(_sign, _lit, _ranges, _rangeform, _IcId, _vars) :-
+   increment('error_number@F2P'),
+   report_error(NOSPEC, BDMCompile, [objectName(_IcId),formula(_lit)]),
+   !,
+   fail.
+
+
+
+
 ExamIcLiteralsCC(_sign, _lit, _class, _ranges, _rangeform, _IcId, _vars) :-
   noTriggerLiteral(_class,_lit),
   !.
@@ -427,7 +441,6 @@ ExamIcLiteralsCC(_sign, _lit, _class, _ranges, _rangeform, _IcId, _vars) :-
 
 ExamIcLiteralsCC(_sign, _lit, _class, _ranges, _rangeform,
                _IcId, _vars) :-
-
 
   effectiveInsDel(_sign,Insert,_InsDel),
 
@@ -727,6 +740,16 @@ InsertOrDelete(yes, Insert, _lit, _somelit, _somelit) :- !.
 { *************************************************************************** }
 
 {* similar to ExamIcLiterals *}
+
+{ Weak litarals are for example comparison literals  }
+
+ExamCondLitsForRuleOrIc( _sign,_lit,_InsDelConcl, _ranges,
+                         _rangecond, _rangeconcl, _RuleId,
+                         _ListOfSimpIcIds, _ListOfSimpRuleIds,_vars) :-
+  WeakLiteral(_lit),
+  !.
+
+
 ExamCondLitsForRuleOrIc( _sign,_lit,_InsDelConcl, _ranges,
                          _rangecond, _rangeconcl, _RuleId,
                          _ListOfSimpIcIds, _ListOfSimpRuleIds,_vars) :-
@@ -762,13 +785,7 @@ ExamCondLitsForRuleOrIcCC( _sign,_lit,_InsDelConcl, _class, _ranges,
 
 
 
-{ Falls das Literal nicht weiter verarbeitet wird, z.B. Vergleichsliteral:    }
 
-ExamCondLitsForRuleOrIcCC( _sign,_lit,_InsDelConcl, _class, _ranges,
-                         _rangecond, _rangeconcl, _RuleId,
-                         _ListOfSimpIcIds, _ListOfSimpRuleIds,_vars) :-
-  WeakLiteral(_lit),
-  !.
 
 { the literal _lit with concerned class _class is a no trigger literal, e.g. }
 { because _class is an immutable attribute                                   }

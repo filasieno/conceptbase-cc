@@ -387,6 +387,16 @@ ExamIcLiterals(_sign, _lit, _ranges, _rangeform, _IcId, _vars) :-
   ExamIcLiteralsCC(_sign, _lit, _class, _ranges, _rangeform, _IcId, _vars),
   !.
 
+{* Issue #28: another case that an integrity constraint cannot be compiled correctly *}
+ExamIcLiterals(_sign, _lit, _ranges, _rangeform, _IcId, _vars) :-
+   increment('error_number@F2P'),
+   report_error(NOSPEC, BDMCompile, [objectName(_IcId),formula(_lit)]),
+   !,
+   fail.
+
+
+
+
 ExamIcLiteralsCC(_sign, _lit, _class, _ranges, _rangeform, _IcId, _vars) :-
   noTriggerLiteral(_class,_lit),
   !.
@@ -431,7 +441,6 @@ ExamIcLiteralsCC(_sign, _lit, _class, _ranges, _rangeform, _IcId, _vars) :-
 
 ExamIcLiteralsCC(_sign, _lit, _class, _ranges, _rangeform,
                _IcId, _vars) :-
-
 
   effectiveInsDel(_sign,Insert,_InsDel),
 
