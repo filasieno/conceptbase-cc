@@ -35,7 +35,7 @@ CurrDir=doc/ExternalLicenses/
 MK_SOURCES=Makefile
 
 # Die exportierten Dateien
-EXPORTFILES=Grappa-License-14Jan2008.txt Stl-Port-License-14Jan2008.txt Swi-Prolog-License-14Jan2008.txt CBLogo-CC-BY-ND-40.txt README.txt
+EXPORTFILES=Grappa-License-14Jan2008.txt Swi-Prolog-License-14Jan2008.txt CBLogo-CC-BY-ND-40.txt README.txt
 
 # Kurze Beschreibung der Komponente
 INFO_TXT=License files of external components

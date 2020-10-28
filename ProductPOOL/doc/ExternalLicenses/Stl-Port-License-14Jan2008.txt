@@ -1,3 +1,6 @@
+2020-10-28: STL-Port is now longer used in ConceptBase since we do not compile with Visual-C anymore.
+
+
 STLport
 Home <Home.shtml>
 News <News.shtml>
