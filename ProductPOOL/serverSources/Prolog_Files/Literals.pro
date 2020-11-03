@@ -120,6 +120,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(prove_edb_literals/1)
 #EXPORT(prove_edb_literal/1)
 #EXPORT(prove_upd_literal/1)
+#EXPORT(not_prove_upd_literal/1)
 #EXPORT(setCacheModeDefault/0)
 #EXPORT(stratificationErrorRaised/0)
 #EXPORT(resetStratificationError/0)
@@ -140,6 +141,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(emptyCache/0)
 #EXPORT(getCC/3)
 #EXPORT(setCacheInvalid/0)
+#EXPORT(checkToEnableCacheDuringUpdate/0)
 #ENDMODDECL()
 
 
@@ -679,11 +681,20 @@ prove_literal(Terminated(_id,_ttid)) :-
         create_if_builtin_object(_ttstring,TransactionTime,_ttid),
         !.
 
-
+{* attempt to make Isa derivable via rules on alternative specialization relations;
+   does not yet work; possibly some endless loops; id_15 = IsA 
 prove_literal(Isa(_class1,_class2)) :-
-{   is_specialization_of(_class1,_class2).}
-	!,  { Keine weiteren Loesungen weiter unten relevant }
+	retrieve_proposition(P(_,_isAequiv,'foreignIsA',id_15)),
+	prove_upd_literal(Adot(_isAequiv,_class1,_class2)).
+*}
+
+
+
+{* the transitive closure of IsA as computed in the object store *}
+prove_literal(Isa(_class1,_class2)) :-
+	!,
 	prove_C_Isa(_class1,_class2).
+
 
 
 
@@ -1110,6 +1121,7 @@ prove_edb_literals( [ _Literal | _restLiterals]) :-
 {*                                                                           *}
 {*****************************************************************************}
 
+
 not_prove_literal(_lit) :-
   trapNegatedCall(_lit),prove_literal(_lit),!,forgetTrap(_lit),fail.
 not_prove_literal(_lit) :- forgetTrap(_lit);true.
@@ -1118,6 +1130,12 @@ trapNegatedCall(_lit) :-
   assert(IsNegated(_lit)).
 
 forgetTrap(_lit) :- retract(IsNegated(_lit)).
+
+
+not_prove_upd_literal(_lit) :-
+  checkToEnableCacheDuringUpdate,
+  not_prove_literal(_lit).
+
 
 
 

@@ -249,6 +249,8 @@ NewRule(_ranges, rangerule(_rangecond,_rangeconcl), _RuleId) :-
 
 	RangeToEvaForm(_vars,_ranges, rangerule(_rangecondO,_rangeconcl),TRUE, evarule(_evaform_cond,_evaform_concl),_),
 
+write(rangerule(_rangecondO,_rangeconcl)),nl,
+
 	{* 1c. Und nun werden die vollstaendige Regel, in internen Formaten, und die betroffene Klasse abgespeichert:
 	*}
 	  store_origRule(_evaform_cond, _evaform_concl, _RuleId, _class, ruleinfo(_rangecondO,_rangeconcl,_ranges,_vars)),
@@ -386,6 +388,7 @@ ExamIcLiterals(_sign, _lit, _ranges, _rangeform, _IcId, _vars) :-
   ConcernedClass(_vars, _ranges, _lit, _class),
   ExamIcLiteralsCC(_sign, _lit, _class, _ranges, _rangeform, _IcId, _vars),
   !.
+
 
 {* Issue #28: another case that an integrity constraint cannot be compiled correctly *}
 ExamIcLiterals(_sign, _lit, _ranges, _rangeform, _IcId, _vars) :-

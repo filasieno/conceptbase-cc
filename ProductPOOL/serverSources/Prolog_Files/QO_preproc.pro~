@@ -380,7 +380,6 @@ acceptableInQueryConstraint(_lit).
 filterConcernedClass(_,[],_,_,[]).
 
 filterConcernedClass(A(_x,_l,_y),[_cc|_ccCands],_const,_varsWithClasses,[_cc|_ccList]) :-
-write(A(_x,_l,_y)),write('  --  '),write(_const),write('  --  '),write(_varsWithClasses),nl,
 	{* Quellklasse lesen *}
 	getSource(_cc,_sc),
 	(
@@ -908,7 +907,7 @@ postprocRule(_literals,_head,(_head :- _ruleTerm)) :-
                      move_FromTo_Forward,
                      moveBoundForward        {* ticket #147 *}
                     ]),
-{*    WriteTrace(veryhigh,QO_preprec,['Postprocessing --> ',idterm(_olits)]), *}
+    WriteTrace(high,QO_preprec,[_ilits, ' -- postprocRule --> ',_olits]), 
     List2Conjunct(_olits,_ruleTerm),
     !.
 

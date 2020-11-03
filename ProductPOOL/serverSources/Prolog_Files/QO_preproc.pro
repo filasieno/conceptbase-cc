@@ -907,7 +907,7 @@ postprocRule(_literals,_head,(_head :- _ruleTerm)) :-
                      move_FromTo_Forward,
                      moveBoundForward        {* ticket #147 *}
                     ]),
-{*    WriteTrace(veryhigh,QO_preprec,['Postprocessing --> ',idterm(_olits)]), *}
+ {*   WriteTrace(high,QO_preprec,[_ilits, ' -- postprocRule --> ',_olits]), *}
     List2Conjunct(_olits,_ruleTerm),
     !.
 

@@ -100,9 +100,11 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(get_module/2,PropositionProcessor)
 #IMPORT(report_error/3,ErrorMessages)
 #IMPORT(prove_literal/1,Literals)
+#IMPORT(prove_upd_literal/1,Literals)
 #IMPORT(prove_edb_literal/1,Literals)
 #IMPORT(not_prove_literal/1,Literals)
 #IMPORT(prove_literals/1,Literals)
+#IMPORT(prove_upd_literals/1,Literals)
 #IMPORT(append/3,GeneralUtilities)
 #IMPORT(member/2,GeneralUtilities)
 #IMPORT(setDifference/3,GeneralUtilities)
@@ -234,15 +236,15 @@ tellRuleOrIntegrityConstraint(P( _id, _RuleId, '*instanceof', _ruleid)) :-
 		{ oder Regel betroffen, also Holen der neuen Regel:           }
 	  retrieve_BDMFormula( 'origRule@BDMCompile'( _RuleId, _RuleConcl, _RuleCondFormMerged, _)),
 
+
 		{ Erzeugen aller neuherleitbaren Objekte:                     }
 	  findall( _RuleConcl,
 	           proveEvaRule( _RuleCondFormMerged),
 		   _SetOfNewLiterals),
 
-{*
-          WriteTrace(veryhigh,BDMEvaluation, ['SetOfNewLiterals = ',
-                                               _SetOfNewLiterals]),
-*}
+
+ {*         WriteTrace(veryhigh,BDMEvaluation, ['SetOfNewLiterals = ', _SetOfNewLiterals]), *}
+
 
 		{ Auswerten der betroffenen Integritaetsbedingungen:          }
 	  TestIntegrityConstraints( _ListOfSimpIcIds, _SetOfNewLiterals,Insert),

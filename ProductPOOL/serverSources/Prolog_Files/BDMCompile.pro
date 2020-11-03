@@ -249,6 +249,7 @@ NewRule(_ranges, rangerule(_rangecond,_rangeconcl), _RuleId) :-
 
 	RangeToEvaForm(_vars,_ranges, rangerule(_rangecondO,_rangeconcl),TRUE, evarule(_evaform_cond,_evaform_concl),_),
 
+
 	{* 1c. Und nun werden die vollstaendige Regel, in internen Formaten, und die betroffene Klasse abgespeichert:
 	*}
 	  store_origRule(_evaform_cond, _evaform_concl, _RuleId, _class, ruleinfo(_rangecondO,_rangeconcl,_ranges,_vars)),

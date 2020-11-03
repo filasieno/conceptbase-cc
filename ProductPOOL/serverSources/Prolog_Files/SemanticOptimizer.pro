@@ -733,11 +733,14 @@ showAlreadyGuaranteed(In(_x,_propid),_rangelits) :-
        (
          _lit =.. [_name|_args],
         (_name=In;_name=A;_name=Ai;_name=Isa;_name=Adot;_name=Adot_label;_name=Aidot; _name=A_e; _name=Aedot;
-        _name=A_label;_name=Ae_label;_name=Aedot_label;_name=UNIFIES;_name=In2;_name=A2),
+        _name=A_label;_name=Ae_label;_name=Aedot_label;_name=UNIFIES; _name=EQ; name=In2;_name=A2),
         pc_member(_x,_args)
        );
        _lit = To(_a,_x);
-       _lit = From(_a,_x)
+       _lit = From(_a,_x);
+       _lit = P(_x,_,_,_);
+       _lit = P(_,_x,_,_);
+       _lit = P(_,_,_,_x)
      ),
   (id2name(_x,_xn);_x=_xn),
   WriteTrace(veryhigh,SemanticOptimizer,[In(_x,Proposition),' guaranteed by ',_lit,
@@ -1016,6 +1019,12 @@ showAlreadyGuaranteed(In(_y,_d),_rangelits) :-
   retrieve_proposition(P(_ca,_c,_m,_d)),
   WriteTrace(veryhigh,SemanticOptimizer,[In(_y,_d),' guaranteed by ',To(_a,_y),' [R29]']),
   !.
+
+
+
+
+
+
 
 {* 11-May-2006/M.Jeusfeld: transaction times are (temporarily) instantiated to *}
 {* String by the implementation of Known in Literals.pro. Thus we can remove   *}

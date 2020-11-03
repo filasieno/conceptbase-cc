@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2018 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -253,12 +253,14 @@ handle_message( ipcmessage(_sender,_receiver,_method,_args),
 
 displayAnswerOnTrace(_toolid,_answer,_completion) :-
    pc_pointer(_answer),
-  WriteTrace(low,_toolid,['RESPONSE IS ',stringBuffer(_answer), ' {',_completion,'}']),
+  WriteTrace(low,_toolid,['RESPONSE IS ',stringBuffer(_answer)]),
+  WriteTrace(minimal,_toolid,['COMPLETION IS ',_completion]),
   !.
 
 displayAnswerOnTrace(_toolid,_answer,_completion) :-
   makeAnswerAtom(_answer,_atom),
-  WriteTrace(low,_toolid,['RESPONSE IS ',_atom, ' {',_completion,'}']),
+  WriteTrace(low,_toolid,['RESPONSE IS ',_atom]),
+  WriteTrace(minimal,_toolid,['COMPLETION IS ',_completion]),
   !.
 
 
@@ -1084,6 +1086,7 @@ BEGIN_TRANSACTION(_s,_module,_user,_op) :-
    	getFlag(Transaction_counter,_tid),
    	_newTid is _tid + 1,
    	setFlag(Transaction_counter,_newTid),
+   	resetFlag(currentAnswerFormat),
         usernameWithouthost(_user,_u),
         set_active_user(_u),
         resetCountersAndState,
@@ -1188,21 +1191,46 @@ checkPermission(_fullusername,_operation,'System') :-
    !.
 
 
-{* case 2: module is not protected: allow _anybody to execute _operation *}
+{* case 2: securityLevel=2, module is not protected: allow _anybody to execute _operation *}
 checkPermission(_fullusername,_operation,_module) :-
    _module \== 'System',
+   get_cb_feature(securityLevel,_lev),  
+   _lev == '2',
    enactModuleContext(_module,ok),
    \+ getPermissionTest(_fullusername,_operation,_module,_query_lit),   {* no query CB_Permitted* defined in _module *}
    !.
 
 
-{* case 3: module is protected and we can show that _username is permitted for _operation *}
+{* case 3: securityLevel=2, module is protected and we can show that _username is permitted for _operation *}
 checkPermission(_fullusername,_operation,_module) :-
    _module \== 'System',
+   get_cb_feature(securityLevel,_lev),  
+   _lev == '2',
    enactModuleContext(_module,ok),
    getPermissionTest(_fullusername,_operation,_module,_query_lit),
    prove_literal(_query_lit),
    !.
+
+{* case 4a: securityLevel=3, only READ operations are permitted when no CB_Permitted* is defined *}
+checkPermission(_fullusername,_operation,_module) :-
+   member(_operation,['ASK','HYPO_ASK']),
+   get_cb_feature(securityLevel,_lev),  
+   _lev == '3',
+   enactModuleContext(_module,ok),
+   \+ getPermissionTest(_fullusername,_operation,_module,_query_lit),   {* no query CB_Permitted* defined in _module *}
+   !.
+
+{* case 4b: securityLevel=3, at most READ operations are permitted, subject to CB_Permitted* *}
+checkPermission(_fullusername,_operation,_module) :-
+   member(_operation,['ASK','HYPO_ASK']),
+   get_cb_feature(securityLevel,_lev),  
+   _lev == '3',
+   enactModuleContext(_module,ok),
+   getPermissionTest(_fullusername,_operation,_module,_query_lit),
+   prove_literal(_query_lit),
+   !.
+
+
 
 {* else: permission is not granted *}
 checkPermission(_fullusername,_operation,_module) :-
@@ -1312,6 +1340,11 @@ enactModuleContext(_module_name,error) :-
   !.
 
 
+{* issue #7: we are already in the right module, hence no module change *}
+{* needed and no need to empty the cache                                *}
+enactModulePath(_mod) :-
+  getModulePath(_mod),
+  !.
 
 enactModulePath(_mod) :-
   atom(_mod),
@@ -1341,7 +1374,7 @@ enactOneModuleContext(_module_name) :-
   atom(_module_name),
   retrieve_proposition_noimport(_,P(_mid,_mid,_module_name,_mid)),
   name2id(Module,_module),
-  prove_literal(In_e(_mid,_module)),
+  prove_literal(In(_mid,_module)),
   switchModule(_mid),
   !.
 
