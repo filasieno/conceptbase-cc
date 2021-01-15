@@ -151,6 +151,8 @@ IMPORT(isVariable/2,'MSFOLassertionParserUtilities').      /** ticket #173 **/
 IMPORT(splitRule/3,'MSFOLassertionParserUtilities').      /** ticket #206 **/
 IMPORT(containsNoReservedWord/1,'MSFOLassertionParserUtilities').      /** ticket #293 **/
 
+IMPORT(pc_ascii/2,'PrologCompatibility').
+
 
 :- style_check(-singleton).
 
@@ -832,7 +834,7 @@ modPathMin(_mPath) ==>
 	[ident(_mPath)].
 
 
-/* ticket #372: */
+/* ticket #372: support module paths built with '/' */
 modPathSlash(_first) ==>
 	[ident(_first)],
 	['/'],
@@ -1513,8 +1515,10 @@ ecalit(new(_lit)) ==>
 	lit(_lit),
 	[')'].
 
+
+/* backquote "`"  = ascii char 96 */
 ecalit(new(_lit)) ==>
-        ['`'],
+        [_c], where [pc_ascii(_c, 96)],
         lit(_lit).
 
 ecalit(_lit) ==>

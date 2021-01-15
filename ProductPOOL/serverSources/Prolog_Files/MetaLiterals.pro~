@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2016 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -28,8 +28,8 @@ of the ConceptBase Team.
 
 The ConceptBase Team is represented by
 
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
@@ -74,6 +74,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #ENDMODDECL()
 
 #IMPORT(prove_literal/1,Literals)
+#IMPORT(prove_upd_literal/1,Literals)
 #IMPORT(append/3,GeneralUtilities)
 #IMPORT(empty/1,MetaUtilities)
 #IMPORT(findPositionsInList/3,MetaUtilities)
@@ -97,6 +98,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(isComplexComparisonLit/1,QO_preproc)
 #IMPORT(isComplexQlit/1,QO_preproc)
 #IMPORT(isSubsetOf/2,GeneralUtilities)
+#IMPORT(is_id/1,MetaUtilities)
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -129,11 +131,11 @@ computeExtension(In(_x,_c),_cons,[]) :-
 	prepareLiteral(In(_x,_c),_cons,_newLit),
 	_newLit =..[In,_xNew,_id],
 	ground(_id),
-	prove_literal(In(_id,id_65)),!.   {* id_65 = QueryClass *}
+	prove_upd_literal(In(_id,id_65)),!.   {* id_65 = QueryClass *}
 
 computeExtension(_lit,_cons,_extList) :-
 	prepareLiteral(_lit,_cons,_newLit),
-	save_setof(_newLit,(prove_literal(_newLit),ground(_newLit)),_extList),!.
+	save_setof(_newLit,(prove_upd_literal(_newLit),ground(_newLit)),_extList),!.
 
 
 {
@@ -152,8 +154,9 @@ determines(A(_x,_m,_y),[_x,_m],[_y],10).
 determines(A(_x,_m,_y),[_x,_y],[_m],10).
 determines(A(_x,_m,_y),[_m,_y],[_x],10).
 determines(A(_x,_m,_y),[_x],[_m,_y],100).
-determines(A(_x,_m,_y),[_m],[_x,_y],100).
-determines(A(_x,_m,_y),[_y],[_x,_m],1000) .
+determines(A(_x,_m,_y),[_m],[_x,_y],100) :- _m \== 'IN'.
+determines(A(_x,_m,_y),[_m],[_x,_y],12) :- _m == 'IN'.   {* ticket #404: special support for DeepTelos *}
+determines(A(_x,_m,_y),[_y],[_x,_m],100) .
 determines(A(_x,_m,_y),[],[_x,_m,_y],1000) .
 
 {* 1-Nov-2006/M.Jeusfeld: Also support A_label as *}
@@ -199,6 +202,7 @@ determines(A_e(_x,_m,_y),[],[_x,_m,_y],100) .
 
 
 determines(In(_x,_id),[_id],[_x],10000):- id2name(_id,Proposition),!.
+determines(In(_x,_c),[_c],[_x],1000) :- is_id(_c),prove_upd_literal(A(_,Proposition,IN,_c)),!.  {* _c is defined in DeepTelos *}
 determines(In(_x,_c),[_c],[_x],12).
 determines(In(_x,_c),[_x,_c],[],1) .
 determines(In(_x,_c),[_x],[_c],5) .
@@ -207,7 +211,7 @@ determines(In(_x,_c),[],[_x,_c],200) .   {* this would be a meta predicate *}
 determines(Isa(_x,_c),[_x,_c],[],1) .
 determines(Isa(_x,_c),[_x],[_c],5) .
 determines(Isa(_x,_c),[_c],[_x],5) .
-determines(Isa(_x,_c),[],[_x,_c],7) .
+determines(Isa(_x,_c),[],[_x,_c],1000) .  {* the object store even generates an alert when called like this; ticket #404 *}
 
 
 determines(P(_p,_c,_m,_d),[],[_p,_c,_m,_d],10000) .
@@ -226,6 +230,10 @@ determines(P(_p,_c,_m,_d),[_c,_m,_d],[_p],10000).
 determines(P(_p,_c,_m,_d),[_m],[_p,_c,_d],10000).
 determines(P(_p,_c,_m,_d),[_m,_d],[_p,_c],10000).
 determines(P(_p,_c,_m,_d),[_d],[_p,_c,_m],10000) .
+
+determines(Pa(_p,_c,_m,_d),_args1,_args2,_cost) :-
+  determines(P(_p,_c,_m,_d),_args1,_args2,_cost).
+
 
 determines(From(_p,_c),[],[_p,_c],1000).
 determines(From(_p,_c),[_p],[_c],1).

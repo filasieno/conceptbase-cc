@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -621,6 +621,12 @@ prove_literal(P( _id, _x, _l, _y)) :-
         !,
         retrieve_proposition( P( _id, _x, _l, _y)).
 
+{* Pa: proposition attributes *}
+prove_literal(Pa(_id, _x, _l, _y)) :-
+        !,
+        retrieve_proposition( P(_id, _x, _l, _y)),
+	attribute(P(_id, _x, _l, _y)).
+
 
 prove_literal(From( _id, _x)) :-
         !,
@@ -683,6 +689,7 @@ prove_literal(Terminated(_id,_ttid)) :-
 
 {* attempt to make Isa derivable via rules on alternative specialization relations;
    does not yet work; possibly some endless loops; id_15 = IsA 
+   issue #24
 prove_literal(Isa(_class1,_class2)) :-
 	retrieve_proposition(P(_,_isAequiv,'foreignIsA',id_15)),
 	prove_upd_literal(Adot(_isAequiv,_class1,_class2)).

@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -621,6 +621,12 @@ prove_literal(P( _id, _x, _l, _y)) :-
         !,
         retrieve_proposition( P( _id, _x, _l, _y)).
 
+{* Pa: proposition attributes *}
+prove_literal(Pa(_id, _x, _l, _y)) :-
+        !,
+        retrieve_proposition( P(_id, _x, _l, _y)),
+	attribute(P(_id, _x, _l, _y)).
+
 
 prove_literal(From( _id, _x)) :-
         !,
@@ -1132,7 +1138,7 @@ trapNegatedCall(_lit) :-
 forgetTrap(_lit) :- retract(IsNegated(_lit)).
 
 
-not_prove_upd_literals(_lit) :-
+not_prove_upd_literal(_lit) :-
   checkToEnableCacheDuringUpdate,
   not_prove_literal(_lit).
 

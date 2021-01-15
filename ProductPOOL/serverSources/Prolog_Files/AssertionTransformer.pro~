@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2016 The ConceptBase Team. All rights reserved.
+Copyright 1987-2020 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -28,8 +28,8 @@ of the ConceptBase Team.
 
 The ConceptBase Team is represented by
 
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
@@ -307,6 +307,7 @@ handleSimpleFormula(_rangeform,_rangeform_optRF,_ranges) :-
 	VarTabInsertRanges(_toInsert),!,
 }
 	replaceAsWithAdots(_rangeform,_rangeform1),!,
+write(replaceAsWithAdots(_rangeform,_rangeform1)),nl,
         exploitFunctionalDependencies(_rangeform1,_rangeform2),
 	optimizeRangeform(_rangeform2, _rangeform_optRF),
         !,
@@ -337,9 +338,7 @@ handleMetaFormula(_rangeform,_ePredsTillNow,_mode,_rfID) :-
         correctRangeform(_rangeform,_rangeform_c),
 
 	WriteTrace(veryhigh,AssertionTransformer,['partially evaluating ... ',nl,idterm(_rangeform_c)]),
-write(a),nl,
         pc_update(ePredsTillNow(_ePredsTillNow)),     {* 30-Oct-2001/MJf, to be used in SemanticOptimizer *}
-write(b),nl,
 	metaSimplifier(_rangeform_c,_ePredsTillNow,_genFormulas,_genInsertTriggers,_genDeleteTriggers,_substitutions,_formulaClasses),!,
 
 	WriteTrace(high,AssertionTransformer,['generated Formulas: -->',idterm(_genFormulas)]),
