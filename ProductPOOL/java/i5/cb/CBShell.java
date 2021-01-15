@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -137,7 +137,7 @@ public class CBShell {
               }
               else if (args[i].equals("-v") || args[i].equals("-version")) {
                   System.out.println("This is CBShell, the command line interface to ConceptBase.cc");
-                  System.out.println("Copyright 1987-2020 by The ConceptBase Team. All rights reserved.");
+                  System.out.println("Copyright 1987-2021 by The ConceptBase Team. All rights reserved.");
                   System.out.println("Original software by Achim Schlosser and others.");
                   System.out.println("This is free software. See http://conceptbase.cc for details.");
                   System.out.println("No warranty, not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.");
