@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -1159,7 +1159,7 @@ copyright_notice(_tool) :-
                           _pvariant/'PROLOG_VARIANT']),
    'WriteListOnTrace'(minimal,['> This is ConceptBase.cc (',_tool,') ',_v,', ',_loc,', ',_d]),
    'WriteListOnTrace'(minimal,['> ', _copyyears, ' by The ConceptBase Team. All rights reserved.']),
-   'WriteListOnTrace'(minimal,['> Distributed under a FreeBSD license. Call "cbserver -license" for details.']),
+   'WriteListOnTrace'(minimal,['> Distributed under a BSD-style license. Call "cbserver -license" for details.']),
    'WriteNewlineOnTrace'(minimal),
    'WriteListOnTrace'(minimal,['>    Contact: M.Jeusfeld,University of Skovde,54128 Skovde/Sweden']),
 /**   WriteListOnTrace(minimal,['>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany']), **/

@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -120,6 +120,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 ,'prove_edb_literals'/1
 ,'prove_edb_literal'/1
 ,'prove_upd_literal'/1
+,'not_prove_upd_literal'/1
 ,'setCacheModeDefault'/0
 ,'stratificationErrorRaised'/0
 ,'resetStratificationError'/0
@@ -140,6 +141,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 ,'emptyCache'/0
 ,'getCC'/3
 ,'setCacheInvalid'/0
+,'checkToEnableCacheDuringUpdate'/0
 ]).
 :- use_module('GlobalPredicates.swi.pl').
 :- use_module('debug.swi.pl').
@@ -621,6 +623,12 @@ prove_literal('P'( _id, _x, _l, _y)) :-
         !,
         retrieve_proposition( 'P'( _id, _x, _l, _y)).
 
+/** Pa: proposition attributes **/
+prove_literal('Pa'(_id, _x, _l, _y)) :-
+        !,
+        retrieve_proposition( 'P'(_id, _x, _l, _y)),
+	attribute('P'(_id, _x, _l, _y)).
+
 
 prove_literal('From'( _id, _x)) :-
         !,
@@ -681,11 +689,20 @@ prove_literal('Terminated'(_id,_ttid)) :-
         create_if_builtin_object(_ttstring,'TransactionTime',_ttid),
         !.
 
+/** attempt to make Isa derivable via rules on alternative specialization relations;
+   does not yet work; possibly some endless loops; id_15 = IsA 
+prove_literal(Isa(_class1,_class2)) :-
+	retrieve_proposition(P(_,_isAequiv,'foreignIsA',id_15)),
+	prove_upd_literal(Adot(_isAequiv,_class1,_class2)).
+**/
 
+
+
+/** the transitive closure of IsA as computed in the object store **/
 prove_literal('Isa'(_class1,_class2)) :-
-/*   is_specialization_of(_class1,_class2).*/
-	!,  /* Keine weiteren Loesungen weiter unten relevant */
+	!,
 	prove_C_Isa(_class1,_class2).
+
 
 
 
@@ -1112,6 +1129,7 @@ prove_edb_literals( [ _Literal | _restLiterals]) :-
 /**                                                                           **/
 /*******************************************************************************/
 
+
 not_prove_literal(_lit) :-
   trapNegatedCall(_lit),prove_literal(_lit),!,forgetTrap(_lit),fail.
 not_prove_literal(_lit) :- forgetTrap(_lit);true.
@@ -1120,6 +1138,12 @@ trapNegatedCall(_lit) :-
   assert('IsNegated'(_lit)).
 
 forgetTrap(_lit) :- retract('IsNegated'(_lit)).
+
+
+not_prove_upd_literal(_lit) :-
+  checkToEnableCacheDuringUpdate,
+  not_prove_literal(_lit).
+
 
 
 
@@ -1312,6 +1336,7 @@ ded_In_cc(_id,_cc) :-
    var(_cc),
    !,
    'IS_DEDUCABLE'('In'(_id,_cc)),  /** if there is more than one rule head, we shall backtrack **/
+   \+ prove_In_e(_cc,id_65),     /** id_65 = QueryClass **/
    prove_by_cache('In'(_id,_cc)).
 
 
@@ -1341,7 +1366,7 @@ get_Adot(_cc,_x,_y,_id1) :-
   !,
   retrieve_proposition('P'( _id1, _x, _l, _y)),
   attribute('P'( _id1, _x, _l, _y)),
-  (prove_In_e(_id1,_cc); ded_In_cc(_id1,_cc)).   /** ded_In_cc case only needed for calls where _cc is a variable **/
+  ( prove_In_e(_id1,_cc) ; ded_In_cc(_id1,_cc) ).   /** ded_In_cc case only needed for calls where _cc is a variable **/
 
 get_Adot(_cc,_x,_y,_id1) :-
   prove_In_e(_id1,_cc),

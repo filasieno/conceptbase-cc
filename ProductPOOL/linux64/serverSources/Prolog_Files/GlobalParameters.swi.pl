@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -92,11 +92,11 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
-cb_version('8.1.25').
-cb_date_of_release('2020-06-11'). /* set via environment variable CB_DATE in startCBserver; see serverSources/Makefile */
+cb_version('8.1.30').
+cb_date_of_release('2021-01-01'). /* set via environment variable CB_DATE in startCBserver; see serverSources/Makefile */
 cb_location('Skovde').            /** place where CBserver is compiled, updated in startCBserver **/
 
-cb_copyright_time('Copyright 1987-2020').              /*keep up to date!*/
+cb_copyright_time('Copyright 1987-2021').              /*keep up to date!*/
 
 
 :- dynamic 'cb_installation'/1 .

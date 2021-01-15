@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -909,7 +909,7 @@ postprocRule(_literals,_head,(_head :- _ruleTerm)) :-
                      move_FromTo_Forward,
                      moveBoundForward        /** ticket #147 **/
                     ]),
-/**    WriteTrace(veryhigh,QO_preprec,['Postprocessing --> ',idterm(_olits)]), **/
+ /**   WriteTrace(high,QO_preprec,[_ilits, ' -- postprocRule --> ',_olits]), **/
     'List2Conjunct'(_olits,_ruleTerm),
     !.
 

@@ -1,5 +1,5 @@
 % The ConceptBase User Manual (CB-Manual)
-% Copyright 1987-2020 by The ConceptBase Team
+% Copyright 1987-2021 by The ConceptBase Team
 % The CB-Manual may only be updated by members of the ConceptBase Team
 % as listed on http://conceptbase.cc
 % The TeX sources of the CB-Manual and the accompanying
@@ -603,6 +603,9 @@ The object {\tt p} has label {\tt l}. If {\tt l} is used as a variable, it must 
 class {\tt Label}.
 \item {\tt P(p,x,n,y)}\\
 There is an object {\tt P(p,x,n,y)} in the database $\OB_{rbt}$.
+\item {\tt Pa(p,x,n,y)}\\
+There is an attribution object {\tt P(p,x,n,y)} in the database $\OB_{rbt}$, i.e. a proposition that is neither an individual object,
+nor an instantiation object, nor a specialization object. See also axiom 22 in appendix \ref{cha:otelos-axioms}.
 \item {\tt Known(p,t)}
 The object {\tt p} is known in $\OB_{rbt}$  since {\tt t}, i.e.\ an object {\tt P(p,x,n,y,tt)} is
 part of the database OB and {\tt t} is the start time of {\tt tt}. The argument

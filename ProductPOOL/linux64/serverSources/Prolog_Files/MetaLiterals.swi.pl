@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -205,6 +205,7 @@ determines('A_e'(_x,_m,_y),[],[_x,_m,_y],100) .
 
 determines('In'(_x,_id),[_id],[_x],10000):- id2name(_id,'Proposition'),!.
 determines('In'(_x,_c),[_c],[_x],1000) :- is_id(_c),prove_upd_literal('A'(_,'Proposition','IN',_c)),!.  /** _c is defined in DeepTelos **/
+determines('In'(_x,_c),[_c],[_x],1000) :- is_id(_c),prove_upd_literal('A'(_c,'Proposition',isPowerTypeOf,_)),!.  /** _c is defined in MLT-Telos **/
 determines('In'(_x,_c),[_c],[_x],12).
 determines('In'(_x,_c),[_x,_c],[],1) .
 determines('In'(_x,_c),[_x],[_c],5) .
@@ -232,6 +233,10 @@ determines('P'(_p,_c,_m,_d),[_c,_m,_d],[_p],10000).
 determines('P'(_p,_c,_m,_d),[_m],[_p,_c,_d],10000).
 determines('P'(_p,_c,_m,_d),[_m,_d],[_p,_c],10000).
 determines('P'(_p,_c,_m,_d),[_d],[_p,_c,_m],10000) .
+
+determines('Pa'(_p,_c,_m,_d),_args1,_args2,_cost) :-
+  determines('P'(_p,_c,_m,_d),_args1,_args2,_cost).
+
 
 determines('From'(_p,_c),[],[_p,_c],1000).
 determines('From'(_p,_c),[_p],[_c],1).

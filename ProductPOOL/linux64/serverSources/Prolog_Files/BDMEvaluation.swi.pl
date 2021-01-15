@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -102,6 +102,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 :- use_module('ErrorMessages.swi.pl').
 :- use_module('Literals.swi.pl').
+
+
 
 
 
@@ -236,15 +238,15 @@ tellRuleOrIntegrityConstraint('P'( _id, _RuleId, '*instanceof', _ruleid)) :-
 		/* oder Regel betroffen, also Holen der neuen Regel:           */
 	  retrieve_BDMFormula( 'origRule@BDMCompile'( _RuleId, _RuleConcl, _RuleCondFormMerged, _)),
 
+
 		/* Erzeugen aller neuherleitbaren Objekte:                     */
 	  findall( _RuleConcl,
 	           proveEvaRule( _RuleCondFormMerged),
 		   _SetOfNewLiterals),
 
-/**
-          WriteTrace(veryhigh,BDMEvaluation, ['SetOfNewLiterals = ',
-                                               _SetOfNewLiterals]),
-**/
+
+ /**         WriteTrace(veryhigh,BDMEvaluation, ['SetOfNewLiterals = ', _SetOfNewLiterals]), **/
+
 
 		/* Auswerten der betroffenen Integritaetsbedingungen:          */
 	  'TestIntegrityConstraints'( _ListOfSimpIcIds, _SetOfNewLiterals,'Insert'),

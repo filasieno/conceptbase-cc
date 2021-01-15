@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -251,6 +251,7 @@ generateSpecializations(_vars,_ranges, _rangeform, _IcId) :-
 
 	'RangeToEvaForm'(_vars,_ranges, rangerule(_rangecondO,_rangeconcl),'TRUE', evarule(_evaform_cond,_evaform_concl),_),
 
+
 	/** 1c. Und nun werden die vollstaendige Regel, in internen Formaten, und die betroffene Klasse abgespeichert:
 	**/
 	  store_origRule(_evaform_cond, _evaform_concl, _RuleId, _class, ruleinfo(_rangecondO,_rangeconcl,_ranges,_vars)),
@@ -389,6 +390,19 @@ generateSpecializations(_vars,_ranges, _rangeform, _IcId) :-
   'ExamIcLiteralsCC'(_sign, _lit, _class, _ranges, _rangeform, _IcId, _vars),
   !.
 
+
+/** Issue #28: another case that an integrity constraint cannot be compiled correctly **/
+'ExamIcLiterals'(_sign, _lit, _ranges, _rangeform, _IcId, _vars) :-
+   get_cb_feature(forceConcernedClass,_ccmode),
+   _ccmode \= 'off',
+   increment('error_number@F2P'),
+   report_error('NOSPEC', 'BDMCompile', [objectName(_IcId),formula(_lit)]),
+   !,
+   fail.
+
+
+
+
 'ExamIcLiteralsCC'(_sign, _lit, _class, _ranges, _rangeform, _IcId, _vars) :-
   noTriggerLiteral(_class,_lit),
   !.
@@ -433,7 +447,6 @@ generateSpecializations(_vars,_ranges, _rangeform, _IcId) :-
 
 'ExamIcLiteralsCC'(_sign, _lit, _class, _ranges, _rangeform,
                _IcId, _vars) :-
-
 
   effectiveInsDel(_sign,'Insert',_InsDel),
 

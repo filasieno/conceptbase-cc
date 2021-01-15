@@ -1,5 +1,5 @@
 % The ConceptBase User Manual (CB-Manual)
-% Copyright 1987-2017 by The ConceptBase Team
+% Copyright 1987-2020 by The ConceptBase Team
 % The CB-Manual may only be updated by members of the ConceptBase Team
 % as listed on http://conceptbase.cc
 % The TeX sources of the CB-Manual and the accompanying
@@ -603,6 +603,9 @@ The object {\tt p} has label {\tt l}. If {\tt l} is used as a variable, it must 
 class {\tt Label}.
 \item {\tt P(p,x,n,y)}\\
 There is an object {\tt P(p,x,n,y)} in the database $\OB_{rbt}$.
+\item {\tt Pa(p,x,n,y)}\\
+There is an attribution object {\tt P(p,x,n,y)} in the database $\OB_{rbt}$, i.e. a proposition that is neither an individual object,
+nor an instantiation object, nor a specialization object.
 \item {\tt Known(p,t)}
 The object {\tt p} is known in $\OB_{rbt}$  since {\tt t}, i.e.\ an object {\tt P(p,x,n,y,tt)} is
 part of the database OB and {\tt t} is the start time of {\tt tt}. The argument
@@ -664,12 +667,17 @@ The object {\tt x} is an explicit instance of class {\tt c}, or of one of the
 individual objects is {\tt Individual}, attribution objects  have the system class {\tt Attribute},
 instantiation objects the system class {\tt InstanceOf}, and specialization objects have the system
 class {\tt IsA}.
-\item {\tt A\_e(x,m,y)}or {\tt :(x m y):}\\
+\item {\tt A\_e(x,m,y)} or {\tt :(x m y):}\\
 The objects {\tt x} and {\tt y} are linked by an explict attribute with attribute category {\tt m}.
 The attribute category is either explicitly assigned to the attribute or derived by a rule (see 
 subsection \ref{sec:aepred}).
-\item {\tt Isa\_e(c,d)}or {\tt :(c isA d):}\\
+\item {\tt Isa\_e(c,d)} or {\tt :(c isA d):}\\
 The class {\tt c} is a direct subclass of class {\tt d}.
+\item {\tt AD(p,x,y)}\\
+The objects {\tt x} and {\tt y} are linked by an explicit or derived relation/attribute
+of category {\tt m}, where {\tt P(p,c,m,d)} defines the attribute category. This predicate
+is mostly used for internal purposes of ConceptBase. The predicate is computationally expensive
+when the first argument is a variable. 
 \end{enumerate}
 
 The above predicates can be used, for example,
@@ -677,7 +685,13 @@ to define defaults values (see
 \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2396075})
 Since deduction should be transparent to the user,
 one should avoid using the above predicates if the proper predicates {\tt In(x,c)} and
-{\tt A(x,n,y)} can do the job.
+{\tt A(x,m,y)} can do the job.
+
+The predicate {\tt A(x,m,y)} is translated by the ConceptBase to the {\tt AD(p,x,y)} predicate, where 
+the first argument is a constant. For example, $$
+\forall ~e/Employee~ \exists ~s/Integer ~A(e,salary,s) $$
+would be translated to $$
+\forall ~e/Employee~ \exists ~s/Integer ~AD(Employee!salary,e,s) $$
 
 
 \subsection{Notes on attribution}
@@ -772,7 +786,7 @@ Here, the following predicate facts would be true:
 The mechanism for attribution is exactly the same as for instances like {\tt mary}. 
 Note that the 3-argument attribution predicate expressing {\tt (mary name "Mary Smith")} 
 represents a meaningful statement for some reality to be modeled. 
-On the other hand, the predicate fact {\tt (Employee attribute String)} is much less significant
+On the other hand, the predicate fact {\tt (Employee attribute String)} is less significant
 because the label {\tt attribute} does not transport a specific domain meaning. Here, the 4-argument
 attribution predicate such as used for the fact {\tt (Employee attribute/name String)}
 is required. Still, from a formal point of view, there is no different treatment of
@@ -791,7 +805,17 @@ for {\tt Proposition}:
 \end{verbatim}
 
 Note that {\tt attribute} has itself as category. This is the most generic attribute category and
-applies to any (explicit) attribution. 
+applies to any (explicit) attribution. For this reason, the category {\tt attribute} can also be
+omitted in frame definitions of objects. The above definition of {\tt Employee} is equivalent to
+
+\begin{verbatim}
+Employee in Class with
+   single
+      name: String
+   attribute
+      aliasname: String
+end
+\end{verbatim}
 
 Both the attribution predicate {\tt (x m y)} and its long form {\tt (x m/n y)} can be derived,
 i.e. occur as conclusion of a deductive rule. In such cases, there are no explicit attribute
@@ -1494,7 +1518,7 @@ that the {\tt marriedTo} attribute of {\tt Person} should be symmetric:
 {\small
 \begin{verbatim}
 Person with
-  attribute,symmetric
+  symmetric
    marriedTo: Person
 end
 \end{verbatim}
@@ -1601,7 +1625,7 @@ QueryClass in Class isA Class with
      attribute
          retrieved_attribute: Proposition;
          computed_attribute: Proposition
-     attribute,single
+     single
          constraint: MSFOLquery
 end
 \end{verbatim}
@@ -1641,13 +1665,13 @@ interested managers. The attributes must be present in one of the
 super-classes of the query class. In this example, the {\tt union} attribute is
 obviously inherited from the class {\tt UnionMember} and {\tt salary} is inherited from
 {\tt Manager}.  CBQL demands that retrieved attributes are necessary: each answer
-must instantiate them. If an object does not have such an attribute then it
+must have at least one value for them. If an object does not have such an attribute then it
 will not be part of the solution. As usual with attribute inheritance, one
 may specialize the attribute value class, e.g.
 
 {\small
 \begin{verbatim}
-QueryClass Well_off_SI_Manager isA SI_Manager with
+Well_off_SI_Manager in QueryClass isA SI_Manager with
      retrieved_attribute
          salary: HighSalary
 end
@@ -1666,6 +1690,42 @@ The new attribute value class {\tt HighSalary} is a subclass of {\tt Integer} so
 each solution of the restricted query class is also a solution of the more
 general one. It should also be noted that {\tt HighSalary} also could have been
 another query class. This is the second way of query recombination.
+
+Retrieved atributes can well be derived by a deductive rule. In such cases, ConceptBase
+generates a label for the derived attribute. For example, consider a boss rule discussed earlier for
+instances of Employee
+
+
+{\small
+\begin{verbatim}
+Employee in Class with
+    attribute
+        salary: Integer;
+        boss: Manager
+    rule
+     BossRule : $ forall e/Employee m/Manager d/Department
+                (e dept d) and (d head m)
+                ==> (e boss m) $
+end
+\end{verbatim}
+}
+
+The following query shall then return employees together with their salaries and bosses:
+
+{\small
+\begin{verbatim}
+EmpSalBoss in QueryClass isA Employee with
+     retrieved_attribute
+         salary: Integer;
+         boss: Manager
+end
+\end{verbatim}
+}
+
+The derived boss attributes get a system-generated label in the answer produced by
+ConceptBase. Note that retrieved attributes are necessary but there may be more than one value per attribute category,
+e.g.\ more than one boss.
+
 
 Retrieved attributes and super-classes already offer a simple way of
 querying a knowledge base: projection and set intersection. For more
@@ -1756,8 +1816,8 @@ end
 }
 
 The variable \verb+~head_of+ in the constraint
-is prefixed with \verb+~+ to indicate that it is a placeholder for the compted attribute
-with label \verb+head_of+. We recommend to
+is prefixed with \verb+~+ to indicate that it is a placeholder for the computed attribute
+with the same label \verb+head_of+. We recommend to
 use the prefix to avoid confusion of the placeholder variable in query constraints and corresponding
 attribute label in the query definitions. Analogously, you can use the prefixed answer variable
 \verb+~this+ instead of the plain version \verb+this+. ConceptBase will
@@ -2377,23 +2437,13 @@ that the answer to a predicate call {\tt A(x)} may not depend on its negation
 active predicate calls.
 
 ConceptBase reports a violation of dynamic stratification in the log window
-of the CB client  with a message ``STRATIFICATION VIOLATION`` indicating
-the predicate that participated in the violation. Two flavors of error
-messages can occur:
+of the CB client  with a message indicating
+the predicate that participated in the stratification violation. 
+There dymanic stratification test of ConceptBase catches different cases that
+result in slightly different error messages. Essentially, they all are reduced
+to the pattern that $P$ and $\neg P$ cannot be true at the same time for a predicate
+that is part of a recursive chain of calls.
 
-\begin{itemize}
-\item {\bf STRATIFICATION\_VIOLATION1}
-     The evaluation of a predicate $P$ leads to a cyclic call to itself,
-     where in between a negated predicate $\neg Q$ occurs. Hence, $P$ depends on $\neg Q$ and $Q$ depends on $P$.
-     Consequently, $P$ indirectly depends on its negation.
-\item {\bf STRATIFICATION\_VIOLATION2}
-     While evaluating a predicate $\neg P(a)$ the system derives that $P(a)$ would be true,
-     i.e. the fact $P(a)$ is in the extension of the variable free predicate call $P(a)$.
-     This evaluation occurs in the context of a matching positive call $P(x)$
-     where the system cannot prove that $P(a)$ would be in the extension. The
-     matching call $P(x)$ has the same arguments as $P(a)$ except for certain variable
-     positions.
-\end{itemize}
 
 In practice, most rule sets are already
 statically stratified, i.e. no violation can occur
@@ -2406,11 +2456,9 @@ Note also the example WinNim.sml which uses the same query
 as Win.sml but is dynamically stratified.
 Even in the case of stratification violations, ConceptBase will
 display an answer to a query. The user can then decide which parts
-of the answer are usable. In principle, this decision can also be automated
-which is subject of future ConceptBase releases%
-\footnote{Older releases of ConceptBase provided a prototype of a query evaluation
-strategy based on the magic set method. We no longer support this
-strategy.}.
+of the answer are usable. The stratification test can be enabled or disabled for
+the ConceptBase server via the parameter {\tt -st} (section \ref{sec:cbsparams}).
+
 
 
 

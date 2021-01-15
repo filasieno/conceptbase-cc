@@ -158,6 +158,11 @@ Design and Analysis of Quality Information for Data Warehouses.
 {\em 17th International Conference on the Entity Relationship Approach (ER'98)}, Singapore, 1998,
 postprint \url{http://conceptbase.sourceforge.net/mjf/er98.pdf}.
 
+\bibitem[Koub20]{Koub20}  Koubarakis, M., Borgida, A., Constantopoulos, P., MDoerr, M., Jarke, M., Jeusfeld, M., Mylopoulos J., Plexousakis, D.:
+ A Retrospective on Telos as a Metamodeling Language for Requirements Engineering.
+{\em Requirements Engineering}, 
+doi \url{https://doi.org/10.1007/s00766-020-00329-x}.
+
 
 \bibitem[Lud2010]{Lud2010} Ludwig, S.A.:
 Comparison of a Deductive Database with a Semantic Web reasoning engine.

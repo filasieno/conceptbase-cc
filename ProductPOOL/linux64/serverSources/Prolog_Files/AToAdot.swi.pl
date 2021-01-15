@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -72,6 +72,10 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 :- use_module('Literals.swi.pl').
 :- use_module('ErrorMessages.swi.pl').
+:- use_module('MetaUtilities.swi.pl').
+
+
+
 
 
 :- style_check(-singleton).
@@ -148,7 +152,8 @@ replaceAsWithAdotsRFList([_sf|_subFormulaList],[_nSF|_newSFList]) :-
 
 
 save_aToAdot(_lits,_newlits) :-
-  aToAdot(_lits,_newlits),
+  pToPa(_lits,_lits1),
+  aToAdot(_lits1,_newlits),
   checkAdots(_newlits),
   !.
 
@@ -230,5 +235,44 @@ aToAdot(['Mod'(_lit,_m)|_lits],['Mod'(_newlit,_m)|_newlits]) :-
 
 aToAdot([_lit|_lits],[_lit|_newLits]) :-
 	aToAdot(_lits,_newLits).
+
+
+/************************************************************************
+*
+* pToPa(_lits,_newlits)
+*
+* _lits (ground): list of literals
+* _newlits (free) : literals where P-literals are replaced by Pa-literals where possible and useful
+*
+*************************************************************************/
+
+
+pToPa(_lits,_newlits) :-
+  do_pToPa(_lits,_lits,_newlits),
+  !.
+pToPa(_lits,_lits). /** never fail **/
+
+do_pToPa(_alllits,[],[]).
+
+do_pToPa(_alllits,['P'(_id,_x,_l,_y)|_restlits],['Pa'(_id,_x,_l,_y)|_restnewlits]) :-
+   memberchk('In'(_id,id_6),_alllits),  /** id_6=Attribute **/
+   'WriteTrace'(veryhigh,'AToAdot',['replace P-predicate by ---> ',idterm('Pa'(_id,_x,_l,_y))]),
+   do_pToPa(_alllits,_restlits,_restnewlits).
+
+/**
+* This case actually is not leading to better code since the Pa predicate would not lead
+* to an elimination of In(id,ac) by SemanticOptimizer.
+do_pToPa(_alllits,[P(_id,_x,_l,_y)|_restlits],[Pa(_id,_x,_l,_y)|_restnewlits]) :-
+   memberchk(In(_id,_ac),_alllits),
+   is_id(_ac),
+   prove_literal(Pa(_ac,_c,_m,_d)),  
+   do_pToPa(_alllits,_restlits,_restnewlits).
+**/
+  
+
+do_pToPa(_alllits,[_lit|_restlits],[_lit|_restnewlits]) :-
+   do_pToPa(_alllits,_restlits,_restnewlits).
+
+
 
 

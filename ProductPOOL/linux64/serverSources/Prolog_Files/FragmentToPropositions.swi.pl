@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -501,14 +501,14 @@ candidateSuffixLabel('4').
 
 
 labelIsUnused(_class,_newLabel) :-
-   prove_literal('Isa'(_class,_class2)),   /** check all superclasses of _class including _class itself **/
+   isSpecialization(_class,_class2),   /** check all superclasses of _class including _class itself **/
    retrieve_proposition('P'(_id,_class2,_newLabel,_)),   /** if is hase the newLabel, we cannot use it **/
    !,
    fail.
 
 /** we also need to check the subclasses since they might already have an assertion with generated label **/
 labelIsUnused(_class,_newLabel) :-
-   prove_literal('Isa'(_class2,_class)),    /** check allsubclasses of _class including _class itself **/
+   isSpecialization(_class2,_class),   /** check all superclasses of _class including _class itself **/
    retrieve_proposition('P'(_id,_class2,_newLabel,_)),   /** if is has the newLabel, we cannot use it **/
    !,
    fail.
@@ -1377,8 +1377,7 @@ store_assertionclasses(_assid,[_ac|_rest]) :-
 /* ******************************************************************* */
 
 store_implicit_superclasses(_a1,_c,_l) :-
-  findall(_a, ( prove_edb_literal('Isa'(_c,_d)),
-               _c \== _d,
+  findall(_a, ( isDirectSpecialization(_c,_d),
                 retrieve_proposition('P'(_a,_d,_l,_)),
                 not(prove_edb_literal('Isa'(_a1,_a)) )), _alist),
   store_isa_toAlist(_alist,_a1),
@@ -1388,6 +1387,7 @@ store_isa_toAlist([],_a1) :- !.
 store_isa_toAlist([_a|_rest],_a1) :-
   'STORE'('P'(_id,_a1,'*isa',_a)),
   store_isa_toAlist(_rest,_a1).
+
 
 
 
@@ -1406,8 +1406,7 @@ store_isa_toAlist([_a|_rest],_a1) :-
 /*31-Jan-1996 LWEB */
 
 store_implicit_subclasses(_a1,_c,_l) :-
-  findall(_a, ( prove_edb_literal('Isa'(_d,_c)),
-               _d \== _c,
+  findall(_a, ( isDirectSpecialization(_d,_c),
                 retrieve_proposition('P'(_a,_d,_l,_)),
                 not(prove_edb_literal('Isa'(_a,_a1))) ), _alist),
   store_isa_toAlist_rev(_alist,_a1),
@@ -1417,6 +1416,44 @@ store_isa_toAlist_rev([],_) :- !.
 store_isa_toAlist_rev([_a|_rest],_a1) :-
   'STORE'('P'(_id,_a,'*isa',_a1)),
   store_isa_toAlist_rev(_rest,_a1).
+
+
+
+isSpecialization(_c,_d) :-
+  prove_upd_literal('Isa'(_c,_d)).
+
+/** treat ISA, specializes like isA 
+* does not work yet; see DeepTelos and MLT-Telos, 2020-07-10 
+* see issue #24
+isSpecialization(_c,_d) :-
+  getCC('Proposition','ISA',_ISA),  
+  prove_upd_literal(Adot(_ISA,_c,_d)).
+
+isSpecialization(_c,_d) :-
+  getCC('TYPE',specializes,_ISA),  
+  prove_upd_literal(Adot(_ISA,_c,_d)).
+**/
+
+
+
+isDirectSpecialization(_c,_d) :-
+  prove_edb_literal('Isa'(_c,_d)),
+  _c \= _d.
+
+/** 
+* a correct implementation of  isDirectSpecialization needs to check that their is no middle class between _c and _d
+isDirectSpecialization(_c,_d) :-
+  getCC('Proposition','ISA',_ISA),   
+  prove_upd_literal(Adot(_ISA,_c,_d)),
+  _c \= _d.
+
+isDirectSpecialization(_c,_d) :-
+  getCC('TYPE',specializes,_ISA),  
+  prove_upd_literal(Adot(_ISA,_c,_d)),
+  _c \= _d.
+**/
+
+
 
 
 

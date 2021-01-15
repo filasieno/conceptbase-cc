@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -892,7 +892,8 @@ cb_errorMessage('MSERR1',[_1],['The Metaformula to be processed contains the fol
 
 cb_errorMessage('MSERR2',[_1],['The range-formula ',_1,' cannot be converted into a partially evaluatable formula by the system.']).
 
-cb_errorMessage('MSERR3',[_1],['The meta-level variables ',_1,' cannot be instantiated using partial evaluation.']).
+cb_errorMessage('MSERR3',[_1],['The meta-level variables ',_1,' cannot be instantiated using partial evaluation. A reason could be that the variables ', _1, ' are "exists"-quantified. ',
+'Rewrite the formula or use a query class instead of an integrity constraint.']).
 
 cb_errorMessage('MSERR4',[_1],['The meta-level variables cannot be instantiated using partial evaluation of
  literals ',_1,' because the cost-model prohibits any path suggested.']).

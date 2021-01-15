@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -735,7 +735,7 @@ showAlreadyGuaranteed('In'(_x,_propid),_rangelits) :-
        (
          _lit =.. [_name|_args],
         (_name='In';_name='A';_name='Ai';_name='Isa';_name='Adot';_name='Adot_label';_name='Aidot'; _name='A_e'; _name='Aedot';
-        _name='A_label';_name='Ae_label';_name='Aedot_label';_name='UNIFIES';_name='In2';_name='A2'),
+        _name='A_label';_name='Ae_label';_name='Aedot_label';_name='UNIFIES'; _name='EQ'; name='In2';_name='A2';_name='P';_name='Pa'),
         pc_member(_x,_args)
        );
        _lit = 'To'(_a,_x);
@@ -745,6 +745,17 @@ showAlreadyGuaranteed('In'(_x,_propid),_rangelits) :-
   'WriteTrace'(veryhigh,'SemanticOptimizer',['In'(_x,'Proposition'),' guaranteed by ',_lit,
                                         ' (',_x,'=',_xn,')',' [R17]']),
   !.
+
+
+/** R17a **/ /** Rule for eliminating instatiations to Attribute when Pa -lietarl is used **/
+showAlreadyGuaranteed('In'(_a,id_6),_rangelits) :- /** id_6=Attribute **/
+  oLevel(1),
+  'VarTabVariable'(_a),
+  show('Pa'(_a,_x,_n,_y),_rangelits),
+  'WriteTrace'(veryhigh,'SemanticOptimizer',['In'(_a,'Attribute'),' guaranteed by ','Pa'(_a,_x,_n,_y),' [R17a]']),
+  !.
+
+
 
 /** 9-Dec-2003/M.Jeusfeld:                                                               **/
 /**    case 1: remove some In(a,Attribute) when a occurs in Adot(a,....)                 **/
@@ -1018,6 +1029,12 @@ showAlreadyGuaranteed('In'(_y,_d),_rangelits) :-
   retrieve_proposition('P'(_ca,_c,_m,_d)),
   'WriteTrace'(veryhigh,'SemanticOptimizer',['In'(_y,_d),' guaranteed by ','To'(_a,_y),' [R29]']),
   !.
+
+
+
+
+
+
 
 /** 11-May-2006/M.Jeusfeld: transaction times are (temporarily) instantiated to **/
 /** String by the implementation of Known in Literals.pro. Thus we can remove   **/
@@ -1491,6 +1508,15 @@ isFDLit(_mvars,'P'(_id,_x,_m,_y),_vars,[_xval/_x,_mval/_m,_yval/_y]) :-
   pc_member(_m,_vars), \+ pc_member(_m,_mvars),
   pc_member(_y,_vars), \+ pc_member(_y,_mvars),
   prove_literal('P'(_id,_xval,_mval,_yval)),   
+  !.
+
+/** Pa is the attribution P-predicate; see also Literals.pro **/
+isFDLit(_mvars,'Pa'(_id,_x,_m,_y),_vars,[_xval/_x,_mval/_m,_yval/_y]) :-
+  is_id(_id),
+  pc_member(_x,_vars), \+ pc_member(_x,_mvars),
+  pc_member(_m,_vars), \+ pc_member(_m,_mvars),
+  pc_member(_y,_vars), \+ pc_member(_y,_mvars),
+  prove_literal('Pa'(_id,_xval,_mval,_yval)),   
   !.
 
 

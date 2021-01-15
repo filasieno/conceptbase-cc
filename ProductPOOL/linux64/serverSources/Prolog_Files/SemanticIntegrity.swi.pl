@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -164,7 +164,6 @@ checkSemanticIntegrity(_errno) :-
 
 	id2name_list(_modules_to_be_checked,_mtbc),
 	'WriteTrace'(veryhigh,'SemanticIntegrity',[' Modules to be checked for Integrity violations are: ',_mtbc]),
-
   	reset_counter_if_undefined('error_number@SI'),
  	 check_axioms(_modules_to_be_checked,_m),
   	 ((  'error_number@SI'(0),!,check_ICs(_modules_to_be_checked,_m));true),

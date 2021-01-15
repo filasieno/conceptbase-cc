@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -382,6 +382,7 @@ findBindingPath(_mVars,_cons,_vars,_lits,_) :-
 
 findBindingPathWithCostLevel(_mVars,_cons,_vars,_lits,_mcost,_bPath) :-        
 	findBindingPathsForVars(_mVars,_cons,_vars,_lits,_mcost,_bPaths),
+	'WriteTrace'(veryhigh,'MetaSimplifier',['Candidate binding paths:',_bPaths]),
 	not_empty(_bPaths),
  	selectCheapestPath(_mVars,_cons,_bPaths,_bPath,0),
         !.

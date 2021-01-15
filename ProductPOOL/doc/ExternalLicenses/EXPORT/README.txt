@@ -9,11 +9,7 @@ License copy:  Swi-Prolog-License-14Jan2008.txt
 licensed under www.graphviz.org/License.php.
 License copy:  Grappa-License-14Jan2008.txt
 
-(3) StlPort is copyrighted by Boris Fomitchev, 
-licensed under http://stlport.sourceforge.net/License.shtml.
-License copy: Stl-Port-License-14Jan2008.txt
-
-(4) ConceptBase logos copyrighted by Manfred Jeusfeld
+(3) ConceptBase logos copyrighted by Manfred Jeusfeld
 licensed under https://creativecommons.org/licenses/by-nd/4.0/legalcode#languages.
 License copy: CBLogo-CC-BY-ND-40.txt
 
@@ -30,5 +26,5 @@ Java is copyrighted by Oracle, formerly by Sun Microsystems.
 All trademarks are property of their respective owners!
 
 --
-2015-04-13
+2020-10-28
 
