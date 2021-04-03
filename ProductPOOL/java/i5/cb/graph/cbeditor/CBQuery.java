@@ -185,6 +185,28 @@ public class CBQuery {
     }
 
 
+    /**
+     stripModuleQualifier removes the module qualifier part from an object name. For example an object name like
+        "This is a string"@module1 
+     is replaced by
+        abc.
+     The reason is that The CBserver sometimes returns the full object name with module qualifier, which cannot yet
+     be processed by CBGraph. To still be able to display such objects, we just remove the module qualifier part.
+     This is not a clean solution but better than letting unsupported object name pass further.
+    */
+    private static String stripModuleQualifier(String plainname) {
+      if (plainname.contains("@")) {
+        String[] sparts = plainname.split("@");  // "@" is the module qualifier sometimes used by the ConceptBase server
+        if (sparts[0] != null) 
+          return sparts[0];
+        else
+          return plainname;
+      } else {
+        return plainname;
+      }
+    }
+
+
     public Collection ask(boolean sorted) {
 
         String name=null;
@@ -217,7 +239,7 @@ public class CBQuery {
                     // pick name nodes and read data
                     if(possibleNameNodes.getNodeName().equals("name")) {
                         Text NameNode=(Text) possibleNameNodes.getFirstChild();
-                        name=(String) NameNode.getNodeValue();
+                        name = stripModuleQualifier((String) NameNode.getNodeValue());  // issue #29
                         ObjectName onObject=CBUtil.parseObjectName(name);
                         //create new TelosObjects and add them to the ITelosOjectSet
                         try {
