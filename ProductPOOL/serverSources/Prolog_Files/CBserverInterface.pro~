@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -1102,7 +1102,7 @@ BEGIN_TRANSACTION(_s,_module,_user,_op) :-
         checkToEmptyCacheOnNewTransaction,
 	pc_update(active_sender(_s)),    { * store the name of the responsible tool }
         checkPermission(_user,_op,_module),  {* also sets module context to _module *}
-        storeTransactionTime(_op,_tt),
+        storeTransactionTime(_u,_op,_tt),
         timetoatom(noniso,_tt,_ttatom),
         getModulePath(_mpath),   {* fetch the path to the current module *}
         pc_atom_to_term(_mpathatom,_mpath),   {* convert to an atom (avoiding quotes) *}
@@ -1156,13 +1156,30 @@ resetCountersAndState.
 
 
 
-storeTransactionTime(_op,_tt) :-
+storeTransactionTime(_user,_op,_tt) :-
 	member(_op,[TELL,RETELL]),   {* do not store the transaction time object for pure UNTELLs *}
 	pc_atom_to_term(_ttatom,tt(_tt)),
 	pc_atomconcat(['"',_ttatom,'"'],_ttstring),
-	create_if_builtin_object(_ttstring,TransactionTime,_created_id),
+	create_transactionobject(_user,_ttstring),
 	!.
-storeTransactionTime(_,_).
+storeTransactionTime(_,_,_).
+
+{* issue #30: allow to associate transactions to their users *}
+create_transactionobject(_user,_tt) :-
+  create_if_builtin_object(_tt,TransactionTime,_ttid),
+  store_creator(_user,_ttid),
+  !.
+create_transactionobject(_user,_tt).
+
+store_creator(_user,_ttid) :-
+  get_cb_feature(moduleGeneration,'replay'),
+write(1),nl,
+  getUserId(_user,_userid),
+write(2),nl,
+  STORE(P(_a1,_ttid,'creator',_userid)),
+write(3),nl,
+  !.
+store_creator(_user,_ttid).
 
 
 
@@ -1374,7 +1391,7 @@ enactOneModuleContext(_module_name) :-
   atom(_module_name),
   retrieve_proposition_noimport(_,P(_mid,_mid,_module_name,_mid)),
   name2id(Module,_module),
-  prove_literal(In(_mid,_module)),
+  prove_literal(In_e(_mid,_module)),
   switchModule(_mid),
   !.
 
