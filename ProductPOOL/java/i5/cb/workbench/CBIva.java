@@ -689,6 +689,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
                   // set CBIva to the same module context as the active CBFrame
                   CBClient.setModule(cbf.getShortContext());  
                   CBI.getStatusBar().setStatus(cbf.getHost(),cbf.getPort());
+                  CBI.getStatusBar().setLinkedTool("CBGraph");
                   if (showModule) {
                      CBI.getActiveTelosEditor().getTelosTextArea().setText(CBClient.ask("listModule", "OBJNAMES", "FRAME"));
                      CBI.getActiveTelosEditor().getTelosTextArea().setCaretPosition(0);

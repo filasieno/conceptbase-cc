@@ -527,7 +527,7 @@ public class CBShell {
             if (currentCommand.length >= 3)
                port=currentCommand[2];
             try {
-                //connect to running server
+                //connect to running server; null is used to indicate that username is determined by cbClient
                 cbClient=new CBclient(hostname, Integer.parseInt(port), "CBshell", null);
                 cbClient.setTimeOut(36000000); // ten hours timeout
                 isConnected=true;

@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2016 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -28,8 +28,8 @@ of the ConceptBase Team.
 
 The ConceptBase Team is represented by
 
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
@@ -137,7 +137,7 @@ public class CBShell {
               }
               else if (args[i].equals("-v") || args[i].equals("-version")) {
                   System.out.println("This is CBShell, the command line interface to ConceptBase.cc");
-                  System.out.println("Copyright 1987-2016 by The ConceptBase Team. All rights reserved.");
+                  System.out.println("Copyright 1987-2021 by The ConceptBase Team. All rights reserved.");
                   System.out.println("Original software by Achim Schlosser and others.");
                   System.out.println("This is free software. See http://conceptbase.cc for details.");
                   System.out.println("No warranty, not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.");
@@ -527,7 +527,7 @@ public class CBShell {
             if (currentCommand.length >= 3)
                port=currentCommand[2];
             try {
-                //connect to running server
+                //connect to running server; null is used to indicate that username is computed by cbClient
                 cbClient=new CBclient(hostname, Integer.parseInt(port), "CBshell", null);
                 cbClient.setTimeOut(36000000); // ten hours timeout
                 isConnected=true;
@@ -866,6 +866,25 @@ public class CBShell {
                 }
             }
         }
+        else if (command.equals("showModules") || command.equals("sub")) {
+            if (isConnected) {
+                String query="find_instances[Module/class]";
+                String queryRep="OBJNAMES";
+                String answerRep="LABEL";
+                String rollbackTime="Now";
+                try {
+                    currentAns=cbClient.ask(query,queryRep,answerRep,rollbackTime);
+                }
+                catch(Exception e) {
+                    System.err.println("Exception: " + e.getMessage());
+                }
+            }
+            else {
+                if (!isConnected) {
+                    System.err.println("Not connected to server");
+                }
+            }
+        }
         else if (command.equals("listClass") || command.equals("ls")) {
             if (isConnected) {
                 String className = "Individual";
@@ -995,7 +1014,7 @@ public class CBShell {
                     writeStat(previousCommand[0], firstline, "error", commandExecutionTime);
                 }
             }
-            else {
+            else if (currentAns != null) {
                 System.err.println("Usage: \"result completion Answer \"");
             }
         }
@@ -1063,6 +1082,8 @@ public class CBShell {
             System.out.println("      shortcut for tell \"<module> in Module end\"");
             System.out.println("  showUsers   or  who");
             System.out.println("      display instances of CB_User, i.e. all users who have logged into this database");
+            System.out.println("  showModules   or  sub");
+            System.out.println("      display the currently vissible submodules");
             System.out.println("  showAnswer");
             System.out.println("      shows answer to the last query on stdout; use '> filename' for output redirection");
             System.out.println("  show <name>");
@@ -1080,8 +1101,10 @@ public class CBShell {
             System.out.println("Command arguments may then also span multiple lines.\n");
             System.out.println("More information is in the ConceptBase.cc User Manual.");
         }
-        else if (command.equals("exit") || command.equals("quit")) {
+        else if (command.equals("exit")) {
             exitShell(0);
+        } else if (command.equals("quit")) {
+            quitShell(0);
         }
         // if the command is a single token cf. Java conventions and CBShell is in interactive mode
         // then we interpret the single token as a query and process it via 'ask'
@@ -1156,6 +1179,15 @@ public class CBShell {
             System.out.println(ex.getMessage());
         }
 //        System.err.println("> Goodbye from CBShell");
+        System.exit(status);
+    }
+
+
+
+    /**
+     * Quit CBShell without explicitely stopping the CBserver
+    */
+    private void quitShell(int status) {
         System.exit(status);
     }
 

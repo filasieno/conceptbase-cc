@@ -149,13 +149,32 @@ public class StatusBar extends JPanel {
     JTextField tfTime;
 
     /**
-     * Feld fuer Transaktionszeit
+     * Field fuer transaction time
      *
      * @see java.awt.TextField
      */
     private JTextField tfTATime;
 
+
+    /**
+     * Field for the current module
+     *
+     * @see java.awt.TextField
+     */
     private JTextField tfModule=new JTextField("none");
+
+    /**
+     * Field to indicate linked tool like CBGraph
+     *
+     * @see java.awt.TextField
+     */
+    private JTextField tfLinkedTool = new JTextField(8);
+
+
+    public void setLinkedTool(String toolname) {
+        tfLinkedTool.setText(toolname);
+        tfLinkedTool.setBackground(Color.white); // green background when linked to a tool
+    }
 
     public void setModule(String s) {
         displayedModule = s;
@@ -203,6 +222,9 @@ public class StatusBar extends JPanel {
         tfMessageField = new JTextField(sStart);
         tfMessageField.setBackground(colStatusBackground);
         tfMessageField.setEditable(false);
+        tfLinkedTool.setEditable(false);
+        tfLinkedTool.setBackground(colStatusBackground);
+        tfLinkedTool.setText(" ");
 
 /* not used anymore
         tfTime = new JTextField("12:00",5);
@@ -232,13 +254,15 @@ public class StatusBar extends JPanel {
 
         JPanel south=new JPanel();
 
-        south.setLayout(new GridLayout(1,4));
+        //south.setLayout(new GridLayout(1,4));
+        south.setLayout(new BorderLayout());
 
         //south.add(tfStatusLabel);
 
         // the south status line now displayes only version and module; tfTime in integrated into tfVersion
-        south.add(tfVersion);
-        south.add(tfModule);
+        south.add(tfVersion,"West");
+        south.add(tfModule,"Center");
+        south.add(tfLinkedTool,"East");
         // south.add(tfTime);
         // south.add(tfTATime);
 

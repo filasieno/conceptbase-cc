@@ -985,6 +985,7 @@ public class CBEditor extends GraphEditor {
         editor = new CBEditor(null);
         editor.setVisible(true);
         editor.setWorkbench(CBI);
+        CBI.getStatusBar().setLinkedTool("CBGraph");
         editor.setReadCBModule(true);  // will enable saving module sources in GEL files
         String cbivaModule = getClientModulePath(cbIClient.getCBClient());
 

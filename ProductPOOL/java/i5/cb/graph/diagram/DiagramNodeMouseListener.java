@@ -192,7 +192,9 @@ public class DiagramNodeMouseListener extends MouseInputAdapter {
                       disableDoubleClickTime = currenttime+700; // disable double clicks for 0.7 sec
                 }
 
-		if (e.getClickCount() == 2 && currenttime > disableDoubleClickTime) {
+                
+                // handle doubleclick; but only when the node is not frozen
+		if (e.getClickCount() == 2 && currenttime > disableDoubleClickTime && !dn.isFrozen()) {
 			boolean origMoveFlag = dd.getMovableDiagramNodeOnEdge();
 			dd.setMovableDiagramNodeOnEdge(false);  // freeze "nodes on edges"
 			if (dn.isComponentVisible()) {
