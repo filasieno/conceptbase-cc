@@ -1123,9 +1123,11 @@ printSeparator(_buf,_) :-
   !.
 
 
-/** if CBserver parameter -g is set to 'split' then we always put a split comment between transactions **/
+/** if CBserver parameter -mg is set to 'split' then we always put a split comment between transactions **/
 needToSplitTransaction(_rulefound) :-
-  get_cb_feature(moduleGeneration,'split'),
+  (get_cb_feature(moduleGeneration,'split');
+   get_cb_feature(moduleGeneration,'replay')
+  ),
   !.
 
 /** if CBserver parameter -g is set to 'minsplit' then we put a split comment between transactions in  **/
@@ -1140,6 +1142,7 @@ printTTime(_buf,_tt) :-
 
 printTTime(_buf,_tt) :-
   (get_cb_feature(moduleGeneration,'split');
+   get_cb_feature(moduleGeneration,'replay');
    get_cb_feature(moduleGeneration,'minsplit')
   ),
   keyCommentChars(_start,_end), 
@@ -1150,6 +1153,8 @@ printTTime(_buf,_tt) :-
   appendBuffer(_buf,_end),
   appendBuffer(_buf,'\n\n'),
   !.
+
+
 printTTime(_buf,_tt) :-
   appendBuffer(_buf,'\n\n'),
   !.
@@ -1159,12 +1164,13 @@ printTTime(_buf,_tt) :-
 
 printFragment(_buf,_frag) :- 
   getFlag(currentAnswerFormat,'JSONIC'),
-  timeFragment(_frag,_time),
+  timeFragment(_frag,_time,_user),
   !.
 
 printFragment(_buf,_frag) :- 
-  timeFragment(_frag,_time),
-  timetoatom(_time,_at),
+  timeFragment(_frag,_time,_user),
+  _user == 'no_user',
+  timetoatom('noniso',_time,_at),
   keyCommentChars(_start,_end),
   appendBuffer(_buf,_start),
   appendBuffer(_buf,' '),
@@ -1172,6 +1178,24 @@ printFragment(_buf,_frag) :-
   appendBuffer(_buf,' '),
   appendBuffer(_buf,_end),
   appendBuffer(_buf,'\n'),
+  !.
+
+printFragment(_buf,_frag) :- 
+  timeFragment(_frag,_time,_user),
+  get_cb_feature(moduleGeneration,'replay'),
+  timetoatom('list',_time,_at),
+  keyCommentChars(_start,_end),
+  appendBuffer(_buf,_start),
+  appendBuffer(_buf,'$transaction '),
+  appendBuffer(_buf,_at),
+  appendBuffer(_buf,';'),
+  appendBuffer(_buf,_user),
+  appendBuffer(_buf,_end),
+  appendBuffer(_buf,'\n'),
+  !.
+
+printFragment(_buf,_frag) :- 
+  timeFragment(_frag,_time,_user),
   !.
 
 
@@ -1201,19 +1225,34 @@ printFragments(_buf,[_frag1|[_x|_rest]]) :-
 
 
 
-timeFragment(_frag,_time) :-
+
+timeFragment(_frag,_time,_user) :-
   _frag = 'SMLfragment'(what(_tid),
                         in_omega([]),
                         in([class(_tt)]),
                         isa([]),
-                        with([])),
+                        with(_withlist)),
   id2name(_tt,'TransactionTime'),
   id2name(_tid,_tat),
   pc_atomconcat('"',_suffix,_tat),
   pc_atomconcat(_stripped,'"',_suffix),
   pc_atom_to_term(_stripped,_time),
   _time=tt(_),
+  getUserFromWithlist(_withlist,_user),
   !.
+
+getUserFromWithlist([],'no_user') :-
+  !.
+
+getUserFromWithlist([attrdecl(_attrcatlist,_propertylist)|_rest],_user) :-
+  member(property('creator',_userid),_propertylist),
+  id2name(_userid,_user),
+  !.
+getUserFromWithlist([_|_rest],_user) :-
+  getUserFromWithlist(_rest,_user).
+getUserFromWithlist(_,'no_user').
+
+
 
 
 /** Determine the time of the last transaction that changed the database **/

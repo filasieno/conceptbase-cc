@@ -1784,6 +1784,7 @@ create_as_individual(_arg,_nid) :-
   !.
 
 
+
 /** inst_to_string_if_string(_x,_l,_y):
    Eine Instanzenbeziehung zu String wird doch eingetragen,
    wenn das Objekt zwar schon vorher existiert,

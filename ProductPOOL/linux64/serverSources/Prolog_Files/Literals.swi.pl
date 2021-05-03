@@ -691,6 +691,7 @@ prove_literal('Terminated'(_id,_ttid)) :-
 
 /** attempt to make Isa derivable via rules on alternative specialization relations;
    does not yet work; possibly some endless loops; id_15 = IsA 
+   issue #24
 prove_literal(Isa(_class1,_class2)) :-
 	retrieve_proposition(P(_,_isAequiv,'foreignIsA',id_15)),
 	prove_upd_literal(Adot(_isAequiv,_class1,_class2)).

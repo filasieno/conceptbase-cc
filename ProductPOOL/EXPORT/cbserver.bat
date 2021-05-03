@@ -30,7 +30,7 @@ rem *** Note: The 64bit app bash can only be called from Java 64bit, not from Ja
 :viabash
 if "%*"=="" goto slave
 bash -c "/mnt/c/conceptbase/cbserver -t low -a %username% %*"
-goto end
+goto ende
 
 :slave
 rem *** No parameters given: start a slave CBserver

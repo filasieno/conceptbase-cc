@@ -1102,7 +1102,7 @@ permitted_LPI_CALL(_u1,_u2,_args) :-
         checkToEmptyCacheOnNewTransaction,
 	pc_update(active_sender(_s)),    /* * store the name of the responsible tool */
         checkPermission(_user,_op,_module),  /** also sets module context to _module **/
-        storeTransactionTime(_op,_tt),
+        storeTransactionTime(_u,_op,_tt),
         timetoatom(noniso,_tt,_ttatom),
         getModulePath(_mpath),   /** fetch the path to the current module **/
         pc_atom_to_term(_mpathatom,_mpath),   /** convert to an atom (avoiding quotes) **/
@@ -1156,13 +1156,27 @@ resetCountersAndState.
 
 
 
-storeTransactionTime(_op,_tt) :-
+storeTransactionTime(_user,_op,_tt) :-
 	member(_op,['TELL','RETELL']),   /** do not store the transaction time object for pure UNTELLs **/
 	pc_atom_to_term(_ttatom,tt(_tt)),
 	pc_atomconcat(['"',_ttatom,'"'],_ttstring),
-	create_if_builtin_object(_ttstring,'TransactionTime',_created_id),
+	create_transactionobject(_user,_ttstring),
 	!.
-storeTransactionTime(_,_).
+storeTransactionTime(_,_,_).
+
+/** issue #30: allow to associate transactions to their users **/
+create_transactionobject(_user,_tt) :-
+  create_if_builtin_object(_tt,'TransactionTime',_ttid),
+  store_creator(_user,_ttid),
+  !.
+create_transactionobject(_user,_tt).
+
+store_creator(_user,_ttid) :-
+  get_cb_feature(moduleGeneration,'replay'),
+  getUserId(_user,_userid),
+  'STORE'('P'(_a1,_ttid,'creator',_userid)),
+  !.
+store_creator(_user,_ttid).
 
 
 
