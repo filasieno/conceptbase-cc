@@ -257,6 +257,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(appendGproperties/2)
 
 
+
 #IF(SWI)
 #ELSE(SWI)
 #EXPORT(is_list/1)
@@ -1373,7 +1374,7 @@ timetoatom(noniso,millisecond(_y,_mo,_d,_h,_mi,_s,_ms),_a) :-
   write2(_mi,_mia),
   write2(_s,_sa),
   write3(_ms,_msa),
-  pc_atomconcat([_ya,'-',_moa,'-',_da,' ',_ha,':',_mia,':',_sa,'.',_msa],_a),
+  pc_atomconcat([_ya,'-',_moa,'-',_da,',',_ha,':',_mia,':',_sa,'.',_msa],_a),
   !.
 
 {* display date in ISO 8601/EN 28601 format like 2007-12-24T18:21,318Z *}
@@ -1386,6 +1387,18 @@ timetoatom(iso,millisecond(_y,_mo,_d,_h,_mi,_s,_ms),_a) :-
   write2(_s,_sa),
   write3(_ms,_msa),
   pc_atomconcat([_ya,'-',_moa,'-',_da,'T',_ha,':',_mia,':',_sa,',',_msa,'Z'],_a),
+  !.
+
+{* display date as a list of numbers like 2007,12,24,18,21,318 *}
+timetoatom(list,millisecond(_y,_mo,_d,_h,_mi,_s,_ms),_a) :-
+  write4(_y,_ya),
+  write2(_mo,_moa),
+  write2(_d,_da),
+  write2(_h,_ha),
+  write2(_mi,_mia),
+  write2(_s,_sa),
+  write3(_ms,_msa),
+  pc_atomconcat([_ya,',',_moa,',',_da,',',_ha,',',_mia,',',_sa,',',_msa],_a),
   !.
 
 
@@ -1808,13 +1821,13 @@ t_name2id(_,_id,_id):- 			{ 25-Apr-1996 LWEB }
 t_name2id(_m,_l,_id):-				{ search for the TOID of label _l }
 		var(_id),
 		atom(_m),
-		retrieve_proposition(_m,P(_id,_id,_l,_id)).
+		retrieve_proposition(_m,P(_id,_id,_l,_id)),!.
 
 t_name2id(_m,_l,_id):-
 		atom(_id),
                 callExactlyOnce(is_id(_id)),
 {*		callExactlyOnce((pc_atomconcat('id_',_,_id))), *}
-		retrieve_proposition_noimport(_m,P(_id,_id,_l,_id)).
+		retrieve_proposition_noimport(_m,P(_id,_id,_l,_id)),!.
 
 {* parameterized query calls can occur as arguments of other parameterized query calls *}
 t_name2id(_m,_l,_call):-
@@ -1822,7 +1835,18 @@ t_name2id(_m,_l,_call):-
                 _call =.. [_id|_args],
                 callExactlyOnce(is_id(_id)),
 {*		callExactlyOnce((pc_atomconcat('id_',_,_id))), *}
-		retrieve_proposition_noimport(_m,P(_id,_id,_l,_id)).
+		retrieve_proposition_noimport(_m,P(_id,_id,_l,_id)),!.
+
+
+{* issue #32: report error when object with name _l does not exist *}
+t_name2id(_m,_l,_id) :-
+  atom(_l),
+  var(_id),
+  \+ is_id(_l),
+  \+ pc_atomconcat('$',_,_l),
+  report_error(PFNFE,GeneralUtilities,[_l]),
+  !,
+  fail.
 
 
 {********************************* name2allid *******************************}

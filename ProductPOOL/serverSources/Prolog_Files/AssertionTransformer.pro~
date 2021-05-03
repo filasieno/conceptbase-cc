@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -212,10 +212,13 @@ optimized afterwards.
 
 generateRangeform(_mode,_rfID,_assertionAS,_rangeform_optRF,_ranges) :-
 	{mark(_mark),}
+write(1),nl,
 	VarTabInit, {*initialise VarTab *}
 	WriteTrace(veryhigh,AssertionTransformer,['generating code for: ',_assertionAS]),
+write(2),nl,
 
 	parseMSFOLassertion(_mode,_assertionAS, _assertionMSFOL),!,
+write(3),nl,
 	WriteTrace(veryhigh,AssertionTransformer,[parseMSFOLassertion,'--->',idterm(_assertionMSFOL)]),
 
 	VarTabLookup_ranges(_ranges0),
@@ -307,7 +310,6 @@ handleSimpleFormula(_rangeform,_rangeform_optRF,_ranges) :-
 	VarTabInsertRanges(_toInsert),!,
 }
 	replaceAsWithAdots(_rangeform,_rangeform1),!,
-write(replaceAsWithAdots(_rangeform,_rangeform1)),nl,
         exploitFunctionalDependencies(_rangeform1,_rangeform2),
 	optimizeRangeform(_rangeform2, _rangeform_optRF),
         !,
