@@ -231,6 +231,7 @@ The status bar contains some fields that display general information about the s
 \item Current version, i.e. the rollback time (see section \ref{sec:representation})
      specified for queries (default: Now)
 \item Current module, the database module to which TELL/ASK operations are applied
+\item Linked tool, either empty or "CBGraph" if CBIva is linked to a CBGraph window.
 \end{itemize}
 
 The field for the current version shall display the current time if the
@@ -238,6 +239,12 @@ version is set to 'Now'. If set to a rollback time in the past, it displays
 both the version name and the time associated to the version. It will
 then also hight the background of the text field to make the user aware
 that queries are evaluated against a past state of the database.
+
+The linked tool flag is by default empty. It shall show the toolname "CBGraph" if CBIva
+started a CBGraph window, or CBGraph has started the CBIva window. In both cases, the two winodws
+can interact with each other, e.g. by selecting an object name in the Telos Editor
+and adding it to the CBGraph window, or by selecting a node or link in CBGraph and displaying it
+in the CBIva Telos Editor.
 
 
 
@@ -1016,7 +1023,7 @@ cursor is located over an object.
     of the edge. This is the same function as described in section \ref{sec:moveobj}.
 \item {\bf Freeze / Unfreeze:}\\
     The position of the selected object is frozen (if not yet frozen). A "frozen" object cannot be moved or double-clicked.
-    If frozen, the selected object is "unfrozen".   This function is useful when certain objects should not be moved,
+    To unfreeze, select this menu option again on the frozen object. The function is useful when certain objects should not be moved,
     e.g.\ when they are serving as regions, in which other objects are positioned.
 \end{itemize}
 

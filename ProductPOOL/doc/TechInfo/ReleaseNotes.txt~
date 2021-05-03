@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2020-10-13
+                      2021-05-02
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -19,8 +19,10 @@ The release notes of earlier versions are available at the end of this file.
 The ConceptBase Forum (CB-Forum) is accessible via
     http://conceptbase.sourceforge.net/CB-Forum.html
 
-The list of tickets and their solutions is available at
-http://www-i5.informatik.rwth-aachen.de/cgi-bin/cvstrac/cvstrac.cgi/cbase/rptview?rn=4
+The list of issues and their solutiond is available at
+https://gitlab.com/mjeu/conceptbasecc/-/issues
+
+
 
 
 Detailed Changes since Version 8.0 (2019-05-30)
@@ -161,25 +163,45 @@ the GitLab repository of ConceptBase.cc
    If the CBserver was already running before the GEL file is loaded, then the +r flag is
    honored as expected.
 
-81-18 listModule now safe against RETELL
+81-19 listModule now safe against RETELL
 
    Certain RETELL operations could cause the listModule fuinction to produce Telos frames that
    could not be compiled when sent to a new CBserver since the order of frames was preventing the 
    integrity checker to pass the frames. This issue is now fixed.
    (Issue 25)
 
-81-19 Demo mode for CBGraph
+81-20 Demo mode for CBGraph
 
    The command line parameter "-demo" disables certain menu items, in particular in the File
    menu. This mode is meant for use in demonstration scenerios where unexperienced users interact
    with CBGraph.
    (Issue 26)
 
-81-20 Error with attribution predicates
+81-21 Error with attribution predicates
 
    Certain attribution predicates (x m y) in constraints where accepted if though no class of x
    defined an attribute with label 'm'. This should now be solved.
    (Issue 28)
+
+81-22 Frozen nodes cannot be doubleclicked
+
+   CBGraph allows to freeze/unfreeze the location of diagram nodes. In such cases, we now also disable to
+   double-click such a node, whuch normally displays the Telos code of the node.
+
+81-23 Memorize user names with transactions
+
+   The user who started a TELL transaction is now stored with the transaction time of that transaction.
+   If the CBserver is used on persistent mode, one can then trace back who has contributed which
+   parts of a model.
+   (Issue 30)
+
+81-24 Display linked CBGraph tool in CBIva status bar
+
+   The CBIva status bar will now display "CBGraph" when CBIva is linked with a CBGraph, i.e. either was the
+   CBGraph started from the current CBIva, or CBIva was started from CBGraph. This is useful to know because
+   adding nodes to CBGraph from the Telos editor window only works when the CBGraph window is
+   linked to CBIva.
+
 
 
 
@@ -188,6 +210,8 @@ Detailed Changes since Version 8.0 (2016-11-28)
 
 Version 8.0 aims at making the CBserver services more accessible to
 other modeling tools.
+The list of tickets (old CVS system) and their solutions is available at
+http://www-i5.informatik.rwth-aachen.de/cgi-bin/cvstrac/cvstrac.cgi/cbase/rptview?rn=4
 
 80-01 Issue with arrow heads on changing graphical palette
 

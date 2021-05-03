@@ -1,5 +1,5 @@
 % The ConceptBase User Manual (CB-Manual)
-% Copyright 1987-2020 by The ConceptBase Team
+% Copyright 1987-2021 by The ConceptBase Team
 % The CB-Manual may only be updated by members of the ConceptBase Team
 % as listed on http://conceptbase.cc
 % The TeX sources of the CB-Manual and the accompanying
@@ -597,8 +597,9 @@ with the CBserver:
 \item[-rw] No synchronization.
 \item[+f]  Enable bidirectional synchronization and also write the module sources to text files in the directory
    where your started CBGraph; useful for debugging.
-\item[-host hostport] Instruct CBGraph to use the hostname and portnumber from hostport rather than those
-   defined in the graph file when loading the graph file.
+\item[-demo] Disables certain menu items such as File/Save to make CBGraph more stable in demonstration
+   scenarios.
+
 \end{description}
 
 If you supply these options when calling CBGraph, it will also store them in the graph file when you store it.
@@ -1015,7 +1016,7 @@ cursor is located over an object.
     of the edge. This is the same function as described in section \ref{sec:moveobj}.
 \item {\bf Freeze / Unfreeze:}\\
     The position of the selected object is frozen (if not yet frozen). A "frozen" object cannot be moved or double-clicked.
-    If frozen, the selected object is "unfrozen".   This function is useful when certain objects should not be moved,
+    To unfreeze, select this menu option again on the frozen object. The function is useful when certain objects should not be moved,
     e.g.\ when they are serving as regions, in which other objects are positioned.
 \end{itemize}
 

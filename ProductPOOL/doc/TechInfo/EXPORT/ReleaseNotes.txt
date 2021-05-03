@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2020-10-14
+                      2021-05-02
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -182,6 +182,26 @@ the GitLab repository of ConceptBase.cc
    Certain attribution predicates (x m y) in constraints where accepted if though no class of x
    defined an attribute with label 'm'. This should now be solved.
    (Issue 28)
+
+81-22 Frozen nodes cannot be doubleclicked
+
+   CBGraph allows to freeze/unfreeze the location of diagram nodes. In such cases, we now also disable to
+   double-click such a node, whuch normally displays the Telos code of the node.
+
+81-23 Memorize user names with transactions
+
+   The user who started a TELL transaction is now stored with the transaction time of that transaction.
+   If the CBserver is used on persistent mode, one can then trace back who has contributed which
+   parts of a model.
+   (Issue 30)
+
+81-24 Display linked CBGraph tool in CBIva status bar
+
+   The CBIva status bar will now display "CBGraph" when CBIva is linked with a CBGraph, i.e. either was the
+   CBGraph started from the current CBIva, or CBIva was started from CBGraph. This is useful to know because
+   adding nodes to CBGraph from the Telos editor window only works when the CBGraph window is
+   linked to CBIva.
+
 
 
 
