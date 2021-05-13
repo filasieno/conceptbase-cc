@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2021-05-02
+                      2021-05-13
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -19,7 +19,7 @@ The release notes of earlier versions are available at the end of this file.
 The ConceptBase Forum (CB-Forum) is accessible via
     http://conceptbase.sourceforge.net/CB-Forum.html
 
-The list of issues and their solutiond is available at
+The list of issues and their solutions is available at
 https://gitlab.com/mjeu/conceptbasecc/-/issues
 
 
@@ -179,7 +179,7 @@ the GitLab repository of ConceptBase.cc
 
 81-21 Error with attribution predicates
 
-   Certain attribution predicates (x m y) in constraints where accepted if though no class of x
+   Certain attribution predicates (x m y) in constraints were accepted even when no class of x
    defined an attribute with label 'm'. This should now be solved.
    (Issue 28)
 
@@ -201,6 +201,13 @@ the GitLab repository of ConceptBase.cc
    CBGraph started from the current CBIva, or CBIva was started from CBGraph. This is useful to know because
    adding nodes to CBGraph from the Telos editor window only works when the CBGraph window is
    linked to CBIva.
+
+81-25 Check misspelled types/ranges of variables in formulas
+
+   Formulas can have range-restricted variable definitions like x/Employee. If the range does not exist as an
+   object, the formula cannot be compiled. Up top now, the paerser did not create a suitable error message.
+   This is now solved.
+   (Issue 32)
 
 
 
