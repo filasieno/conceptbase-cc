@@ -838,8 +838,20 @@ public class LocalCBclient implements ICBclient {
      * @exception CBException if an error occurs while processing this method
      **/
     public CBanswer setModule(String s) throws CBException {
-        CBanswer ans=sendMessage("SET_MODULE_CONTEXT", CButil.encodeString(s));
+        String sq = quoteModuleNames(s);
+        CBanswer ans=sendMessage("SET_MODULE_CONTEXT", CButil.encodeString(sq));
         return ans;
+    }
+
+    // dirty trick to deal with issue #34 (module names starting with digits)
+    // fool Prolog to believe that the module path is a legal term when using the '-' operator.
+    // Example 'oHome'-'123Mod' instead oHome-123Mod
+    public static String quoteModuleNames(String s) {
+        if (s.contains("-")) {
+           return "'" + s.replaceAll("-","'-'") + "'";
+        } else {
+           return s;
+        }
     }
 
     /**

@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2018 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -838,8 +838,19 @@ public class LocalCBclient implements ICBclient {
      * @exception CBException if an error occurs while processing this method
      **/
     public CBanswer setModule(String s) throws CBException {
-        CBanswer ans=sendMessage("SET_MODULE_CONTEXT", CButil.encodeString(s));
+        String sq = quoteModuleNames(s);
+        CBanswer ans=sendMessage("SET_MODULE_CONTEXT", CButil.encodeString(sq));
         return ans;
+    }
+
+    // dirty trick to deal with issue #34 (module names starting with digits)
+    // fool Prolog to believe that the module path is a legal term when using the '-' operator.
+    public static String quoteModuleNames(String s) {
+        if (s.contains("-")) {
+           return "'" + s.replaceAll("-","'-'") + "'";
+        } else {
+           return s;
+        }
     }
 
     /**
@@ -883,6 +894,21 @@ public class LocalCBclient implements ICBclient {
         }
         catch(Exception e) {
             return null;
+        }
+    }
+
+    /**
+     * purge the contents of the current module; use with great care because it delete the whole
+     * module content
+     * @return "yes" if successful, "no" otherwise
+     **/
+    public String purgeCurrentModuleContent() {
+        try {
+            CBanswer ans=ask("purgeModule", "OBJNAMES", "FRAME", "Now");
+            return ans.getResult();
+        }
+        catch(Exception e) {
+            return "no";
         }
     }
 
@@ -1113,6 +1139,27 @@ public class LocalCBclient implements ICBclient {
        }
     }
 
+    public String connect() {
+       if (this.isConnected()) 
+         return "yes";
+       i5.cb.CBConfiguration.openConfig();  // read the configuration file .CBjavaInterface
+       String pubCBserver = i5.cb.CBConfiguration.getPublicCBserverHost();
+       // use public CBserver if not null/none
+       if (pubCBserver != null && !pubCBserver.equals("none")) {
+          int iPort; 
+          try {
+            iPort = Integer.parseInt(i5.cb.CBConfiguration.getPublicCBserverPort());
+          } catch(Exception e) { iPort = 4001; }
+          return this.connect(pubCBserver,iPort,"LocalCBClient",null);
+       // else try to startup a local CBserver
+       } else if (this.cbserver().equals("yes")) {
+          return this.connect("localhost",4001,"LocalCBClient",null);
+       } else {
+          return "no";
+       }
+    }
+
+
     public String disconnect() {
        try { 
           if (this.isConnected()) {
@@ -1204,51 +1251,56 @@ public class LocalCBclient implements ICBclient {
        return this.asks(sQuery,"default");
     }
 
- 
-    // start a local CBserver on port 4001 if possible
-    public String connect(String sTool) {
-
-      if (this.isConnected()) 
-        return "yes";
-
-
-      String CBserverCmd = i5.cb.CBConfiguration.getCBserverCmd();
-      String sPort = "4001";
-      
-      // command to start a single user CBserver in slave mode with no terminal output
-      String[] cmdarray= {CBserverCmd, "-port",  sPort,
-                          "-sm", "slave", "-t", "silent", "-mu", "disabled"};
-      try {
-        Process p=Runtime.getRuntime().exec(cmdarray);
-        long waittime = 300L;  // to let CBserver start (in millisec)
-        Thread.sleep(waittime);  // wait for CBserver to be up and running
-      } catch (Exception e) {
-         java.util.logging.Logger.getLogger("global").warning("Starting local CBserver failed!\n" + e.getMessage());
-         return "no2";
-      }
-
-      // System.out.println("Attempt to connect ...");
-      boolean alive = false;
-      long waittime = 150L;  // millisec
-      int iPort = 4001;
-      iPort = Integer.parseInt(sPort);
-      for (int i=1; i<=25; i++) {
-        alive = this.pingCBserver("localhost", iPort);
-        // System.out.println("Attempt to connect "+i);
-        if (alive) {
-          break;
-        }
-        try {
-          Thread.sleep(waittime);
-        } catch (Exception e) {}
-        waittime = waittime + (int) (waittime/3);
-      }
-
-      if (!alive)
-        return "no3";
-      else
-        return this.connect("localhost",4001,sTool,null);
+    // try to delete all objects from the current module
+    public String clearall() {
+       return this.purgeCurrentModuleContent();
     }
+
+
+
+    // to start a CBserver on localhost with portnumber 4001
+    public String cbserver() {
+       if (this.isConnected()) 
+         return "yes";
+       boolean started = i5.cb.api.CBclient.startLocalCBserver("4001");
+       boolean enrolled = false;
+       if (started) {
+         long waittime = 200L;  // millisec
+         for (int i=1; i<=15; i++) {
+           enrolled = testEnroll();
+           // System.out.println("Attempt to connect "+i);
+           if (enrolled) {
+             break;
+           }
+           try {
+             Thread.sleep(waittime);
+           } catch (Exception e) {}
+           waittime =+ waittime;
+         }
+       }
+       if (enrolled) {
+          return "yes";
+       } else {
+          return "no";
+       }
+    }
+
+
+    // return the clientid under which this client is registered to a CBserver
+    public String clientid() {
+       return this.getClientId();
+    }
+
+
+    private boolean testEnroll() {
+        try {
+          this.enrollMe("localhost", 4001, "LocalCBclient", null);
+          return true;
+        } catch (Exception e) {
+          return false;
+        }
+    }
+
 
 
     // main
