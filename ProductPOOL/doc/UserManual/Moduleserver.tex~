@@ -118,9 +118,9 @@ We call {\tt oHome} the super-module of the sub-modules
 sub-sequent operations apply to this module context. Telling new objects makes
 them members of this module context, in other words {\tt Master} contains them.
 
-{\bf Note:} For technical reasons, the ConceptBase server cannot process module path expressions,
-with module names that start with digits like {\tt 123Mod}. Hence, always start a module name
-with a character from the Latin alphabet {\tt A..Z a..z}.
+{\bf Note:} For technical reasons, the ConceptBase server may run into problems 
+when module names start with digits like {\tt 123Mod}. Hence, always start a module name
+with a character from the Latin alphabet, i.e.\  {\tt A..Z} or {\tt a..z}.
 
 
 \section{Switching between module contexts} \label{sec:switching_modules}

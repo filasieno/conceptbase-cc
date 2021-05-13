@@ -84,13 +84,13 @@ end
 Thus, a module is a container of objects. Modules create a name space: object names must be unique within
 one module, but different modules can contain different objects with identical names.
 
-{\bf Tell}, {\bf Untell} and {\bf Ask} operations work relatively to a specified module.
+{\bf Tell}, {\bf Untell} and {\bf Ask} transactions work relative to the current module context.
 The normal way of specifying the context in which a transaction  takes place
 is using the {\em Set Module} function of {\em CBIva}. See subsection \ref{sec:switching_modules}
 to learn how to change the module context of a transaction. The command line interface
 {\em CBShell\/} has similar operations to switch the module context.
 
-The basic set of predefined objects of {\em ConceptBase} (such as {\tt Class}, {\tt Proposition}, {\tt QueryClass}, etc.) belongs to the predefined module {\tt System}. 
+The basic set of predefined objects of {\em ConceptBase} (such as {\tt Class}, {\tt Proposition}, {\tt QueryClass}, etc.) is stored in the predefined module {\tt System}, being the root module. 
 The default module of clients logging into a CBserver is {\tt oHome}, a direct submodule of {\tt System}.
 You can set the module context to your other modules in order to manipulate them.
 
@@ -118,9 +118,9 @@ We call {\tt oHome} the super-module of the sub-modules
 sub-sequent operations apply to this module context. Telling new objects makes
 them members of this module context, in other words {\tt Master} contains them.
 
-{\bf Note:} For technical reasons, the ConceptBase server can run into problems 
-with module names that start with digits like {\tt 123Mod}. Hence, always start a module name
-with a character from the Latin alphabet {\tt A..Z a..z}.
+{\bf Note:} For technical reasons, the ConceptBase server may run into problems 
+when module names start with digits like {\tt 123Mod}. Hence, always start a module name
+with a character from the Latin alphabet, i.e.\  {\tt A..Z} or {\tt a..z}.
 
 
 \section{Switching between module contexts} \label{sec:switching_modules}
