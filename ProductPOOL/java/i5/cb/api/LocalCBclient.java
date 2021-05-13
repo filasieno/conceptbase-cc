@@ -846,8 +846,9 @@ public class LocalCBclient implements ICBclient {
     // dirty trick to deal with issue #34 (module names starting with digits)
     // fool Prolog to believe that the module path is a legal term when using the '-' operator.
     // Example 'oHome'-'123Mod' instead oHome-123Mod
+    // Only inserts the quotes when s contains a substring -D where D is a digit
     public static String quoteModuleNames(String s) {
-        if (s.contains("-")) {
+        if (s.matches("(.*)-[0-9](.*)")) {   
            return "'" + s.replaceAll("-","'-'") + "'";
         } else {
            return s;
