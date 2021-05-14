@@ -71,8 +71,8 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
     static JFrame jfServer=null;
     static ServerThread serverThread=null;
 
-    public static final String CBIVA_VERSION = "2.2.00";
-    public static final String CBIVA_DATE = "2020-05-31";
+    public static final String CBIVA_VERSION = "2.3.01";
+    public static final String CBIVA_DATE = "2021-05-14";
     public static final String JAVA_VERSION = System.getProperty("java.runtime.version");
 
     private JDesktopPane desktopPane;
