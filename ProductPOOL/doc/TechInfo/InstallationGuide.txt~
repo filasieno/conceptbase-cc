@@ -2,7 +2,7 @@
                    ConceptBase.cc
   
                   InstallationGuide
-                     2015-06-23
+                     2021-04-14
 
 
                          by
@@ -41,17 +41,18 @@ The ConceptBase.cc system (short: ConceptBase) consists of
  - CBGraph: a graphical editor for the CBserver
  - CBShell: a command shell for interacting with the CBserver
 
-The full ConceptBase system (CBserver+CBIva+CBGraph+CBShell) is pre-compiled for the following platforms:
- - Linux on i386
+The full ConceptBase system (CBserver+CBIva+CBGraph+CBShell) is pre-compiled for the following platform:
  - Linux on AMD64/EMT64 (64bit CPU from AMD or Intel)
+
+
 The compilation of the CBserver on other Unix-style platforms should be possible by following
 the instructions included with the ConceptBase sources at
    https://sourceforge.net/projects/conceptbase/files/Sources/
-The CBserver can also be compiled for Windows though we have no detailed instructions
-on how to do it.
+We have successfully compiled ConceptBase for Linux (Intel 32bit) and Raspbian (ARM 32bit and 64bit).
+
 
 The ConceptBase client (CBIva+CBGraph+CBShell) is available for
-all platforms that have a compativle Java Runtime Environment (see below).
+all platforms that have a compatible Java Runtime Environment (see below).
 
 The hardware requirements are quite low: 64MB main memory and 50MB hard disk space.
 Large databases require more main memory and hard disk space. See section 6 for 
@@ -61,17 +62,24 @@ ConceptBase.cc should also run on other platforms such as Windows, FreeBSD or Ma
 We do however not provide CBserver binaries for those platforms. You may want to
 compile ConceptBase.cc from its sources on them.
 Note however, that ConceptBase.cc is fully operational on any platform with
-a compatible Java Runtime Environment! If the CBserver binaries are not
-shipped for the platform, ConceptBase.CC will use a public CBserver. 
+a Java Runtime Environment Version 8 or higher, e.g. OpenJDK8! If the CBserver binaries are not
+shipped for the platform, ConceptBase.cc will use a public CBserver. 
+
+
+Windows 10: Since April 2017, you can install a Linux sub-system and then also start
+the CBserver locally on your Windows 10 machine.
+See http://conceptbase.sourceforge.net/CB-WinLinux.html
+
+Mac OS: You can also install the CBserver with a Docker container on Mac OS, see also
+https://github.com/keesL/conceptbase-docker
   
 
 
 1.1 Java
 ========
 
-ConceptBase.cc requires a Java Runtime Environment (JRE) compliant to Java 6.
-The successor versions Java 7 and 8 should also work. Older JRE's such as Java 1.4
-and Java 5 also work but are deprecated since they are no longer maintained.
+ConceptBase.cc requires a Java Runtime Environment (JRE) compliant to Java 8.
+
 
 
 
@@ -88,7 +96,7 @@ after adding $CB_HOME/bin to your search path.
 
 
 ConceptBase is distributed under a FreeBSD-style copyright license. See file
-CB-FreeBSD-License.txt on the ConceptBase web site.
+http://conceptbase.sourceforge.net/CB-FreeBSD-License.txt.
 
 If you plan to compile ConceptBase from its sources, then download the source files
 from
@@ -137,16 +145,16 @@ file CBinstaller.jar, or by typing
 in a command/shell window.
 
 A window should pop up. The CBinstaller program contains the
-ConceptBase binaries by default. You thus only have to press
+ConceptBase binaries. You thus only have to press
 the activated "Install" button (green color) to install it
 to the installation directory. You may change it if you want to
 have it installed at a different location. 
 
-If the "Install" button is not activated, you should press the
-button "Download cb-latest.zip" to download the ConceptBase binaries.
-
-You can also un-select variants/components that you do not want to install. We
-recommend to leave all variants/components selected!
+You can un-select variants/components that you do not want to install. We
+recommend to leave all variants/components selected! 
+Under Windows 10, you should also install the Linux64 binaries since
+there is a Linux sub-system available for Windows to run the CBserver,
+see also: http://conceptbase.sourceforge.net/CB-WinLinux.html
 
 By clicking on the "Install" button, the files will be extracted from
 the installation archive and installed into the specified directory.
@@ -171,11 +179,12 @@ the file .bashrc:
 If for some reason the CBinstaller method fails or if you prefer manual installation.
 then follow these steps:
 
-a. Download the file cb-latest.zip (or the variant that you prefer) from
+a. Download the file CBinstaller.jar from
    https://sourceforge.net/projects/conceptbase/files/Binaries/ 
+   Rename the file to CBinstaller.zip
 
 b. Create an installation directory (e.g. $HOME/conceptbase or c:\conceptbase).
-   Unzip the file cb-latest.zip into this installation directory (referred to as <CB_HOME>).
+   Unzip the file CBinstaller.zip into this installation directory (referred to as <CB_HOME>).
 
 c. Edit in directory <CB_HOME> the files cbserver[.bat], cbshell[.bat], cbgraph[.bat]
    and cbiva[.bat] by replacing the value of the variable
@@ -229,7 +238,7 @@ The following steps are currently only supported for Linux platforms.
 All other platforms use a public ConceptBase server.
 
 Open a shell/command window, change to the installation directory <CB_HOME>,
-and start the server via
+and start the server thye cbserver script, e.g. 
 
     cbserver -port 4001 -d MYDB
 
@@ -277,6 +286,10 @@ ConceptBase installation directory via the command
 
     cbiva
 
+CBiva will try to start a local CBserver on Linux and Windows 10.
+On other platforms, it attempts to connect to a public CBserver if
+configured accordingly.
+
 If starting the application was successful, the main window of CBiva
 should appear.
 
@@ -288,31 +301,35 @@ in your ConceptBase installation directory.
 4.1.3 Connecting CBserver and CBiva
 -----------------------------------
 
-After having started CBserver and CBiva, the next step is to
-establish the connection between them. This is done by selecting menu item "Connect"
+You can connect CBiva to any CBserver running on the local host or on other host
+reachable via the Internet. Any prior connection will be terminated before
+the new connection is established.
+
+The new connection is initiated by selecting menu item "Connect"
 from the File menu of CBiva. In the appearing interaction window the
 host name and port number of the CBserver must be specified and as a result
 the connection is established.
 
 Example:
-           1. 	start server on machine alpha with port number 5000 (see above)
-           2. 	start usage environment on machine beta (see above)
+           1. 	start server on machine alpha with port number 4002 (see above)
+           2. 	start CBiva on machine beta (see above)
            3. 	connect usage environment on beta to the server on alpha
               	by selecting Connect CB server and specifying
 	  		hostname   : alpha
-	  		portnumber : 5000
+	  		portnumber : 4002
 
 
-Whenever a new connection from a usage environment to a CBserver is created a
+Whenever a new connection from CBiva to a CBserver is created a
 possibly existing 'old' one is closed. Please note that the machines
 alpha and beta can be located anywhere in the Internet. You can also start
 both processes on the same machine (use 'localhost' as hostname). 
 To connect through a firewall, we recommend the use of secure shell tunnels.
 
-Note: If you use ConceptBase on Windows or Mac OS-X, then CBIva shall automatically
+Note: If you use ConceptBase on Windows7, Windows 10 (32bit) or Mac OS-X, then CBiva shall automatically
 attempt to connect to a public ConceptBase server, since there are no recent binaries
-of the ConceptBase server for Windows or Mac OS-X.
-
+of the ConceptBase server for these Windows versions or Mac OS-X. 
+Windows 10 (64bit) can run the CBserver when you configure it according to
+http://conceptbase.sourceforge.net/CB-WinLinux.html
 
 
 4.2 Method 2 - Starting ConceptBase via CBiva
@@ -343,7 +360,9 @@ that may be) also affects the CBserver.
 
 A CBserver may only be stopped by a client if the name of the user of the
 client is the same as the one who started the CBserver. This behavior is
-not an error but a security measure. A rude method to stop a CBserver
+not an error but a security measure. Use the '-a' option of the CBserver
+to assign another user as administrator of the CBserver.
+A rude method to stop a CBserver
 is by pressing CTRL-C in the command window where you started it, or by
 killing the process. In theses cases, you might loose data.
 
@@ -421,12 +440,10 @@ unwanted programs on your computer!
 ==========
 
 Manfred Jeusfeld
-University of Skovde
-Department of Information Technology
+University of Skovde / IIT
 Box 408
 S-54128 Skovde, Sweden 
 
-Tel./Fax: +46-500-44-8303 / +46-500-44-8849
 email: manfred.jeusfeld@acm.org
 http://conceptbase.cc
 

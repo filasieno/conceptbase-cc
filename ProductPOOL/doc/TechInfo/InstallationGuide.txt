@@ -2,7 +2,7 @@
                    ConceptBase.cc
   
                   InstallationGuide
-                     2018-01-26
+                     2021-04-14
 
 
                          by
@@ -41,14 +41,15 @@ The ConceptBase.cc system (short: ConceptBase) consists of
  - CBGraph: a graphical editor for the CBserver
  - CBShell: a command shell for interacting with the CBserver
 
-The full ConceptBase system (CBserver+CBIva+CBGraph+CBShell) is pre-compiled for the following platforms:
- - Linux on i386
+The full ConceptBase system (CBserver+CBIva+CBGraph+CBShell) is pre-compiled for the following platform:
  - Linux on AMD64/EMT64 (64bit CPU from AMD or Intel)
+
+
 The compilation of the CBserver on other Unix-style platforms should be possible by following
 the instructions included with the ConceptBase sources at
    https://sourceforge.net/projects/conceptbase/files/Sources/
-The CBserver can also be compiled for Windows though we have no detailed instructions
-on how to do it.
+We have successfully compiled ConceptBase for Linux (Intel 32bit) and Raspbian (ARM 32bit and 64bit).
+
 
 The ConceptBase client (CBIva+CBGraph+CBShell) is available for
 all platforms that have a compatible Java Runtime Environment (see below).
@@ -61,21 +62,24 @@ ConceptBase.cc should also run on other platforms such as Windows, FreeBSD or Ma
 We do however not provide CBserver binaries for those platforms. You may want to
 compile ConceptBase.cc from its sources on them.
 Note however, that ConceptBase.cc is fully operational on any platform with
-a compatible Java Runtime Environment! If the CBserver binaries are not
+a Java Runtime Environment Version 8 or higher, e.g. OpenJDK8! If the CBserver binaries are not
 shipped for the platform, ConceptBase.cc will use a public CBserver. 
 
+
 Windows 10: Since April 2017, you can install a Linux sub-system and then also start
-the CBserver locallly on your WIndows 10 machine.
+the CBserver locally on your Windows 10 machine.
 See http://conceptbase.sourceforge.net/CB-WinLinux.html
+
+Mac OS: You can also install the CBserver with a Docker container on Mac OS, see also
+https://github.com/keesL/conceptbase-docker
   
 
 
 1.1 Java
 ========
 
-ConceptBase.cc requires a Java Runtime Environment (JRE) compliant to Java 6.
-The successor versions Java 7 and 8 should also work. Older JRE's such as Java 1.4
-and Java 5 also work but are deprecated since they are no longer maintained.
+ConceptBase.cc requires a Java Runtime Environment (JRE) compliant to Java 8.
+
 
 
 
