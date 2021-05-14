@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2021-05-13
+                      2021-05-14
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -21,6 +21,19 @@ The ConceptBase Forum (CB-Forum) is accessible via
 
 The list of issues and their solutions is available at
 https://gitlab.com/mjeu/conceptbasecc/-/issues
+
+
+
+
+Detailed Changes since Version 8.1 (2021-05-14)
+===============================================
+
+Version 8.2 consolidates the stability of the CBserver. It aims to provide more
+support for multi-user groups. Contributions of individual users can be traced back
+provided a persistent database is used.
+Moreover, we plan to support operations so-called containers, such as models containing
+model elements.
+
 
 
 
@@ -208,6 +221,16 @@ the GitLab repository of ConceptBase.cc
    object, the formula cannot be compiled. Up top now, the paerser did not create a suitable error message.
    This is now solved.
    (Issue 32)
+
+81-26 Avoid module names starting with digits
+
+   Since some time, ConceptBase supports object names like 10cm. However, if a module name like 123Mod is used
+   as the name of a module, CBGraph can run into problems. The reason is that a module path expression like
+   System-oHome-123Mod is parsed by the Prolog engine of the CBserver like a term. This fails when an argument
+   starts with digits but is not a number. So, the recommendation is not to use module names that start
+   with digits! Nevertheless, a workaround was included in the Java API of CNGraph and CBIva to internally insert
+   quotes like '123Mod' when communicating with the CBserver. 
+   (Issue 34)
 
 
 

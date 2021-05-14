@@ -54,7 +54,7 @@
 %\usepackage{psfig}
 
 \newcommand{\relnr}{8.1}
-\newcommand{\reldate}{2020-06-17}
+\newcommand{\reldate}{2021-01-15}
 \newcommand{\relnrwodot}{81}
 
 \newcommand{\longcom}[1]{}

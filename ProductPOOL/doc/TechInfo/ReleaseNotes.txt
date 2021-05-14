@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2021-05-13
+                      2021-05-14
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -25,8 +25,21 @@ https://gitlab.com/mjeu/conceptbasecc/-/issues
 
 
 
-Detailed Changes since Version 8.0 (2019-05-30)
-===============================================
+Version 8.2: Detailed Changes since Version 8.1 (2021-05-14)
+============================================================
+
+Version 8.2 consolidates the stability of the CBserver. It aims to provide more
+support for multi-user groups. Contributions of individual users can be traced back
+provided a persistent database is used.
+Moreover, we plan to support operations so-called containers, such as models containing
+model elements.
+
+
+
+
+
+Version 8.1: Detailed Changes since Version 8.0 (2019-05-30)
+============================================================
 
 Version 8.1 aims at making the CBserver better integrated with current
 exchange formats. We are now referring to issue numbers as stored in
