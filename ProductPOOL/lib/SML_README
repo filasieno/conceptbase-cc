@@ -89,8 +89,8 @@ SystemQueries.sml
 graphical_types.sml
 JavaGraphicalTypes.sml
 JavaGTsInstances.sml
-Module.sml
 ECA-Model.sml
+Module.sml
 
 4. Schritt: einchecken der neuen Systemdateien:
    a) auschecken von SYSTEM.telos, SYSTEM.symbol, SYSTEM.rule und SYSTEM.ruleinfo

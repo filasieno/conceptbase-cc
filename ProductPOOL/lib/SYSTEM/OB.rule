@@ -158,9 +158,9 @@
 'LTevalQuery'(id_859, 'In'(_G1799, id_859)):-'Literals':prove_literal(id_859(_G1799, _G1808, id_0)) .
 'LTevalQuery'(id_848, id_848(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'Literals':prove_literal('AD'(_G1799, _G1820, _G1800)), 'Literals':prove_literal('In'(_G1799, id_6)) .
 'LTevalQuery'(id_848, 'In'(_G1799, id_848)):-'Literals':prove_literal(id_848(_G1799, _G1808, id_0)) .
-'LTevalQuery'(id_837, id_837(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'ID_s79006618_388_1'(_G1799, _G1800), 'Literals':prove_literal('In'(_G1799, id_6)) .
-'ID_s79006618_388_1'(_G1796, _G1797):-'Literals':prove_literal('In'(_G1797, _G1808)), 'Literals':not_prove_literal('UNIFIES'(_G1808, id_0)), 'Literals':prove_literal('P'(_G1796, _G1827, _G1828, _G1808)) .
-'ID_s79006618_388_1'(_G1796, _G1797):-'Literals':prove_literal('UNIFIES'(_G1796, id_6)) .
+'LTevalQuery'(id_837, id_837(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'ID_s81081011_388_1'(_G1799, _G1800), 'Literals':prove_literal('In'(_G1799, id_6)) .
+'ID_s81081011_388_1'(_G1796, _G1797):-'Literals':prove_literal('In'(_G1797, _G1808)), 'Literals':not_prove_literal('UNIFIES'(_G1808, id_0)), 'Literals':prove_literal('P'(_G1796, _G1827, _G1828, _G1808)) .
+'ID_s81081011_388_1'(_G1796, _G1797):-'Literals':prove_literal('UNIFIES'(_G1796, id_6)) .
 'LTevalQuery'(id_837, 'In'(_G1799, id_837)):-'Literals':prove_literal(id_837(_G1799, _G1808, id_0)) .
 'LTevalQuery'(id_823, id_823(_G1799, _G1800, _G1801, _G1802, _G1803)):-'Literals':bound(_G1800), 'Literals':bound(_G1802), 'Literals':prove_literal('AeD'(_G1800, _G1802, _G1799)) .
 'LTevalQuery'(id_823, 'In'(_G1799, id_823)):-'Literals':prove_literal(id_823(_G1799, _G1808, id_6, _G1810, id_0)) .
@@ -168,15 +168,15 @@
 'LTevalQuery'(id_809, 'In'(_G1799, id_809)):-'Literals':prove_literal(id_809(_G1799, _G1808, id_6, _G1810, id_0)) .
 'LTevalQuery'(id_798, id_798(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'Literals':prove_literal('AD'(_G1799, _G1800, _G1821)), 'Literals':prove_literal('In'(_G1799, id_6)), 'Literals':prove_literal('NE'(_G1799, id_414)), 'Literals':prove_literal('NE'(_G1799, id_413)), 'Literals':prove_literal('NE'(_G1799, id_412)), 'Literals':prove_literal('NE'(_G1799, id_411)), 'Literals':prove_literal('NE'(_G1799, id_410)), 'Literals':prove_literal('NE'(_G1799, id_58)), 'Literals':prove_literal('NE'(_G1799, id_59)) .
 'LTevalQuery'(id_798, 'In'(_G1799, id_798)):-'Literals':prove_literal(id_798(_G1799, _G1808, id_0)) .
-'LTevalQuery'(id_787, id_787(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'ID_s79006618_360_1'(_G1799, _G1800), 'Literals':prove_literal('In'(_G1799, id_6)) .
-'ID_s79006618_360_1'(_G1796, _G1797):-'Literals':prove_literal('In'(_G1797, _G1808)), 'Literals':not_prove_literal('UNIFIES'(_G1808, id_0)), 'Literals':prove_literal('P'(_G1796, _G1808, _G1831, _G1832)), 'Literals':not_prove_literal('In'(_G1832, id_396)), 'Literals':not_prove_literal('In'(_G1832, id_399)), 'Literals':not_prove_literal('In'(_G1832, id_33)) .
-'ID_s79006618_360_1'(_G1796, _G1797):-'Literals':prove_literal('UNIFIES'(_G1796, id_6)) .
+'LTevalQuery'(id_787, id_787(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'ID_s81081011_360_1'(_G1799, _G1800), 'Literals':prove_literal('In'(_G1799, id_6)) .
+'ID_s81081011_360_1'(_G1796, _G1797):-'Literals':prove_literal('In'(_G1797, _G1808)), 'Literals':not_prove_literal('UNIFIES'(_G1808, id_0)), 'Literals':prove_literal('P'(_G1796, _G1808, _G1831, _G1832)), 'Literals':not_prove_literal('In'(_G1832, id_396)), 'Literals':not_prove_literal('In'(_G1832, id_399)), 'Literals':not_prove_literal('In'(_G1832, id_33)) .
+'ID_s81081011_360_1'(_G1796, _G1797):-'Literals':prove_literal('UNIFIES'(_G1796, id_6)) .
 'LTevalQuery'(id_787, 'In'(_G1799, id_787)):-'Literals':prove_literal(id_787(_G1799, _G1808, id_0)) .
 'LTevalQuery'(id_773, id_773(_G1799, _G1800, _G1801, _G1802, _G1803)):-'Literals':bound(_G1800), 'Literals':bound(_G1802), 'Literals':prove_literal('AD'(_G1800, _G1799, _G1802)) .
 'LTevalQuery'(id_773, 'In'(_G1799, id_773)):-'Literals':prove_literal(id_773(_G1799, _G1808, id_6, _G1810, id_0)) .
 'LTevalQuery'(id_759, id_759(_G1799, _G1800, _G1801, _G1802, _G1803)):-'Literals':bound(_G1800), 'Literals':bound(_G1802), 'Literals':prove_literal('AeD'(_G1800, _G1799, _G1802)) .
 'LTevalQuery'(id_759, 'In'(_G1799, id_759)):-'Literals':prove_literal(id_759(_G1799, _G1808, id_6, _G1810, id_0)) .
-'LTevalQuery'(id_748, id_748(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'Literals':prove_literal('P'(_G1819, _G1800, _G1821, _G1799)), 'Literals':prove_literal('In'(_G1819, id_6)) .
+'LTevalQuery'(id_748, id_748(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'Literals':prove_literal('Pa'(_G1816, _G1800, _G1818, _G1799)) .
 'LTevalQuery'(id_748, 'In'(_G1799, id_748)):-'Literals':prove_literal(id_748(_G1799, _G1808, id_0)) .
 'LTevalQuery'(id_731, id_731(_G1799, _G1800, _G1801, _G1802, _G1803, _G1804, _G1805)):-'Literals':bound(_G1800), 'Literals':bound(_G1804), 'Literals':bound(_G1802), 'Literals':prove_literal('P'(_G1799, _G1804, _G1841, _G1802)), 'Literals':prove_literal('In'(_G1799, _G1800)) .
 'LTevalQuery'(id_731, 'In'(_G1799, id_731)):-'Literals':prove_literal(id_731(_G1799, _G1808, id_0, _G1810, id_0, _G1812, id_0)) .
@@ -186,32 +186,32 @@
 'LTevalQuery'(id_700, 'In'(_G1799, id_700)):-'Literals':prove_literal(id_700(_G1799, _G1808, id_0, _G1810, id_0, _G1812, id_0)) .
 'LTevalQuery'(id_683, id_683(_G1799, _G1800, _G1801, _G1802, _G1803, _G1804, _G1805)):-'Literals':bound(_G1800), 'Literals':bound(_G1804), 'Literals':bound(_G1802), 'Literals':prove_literal('UNIFIES'(_G1799, id_129)), 'Literals':prove_literal('Label'(_G1800, _G1851)), 'Literals':prove_literal('A'(_G1804, _G1851, _G1802)) .
 'LTevalQuery'(id_683, 'In'(_G1799, id_683)):-'Literals':prove_literal(id_683(_G1799, _G1808, id_0, _G1810, id_0, _G1812, id_0)) .
-'LTevalQuery'(id_658, id_658(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'Literals':prove_literal('P'(_G1819, _G1799, _G1821, _G1800)), 'Literals':prove_literal('In'(_G1819, id_6)) .
+'LTevalQuery'(id_658, id_658(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'Literals':prove_literal('Pa'(_G1816, _G1799, _G1818, _G1800)) .
 'LTevalQuery'(id_658, 'In'(_G1799, id_658)):-'Literals':prove_literal(id_658(_G1799, _G1808, id_0)) .
-'LTevalQuery'(id_644, id_644(_G1799, _G1800, _G1801, _G1802, _G1803)):-'Literals':bound(_G1800), 'Literals':bound(_G1802), 'Literals':prove_literal('In'(_G1799, id_125)), 'ID_s79006618_285_2'(_G1799, _G1800, _G1802), 'ID_s79006618_285_1'(_G1799, _G1800, _G1802) .
-'ID_s79006618_285_1'(_G1796, _G1797, _G1798):-'Literals':not_prove_literal('Isa_e'(_G1797, _G1798)) .
-'ID_s79006618_285_1'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1796, id_129)) .
-'ID_s79006618_285_2'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1796, id_127)) .
-'ID_s79006618_285_2'(_G1796, _G1797, _G1798):-'Literals':prove_literal('Isa_e'(_G1797, _G1798)) .
+'LTevalQuery'(id_644, id_644(_G1799, _G1800, _G1801, _G1802, _G1803)):-'Literals':bound(_G1800), 'Literals':bound(_G1802), 'Literals':prove_literal('In'(_G1799, id_125)), 'ID_s81081011_285_2'(_G1799, _G1800, _G1802), 'ID_s81081011_285_1'(_G1799, _G1800, _G1802) .
+'ID_s81081011_285_1'(_G1796, _G1797, _G1798):-'Literals':not_prove_literal('Isa_e'(_G1797, _G1798)) .
+'ID_s81081011_285_1'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1796, id_129)) .
+'ID_s81081011_285_2'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1796, id_127)) .
+'ID_s81081011_285_2'(_G1796, _G1797, _G1798):-'Literals':prove_literal('Isa_e'(_G1797, _G1798)) .
 'LTevalQuery'(id_644, 'In'(_G1799, id_644)):-'Literals':prove_literal(id_644(_G1799, _G1808, id_0, _G1810, id_0)) .
-'LTevalQuery'(id_630, id_630(_G1799, _G1800, _G1801, _G1802, _G1803)):-'Literals':bound(_G1800), 'Literals':bound(_G1802), 'Literals':prove_literal('In'(_G1799, id_125)), 'ID_s79006618_274_2'(_G1799, _G1800, _G1802), 'ID_s79006618_274_1'(_G1799, _G1800, _G1802) .
-'ID_s79006618_274_1'(_G1796, _G1797, _G1798):-'Literals':not_prove_literal('In_s'(_G1798, _G1797)) .
-'ID_s79006618_274_1'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1796, id_129)) .
-'ID_s79006618_274_2'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1796, id_127)) .
-'ID_s79006618_274_2'(_G1796, _G1797, _G1798):-'Literals':prove_literal('In_s'(_G1798, _G1797)) .
+'LTevalQuery'(id_630, id_630(_G1799, _G1800, _G1801, _G1802, _G1803)):-'Literals':bound(_G1800), 'Literals':bound(_G1802), 'Literals':prove_literal('In'(_G1799, id_125)), 'ID_s81081011_274_2'(_G1799, _G1800, _G1802), 'ID_s81081011_274_1'(_G1799, _G1800, _G1802) .
+'ID_s81081011_274_1'(_G1796, _G1797, _G1798):-'Literals':not_prove_literal('In_s'(_G1798, _G1797)) .
+'ID_s81081011_274_1'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1796, id_129)) .
+'ID_s81081011_274_2'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1796, id_127)) .
+'ID_s81081011_274_2'(_G1796, _G1797, _G1798):-'Literals':prove_literal('In_s'(_G1798, _G1797)) .
 'LTevalQuery'(id_630, 'In'(_G1799, id_630)):-'Literals':prove_literal(id_630(_G1799, _G1808, id_0, _G1810, id_0)) .
-'LTevalQuery'(id_616, id_616(_G1799, _G1800, _G1801, _G1802, _G1803)):-'Literals':bound(_G1800), 'Literals':bound(_G1802), 'ID_s79006618_265_1'(_G1799, _G1800, _G1802) .
-'ID_s79006618_265_1'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1798, id_127)), 'Literals':prove_literal('Isa_e'(_G1797, _G1796)) .
-'ID_s79006618_265_1'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1798, id_129)), 'Literals':prove_literal('Isa'(_G1797, _G1796)) .
+'LTevalQuery'(id_616, id_616(_G1799, _G1800, _G1801, _G1802, _G1803)):-'Literals':bound(_G1800), 'Literals':bound(_G1802), 'ID_s81081011_265_1'(_G1799, _G1800, _G1802) .
+'ID_s81081011_265_1'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1798, id_127)), 'Literals':prove_literal('Isa_e'(_G1797, _G1796)) .
+'ID_s81081011_265_1'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1798, id_129)), 'Literals':prove_literal('Isa'(_G1797, _G1796)) .
 'LTevalQuery'(id_616, 'In'(_G1799, id_616)):-'Literals':prove_literal(id_616(_G1799, _G1808, id_0, _G1810, id_125)) .
 'LTevalQuery'(id_605, id_605(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'Literals':prove_literal('In_s'(_G1799, _G1800)) .
 'LTevalQuery'(id_605, 'In'(_G1799, id_605)):-'Literals':prove_literal(id_605(_G1799, _G1808, id_0)) .
 'LTevalQuery'(id_594, id_594(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'Literals':prove_literal('In_s'(_G1800, _G1799)) .
 'LTevalQuery'(id_594, 'In'(_G1799, id_594)):-'Literals':prove_literal(id_594(_G1799, _G1808, id_0)) .
-'LTevalQuery'(id_583, id_583(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'ID_s79006618_247_1'(_G1799, _G1800) .
-'ID_s79006618_247_1'(_G1796, _G1797):-'Literals':prove_literal('In_s'(_G1796, id_104)), 'Literals':prove_literal('In'(_G1797, _G1796)) .
-'ID_s79006618_247_1'(_G1796, _G1797):-'Literals':prove_literal('In_s'(_G1796, id_65)), 'Literals':prove_literal('In'(_G1797, _G1796)) .
-'ID_s79006618_247_1'(_G1796, _G1797):-'Literals':prove_literal('In'(_G1797, _G1796)) .
+'LTevalQuery'(id_583, id_583(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'ID_s81081011_247_1'(_G1799, _G1800) .
+'ID_s81081011_247_1'(_G1796, _G1797):-'Literals':prove_literal('In_s'(_G1796, id_104)), 'Literals':prove_literal('In'(_G1797, _G1796)) .
+'ID_s81081011_247_1'(_G1796, _G1797):-'Literals':prove_literal('In_s'(_G1796, id_65)), 'Literals':prove_literal('In'(_G1797, _G1796)) .
+'ID_s81081011_247_1'(_G1796, _G1797):-'Literals':prove_literal('In'(_G1797, _G1796)) .
 'LTevalQuery'(id_583, 'In'(_G1799, id_583)):-'Literals':prove_literal(id_583(_G1799, _G1808, id_0)) .
 'LTevalQuery'(id_572, id_572(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'Literals':prove_literal('From'(_G1799, _G1800)) .
 'LTevalQuery'(id_572, 'In'(_G1799, id_572)):-'Literals':prove_literal(id_572(_G1799, _G1808, id_0)) .
@@ -223,23 +223,23 @@
 'LTevalQuery'(id_533, 'In'(_G1799, id_533)):-'Literals':prove_literal(id_533(_G1799, _G1808, id_0, _G1810, id_0)) .
 'LTevalQuery'(id_523, id_523(_G1799, _G1800)):-'Literals':prove_literal('In'(_G1799, id_117)), 'Literals':prove_literal('P'(_G1821, _G1799, '*instanceof', id_117)), 'Literals':prove_literal('Known'(_G1821, _G1800)) .
 'LTevalQuery'(id_523, 'In'(_G1799, id_523)):-'Literals':prove_literal(id_523(_G1799, _G1808)) .
-'LTevalQuery'(id_509, id_509(_G1799, _G1800, _G1801, _G1802, _G1803)):-'Literals':bound(_G1800), 'Literals':bound(_G1802), 'ID_s79006618_206_1'(_G1799, _G1800, _G1802) .
-'ID_s79006618_206_1'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1798, id_127)), 'Literals':prove_literal('Isa_e'(_G1796, _G1797)) .
-'ID_s79006618_206_1'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1798, id_129)), 'Literals':prove_literal('Isa'(_G1796, _G1797)) .
+'LTevalQuery'(id_509, id_509(_G1799, _G1800, _G1801, _G1802, _G1803)):-'Literals':bound(_G1800), 'Literals':bound(_G1802), 'ID_s81081011_206_1'(_G1799, _G1800, _G1802) .
+'ID_s81081011_206_1'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1798, id_127)), 'Literals':prove_literal('Isa_e'(_G1796, _G1797)) .
+'ID_s81081011_206_1'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1798, id_129)), 'Literals':prove_literal('Isa'(_G1796, _G1797)) .
 'LTevalQuery'(id_509, 'In'(_G1799, id_509)):-'Literals':prove_literal(id_509(_G1799, _G1808, id_0, _G1810, id_125)) .
 'LTevalQuery'(id_498, id_498(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'Literals':prove_literal('To'(_G1799, _G1800)), 'Literals':prove_literal('In'(_G1799, id_6)) .
 'LTevalQuery'(id_498, 'In'(_G1799, id_498)):-'Literals':prove_literal(id_498(_G1799, _G1808, id_0)) .
-'LTevalQuery'(id_484, id_484(_G1799, _G1800, _G1801, _G1802, _G1803)):-'Literals':bound(_G1800), 'Literals':bound(_G1802), 'Literals':prove_literal('In'(_G1799, id_125)), 'ID_s79006618_188_2'(_G1799, _G1800, _G1802), 'ID_s79006618_188_1'(_G1799, _G1800, _G1802) .
-'ID_s79006618_188_1'(_G1796, _G1797, _G1798):-'Literals':not_prove_literal('Isa'(_G1797, _G1798)) .
-'ID_s79006618_188_1'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1796, id_129)) .
-'ID_s79006618_188_2'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1796, id_127)) .
-'ID_s79006618_188_2'(_G1796, _G1797, _G1798):-'Literals':prove_literal('Isa'(_G1797, _G1798)) .
+'LTevalQuery'(id_484, id_484(_G1799, _G1800, _G1801, _G1802, _G1803)):-'Literals':bound(_G1800), 'Literals':bound(_G1802), 'Literals':prove_literal('In'(_G1799, id_125)), 'ID_s81081011_188_2'(_G1799, _G1800, _G1802), 'ID_s81081011_188_1'(_G1799, _G1800, _G1802) .
+'ID_s81081011_188_1'(_G1796, _G1797, _G1798):-'Literals':not_prove_literal('Isa'(_G1797, _G1798)) .
+'ID_s81081011_188_1'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1796, id_129)) .
+'ID_s81081011_188_2'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1796, id_127)) .
+'ID_s81081011_188_2'(_G1796, _G1797, _G1798):-'Literals':prove_literal('Isa'(_G1797, _G1798)) .
 'LTevalQuery'(id_484, 'In'(_G1799, id_484)):-'Literals':prove_literal(id_484(_G1799, _G1808, id_0, _G1810, id_0)) .
-'LTevalQuery'(id_470, id_470(_G1799, _G1800, _G1801, _G1802, _G1803)):-'Literals':bound(_G1800), 'Literals':bound(_G1802), 'Literals':prove_literal('In'(_G1799, id_125)), 'ID_s79006618_176_2'(_G1799, _G1800, _G1802), 'ID_s79006618_176_1'(_G1799, _G1800, _G1802) .
-'ID_s79006618_176_1'(_G1796, _G1797, _G1798):-'Literals':not_prove_literal('In'(_G1798, _G1797)) .
-'ID_s79006618_176_1'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1796, id_129)) .
-'ID_s79006618_176_2'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1796, id_127)) .
-'ID_s79006618_176_2'(_G1796, _G1797, _G1798):-'Literals':prove_literal('In'(_G1798, _G1797)) .
+'LTevalQuery'(id_470, id_470(_G1799, _G1800, _G1801, _G1802, _G1803)):-'Literals':bound(_G1800), 'Literals':bound(_G1802), 'Literals':prove_literal('In'(_G1799, id_125)), 'ID_s81081011_176_2'(_G1799, _G1800, _G1802), 'ID_s81081011_176_1'(_G1799, _G1800, _G1802) .
+'ID_s81081011_176_1'(_G1796, _G1797, _G1798):-'Literals':not_prove_literal('In'(_G1798, _G1797)) .
+'ID_s81081011_176_1'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1796, id_129)) .
+'ID_s81081011_176_2'(_G1796, _G1797, _G1798):-'Literals':prove_literal('IDENTICAL'(_G1796, id_127)) .
+'ID_s81081011_176_2'(_G1796, _G1797, _G1798):-'Literals':prove_literal('In'(_G1798, _G1797)) .
 'LTevalQuery'(id_470, 'In'(_G1799, id_470)):-'Literals':prove_literal(id_470(_G1799, _G1808, id_0, _G1810, id_0)) .
 'LTevalQuery'(id_459, id_459(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'Literals':prove_literal('In'(_G1799, _G1800)), 'Literals':not_prove_literal('In'(_G1799, id_399)), 'Literals':not_prove_literal('In'(_G1799, id_396)), 'Literals':not_prove_literal('In'(_G1799, id_33)) .
 'LTevalQuery'(id_459, 'In'(_G1799, id_459)):-'Literals':prove_literal(id_459(_G1799, _G1808, id_0)) .
@@ -276,10 +276,10 @@
 'ViewArgExp'(id_979_id_985, [this, set([r(property)])], nest([1], id_979_id_985)) .
 'ViewArgExp'(id_979_id_988, [this, set([r(implementedBy)])], nest([1], id_979_id_988)) .
 'ViewArgExp'(id_979, [this, p(gt, id_881), set([r(property)]), set([r(implementedBy)])], leftouterjoin([equal(1, 1)], [4, 2], leftouterjoin([equal(1, 1)], [3, 2], xnest([1, 2], id_979), nest([1], id_979_id_985)), nest([1], id_979_id_988))) .
-'RuleTTime'(id(id_887, s79006618_473), tt(millisecond(2020, 1, 27, 13, 39, 37, 585))) .
-'LTevalRule'(id_886, 'Adot'(id_886, _G1800, id_1011)):-'LTstubs':'RBTimeRelevantRule'(id(id_887, s79006618_473)), 'Literals':prove_literal('In'(_G1800, id_881)), not('ID_s79006618_473_1'(_G1800)) .
-'RuleTTime'(id(id_887, s79006618_473), tt(millisecond(2020, 1, 27, 13, 39, 37, 585))) .
-'ID_s79006618_473_1'(_G1796):-'Literals':prove_literal('Aedot'(id_886, _G1796, _G1805)) .
+'RuleTTime'(id(id_887, s81081011_473), tt(millisecond(2021, 5, 21, 18, 3, 49, 233))) .
+'LTevalRule'(id_886, 'Adot'(id_886, _G1800, id_1011)):-'LTstubs':'RBTimeRelevantRule'(id(id_887, s81081011_473)), 'Literals':prove_literal('In'(_G1800, id_881)), not('ID_s81081011_473_1'(_G1800)) .
+'RuleTTime'(id(id_887, s81081011_473), tt(millisecond(2021, 5, 21, 18, 3, 49, 233))) .
+'ID_s81081011_473_1'(_G1796):-'Literals':prove_literal('Aedot'(id_886, _G1796, _G1805)) .
 'origRule@BDMCompile'(id_887, 'Adot'(id_886, _G1799, id_1011), exists(['In'(_G1799, id_881)], forall(['Aedot'(id_886, _G1799, _G1819)], 'FALSE')), ruleinfo(forall([jgt], ['In'(jgt, id_881)], exists([i], ['Aedot'(id_886, jgt, i)], 'TRUE')), 'Adot'(id_886, jgt, id_1011), [range(i, [id_18]), range(jgt, [id_881])], vars([jgt, i], [jgt]))) .
 'LTevalQuery'(id_979, id_979(_G1799, _G1800, _G1801)):-'Literals':prove_literal('UNIFIES'(_G1800, _G1799)), 'Literals':prove_literal('In'(_G1799, id_881)), 'Literals':prove_literal('In'(_G1800, _G1801)) .
 'LTevalQuery'(id_979_id_985, id_979_id_985(_G1799, _G1800, _G1801)):-'Literals':prove_literal('In'(_G1799, id_881)), 'Literals':prove_literal('Adot_label'(id_885, _G1799, _G1801, _G1800)), 'Literals':prove_literal('In'(_G1801, id_24)) .
@@ -294,24 +294,24 @@
 'LTevalQuery'(id_932_id_953, id_932_id_953(_G1799, _G1800, _G1801)):-'Literals':prove_literal('In'(_G1799, id_891)), 'Literals':prove_literal('Adot_label'(id_879, _G1799, _G1801, _G1800)), 'Literals':prove_literal('In'(_G1801, id_881)) .
 'LTevalQuery'(id_932_id_956, id_932_id_956(_G1799, _G1800, _G1801)):-'Literals':prove_literal('In'(_G1799, id_891)), 'Literals':prove_literal('Adot_label'(id_899, _G1799, _G1801, _G1800)), 'Literals':prove_literal('In'(_G1801, id_24)) .
 'LTevalQuery'(id_932, 'In'(_G1799, id_932)):-'Literals':prove_literal(id_932(_G1799, _G1808, id_891)) .
-'RuleTTime'(id(id_1066, s79006618_480), tt(millisecond(2020, 1, 27, 13, 39, 37, 734))) .
-'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1042)):-'LTstubs':'RBTimeRelevantRule'(id(id_1066, s79006618_480)), 'Literals':prove_literal('In'(_G1800, id_15)) .
-'RuleTTime'(id(id_1070, s79006618_485), tt(millisecond(2020, 1, 27, 13, 39, 37, 734))) .
-'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1045)):-'LTstubs':'RBTimeRelevantRule'(id(id_1070, s79006618_485)), 'Literals':prove_literal('In'(_G1800, id_1)) .
-'RuleTTime'(id(id_1074, s79006618_489), tt(millisecond(2020, 1, 27, 13, 39, 37, 734))) .
-'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1048)):-'LTstubs':'RBTimeRelevantRule'(id(id_1074, s79006618_489)), 'Literals':prove_literal('In'(_G1800, id_6)) .
-'RuleTTime'(id(id_1078, s79006618_493), tt(millisecond(2020, 1, 27, 13, 39, 37, 734))) .
-'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1022)):-'LTstubs':'RBTimeRelevantRule'(id(id_1078, s79006618_493)), 'Literals':prove_literal('In'(_G1800, id_7)) .
-'RuleTTime'(id(id_1082, s79006618_497), tt(millisecond(2020, 1, 27, 13, 39, 37, 734))) .
-'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1051)):-'LTstubs':'RBTimeRelevantRule'(id(id_1082, s79006618_497)), 'Literals':prove_literal('In'(_G1800, id_11)) .
-'RuleTTime'(id(id_1086, s79006618_501), tt(millisecond(2020, 1, 27, 13, 39, 37, 734))) .
-'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1054)):-'LTstubs':'RBTimeRelevantRule'(id(id_1086, s79006618_501)), 'Literals':prove_literal('In'(_G1800, id_9)) .
-'RuleTTime'(id(id_1090, s79006618_506), tt(millisecond(2020, 1, 27, 13, 39, 37, 734))) .
-'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1057)):-'LTstubs':'RBTimeRelevantRule'(id(id_1090, s79006618_506)), 'Literals':prove_literal('In'(_G1800, id_10)) .
-'RuleTTime'(id(id_1094, s79006618_510), tt(millisecond(2020, 1, 27, 13, 39, 37, 734))) .
-'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1060)):-'LTstubs':'RBTimeRelevantRule'(id(id_1094, s79006618_510)), 'Literals':prove_literal('In'(_G1800, id_2)), 'Literals':prove_literal('In'(_G1800, id_7)) .
-'RuleTTime'(id(id_1098, s79006618_514), tt(millisecond(2020, 1, 27, 13, 39, 37, 734))) .
-'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1063)):-'LTstubs':'RBTimeRelevantRule'(id(id_1098, s79006618_514)), 'Literals':prove_literal('In'(_G1800, id_65)) .
+'RuleTTime'(id(id_1066, s81081011_480), tt(millisecond(2021, 5, 21, 18, 3, 49, 362))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1042)):-'LTstubs':'RBTimeRelevantRule'(id(id_1066, s81081011_480)), 'Literals':prove_literal('In'(_G1800, id_15)) .
+'RuleTTime'(id(id_1070, s81081011_485), tt(millisecond(2021, 5, 21, 18, 3, 49, 362))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1045)):-'LTstubs':'RBTimeRelevantRule'(id(id_1070, s81081011_485)), 'Literals':prove_literal('In'(_G1800, id_1)) .
+'RuleTTime'(id(id_1074, s81081011_489), tt(millisecond(2021, 5, 21, 18, 3, 49, 362))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1048)):-'LTstubs':'RBTimeRelevantRule'(id(id_1074, s81081011_489)), 'Literals':prove_literal('In'(_G1800, id_6)) .
+'RuleTTime'(id(id_1078, s81081011_493), tt(millisecond(2021, 5, 21, 18, 3, 49, 362))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1022)):-'LTstubs':'RBTimeRelevantRule'(id(id_1078, s81081011_493)), 'Literals':prove_literal('In'(_G1800, id_7)) .
+'RuleTTime'(id(id_1082, s81081011_497), tt(millisecond(2021, 5, 21, 18, 3, 49, 362))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1051)):-'LTstubs':'RBTimeRelevantRule'(id(id_1082, s81081011_497)), 'Literals':prove_literal('In'(_G1800, id_11)) .
+'RuleTTime'(id(id_1086, s81081011_501), tt(millisecond(2021, 5, 21, 18, 3, 49, 362))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1054)):-'LTstubs':'RBTimeRelevantRule'(id(id_1086, s81081011_501)), 'Literals':prove_literal('In'(_G1800, id_9)) .
+'RuleTTime'(id(id_1090, s81081011_506), tt(millisecond(2021, 5, 21, 18, 3, 49, 362))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1057)):-'LTstubs':'RBTimeRelevantRule'(id(id_1090, s81081011_506)), 'Literals':prove_literal('In'(_G1800, id_10)) .
+'RuleTTime'(id(id_1094, s81081011_510), tt(millisecond(2021, 5, 21, 18, 3, 49, 362))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1060)):-'LTstubs':'RBTimeRelevantRule'(id(id_1094, s81081011_510)), 'Literals':prove_literal('In'(_G1800, id_2)), 'Literals':prove_literal('In'(_G1800, id_7)) .
+'RuleTTime'(id(id_1098, s81081011_514), tt(millisecond(2021, 5, 21, 18, 3, 49, 362))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1063)):-'LTstubs':'RBTimeRelevantRule'(id(id_1098, s81081011_514)), 'Literals':prove_literal('In'(_G1800, id_65)) .
 'origRule@BDMCompile'(id_1066, 'Adot'(id_876, _G1799, id_1042), exists(['In'(_G1799, id_15)], 'TRUE'), ruleinfo(forall([p], ['In'(p, id_15)], 'FALSE'), 'Adot'(id_876, p, id_1042), [range(p, [id_15])], vars([p], [p]))) .
 'origRule@BDMCompile'(id_1070, 'Adot'(id_876, _G1799, id_1045), exists(['In'(_G1799, id_1)], 'TRUE'), ruleinfo(forall([p], ['In'(p, id_1)], 'FALSE'), 'Adot'(id_876, p, id_1045), [range(p, [id_1])], vars([p], [p]))) .
 'origRule@BDMCompile'(id_1074, 'Adot'(id_876, _G1799, id_1048), exists(['In'(_G1799, id_6)], 'TRUE'), ruleinfo(forall([p], ['In'(p, id_6)], 'FALSE'), 'Adot'(id_876, p, id_1048), [range(p, [id_6])], vars([p], [p]))) .
@@ -346,51 +346,93 @@
 'ViewArgExp'(id_1591, [this, p(s1, id_24), p(s2, id_24)], xnest([1, 2, 4], id_1591)) .
 'QueryArgExp'(id_1611, [this]) .
 'ViewArgExp'(id_1611, [this], xnest([1], id_1611)) .
-'ID_s79006618_609_3'(_G1796):-'Literals':prove_literal('Adot'(id_6, _G1796, _G1805)) .
-'ID_s79006618_609_2'(_G1796):-'Literals':prove_literal('In'(_G1796, id_68)) .
-'ID_s79006618_609_2'(_G1796):-'Literals':prove_literal('In'(_G1796, id_84)) .
-'ID_s79006618_609_1'(_G1796):-'ID_s79006618_609_2'(_G1801), 'Literals':prove_literal('From'(_G1796, _G1801)), 'Literals':prove_literal('In'(_G1796, id_15)), 'Literals':prove_literal('In'(_G1801, id_6)) .
-'ID_s79006618_609_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_33)), 'Literals':not_prove_literal('In'(_G1796, id_65)) .
-'ID_s79006618_609_1'(_G1796):-'Literals':prove_literal('In_e'(_G1796, id_121)), not('ID_s79006618_609_3'(_G1796)) .
-'ID_s79006618_609_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_105)) .
-'ID_s79006618_609_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_1405)) .
-'ID_s79006618_609_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_396)) .
-'ID_s79006618_609_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_399)) .
-'ID_s79006618_609_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_410)) .
-'ID_s79006618_609_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_411)) .
-'ID_s79006618_609_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_414)) .
-'ID_s79006618_609_1'(_G1796):-'Literals':prove_literal(id_1563(_G1796, id_18, id_16)) .
-'ID_s79006618_609_1'(_G1796):-'Literals':prove_literal(id_1563(_G1796, id_21, id_16)) .
-'ID_s79006618_609_1'(_G1796):-'Literals':prove_literal(id_1563(_G1796, id_24, id_16)) .
-'LTevalQuery'(id_1611, id_1611(_G1799)):-'ID_s79006618_609_1'(_G1799) .
+'RuleTTime'(id(id_1735, s81081011_654), tt(millisecond(2021, 5, 21, 18, 3, 49, 599))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1673)):-'LTstubs':'RBTimeRelevantRule'(id(id_1735, s81081011_654)), 'Literals':prove_literal('In'(_G1800, id_1)) .
+'RuleTTime'(id(id_1785, s81081011_658), tt(millisecond(2021, 5, 21, 18, 3, 49, 599))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1676)):-'LTstubs':'RBTimeRelevantRule'(id(id_1785, s81081011_658)), 'Literals':prove_literal('In'(_G1800, id_15)) .
+'RuleTTime'(id(id_1831, s81081011_662), tt(millisecond(2021, 5, 21, 18, 3, 49, 599))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1651)):-'LTstubs':'RBTimeRelevantRule'(id(id_1831, s81081011_662)), 'Literals':prove_literal('In'(_G1800, id_6)) .
+'RuleTTime'(id(id_1872, s81081011_666), tt(millisecond(2021, 5, 21, 18, 3, 49, 599))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1647)):-'LTstubs':'RBTimeRelevantRule'(id(id_1872, s81081011_666)), 'Literals':prove_literal('In'(_G1800, id_7)) .
+'RuleTTime'(id(id_1896, s81081011_670), tt(millisecond(2021, 5, 21, 18, 3, 49, 599))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1667)):-'LTstubs':'RBTimeRelevantRule'(id(id_1896, s81081011_670)), 'Literals':prove_literal('In'(_G1800, id_2)) .
+'RuleTTime'(id(id_1924, s81081011_674), tt(millisecond(2021, 5, 21, 18, 3, 49, 599))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1679)):-'LTstubs':'RBTimeRelevantRule'(id(id_1924, s81081011_674)), 'Literals':prove_literal('In'(_G1800, id_24)) .
+'RuleTTime'(id(id_1952, s81081011_678), tt(millisecond(2021, 5, 21, 18, 3, 49, 599))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1682)):-'LTstubs':'RBTimeRelevantRule'(id(id_1952, s81081011_678)), 'Literals':prove_literal('In'(_G1800, id_33)) .
+'RuleTTime'(id(id_1978, s81081011_682), tt(millisecond(2021, 5, 21, 18, 3, 49, 599))) .
+'LTevalRule'(id_876, 'Adot'(id_876, _G1800, id_1670)):-'LTstubs':'RBTimeRelevantRule'(id(id_1978, s81081011_682)), 'Literals':prove_literal('In'(_G1800, id_65)) .
+'RuleTTime'(id(id_1705, s81081011_650), tt(millisecond(2021, 5, 21, 18, 3, 49, 599))) .
+'LTevalRule'(id_898, 'Adot'(id_898, _G1800, _G1801)):-'LTstubs':'RBTimeRelevantRule'(id(id_1705, s81081011_650)), 'Literals':prove_literal('Adot'(id_898, id_1640, _G1801)), 'Literals':prove_literal('In'(_G1800, id_891)), 'Literals':prove_literal('Isa'(_G1800, id_1640)), 'Literals':prove_literal('NE'(_G1800, id_1640)) .
+'RuleTTime'(id(id_1701, s81081011_646), tt(millisecond(2021, 5, 21, 18, 3, 49, 599))) .
+'LTevalRule'(id_897, 'Adot'(id_897, _G1800, _G1801)):-'LTstubs':'RBTimeRelevantRule'(id(id_1701, s81081011_646)), 'Literals':prove_literal('Adot'(id_897, id_1640, _G1801)), 'Literals':prove_literal('In'(_G1800, id_891)), 'Literals':prove_literal('Isa'(_G1800, id_1640)), 'Literals':prove_literal('NE'(_G1800, id_1640)) .
+'RuleTTime'(id(id_1697, s81081011_642), tt(millisecond(2021, 5, 21, 18, 3, 49, 599))) .
+'LTevalRule'(id_896, 'Adot'(id_896, _G1800, _G1801)):-'LTstubs':'RBTimeRelevantRule'(id(id_1697, s81081011_642)), 'Literals':prove_literal('Adot'(id_896, id_1640, _G1801)), 'Literals':prove_literal('In'(_G1800, id_891)), 'Literals':prove_literal('Isa'(_G1800, id_1640)), 'Literals':prove_literal('NE'(_G1800, id_1640)) .
+'RuleTTime'(id(id_1693, s81081011_638), tt(millisecond(2021, 5, 21, 18, 3, 49, 599))) .
+'LTevalRule'(id_895, 'Adot'(id_895, _G1800, _G1801)):-'LTstubs':'RBTimeRelevantRule'(id(id_1693, s81081011_638)), 'Literals':prove_literal('Adot'(id_895, id_1640, _G1801)), 'Literals':prove_literal('In'(_G1800, id_891)), 'Literals':prove_literal('Isa'(_G1800, id_1640)), 'Literals':prove_literal('NE'(_G1800, id_1640)) .
+'RuleTTime'(id(id_1689, s81081011_634), tt(millisecond(2021, 5, 21, 18, 3, 49, 599))) .
+'LTevalRule'(id_894, 'Adot'(id_894, _G1800, _G1801)):-'LTstubs':'RBTimeRelevantRule'(id(id_1689, s81081011_634)), 'Literals':prove_literal('Adot'(id_894, id_1640, _G1801)), 'Literals':prove_literal('In'(_G1800, id_891)), 'Literals':prove_literal('Isa'(_G1800, id_1640)), 'Literals':prove_literal('NE'(_G1800, id_1640)) .
+'RuleTTime'(id(id_1685, s81081011_630), tt(millisecond(2021, 5, 21, 18, 3, 49, 599))) .
+'LTevalRule'(id_879, 'Adot'(id_879, _G1800, _G1801)):-'LTstubs':'RBTimeRelevantRule'(id(id_1685, s81081011_630)), 'Literals':prove_literal('Adot'(id_879, id_1640, _G1801)), 'Literals':prove_literal('In'(_G1800, id_891)), 'Literals':prove_literal('Isa'(_G1800, id_1640)), 'Literals':prove_literal('NE'(_G1800, id_1640)), 'Literals':prove_literal('In'(_G1801, id_881)) .
+'origRule@BDMCompile'(id_1685, 'Adot'(id_879, _G1799, _G1800), exists(['In'(_G1799, id_891), 'In'(_G1800, id_881), 'Isa'(_G1799, id_1640), 'NE'(_G1799, id_1640)], exists(['Adot'(id_879, id_1640, _G1800)], 'TRUE')), ruleinfo(forall([pal, gt], ['In'(pal, id_891), 'In'(gt, id_881), 'Isa'(pal, id_1640), 'NE'(pal, id_1640), 'Adot'(id_879, id_1640, gt)], 'FALSE'), 'Adot'(id_879, pal, gt), [range(pal, [id_891]), range(gt, [id_881])], vars([pal, gt], [pal, gt]))) .
+'origRule@BDMCompile'(id_1689, 'Adot'(id_894, _G1799, _G1800), exists(['In'(_G1799, id_891), 'Isa'(_G1799, id_1640), 'NE'(_G1799, id_1640), 'In'(_G1800, id_881)], exists(['Adot'(id_894, id_1640, _G1800)], 'TRUE')), ruleinfo(forall([pal, gt], ['In'(pal, id_891), 'Isa'(pal, id_1640), 'NE'(pal, id_1640), 'Adot'(id_894, id_1640, gt)], 'FALSE'), 'Adot'(id_894, pal, gt), [range(pal, [id_891]), range(gt, [id_881])], vars([pal, gt], [pal, gt]))) .
+'origRule@BDMCompile'(id_1693, 'Adot'(id_895, _G1799, _G1800), exists(['In'(_G1799, id_891), 'Isa'(_G1799, id_1640), 'NE'(_G1799, id_1640), 'In'(_G1800, id_881)], exists(['Adot'(id_895, id_1640, _G1800)], 'TRUE')), ruleinfo(forall([pal, gt], ['In'(pal, id_891), 'Isa'(pal, id_1640), 'NE'(pal, id_1640), 'Adot'(id_895, id_1640, gt)], 'FALSE'), 'Adot'(id_895, pal, gt), [range(pal, [id_891]), range(gt, [id_881])], vars([pal, gt], [pal, gt]))) .
+'origRule@BDMCompile'(id_1697, 'Adot'(id_896, _G1799, _G1800), exists(['In'(_G1799, id_891), 'Isa'(_G1799, id_1640), 'NE'(_G1799, id_1640), 'In'(_G1800, id_881)], exists(['Adot'(id_896, id_1640, _G1800)], 'TRUE')), ruleinfo(forall([pal, gt], ['In'(pal, id_891), 'Isa'(pal, id_1640), 'NE'(pal, id_1640), 'Adot'(id_896, id_1640, gt)], 'FALSE'), 'Adot'(id_896, pal, gt), [range(pal, [id_891]), range(gt, [id_881])], vars([pal, gt], [pal, gt]))) .
+'origRule@BDMCompile'(id_1701, 'Adot'(id_897, _G1799, _G1800), exists(['In'(_G1799, id_891), 'Isa'(_G1799, id_1640), 'NE'(_G1799, id_1640), 'In'(_G1800, id_881)], exists(['Adot'(id_897, id_1640, _G1800)], 'TRUE')), ruleinfo(forall([pal, gt], ['In'(pal, id_891), 'Isa'(pal, id_1640), 'NE'(pal, id_1640), 'Adot'(id_897, id_1640, gt)], 'FALSE'), 'Adot'(id_897, pal, gt), [range(pal, [id_891]), range(gt, [id_881])], vars([pal, gt], [pal, gt]))) .
+'origRule@BDMCompile'(id_1705, 'Adot'(id_898, _G1799, _G1800), exists(['In'(_G1799, id_891), 'Isa'(_G1799, id_1640), 'NE'(_G1799, id_1640), 'In'(_G1800, id_881)], exists(['Adot'(id_898, id_1640, _G1800)], 'TRUE')), ruleinfo(forall([pal, gt], ['In'(pal, id_891), 'Isa'(pal, id_1640), 'NE'(pal, id_1640), 'Adot'(id_898, id_1640, gt)], 'FALSE'), 'Adot'(id_898, pal, gt), [range(pal, [id_891]), range(gt, [id_881])], vars([pal, gt], [pal, gt]))) .
+'origRule@BDMCompile'(id_1735, 'Adot'(id_876, _G1799, id_1673), exists(['In'(_G1799, id_1)], 'TRUE'), ruleinfo(forall([a], ['In'(a, id_1)], 'FALSE'), 'Adot'(id_876, a, id_1673), [range(a, [id_1])], vars([a], [a]))) .
+'origRule@BDMCompile'(id_1785, 'Adot'(id_876, _G1799, id_1676), exists(['In'(_G1799, id_15)], 'TRUE'), ruleinfo(forall([a], ['In'(a, id_15)], 'FALSE'), 'Adot'(id_876, a, id_1676), [range(a, [id_15])], vars([a], [a]))) .
+'origRule@BDMCompile'(id_1831, 'Adot'(id_876, _G1799, id_1651), exists(['In'(_G1799, id_6)], 'TRUE'), ruleinfo(forall([x], ['In'(x, id_6)], 'FALSE'), 'Adot'(id_876, x, id_1651), [range(x, [id_6])], vars([x], [x]))) .
+'origRule@BDMCompile'(id_1872, 'Adot'(id_876, _G1799, id_1647), exists(['In'(_G1799, id_7)], 'TRUE'), ruleinfo(forall([x], ['In'(x, id_7)], 'FALSE'), 'Adot'(id_876, x, id_1647), [range(x, [id_7])], vars([x], [x]))) .
+'origRule@BDMCompile'(id_1896, 'Adot'(id_876, _G1799, id_1667), exists(['In'(_G1799, id_2)], 'TRUE'), ruleinfo(forall([x], ['In'(x, id_2)], 'FALSE'), 'Adot'(id_876, x, id_1667), [range(x, [id_2])], vars([x], [x]))) .
+'origRule@BDMCompile'(id_1924, 'Adot'(id_876, _G1799, id_1679), exists(['In'(_G1799, id_24)], 'TRUE'), ruleinfo(forall([x], ['In'(x, id_24)], 'FALSE'), 'Adot'(id_876, x, id_1679), [range(x, [id_24])], vars([x], [x]))) .
+'origRule@BDMCompile'(id_1952, 'Adot'(id_876, _G1799, id_1682), exists(['In'(_G1799, id_33)], 'TRUE'), ruleinfo(forall([x], ['In'(x, id_33)], 'FALSE'), 'Adot'(id_876, x, id_1682), [range(x, [id_33])], vars([x], [x]))) .
+'origRule@BDMCompile'(id_1978, 'Adot'(id_876, _G1799, id_1670), exists(['In'(_G1799, id_65)], 'TRUE'), ruleinfo(forall([x], ['In'(x, id_65)], 'FALSE'), 'Adot'(id_876, x, id_1670), [range(x, [id_65])], vars([x], [x]))) .
+'ID_s81081011_609_3'(_G1796):-'Literals':prove_literal('Adot'(id_6, _G1796, _G1805)) .
+'ID_s81081011_609_2'(_G1796):-'Literals':prove_literal('In'(_G1796, id_68)) .
+'ID_s81081011_609_2'(_G1796):-'Literals':prove_literal('In'(_G1796, id_84)) .
+'ID_s81081011_609_1'(_G1796):-'ID_s81081011_609_2'(_G1801), 'Literals':prove_literal('From'(_G1796, _G1801)), 'Literals':prove_literal('In'(_G1796, id_15)), 'Literals':prove_literal('In'(_G1801, id_6)) .
+'ID_s81081011_609_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_33)), 'Literals':not_prove_literal('In'(_G1796, id_65)) .
+'ID_s81081011_609_1'(_G1796):-'Literals':prove_literal('In_e'(_G1796, id_121)), not('ID_s81081011_609_3'(_G1796)) .
+'ID_s81081011_609_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_105)) .
+'ID_s81081011_609_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_1405)) .
+'ID_s81081011_609_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_396)) .
+'ID_s81081011_609_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_399)) .
+'ID_s81081011_609_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_410)) .
+'ID_s81081011_609_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_411)) .
+'ID_s81081011_609_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_414)) .
+'ID_s81081011_609_1'(_G1796):-'Literals':prove_literal(id_1563(_G1796, id_18, id_16)) .
+'ID_s81081011_609_1'(_G1796):-'Literals':prove_literal(id_1563(_G1796, id_21, id_16)) .
+'ID_s81081011_609_1'(_G1796):-'Literals':prove_literal(id_1563(_G1796, id_24, id_16)) .
+'LTevalQuery'(id_1611, id_1611(_G1799)):-'ID_s81081011_609_1'(_G1799) .
 'LTevalQuery'(id_1611, 'In'(_G1799, id_1611)):-'Literals':prove_literal(id_1611(_G1799)) .
 'LTevalQuery'(id_1591, id_1591(_G1799, _G1800, _G1801, _G1802, _G1803)):-'Literals':bound(_G1800), 'Literals':bound(_G1802), 'Literals':prove_literal('In'(_G1799, id_24)) .
 'LTevalQuery'(id_1591, 'In'(_G1799, id_1591)):-'Literals':prove_literal(id_1591(_G1799, _G1808, id_24, _G1810, id_24)) .
 'LTevalQuery'(id_1582, id_1582(_G1799, _G1800, _G1801)):-'Literals':bound(_G1800), 'Literals':prove_literal('In'(_G1799, id_7)) .
 'LTevalQuery'(id_1582, 'In'(_G1799, id_1582)):-'Literals':prove_literal(id_1582(_G1799, _G1808, id_24)) .
-'ID_s79006618_586_2'(_G1796):-'ID_s79006618_586_3'(_G1798, _G1796) .
-'ID_s79006618_586_5'(_G1796):-'Literals':prove_literal('Adot'(id_6, _G1796, _G1805)) .
-'ID_s79006618_586_4'(_G1796):-'Literals':prove_literal('In'(_G1796, id_68)) .
-'ID_s79006618_586_4'(_G1796):-'Literals':prove_literal('In'(_G1796, id_84)) .
-'ID_s79006618_586_3'(_G1796, _G1797):-'Literals':prove_literal('Adot'(id_6, _G1797, _G1796)), 'Literals':not_prove_literal('In'(_G1796, id_1573)) .
-'ID_s79006618_586_3'(_G1796, _G1797):-'Literals':prove_literal('Isa_e'(_G1797, _G1796)) .
-'ID_s79006618_586_1'(_G1796):-'Literals':not_prove_literal('In'(_G1796, id_7)), not('ID_s79006618_586_2'(_G1796)) .
-'ID_s79006618_586_1'(_G1796):-'ID_s79006618_586_4'(_G1801), 'Literals':prove_literal('From'(_G1796, _G1801)), 'Literals':prove_literal('In'(_G1796, id_15)), 'Literals':prove_literal('In'(_G1801, id_6)) .
-'ID_s79006618_586_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_33)), 'Literals':not_prove_literal('In'(_G1796, id_65)) .
-'ID_s79006618_586_1'(_G1796):-'Literals':prove_literal('In_e'(_G1796, id_121)), not('ID_s79006618_586_5'(_G1796)) .
-'ID_s79006618_586_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_105)) .
-'ID_s79006618_586_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_1405)) .
-'ID_s79006618_586_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_396)) .
-'ID_s79006618_586_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_399)) .
-'ID_s79006618_586_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_410)) .
-'ID_s79006618_586_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_411)) .
-'ID_s79006618_586_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_414)) .
-'ID_s79006618_586_1'(_G1796):-'Literals':prove_literal(id_1563(_G1796, id_18, id_16)) .
-'ID_s79006618_586_1'(_G1796):-'Literals':prove_literal(id_1563(_G1796, id_21, id_16)) .
-'ID_s79006618_586_1'(_G1796):-'Literals':prove_literal(id_1563(_G1796, id_24, id_16)) .
-'LTevalQuery'(id_1573, id_1573(_G1799)):-'ID_s79006618_586_1'(_G1799) .
+'ID_s81081011_586_2'(_G1796):-'ID_s81081011_586_3'(_G1798, _G1796) .
+'ID_s81081011_586_5'(_G1796):-'Literals':prove_literal('Adot'(id_6, _G1796, _G1805)) .
+'ID_s81081011_586_4'(_G1796):-'Literals':prove_literal('In'(_G1796, id_68)) .
+'ID_s81081011_586_4'(_G1796):-'Literals':prove_literal('In'(_G1796, id_84)) .
+'ID_s81081011_586_3'(_G1796, _G1797):-'Literals':prove_literal('Adot'(id_6, _G1797, _G1796)), 'Literals':not_prove_literal('In'(_G1796, id_1573)) .
+'ID_s81081011_586_3'(_G1796, _G1797):-'Literals':prove_literal('Isa_e'(_G1797, _G1796)) .
+'ID_s81081011_586_1'(_G1796):-'Literals':not_prove_literal('In'(_G1796, id_7)), not('ID_s81081011_586_2'(_G1796)) .
+'ID_s81081011_586_1'(_G1796):-'ID_s81081011_586_4'(_G1801), 'Literals':prove_literal('From'(_G1796, _G1801)), 'Literals':prove_literal('In'(_G1796, id_15)), 'Literals':prove_literal('In'(_G1801, id_6)) .
+'ID_s81081011_586_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_33)), 'Literals':not_prove_literal('In'(_G1796, id_65)) .
+'ID_s81081011_586_1'(_G1796):-'Literals':prove_literal('In_e'(_G1796, id_121)), not('ID_s81081011_586_5'(_G1796)) .
+'ID_s81081011_586_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_105)) .
+'ID_s81081011_586_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_1405)) .
+'ID_s81081011_586_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_396)) .
+'ID_s81081011_586_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_399)) .
+'ID_s81081011_586_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_410)) .
+'ID_s81081011_586_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_411)) .
+'ID_s81081011_586_1'(_G1796):-'Literals':prove_literal('In'(_G1796, id_414)) .
+'ID_s81081011_586_1'(_G1796):-'Literals':prove_literal(id_1563(_G1796, id_18, id_16)) .
+'ID_s81081011_586_1'(_G1796):-'Literals':prove_literal(id_1563(_G1796, id_21, id_16)) .
+'ID_s81081011_586_1'(_G1796):-'Literals':prove_literal(id_1563(_G1796, id_24, id_16)) .
+'LTevalQuery'(id_1573, id_1573(_G1799)):-'ID_s81081011_586_1'(_G1799) .
 'LTevalQuery'(id_1573, 'In'(_G1799, id_1573)):-'Literals':prove_literal(id_1573(_G1799)) .
-'ID_s79006618_541_1'(_G1796):-'Literals':prove_literal('Adot'(id_6, _G1796, _G1805)) .
-'ID_s79006618_541_2'(_G1796, _G1797):-'Literals':prove_literal('In_s'(_G1796, _G1808)), 'Literals':prove_literal('NE'(_G1808, id_7)), 'Literals':prove_literal('NE'(_G1808, id_0)), 'Literals':prove_literal('NE'(_G1808, _G1797)) .
-'LTevalQuery'(id_1563, id_1563(_G1799, _G1800, _G1801)):-'Literals':prove_literal('In'(_G1800, _G1801)), 'Literals':prove_literal('In_e'(_G1799, _G1800)), not('ID_s79006618_541_2'(_G1799, _G1800)), not('ID_s79006618_541_1'(_G1799)) .
+'ID_s81081011_541_1'(_G1796):-'Literals':prove_literal('Adot'(id_6, _G1796, _G1805)) .
+'ID_s81081011_541_2'(_G1796, _G1797):-'Literals':prove_literal('In_s'(_G1796, _G1808)), 'Literals':prove_literal('NE'(_G1808, id_7)), 'Literals':prove_literal('NE'(_G1808, id_0)), 'Literals':prove_literal('NE'(_G1808, _G1797)) .
+'LTevalQuery'(id_1563, id_1563(_G1799, _G1800, _G1801)):-'Literals':prove_literal('In'(_G1800, _G1801)), 'Literals':prove_literal('In_e'(_G1799, _G1800)), not('ID_s81081011_541_2'(_G1799, _G1800)), not('ID_s81081011_541_1'(_G1799)) .
 'LTevalQuery'(id_1563, 'In'(_G1799, id_1563)):-'Literals':prove_literal(id_1563(_G1799, _G1808, id_16)) .
