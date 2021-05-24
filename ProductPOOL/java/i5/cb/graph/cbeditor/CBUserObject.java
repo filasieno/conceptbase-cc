@@ -599,7 +599,7 @@ abstract public class CBUserObject {
             String imageFilename = getProperty("image");
             imageFilename = DiagramDesktop.getImageUrl(imageFilename);  // expand relative image filename to a URL
 
-            try{
+            try {
                 java.net.URL url = new java.net.URL(imageFilename);
                 Image image = Toolkit.getDefaultToolkit().getImage( url);
                 ImageIcon iicon =  new ImageIcon(image);
@@ -607,9 +607,11 @@ abstract public class CBUserObject {
                 smallComponent.setIconTextGap(icongap); // default 4
                 iconwidth = iicon.getIconWidth();
                 iconheight = iicon.getIconHeight();
-            }catch(java.net.MalformedURLException urlE){
+            } catch (java.net.MalformedURLException urlE) {
                 java.util.logging.Logger.getLogger("global").warning("The URL provided by property 'image' is malformed or could not be opened");
                 java.util.logging.Logger.getLogger("global").fine(urlE.getMessage() );
+                if (m_cbFrame != null)
+                   m_cbFrame.setStatusString("Failed to load image from "+imageFilename);
             }
             smallComponent.setHorizontalAlignment(SwingConstants.CENTER);
 

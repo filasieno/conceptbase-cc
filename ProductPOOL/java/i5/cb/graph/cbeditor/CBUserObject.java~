@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2021 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -450,9 +450,9 @@ abstract public class CBUserObject {
             if (hasProperty("bgcolor") && hasProperty("edgewidth")) {  // define the dot depending on edgewidth and bgcolor
               dotColorString = getProperty("bgcolor");
               if (dotColorString.equals(edgeColorString)) 
-                dotSize = Math.round(Float.parseFloat(getProperty("edgewidth"))) + 5;
+                dotSize = Math.round(Float.parseFloat(getProperty("edgewidth"))) + 4;
               else // a little smaller if the color of the dot is different from the edge color
-                dotSize = Math.round(Float.parseFloat(getProperty("edgewidth"))) + 4; 
+                dotSize = Math.round(Float.parseFloat(getProperty("edgewidth"))) + 3; 
             } else { // default
               dotSize = 6;
               dotColorString = edgeColorString;
@@ -599,7 +599,7 @@ abstract public class CBUserObject {
             String imageFilename = getProperty("image");
             imageFilename = DiagramDesktop.getImageUrl(imageFilename);  // expand relative image filename to a URL
 
-            try{
+            try {
                 java.net.URL url = new java.net.URL(imageFilename);
                 Image image = Toolkit.getDefaultToolkit().getImage( url);
                 ImageIcon iicon =  new ImageIcon(image);
@@ -607,9 +607,11 @@ abstract public class CBUserObject {
                 smallComponent.setIconTextGap(icongap); // default 4
                 iconwidth = iicon.getIconWidth();
                 iconheight = iicon.getIconHeight();
-            }catch(java.net.MalformedURLException urlE){
+            } catch (java.net.MalformedURLException urlE) {
                 java.util.logging.Logger.getLogger("global").warning("The URL provided by property 'image' is malformed or could not be opened");
                 java.util.logging.Logger.getLogger("global").fine(urlE.getMessage() );
+                if (m_cbFrame != null)
+                   m_cbFrame.setStatusString("Failed to load image icon from "+imageFilename);
             }
             smallComponent.setHorizontalAlignment(SwingConstants.CENTER);
 

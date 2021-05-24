@@ -170,10 +170,11 @@ public class CBEditor extends GraphEditor {
           CBFrame newFrame = new CBFrame(editor, "new CBFrame "+filename, CBConstants.DEFAULT_PALETTE);
           newFrame.setGelfile(filename);
           editor.addCBFrame(newFrame);
+editor.loadGraphInternalFrame(newFrame,filename);
           try {
             // will change title and content of newFrame, can connect to a CBserver if the connection
             // details in the GEL file point to an accessible CBserver
-            editor.loadGraphInternalFrame(newFrame,filename);  
+            if (false) editor.loadGraphInternalFrame(newFrame,filename);  
           } catch (Exception e) {
             System.err.println("Problem loading the GEL file " + filename);
             System.err.println(e.getMessage());
@@ -985,6 +986,7 @@ public class CBEditor extends GraphEditor {
         editor = new CBEditor(null);
         editor.setVisible(true);
         editor.setWorkbench(CBI);
+        CBI.getStatusBar().setLinkedTool("CBGraph");
         editor.setReadCBModule(true);  // will enable saving module sources in GEL files
         String cbivaModule = getClientModulePath(cbIClient.getCBClient());
 

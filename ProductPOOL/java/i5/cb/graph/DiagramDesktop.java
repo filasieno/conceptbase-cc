@@ -1192,6 +1192,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         for (int i = 0; i < nSize; i++) {
 
             currentUserObject = graphInternalFrame.loadUserObject(in);
+            // System.out.println("Loading object number"+i);
             currentBounds = (Rectangle) in.readObject();
             boolean frozen = getFreezeStatus(currentBounds);
             unfreezeRectangle(currentBounds);
@@ -1265,7 +1266,6 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
           }
 
 
-
           Integer i0 = (Integer) in.readObject();
           int saveflag = i0.intValue(); //saveflag indicates which optional elements are stored in the GEL file
 
@@ -1303,7 +1303,6 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
              this.backgroundImage = ImageIO.read(in);
           }
 
-          
 
 
           this.setZoom(newzoomfactor);
@@ -2105,7 +2104,9 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
               } else 
                  result = "http://conceptbase.sourceforge.net/CBICONS/" + imageFilename;
            }
-        } catch (Exception e) {}  // any exception may occur, since we have the default result
+        } catch (Exception e) { // any exception may occur, since we have the default result
+           System.err.println("DiagramDesktop: Image file " + imageFilename + " could not be loaded.");
+        }  
         return result;
     }
 
