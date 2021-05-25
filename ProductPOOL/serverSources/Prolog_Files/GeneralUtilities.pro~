@@ -1797,8 +1797,13 @@ name2id(_l,_id)	:-	name2id_bim2c(_l,_id),!.
 
 
 
+{* t_name2id(_m,_n,_id) is called in parseAss.dcg. By default, it produces no error message when n is not *}
+{* a known object name (use 'silent').  You can also use t_name2id('errorreport',_m,_name,_id) to force   *}
+{* an error report when n does not exist. Issue #32.                                                      *}
+
+
 t_name2id(_m,_name,_id) :-
-  t_name2id('errorreport',_m,_name,_id).
+  t_name2id('silent',_m,_name,_id).
 
 
 
@@ -1847,7 +1852,7 @@ t_name2id(_,_m,_l,_call):-
 		retrieve_proposition_noimport(_m,P(_id,_id,_l,_id)),!.
 
 
-{* issue #32: report error when object with name _l does not exist *}
+{* mode 'errorreport': report error when object with name _l does not exist *}
 t_name2id('errorreport',_m,_l,_id) :-
   atom(_l),
   var(_id),

@@ -512,6 +512,23 @@ lit('Mod'(_l,_mid)) ==>
 	[')'],
 	where[_l =.. ['P',_id1,_id2,_n,_id3],abolish(t_msp,1)].
 
+/* Pa: the attribution variant of P(id,x,n,y) */
+lit('Mod'(_l,_mid)) ==>
+	[ident('Pa')],
+	[select('@')],
+	[ident(_m)],
+	where[name2id(_m,_mid),pc_update(t_msp(_mid))],
+	['('],
+	litarg(_id1),
+	[','],
+	litarg(_id2),
+	[','],
+	label(_n),
+	[','],
+	litarg(_id3),
+	[')'],
+	where[_l =.. ['Pa',_id1,_id2,_n,_id3],abolish(t_msp,1)].
+
 lit(_l) ==>
 	[ident('P')],
 	where['M_SearchSpace'(_m),pc_update(t_msp(_m))],
@@ -525,6 +542,21 @@ lit(_l) ==>
 	litarg(_id3),
 	[')'],
 	where[_l =.. ['P',_id1,_id2,_n,_id3],abolish(t_msp,1)].
+
+/* Pa: the attribution variant of P(id,x,n,y) */
+lit(_l) ==>
+	[ident('Pa')],
+	where['M_SearchSpace'(_m),pc_update(t_msp(_m))],
+ 	['('],
+	litarg(_id1),
+	[','],
+	litarg(_id2),
+	[','],
+	variableOrLabel(_n),  
+	[','],
+	litarg(_id3),
+	[')'],
+	where[_l =.. ['Pa',_id1,_id2,_n,_id3],abolish(t_msp,1)].
 
 
 lit('Mod'(_l,_mid)) ==>			/* 25-Oct-1995 LWEB */
@@ -671,7 +703,7 @@ typeExpr(_arg) ==> constantval(_arg).  /* in particular object names in double q
 typeExpr(_arg) ==> regularDeriveExpression(_arg).
 typeExpr(_arg) ==> shortQueryCall(_arg).  /* e.g. Interval[1,100] */
 typeExpr(_arg) ==> selectExpression(_arg).
-typeExpr(_arg) ==> objectname(_arg).
+typeExpr(_arg) ==> typename(_arg). /* like objectname but we generate error messages when arg is not an objectname */
 
 
 
@@ -702,6 +734,14 @@ objectname(_arg) ==>
         where [ \+ memberchk(_x,['Known','new','UNIFIES','in','isA','not','In',
                                  'forall','exists','IDENTICAL','Ai']), 
                 temp_msp(_m),t_name2id(_m,_x,_arg),!
+             ].
+
+typename(_arg) ==>                                       
+        [ident(_x)],
+        where [ (\+ memberchk(_x,['Known','new','UNIFIES','in','isA','not','In',
+                                 'forall','exists','IDENTICAL','Ai']), 
+                temp_msp(_m),t_name2id(_m,_x,_arg),!);
+                (report_error('PFNFE',parseAss_dcg,[_x]),!,fail)
              ].
 
 

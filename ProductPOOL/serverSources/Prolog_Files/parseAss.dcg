@@ -703,7 +703,7 @@ typeExpr(_arg) ==> constantval(_arg).  /* in particular object names in double q
 typeExpr(_arg) ==> regularDeriveExpression(_arg).
 typeExpr(_arg) ==> shortQueryCall(_arg).  /* e.g. Interval[1,100] */
 typeExpr(_arg) ==> selectExpression(_arg).
-typeExpr(_arg) ==> objectname(_arg).
+typeExpr(_arg) ==> typename(_arg). /* like objectname but we generate error messages when arg is not an objectname */
 
 
 
@@ -734,6 +734,16 @@ objectname(_arg) ==>
         where [ \+ memberchk(_x,['Known','new','UNIFIES','in','isA','not','In',
                                  'forall','exists','IDENTICAL','Ai']), 
                 temp_msp(_m),t_name2id(_m,_x,_arg),!
+             ].
+
+typename(_arg) ==>                                       
+        [ident(_x)],
+        where [ (
+                \+ memberchk(_x,['Known','new','UNIFIES','in','isA','not','In',
+                                 'forall','exists','IDENTICAL','Ai']), 
+                temp_msp(_m),t_name2id(_m,_x,_arg),!
+                );
+                (report_error('PFNFE',parseAss_dcg,[_x]),!,fail)
              ].
 
 
