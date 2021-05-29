@@ -287,12 +287,66 @@ end
 
 
 {* new graphical palette TelosPalette; more modern look, can be specialized to define more easily new palettes *}
-{* Manfred Jeusfeld, 2021-05-21 *}
+{* Manfred Jeusfeld, 2021-05-29 *}
+
+XBridgePalette in Class,JavaGraphicalPalette with  
+  contains,defaultIndividual
+    xx1 : DefaultIndividualGT
+  contains,defaultLink
+    xx2 : DefaultLinkGT
+  contains,implicitIsA
+    xx3 : ImplicitIsAGT
+  contains,implicitInstanceOf
+    xx4 : ImplicitInstanceOfGT
+  contains,implicitAttribute
+    xx5 : ImplicitAttributeGT
+  contains
+    xx6 : DefaultIsAGT;
+    xx7 : DefaultInstanceOfGT;
+    xx8 : DefaultAttributeGT;
+    xx9 : MetametaGT;
+    xx10 : SimpleClassGT;
+    xx11 : MetaClassGT;
+    xx12 : ClassGT;
+    xx13 : QueryClassGT
+  rule
+    inheritGTs: $ forall gt/JavaGraphicalType superpal,pal/JavaGraphicalPalette
+                      (superpal isA XBridgePalette) and
+                      (pal isA superpal) and (pal <> XBridgePalette) and
+                      (superpal contains gt)
+                  ==> (pal contains gt) $;
+    inheritDef1: $ forall gt/JavaGraphicalType superpal,pal/JavaGraphicalPalette
+                      (superpal isA XBridgePalette) and
+                      (pal isA superpal) and (pal <> XBridgePalette) and
+                      (superpal defaultIndividual gt)
+                  ==> (pal defaultIndividual gt) $;
+    inheritDef2: $ forall gt/JavaGraphicalType superpal,pal/JavaGraphicalPalette
+                      (superpal isA XBridgePalette) and
+                      (pal isA superpal) and (pal <> XBridgePalette) and
+                      (superpal defaultLink gt)
+                  ==> (pal defaultLink gt) $;
+    inheritDef3: $ forall gt/JavaGraphicalType superpal,pal/JavaGraphicalPalette
+                      (superpal isA XBridgePalette) and
+                      (pal isA superpal) and (pal <> XBridgePalette) and
+                      (superpal implicitIsA gt)
+                  ==> (pal implicitIsA gt) $;
+    inheritDef4: $ forall gt/JavaGraphicalType superpal,pal/JavaGraphicalPalette
+                      (superpal isA XBridgePalette) and
+                      (pal isA superpal) and (pal <> XBridgePalette) and
+                      (superpal implicitInstanceOf gt)
+                  ==> (pal implicitInstanceOf gt) $;
+    inheritDef5: $ forall gt/JavaGraphicalType superpal,pal/JavaGraphicalPalette
+                      (superpal isA XBridgePalette) and
+                      (pal isA superpal) and (pal <> XBridgePalette) and
+                      (superpal implicitAttribute gt)
+                  ==> (pal implicitAttribute gt) $
+end 
 
 
-TelosPalette in Class,JavaGraphicalPalette with  
+
+TelosPalette in Class,JavaGraphicalPalette isA XBridgePalette with  
   comment
-    description: "The TelosPalette provides a more modern look for diagrams displayed in the ConceptBase user interface; can be specialized to define more easily new palettes; replaces the old DefaultJavaPalette"
+    description: "This is the preferred default graphical palette for ConceptBase 8.2 (released 2021). The previous DefaultJavaPalette is still supported. TelosPalette is closer to the symbols used in UML class diagrams and has better support for long strings."
   contains,defaultIndividual
     tp1 : INDIVIDUAL_TP_GT
   contains,defaultLink
@@ -309,32 +363,8 @@ TelosPalette in Class,JavaGraphicalPalette with
     tp8 : INSTOF_TP_GT;
     tp9: ISA_TP_GT;
     tp10: STRING_TP_GT;
-    tp11: ASSERTION_TP_GT
-  rule
-    inheritGTs: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
-                      (pal isA TelosPalette) and (pal <> TelosPalette) and
-                      (TelosPalette contains gt)
-                  ==> (pal contains gt) $;
-    inheritDef1: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
-                      (pal isA TelosPalette) and (pal <> TelosPalette) and
-                      (TelosPalette defaultIndividual gt)
-                  ==> (pal defaultIndividual gt) $;
-    inheritDef2: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
-                      (pal isA TelosPalette) and (pal <> TelosPalette) and
-                      (TelosPalette defaultLink gt)
-                  ==> (pal defaultLink gt) $;
-    inheritDef3: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
-                      (pal isA TelosPalette) and (pal <> TelosPalette) and
-                      (TelosPalette implicitIsA gt)
-                  ==> (pal implicitIsA gt) $;
-    inheritDef4: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
-                      (pal isA TelosPalette) and (pal <> TelosPalette) and
-                      (TelosPalette implicitInstanceOf gt)
-                  ==> (pal implicitInstanceOf gt) $;
-    inheritDef5: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
-                      (pal isA TelosPalette) and (pal <> TelosPalette) and
-                      (TelosPalette implicitAttribute gt)
-                  ==> (pal implicitAttribute gt) $
+    tp11: VALUE_TP_GT;
+    tp12: ASSERTION_TP_GT
 end 
 
 
@@ -440,7 +470,7 @@ property
 	bgcolor : "255,255,255"; 
 	textcolor : "0,0,0";
 	linecolor : "0,0,0";
-	shape : "i5.cb.graph.shapes.Rect";
+	shape : "Rect";
         size: "resizable";
         linewidth : "1"
 implementedBy
@@ -457,7 +487,7 @@ property
 	bgcolor : "250,250,250"; 
 	textcolor : "0,0,0";
 	linecolor : "0,0,0";
-	shape : "i5.cb.graph.shapes.Rect";
+	shape : "Rect";
         size: "resizable";
         linewidth : "1"
 implementedBy
@@ -472,11 +502,13 @@ STRING_TP_GT in Class,JavaGraphicalType with
 property
 	bgcolor : "250,250,250"; 
 	textcolor : "0,0,0";
-	linecolor : "0,0,0";
-	shape : "i5.cb.graph.shapes.Rect";
+	linecolor : "100,100,100";
+	shape : "Rect";
+        fontstyle: "italic";
+        fontsize: "11";
         size: "wrap";
-        labellength : "500";
-        linewidth : "1"
+        labellength : "1000";
+        linewidth : "0.3"
 implementedBy
 	implBy : "i5.cb.graph.cbeditor.CBIndividual"
 priority
@@ -485,15 +517,34 @@ rule
      gtrule1: $ forall x/String (x graphtype STRING_TP_GT) $
 end
 
+VALUE_TP_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "250,250,250"; 
+	textcolor : "0,0,0";
+	linecolor : "100,100,100";
+	shape : "Rect";
+        fontstyle: "italic";
+        fontsize: "11";
+        linewidth : "0.3"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 7
+rule
+     gtrule1: $ forall x/Integer (x graphtype VALUE_TP_GT) $;
+     gtrule2: $ forall x/Real (x graphtype VALUE_TP_GT) $
+end
+
 ASSERTION_TP_GT in Class,JavaGraphicalType with
 property
 	bgcolor : "250,250,250";
 	textcolor : "0,0,0";
 	linecolor : "0,0,0";
-	shape : "i5.cb.graph.shapes.Rect";
+	shape : "Rect";
         size: "wrap";
         fontstyle: "italic";
-        labellength : "500";
+        fontsize: "11";
+        labellength : "1000";
         linewidth : "1"
 implementedBy
 	implBy : "i5.cb.graph.cbeditor.CBIndividual"
@@ -508,7 +559,7 @@ property
 	bgcolor : "255,245,245"; 
 	textcolor : "0,0,0";
 	linecolor : "0,0,0";
-	shape : "i5.cb.graph.shapes.Rect";
+	shape : "Rect";
         size: "resizable";
         linewidth : "1";
         fontstyle: "italic"
@@ -519,7 +570,6 @@ priority
 rule
      gtrule1: $ forall x/QueryClass (x graphtype QUERYCLASS_TP_GT) $
 end
-
 
 
 
