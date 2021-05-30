@@ -1760,54 +1760,70 @@ star_name2id(_name,_id) :-
 name2id(_l,_l) :- 	var(_l),!.
 
 name2id(select(_l,'@',_mod),_id)	:-	/* write('name2id_select'),nl, */
-			'M_SearchSpace'(_m),t_name2id(_m,select(_l,'@',_mod),_id),!.
+			'M_SearchSpace'(_m),t_name2id('silent',_m,select(_l,'@',_mod),_id),!.
 
 name2id(_l,_id)	:-	name2id_bim2c(_l,_id),!.
 
-t_name2id(_,_l,_l) :- 	var(_l),!.			/* _l   is not unified at all */
 
 
-t_name2id(_,'Attribute',id_6) :- !.  /** id_6=Proposition!attribute **/
 
-t_name2id(_,'InstanceOf',id_1) :- !.  /** id_1=InstanceOf **/
+/** t_name2id(_m,_n,_id) is called in parseAss.dcg. By default, it produces no error message when n is not **/
+/** a known object name (use 'silent').  You can also use t_name2id('errorreport',_m,_name,_id) to force   **/
+/** an error report when n does not exist. Issue #32.                                                      **/
 
-t_name2id(_,'IsA',id_15) :- !.        /** id_15=IsA **/
 
-t_name2id(_,'Single',_id):-
+t_name2id(_m,_name,_id) :-
+  t_name2id('silent',_m,_name,_id).  /** also used in parseAss **/
+
+
+
+
+t_name2id(_,_,_l,_l) :- 	var(_l),!.			/* _l   is not unified at all */
+
+
+t_name2id(_,_,'Attribute',id_6) :- !.  /** id_6=Proposition!attribute **/
+
+t_name2id(_,_,'InstanceOf',id_1) :- !.  /** id_1=InstanceOf **/
+
+t_name2id(_,_,'IsA',id_15) :- !.        /** id_15=IsA **/
+
+t_name2id(_,_,'Single',_id):-
    select2id('Proposition!single',_id),!.
 
-t_name2id(_,'Necessary',_id):-
+t_name2id(_,_,'Necessary',_id):-
    select2id('Proposition!necessary',_id),!.
 
-t_name2id(_,select(_l,'@',_mod),_id):-
+t_name2id(_,_,select(_l,'@',_mod),_id):-
 	name2id(_mod,_modid),
 	retrieve_proposition(_modid,'P'(_id,_,_l,_)),!.
 
-t_name2id(_,_id,_id):- 			/* 25-Apr-1996 LWEB */
+t_name2id(_,_,_id,_id):- 			/* 25-Apr-1996 LWEB */
 	atom(_id),
         is_id(_id), /** pc_atomconcat('id_',_,_id), **/
  	!.	/* _l  is a TOID already */
 
-t_name2id(_m,_l,_id):-				/* search for the TOID of label _l */
+t_name2id(_,_m,_l,_id):-				/* search for the TOID of label _l */
 		var(_id),
 		atom(_m),
 		retrieve_proposition(_m,'P'(_id,_id,_l,_id)),!.
 
-t_name2id(_m,_l,_id):-
+t_name2id(_,_m,_l,_id):-
 		atom(_id),
                 callExactlyOnce(is_id(_id)),
 /**		callExactlyOnce((pc_atomconcat('id_',_,_id))), **/
 		retrieve_proposition_noimport(_m,'P'(_id,_id,_l,_id)),!.
 
 /** parameterized query calls can occur as arguments of other parameterized query calls **/
-t_name2id(_m,_l,_call):-
+t_name2id(_,_m,_l,_call):-
                 compound(_call),
                 _call =.. [_id|_args],
                 callExactlyOnce(is_id(_id)),
 /**		callExactlyOnce((pc_atomconcat('id_',_,_id))), **/
 		retrieve_proposition_noimport(_m,'P'(_id,_id,_l,_id)),!.
 
-t_name2id(_m,_l,_id) :-
+
+/** mode 'errorreport': report error when object with name _l does not exist **/
+t_name2id('errorreport',_m,_l,_id) :-
   atom(_l),
   var(_id),
   \+ is_id(_l),
@@ -1829,7 +1845,7 @@ t_name2id(_m,_l,_id) :-
 
 name2allid(_l,_idlist) :-					/* 5-Jul-1995 LWEB */
 	'M_SearchSpace'(_m),
-	save_setof(_id,  t_name2id(_m,_l,_id)  , _idlist).
+	save_setof(_id,  t_name2id('silent',_m,_l,_id)  , _idlist).
 
 /********************************** name2allid ********************************/
 /* name2id_list/2								    */

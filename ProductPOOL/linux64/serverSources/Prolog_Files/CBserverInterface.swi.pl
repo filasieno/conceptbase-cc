@@ -183,6 +183,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 	 /*used in BDMEvaluation*/
 
 :- dynamic 'knownTool'/5 .
+:- dynamic 'tool_context'/2 .
 :- dynamic 'current_sender'/1 .
 
 :- dynamic 'client_lastactivity'/2 .
@@ -1095,6 +1096,7 @@ permitted_LPI_CALL(_u1,_u2,_args) :-
         get_cb_feature(maximalErrors,_maxe),
         setFlag(remainingErrorQueueSlots,_maxe),
         setFlag(bulkQuery,off),  /** reset bulkQuery mode to off **/
+        restoreToolContext(_s),  /** a previous transaction of another tool could have changed the current module path; issue #36 **/
    	/** for BDMEvaluation:*/
          	retractall('Inserted'(_)),
          	retractall('Deleted'(_)),
@@ -1306,6 +1308,7 @@ findTriggerCount(_catid,_count) :-
 'END_TRANSACTION' :-
 /**  computeTriggerComplexity,  *** ticket #324 **/
    active_sender(_s),
+   storeToolContext(_s),
    getFlag('Transaction_counter',_tid),
 /**   enactModuleContext(System), **/ /* setze MSP auf System zurueck */
    pc_update(active_sender(unknown)),
@@ -1320,10 +1323,54 @@ findTriggerCount(_catid,_count) :-
 
 /** return the ID of the current client, its toolclass and the username **/
 currentClient(_toolid,_toolclass,_user) :-
-  active_sender(_toolid),
-  knownTool(_toolid,_toolclass,_username,_fd,_currentmodule),
-  !.
-  
+   active_sender(_toolid),
+   knownTool(_toolid,_toolclass,_username,_fd,_currentmodule),
+   !.
+
+
+/** memorize tool's context; to be restored when client starts a new transaction; issue #36 **/
+/** _s is the tool id ("sender" of an ipcmessage)                                           **/
+
+storeToolContext(_s) :-
+   knownTool(_s,_toolclass,_username,_fd,_currentmodule), /** _s is a known tool **/
+   getModulePath(_modpath),
+   do_storeToolContext(_s,_modpath),
+   !.
+
+/** never fail **/
+storeToolContext(_s).
+
+
+
+/** nothing to do **/
+do_storeToolContext(_s,_modpath) :-
+   tool_context(_s,_modpath), 
+   !.
+
+/** update the tool context **/
+do_storeToolContext(_s,_modpath) :-
+   tool_context(_s,_otherpath),
+   retract(tool_context(_s,_otherpath)),
+   assert(tool_context(_s,_modpath)),
+   !.
+
+/** first time to store **/
+do_storeToolContext(_s,_modpath) :-
+   assert(tool_context(_s,_modpath)),
+   !.
+
+
+/** reinstall the tool context; to be called in BEGIN_TRANSACTION **/
+restoreToolContext(_s) :-
+   tool_context(_s,_pathexpr),
+   enactModulePath(_pathexpr),
+   'WriteTrace'(high,'CBserverInterface',['Module context restored to ',_pathexpr]),
+   !.
+
+/** never fail **/
+restoreToolContext(_s).
+
+
 
 
 

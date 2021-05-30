@@ -2015,12 +2015,17 @@ extractModuleFiles([_filename|_rest],_restPruned) :-
 isModuleFilename(_filename,_stripped_filename) :-
   get_cb_feature(moduleSeparator,'-'),
   !,
-  pc_atomconcat(_stripped_filename,'.sml',_filename),    /** ends with .sml       **/
+  sourceModelFilename(_filename,_stripped_filename),
   pc_atomconcat('System',_postfix,_filename).  /** starts with 'System' **/
 
-/** ticket #372: if module separatir is not '-', then we accept any sml file **/
+/** ticket #372: if module separator is not '-', then we accept any sml file **/
 isModuleFilename(_filename,_stripped_filename) :-
-  pc_atomconcat(_stripped_filename,'.sml',_filename).    /** ends with .sml       **/
+  sourceModelFilename(_filename,_stripped_filename).
+
+
+/** ends with .sml  **/
+sourceModelFilename(_filename,_stripped_filename) :-
+  pc_atomconcat(_stripped_filename,'.sml',_filename).
 
 
 /** do the TELL_MODEL by hooking to the CBserver interface function TELL_MODEL **/
