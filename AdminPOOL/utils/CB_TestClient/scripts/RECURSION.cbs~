@@ -142,9 +142,7 @@ end
 
 "
 result OK "yes"
-ask "SameGen[Lot/sgperson]
-
-" OBJNAMES  FRAME  Now
+ask "SameGen[Lot/sgperson]" OBJNAMES  default  Now
 result OK "Same generation of persons:
 
 Abraham is in the same generation as Lot,
@@ -152,9 +150,7 @@ Lea is in the same generation as Lot,
 Lot is in the same generation as Lot,
 
 "
-ask "SameGenProper[Kain/sgperson]
-
-" OBJNAMES  FRAME  Now
+ask "SameGenProper[Kain/sgperson]" OBJNAMES  default  Now
 result OK "Same generation of persons:
 
 Abel is in the same generation as Kain,
@@ -218,8 +214,8 @@ QueryClass TreeNode isA Node with
      c1: $ (forall n/Node (~this linkTo n)
             ==> (n in TreeNode)) $
 end" FRAMES  FRAME  Now
-# no stratification error
-result OK "N11 in TreeNode
+# stratification error
+result ERROR "N11 in TreeNode
 end
 
 N111 in TreeNode

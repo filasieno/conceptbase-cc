@@ -44,7 +44,7 @@ end
 
 "
 ask "find_instances[JavaGraphicalPalette/class]" OBJNAMES  LABEL  Now
-result OK "ER_GraphBrowserPalette,DefaultJavaPalette"
+result OK "ER_GraphBrowserPalette,TelosPalette,XBridgePalette,DefaultJavaPalette"
 ask "GetJavaGraphicalPalette[ER_GraphBrowserPalette/pal]" OBJNAMES  XML_JavaGraphicalPalette  Now
 result OK "<palette>
 <contains>
@@ -381,6 +381,10 @@ result OK "Individual RelationshipType in Class with  graphtype
     COMPUTED_graphtype_id_[0-9]+ : DefaultIndividualGT
  graphtype
     COMPUTED_graphtype_id_[0-9]+ : ClassGT
+  graphtype
+    COMPUTED_graphtype_id_[0-9]+ : INDIVIDUAL_TP_GT
+  graphtype
+    COMPUTED_graphtype_id_[0-9]+ : CLASS_TP_GT
  attribute
     role : EntityType
  attribute,rule
@@ -673,6 +677,8 @@ result OK "Individual M_CB in WorksIn with
   graphtype
     COMPUTED_graphtype_id_[0-9]+ : DefaultIndividualGT
   graphtype
+    COMPUTED_graphtype_id_[0-9]+ : INDIVIDUAL_TP_GT
+  graphtype
     COMPUTED_graphtype_id_[0-9]+ : RelationshipGtype
   attribute,emp
     mIsEmp : Martin
@@ -770,6 +776,8 @@ result OK "RelationshipType!role!minmax,Proposition!attribute"
 ask "get_object[RelationshipType!role/objname,FALSE/dedIn,FALSE/dedIsa,TRUE/dedWith]" OBJNAMES  FRAME  Now
 result OK "Proposition!attribute RelationshipType!role with  graphtype
     COMPUTED_graphtype_id_[0-9]+ : DefaultAttributeGT
+  graphtype
+    COMPUTED_graphtype_id_[0-9]+ : ATTR_TP_GT
  attribute
     minmax : MinMax
 end"
@@ -792,6 +800,8 @@ ask "get_object[WorksIn!emp/objname,FALSE/dedIn,FALSE/dedIsa,TRUE/dedWith]" OBJN
 result OK "Proposition!attribute WorksIn!emp in RelationshipType!role with  
   graphtype
     COMPUTED_graphtype_id_[0-9]+ : DefaultAttributeGT
+  graphtype
+    COMPUTED_graphtype_id_[0-9]+ : ATTR_TP_GT
   attribute,minmax
     mProjForEmp : \"(1,*)\"
 end"

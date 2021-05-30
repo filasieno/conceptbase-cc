@@ -45,8 +45,7 @@ result OK "StatisticsDepartmentTimeliness2 in BadVolatilityOfDataStores
 end"
 ask "find_instances[JavaGraphicalPalette/class]" OBJNAMES  LABEL  Now
 result OK "DWQ_Palette,DefaultJavaPalette"
-ask "GetJavaGraphicalPalette[DWQ_Palette/pal]" OBJNAMES FRAME Now
-showAnswer
+ask "GetJavaGraphicalPalette[DWQ_Palette/pal]" OBJNAMES default Now
 result OK "<palette>
 <contains>
 
@@ -304,6 +303,10 @@ result OK "<palette>
   <property>
     <name>edgewidth</name>
     <value>\"3\"</value>
+  </property>
+  <property>
+    <name>edgeheadcolor</name>
+    <value>\"255,255,255\"</value>
   </property>
   <property>
     <name>edgecolor</name>
@@ -749,7 +752,7 @@ result OK "<palette>
   </property>
   <property>
     <name>linecolor</name>
-    <value>\"0,150,255\"</value>
+    <value>\"0,205,255\"</value>
   </property>
   <property>
     <name>label</name>
@@ -764,8 +767,12 @@ result OK "<palette>
     <value>\"dashed\"</value>
   </property>
   <property>
+    <name>edgeheadcolor</name>
+    <value>\"255,255,255\"</value>
+  </property>
+  <property>
     <name>edgecolor</name>
-    <value>\"0,150,255\"</value>
+    <value>\"0,205,255\"</value>
   </property>
   <property>
     <name>bgcolor</name>

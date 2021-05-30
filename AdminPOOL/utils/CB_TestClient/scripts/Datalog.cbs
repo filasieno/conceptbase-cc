@@ -59,15 +59,17 @@ result OK "yes"
 ask "find_instances[HighSalary2/class]" OBJNAMES LABEL Now
 result OK "60000,100000,120000,110000,65000,70000,90000"
 ask "get_object[Edward/objname,TRUE/dedIn,TRUE/dedIsa,TRUE/dedWith]" OBJNAMES FRAME Now
-result OK "Individual Edward in Employee with
-  boss
-     COMPUTED_boss_id_[0-9]+ : Angus
+result OK "Individual Edward in Employee with 
+   boss
+    COMPUTED_boss_id_[0-9]+ : Angus
   graphtype
-     COMPUTED_graphtype_id_[0-9]+ : DefaultIndividualGT
+    COMPUTED_graphtype_id_[0-9]+ : DefaultIndividualGT
+  graphtype
+    COMPUTED_graphtype_id_[0-9]+ : INDIVIDUAL_TP_GT
   attribute,dept
-     EdwarsDepartment : Research
+    EdwarsDepartment : Research
   attribute,salary
-     EdwardsSalary : 50000
+    EdwardsSalary : 50000
 end"
 tell "DatalogAttrRule MetabossRule with
 concernedClass
@@ -91,6 +93,8 @@ result OK "Individual Edward in Employee with
      COMPUTED_boss_id_[0-9]+ : Oscar
   graphtype
      COMPUTED_graphtype_id_[0-9]+ : DefaultIndividualGT
+  graphtype
+    COMPUTED_graphtype_id_[0-9]+ : INDIVIDUAL_TP_GT
   attribute,dept
      EdwarsDepartment : Research
   attribute,salary

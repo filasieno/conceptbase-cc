@@ -336,51 +336,34 @@ Position 0 end
 
 "
 result OK "yes"
-ask "Win
-" OBJNAMES  FRAME  Now
-result OK "1 in Win
-end
+ask "Win" OBJNAMES  FRAME  Now
+result OK "1 in Win  end 
 
-10 in Win
-end
+10 in Win  end 
 
-5 in Win
-end
+5 in Win  end 
 
-7 in Win
-end
+7 in Win  end 
 
-13 in Win
-end
+6 in Win  end 
 
-11 in Win
-end
+13 in Win  end 
 
-9 in Win
-end
+11 in Win  end 
 
-6 in Win
-end
+9 in Win  end 
 
-3 in Win
-end
+3 in Win  end 
 
-2 in Win
-end"
-ask "Loose
-" OBJNAMES  FRAME  Now
-result OK "0 in Loose
-end
+2 in Win  end"
+ask "Loose" OBJNAMES  FRAME  Now
+result OK "0 in Loose  end 
 
-12 in Loose
-end
+8 in Loose  end 
 
-8 in Loose
-end
+12 in Loose  end 
 
-4 in Loose
-end
-
+4 in Loose  end
 "
 ask "get_object[Man/objname]" OBJNAMES  FRAME  Now
 result OK "Man in Class with

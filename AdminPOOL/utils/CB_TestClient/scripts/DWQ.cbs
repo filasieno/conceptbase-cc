@@ -44,7 +44,7 @@ ask "BadVolatilityOfDataStores" OBJNAMES  FRAME  Now
 result OK "StatisticsDepartmentTimeliness2 in BadVolatilityOfDataStores
 end"
 ask "find_instances[JavaGraphicalPalette/class]" OBJNAMES  LABEL  Now
-result OK "DWQ_Palette,DefaultJavaPalette"
+result OK "DWQ_Palette,TelosPalette,XBridgePalette,DefaultJavaPalette"
 ask "GetJavaGraphicalPalette[DWQ_Palette/pal]" OBJNAMES default Now
 result OK "<palette>
 <contains>
