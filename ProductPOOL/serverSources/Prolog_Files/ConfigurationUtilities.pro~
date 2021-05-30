@@ -1186,7 +1186,7 @@ printFragment(_buf,_frag) :-
   timetoatom('list',_time,_at),
   keyCommentChars(_start,_end),
   appendBuffer(_buf,_start),
-  appendBuffer(_buf,'$settransaction '),
+  appendBuffer(_buf,'$transaction '),
   appendBuffer(_buf,_at),
   appendBuffer(_buf,';'),
   appendBuffer(_buf,_user),
@@ -1910,12 +1910,14 @@ loadModuleTree(yes) :-
   get_cb_feature(importDir,_importdir),
   _importdir \= 'none',
   dir_list(_importdir,_all),
+write(toload(_all)),nl,
   extractModuleFiles(_all,_only_sml),
   quicksortLabels(_only_sml,_files_sorted),
 {*  reverse(_files_sorted,_files), *}
   prependImportDir(_importdir,_files_sorted,_absfilenames),
   thisToolId(_tid),  {* this is the CBserver itself; the CBserver asks itself to load the SML files *}
   getModule(_origModule),
+write(_absfilenames),nl,
   processSmlFileImport(_tid,_absfilenames),
   setModule(_origModule),
   !.
@@ -2015,12 +2017,17 @@ extractModuleFiles([_filename|_rest],_restPruned) :-
 isModuleFilename(_filename,_stripped_filename) :-
   get_cb_feature(moduleSeparator,'-'),
   !,
-  pc_atomconcat(_stripped_filename,'.sml',_filename),    {* ends with .sml       *}
+  sourceModelFilename(_filename,_stripped_filename),
   pc_atomconcat('System',_postfix,_filename).  {* starts with 'System' *}
 
-{* ticket #372: if module separatir is not '-', then we accept any sml file *}
+{* ticket #372: if module separator is not '-', then we accept any sml file *}
 isModuleFilename(_filename,_stripped_filename) :-
-  pc_atomconcat(_stripped_filename,'.sml',_filename).    {* ends with .sml       *}
+  sourceModelFilename(_filename,_stripped_filename).
+
+
+{* ends with .sml  *}
+sourceModelFilename(_filename,_stripped_filename) :-
+  pc_atomconcat(_stripped_filename,'.sml',_filename).
 
 
 {* do the TELL_MODEL by hooking to the CBserver interface function TELL_MODEL *}
