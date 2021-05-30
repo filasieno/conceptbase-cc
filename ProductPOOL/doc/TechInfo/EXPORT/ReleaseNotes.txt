@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2021-05-13
+                      2021-05-26
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -25,8 +25,34 @@ https://gitlab.com/mjeu/conceptbasecc/-/issues
 
 
 
-Detailed Changes since Version 8.0 (2019-05-30)
-===============================================
+Version 8.2: Detailed Changes since Version 8.1 (2021-05-14)
+============================================================
+
+Version 8.2 consolidates the stability and ease of use of the ConceptBase. It aims to provide more
+support for multi-user groups. Contributions of individual users can be traced back
+provided a persistent database is used.
+Moreover, we plan to support operations so-called containers, such as models containing
+model elements.
+
+
+82-01 Modern graphical types in TelosPalette
+
+   ConceptBase now offers an improved graphical palette TelosPalette.
+   (Issue 35)
+
+82-02 Context switch bug in multi-tool use
+
+   If two client tools work on the same CBserver but in different module contexts, then
+   the CBserver could fail to restore the correct module context for the next transaction.
+   This bug is now resolved.
+   (Issue 36)
+
+
+
+
+
+Version 8.1: Detailed Changes since Version 8.0 (2019-05-30)
+============================================================
 
 Version 8.1 aims at making the CBserver better integrated with current
 exchange formats. We are now referring to issue numbers as stored in

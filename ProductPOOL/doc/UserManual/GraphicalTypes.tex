@@ -244,17 +244,15 @@ graphical types. See file {\tt 03-ERD-GTs.sml} at
 \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/188651}
 for an example.
 
-The safest way to define a correct graphical palette is to use
-the intermediate {\tt XPalette} as superclass of the new palette.
-It can be found in the CB-Forum at
-\url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d4204468/StandardPalette.sml.txt}.
-With {\tt XPalette} you can define a new
-palette without having to worry about values for required
-default graphical types.
+Starting from ConceptBase 8.2, we provide an alternative graphical palette
+{\tt TelosPalette}, which is closer to the style of OML class diagrams
+and allows for easy specialization when creating user-defined palettes.
+See section \ref{telospalette} for more information.
+
 
 {\small
 \begin{verbatim}
-BMG_Palette in JavaGraphicalPalette isA XPalette with
+BMG_Palette in JavaGraphicalPalette isA TelosPalette with
   palproperty
     bgimage: "http://conceptbase.sourceforge.net/CBICONS/bgimages/bmgcolor.png"; 
     longtitle: "Business Model"
@@ -268,11 +266,7 @@ end
 \end{verbatim}
 }
 
-An alternative to {\tt DefaultJavaPalette} is the general-purpose {\tt StandardPalette} available from
-the CB-Forum at \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d4204468/StandardPalette.sml.txt}.
-It assigns white color to most nodes and uses broken green lines both for explicit
-and deduced instantiations. Just add the definitions to your Telos model
-to use this palette.
+
 
 
 
@@ -1323,4 +1317,53 @@ In this case, the applicable attribute categories are attached to the graphical 
 The new feature allows to hide certain attribute/relation properties from the pop-up menu. 
 
 
+\section{TelosPalette: A more modern graphical palette for ConceptBase}
+\label{telospalette}
+
+{\tt TelosPalette} is a new graphical palette introduced in ConceptBase 8.2 to replace the original
+{\tt Default\-Java\-Palette} (which continues to be supported for backward compatibility). The main difference
+is that most objects are now displayed as white rectangles, whose size can be extended. The link layout for
+instantiation and specialization are now closer to the style used in UML class diagrams to allow easier
+recognition. 
+
+A particular advantage of {\tt TelosPalette} is its extensibility via specialization. Consider for
+example the case, where a class  {\tt Employee} is defined. Employees shall be displayed as
+yellow rectangles. All one has to do is to define the new graphical type like {\tt EMPLOYEE\_TP\_GT}
+and add this to {\tt EmployeePalette}, which specializes {\tt TelosPalette}.
+
+
+{\small
+\begin{verbatim}
+
+Employee in Class end
+
+EMPLOYEE_TP_GT in Class,JavaGraphicalType with 
+   property
+    bgcolor : "255,255,0";
+    textcolor : "0,0,0";
+    linecolor : "0,0,0";
+    shape : "Rect";
+    size : "resizable";
+    linewidth : "1"
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBIndividual"
+  priority
+    pr : 10
+  rule
+    gtrule1 : $ forall x/Employee (x graphtype EMPLOYEE_TP_GT) $
+end 
+
+EmployeePalette in Class,JavaGraphicalPalette isA TelosPalette with 
+   contains
+    ep1 : EMPLOYEE_TP_GT
+end 
+\end{verbatim}
+}
+
+The shape "Rect" is a shortcut for the shape string "i5.cb.graph.cbeditor.CBIndividual". CBGraph 
+works with both values.
+Note that the added graphical type {\tt EMPLOYEE\_TP\_GT} needs to have a higher value
+for priority than the default graphical type for so-called individual objects. All pre-defined
+graphical types have priorities lower than 10. Hence the values of 10 is sufficient to 
+make sure that employees get the dedicated graphical type. 
 
