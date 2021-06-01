@@ -207,6 +207,7 @@ The background image is also stored in the GEL file, see section \ref{sec:cbgrap
 
 
 \subsection{Default graphical types}
+\label{sec:defaultgraphtypes}
 
 For the standard objects, there are a number of predefined graphical
 types. There are contained in the graphical palette {\tt DefaultJavaPalette}
@@ -225,9 +226,9 @@ SimpleClass & SimpleClassGT & pink oval\\ \hline
 MetaClass & MetaClassGT & light blue oval\\ \hline
 MetametaClass & MetametaGT & bright green oval\\ \hline
 QueryClass & QueryClassGT & red oval\\ \hline
-Implicit In & ImplicitInstanceOfGT & dashed green line\\ \hline
-Implicit IsA & ImplicitIsAGT & dashed blue line; white edge heads\\ \hline
-Implicit Attribute & ImplicitAttributeGT & dashed black line \\ \hline
+Derived In & ImplicitInstanceOfGT & dashed green line\\ \hline
+Derived IsA & ImplicitIsAGT & dashed blue line; white edge heads\\ \hline
+Derived Attribute & ImplicitAttributeGT & dashed black line \\ \hline
 \end{tabular}
 \end{center}
 
@@ -637,129 +638,129 @@ See
 for examples.
 
 
-\subsection{Providing a new implementation for a graphical type}
+%\subsection{Providing a new implementation for a graphical type}
 
-If you got the sources of ConceptBase, then you can add your own implementation
-for graphical types. The sources are in files {\tt CBPOOL-*.zip} downloadable via
-\url{http://conceptbase.sourceforge.net/CB-Download.html}. Its subdirectory 
-AdminPOOL contains instructions on how to compile the ConceptBase system under
-Linux/Unix. Adapting the source code requires {\em considerable programming skills\/} in Java
-as well as an understanding of the way how CBGraph is implemented.
-Hence, this section is only meant for the programmers among you.
+% If you got the sources of ConceptBase, then you can add your own implementation
+% for graphical types. The sources are in files {\tt CBPOOL-*.zip} downloadable via
+% \url{http://conceptbase.sourceforge.net/CB-Download.html}. Its subdirectory 
+% AdminPOOL contains instructions on how to compile the ConceptBase system under
+% Linux/Unix. Adapting the source code requires {\em considerable programming skills\/} in Java
+% as well as an understanding of the way how CBGraph is implemented.
+% Hence, this section is only meant for the programmers among you.
 
-The {\tt implementedBy} attribute of a graphical type specifies the class
-name of a Java class implementing this graphical type. This class has to be
-a subclass of ``i5.cb.graph.cbeditor.CBUserObject''. If you are going to
-implement your own class, it is most useful to extend CBIndividual or CBLink in
-the package i5.cb.graph.cbeditor, i.e.\ in
-directory {\tt ProductPOOL/java/i5/cb/graph/cbeditor} of the CBPOOL. 
+% The {\tt implementedBy} attribute of a graphical type specifies the class
+% name of a Java class implementing this graphical type. This class has to be
+% a subclass of ``i5.cb.graph.cbeditor.CBUserObject''. If you are going to
+% implement your own class, it is most useful to extend CBIndividual or CBLink in
+% the package i5.cb.graph.cbeditor, i.e.\ in
+% directory {\tt ProductPOOL/java/i5/cb/graph/cbeditor} of the CBPOOL. 
 
-The class CBUserObject provides several methods which can be overwritten
-to implement your own graphical types:
+% The class CBUserObject provides several methods which can be overwritten
+% to implement your own graphical types:
 
-\begin{description}
-\item[Component getSmallComponent()\\]
-   returns the small component (i.e.\ the component which is shown first).
-   The return value should be an instance of {\tt javax.swing.JComponent} although only
-   {\tt java.awt.\-Component} is required as return value. 
-   AWT Component will probably not work correctly in the Swing-based
-   CBGraph Editor. If the method returns null, then the result of getComponent() will be used to
-   visualize the object.
+% \begin{description}
+% \item[Component getSmallComponent()\\]
+%    returns the small component (i.e.\ the component which is shown first).
+%    The return value should be an instance of {\tt javax.swing.JComponent} although only
+%    {\tt java.awt.\-Component} is required as return value. 
+%    AWT Component will probably not work correctly in the Swing-based
+%   CBGraph Editor. If the method returns null, then the result of getComponent() will be used to
+%    visualize the object.
 
-\item[Component getComponent()\\]
-returns the main component for this user object. This component
-is used when the small component is not shown. To be compatible
-with the CBGraph (which is implemented in JFC/Swing), the component
-should be a subclass of JComponent. This method may return null, but then getSmallComponent
-must return a value.
+% \item[Component getComponent()\\]
+% returns the main component for this user object. This component
+% is used when the small component is not shown. To be compatible
+% with the CBGraph (which is implemented in JFC/Swing), the component
+% should be a subclass of JComponent. This method may return null, but then getSmallComponent
+% must return a value.
 
-\item[Shape getShape()\\]
-returns the shape for this component. Shape is defined in the package java.awt
-and represents any type of shape, e.g.\ polygon, rectangle, ellipse, etc.
-As said above, the shape is shown in the background of the small component,
-so it may not be visible if the small component is not transparent. The
-default implementation in CBIndividual and CBLink provide a transparent
-JLabel as small component so that the shape is visible.
-The CBGraph Editor contains several predefined shapes (see below).
+% \item[Shape getShape()\\]
+% returns the shape for this component. Shape is defined in the package java.awt
+% and represents any type of shape, e.g.\ polygon, rectangle, ellipse, etc.
+% As said above, the shape is shown in the background of the small component,
+% so it may not be visible if the small component is not transparent. The
+% default implementation in CBIndividual and CBLink provide a transparent
+% JLabel as small component so that the shape is visible.
+% The CBGraph Editor contains several predefined shapes (see below).
 
-\item[boolean doCommit()\\]
-This method is called when the user has clicked on the "Commit" button.
-Changes that have been made within this component (e.g. within a form) can
-then be added to the list of objects to be removed/added from the database.
-If the method returns false, then the commit operation will be aborted.
-\end{description}
-
-
-Furthermore, the CBUserObject class provides several methods which might be useful
-for implementing new graphical types:
-
-\begin{description}
-\item[String toString()\\]
-  returns the full object name of the Telos object which is represented by this user object
-
-\item[TelosObject getTelosObject()\\]
-  returns the Telos object which is represented by this user object (see documentation
-  of package i5.cb.telos.object for more details on TelosObject)
-
-\item[CBFrame getCBFrame()\\]
-  returns the frame in which this object is presented (a CBFrame is an extension of a
-  JInternalFrame)
-
-\item[ObjectBaseInterface getObi()\\]
-  returns the ObjectBaseInterface (i.e.\ a connection to the server) of the current
-  frame. This is useful if you want to execute your own queries to retrieve additional
-  information from the server.  (see documentation of package i5.cb.telos.object and i5.cb.api for more details)
-
-\item[String getProperty(String property)\\]
-  returns the value of a property
-
-\item[boolean hasProperty(String property)\\]
-  returns true if the property is defined for this graphical type
-
-\item[JPopupMenu getPopupMenu()\\]
-returns the popup menu for this object. By using this method
-you can extend the popup menu with own operations. If you overwrite
-this method, the operations in the default popup menu will not be
-available.
-\end{description}
+% \item[boolean doCommit()\\]
+% This method is called when the user has clicked on the "Commit" button.
+% Changes that have been made within this component (e.g. within a form) can
+% then be added to the list of objects to be removed/added from the database.
+% If the method returns false, then the commit operation will be aborted.
+% \end{description}
 
 
-{\bf Example:} The following example defines a graphical type that uses a
-JButton to visualize the object. Only the method getSmallComponent is
-overwritten. The background color of the button will be changed if the
-property {\tt bgcolor} has been defined. The example shows that the
-implementation of graphical types is quite simple.
-Place the source code of your Java implementation of a grahical type in the
-subdirectory {\tt ProductPOOL/java/i5/cb/graph/cbeditor} of your CBPOOL.
+% Furthermore, the CBUserObject class provides several methods which might be useful
+% for implementing new graphical types:
 
-{\small
-\begin{verbatim}
-import i5.cb.graph.cbeditor.*;
-import javax.swing.*;
+% \begin{description}
+% \item[String toString()\\]
+%   returns the full object name of the Telos object which is represented by this user object
 
-import java.awt.Component;
+% \item[TelosObject getTelosObject()\\]
+%   returns the Telos object which is represented by this user object (see documentation
+%   of package i5.cb.telos.object for more details on TelosObject)
 
-/**
- * An example for a user defined CBUserObject
- */
+% \item[CBFrame getCBFrame()\\]
+%   returns the frame in which this object is presented (a CBFrame is an extension of a
+%   JInternalFrame)
 
-public class CBButton extends CBUserObject {
+% \item[ObjectBaseInterface getObi()\\]
+%   returns the ObjectBaseInterface (i.e.\ a connection to the server) of the current
+%   frame. This is useful if you want to execute your own queries to retrieve additional
+%   information from the server.  (see documentation of package i5.cb.telos.object and i5.cb.api for more details)
 
-    public Component getSmallComponent() {
-       JButton jButton=new JButton(this.getTelosObject().toString());
-       if(hasProperty("bgcolor"))
-          jButton.setBackground(CBUtil.stringToColor(getProperty("bgcolor")));
-       return jButton;
-    }
-}
-\end{verbatim}
-}
+% \item[String getProperty(String property)\\]
+%   returns the value of a property
 
-The source code of the above example is included in the {\tt cbeditor} directory in file
-{\tt CBButton.java}. So, you can indeed use  {\tt "i5.cb.graph.cbeditor.CBButton"}
-instead
-{\tt "i5.\-cb.\-graph.\-cbedi\-tor.\-CBIndividual"}
-in graphical types to see the effect.
+% \item[boolean hasProperty(String property)\\]
+%   returns true if the property is defined for this graphical type
+
+% \item[JPopupMenu getPopupMenu()\\]
+% returns the popup menu for this object. By using this method
+% you can extend the popup menu with own operations. If you overwrite
+% this method, the operations in the default popup menu will not be
+% available.
+% \end{description}
+
+
+% {\bf Example:} The following example defines a graphical type that uses a
+% JButton to visualize the object. Only the method getSmallComponent is
+% overwritten. The background color of the button will be changed if the
+% property {\tt bgcolor} has been defined. The example shows that the
+% implementation of graphical types is quite simple.
+% Place the source code of your Java implementation of a grahical type in the
+% subdirectory {\tt ProductPOOL/java/i5/cb/graph/cbeditor} of your CBPOOL.
+
+% {\small
+% \begin{verbatim}
+% import i5.cb.graph.cbeditor.*;
+% import javax.swing.*;
+% 
+% import java.awt.Component;
+% 
+% /**
+%  * An example for a user defined CBUserObject
+%  */
+% 
+% public class CBButton extends CBUserObject {
+% 
+%     public Component getSmallComponent() {
+%        JButton jButton=new JButton(this.getTelosObject().toString());
+%        if(hasProperty("bgcolor"))
+%           jButton.setBackground(CBUtil.stringToColor(getProperty("bgcolor")));
+%        return jButton;
+%     }
+% }
+% \end{verbatim}
+% }
+
+% The source code of the above example is included in the {\tt cbeditor} directory in file
+% {\tt CBButton.java}. So, you can indeed use  {\tt "i5.cb.graph.cbeditor.CBButton"}
+% instead
+% {\tt "i5.\-cb.\-graph.\-cbedi\-tor.\-CBIndividual"}
+% in graphical types to see the effect.
 
 
 
@@ -984,6 +985,105 @@ Further examples on using image icons are provided in the CB-Forum at
 \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/3506150}.
 
 
+\section{TelosPalette: A modern graphical palette for ConceptBase}
+\label{telospalette}
+
+{\tt TelosPalette} is a new graphical palette introduced in ConceptBase 8.2 to replace the original
+{\tt Default\-Java\-Palette} (which continues to be supported for backward compatibility). The main difference
+is that most objects are now displayed as white rectangles, whose size can be extended. The link layout for
+instantiation and specialization are now closer to the style used in UML class diagrams to allow easier
+recognition. The definition of {\tt TelosPalette} is as follows:
+
+{\small
+\begin{verbatim}
+TelosPalette in Class,JavaGraphicalPalette isA XBridgePalette with 
+  contains,defaultIndividual
+    tp1 : INDIVIDUAL_TP_GT
+  contains,defaultLink
+    tp2 : ATTR_TP_GT
+  contains,implicitIsA
+    tp3 : ISADEDUCED_TP_GT
+  contains,implicitInstanceOf
+    tp4 : INSTOFDEDUCED_TP_GT
+  contains,implicitAttribute
+    tp5 : ATTRDEDUCED_TP_GT
+  contains
+    tp6 : CLASS_TP_GT;
+    tp7 : QUERYCLASS_TP_GT;
+    tp8 : INSTOF_TP_GT;
+    tp9 : ISA_TP_GT;
+    tp10 : STRING_TP_GT;
+    tp11 : VALUE_TP_GT;
+    tp12 : ASSERTION_TP_GT
+end 
+\end{verbatim}
+}
+
+The superclass {\tt XBridgePalette} serves to bridge the default graphical types of {\tt Default\-Java\-Palette}
+to {\tt TelosPalette} and its subclasses. These default graphical types are required to be included by
+CBGraph. {\tt XBridgePalette} makes this inclusion transparent to the user via a set of deductive rules.
+The overriding graphical types of {\tt TelosPalette} listed in the table:
+
+\begin{center}
+\begin{tabular}{|l|l|l|} \hline
+{\bf type of object} & {\bf graphical type} & {\bf style} \\ \hline \hline
+Individuals & INDIVIDUAL\_TP\_GT & white rectangle \\ \hline
+Attribute & ATTR\_TP\_GT & thin black line with label in smaller font\\ \hline
+InstanceOf & INSTOF\_TP\_GT & green broken line without label and caret arrow head \\ \hline
+IsA & ISA\_TP\_GT & blue line without label; white edge heads \\ \hline
+Class & CLASS\_TP\_GT & almost white rectangle\\ \hline
+QueryClass & QUERYCLASS\_TP\_GT & white-pink rectangle\\ \hline
+Derived In & INSTOFDEDUCED\_TP\_GT & like for InstanceOf but thinner line \\ \hline
+Derived IsA & ISADEDUCED\_TP\_GT & like for IsA but thinner line\\ \hline
+Derived Attribute & ATTRDEDUCED\_TP\_GT & dashed black line\\ \hline
+String & STRING\_TP\_GT & light grey rectangle with text wrapping \\ \hline
+Integer,Real & VALUE\_TP\_GT & light grey rectangle \\ \hline
+MSFOLassertion & ASSERTION\_TP\_GT & light pink rectangle with text wrapping\\ \hline
+\end{tabular}
+\end{center}
+
+A particular advantage of {\tt TelosPalette} is its extensibility via specialization. Consider for
+example the case, where a class  {\tt Employee} is defined. Employees shall be displayed as
+yellow rectangles. All one has to do is to define the new graphical type like {\tt EMPLOYEE\_TP\_GT}
+and add this to {\tt EmployeePalette}, which specializes {\tt TelosPalette}.
+
+
+{\small
+\begin{verbatim}
+
+Employee in Class end
+
+EMPLOYEE_TP_GT in Class,JavaGraphicalType with 
+   property
+    bgcolor : "255,255,0";
+    textcolor : "0,0,0";
+    linecolor : "0,0,0";
+    shape : "Rect";
+    size : "resizable";
+    linewidth : "1"
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBIndividual"
+  priority
+    pr : 10
+  rule
+    gtrule1 : $ forall x/Employee (x graphtype EMPLOYEE_TP_GT) $
+end 
+
+EmployeePalette in Class,JavaGraphicalPalette isA TelosPalette with 
+   contains
+    ep1 : EMPLOYEE_TP_GT
+end 
+\end{verbatim}
+}
+
+The shape "Rect" is a shortcut for the shape string "i5.cb.graph.shapes.Rect". CBGraph 
+works with both values.
+Note that the added graphical type {\tt EMPLOYEE\_TP\_GT} needs to have a higher value
+for priority than the default graphical type for so-called individual objects. All pre-defined
+graphical types have priorities lower than 10. Hence the values of 10 is sufficient to 
+make sure that employees get the dedicated graphical type. 
+
+
 \section{Object-specific graphical properties}
 \label{gproperty}
 
@@ -1193,9 +1293,7 @@ This graphical type then has to be added to the right graphical palette:
 
 {\small
 \begin{verbatim}
-    PersonPalette in Class,JavaGraphicalPalette with  
-      contains,defaultIndividual
-        xx1 : DefaultIndividualGT
+    PersonPalette in JavaGraphicalPalette isA TelosPalette with  
       ...
       contains
         xx14 : ImplicitGT_knows
@@ -1216,19 +1314,19 @@ information. It is rather common to have multiple derived link types such as {\t
 to distinguish them also in the graphical visualization.
 
 Derived instantiations ("in") and derived specializations ("isA") are handled differently. Their dedicated graphical type
-is specified in the graphical palette as follows:
+can be specified in the graphical palette as follows:
 
 {\small
 \begin{verbatim}
     contains,implicitIsA
-      c3 : ImplicitIsAGT
+      c3 : MyImplicitIsAGT
     contains,implicitInstanceOf
-      c4 : ImplicitInstanceOfGT
+      c4 : MyImplicitInstanceOfGT
 \end{verbatim}
 }
 
+where {\tt MyImplicitInstanceOfGT} and {\tt MyImplicitIsAGT} are user-defined names of graphical types.
 
-Their link name is fixed in the database is fixed. Derived attributes in contrast can have any link name.
 
 
 \section{Palette-specific methods to expand related objects}
@@ -1317,53 +1415,5 @@ In this case, the applicable attribute categories are attached to the graphical 
 The new feature allows to hide certain attribute/relation properties from the pop-up menu. 
 
 
-\section{TelosPalette: A more modern graphical palette for ConceptBase}
-\label{telospalette}
 
-{\tt TelosPalette} is a new graphical palette introduced in ConceptBase 8.2 to replace the original
-{\tt Default\-Java\-Palette} (which continues to be supported for backward compatibility). The main difference
-is that most objects are now displayed as white rectangles, whose size can be extended. The link layout for
-instantiation and specialization are now closer to the style used in UML class diagrams to allow easier
-recognition. 
-
-A particular advantage of {\tt TelosPalette} is its extensibility via specialization. Consider for
-example the case, where a class  {\tt Employee} is defined. Employees shall be displayed as
-yellow rectangles. All one has to do is to define the new graphical type like {\tt EMPLOYEE\_TP\_GT}
-and add this to {\tt EmployeePalette}, which specializes {\tt TelosPalette}.
-
-
-{\small
-\begin{verbatim}
-
-Employee in Class end
-
-EMPLOYEE_TP_GT in Class,JavaGraphicalType with 
-   property
-    bgcolor : "255,255,0";
-    textcolor : "0,0,0";
-    linecolor : "0,0,0";
-    shape : "Rect";
-    size : "resizable";
-    linewidth : "1"
-  implementedBy
-    implBy : "i5.cb.graph.cbeditor.CBIndividual"
-  priority
-    pr : 10
-  rule
-    gtrule1 : $ forall x/Employee (x graphtype EMPLOYEE_TP_GT) $
-end 
-
-EmployeePalette in Class,JavaGraphicalPalette isA TelosPalette with 
-   contains
-    ep1 : EMPLOYEE_TP_GT
-end 
-\end{verbatim}
-}
-
-The shape "Rect" is a shortcut for the shape string "i5.cb.graph.cbeditor.CBIndividual". CBGraph 
-works with both values.
-Note that the added graphical type {\tt EMPLOYEE\_TP\_GT} needs to have a higher value
-for priority than the default graphical type for so-called individual objects. All pre-defined
-graphical types have priorities lower than 10. Hence the values of 10 is sufficient to 
-make sure that employees get the dedicated graphical type. 
 
