@@ -127,7 +127,7 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
     /**
      *   Function: <b> Enable the Menuitem for Connection/Disconection</b> <BR>
      *
-     *   @param bEnable
+     *   @param bEnable (true when CVIva is connected to a CBserver)
      */
     public void EnableCommands(boolean bEnable) {
         if (connected!=bEnable) {
@@ -147,13 +147,14 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
             (m.getItem(CBICommand.iCUT         - CBICommand.iEDIT_MENU)).setEnabled(true);
             (m.getItem(CBICommand.iCOPY        - CBICommand.iEDIT_MENU)).setEnabled(true);
             (m.getItem(CBICommand.iPASTE       - CBICommand.iEDIT_MENU)).setEnabled(true);
+            (m.getItem(CBICommand.iREPLACE     - CBICommand.iEDIT_MENU)).setEnabled(true); 
             (m.getItem(CBICommand.iTELL        - CBICommand.iEDIT_MENU)).setEnabled(bEnable);
             (m.getItem(CBICommand.iUNTELL      - CBICommand.iEDIT_MENU)).setEnabled(bEnable);
             (m.getItem(CBICommand.iRETELL      - CBICommand.iEDIT_MENU)).setEnabled(bEnable);
             (m.getItem(CBICommand.iASK         - CBICommand.iEDIT_MENU+1)).setEnabled(bEnable); // after 1st separator
             (m.getItem(CBICommand.iCALL_QUERY  - CBICommand.iEDIT_MENU+1)).setEnabled(bEnable);
             (m.getItem(CBICommand.iLOAD_OBJECT - CBICommand.iEDIT_MENU+2)).setEnabled(bEnable); // after 2nd separator
-            (m.getItem(CBICommand.iREPLACE     - CBICommand.iEDIT_MENU+3)).setEnabled(bEnable); // after 3rd separator
+//            (m.getItem(CBICommand.iREPLACE     - CBICommand.iEDIT_MENU+3)).setEnabled(bEnable); // after 3rd separator
 // TreeBrowser no longer part of CBIva
 //           (m.getItem(CBICommand.iPM_OBJECT_TREE - CBICommand.iEDIT_MENU+2)).setEnabled(bEnable);
 
@@ -268,6 +269,11 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
         mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));
         mEdit.add(mi);
 
+        mi = new JMenuItem("Replace all");
+        mi.addActionListener(new CBICommand(CBICommand.iREPLACE, CBI));
+        mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
+        mEdit.add(mi);
+
         mEdit.addSeparator();
 
         mi = new JMenuItem("Tell");
@@ -305,12 +311,7 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
         mEdit.add(mi);
 */
 
-        mEdit.addSeparator();
-        
-        mi = new JMenuItem("Replace all");
-        mi.addActionListener(new CBICommand(CBICommand.iREPLACE, CBI));
-        mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
-        mEdit.add(mi);
+
 
 
 /* no longer support LPI call; it is a potential security hole

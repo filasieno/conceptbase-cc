@@ -126,6 +126,8 @@ a discussion on the various ways to start ConceptBase.}.
 	\begin{description}
 	\item[Clear:] Clears the text area of the currently activated Telos editor.
 	\item[Cut,Copy,Paste:] Cut, copy or paste text to/from clipboard.
+	\item[Replace all:] Works like Find \& Replace of common text editors. It replaces all occurences of
+        a given string by a new string.
 	\item[Tell,Untell:] (Un-)Tells the text in the currently activated Telos editor
 	\item[Retell:] A new window will popup and ask you to enter the frames that should be untold and
 told. The contents of the current Telos Editor will be inserted as default into the two text areas.
@@ -141,8 +143,6 @@ calls to builtin query classes like {\tt get\_object[Class/objname]} may only oc
         and the result is returned in the Telos editor window.
 	\item[Load Object:] Load the Telos frame of an object into the Telos editor.
 %	\item[View Object as Tree:] Opens a new window and shows the object in tree browser.
-	\item[Replace in Frames:] Works like Find \& Replace of common text editors. It replaces all occurences of
-        a given string by a new string.
 	\end{description}
 \item[Browse:]
 	\begin{description}
