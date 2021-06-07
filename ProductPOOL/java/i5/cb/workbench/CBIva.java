@@ -524,6 +524,31 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
             }
         }
     }
+    
+    
+    /**
+    *   Show a dialog to replace strings in the text of the active TelosEditor (similar to Find & Replace in text editors);
+    *   to be used to clone complex objects in a simple operation; issue #33
+    */
+   public void showReplaceDialog() {
+        JTextField jtf_oldtext = new JTextField();
+        JTextField jtf_newtext = new JTextField();
+        Object[] message = {"Old:", jtf_oldtext, "New:", jtf_newtext};
+        int option = JOptionPane.showConfirmDialog(this, message, "Find & Replace", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+           String oldstring = jtf_oldtext.getText();
+           String newstring = jtf_newtext.getText();
+           if (oldstring != null && newstring != null && oldstring.length()>0  && newstring.length()> 0 ) {
+              // System.out.println("Replace " + oldstring + " by " + newstring);
+              String allframes = this.getActiveTelosEditor().getTelosTextArea().getText();
+              this.getActiveTelosEditor().setTelosText(allframes.replaceAll(oldstring,newstring));
+              this.getStatusBar().insertMessage(oldstring + " replaced by " + newstring);
+           } else {
+              this.getStatusBar().insertMessage("Supply both old and new labels");
+           }
+        }
+
+    }
 
 
     /**

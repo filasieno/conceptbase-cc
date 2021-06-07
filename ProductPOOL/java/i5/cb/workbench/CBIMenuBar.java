@@ -150,9 +150,10 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
             (m.getItem(CBICommand.iTELL        - CBICommand.iEDIT_MENU)).setEnabled(bEnable);
             (m.getItem(CBICommand.iUNTELL      - CBICommand.iEDIT_MENU)).setEnabled(bEnable);
             (m.getItem(CBICommand.iRETELL      - CBICommand.iEDIT_MENU)).setEnabled(bEnable);
-            (m.getItem(CBICommand.iASK         - CBICommand.iEDIT_MENU+1)).setEnabled(bEnable);
+            (m.getItem(CBICommand.iASK         - CBICommand.iEDIT_MENU+1)).setEnabled(bEnable); // after 1st separator
             (m.getItem(CBICommand.iCALL_QUERY  - CBICommand.iEDIT_MENU+1)).setEnabled(bEnable);
-            (m.getItem(CBICommand.iLOAD_OBJECT - CBICommand.iEDIT_MENU+2)).setEnabled(bEnable);
+            (m.getItem(CBICommand.iLOAD_OBJECT - CBICommand.iEDIT_MENU+2)).setEnabled(bEnable); // after 2nd separator
+            (m.getItem(CBICommand.iREPLACE     - CBICommand.iEDIT_MENU+3)).setEnabled(bEnable); // after 3rd separator
 // TreeBrowser no longer part of CBIva
 //           (m.getItem(CBICommand.iPM_OBJECT_TREE - CBICommand.iEDIT_MENU+2)).setEnabled(bEnable);
 
@@ -282,6 +283,7 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
         mEdit.add(mi);
 
         mEdit.addSeparator();
+       
 
         mi = new JMenuItem("Ask Frame");
         mi.addActionListener(new CBICommand(CBICommand.iASK,         CBI));
@@ -302,6 +304,12 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
         mi.addActionListener(new CBICommand(CBICommand.iPM_OBJECT_TREE,CBI));
         mEdit.add(mi);
 */
+
+        mEdit.addSeparator();
+        
+        mi = new JMenuItem("Replace in Frames");
+        mi.addActionListener(new CBICommand(CBICommand.iREPLACE, CBI));
+        mEdit.add(mi);
 
 
         miLPIcall = new JMenuItem("Prolog Call");

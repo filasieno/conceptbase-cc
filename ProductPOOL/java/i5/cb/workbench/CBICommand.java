@@ -204,17 +204,24 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
     public static final int iPM_OBJECT_TREE=iEDIT_MENU + 11;
 
     /**
-     * public constant for Edit| LPI Call
+     * public constant for Edit| Replace in Frames
      */
-    public static final int iLPI_CALL=iEDIT_MENU + 12;
+    public static final int iREPLACE=iEDIT_MENU + 12;
+    
 
-    public static final int iQCONNECT=iEDIT_MENU + 13;
+    public static final int iQCONNECT=iEDIT_MENU + 13;  // Quick connect button
 
 
     /**
      * public constant for List Module button
      */
     public static final int iLIST_MODULE=iEDIT_MENU + 14;
+    
+     /**
+     * public constant for Edit| LPI Call
+     */
+    public static final int iLPI_CALL=iEDIT_MENU + 15;
+    
 
     /**
      * public constant for Browse|Telos Editor
@@ -971,6 +978,14 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
             te.getTelosTextArea().setBackground(Color.white);
             CBI.getStatusBar().setStatus(true);
             break;
+            
+         /*
+         * Edit|Load Object
+         */
+        case iREPLACE:
+            CBI.showReplaceDialog();
+            break;
+            
             /*
              * Edit|LPI Call
              */
