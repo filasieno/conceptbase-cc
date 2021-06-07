@@ -7,12 +7,12 @@
 
                  http://conceptbase.cc
 
-                      2021-05-26
+                      2021-05-30
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
 the University of Skovde, Sweden. Earlier versions were developed in
-cooperation withn the team of Matthias Jarke, RWTH Aachen, Germany.
+cooperation within the team of Matthias Jarke, RWTH Aachen, Germany.
 
 The release notes of earlier versions are available at the end of this file.
 
@@ -37,7 +37,11 @@ model elements.
 
 82-01 Modern graphical types in TelosPalette
 
-   ConceptBase now offers an improved graphical palette TelosPalette.
+   ConceptBase now offers a 2nd pre-defined graphical palette TelosPalette, besides the old
+   DefaultJavaPalette. TelosPalette adopts a more UML-lish style for instantiation and specialization
+   links and it allows to define new graphical palettes by specializing it. The specialized
+   palette only needs to define the additional (or superseding) graphical types. The rest is
+   inherited from the superclass palette. 
    (Issue 35)
 
 82-02 Context switch bug in multi-tool use

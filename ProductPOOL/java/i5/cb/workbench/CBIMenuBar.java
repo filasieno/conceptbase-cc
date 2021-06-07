@@ -307,11 +307,13 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
 
         mEdit.addSeparator();
         
-        mi = new JMenuItem("Replace in Frames");
+        mi = new JMenuItem("Replace all");
         mi.addActionListener(new CBICommand(CBICommand.iREPLACE, CBI));
+        mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
         mEdit.add(mi);
 
 
+/* no longer support LPI call; it is a potential security hole
         miLPIcall = new JMenuItem("Prolog Call");
         miLPIcall.addActionListener(new CBICommand(CBICommand.iLPI_CALL,    CBI));
 
@@ -319,6 +321,7 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
         if (CBI.getLPIcall())  {
             mEdit.add(miLPIcall);
         }
+*/
 
 
 
