@@ -1,7 +1,7 @@
 Steps to configure a ConceptBase development environment ***
 Manfred Jeusfeld
 
-2007-11-29 (2020-02-28)
+2007-11-29 (2021-06-10)
 
 
 This file documents how to set-up a Linux or Unix system as a development
@@ -10,44 +10,49 @@ the sources. Since our standard build environment is using some legacy
 servers, the scripts needed to be adapted to work both in the legacy
 environments and in new environments. 
 
+No guarantee that this works!
+
+
 
 Necessary standard packages
 ===========================
 
 The packages below should be installed on your computer. If you run Linux, then you
 can install the packages via the standard package manager of your distribution.
+Instructions here are formulated in terms of Debian apt-get and work for Ubuntu 20.04
+and distributions derived from it. 
 
+   sudo apt-get install flex
+   sudo apt-get install bison
+   sudo apt-get install clang-7
+   sudo apt-get install libgmp3-dev
+   sudo apt-get install libreadline5
+   sudo apt-get install libreadline-gplv2-dev
+   sudo apt-get install libncursesw5-dev
+   sudo apt-get install openjdk-11-jdk
+   sudo apt-get install libxpm-dev
+   sudo apt-get install libjpeg62-dev
+   sudo apt-get install libxft-dev
+   sudo apt-get install libxmu-dev
+   sudo apt-get install tcsh 
 
-Install the following packages
-      flex
-      bison
-      clang-3.8        (preferred C/C++ compiler for ConceptBase)
-      gcc-4.4          (needed to compile SWI-Prolog)
-      g++-4.4          (needed to link SWI-Prolog with ConceptBase code)
-      libgmp3-dev (libgmp3c2 in SWI-Prolog 5.6 is used)
-      libreadline5
-      libreadline5-dev  (use libreadline-gplv2-dev if not available)
-      libreadline6   (see also below!)
-      libncursesw5-dev
-      bash (the main shell for ConceptBase scripts)
-      openjdk-8-jdk  (Java 6 and Java 7 JDKs also work, newer versions up to Java 11 also seem to work)
-      libxpm-dev     (needed for SWI-Prolog)
-      libjpeg62-dev  (needed for SWI-Prolog)
-      libxft-dev     (needed for SWI-Prolog)
-      libxmu-dev     (needed for SWI-Prolog)
-      libxext-dev    (needed for SWI-Prolog)
-      libssl-ocaml-dev     (optional ssl package for SWI-Prolog)
-      unixodbc-dev  (optional odbc package for SWI-Prolog)
+sudo ln -s /lib/x86_64-linux-gnu/libreadline.so.8 /lib/x86_64-linux-gnu/libreadline.so.6
+sudo ln -s /usr/lib/x86_64-linux-gnu/libgmp.so.10 /usr/lib/x86_64-linux-gnu/libgmp.so.3
+sudo ldconfig
 
 
 
-Instead of clang-3.8  you can also install the packages clang-3.4 or gcc-4.4 and g++-4.4 (not later!)
-For the required packages for SWI-Prolog, see also the following section.
-If you use clang-3.4 for compiling ConceptBase, then also use it to
-compile SWI-Prolog.
-The clang compiler comes with its own stdlib libraries, which could be lacking
-some required components. If the compilation with fails, then use gcc-4.4 and g++-4.4.
-You can confiure it in the file config.mk (see below).
+For syncing with the GIT Lab repository
+   sudo apt-get install git
+
+
+In .bashrc set:
+
+   export CB_CC=/usr/bin/clang-7
+   export CB_CXX=/usr/bin/clang++-7
+
+Alternatively, you may use gcc-4.4/g++-4.4. Later versions of gcc/g++ do not seem to work.
+
 
 By default, the make files of ConceptBase will not compile the user manual.
 To compile the user manual, you would need set the variable TEX_CAPABLE 
@@ -56,23 +61,14 @@ We recommend, NOT to install the texlive packages for compiling the ConceptBase 
 manual since anyway only members of the ConceptBase Team are allowed to change the
 user manual.
 
-The library libreadline6 may be missing in Ubuntu 18.04 and other more recent distros.
-As a workaround you can create a symbolic link to the newer version libreadline7:
+For compiling the manuals with Texlive:
+   sudo apt-get install texlive
+   sudo apt-get install hevea
+   sudo apt-get install texlive-latex-extra
 
-  sudo ln -s /lib/x86_64-linux-gnu/libreadline.so.7 /lib/x86_64-linux-gnu/libreadline.so.6
-  sudo ldconfig
 
 
-This trick may lead to some strange errors. It did however work fine on my Ubuntu 18.04 
-machine.
 
-As an alternative, you can install libreadline6 manually by
-
-   wget http://mirrors.kernel.org/ubuntu/pool/universe/r/readline6/libreadline6_6.3-8ubuntu8_amd64.deb
-   sudo dpkg -i libreadline6_6.3-8ubuntu8_amd64.deb
-
-We assume here that you are using the AMD64 architecture. If not, locate the appropriate package for
-your CPU architecture.
 
 
 
@@ -194,8 +190,8 @@ according to your local installation, in particular specify in the variable
 SWI_HOME the path to your installation of SWI-Prolog (see above).
 You should also set the variables CC,CXX to
 the appropriate C/C++ compiler. Recommended is:
-   CC:=/usr/bin/clang
-   CXX:=/usr/bin/clang++
+   export CB_CC=/usr/bin/clang-7
+   export CB_CXX=/usr/bin/clang++-7
 NOTE: Use the same compiler that you used to compile SWI-Prolog!
 
 Depending on the packages you installed, you should adapt the variables
@@ -310,7 +306,7 @@ Afterwards, compile with
   compileCB
 
 (outdated.)
-If you get an error message about a missting library (lib)stdc++, then uninstall g++-4.4
+If you get an error message about a missing library (lib)stdc++, then uninstall g++-4.4
 and then re-install it again
   sudo apt-get remove g++-4.4
   sudo apt-get install g++-4.4
@@ -518,7 +514,6 @@ For compiling the user manual (Latex) you need these additional packages
       texlive-generic-recommended
       texlive-extra-utils
       texlive-latex-extra
-      latex2html  (only needed if you install hevea to generate a HTML user manual)
 
 Normally, you do not need Latex for compiling ConceptBase.
 
