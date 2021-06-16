@@ -75,7 +75,8 @@ void appendBuffer(StringBuffer* buf,char* appStr) {
     int newsize,applen;
     applen=strlen(appStr);
 	//check if enough space available
-	if((applen+ buf->used) < buf->len){
+        //issue #38: keep security distance of at least 7 (?) to the buffer->len 
+	if((applen+ buf->used) < buf->len - 7){
 		strcat(buf->content,appStr);
 		buf->used+=applen;
 	}
@@ -100,7 +101,8 @@ void prependBuffer(StringBuffer* buf, char* str) {
 	int i,len;
 	/* check if enough space available */
 	len=strlen(str);
-	if((len+ buf->used) >= buf->len){
+        //issue #38: keep security distance of at least 7 (?) to the buffer->len 
+	if((len+ buf->used) >= buf->len - 7){
 		//allocating scale more byte
 		int newsize= (buf->len)+(buf->scale);
 		if(len > (newsize -(buf->used))){
@@ -122,8 +124,12 @@ void deleteBuffer(StringBuffer *buf) {
      if(buf->len>0) {
         buf->len=0;
         buf->used=0;
-	free(buf->content);
-	free(buf);
+	if (buf->content != NULL) {
+	   free(buf->content);
+	}
+	if (buf != NULL) {
+	   free(buf);
+	}
      }
 }
 
@@ -145,6 +151,7 @@ void displayAnswerOnTrace(StringBuffer* buf,int traceMode){
 	}
 	else
 		printf("%s",buf->content);
+//    printf("(%d characters used in stringbuffer of size %d)",buf->used,buf->len);
     fflush(stdout);
 
 }
@@ -164,5 +171,10 @@ void replaceCharacterInBuffer(StringBuffer* buf, char* find, char* replacement) 
         if(*s==*find) *s=*replacement;
         s++;
     }
+}
+
+/* getLengthFromBuffer returns the number of used chars in StringBuffer */
+int getLengthFromBuffer(StringBuffer* buf) {
+	return buf->used;
 }
 

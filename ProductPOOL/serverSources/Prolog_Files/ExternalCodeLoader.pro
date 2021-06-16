@@ -106,6 +106,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(getFrameParseErrToken/2)
 #EXPORT(getPointerFromBuffer/2)
 #EXPORT(getStringFromBuffer/2)
+#EXPORT(getLengthFromBuffer/2)
 #EXPORT(get_mod_context/1)
 #EXPORT(get_one_histogramm/3)
 #EXPORT(get_prop_id/2)
@@ -278,6 +279,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 	displayAnswerOnTrace,
 	replaceEmptyBuffer,
 	replaceCharacterInBuffer,
+	getLengthFromBuffer,
 
 {*** from module UnixFileSys.o***}
 	UF_opendir,
@@ -520,6 +522,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 :-extern_predicate(displayAnswerOnTrace(pointer:i,integer:i)).
 :-extern_predicate(replaceEmptyBuffer(pointer:i)).
 :-extern_predicate(replaceCharacterInBuffer(pointer:i,string:i,string:i)).
+:-extern_predicate(getLengthFromBuffer(integer:r,pointer:i)).
 
 {*** from module UnixFileSys ***}
 

@@ -53,3 +53,5 @@ int stringBufferCompare(StringBuffer* buf, char* cmp);
 void displayAnswerOnTrace(StringBuffer* buf,int traceMode);
 void replaceEmptyBuffer(StringBuffer* buf);
 void replaceCharacterInBuffer(StringBuffer* buf, char* find, char* replacement);
+int getLengthFromBuffer(StringBuffer* buf); /* returns the content of variable used */
+

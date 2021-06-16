@@ -341,6 +341,23 @@ foreign_t swi_replaceCharacterInBuffer(term_t sbterm, term_t find, term_t replac
     PL_succeed;
 }
 
+
+foreign_t swi_getLengthFromBuffer(term_t retterm, term_t sbterm) {
+
+    StringBuffer* sb;
+    int ret;
+
+    if(!PL_is_integer(sbterm))
+        PL_fail;
+
+    PL_get_pointer(sbterm,(void**)&sb);
+
+    ret=getLengthFromBuffer(sb);
+    if(ret && PL_unify_atom_chars(retterm,ret))
+        PL_succeed;
+    PL_fail;
+}
+
 /* Forward declarations for file system functions */
 /* use only void* pointers as structures depend on operating system */
 
@@ -1027,6 +1044,7 @@ void install_libGeneral() {
     REGISTER_FOREIGN("ExternalCodeLoader","displayAnswerOnTrace",2,swi_displayAnswerOnTrace,0);
     REGISTER_FOREIGN("ExternalCodeLoader","replaceEmptyBuffer",1,swi_replaceEmptyBuffer,0);
     REGISTER_FOREIGN("ExternalCodeLoader","replaceCharacterInBuffer",3,swi_replaceCharacterInBuffer,0);
+    REGISTER_FOREIGN("ExternalCodeLoader","getLengthFromBuffer",2,swi_getStringFromBuffer,0);
 
     /* UnixFileSys */
     REGISTER_FOREIGN("ExternalCodeLoader","UF_opendir",2,swi_UF_opendir,0);
