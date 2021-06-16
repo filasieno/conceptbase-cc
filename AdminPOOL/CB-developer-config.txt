@@ -472,24 +472,32 @@ Hence the expected answer can well be ERROR/no.
 Creating ConceptBase distributables
 ===================================
 
-The CBPOOL/AdminPOOL/bin directory contains a couple of scripts to automate the creation
+The $HOME/CBPOOL/AdminPOOL/bin directory contains a couple of scripts to automate the creation
 of ConceptBase distribution files.
 
 compileCB    
-  compiles ConceptBase binaries into CBPOOL/conceptbase
+  compiles ConceptBase binaries into $HOME/CBPOOL/conceptbase
 
 autotestCB
   runs a large number of test scripts to detect logical errors in the CBserver
   (see also above)
 
 publishCB
-  copies the ConceptBase binaries into the directory $HOME/ConceptBase-Distros
+  copies the ConceptBase binaries into a self-extracting Java archive CBinstaller.jar in
+  the directory $HOME/ConceptBase-Distros; if a directory $HOME/Dropbox exists, it is also copied there
 
-makeCBLATEST
+putcbpool
+  compiles ConceptBase and then puts the whole source code directory CBPOOL into a
+  ZIP archive CBPOOL.zip, which is the copied to $HOME/Dropbox (if existing)
+
+getcbpool
+  extracts the CBPOOL from $HOME/Dropbox/CBPOOL.zip (if existing)
+
+makeCBLATEST [deprecated]
   creates a ZIP archive cb-latest.zip with all binaries/docs for ConceptBase
   in $HOME/ConceptBase-Distros
 
-makeFATCBINSTALLER
+makeFATCBINSTALLER [deprecated]
   creates a "fat" file CBinstaller.jar that contains all binaries/docs for ConceptBase
   plus the installation program; this file can be executed by 
      java -jar CBinstaller.jar
@@ -535,6 +543,25 @@ requires SWI-Prolog 5.6.x to 6.0.x.
 
 Note: this step is not necessary when you follow the above compile instructions.
 It is required whenever you switch to another version of SWI-Prolog.
+
+
+ConceptBase on GITLAB
+=====================
+
+The ConceptBase.cc sources are also maintained via GIT on the GitLab repository
+https://gitlab.com/mjeu/conceptbasecc
+This repository should only be used by official ConceptBase.cc developers.
+So, if you want to join us, send an email to
+  manfred.jeusfeld@gmail.com
+
+You can also download the ConceptBase sources as anonymous user from GitLab.
+We do however recommend to use the sources CBPOOL.zip from
+https://sourceforge.net/projects/conceptbase/files/Sources/
+
+The command updateCB will use the sources from SourceForge rather than from
+GitLab. The sources on SourceForge are more stable than on GitLab.
+
+
 
 
 
