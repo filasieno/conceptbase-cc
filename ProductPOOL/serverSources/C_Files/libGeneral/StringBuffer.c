@@ -64,9 +64,9 @@ void main(){
 StringBuffer* initBuffer(int length) {
 	StringBuffer* NewBuffer=malloc(sizeof(StringBuffer));
 	NewBuffer->content=(char*) malloc(length);
-	*(NewBuffer->content)=0;
+	*(NewBuffer->content)=0; // terminating NULL char
 	NewBuffer->len=length;
-	NewBuffer->used=0;
+	NewBuffer->used=1;  // terminating NULL char takes 1 byte 
 	NewBuffer->scale=length;
 	return NewBuffer;
 }
@@ -80,9 +80,9 @@ void appendBuffer(StringBuffer* buf,char* appStr) {
 		strcat(buf->content,appStr);
 		buf->used+=applen;
 	}
-	//double buffer size
+	//increase buffer size
 	else{
-		//allocating scale more byte or strlen more string is too large
+		//allocating scale more bytes if string buf->content+appStr string is too large for buf
 		newsize= (buf->len)+(buf->scale);
 		if(applen > (newsize -(buf->used))){
 			newsize=(buf->len)+ applen;
@@ -91,9 +91,10 @@ void appendBuffer(StringBuffer* buf,char* appStr) {
 		strcat(buf->content,appStr);
 		buf->len=newsize;
 		buf->used+=strlen(appStr);
-		//double buffer
+		//double scale for next increase; thus the buffer grows exponentially in terms of number of increase steps
 		buf->scale=2*(buf->scale);
 	}
+//printf("(Used %d characters used in stringbuffer, real used %d)\n",buf->used,strlen(buf->content));
 }
 
 
@@ -110,7 +111,7 @@ void prependBuffer(StringBuffer* buf, char* str) {
 		}
 		buf->content= (char *) realloc(buf->content,newsize);
 		buf->len=newsize;
-		buf->used+=strlen(str);;
+		buf->used+=strlen(str);
 	}
 
 	/* shift right existing string for len bytes */
