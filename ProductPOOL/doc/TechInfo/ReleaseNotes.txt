@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2021-05-30
+                      2021-06-18
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -51,6 +51,12 @@ model elements.
    This bug is now resolved.
    (Issue 36)
 
+82-03 Rare crashes depending on answer text length
+
+   When the length of an answer to a query is close to the StringBuffer size, the CBserver could
+   crash by trying to free memory from an invalid pointer. We now make sure that the StringBuffer for
+   the answer text length is increased more eagerly to avoid this situation.
+   (Issue 38)
 
 
 
