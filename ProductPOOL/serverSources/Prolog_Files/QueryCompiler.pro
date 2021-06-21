@@ -1187,6 +1187,11 @@ valid_substitution(_parameter,_term,_c):-
 {*  write('Complex parameter inserted: '), write(_term),nl,  *}
        !.
 
+{* Labels remain unchanged *}
+valid_substitution(_parameter,_parameter,_c):-
+	atom(_parameter),
+	name2id(Label,_c),
+	!.
 
 valid_substitution(_parameter,_parameterID,_c):-
 	name2id(Real,_realID),

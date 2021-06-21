@@ -104,6 +104,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(makeName/2,cbserver)
 #IMPORT(create_as_individual/2,FragmentToPropositions)
 #IMPORT(is_allNumbers/1,GeneralUtilities)
+#IMPORT(is_id/1,MetaUtilities)
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -710,6 +711,19 @@ computeFunction(concat,_res,[_s1,_,_s2,_]) :-
 	!.
 
 
+{* concatenate the labels of s1 and s2 without creating the result as an object, quotes are removed from arguments *}
+computeFunction(concatl,_res,[_s1,_,_s2,_]) :-
+        evalToLabel(_s1,_l1),
+        evalToLabel(_s2,_l2),
+        unquoteAtom(_l1,_ps1),
+        unquoteAtom(_l2,_ps2),
+	pc_atomconcat(_ps1,_ps2,_res),
+	!.
+
+
+
+
+
 {* *********************************** *}
 {* for user-defined builtin functions: *}
 {* *********************************** *}
@@ -737,6 +751,24 @@ allNumbers(_s) :-
   report_error(NOTALLNUMBERS, SystemBuiltin,[]),
   !,
   fail.
+
+
+
+
+evalToLabel(_x,_n) :-
+  is_id(_x),
+  id2name(_x,_n),
+  !.
+
+evalToLabel(_x,_x) :-
+  atom(_x),
+  !.
+
+
+evalToLabel(_x,_n) :-
+  evalFunctionArg(_x,_y),
+  makeName(_y,_n),
+  !.
 
 
 
