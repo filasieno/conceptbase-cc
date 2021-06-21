@@ -572,7 +572,15 @@ rule
 end
 
 
+{* new function concatl *}
 
+Function concatl isA Label with
+parameter
+	s1 : Label;
+	s2 : Label
+comment
+	c : "Appends the labels2 to the label s1; result is a Label, i.e. not necessarily an object name"
+end
 
 
 
