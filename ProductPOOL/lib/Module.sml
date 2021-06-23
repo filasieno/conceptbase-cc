@@ -572,7 +572,7 @@ rule
 end
 
 
-{* new function concatl *}
+{* new function concatl, concatl4, concatl6 *}
 
 Function concatl isA Label with
 parameter
@@ -580,6 +580,28 @@ parameter
 	s2 : Label
 comment
 	c : "Appends the labels2 to the label s1; result is a Label, i.e. not necessarily an object name"
+end
+
+Function concatl4 isA Label with
+parameter
+	s1 : Label;
+	s2 : Label;
+	s3 : Label;
+	s4 : Label
+comment
+	c : "Concats the labels s1,s2,s3,s4"
+end
+
+Function concatl6 isA Label with
+parameter
+	s1 : Label;
+	s2 : Label;
+	s3 : Label;
+	s4 : Label;
+	s5 : Label;
+	s6 : Label
+comment
+	c : "Concats the labels s1,s2,s3,s4,s5,s6"
 end
 
 
