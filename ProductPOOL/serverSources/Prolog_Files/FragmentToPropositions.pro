@@ -1761,6 +1761,12 @@ create_if_builtin_object(_arg,TransactionTime,_nid) :-
   STORE(P(_id,_nid,'*instanceof',_TTId)),
   !.
 
+create_if_builtin_object(_arg,Label,_nid) :-
+  STORE(P(_nid,_nid,_arg,_nid)),
+  name2id(Label,_LabelId),
+  STORE(P(_id,_nid,'*instanceof',_LabelId)),
+  !.
+
 
 
 {* try the best to create the builtin object *}
