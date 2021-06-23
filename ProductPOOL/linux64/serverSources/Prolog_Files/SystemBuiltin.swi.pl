@@ -106,6 +106,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 :- use_module('cbserver.swi.pl').
 
 
+:- use_module('MetaUtilities.swi.pl').
 
 
 :- style_check(-singleton).
@@ -712,6 +713,50 @@ computeFunction(concat,_res,[_s1,_,_s2,_]) :-
 	!.
 
 
+/** concatenate the labels of s1 and s2, quotes are removed from arguments **/
+computeFunction(concatl,_res,[_s1,_,_s2,_]) :-
+        evalToLabel(_s1,_l1),
+        evalToLabel(_s2,_l2),
+        unquoteAtom(_l1,_ps1),
+        unquoteAtom(_l2,_ps2),
+	pc_atomconcat(_ps1,_ps2,_alpha),
+        create_as_individual(_alpha,_res),
+	!.
+
+computeFunction(concatl4,_res,[_s1,_,_s2,_,_s3,_,_s4,_]) :-
+        evalToLabel(_s1,_l1),
+        evalToLabel(_s2,_l2),
+        evalToLabel(_s3,_l3),
+        evalToLabel(_s4,_l4),
+        unquoteAtom(_l1,_ps1),
+        unquoteAtom(_l2,_ps2),
+        unquoteAtom(_l3,_ps3),
+        unquoteAtom(_l4,_ps4),
+	pc_atomconcat([_ps1,_ps2,_ps3,_ps4],_alpha),
+        create_as_individual(_alpha,_res),
+	!.
+
+computeFunction(concatl6,_res,[_s1,_,_s2,_,_s3,_,_s4,_,_s5,_,_s6,_]) :-
+        evalToLabel(_s1,_l1),
+        evalToLabel(_s2,_l2),
+        evalToLabel(_s3,_l3),
+        evalToLabel(_s4,_l4),
+        evalToLabel(_s5,_l5),
+        evalToLabel(_s6,_l6),
+        unquoteAtom(_l1,_ps1),
+        unquoteAtom(_l2,_ps2),
+        unquoteAtom(_l3,_ps3),
+        unquoteAtom(_l4,_ps4),
+        unquoteAtom(_l5,_ps5),
+        unquoteAtom(_l6,_ps6),
+	pc_atomconcat([_ps1,_ps2,_ps3,_ps4,_ps5,_ps6],_alpha),
+        create_as_individual(_alpha,_res),
+	!.
+
+
+
+
+
 /** *********************************** **/
 /** for user-defined builtin functions: **/
 /** *********************************** **/
@@ -739,6 +784,24 @@ allNumbers(_s) :-
   report_error('NOTALLNUMBERS', 'SystemBuiltin',[]),
   !,
   fail.
+
+
+
+
+evalToLabel(_x,_n) :-
+  is_id(_x),
+  id2name(_x,_n),
+  !.
+
+evalToLabel(_x,_x) :-
+  atom(_x),
+  !.
+
+
+evalToLabel(_x,_n) :-
+  evalFunctionArg(_x,_y),
+  makeName(_y,_n),
+  !.
 
 
 

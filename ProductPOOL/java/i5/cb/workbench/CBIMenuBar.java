@@ -278,10 +278,12 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
 
         mi = new JMenuItem("Tell");
         mi.addActionListener(new CBICommand(CBICommand.iTELL,        CBI));
+        mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
         mEdit.add(mi);
 
         mi = new JMenuItem("Untell");
         mi.addActionListener(new CBICommand(CBICommand.iUNTELL,      CBI));
+        mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, ActionEvent.CTRL_MASK));
         mEdit.add(mi);
 
         mi = new JMenuItem("Retell");
@@ -293,6 +295,7 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
 
         mi = new JMenuItem("Ask Frame");
         mi.addActionListener(new CBICommand(CBICommand.iASK,         CBI));
+        mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
         mEdit.add(mi);
 
         mi = new JMenuItem("Ask Query Call");
@@ -303,6 +306,7 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
 
         mi = new JMenuItem("Load Object");
         mi.addActionListener(new CBICommand(CBICommand.iLOAD_OBJECT, CBI));
+        mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
         mEdit.add(mi);
 
 /* no longer use FrameTree; issue #6

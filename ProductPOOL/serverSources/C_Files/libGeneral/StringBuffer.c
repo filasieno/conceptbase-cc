@@ -128,9 +128,11 @@ void deleteBuffer(StringBuffer *buf) {
 	if (buf->content != NULL) {
 	   free(buf->content);
 	}
+	buf->content = NULL;
 	if (buf != NULL) {
 	   free(buf);
 	}
+	buf = NULL;
      }
 }
 

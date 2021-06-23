@@ -1340,16 +1340,16 @@ simpleVar(_x) :-
   pc_atomprefix('_',1,_x),
   !.
 
+
+/** 2021-06-22: remove cuts to find all complex vars, even in qlits with many arguments **/
 scanComplexVar(_x,_x) :-
-  simpleVar(_x),
-  !.
+  simpleVar(_x).
 
 scanComplexVar(_var,[_arg|_rest]) :-
   scanComplexVar(_var,_arg).
 
 scanComplexVar(_var,[_|_rest]) :-
-  scanComplexVar(_var,_rest),
-  !.
+  scanComplexVar(_var,_rest).
 
 scanComplexVar(_var,_term) :-
   compound(_term),
@@ -1840,6 +1840,8 @@ traceFilterEffect(_filter,_ilits,_tlits) :-
   'WriteTrace'(veryhigh,'QO_preproc',['Filter ',_filter,' --> ',idterm(_tlits)]),
   !.
 traceFilterEffect(_filter,_ilits,_tlits).
+
+toBeObserved(_) :- !.
 
 toBeObserved(_filter) :-
  pc_member(_filter,[

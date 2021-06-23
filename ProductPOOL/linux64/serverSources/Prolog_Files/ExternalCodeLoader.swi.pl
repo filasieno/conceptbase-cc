@@ -106,6 +106,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 ,'getFrameParseErrToken'/2
 ,'getPointerFromBuffer'/2
 ,'getStringFromBuffer'/2
+,'getLengthFromBuffer'/2
 ,'get_mod_context'/1
 ,'get_one_histogramm'/3
 ,'get_prop_id'/2
