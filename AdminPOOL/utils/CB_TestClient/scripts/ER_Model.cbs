@@ -34,7 +34,7 @@ result OK "yes"
 tellModel "$CB_HOME/examples/ER_MODEL/ERIncons"
 result OK "yes"
 ask "find_instances[Function/class]" OBJNAMES  LABEL  Now
-result OK "toLabel,concat,COUNT,COUNT_Attribute,SUM,AVG,MAX,MIN,SUM_Attribute,AVG_Attribute,MAX_Attribute,MIN_Attribute,PLUS,IPLUS,MINUS,IMINUS,MULT,IMULT,DIV,IDIV,ConcatenateStrings,ConcatenateStrings3,ConcatenateStrings4,StringToLabel"
+result OK "toLabel,concat,COUNT,COUNT_Attribute,SUM,AVG,MAX,concatl,MIN,concatl4,concatl6,SUM_Attribute,AVG_Attribute,MAX_Attribute,MIN_Attribute,PLUS,IPLUS,MINUS,IMINUS,MULT,IMULT,DIV,IDIV,ConcatenateStrings,ConcatenateStrings3,ConcatenateStrings4,StringToLabel"
 ask "get_object[rename/objname]" OBJNAMES  FRAME  Now
 result OK "Individual rename in HiddenObject,BuiltinQueryClass with
   attribute,parameter
