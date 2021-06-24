@@ -150,11 +150,11 @@ an object), useful if labels should be passed as a parameter of a query
   an alphanumeric where special characters are replaces by substrings like {\tt "C30\_"}
   for special characters
 \item[concatl:] concatenates the two labels (being the names of any object); the result is 
-  stored as an individual with the concatenated labels; the result is shown as a label, not as
-  string in quotes
-\item[concatl4:] concatenates the four labels (being the names of any object); the result is 
+  stored as an individual with the concatenated labels; the result is shown as a label, double quotes are
+  added when the label is not alphanumeric
+\item[concatl4:] like concatl but with the four arguments (being the names of any object); the result is 
   stored as an individual with the concatenated labels
-\item[concatl6:] concatenates the six labels (being the names of any object); the result is 
+\item[concatl6:] like concatl but with concatenates the six arguments; the result is 
   stored as an individual with the concatenated labels
 
 \end{description}
@@ -166,10 +166,9 @@ of {\tt "*"}. The subexpression {\tt 1+2}  is evaluated to 3.
 Example 2: the expression {\tt concatl("alfa",concatl(1+1,"beta"))} returns {\tt alfa2beta}.
 Note that the arguments "alfa" and "beta" are string constants created as objects on the fly.
 You can also have attributes like {\tt bill!earns}  as arguments of {\tt concatl}. Then, their labels are used
-for the concatenation, here "earns". Expressions like {\tt concatl("alfa"," **")}  are also evaluated
-but yield object names that are not parsable by ConceptBase when used in a frame. Use {\tt toLabel}
-if you want to be sure that the label is a correct object name according to the syntax of Telos
-frames.
+for the concatenation, here "earns". Expressions like {\tt concatl("alfa"," **")} are also evaluated
+but are enclosed in double quotes like {\tt "alfa**"}. Note that all arguments shall be objects.
+Strings and integers are automatically recognized by ConceptBase as objects.
 
 
 \section{Builtin query classes}
