@@ -108,6 +108,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(removeCheckUpdateMode/0)
 #EXPORT(currentCheckUpdateMode/1)
 #EXPORT(UNTELL_FRAGMENTS/2)
+#EXPORT(transformToCall/2)
 #ENDMODDECL()
 
 

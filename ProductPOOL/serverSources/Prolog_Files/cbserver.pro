@@ -68,6 +68,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(toId/2)
 #EXPORT(arg2val/2)
 #EXPORT(val2arg/2)
+#EXPORT(toTelosName/2)
 #ENDMODDECL()
 
 
@@ -75,8 +76,10 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(id2name/2,GeneralUtilities)
 #IMPORT(name2id/2,GeneralUtilities)
 #IMPORT(createBuffer/1,GeneralUtilities)
-#IMPORT(disposeBuffer/1,ExternalCodeLoader)
+#IMPORT(disposeBuffer/1,GeneralUtilities)
 #IMPORT(getStringFromBuffer/2,ExternalCodeLoader)
+#IMPORT(getPointerFromBuffer/2,ExternalCodeLoader)
+#IMPORT(appendBuffer/2,ExternalCodeLoader)
 #IMPORT(pc_atomconcat/2,PrologCompatibility)
 #IMPORT(pc_atomconcat/3,PrologCompatibility)
 #IMPORT(is_id/1,MetaUtilities)
@@ -90,7 +93,10 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(quotedAtom/1,GeneralUtilities)
 #IMPORT(evalFunctionArg/2,Literals)
 #IMPORT(pc_atom_to_term/2,PrologCompatibility)
+#IMPORT(pc_atomtolist/2,PrologCompatibility)
 #IMPORT(create_if_builtin_object/3,FragmentToPropositions)
+#IMPORT(transformToCall/2,TellAndAsk)
+#IMPORT(isAlphanumeric/1,GeneralUtilities)
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -267,6 +273,19 @@ val2arg(_num,_arg) :-
 
 
 
+{* The function concatl can generate labels that are not parseable as objectnames or expressions *}
+{* toTelosName puts quotes around the label when necessary.                                      *}
+
+toTelosName(_alpha,_alpha) :-
+   isAlphanumeric(_alpha),
+   !.
+
+toTelosName(_alpha,_alphastring) :-
+   atom(_alpha),
+   pc_atomconcat(['"',_alpha,'"'],_alphastring),
+   !.
+
+toTelosName(_alpha,_alpha).
 
 
 { ================== }
@@ -337,6 +356,19 @@ compileLit(_lit,_) :-
   fail.
 
 
+
+{* could be used to properly check whether an atom _alpha corresponds to a legal object name ... *}
+getCString(_alpha,_cstring) :-
+  createBuffer(_buf,mini),
+  appendBuffer(_alpha,_buf),
+  getPointerFromBuffer(_cstring,_varValuesBuffer),
+  disposeBuffer(_buf),
+  !.
+
+{* can be parsed as objectname or query call or function call *}
+canParse(_cstring) :-
+  transformToCall(_objnames,[_call]),
+  !.
 
 
 

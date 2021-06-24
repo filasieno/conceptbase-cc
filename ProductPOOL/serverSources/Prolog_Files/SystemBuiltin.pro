@@ -105,6 +105,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(create_as_individual/2,FragmentToPropositions)
 #IMPORT(is_allNumbers/1,GeneralUtilities)
 #IMPORT(is_id/1,MetaUtilities)
+#IMPORT(toTelosName/2,cbserver)
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -718,7 +719,8 @@ computeFunction(concatl,_res,[_s1,_,_s2,_]) :-
         unquoteAtom(_l1,_ps1),
         unquoteAtom(_l2,_ps2),
 	pc_atomconcat(_ps1,_ps2,_alpha),
-        create_as_individual(_alpha,_res),
+        toTelosName(_alpha,_telosname),
+        create_as_individual(_telosname,_res),
 	!.
 
 computeFunction(concatl4,_res,[_s1,_,_s2,_,_s3,_,_s4,_]) :-
@@ -731,7 +733,8 @@ computeFunction(concatl4,_res,[_s1,_,_s2,_,_s3,_,_s4,_]) :-
         unquoteAtom(_l3,_ps3),
         unquoteAtom(_l4,_ps4),
 	pc_atomconcat([_ps1,_ps2,_ps3,_ps4],_alpha),
-        create_as_individual(_alpha,_res),
+        toTelosName(_alpha,_telosname),
+        create_as_individual(_telosname,_res),
 	!.
 
 computeFunction(concatl6,_res,[_s1,_,_s2,_,_s3,_,_s4,_,_s5,_,_s6,_]) :-
@@ -748,7 +751,8 @@ computeFunction(concatl6,_res,[_s1,_,_s2,_,_s3,_,_s4,_,_s5,_,_s6,_]) :-
         unquoteAtom(_l5,_ps5),
         unquoteAtom(_l6,_ps6),
 	pc_atomconcat([_ps1,_ps2,_ps3,_ps4,_ps5,_ps6],_alpha),
-        create_as_individual(_alpha,_res),
+        toTelosName(_alpha,_telosname),
+        create_as_individual(_telosname,_res),
 	!.
 
 

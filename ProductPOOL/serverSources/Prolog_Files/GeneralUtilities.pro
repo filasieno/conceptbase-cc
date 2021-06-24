@@ -3009,7 +3009,7 @@ createBuffer(_buf) :-
 
 {* symbolic buffer sizes *}
 createBuffer(_buf,mini) :-
-  initBuffer(_buf,5),
+  initBuffer(_buf,29),
   !.
 
 createBuffer(_buf,medium) :-
