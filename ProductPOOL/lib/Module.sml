@@ -605,5 +605,16 @@ comment
 end
 
 
+{* new function resultOf, which allows to derive labels that have been composed by calling a generic query class with a certain answer format *}
+
+HiddenLabel isA HiddenObject,Label end 
+
+resultOf in Function isA HiddenLabel with
+  parameter
+   a1: GenericQueryClass;
+   a2: Proposition;
+   a3: AnswerFormat
+end
+
 
 
