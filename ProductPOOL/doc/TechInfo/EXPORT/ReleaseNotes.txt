@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2021-06-18
+                      2021-06-23
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -58,7 +58,19 @@ model elements.
    the answer text length is increased more eagerly to avoid this situation.
    (Issue 38)
 
+82-04 New function "concatl"
 
+   The function "concatl" concatenates two labels. There are also variants "concatl4" and "concatl6"
+   for 4 resp 6 arguments. The functions are useful for example to compute complex labels as "gproperty".
+
+82-05 Bug in rule optimizer resolved
+
+   ConceptBase uses a histogram-based algorithm to reorder predicates in a conjunction. This shall
+   result in faster response times. However, this optimizer is not able to make sure that functional
+   expressions can only be evaluated when all arguments are bound. To compensate this shortcoming,
+   a postprocessor takes moves functional expressions and query calls with parameters after the
+   predicates that bind the parameters. This postprocessor had a bug by not identifying all
+   parameters of a functional expression. This is now resolved.
 
 
 Version 8.1: Detailed Changes since Version 8.0 (2019-05-30)

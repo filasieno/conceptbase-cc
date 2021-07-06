@@ -156,6 +156,10 @@ an object), useful if labels should be passed as a parameter of a query
   stored as an individual with the concatenated labels
 \item[concatl6:] like concatl but with concatenates the six arguments; the result is 
   stored as an individual with the concatenated labels
+\item[resultOf:] The function {\tt resultOf(q,x,a)} computes the text answer of calling the query {\tt q[x]}
+   using the answer format {\tt a} to create the textual answer. This allows for example to specify complex gproperty labels on the fly.
+   The result of the function call is stored as an instance of the class {\tt HiddenLabel}. This hides the label from
+   being displayed by the listModule query.
 
 \end{description}
 

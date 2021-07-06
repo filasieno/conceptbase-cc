@@ -556,6 +556,28 @@ to the database. Examples on how to inspect the database using the transaction t
 the CB-Forum at \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/1921789}.
 
 
+\subsection{Anonymous object labels}
+\label{sec:anonlabel}
+
+Each attribute definition in a frame has at least one attribute category and exactly one attribute
+label. In some situations, the attribute label carries no specific semantics. You can then
+use the anonymous label "{\tt \_}" to let the ConceptBase system generate a unique attribute label.
+
+\begin{verbatim}
+Employee in Class with
+  attribute
+    salary: Integer
+end
+
+bill in Employee with
+  salary
+    _: 1000
+end
+\end{verbatim}
+
+In this example, the whole semantics of bill's salary attribute is carried by the "salary" label at the class level. 
+This feature may be useful when no object-level attribute label is known, e.g. when translating CSV files to
+ConceptBase frames.
 
 
 \section{Rules and constraints}
