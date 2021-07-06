@@ -66,6 +66,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 #MODULE(QueryProcessor)
 #EXPORT(process_query/2)
+#EXPORT(foldBulkQuery/3)
 #ENDMODDECL()
 
 

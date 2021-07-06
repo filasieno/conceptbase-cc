@@ -106,6 +106,11 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(is_allNumbers/1,GeneralUtilities)
 #IMPORT(is_id/1,MetaUtilities)
 #IMPORT(toTelosName/2,cbserver)
+#IMPORT(foldBulkQuery/3,QueryProcessor)
+#IMPORT(process_query/2,QueryProcessor)
+#IMPORT(getStringFromBuffer/2,ExternalCodeLoader)
+#IMPORT(createBuffer/2,GeneralUtilities)
+
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -755,6 +760,23 @@ computeFunction(concatl6,_res,[_s1,_,_s2,_,_s3,_,_s4,_,_s5,_,_s6,_]) :-
         create_as_individual(_telosname,_res),
 	!.
 
+
+
+{* Issue #39: Function "resultOf" to get query answers as a single value *}
+{* resultOf(Q,x,ansrep) applies the query Q to argument x and converts to to a string according to answerformat ansrep *}
+computeFunction(resultOf,_res,[_q,_,_x,_,_ansrepid,_]) :-
+	ground(_q),
+        ground(_x),
+        ground(_ansrepid),
+        id2name(_ansrepid,_ansrep),
+        createBuffer(_ret,large), 
+        process_query(ask([bulkquery([plainarg(_q),plainarg(_x)])],_ansrep),_ret),
+        getStringFromBuffer(_answer,_ret),
+
+        pc_atomconcat(['"',_answer,'"'],_satom),
+	create_if_builtin_object(_satom,'HiddenLabel',_res),
+{* id2name(_res,_out), write('resultOf: '),write(_out),nl, write('resultOf ID: '),write(_res),nl,  *}
+	!.
 
 
 

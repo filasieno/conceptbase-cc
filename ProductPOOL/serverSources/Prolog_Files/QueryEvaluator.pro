@@ -370,11 +370,18 @@ combine_solution_with_goals(_calls,_sol,_solutions) :-
     get_relevant_answers(_goallist,_sol,_solutions),
     retractall(goal(_,_)).
 
+
 getGoalList([],[]) :- !.
 
 getGoalList([_q|_restq],[g(_q,_g)|_restg]) :-
-    goal(_q,_g),
+    goal(_q,_g),!,
     getGoalList(_restq,_restg).
+
+{* issue #39: sometimes the goal(q,g) facts are incomplete *}
+getGoalList([_q|_restq],[g(_q,_g)|_restg]) :-
+    generate_backward_query_goal(_q,_g),
+    getGoalList(_restq,_restg).
+
 getGoalList([_|_restq],_restg) :-
     getGoalList(_restq,_restg).
 
