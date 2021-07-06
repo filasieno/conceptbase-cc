@@ -29,7 +29,8 @@ and distributions derived from it.
    sudo apt-get install libreadline5
    sudo apt-get install libreadline-gplv2-dev
    sudo apt-get install libncursesw5-dev
-   sudo apt-get install openjdk-11-jdk
+   sudo apt-get install openjdk-8-jdk
+ #  sudo apt-get install openjdk-11-jdk  # See comments at the end of the file on Java-11
    sudo apt-get install libxpm-dev
    sudo apt-get install libjpeg62-dev
    sudo apt-get install libxft-dev
@@ -320,8 +321,8 @@ MISCELANEOUS
 ============
 
 
-Java compilation
-================
+Java compilation with Java 8 or Java 11
+=======================================
 
 The Java sources are compatible with Java 1.4, 1.5 (Java 5), and Java 6, 7, 8, and 11.
 
