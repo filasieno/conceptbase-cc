@@ -1,7 +1,7 @@
 Steps to configure a ConceptBase development environment ***
 Manfred Jeusfeld
 
-2007-11-29 (2021-06-10)
+2007-11-29 (2021-07-06)
 
 
 This file documents how to set-up a Linux or Unix system as a development
@@ -323,21 +323,23 @@ MISCELANEOUS
 Java compilation
 ================
 
-The Java sources are compatible with Java 1.4, 1.5 (Java 5), and Java 6 to Java 8.
+The Java sources are compatible with Java 1.4, 1.5 (Java 5), and Java 6, 7, 8, and 11.
 
 - Compile all Java stuff (need to touch all Java files, otherwise compilation may be incomplete)
-     cd CBPOOL/java
+     cd CBPOOL/ProductPOOL/java
      find . -name '*.java' -exec touch {} \;
      CB_Make all
 
 This step is usually unnecessary since it is part of the overall compile procedure 
 (see above: To compile all ConceptBase modules).
 
-We recommend to use Java 7 JDK both for compilation (JDK) and as a runtime environment!
+We recommend to use Java 8 JDK both for compilation (JDK) and as a runtime environment!
 
 Under Linux, you can use the OpenJDK-6-JDK package for compilation.
 
-To run ConceptBase, you should use the most recent version of Java-7 or Java-8.
+To run ConceptBase, you should use the most recent version of Java-8.
+Java-11 may also work but of a binary is compiled with Java-11, then it will
+not run with Java-8. 
 
 There used to be an issue with Java version 6 Build 12 and later (i.e. also Java 7, Java 8).
 The problem was that the sizes of certain Swing components of CBGraph were
