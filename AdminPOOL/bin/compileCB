@@ -2,10 +2,17 @@
 # Compile the ConceptBase sources
 # To do so, all required tools and libraries
 # must be installed and configured correctly.
+# Use "compileCB -all" when the sources are compiled for the first time on a new platform
+# Thereafter, a simple "compileCB" is sufficient
+# Author: Manfred Jeusfeld (2021-07-08)
 
 cd $HOME
 
-(cd $CB_WORK/; CB_Make clean; CB_Make touch_src)
+if [ "$1" = "-all"  ]; then
+  (cd $CB_WORK/; CB_Make clean)
+fi
+
+(cd $CB_WORK/; CB_Make touch_src)
 echo 'Converting dcg ...'
 (cd $CB_WORK/serverSources/Prolog_Files; CB_Make dcg)  
 echo 'Compiling ...'

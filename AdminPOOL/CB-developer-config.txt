@@ -1,7 +1,7 @@
 Steps to configure a ConceptBase development environment ***
 Manfred Jeusfeld
 
-2007-11-29 (2021-07-06)
+2007-11-29 (2021-07-08)
 
 
 This file documents how to set-up a Linux or Unix system as a development
@@ -29,8 +29,8 @@ and distributions derived from it.
    sudo apt-get install libreadline5
    sudo apt-get install libreadline-gplv2-dev
    sudo apt-get install libncursesw5-dev
-   sudo apt-get install openjdk-8-jdk
- #  sudo apt-get install openjdk-11-jdk  # See comments at the end of the file on Java-11
+ #  sudo apt-get install openjdk-8-jdk  # See comments at the end of the file on Java-11
+   sudo apt-get install openjdk-11-jdk  
    sudo apt-get install libxpm-dev
    sudo apt-get install libjpeg62-dev
    sudo apt-get install libxft-dev
@@ -479,7 +479,9 @@ The $HOME/CBPOOL/AdminPOOL/bin directory contains a couple of scripts to automat
 of ConceptBase distribution files.
 
 compileCB    
-  compiles ConceptBase binaries into $HOME/CBPOOL/conceptbase
+  compiles ConceptBase binaries into $HOME/CBPOOL/conceptbase;
+  use "compileCB -all" when you first compile the sources on your local computer, afterwards a simple
+  compileCB is sufficient
 
 autotestCB
   runs a large number of test scripts to detect logical errors in the CBserver
