@@ -5,7 +5,7 @@
 
 cd $HOME
 
-(cd $CB_WORK/; CB_Make touch_src)
+(cd $CB_WORK/; CB_Make clean; CB_Make touch_src)
 echo 'Converting dcg ...'
 (cd $CB_WORK/serverSources/Prolog_Files; CB_Make dcg)  
 echo 'Compiling ...'
