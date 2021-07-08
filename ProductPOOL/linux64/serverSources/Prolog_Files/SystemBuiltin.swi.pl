@@ -108,6 +108,12 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 :- use_module('MetaUtilities.swi.pl').
 
+:- use_module('QueryProcessor.swi.pl').
+
+
+
+
+
 
 :- style_check(-singleton).
 
@@ -720,7 +726,8 @@ computeFunction(concatl,_res,[_s1,_,_s2,_]) :-
         unquoteAtom(_l1,_ps1),
         unquoteAtom(_l2,_ps2),
 	pc_atomconcat(_ps1,_ps2,_alpha),
-        create_as_individual(_alpha,_res),
+        toTelosName(_alpha,_telosname),
+        create_as_individual(_telosname,_res),
 	!.
 
 computeFunction(concatl4,_res,[_s1,_,_s2,_,_s3,_,_s4,_]) :-
@@ -733,7 +740,8 @@ computeFunction(concatl4,_res,[_s1,_,_s2,_,_s3,_,_s4,_]) :-
         unquoteAtom(_l3,_ps3),
         unquoteAtom(_l4,_ps4),
 	pc_atomconcat([_ps1,_ps2,_ps3,_ps4],_alpha),
-        create_as_individual(_alpha,_res),
+        toTelosName(_alpha,_telosname),
+        create_as_individual(_telosname,_res),
 	!.
 
 computeFunction(concatl6,_res,[_s1,_,_s2,_,_s3,_,_s4,_,_s5,_,_s6,_]) :-
@@ -750,9 +758,27 @@ computeFunction(concatl6,_res,[_s1,_,_s2,_,_s3,_,_s4,_,_s5,_,_s6,_]) :-
         unquoteAtom(_l5,_ps5),
         unquoteAtom(_l6,_ps6),
 	pc_atomconcat([_ps1,_ps2,_ps3,_ps4,_ps5,_ps6],_alpha),
-        create_as_individual(_alpha,_res),
+        toTelosName(_alpha,_telosname),
+        create_as_individual(_telosname,_res),
 	!.
 
+
+
+/** Issue #39: Function "resultOf" to get query answers as a single value **/
+/** resultOf(Q,x,ansrep) applies the query Q to argument x and converts to to a string according to answerformat ansrep **/
+computeFunction(resultOf,_res,[_q,_,_x,_,_ansrepid,_]) :-
+	ground(_q),
+        ground(_x),
+        ground(_ansrepid),
+        id2name(_ansrepid,_ansrep),
+        createBuffer(_ret,large), 
+        process_query(ask([bulkquery([plainarg(_q),plainarg(_x)])],_ansrep),_ret),
+        getStringFromBuffer(_answer,_ret),
+
+        pc_atomconcat(['"',_answer,'"'],_satom),
+	create_if_builtin_object(_satom,'HiddenLabel',_res),
+/** id2name(_res,_out), write('resultOf: '),write(_out),nl, write('resultOf ID: '),write(_res),nl,  **/
+	!.
 
 
 

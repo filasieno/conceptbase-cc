@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2021-06-23
+                      2021-07-06
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -87,6 +87,13 @@ model elements.
    Multiple anonymous labels in a single frame are allowed. The feature may be useful when generating frames
    for comma-separated value-files (CSV), which only support single labels.
    (Issue 40)
+
+82-08 Error with shortcut query and function calls
+
+   Function and query calls may have named parameters. In case of function calls, we prefer a shortcut
+   form like fun(x,y) rather than fun[x/param1,y/param2]. The conversion to shortcuts had a bug that
+   prevented query call shortcuts to be translated, when the query definition had a computed or retrieved
+   attribute.
 
 
 Version 8.1: Detailed Changes since Version 8.0 (2019-05-30)

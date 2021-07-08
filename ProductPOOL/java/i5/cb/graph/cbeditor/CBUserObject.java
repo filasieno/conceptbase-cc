@@ -383,6 +383,7 @@ abstract public class CBUserObject {
         if(hasProperty("label") ) {
             sLabel = getProperty("label");
         }
+
         boolean wrapLabel = false;
         boolean replaceUnderScore = false;
         if (hasProperty("size")) {

@@ -591,7 +591,7 @@ endif
 #  JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH)
 #endif
 
-JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH)
+JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH) -source 1.8 -target 1.8
 #-Xlint:deprecation
 #-Xlint:unchecked
 

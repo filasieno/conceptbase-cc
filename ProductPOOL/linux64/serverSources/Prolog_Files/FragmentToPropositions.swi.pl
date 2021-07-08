@@ -1169,7 +1169,7 @@ store_propertylist(_x,_AClist,[property(_label,_)|_rest]) :-
   fail.
 
 store_propertylist(_x,_AClist,[_property|_rest]) :-
-  checkLabel(_property,_property1),
+  checkLabel(_AClist,_property,_property1),
   store_property(_x,_AClist,_property1),
   store_propertylist(_x,_AClist,_rest).
 
@@ -1182,13 +1182,30 @@ forbiddenLabel('exists').
 
 /* ... replace empty label -- indicated by '?' -- with a new unique label */
 
-checkLabel(property('?',_a),
+checkLabel(_AClist,property('?',_a),
            property(_l,_a)) :-
   newIdentifier(_newid),
   pc_atomconcat('l',_newid,_l),
   !.
 
-checkLabel(_property,_property).
+/** issue #40: replace placeholder label '_' as well **/
+/** case 1: we only have one attribute category, then use its label as prefix and append a unique identifier **/
+checkLabel([_catid],property('_',_a),
+           property(_l,_a)) :-
+  id2name(_catid,_catlabel),
+  newIdentifier(_newid),
+  pc_atomconcat([_catlabel,'__',_newid],_l),
+  !.
+/** case 2: otherwise use the prefix 'a' **/
+checkLabel(_AClist,property('_',_a),
+           property(_l,_a)) :-
+  newIdentifier(_newid),
+  pc_atomconcat('a__',_newid,_l),
+  !.
+
+
+/** normal case: we take the property label as supplied in the SMLfragment **/
+checkLabel(_AClist,_property,_property).
 
 
 
@@ -1766,6 +1783,12 @@ create_if_builtin_object(_arg,'TransactionTime',_nid) :-
 create_if_builtin_object(_arg,'Label',_nid) :-
   'STORE'('P'(_nid,_nid,_arg,_nid)),
   name2id('Label',_LabelId),
+  'STORE'('P'(_id,_nid,'*instanceof',_LabelId)),
+  !.
+
+create_if_builtin_object(_arg,'HiddenLabel',_nid) :-
+  'STORE'('P'(_nid,_nid,_arg,_nid)),
+  name2id('HiddenLabel',_LabelId),
   'STORE'('P'(_id,_nid,'*instanceof',_LabelId)),
   !.
 

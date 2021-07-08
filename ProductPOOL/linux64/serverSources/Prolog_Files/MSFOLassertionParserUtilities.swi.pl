@@ -896,7 +896,7 @@ plainToSubsts(_funId,_plainArgs,_substArgs) :-
 
 /** this case should never occur: **/
 plainToSubsts(_funId,_plainArgs,_substArgs) :-
-  write(plainToSubsts(_funId,_plainArgs)),nl,
+  write_lcall(plainToSubsts(_funId,_plainArgs)),nl,
   write('Error plainToSubsts'),nl,
   fail.
 
@@ -919,6 +919,15 @@ getParamLabel(rp(_lab,_d),_lab).
 
 
 paramLabels([_param],[_lab]) :- getParamLabel(_param,_lab),!.
+
+/** skip computed_attribute **/
+paramLabels([c(_attr)|_restparams],_restlabels) :- 
+  paramLabels(_restparams,_restlabels).
+
+/** skip retrieved_attribute **/
+paramLabels([r(_attr)|_restparams],_restlabels) :- 
+  paramLabels(_restparams,_restlabels).
+
 paramLabels([_param|_restparams],[_lab|_restlabels]) :- 
   getParamLabel(_param,_lab),
   paramLabels(_restparams,_restlabels).

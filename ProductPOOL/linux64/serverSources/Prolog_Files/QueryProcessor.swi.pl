@@ -66,6 +66,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 :- module('QueryProcessor',[
 'process_query'/2
+,'foldBulkQuery'/3
 ]).
 :- use_module('GlobalPredicates.swi.pl').
 :- use_module('debug.swi.pl').

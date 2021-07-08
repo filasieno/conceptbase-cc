@@ -108,6 +108,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 ,'removeCheckUpdateMode'/0
 ,'currentCheckUpdateMode'/1
 ,'UNTELL_FRAGMENTS'/2
+,'transformToCall'/2
 ]).
 :- use_module('GlobalPredicates.swi.pl').
 :- use_module('debug.swi.pl').

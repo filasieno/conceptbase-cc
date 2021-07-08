@@ -1199,6 +1199,13 @@ get_Adot_label(_cc,_x,_y,_l)  :-
 /** only for test purposes!                              **/
 
 /** can also be used to nicely display an argkey **/
+
+write_lcall(_x) :-
+  is_id(_x),
+  id2name(_x,_res),
+  write(_res),
+  !.
+
 write_lcall(_argkey) :-
   atom(_argkey),
   readableArgkey(_argkey,_res),

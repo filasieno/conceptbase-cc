@@ -68,6 +68,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 ,'toId'/2
 ,'arg2val'/2
 ,'val2arg'/2
+,'toTelosName'/2
 ]).
 :- use_module('GlobalPredicates.swi.pl').
 :- use_module('debug.swi.pl').
@@ -77,7 +78,9 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 :- use_module('GeneralUtilities.swi.pl').
 
 
+
 :- use_module('ExternalCodeLoader.swi.pl').
+
 
 :- use_module('PrologCompatibility.swi.pl').
 
@@ -92,7 +95,10 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
+
 :- use_module('FragmentToPropositions.swi.pl').
+
+
 
 
 :- style_check(-singleton).
@@ -269,6 +275,19 @@ val2arg(_num,_arg) :-
 
 
 
+/** The function concatl can generate labels that are not parseable as objectnames or expressions **/
+/** toTelosName puts quotes around the label when necessary.                                      **/
+
+toTelosName(_alpha,_alpha) :-
+   isAlphanumeric(_alpha),
+   !.
+
+toTelosName(_alpha,_alphastring) :-
+   atom(_alpha),
+   pc_atomconcat(['"',_alpha,'"'],_alphastring),
+   !.
+
+toTelosName(_alpha,_alpha).
 
 
 /* ================== */
@@ -339,6 +358,19 @@ compileLit(_lit,_) :-
   fail.
 
 
+
+/** could be used to properly check whether an atom _alpha corresponds to a legal object name ... **/
+getCString(_alpha,_cstring) :-
+  createBuffer(_buf,mini),
+  appendBuffer(_alpha,_buf),
+  getPointerFromBuffer(_cstring,_varValuesBuffer),
+  disposeBuffer(_buf),
+  !.
+
+/** can be parsed as objectname or query call or function call **/
+canParse(_cstring) :-
+  transformToCall(_objnames,[_call]),
+  !.
 
 
 
