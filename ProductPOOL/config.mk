@@ -594,7 +594,7 @@ endif
 #  JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH)
 #endif
 
-JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH) -source 1.8 -target 1.8
+JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH) 
 
 # for OpenJDK: create binaries for Java8
 ifneq "$(findstring 11,$(JAVAC_VERSION))" ""
