@@ -9,6 +9,10 @@
 # pulled from Sourceforge
 
 cd $HOME
+
+export JAVAC_VERSION="`javac -version`"
+echo "Using Javac version $JAVAC_VERSION"
+
 CBPOOLZIP=CBPOOL.zip
 if [ "$1" = "" ]; then
   /bin/rm -f CBPOOL.zip

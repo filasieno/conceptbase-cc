@@ -8,6 +8,11 @@
 
 cd $HOME
 
+
+export JAVAC_VERSION="`javac -version`"
+echo "Using Javac version $JAVAC_VERSION"
+
+
 if [ "$1" = "-all"  ]; then
   (cd $CB_WORK/; CB_Make clean)
 fi
