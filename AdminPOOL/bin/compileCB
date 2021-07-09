@@ -8,6 +8,8 @@
 
 cd $HOME
 
+export CB_VARIANT="`CBvariant`"
+echo "Compiling for $CB_VARIANT"
 
 export JAVAC_VERSION="`javac -version`"
 echo "Using Javac version $JAVAC_VERSION"
