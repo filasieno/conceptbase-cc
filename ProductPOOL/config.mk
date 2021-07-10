@@ -31,9 +31,6 @@ endif
 ifndef CB_VARIANT
    CB_VARIANT:=$(shell CBvariant)
 endif
-ifndef JAVAC_VERSION
-   JAVAC_VERSION:=$(shell javac -version)
-endif
 
 
 # [EDIT]
@@ -596,9 +593,11 @@ endif
 
 JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH) 
 
-# for OpenJDK: create binaries for Java8
-ifneq "$(findstring 11,$(JAVAC_VERSION))" ""
-   JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH) --release 8
+# for OpenJDK after openjdk-8: : create binaries for Java8
+ifdef JAVAC_VERSION
+  ifneq "$(findstring 11,$(JAVAC_VERSION))" ""
+     JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH) --release 8
+  endif
 endif
 
 #-Xlint:deprecation
