@@ -637,6 +637,37 @@ uses the builtin procedure {\tt UQ}. It removes the quotes `\verb+"+' from a
 string. Analogously, a procedure {\tt QT} can be used to put quotes around a term.
 
 
+\subsection{Encoding answers via answer formats}
+
+The result of applying an answer format to an answer is always a text. You can use the 'encoding' attribute of answer formats
+to transform the text according to the desired encoding. This is specified by a simple attribute like for example
+{\small
+\begin{verbatim}
+FormatX in AnswerFormat with
+  attribute encoding: "string"
+  ...
+end
+\end{verbatim}
+}
+
+ConceptBase implements the following encoding types:
+
+\begin{itemize}
+\item {\bf string}: enclose the answer in double quotes.
+\item {\bf telosname}: enclose the answer in double quotes if not a legal Telos label, otherwise leave unchanged.
+\item {\bf alphanumeric}: replace all non-alphanumeric characters by the sequence {\tt \_Cxy\_}, where {\tt xy} is the
+ASCII code of the character.
+\end{itemize}
+
+If an answerformat has no encoding attribute, then the answer is left unchanged. Encodings can be useful to guarantee
+that an answer is syntactically correct, e.g. a syntactically correct XML text. Note that answer formats support
+embedded queries and some elements of an answer may be computed by the {\tt resultOf} function, which also applies
+answerformats to their result.
+If a specified encoding is not implemented by the ConceptBase server, then no encoding is applied.
+
+
+
+
 \section{Parameterized answer formats}
 
 The general way to use an answer format for a query is to define the attribute {\tt forQuery}. Another possibility
