@@ -2826,6 +2826,18 @@ isAlphanumeric(_atom) :-
    atom(_atom),
    atom2list(_atom, _charList),
    alphanumeric(_, _charList, []).
+   {* checkAlphanumeric(_charList). *}
+
+{* alternative to alphanumeric/3 
+checkAlphanumeric([_first]) :-
+  name(_first,[_firstcode]),
+  (isAlpha(_firstcode);isNum(_firstcode)),
+  !.
+checkAlphanumeric([_first|_rest]) :-
+  name(_first,[_firstcode]),
+  (isAlpha(_firstcode);isNum(_firstcode)),
+  checkAlphanumeric(_rest).
+*}
 
 
 

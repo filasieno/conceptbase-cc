@@ -65,6 +65,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(ISLASTFRAME/1)
 #EXPORT(ISFIRSTFRAME/1)
 #EXPORT(ALPHANUM/2)
+#EXPORT(encodeLabel/3)
 #ENDMODDECL()
 
 { BIM/MasterProlog: declare predicates as global if they should be visible in other modules }
@@ -137,6 +138,9 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(IsLastFrame/1,AnswerTransform)
 #IMPORT(IsFirstFrame/1,AnswerTransform)
 #IMPORT(makeAlphanumeric/2,GeneralUtilities)
+#IMPORT(makeId/2,cbserver)
+#IMPORT(toTelosName/2,cbserver)
+#IMPORT(id2name/2,GeneralUtilities)
 
 
 #DYNAMIC(askedQuery/1)
@@ -482,6 +486,37 @@ deleteAskQueryBuffers([(_k,_b)|_t]) :-
     !,
     pc_erase(_k,'askQuery'),
     deleteAskQueryBuffers(_t).
+
+
+
+{* support the 'encoding' property of AnswerFormat    *}
+{* _answerformat should be the ID of an existing answerformat *}
+
+encodeLabel(_labelIn,_answerformat,_labelOut) :-
+   atom(_labelIn),
+   atom(_answerformat),
+   makeId(_answerformat,_answerformatid),
+   prove_literal(Adot_label(id_6,_answerformatid,_encodeId,'encoding')),  {* id_6 = Attribute *}
+   id2name(_encodeId,_encodetype),
+   encodeByEncodeType(_labelIn,_encodetype,_labelOut),
+   !.
+
+encodeLabel(_label,_,_label).
+
+
+encodeByEncodeType(_labelIn,'"telosname"',_labelOut) :-
+   toTelosName(_labelIn,_labelOut),
+   !.
+encodeByEncodeType(_labelIn,'"alphanumeric"',_labelOut) :-
+   makeAlphanumeric(_labelIn,_labelOut),
+   !.
+encodeByEncodeType(_labelIn,'"string"',_labelOut) :-
+   pc_atomconcat(['"',_labelIn,'"'],_labelOut),
+   !.
+
+encodeByEncodeType(_label,_,_label).
+
+
 
 
 
