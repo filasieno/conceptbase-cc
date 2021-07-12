@@ -2,7 +2,8 @@
 # This is the central command file for compiling ConceptBase
 # 19-Mar-2009: adapted to allow local installations independent from Aachen
 
-# CB_LOCATION is not yet defined ...
+# CB_LOCATION is not yet defined ... check whether we compile at the old place in Aachen
+# Note: you can and should define CB_LOCATION in your .bashrc file
 if [ ! -n "$CB_LOCATION" ]; then  
 	if [ -d "/home/cbase/CB_NewStruct" ]; then
 		CB_LOCATION=Aachen    
@@ -29,8 +30,11 @@ if  [ "$CB_LOCATION" != "Aachen" ]; then
    fi
 fi
 
-CB_VARIANT=`CBvariant`
+if [ ! -n "$CB_VARIANT" ]; then  
+  export CB_VARIANT=`CBvariant`
+fi
 
+# We need to use an old version of 'make' since the current one rins into an infinite loop
 # default for the make binary like used by Aachen
 MAKEV=/home/cbase/CB_NewStruct/CB_Admin/utils/make.$CB_VARIANT
 
@@ -38,7 +42,6 @@ MAKEV=/home/cbase/CB_NewStruct/CB_Admin/utils/make.$CB_VARIANT
 if [ -x $ADMIN_POOL/utils/make.$CB_VARIANT ]; then
   MAKEV=$ADMIN_POOL/utils/make.$CB_VARIANT
 fi
-
 
 
 export CB_POOL
