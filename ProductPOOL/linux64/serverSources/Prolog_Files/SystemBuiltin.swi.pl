@@ -112,6 +112,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
+:- use_module('AnswerTransformUtilities.swi.pl').
 
 
 
@@ -774,10 +775,9 @@ computeFunction(resultOf,_res,[_q,_,_x,_,_ansrepid,_]) :-
         createBuffer(_ret,large), 
         process_query(ask([bulkquery([plainarg(_q),plainarg(_x)])],_ansrep),_ret),
         getStringFromBuffer(_answer,_ret),
-
-        pc_atomconcat(['"',_answer,'"'],_satom),
+        encodeLabel(_answer,_ansrepid,_satom),
 	create_if_builtin_object(_satom,'HiddenLabel',_res),
-/** id2name(_res,_out), write('resultOf: '),write(_out),nl, write('resultOf ID: '),write(_res),nl,  **/
+/** id2name(_res,_out), write('resultOf: '),write(_out),nl, write('resultOf pointer: '),write(_res),nl, **/
 	!.
 
 
@@ -800,6 +800,12 @@ computeFunction(_fname,_res,_args) :-
 	!,  /** to prevent backtracking on the preceding OR-clause **/
 	call(_pred),
         !.
+
+
+
+/** ------------------------------------------------ **/
+
+
 
 
 allNumbers(_s) :-
