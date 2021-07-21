@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2021-07-06
+                      2021-07-21
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -77,8 +77,9 @@ model elements.
 
    The function resultOf(q,x,a) computes the text answer of calling the query q[x] using the answer format a
    to create the textual answer. This allows for example to specify complex gproperty labels on the fly.
-   During the development we also fixed a previously unknown bug in the QueryEvaluator.
-   (Issue 39)
+   During the development we also fixed a previously unknown bug in the QueryEvaluator. Answer formats have
+   an optional attribute "encoding", which encodes the answer, e.g. to conform to XML literals.
+   (Issue 39, 41)
 
 82-07 Anonymous object labels
 
