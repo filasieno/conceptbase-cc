@@ -23,6 +23,8 @@ You may also download the sources from
   https://sourceforge.net/projects/conceptbase/files/Sources/
   (File CBPOOL.zip)
 
+The sources were maintained till 2019 in a CVS repository at RWTH Aachen. 
+CVS Timeline: http://www-i5.informatik.rwth-aachen.de/cgi-bin/cvstrac/cvstrac.cgi/cbase/timeline?d=1000&
 
-Manfred Jeusfeld, 2019-05-26 (2020-01-09)
+Manfred Jeusfeld, 2019-05-26 (2021-07-31)
 
