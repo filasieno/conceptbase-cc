@@ -24,7 +24,7 @@ You may also download the sources from
   (File CBPOOL.zip)
 
 The sources were maintained till 2019 in a CVS repository at RWTH Aachen. 
-CVS Timeline: http://www-i5.informatik.rwth-aachen.de/cgi-bin/cvstrac/cvstrac.cgi/cbase/timeline?d=1000&e=2019-May-31&c=2&px=&s=1&dt=1&x=1&m=1
+CVS Timeline: http://www-i5.informatik.rwth-aachen.de/cgi-bin/cvstrac/cvstrac.cgi/cbase/timeline?d=5000&e=2019-May-31&c=2&px=&s=1&dt=1&x=1&m=1
 
 Manfred Jeusfeld, 2019-05-26 (2021-07-31)
 
