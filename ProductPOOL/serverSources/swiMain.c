@@ -54,6 +54,7 @@ ExternalPredicate *externalPredicates;
 
 #define MAX_PREDICATES 1000
 
+
 void addExternalPredicate(char* module, char* name,short arity,pl_function_t fct,short flags) {
 
     int i=0;
@@ -112,6 +113,12 @@ int main(int argc, char** argv) {
     install_libtelosServer();
 
     registerAllExternalPredicates();
+
+    /* Run SWI-Prolog in traditional mode so that double quoted strings are lists of character codes */
+    /* Pro posed by krietzsche to address issue #27                                                  */
+#ifdef PL_ACTION_TRADITIONAL
+    PL_action(PL_ACTION_TRADITIONAL);
+#endif
 
     if(!PL_initialise(argc,argv))
         PL_halt(1);
