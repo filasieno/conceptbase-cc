@@ -357,6 +357,7 @@ pc_stringtoatom(_s,_a) :-
     swi_stringtoatom(_s,_a).
 
 pc_ascii(_char,_num) :-
+    atom(_char),  /** see issue #27 for compatibility with recent SWI-Prolog ; proposed by krietzsche **/
     char_code(_char,_num).
 
 pc_pointer(_p) :-
