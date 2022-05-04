@@ -654,6 +654,7 @@ writeHelpMessage :-
     write('                  <untellmode> is either \'verbatim\' or \'cleanup\''),nl,
     write('-c <cachemode>  : turn on the query cache to allow recursive query evaluation'),nl,
     write('                  <cachemode> is one of \'off\', \'transient\', \'keep\' (=default)'),nl,
+    write('-cs <size>      : specifies the maximum number of derived facts retained between two transactions'),nl,
     write('-o <optmode>    : controls the optimizer for rangeform formulas'),nl,
     write('                  <optmode> is one of \'0\' (none), \'1\' (structural), \'2\' (order), \'3\' (struct.+order), or'),nl,
     write('                  \'4\' (struct.+order+trigger pruning); default: '),write(_o),nl,
@@ -1029,6 +1030,21 @@ Option('-mc',
           _maxe >= 0
         ),
         ['The parameter -mc must be a number greater or equal 0.']
+).
+
+Option('-cs',
+        _x,
+        (
+          pc_inttoatom(_maxe,_x),
+          set_cb_feature(maxCacheSize,_maxe),
+          !
+        ),
+        (
+          atom(_x),
+          pc_inttoatom(_maxe,_x),
+          _maxe >= 0
+        ),
+        ['The parameter -cs must be a number greater or equal 0.']
 ).
 
 
