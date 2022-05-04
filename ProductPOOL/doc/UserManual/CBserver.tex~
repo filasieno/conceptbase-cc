@@ -1,5 +1,5 @@
 % The ConceptBase User Manual (CB-Manual)
-% Copyright 1987-2020 by The ConceptBase Team
+% Copyright 1987-2022 by The ConceptBase Team
 % The CB-Manual may only be updated by members of the ConceptBase Team
 % as listed on http://conceptbase.cc
 % The TeX sources of the CB-Manual and the accompanying
@@ -260,7 +260,9 @@ structure.
 "{\tt \{---\}}" for each transaction occurring in the module (option {\tt split}) or
 without such separators
 (option {\tt whole}). The default is {\tt split}. The split option better supports
-cases where metaformulas are defined and used in the same module.
+cases where metaformulas are defined and used in the same module. The third option
+is {\tt minsplit}. It minimizes the number of separators to those that are essentially needed.
+Subsequent loading of such module sources is then faster.
 
 \item[-rl rlmode] controls the way how the CBserver creates labels for generated formulas.
 The default value is {\tt on}, instructing the CBserver to find a readable 
