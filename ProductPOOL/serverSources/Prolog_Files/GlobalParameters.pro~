@@ -352,7 +352,7 @@ default_cb_feature(forceConcernedClass,strict). {* values: off,strict,extended *
 default_cb_feature(adminUser,'').               {* values: atom *}
 default_cb_feature(maximalErrors,20).           {* values: -1,0,1,2,...; -1 means 'infinite' *}
 default_cb_feature(maximalDepth,50).            {* values: 100,... ; for length of select expressions like x!n!m *}
-default_cb_feature(maxCacheSize,50000).         {* values: 1000,... *}
+default_cb_feature(maxCacheSize,20000).         {* values: 1000,... *}
 {* we empty the cache when we have more than this number of facts in the cache *}
 default_cb_feature(ecaDefaultMode,immediate).   {* values: immediate,immediatedeferred,deferred *}
 {* see also ECAruleCompiler.pro *}

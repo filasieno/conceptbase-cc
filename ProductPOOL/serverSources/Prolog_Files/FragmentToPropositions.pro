@@ -1670,7 +1670,7 @@ STORE(P(_id,_s,_l,_d)) :-
 STORE(P(_id,_s,_l,_d)) :-
 	create(P(_id,_s,_l,_d)),
         check_insert_import_relationship(P(_id,_s,_l,_d)),  {* activate module imports asap *}
-{*        WriteUpdate(veryhigh,'+',P(_id,_s,_l,_d)),  *}
+{*       WriteUpdate(veryhigh,'+',P(_id,_s,_l,_d)),  *}
         setCheckUpdateModeIfCacheKept,
         !.
 
