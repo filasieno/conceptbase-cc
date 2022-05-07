@@ -838,6 +838,38 @@ You should be careful with using the cascading UNTELL. For example, untelling
 a system class will also untell all instantiations to it. Use the CBserver
 option {\tt -s 1} to prevent such undesired deletions.
 
+The model CascUntell.sml contains only ECArules to complete UNTELL operations. This makes
+it less cumbersome to remove objects or attributes of objects. The model CascUntell-Plus.sml
+adds ECArules that check also the presence of TELL operations to attributes (including
+links to other objects). If you add these rules to your database, then you can overwrite
+attributes just by telling the new frame. For example, assume that "mary" was initially defined
+as
+
+\begin{verbatim}
+  mary in Person with 
+     name marysname : "Mary"
+     age marysage : 32
+   end 
+\end{verbatim}
+
+Some time later, you want to revise the object as follows:
+
+\begin{verbatim}
+  mary in Person with 
+     name marysname : "Mary"
+     age marysage : 33
+   end 
+\end{verbatim}
+
+
+
+The ECArules in CascUntell-Plus.sml will detect that an attribute "mary!marysage" has already
+an old value "32". Consequently, the old attribute and its categories such as "age" are removed
+and the new attribute is inserted.
+Without the ECArules, you would have to UNTELL the old attribute manually and then tell the new
+attribute. Note that the service of the ECArules is only active if the ECArules are stored in the
+database.
+
 
 
 

@@ -77,11 +77,14 @@ The operations apply to the Telos Editor which has currently the focus.
 \item {\bf Tell, Untell}: The objects specified in the active Telos Editor will be added or removed
 from the object base.
 \item {\bf Retell}: A new window will popup and ask you to enter the frames that should be untold and
-told. The contents of the current Telos Editor will be inserted as default into the two text areas.
-
-\item {\bf Ask}: Evaluate the query specified in the Telos Editor. \footnote{The query can either be a query call
+told. The contents of the current Telos Editor will be inserted as default into the two text areas\footnote{%
+The use of the Retell window is a bit cumbersome since you need to specify separetely the objects to
+be untold and the objects to be told. If you frequently change only certain attributes of objects,
+then you can use ECArules to instruct the CBserver to untell the old attributes and tell the new
+attributes, see also section \ref{sec:cascuntell}.}.
+\item {\bf Ask}: Evaluate the query specified in the Telos Editor\footnote{The query can either be a query call
 referring to an existing query
-or a frame representing a new or existing query definition.} If you specify the name of an ordinary class (i.e.\
+or a frame representing a new or existing query definition.}. If you specify the name of an ordinary class (i.e.\
 not a query class), then ConceptBase.cc will interpret this as a query call to find all instances of that class.
 You can also enter an arithmetic expression like\newline
   \centerline{{\tt 100*COUNT(QueryClass)/COUNT(Class)}}

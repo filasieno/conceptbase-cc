@@ -1,5 +1,5 @@
 % The ConceptBase User Manual (CB-Manual)
-% Copyright 1987-2021 by The ConceptBase Team
+% Copyright 1987-2022 by The ConceptBase Team
 % The CB-Manual may only be updated by members of the ConceptBase Team
 % as listed on http://conceptbase.cc
 % The TeX sources of the CB-Manual and the accompanying
@@ -77,8 +77,11 @@ The operations apply to the Telos Editor which has currently the focus.
 \item {\bf Tell, Untell}: The objects specified in the active Telos Editor will be added or removed
 from the object base.
 \item {\bf Retell}: A new window will popup and ask you to enter the frames that should be untold and
-told. The contents of the current Telos Editor will be inserted as default into the two text areas.
-
+told. The contents of the current Telos Editor will be inserted as default into the two text areas\footnote{%
+The use of the Retell window is a bit cumbersome since you need to specify separetely the objects to
+be untold and the objects to be told. If you frequently change only certain attributes of objects,
+then you can use ECArules to instruct the CBserver to untell the old attributes and tell the new
+attributes, see also section \ref{sec:cascuntell}.}.
 \item {\bf Ask}: Evaluate the query specified in the Telos Editor. \footnote{The query can either be a query call
 referring to an existing query
 or a frame representing a new or existing query definition.} If you specify the name of an ordinary class (i.e.\
@@ -126,8 +129,7 @@ a discussion on the various ways to start ConceptBase.}.
 	\begin{description}
 	\item[Clear:] Clears the text area of the currently activated Telos editor.
 	\item[Cut,Copy,Paste:] Cut, copy or paste text to/from clipboard.
-	\item[Replace all:] Works like Find \& Replace of common text editors. It replaces all occurences of
-        a given string by a new string.
+	\item[Replace all:] Replaces all occurences of a given string in the Telos editor by a new string.
 	\item[Tell,Untell:] (Un-)Tells the text in the currently activated Telos editor
 	\item[Retell:] A new window will popup and ask you to enter the frames that should be untold and
 told. The contents of the current Telos Editor will be inserted as default into the two text areas.

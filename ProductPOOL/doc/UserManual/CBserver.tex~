@@ -120,6 +120,10 @@ In transient mode the cache is emptied before each transaction. In keep mode,
 the cache is emptied when the maximum number of entries in the cache is exceeded
 or an update has invalidated the cache. Further details are explained in section \ref{sec:cbcache}.
 
+\item[-cs size] specifies maximum number of derived facts retained in a cache between two transactions.
+This option may be used in conjunction with the cachemode  {\tt keep}. The default value is
+20000 facts.
+
 \item[-o optmode] controls the optimizer for rules, constraints and queries.
 The value {\tt optmode} is one of {\tt 0} (no optimization), {\tt 1}
 (structural optimization by exploiting builtin O-Telos axioms),
@@ -604,11 +608,12 @@ The mode is only provided for backward compatibility and has no advantages.
 \item[-c keep] The cache is only emptied when necessary, in particular when the cache
 has been invalidated by an update to the database, or when the maximum number
 of facts in the cache is exceeded. The maximum number is currently set
-to 20000. Exceeding the maximum is not an error. It only indicates that the cache
+to the default 20000. Exceeding the maximum is not an error. It only indicates that the cache
 is marked for being emptied. If necessary, the cache emptying takes place before
 a transaction. The keep mode is on average consuming more main memory than the
 transient mode but speeds up response time enormously in case of re-use of query
-results. The 'keep' mode is the default mode for tabling.
+results. The 'keep' mode is the default mode for tabling. You can change the maximum
+cache size by the CBserver command line option "-cs".
 
 \item[-c transient] The tabling cache is emptied before
 each transaction (ask, tell, untell, retell). A subsequent query is always
