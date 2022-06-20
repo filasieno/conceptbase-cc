@@ -14,7 +14,7 @@ if exist "%programfiles%\Java" goto :java_default
 rem *** default java found via search path
 :java_default
 timeout /T 1 > nul
-if "%1"=="" goto :useohome
+if '%1'=='' goto :useohome
 
 start /b javaw -DCB_HOME="%CB_HOME%" -cp "%CB_HOME%\lib\classes\cb.jar" i5.cb.graph.cbeditor.CBEditor %*
 goto :alldone
