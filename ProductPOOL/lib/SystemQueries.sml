@@ -322,7 +322,7 @@ GenericQueryClass find_attribute_values in HiddenObject isA Proposition with
      cat : Attribute
   attribute,constraint
 {*     r : $ exists l/Label Label(~cat,l) and A(~objname,l,this) $ *}
-     r : $ AD(~cat,~objname,this) $
+     r : $ AD(~cat,~objname,this) and not In(this,BDMRuleCheck) and not In(this,BDMConstraintCheck) $
 end
 
 GenericQueryClass find_explicit_attribute_values in HiddenObject isA Proposition with
@@ -331,7 +331,7 @@ GenericQueryClass find_explicit_attribute_values in HiddenObject isA Proposition
      cat : Attribute
   attribute,constraint
 {*      r : $ exists x/Attribute l/Label P(x,~objname,l,this) and In(x,~cat) $ *}
-     r : $ AeD(~cat,~objname,this) $
+     r : $ AeD(~cat,~objname,this) and not In(this,BDMRuleCheck) and not In(this,BDMConstraintCheck) $
 end
 
 GenericQueryClass find_incoming_attribute_categories in HiddenObject isA Attribute with
