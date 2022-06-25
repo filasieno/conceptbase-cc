@@ -336,6 +336,9 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(buildTokens/3,tokens_dcg)
 #IMPORT(convertSelectExpression/3,parseAss_dcg)
 #IMPORT(getCC/3,Literals)
+#IMPORT(write_lcall/1,Literals)
+#IMPORT(individual/1,validProposition)
+
 
 
 
@@ -2760,12 +2763,42 @@ getGraphTypeCandidates(_gtlist,_palid) :-
 
 lastMatchGT([(_prio,_gtid)],_oid,_gtid) :-
   prove_literal(Adot(id_876,_oid,_gtid)),   {* id_876=Proposition!graphtype *}
+  eligibleGraphtype(_oid,_gtid),
   !.
 lastMatchGT([_x|_rest],_oid,_gtid) :-
   lastMatchGT(_rest,_oid,_gtid).
 lastMatchGT([(_prio,_gtid)|_rest],_oid,_gtid) :-
   prove_literal(Adot(id_876,_oid,_gtid)),   {* id_876=Proposition!graphtype *}
+  eligibleGraphtype(_oid,_gtid),
   !.
+
+
+{* issue #46: objects may not have a unsuitablee graphtypes depending on their propositional structure *}
+eligibleGraphtype(_oid,_gtid) :-
+  retrieve_proposition(P(_oid,_x,_n,_y)),
+  prove_literal(A(_gtid,JavaGraphicalType,implementedBy,_javaclassid)),
+  id2name(_javaclassid,_javaclass),
+  !,
+  suitableImplementation(P(_oid,_x,_n,_y),_javaclass).
+
+eligibleGraphtype(_,_).
+
+
+{* an individual cannot be rendered by CBLink *}
+suitableImplementation(_prop,'"i5.cb.graph.cbeditor.CBLink"') :-
+  individual(_prop),
+  !,
+  fail.
+
+{* a link cannot be rendered by CBIndividual *}
+suitableImplementation(_prop,'"i5.cb.graph.cbeditor.CBIndividual"') :-
+  \+ individual(_prop),
+  !,
+  fail.
+
+suitableImplementation(_,_).
+
+
 
 
 {* for gproperties, ticket #397 *}

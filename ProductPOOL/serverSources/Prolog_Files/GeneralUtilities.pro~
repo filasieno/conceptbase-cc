@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2021 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -336,6 +336,9 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(buildTokens/3,tokens_dcg)
 #IMPORT(convertSelectExpression/3,parseAss_dcg)
 #IMPORT(getCC/3,Literals)
+#IMPORT(write_lcall/1,Literals)
+#IMPORT(individual/1,validProposition)
+
 
 
 
@@ -1803,7 +1806,7 @@ name2id(_l,_id)	:-	name2id_bim2c(_l,_id),!.
 
 
 t_name2id(_m,_name,_id) :-
-  t_name2id('silent',_m,_name,_id).
+  t_name2id('silent',_m,_name,_id).  {* also used in parseAss *}
 
 
 
@@ -2760,12 +2763,42 @@ getGraphTypeCandidates(_gtlist,_palid) :-
 
 lastMatchGT([(_prio,_gtid)],_oid,_gtid) :-
   prove_literal(Adot(id_876,_oid,_gtid)),   {* id_876=Proposition!graphtype *}
+  eligibleGraphtype(_oid,_gtid),
   !.
 lastMatchGT([_x|_rest],_oid,_gtid) :-
   lastMatchGT(_rest,_oid,_gtid).
 lastMatchGT([(_prio,_gtid)|_rest],_oid,_gtid) :-
   prove_literal(Adot(id_876,_oid,_gtid)),   {* id_876=Proposition!graphtype *}
+  eligibleGraphtype(_oid,_gtid),
   !.
+
+
+{*  objects may not have a unsuitablee graphtypes depending on their propositional structure *}
+eligibleGraphtype(_oid,_gtid) :-
+  retrieve_proposition(P(_oid,_x,_n,_y)),
+  prove_literal(A(_gtid,JavaGraphicalType,implementedBy,_javaclassid)),
+  id2name(_javaclassid,_javaclass),
+  !,
+  suitableImplementation(P(_oid,_x,_n,_y),_javaclass).
+
+eligibleGraphtype(_,_).
+
+
+{* an individual cannot be rendered by CBLink *}
+suitableImplementation(_prop,'"i5.cb.graph.cbeditor.CBLink"') :-
+  individual(_prop),
+  !,
+  fail.
+
+{* a link cannot be rendered by CBIndividual *}
+suitableImplementation(_prop,'"i5.cb.graph.cbeditor.CBIndividual"') :-
+  \+ individual(_prop),
+  !,
+  fail.
+
+suitableImplementation(_,_).
+
+
 
 
 {* for gproperties, ticket #397 *}
@@ -2826,6 +2859,18 @@ isAlphanumeric(_atom) :-
    atom(_atom),
    atom2list(_atom, _charList),
    alphanumeric(_, _charList, []).
+   {* checkAlphanumeric(_charList). *}
+
+{* alternative to alphanumeric/3 
+checkAlphanumeric([_first]) :-
+  name(_first,[_firstcode]),
+  (isAlpha(_firstcode);isNum(_firstcode)),
+  !.
+checkAlphanumeric([_first|_rest]) :-
+  name(_first,[_firstcode]),
+  (isAlpha(_firstcode);isNum(_firstcode)),
+  checkAlphanumeric(_rest).
+*}
 
 
 
@@ -3009,7 +3054,7 @@ createBuffer(_buf) :-
 
 {* symbolic buffer sizes *}
 createBuffer(_buf,mini) :-
-  initBuffer(_buf,5),
+  initBuffer(_buf,29),
   !.
 
 createBuffer(_buf,medium) :-
