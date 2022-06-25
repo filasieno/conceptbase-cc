@@ -146,11 +146,11 @@ int stringBufferCompare(StringBuffer* buf,char* cmp) {
 
 void displayAnswerOnTrace(StringBuffer* buf,int traceMode){
     char old;
-	if( traceMode < 3 && buf->used>1000){
-	    old=(buf->content)[1000];
-	    (buf->content)[1000]='\0';
-		printf("%s... (%d characters skipped)",buf->content,buf->used-1000);
-		(buf->content)[1000]=old;
+	if( traceMode < 3 && buf->used>4000){
+	    old=(buf->content)[4000];
+	    (buf->content)[4000]='\0';
+		printf("%s... (%d characters skipped)",buf->content,buf->used-4000);
+		(buf->content)[4000]=old;
 	}
 	else
 		printf("%s",buf->content);
