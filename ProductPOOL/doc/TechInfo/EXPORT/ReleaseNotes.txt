@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2021-07-21
+                      2022-05-06
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -95,6 +95,14 @@ model elements.
    form like fun(x,y) rather than fun[x/param1,y/param2]. The conversion to shortcuts had a bug that
    prevented query call shortcuts to be translated, when the query definition had a computed or retrieved
    attribute.
+
+82-09 Overwrite attributes
+
+   Currently, changing an attribute value requires to first untell the old attribute and then tell the new
+   attribute. This is cumbersome for objects that have frequent changes of certain attribute values. 
+   The ConceptBase server now supports ECA rules to realize overwriting attributes by a simple TELL that
+   may include the new attribute value for a given attribute.
+   (Issue 44: https://gitlab.com/mjeu/conceptbasecc/-/issues/44)
 
 
 Version 8.1: Detailed Changes since Version 8.0 (2019-05-30)
