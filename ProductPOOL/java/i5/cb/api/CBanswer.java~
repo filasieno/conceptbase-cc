@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2016 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -28,8 +28,8 @@ of the ConceptBase Team.
 
 The ConceptBase Team is represented by
 
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
@@ -154,8 +154,8 @@ public class CBanswer
    * @param old the other CBanswer
    */
   public void mergeCBanswer(CBanswer old) {
-    this.iCompletion = Math.max(this.iCompletion,old.iCompletion);
-    
+    if (this != null && old != null)
+      this.iCompletion = Math.max(this.iCompletion,old.iCompletion);
   }
 
   /**
@@ -184,6 +184,20 @@ public class CBanswer
   public String getResult() {
     return sResult;
   }
+
+  /**
+   * Returns the encoded result of the answer; the encoding makes sure that the string can be part of an
+   * XML tree
+   *
+   * @return the result
+   */
+  public String getEncodedResult() {
+    if (sResult.contains("$"))
+      return sResult.replaceAll("<=","!!").replaceAll(" < "," % ");
+    else
+     return sResult;
+  }
+
 
 
   public String toString()

@@ -1021,6 +1021,8 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
                                 if(graphType.getNodeName().equals("name")){
                                     Text NameNode=(Text) graphType.getFirstChild();
                                     name=(String) NameNode.getNodeValue();
+                                    // undo the encoding of getEncodedResult:
+                                    name = name.replaceAll("LESSEQUAL","<=").replaceAll(" LESSTHAN "," < ");
                                 }
 
                                 //process properties of the graphType

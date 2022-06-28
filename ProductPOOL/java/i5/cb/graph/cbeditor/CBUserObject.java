@@ -396,7 +396,7 @@ abstract public class CBUserObject {
         if (replaceUnderScore) 
           sLabel = sLabel.replaceAll("_"," ");
         if (wrapLabel) {
-           sLabel="<html><p>" + sLabel + "</p></html>";
+           sLabel="<html><p>" + sLabel.replaceAll("<","&lt;") + "</p></html>";
         }
         smallComponent = new DiagramLabel( sLabel );
 

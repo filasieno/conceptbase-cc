@@ -185,6 +185,20 @@ public class CBanswer
     return sResult;
   }
 
+  /**
+   * Returns the encoded result of the answer; the encoding makes sure that the string can be part of an
+   * XML tree
+   *
+   * @return the result
+   */
+  public String getEncodedResult() {
+    if (sResult.contains("$"))
+      return sResult.replaceAll("<=","LESSEQUAL").replaceAll(" < "," LESSTHAN ");
+    else
+     return sResult;
+  }
+
+
 
   public String toString()
   {

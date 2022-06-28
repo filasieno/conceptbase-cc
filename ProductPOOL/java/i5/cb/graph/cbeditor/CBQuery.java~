@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2016 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -46,6 +46,7 @@ import i5.cb.telos.Transform;
 import i5.cb.telos.frame.ObjectName;
 import i5.cb.telos.frame.TelosParser;
 import i5.cb.telos.object.*;
+import i5.cb.api.CButil;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -80,6 +81,8 @@ public class CBQuery {
     private HashMap m_graphtypes;
     private HashMap m_objectsEdges;
     private String m_sAnswerString;
+
+    private String gpropertyKeyLastSet;
 
 
     /** Creates a new CBQuery from a QueryString
@@ -182,6 +185,28 @@ public class CBQuery {
     }
 
 
+    /**
+     stripModuleQualifier removes the module qualifier part from an object name. For example an object name like
+        "This is a string"@module1 
+     is replaced by
+        abc.
+     The reason is that The CBserver sometimes returns the full object name with module qualifier, which cannot yet
+     be processed by CBGraph. To still be able to display such objects, we just remove the module qualifier part.
+     This is not a clean solution but better than letting unsupported object name pass further.
+    */
+    private static String stripModuleQualifier(String plainname) {
+      if (plainname.contains("@")) {
+        String[] sparts = plainname.split("@");  // "@" is the module qualifier sometimes used by the ConceptBase server
+        if (sparts[0] != null) 
+          return sparts[0];
+        else
+          return plainname;
+      } else {
+        return plainname;
+      }
+    }
+
+
     public Collection ask(boolean sorted) {
 
         String name=null;
@@ -206,13 +231,17 @@ public class CBQuery {
         while( Sibling != null) {
             //pick all objects
             if(Sibling.getNodeName().equals("object")) {
+                gpropertyKeyLastSet = "";  // to prevent overwriting a key that was just set before
+                CBGraphTypePropertySet propertySet=new CBGraphTypePropertySet();
                 Node possibleNameNodes=Sibling.getFirstChild();
                 //iterates over all name candidates
-                while(possibleNameNodes!= null) {
+                while(possibleNameNodes != null) {
                     // pick name nodes and read data
                     if(possibleNameNodes.getNodeName().equals("name")) {
                         Text NameNode=(Text) possibleNameNodes.getFirstChild();
-                        name=(String) NameNode.getNodeValue();
+                        name = stripModuleQualifier((String) NameNode.getNodeValue());  // issue #29
+                        // undo the encoding of getEncodedResult:
+                        name = name.replaceAll("LESSEQUAL","<=").replaceAll(" LESSTHAN "," < ");
                         ObjectName onObject=CBUtil.parseObjectName(name);
                         //create new TelosObjects and add them to the ITelosOjectSet
                         try {
@@ -231,13 +260,24 @@ public class CBQuery {
                         //Todo save edges
                         this.saveEdgesForObject(possibleNameNodes,name);
                     }
+
+                    // add object-specific graphical properties, ticket #397
+                    //System.out.println("getGProperties for "+name);
+                    if (possibleNameNodes.getNodeName().equals("gproperty")) {
+                      getGProperties(possibleNameNodes,propertySet);
+                    }
+
                     possibleNameNodes=possibleNameNodes.getNextSibling();
 
                 }
 
+                //insert propertySet for object 'name' into CBFrame's getPropertiesOfGraphicalTypes
+                setGProperties(name, propertySet);
+
             }
             Sibling = Sibling.getNextSibling();
         }
+
         Enumeration en;
         if (sorted) 
            en=newObjectsSet.sortedElements();
@@ -306,6 +346,52 @@ public class CBQuery {
     }
 
 
+    // read the gproperty entries from an XML text into propertySet
+    private void getGProperties(Node possibleNameNodes, CBGraphTypePropertySet propertySet) {
+       Node Values=possibleNameNodes.getFirstChild();
+       String PropertyName="";
+       while (Values!=null){
+          // read PropertyName
+          if (Values.getNodeName().equals("name")){
+            Text PropertyNameNode=(Text) Values.getFirstChild();
+            PropertyName=(String) PropertyNameNode.getNodeValue();
+          }
+
+          //read PropertyValue
+          if (Values.getNodeName().equals("value")){
+            CBGraphTypeProperty property;
+            Text PropertyValueNode=(Text) Values.getFirstChild();
+            String sPropertyValue=(String) PropertyValueNode.getNodeValue();
+            //erase \" at beginning and end
+            sPropertyValue=CButil.decodeStringIfPossible(sPropertyValue);
+            //create new  CBGraphTypePropertyObject and add it to the set
+            property=new CBGraphTypeProperty(PropertyName,sPropertyValue);
+            // System.out.println(PropertyName+": "+sPropertyValue);
+            propertySet.put(property);
+          }
+          Values=Values.getNextSibling();
+       } // while
+    }
+
+
+    //insert propertySet for object 'name' into CBFrame's getPropertiesOfGraphicalTypes
+    private void setGProperties(String name, CBGraphTypePropertySet propertySet) {
+           // "**" prepended to name to avoid collisions with regular graphtypes
+           if (name != null) {
+              String sKey = "**"+name;
+              if (!propertySet.m_GraphTypeProperties.isEmpty()) {
+                 // a property set e to be stored
+                 m_cbFrame.getPropertiesOfGraphicalTypes().put(sKey,propertySet);
+                 gpropertyKeyLastSet = sKey; // this key shall not be removed in this transaction anymore
+                 // System.out.println("Set gproperties for: " + name+"="+propertySet.toString());
+              } else if (!sKey.equals(gpropertyKeyLastSet) && m_cbFrame.getPropertiesOfGraphicalTypes().containsKey(sKey)) {
+                 // remove old property set because the new one is empty
+                 // System.out.println("Remove gproperties for: " + name);
+                 m_cbFrame.getPropertiesOfGraphicalTypes().remove(sKey);
+              }
+            }
+    }
+
 
     /** Executes the Query with the QueryString given in the constructor
      *  and return the parsed XML answer of CBase as an DOM-Document
@@ -332,7 +418,7 @@ public class CBQuery {
             if(ans.getResult().equals("nil")) {
                 return null;
             }
-            reader= new StringReader(ans.getResult());
+            reader= new StringReader(ans.getEncodedResult());  // replaces some <, <= by % and %=
             source = new InputSource(reader);
             //parse answer and generate DOMTree
             DOM_Tree= builder.parse(source);
@@ -382,11 +468,14 @@ public class CBQuery {
         Node Edges = edges.getFirstChild();
         //iterate over all edges returned by Cbase
         while( Edges != null) {
+            CBGraphTypePropertySet gpropertySet=new CBGraphTypePropertySet();
             Node Attributes=Edges.getFirstChild();
             while(Attributes!=null) {
                 if(Attributes.getNodeName()=="name") {
                     Text NameNode=(Text) Attributes.getFirstChild();
                     name=(String) NameNode.getNodeValue();
+                    // undo the encoding of getEncodedResult:
+                    name = name.replaceAll(" LESSTHAN "," < ").replaceAll("LESSEQUAL","<=");
                     objectsEdgesNames.add(name);
                 }
                 if(Attributes.getNodeName()=="graphtype") {
@@ -395,8 +484,16 @@ public class CBQuery {
                     String type=(String) NameNode.getNodeValue();
                     m_graphtypes.put(name,type);
                 }
+
+                // add object-specific graphical properties, ticket #397
+                //System.out.println("getGProperties for "+name);
+                if (Attributes.getNodeName().equals("gproperty")) {
+                  getGProperties(Attributes,gpropertySet);
+                }
+
                 Attributes = Attributes.getNextSibling();
             }
+            setGProperties(name, gpropertySet);
             Edges = Edges.getNextSibling();
         }
         m_objectsEdges.put(ObjName,objectsEdgesNames);

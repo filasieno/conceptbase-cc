@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -1021,6 +1021,8 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
                                 if(graphType.getNodeName().equals("name")){
                                     Text NameNode=(Text) graphType.getFirstChild();
                                     name=(String) NameNode.getNodeValue();
+                                    // undo the encoding of getEncodedResult:
+                                    name = name.replaceAll("!!","<=").replaceAll(" % "," < ");
                                 }
 
                                 //process properties of the graphType
@@ -1347,6 +1349,9 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     }
 
 
+
+
+
     /** adds the given TelosObject to the set that will be added to CB by pressing
      *  the confirm button
      *  @param to Telosobject to add
@@ -1357,7 +1362,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
         if(!m_DiagHashObjectsToAdd.contains(to)){
             m_DiagHashObjectsToAdd.add(to);
             firePropertyChange("update",null,null);
-            getCBEditor().highlightButton("Toolbar_Commit",transactionQueueNotEmpty());
+            updateToolbar();
             return true;
         }
         return false;
@@ -1370,7 +1375,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     public void addObjectToDelete(DiagramClassHashtableEntry to){
         m_DiagHashObjectsToDelete.add(to);
         firePropertyChange("update",null,null);
-        getCBEditor().highlightButton("Toolbar_Commit",transactionQueueNotEmpty());
+        updateToolbar();
     }
 
     public void commitChanges(){
@@ -1431,18 +1436,28 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
                     msg,
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            getCBEditor().highlightButton("Toolbar_Commit",transactionQueueNotEmpty());  // update background of commit button
+            updateToolbar();
             return;
         }
         validateNodes();
         JOptionPane.showMessageDialog(getCBEditor(),"Changes committed");
-        getCBEditor().highlightButton("Toolbar_Commit",transactionQueueNotEmpty());  // update background of commit button
+        updateToolbar();
     }
 
     public void setDiagramDesktop(DiagramDesktop diagramDesktop) {
         super.setDiagramDesktop(diagramDesktop);
         diagramDesktop.setInvalidNodesMethod(CBConfiguration.getInvalidOjsMethod(null, null));
     }
+
+
+    /** Maintain the highlightning of some CBGraph buttons based on the current state
+     *
+     */
+    public void updateToolbar() {
+        getCBEditor().highlightButton("Toolbar_Commit",transactionQueueNotEmpty());
+        // more buttons could be added
+    }
+
 
     /**
      * Validates all DiagramNodes on the active DiagramDesktop.

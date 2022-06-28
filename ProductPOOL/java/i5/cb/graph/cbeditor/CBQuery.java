@@ -240,6 +240,8 @@ public class CBQuery {
                     if(possibleNameNodes.getNodeName().equals("name")) {
                         Text NameNode=(Text) possibleNameNodes.getFirstChild();
                         name = stripModuleQualifier((String) NameNode.getNodeValue());  // issue #29
+                        // undo the encoding of getEncodedResult:
+                        name = name.replaceAll("LESSEQUAL","<=").replaceAll(" LESSTHAN "," < ");
                         ObjectName onObject=CBUtil.parseObjectName(name);
                         //create new TelosObjects and add them to the ITelosOjectSet
                         try {
@@ -416,7 +418,7 @@ public class CBQuery {
             if(ans.getResult().equals("nil")) {
                 return null;
             }
-            reader= new StringReader(ans.getResult());
+            reader= new StringReader(ans.getEncodedResult());  // replaces some <, <= by LESSTHAN, LESSEQUAL
             source = new InputSource(reader);
             //parse answer and generate DOMTree
             DOM_Tree= builder.parse(source);
@@ -472,6 +474,8 @@ public class CBQuery {
                 if(Attributes.getNodeName()=="name") {
                     Text NameNode=(Text) Attributes.getFirstChild();
                     name=(String) NameNode.getNodeValue();
+                    // undo the encoding of getEncodedResult:
+                    name = name.replaceAll(" LESSTHAN "," < ").replaceAll("LESSEQUAL","<=");
                     objectsEdgesNames.add(name);
                 }
                 if(Attributes.getNodeName()=="graphtype") {
