@@ -193,11 +193,14 @@ public class CBanswer
    */
   public String getEncodedResult() {
     if (sResult.contains("$"))
-      return sResult.replaceAll("<=","!!").replaceAll(" < "," % ");
+      return sResult.replaceAll("<=","!LE!").replaceAll(" < "," !LT! ");
     else
      return sResult;
   }
 
+  public static String decodeCBanswerString(String text) {
+    return text.replaceAll("!LE!","<=").replaceAll("!LT!","<");
+  }
 
 
   public String toString()

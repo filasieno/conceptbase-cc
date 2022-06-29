@@ -40,7 +40,7 @@ package i5.cb.graph.cbeditor;
 
 
 import i5.cb.CBException;
-import i5.cb.api.CBanswer;
+import i5.cb.api.CBanswer.*;
 import i5.cb.api.ICBclient;
 import i5.cb.telos.Transform;
 import i5.cb.telos.frame.ObjectName;
@@ -240,8 +240,7 @@ public class CBQuery {
                     if(possibleNameNodes.getNodeName().equals("name")) {
                         Text NameNode=(Text) possibleNameNodes.getFirstChild();
                         name = stripModuleQualifier((String) NameNode.getNodeValue());  // issue #29
-                        // undo the encoding of getEncodedResult:
-                        name = name.replaceAll("LESSEQUAL","<=").replaceAll(" LESSTHAN "," < ");
+                        name = decodeName(name); // undo the encoding of getEncodedResult
                         ObjectName onObject=CBUtil.parseObjectName(name);
                         //create new TelosObjects and add them to the ITelosOjectSet
                         try {
@@ -418,7 +417,7 @@ public class CBQuery {
             if(ans.getResult().equals("nil")) {
                 return null;
             }
-            reader= new StringReader(ans.getEncodedResult());  // replaces some <, <= by % and %=
+            reader= new StringReader(ans.getEncodedResult());  // replaces some <, <= by LESSTHAN, LESSEQUAL
             source = new InputSource(reader);
             //parse answer and generate DOMTree
             DOM_Tree= builder.parse(source);
@@ -474,8 +473,7 @@ public class CBQuery {
                 if(Attributes.getNodeName()=="name") {
                     Text NameNode=(Text) Attributes.getFirstChild();
                     name=(String) NameNode.getNodeValue();
-                    // undo the encoding of getEncodedResult:
-                    name = name.replaceAll(" LESSTHAN "," < ").replaceAll("LESSEQUAL","<=");
+                    name = decodeName(name); // undo the encoding of getEncodedResult
                     objectsEdgesNames.add(name);
                 }
                 if(Attributes.getNodeName()=="graphtype") {

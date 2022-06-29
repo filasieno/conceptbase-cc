@@ -240,8 +240,7 @@ public class CBQuery {
                     if(possibleNameNodes.getNodeName().equals("name")) {
                         Text NameNode=(Text) possibleNameNodes.getFirstChild();
                         name = stripModuleQualifier((String) NameNode.getNodeValue());  // issue #29
-                        // undo the encoding of getEncodedResult:
-                        name = name.replaceAll("LESSEQUAL","<=").replaceAll(" LESSTHAN "," < ");
+                        name = i5.cb.api.CBanswer.decodeName(name); // undo the encoding of getEncodedResult
                         ObjectName onObject=CBUtil.parseObjectName(name);
                         //create new TelosObjects and add them to the ITelosOjectSet
                         try {
@@ -474,8 +473,7 @@ public class CBQuery {
                 if(Attributes.getNodeName()=="name") {
                     Text NameNode=(Text) Attributes.getFirstChild();
                     name=(String) NameNode.getNodeValue();
-                    // undo the encoding of getEncodedResult:
-                    name = name.replaceAll(" LESSTHAN "," < ").replaceAll("LESSEQUAL","<=");
+                    name = i5.cb.api.CBanswer.decodeName(name); // undo the encoding of getEncodedResult
                     objectsEdgesNames.add(name);
                 }
                 if(Attributes.getNodeName()=="graphtype") {
