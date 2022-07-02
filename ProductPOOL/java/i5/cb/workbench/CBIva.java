@@ -527,7 +527,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
     
     
     /**
-    *   Show a dialog to replace strings in the text of the active TelosEditor (similar to Find & Replace in text editors);
+    *   Show a dialog to replace strings in the text of the active TelosEditor (similar to Find and Replace in text editors);
     *   to be used to clone complex objects in a simple operation; issue #33
     */
    public void showReplaceDialog() {

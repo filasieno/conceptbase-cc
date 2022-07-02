@@ -181,6 +181,7 @@ public class CBanswer
    *
    * @return the result
    */
+
   public String getResult() {
     return sResult;
   }
@@ -191,14 +192,18 @@ public class CBanswer
    *
    * @return the result
    */
+
+  // This method is introduced to deal with CBanswers that contain reserved characters like '<' that prevent 
+  // them to be parsed as XML; see also issue #47
   public String getEncodedResult() {
-    if (sResult.contains("$"))
+    if (sResult.contains("$") || sResult.contains("\""))  // only need to do that for Telos assertions and strings
       return sResult.replaceAll("<=","!LE!").replaceAll(" < "," !LT! ");
     else
      return sResult;
   }
 
-  public static String decodeCBanswerString(String text) {
+  // undo the encoding of getEncodedResult()
+  public static String undoResultEncoding(String text) {
     return text.replaceAll("!LE!","<=").replaceAll("!LT!","<");
   }
 

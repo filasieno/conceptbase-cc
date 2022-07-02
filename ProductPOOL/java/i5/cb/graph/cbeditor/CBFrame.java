@@ -1022,7 +1022,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
                                 if(graphType.getNodeName().equals("name")){
                                     Text NameNode=(Text) graphType.getFirstChild();
                                     name=(String) NameNode.getNodeValue();
-                                    name = i5.cb.api.CBanswer.decodeName(name); // undo the encoding of getEncodedResult
+                                    name = CBanswer.undoResultEncoding(name); // issue #47
                                 }
 
                                 //process properties of the graphType

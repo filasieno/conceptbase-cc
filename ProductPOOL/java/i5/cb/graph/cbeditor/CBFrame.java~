@@ -42,7 +42,7 @@ package i5.cb.graph.cbeditor;
 
 import i5.cb.CBConfiguration;
 import i5.cb.CBException;
-import i5.cb.api.CBanswer.*;
+import i5.cb.api.CBanswer;
 import i5.cb.api.CBclient;
 import i5.cb.api.CButil;
 import i5.cb.api.CBanswer;
@@ -1022,7 +1022,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
                                 if(graphType.getNodeName().equals("name")){
                                     Text NameNode=(Text) graphType.getFirstChild();
                                     name=(String) NameNode.getNodeValue();
-                                    name = decodeName(name); // undo the encoding of getEncodedResult
+                                    name = CBanswer.undoResultEncoding(name); // undo the encoding of getEncodedResult
                                 }
 
                                 //process properties of the graphType

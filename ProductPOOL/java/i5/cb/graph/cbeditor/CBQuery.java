@@ -240,7 +240,7 @@ public class CBQuery {
                     if(possibleNameNodes.getNodeName().equals("name")) {
                         Text NameNode=(Text) possibleNameNodes.getFirstChild();
                         name = stripModuleQualifier((String) NameNode.getNodeValue());  // issue #29
-                        name = i5.cb.api.CBanswer.decodeName(name); // undo the encoding of getEncodedResult
+                        name = CBanswer.undoResultEncoding(name); // issue #47
                         ObjectName onObject=CBUtil.parseObjectName(name);
                         //create new TelosObjects and add them to the ITelosOjectSet
                         try {
@@ -473,7 +473,7 @@ public class CBQuery {
                 if(Attributes.getNodeName()=="name") {
                     Text NameNode=(Text) Attributes.getFirstChild();
                     name=(String) NameNode.getNodeValue();
-                    name = i5.cb.api.CBanswer.decodeName(name); // undo the encoding of getEncodedResult
+                    name = CBanswer.undoResultEncoding(name); // issue #47
                     objectsEdgesNames.add(name);
                 }
                 if(Attributes.getNodeName()=="graphtype") {

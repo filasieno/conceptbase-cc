@@ -363,6 +363,29 @@ abstract public class CBUserObject {
     public HashSet getEdges() {
         return m_edges;
     }
+
+
+    // insert blanks before uppercase for better rendering of labels like DesignObjectType
+    private static String insertBlanksBeforeUpperCase(String str) {
+        if (str.length()>0) 
+          return str;
+        if (str.charAt(0)=='"' || str.charAt(0)=='$')  // leave Telos strings and assertions unchanged
+          return str;
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(str.charAt(0));
+
+        char lastchar = '-'; 
+        for (int i=1; i<str.length(); i++) {  // ignore the first char
+           char c = str.charAt(i);
+           if (Character.isUpperCase(c) && Character.isLowerCase(lastchar) && lastchar != ' ') {
+              sb.append(' ');
+           }
+           sb.append(c);
+           lastchar = c;
+        }
+        return sb.toString();
+    }
     /**
      * Return the small component for this user object.
      */
@@ -393,8 +416,11 @@ abstract public class CBUserObject {
         if (sLabel.length()>labellength) {
            sLabel=sLabel.substring(0,labellength-4) + " ...";
         }
-        if (replaceUnderScore) 
+        if (replaceUnderScore) {
           sLabel = sLabel.replaceAll("_"," ");
+        } else if (wrapLabel) {
+          sLabel = insertBlanksBeforeUpperCase(sLabel);
+        }
         if (wrapLabel) {
            sLabel="<html><p>" + sLabel.replaceAll("<","&lt;") + "</p></html>";
         }
