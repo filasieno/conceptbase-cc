@@ -53,1124 +53,1135 @@
 
 :- style_check(-singleton) .
 
-buildMSFOLconstraint('MSFOLconstraint'(_G2744),_G2770,_G2773)  :-
- parseDecl(_G2744,_G2770,_G2773),
+buildMSFOLconstraint('MSFOLconstraint'(_G1154), _G1180, _G1183)  :-
+ parseDecl(_G1154, _G1180, _G1183),
  ! .
 
-buildAssertionRule('MSFOLrule'(_G2811,_G2812,_G2813),_G2898,_G2901)  :-
- foralls(_G2817,_G2818,_G2898,_G2929),
- 'VarTabLookup_vars'(_G2811),
- buildAssertionRule2(_G2827,_G2813,_G2929,_G2901),
+buildAssertionRule('MSFOLrule'(_G1221, _G1222, _G1223), _G1308, _G1311)  :-
+ foralls(_G1227, _G1228, _G1308, _G1339),
+ 'VarTabLookup_vars'(_G1221),
+ buildAssertionRule2(_G1237, _G1223, _G1339, _G1311),
  !,
  (
- _G2818==[],
- _G2812=_G2827;
- _G2818\==[],
- append(_G2818,[_G2827],_G2850),
- _G2812=and(_G2850)),
- validConclusion(_G2813,_G2811) .
+ _G1228==[],
+ _G1222=_G1237;
+ _G1228\==[],
+ append(_G1228, [_G1237], _G1260),
+ _G1222=and(_G1260)),
+ validConclusion(_G1223, _G1221) .
 
-buildAssertionRule2(_G2987,_G2988,_G3022,_G3025)  :-
- exp(_G2990,_G3022,_G3025),
+buildAssertionRule2(_G1397, _G1398, _G1432, _G1435)  :-
+ exp(_G1400, _G1432, _G1435),
  !,
- splitRule(_G2990,_G2987,_G2988) .
+ splitRule(_G1400, _G1397, _G1398) .
 
-buildAssertionTerm('MSFOLassertion'(_G3070),_G3096,_G3099)  :-
- parseDecl(_G3070,_G3096,_G3099),
+buildAssertionTerm('MSFOLassertion'(_G1480), _G1506, _G1509)  :-
+ parseDecl(_G1480, _G1506, _G1509),
  ! .
 
-buildAssertionTerm('MSFOLassertion'(_G3137),_G3163,_G3166)  :-
- exp(_G3137,_G3163,_G3166),
+buildAssertionTerm('MSFOLassertion'(_G1547), _G1573, _G1576)  :-
+ exp(_G1547, _G1573, _G1576),
  ! .
 
-shortConclusion(lit(_G3204),_G3222,_G3225)  :-
- lit(_G3204,_G3222,_G3225) .
+shortConclusion(lit(_G1614), _G1632, _G1635)  :-
+ lit(_G1614, _G1632, _G1635) .
 
-shortConclusion(lit(_G3260),['('|_G3307],_G3293)  :-
- lit(_G3260,_G3307,[')'|_G3293]),
+shortConclusion(lit(_G1670), ['('|_G1717], _G1703)  :-
+ lit(_G1670, _G1717, [')'|_G1703]),
  true .
 
-parseDecl(_G3337,_G3361,_G3364)  :-
- exp(_G3337,_G3361,_G3364),
+parseDecl(_G1747, _G1771, _G1774)  :-
+ exp(_G1747, _G1771, _G1774),
  ! .
 
-exp(_G3402,_G3450,_G3453)  :-
- elemexp(_G3404,_G3450,_G3478),
- andexp(_G3404,_G3407,_G3478,_G3506),
- orexp(_G3407,_G3410,_G3506,_G3538),
- implexp(_G3410,_G3413,_G3538,_G3570),
- equivexp(_G3413,_G3402,_G3570,_G3453),
+exp(_G1812, _G1860, _G1863)  :-
+ elemexp(_G1814, _G1860, _G1888),
+ andexp(_G1814, _G1817, _G1888, _G1916),
+ orexp(_G1817, _G1820, _G1916, _G1948),
+ implexp(_G1820, _G1823, _G1948, _G1980),
+ equivexp(_G1823, _G1812, _G1980, _G1863),
  ! .
 
-elemexp(_G3619,[ident(forall)|_G3711],_G3697)  :-
- vartypelist(_G3626,_G3627,_G3711,_G3728),
+elemexp(_G2029, [ident(forall)|_G2121], _G2107)  :-
+ vartypelist(_G2036, _G2037, _G2121, _G2138),
  (
- _G3627==[],
- expandQuantifier(forall,_G3626,_G3634,_G3619);
- _G3627\==[],
- append(_G3627,[_G3634],_G3648),
- expandQuantifier(forall,_G3626,and(_G3648),_G3619)),
- exp(_G3634,_G3728,_G3697) .
+ _G2037==[],
+ expandQuantifier(forall, _G2036, _G2044, _G2029);
+ _G2037\==[],
+ append(_G2037, [_G2044], _G2058),
+ expandQuantifier(forall, _G2036, and(_G2058), _G2029)),
+ exp(_G2044, _G2138, _G2107) .
 
-elemexp(_G3770,[ident(exists)|_G3862],_G3848)  :-
- vartypelist(_G3777,_G3778,_G3862,_G3879),
+elemexp(_G2180, [ident(exists)|_G2272], _G2258)  :-
+ vartypelist(_G2187, _G2188, _G2272, _G2289),
  (
- _G3778==[],
- expandQuantifier(exists,_G3777,_G3785,_G3770);
- _G3778\==[],
- append(_G3778,[_G3785],_G3799),
- expandQuantifier(exists,_G3777,and(_G3799),_G3770)),
- exp(_G3785,_G3879,_G3848) .
+ _G2188==[],
+ expandQuantifier(exists, _G2187, _G2195, _G2180);
+ _G2188\==[],
+ append(_G2188, [_G2195], _G2209),
+ expandQuantifier(exists, _G2187, and(_G2209), _G2180)),
+ exp(_G2195, _G2289, _G2258) .
 
-elemexp(not(_G3921),[ident(not)|_G3964],_G3950)  :-
- elemexp(_G3921,_G3964,_G3950) .
+elemexp(not(_G2331), [ident(not)|_G2374], _G2360)  :-
+ elemexp(_G2331, _G2374, _G2360) .
 
-elemexp(_G3988,['('|_G4033],_G4019)  :-
- exp(_G3988,_G4033,[')'|_G4019]),
+elemexp(_G2398, ['('|_G2443], _G2429)  :-
+ exp(_G2398, _G2443, [')'|_G2429]),
  true .
 
-elemexp(lit(_G4063),_G4081,_G4084)  :-
- lit(_G4063,_G4081,_G4084) .
+elemexp(lit(_G2473), _G2491, _G2494)  :-
+ lit(_G2473, _G2491, _G2494) .
 
-elemexp(_G4119,_G4135,_G4138)  :-
- elemSelectExpB(_G4119,_G4135,_G4138) .
+elemexp(_G2529, _G2545, _G2548)  :-
+ elemSelectExpB(_G2529, _G2545, _G2548) .
 
-vartypelist([_G4173|_G4174],_G4177,_G4218,_G4221)  :-
- vartype(_G4173,_G4180,_G4218,_G4253),
- optvartypelist(_G4174,_G4183,_G4253,_G4221),
+vartypelist([_G2583|_G2584], _G2587, _G2628, _G2631)  :-
+ vartype(_G2583, _G2590, _G2628, _G2663),
+ optvartypelist(_G2584, _G2593, _G2663, _G2631),
  !,
- append(_G4180,_G4183,_G4177) .
+ append(_G2590, _G2593, _G2587) .
 
-optvartypelist(_G4305,_G4306,_G4326,_G4329)  :-
- vartypelist(_G4305,_G4306,_G4326,_G4329) .
+optvartypelist(_G2715, _G2716, _G2736, _G2739)  :-
+ vartypelist(_G2715, _G2716, _G2736, _G2739) .
 
-optvartypelist([],[],_G4401,_G4401)  :-
+optvartypelist([], [], _G2811, _G2811)  :-
  true,
  ! .
 
-vartype(vtype(_G4424,_G4425),_G4428,_G4480,_G4483)  :-
- varlist(_G4424,_G4480,[/|_G4526]),
- selectexpb(_G4435,_G4526,_G4483),
- replaceSelectExpBList(_G4435,_G4424,_G4425,_G4428),
- 'VarTabInsert'(_G4424,[_G4425]) .
+vartype(vtype(_G2834, _G2835), _G2838, _G2890, _G2893)  :-
+ varlist(_G2834, _G2890, [/|_G2936]),
+ selectexpb(_G2845, _G2936, _G2893),
+ replaceSelectExpBList(_G2845, _G2834, _G2835, _G2838),
+ 'VarTabInsert'(_G2834, [_G2835]) .
 
-vartype(vtype(_G4556,_G4557),[],_G4621,_G4624)  :-
- varlist(_G4556,_G4621,[/,'['|_G4670]),
- typelist(_G4557,_G4670,[']'|_G4624]),
- 'VarTabInsert'(_G4556,_G4557),
+vartype(vtype(_G2966, _G2967), [], _G3031, _G3034)  :-
+ varlist(_G2966, _G3031, [/, '['|_G3080]),
+ typelist(_G2967, _G3080, [']'|_G3034]),
+ 'VarTabInsert'(_G2966, _G2967),
  !,
- containsNoReservedWord(_G4556) .
+ containsNoReservedWord(_G2966) .
 
-vartype(vtype(_G4706,_G4707),[],_G4762,_G4765)  :-
- varlist(_G4706,_G4762,[/|_G4808]),
- type(_G4707,_G4808,_G4765),
- 'VarTabInsert'(_G4706,[_G4707]),
+vartype(vtype(_G3116, _G3117), [], _G3172, _G3175)  :-
+ varlist(_G3116, _G3172, [/|_G3218]),
+ type(_G3117, _G3218, _G3175),
+ 'VarTabInsert'(_G3116, [_G3117]),
  !,
- containsNoReservedWord(_G4706) .
+ containsNoReservedWord(_G3116) .
 
-varlist([_G4841|_G4842],[ident(_G4841),','|_G4908],_G4891)  :-
- varlist(_G4842,_G4908,_G4891),
+varlist([_G3251|_G3252], [ident(_G3251), (',')|_G3318], _G3301)  :-
+ varlist(_G3252, _G3318, _G3301),
  !,
- _G4841\=='~this' .
+ _G3251\=='~this' .
 
-varlist([_G4938],[ident(_G4938)|_G4977],_G4977)  :-
+varlist([_G3348], [ident(_G3348)|_G3387], _G3387)  :-
  !,
- _G4938\=='~this' .
+ _G3348\=='~this' .
 
-andexp(and_h(_G4996),_G4999,[ident(and)|_G5058],_G5040)  :-
- elemexp(_G5006,_G5058,_G5072),
- andexp(and_h([_G5006|_G4996]),_G4999,_G5072,_G5040) .
+andexp(and_h(_G3406), _G3409, [ident(and)|_G3468], _G3450)  :-
+ elemexp(_G3416, _G3468, _G3482),
+ andexp(and_h([_G3416|_G3406]), _G3409, _G3482, _G3450) .
 
-andexp(_G5114,_G5115,[ident(and)|_G5177],_G5159)  :-
- elemexp(_G5122,_G5177,_G5191),
- andexp(and_h([_G5122,_G5114]),_G5115,_G5191,_G5159) .
+andexp(_G3524, _G3525, [ident(and)|_G3587], _G3569)  :-
+ elemexp(_G3532, _G3587, _G3601),
+ andexp(and_h([_G3532, _G3524]), _G3525, _G3601, _G3569) .
 
-andexp(and_h(_G5233),and(_G5235),_G5263,_G5263)  :-
- reverse(_G5233,_G5235) .
+andexp(and_h(_G3643), and(_G3645), _G3673, _G3673)  :-
+ reverse(_G3643, _G3645) .
 
-andexp(_G5283,_G5284,_G5309,_G5309)  :-
- _G5284=_G5283 .
+andexp(_G3693, _G3694, _G3719, _G3719)  :-
+ _G3694=_G3693 .
 
-orexp(or_h(_G5329),_G5332,[ident(or)|_G5397],_G5379)  :-
- elemexp(_G5339,_G5397,_G5411),
- andexp(_G5339,_G5342,_G5411,_G5439),
- orexp(or_h([_G5342|_G5329]),_G5332,_G5439,_G5379) .
+orexp(or_h(_G3739), _G3742, [ident(or)|_G3807], _G3789)  :-
+ elemexp(_G3749, _G3807, _G3821),
+ andexp(_G3749, _G3752, _G3821, _G3849),
+ orexp(or_h([_G3752|_G3739]), _G3742, _G3849, _G3789) .
 
-orexp(_G5485,_G5486,[ident(or)|_G5554],_G5536)  :-
- elemexp(_G5493,_G5554,_G5568),
- andexp(_G5493,_G5496,_G5568,_G5596),
- orexp(or_h([_G5496,_G5485]),_G5486,_G5596,_G5536) .
+orexp(_G3895, _G3896, [ident(or)|_G3964], _G3946)  :-
+ elemexp(_G3903, _G3964, _G3978),
+ andexp(_G3903, _G3906, _G3978, _G4006),
+ orexp(or_h([_G3906, _G3895]), _G3896, _G4006, _G3946) .
 
-orexp(or_h(_G5642),or(_G5644),_G5672,_G5672)  :-
- reverse(_G5642,_G5644) .
+orexp(or_h(_G4052), or(_G4054), _G4082, _G4082)  :-
+ reverse(_G4052, _G4054) .
 
-orexp(_G5692,_G5693,_G5718,_G5718)  :-
- _G5693=_G5692 .
+orexp(_G4102, _G4103, _G4128, _G4128)  :-
+ _G4103=_G4102 .
 
-implexp(_G5738,_G5739,[==>|_G5806],_G5788)  :-
- elemexp(_G5744,_G5806,_G5820),
- andexp(_G5744,_G5747,_G5820,_G5848),
- orexp(_G5747,_G5750,_G5848,_G5880),
- implexp(impl(_G5738,_G5750),_G5739,_G5880,_G5788) .
+implexp(_G4148, _G4149, [ (==>)|_G4216], _G4198)  :-
+ elemexp(_G4154, _G4216, _G4230),
+ andexp(_G4154, _G4157, _G4230, _G4258),
+ orexp(_G4157, _G4160, _G4258, _G4290),
+ implexp(impl(_G4148, _G4160), _G4149, _G4290, _G4198) .
 
-implexp(_G5926,_G5927,_G5952,_G5952)  :-
- _G5927=_G5926 .
+implexp(_G4336, _G4337, _G4362, _G4362)  :-
+ _G4337=_G4336 .
 
-equivexp(_G5972,_G5973,[<==>|_G6057],_G6039)  :-
- elemexp(_G5978,_G6057,_G6071),
- andexp(_G5978,_G5981,_G6071,_G6099),
- orexp(_G5981,_G5984,_G6099,_G6131),
- implexp(_G5984,_G5987,_G6131,_G6163),
- equivexp(and([impl(_G5972,_G5987),impl(_G5987,_G5972)]),_G5973,_G6163,_G6039) .
+equivexp(_G4382, _G4383, [<==>|_G4467], _G4449)  :-
+ elemexp(_G4388, _G4467, _G4481),
+ andexp(_G4388, _G4391, _G4481, _G4509),
+ orexp(_G4391, _G4394, _G4509, _G4541),
+ implexp(_G4394, _G4397, _G4541, _G4573),
+ equivexp(and([impl(_G4382, _G4397), impl(_G4397, _G4382)]), _G4383, _G4573, _G4449) .
 
-equivexp(_G6209,_G6210,_G6235,_G6235)  :-
- _G6210=_G6209 .
+equivexp(_G4619, _G4620, _G4645, _G4645)  :-
+ _G4620=_G4619 .
 
-lit('Mod'(_G6255,_G6256),[ident(_G6260),select(@),ident(_G6290),'('|_G6431],_G6405)  :-
- memberchk(_G6260,['A','A_e','Ai','A2']),
- name2id(_G6290,_G6256),
- pc_update(t_msp(_G6256)),
- litarg(_G6313,_G6431,[','|_G6459]),
- label(_G6318,_G6459,[','|_G6487]),
- litarg(_G6323,_G6487,[')'|_G6405]),
- _G6255=..[_G6260,_G6313,_G6318,_G6323],
- abolish(t_msp,1) .
+lit('Mod'(_G4665, _G4666), [ident(_G4670), select(@), ident(_G4700), '('|_G4841], _G4815)  :-
+ memberchk(_G4670, ['A', 'A_e', 'Ai', 'A2']),
+ name2id(_G4700, _G4666),
+ pc_update(t_msp(_G4666)),
+ litarg(_G4723, _G4841, [ (',')|_G4869]),
+ label(_G4728, _G4869, [ (',')|_G4897]),
+ litarg(_G4733, _G4897, [')'|_G4815]),
+ _G4665=..[_G4670, _G4723, _G4728, _G4733],
+ abolish(t_msp, 1) .
 
-lit(_G6529,[ident(_G6531),'('|_G6677],_G6654)  :-
- memberchk(_G6531,['A','A_e','Ai','A2']),
- 'M_SearchSpace'(_G6554),
- pc_update(t_msp(_G6554)),
- litarg(_G6571,_G6677,[','|_G6705]),
- label(_G6576,_G6705,[','|_G6733]),
- litarg(_G6581,_G6733,[')'|_G6654]),
- _G6529=..[_G6531,_G6571,_G6576,_G6581],
- abolish(t_msp,1) .
+lit(_G4939, [ident(_G4941), '('|_G5087], _G5064)  :-
+ memberchk(_G4941, ['A', 'A_e', 'Ai', 'A2']),
+ 'M_SearchSpace'(_G4964),
+ pc_update(t_msp(_G4964)),
+ litarg(_G4981, _G5087, [ (',')|_G5115]),
+ label(_G4986, _G5115, [ (',')|_G5143]),
+ litarg(_G4991, _G5143, [')'|_G5064]),
+ _G4939=..[_G4941, _G4981, _G4986, _G4991],
+ abolish(t_msp, 1) .
 
-lit('Mod'(_G6775,_G6776),[ident('AL'),select(@),ident(_G6790),'('|_G6932],_G6906)  :-
- name2id(_G6790,_G6776),
- pc_update(t_msp(_G6776)),
- litarg(_G6813,_G6932,[','|_G6960]),
- label(_G6818,_G6960,[','|_G6988]),
- simplelabel(_G6823,_G6988,[','|_G7016]),
- litarg(_G6828,_G7016,[')'|_G6906]),
- _G6775='A_label'(_G6813,_G6818,_G6828,_G6823),
- abolish(t_msp,1) .
+lit('Mod'(_G5185, _G5186), [ident('AL'), select(@), ident(_G5200), '('|_G5342], _G5316)  :-
+ name2id(_G5200, _G5186),
+ pc_update(t_msp(_G5186)),
+ litarg(_G5223, _G5342, [ (',')|_G5370]),
+ label(_G5228, _G5370, [ (',')|_G5398]),
+ simplelabel(_G5233, _G5398, [ (',')|_G5426]),
+ litarg(_G5238, _G5426, [')'|_G5316]),
+ _G5185='A_label'(_G5223, _G5228, _G5238, _G5233),
+ abolish(t_msp, 1) .
 
-lit(_G7055,[ident('AL'),'('|_G7186],_G7166)  :-
- 'M_SearchSpace'(_G7062),
- pc_update(t_msp(_G7062)),
- litarg(_G7079,_G7186,[','|_G7214]),
- label(_G7084,_G7214,[','|_G7242]),
- simplelabel(_G7089,_G7242,[','|_G7270]),
- litarg(_G7094,_G7270,[')'|_G7166]),
- _G7055='A_label'(_G7079,_G7084,_G7094,_G7089),
- abolish(t_msp,1) .
+lit(_G5465, [ident('AL'), '('|_G5596], _G5576)  :-
+ 'M_SearchSpace'(_G5472),
+ pc_update(t_msp(_G5472)),
+ litarg(_G5489, _G5596, [ (',')|_G5624]),
+ label(_G5494, _G5624, [ (',')|_G5652]),
+ simplelabel(_G5499, _G5652, [ (',')|_G5680]),
+ litarg(_G5504, _G5680, [')'|_G5576]),
+ _G5465='A_label'(_G5489, _G5494, _G5504, _G5499),
+ abolish(t_msp, 1) .
 
-lit(_G7309,['('|_G7417],_G7400)  :-
- 'M_SearchSpace'(_G7311),
- pc_update(t_msp(_G7311)),
- litarg(_G7328,_G7417,_G7431),
- label(_G7330,_G7431,[/|_G7470]),
- simplelabel(_G7335,_G7470,_G7484),
- litarg(_G7337,_G7484,[')'|_G7400]),
- _G7309='A_label'(_G7328,_G7330,_G7337,_G7335),
- abolish(t_msp,1) .
+lit(_G5719, ['('|_G5827], _G5810)  :-
+ 'M_SearchSpace'(_G5721),
+ pc_update(t_msp(_G5721)),
+ litarg(_G5738, _G5827, _G5841),
+ label(_G5740, _G5841, [/|_G5880]),
+ simplelabel(_G5745, _G5880, _G5894),
+ litarg(_G5747, _G5894, [')'|_G5810]),
+ _G5719='A_label'(_G5738, _G5740, _G5747, _G5745),
+ abolish(t_msp, 1) .
 
-lit('Mod'(_G3,_G4),[ident(_G8),select(@),ident(_G32),'('|_G133],_G114)  :-
- memberchk(_G8,['In','In2']),
- name2id(_G32,_G4),
- pc_update(t_msp(_G4)),
- litarglist(_G55,_G133,[')'|_G114]),
- _G63=..[_G8|_G55],
- resolveDeriveExpression(_G32,_G63,_G3),
- abolish(t_msp,1) .
+lit('Mod'(_G5944, _G5945), [ident(_G5949), select(@), ident(_G5973), '('|_G6090], _G6064)  :-
+ memberchk(_G5949, ['In', 'In2']),
+ name2id(_G5973, _G5945),
+ pc_update(t_msp(_G5945)),
+ litarglist(_G5996, _G6090, [')'|_G6064]),
+ _G6004=..[_G5949|_G5996],
+ resolveDeriveExpression(_G5973, _G6004, _G5944),
+ abolish(t_msp, 1) .
 
-lit(_G178,[ident(_G180),'('|_G297],_G277)  :-
- memberchk(_G180,['In','In2']),
- 'M_SearchSpace'(_G199),
- pc_update(t_msp(_G199)),
- litarglist(_G216,_G297,[')'|_G277]),
- _G224=..[_G180|_G216],
- resolveDeriveExpression(_G224,_G178),
- abolish(t_msp,1) .
+lit(_G6135, [ident(_G6137), '('|_G6254], _G6234)  :-
+ memberchk(_G6137, ['In', 'In2']),
+ 'M_SearchSpace'(_G6156),
+ pc_update(t_msp(_G6156)),
+ litarglist(_G6173, _G6254, [')'|_G6234]),
+ _G6181=..[_G6137|_G6173],
+ resolveDeriveExpression(_G6181, _G6135),
+ abolish(t_msp, 1) .
 
-lit('Mod'(_G342,_G343),[ident('Label'),select(@),ident(_G357),'('|_G481],_G455)  :-
- name2id(_G357,_G343),
- pc_update(t_msp(_G343)),
- litarg(_G380,_G481,[','|_G509]),
- label(_G385,_G509,[')'|_G455]),
- _G342=..['Label',_G380,_G385],
- abolish(t_msp,1) .
+lit('Mod'(_G6299, _G6300), [ident('Label'), select(@), ident(_G6314), '('|_G6438], _G6412)  :-
+ name2id(_G6314, _G6300),
+ pc_update(t_msp(_G6300)),
+ litarg(_G6337, _G6438, [ (',')|_G6466]),
+ label(_G6342, _G6466, [')'|_G6412]),
+ _G6299=..['Label', _G6337, _G6342],
+ abolish(t_msp, 1) .
 
-lit(_G548,[ident('Label'),'('|_G655],_G635)  :-
- 'M_SearchSpace'(_G555),
- pc_update(t_msp(_G555)),
- litarg(_G572,_G655,[','|_G683]),
- label(_G577,_G683,[')'|_G635]),
- _G548=..['Label',_G572,_G577] .
+lit(_G6505, [ident('Label'), '('|_G6612], _G6592)  :-
+ 'M_SearchSpace'(_G6512),
+ pc_update(t_msp(_G6512)),
+ litarg(_G6529, _G6612, [ (',')|_G6640]),
+ label(_G6534, _G6640, [')'|_G6592]),
+ _G6505=..['Label', _G6529, _G6534] .
 
-lit('Mod'(_G719,_G720),[ident('P'),select(@),ident(_G734),'('|_G886],_G860)  :-
- name2id(_G734,_G720),
- pc_update(t_msp(_G720)),
- litarg(_G757,_G886,[','|_G914]),
- litarg(_G762,_G914,[','|_G942]),
- label(_G767,_G942,[','|_G970]),
- litarg(_G772,_G970,[')'|_G860]),
- _G719=..['P',_G757,_G762,_G767,_G772],
- abolish(t_msp,1) .
+lit('Mod'(_G6676, _G6677), [ident('P'), select(@), ident(_G6691), '('|_G6843], _G6817)  :-
+ name2id(_G6691, _G6677),
+ pc_update(t_msp(_G6677)),
+ litarg(_G6714, _G6843, [ (',')|_G6871]),
+ litarg(_G6719, _G6871, [ (',')|_G6899]),
+ label(_G6724, _G6899, [ (',')|_G6927]),
+ litarg(_G6729, _G6927, [')'|_G6817]),
+ _G6676=..['P', _G6714, _G6719, _G6724, _G6729],
+ abolish(t_msp, 1) .
 
-lit('Mod'(_G1009,_G1010),[ident('Pa'),select(@),ident(_G1024),'('|_G1176],_G1150)  :-
- name2id(_G1024,_G1010),
- pc_update(t_msp(_G1010)),
- litarg(_G1047,_G1176,[','|_G1204]),
- litarg(_G1052,_G1204,[','|_G1232]),
- label(_G1057,_G1232,[','|_G1260]),
- litarg(_G1062,_G1260,[')'|_G1150]),
- _G1009=..['Pa',_G1047,_G1052,_G1057,_G1062],
- abolish(t_msp,1) .
+lit('Mod'(_G6966, _G6967), [ident('Pa'), select(@), ident(_G6981), '('|_G7133], _G7107)  :-
+ name2id(_G6981, _G6967),
+ pc_update(t_msp(_G6967)),
+ litarg(_G7004, _G7133, [ (',')|_G7161]),
+ litarg(_G7009, _G7161, [ (',')|_G7189]),
+ label(_G7014, _G7189, [ (',')|_G7217]),
+ litarg(_G7019, _G7217, [')'|_G7107]),
+ _G6966=..['Pa', _G7004, _G7009, _G7014, _G7019],
+ abolish(t_msp, 1) .
 
-lit(_G1299,[ident('P'),'('|_G1440],_G1420)  :-
- 'M_SearchSpace'(_G1306),
- pc_update(t_msp(_G1306)),
- litarg(_G1323,_G1440,[','|_G1468]),
- litarg(_G1328,_G1468,[','|_G1496]),
- variableOrLabel(_G1333,_G1496,[','|_G1524]),
- litarg(_G1338,_G1524,[')'|_G1420]),
- _G1299=..['P',_G1323,_G1328,_G1333,_G1338],
- abolish(t_msp,1) .
+lit(_G7256, [ident('P'), '('|_G7397], _G7377)  :-
+ 'M_SearchSpace'(_G7263),
+ pc_update(t_msp(_G7263)),
+ litarg(_G7280, _G7397, [ (',')|_G7425]),
+ litarg(_G7285, _G7425, [ (',')|_G7453]),
+ variableOrLabel(_G7290, _G7453, [ (',')|_G7481]),
+ litarg(_G7295, _G7481, [')'|_G7377]),
+ _G7256=..['P', _G7280, _G7285, _G7290, _G7295],
+ abolish(t_msp, 1) .
 
-lit(_G1563,[ident('Pa'),'('|_G1704],_G1684)  :-
- 'M_SearchSpace'(_G1570),
- pc_update(t_msp(_G1570)),
- litarg(_G1587,_G1704,[','|_G1732]),
- litarg(_G1592,_G1732,[','|_G1760]),
- variableOrLabel(_G1597,_G1760,[','|_G1788]),
- litarg(_G1602,_G1788,[')'|_G1684]),
- _G1563=..['Pa',_G1587,_G1592,_G1597,_G1602],
- abolish(t_msp,1) .
+lit(_G7520, [ident('Pa'), '('|_G7661], _G7641)  :-
+ 'M_SearchSpace'(_G7527),
+ pc_update(t_msp(_G7527)),
+ litarg(_G7544, _G7661, [ (',')|_G7689]),
+ litarg(_G7549, _G7689, [ (',')|_G7717]),
+ variableOrLabel(_G7554, _G7717, [ (',')|_G7745]),
+ litarg(_G7559, _G7745, [')'|_G7641]),
+ _G7520=..['Pa', _G7544, _G7549, _G7554, _G7559],
+ abolish(t_msp, 1) .
 
-lit('Mod'(_G1827,_G1828),[ident(_G1832),select(@),ident(_G1842),'('|_G1949],_G1923)  :-
- name2id(_G1842,_G1828),
- pc_update(t_msp(_G1828)),
- litarglist(_G1865,_G1949,[')'|_G1923]),
- _G1827=..[_G1832|_G1865],
- abolish(t_msp,1) .
+lit('Mod'(_G7784, _G7785), [ident(_G7789), select(@), ident(_G7799), '('|_G7906], _G7880)  :-
+ name2id(_G7799, _G7785),
+ pc_update(t_msp(_G7785)),
+ litarglist(_G7822, _G7906, [')'|_G7880]),
+ _G7784=..[_G7789|_G7822],
+ abolish(t_msp, 1) .
 
-lit(_G1988,[ident(_G1990),'('|_G2109],_G2089)  :-
- \+memberchk(_G1990,[new,not,forall,exists]),
- 'M_SearchSpace'(_G2017),
- pc_update(t_msp(_G2017)),
- litarglist(_G2034,_G2109,[')'|_G2089]),
- _G1988=..[_G1990|_G2034],
- abolish(t_msp,1) .
+lit(_G7945, [ident(_G7947), '('|_G8066], _G8046)  :-
+ \+memberchk(_G7947, [new, not, forall, exists]),
+ 'M_SearchSpace'(_G7974),
+ pc_update(t_msp(_G7974)),
+ litarglist(_G7991, _G8066, [')'|_G8046]),
+ _G7945=..[_G7947|_G7991],
+ abolish(t_msp, 1) .
 
-lit(_G2151,['('|_G2287],_G2270)  :-
- 'M_SearchSpace'(_G2153),
- pc_update(t_msp(_G2153)),
- litarg1(_G2170,_G2287,[_G2172|_G2315]),
- memberchk(_G2172,[=,<,>,=<,<=,>=,<>,\=]),
+lit(_G8108, ['('|_G8244], _G8227)  :-
+ 'M_SearchSpace'(_G8110),
+ pc_update(t_msp(_G8110)),
+ litarg1(_G8127, _G8244, [_G8129|_G8272]),
+ memberchk(_G8129, [=, <, >, =<, <=, >=, <>, \=]),
  !,
- litarg1(_G2210,_G2315,[')'|_G2270]),
- infixToLiteral(_G2151,_G2170,_G2172,_G2210),
+ litarg1(_G8167, _G8272, [')'|_G8227]),
+ infixToLiteral(_G8108, _G8127, _G8129, _G8167),
  !,
- abolish(t_msp,1) .
+ abolish(t_msp, 1) .
 
-lit(_G2366,['('|_G2464],_G2447)  :-
- 'M_SearchSpace'(_G2368),
- pc_update(t_msp(_G2368)),
- litarg(_G2385,_G2464,[_G2387|_G2492]),
- litarg(_G2390,_G2492,[')'|_G2447]),
- infixToLiteral(_G2366,_G2385,_G2387,_G2390),
+lit(_G8323, ['('|_G8421], _G8404)  :-
+ 'M_SearchSpace'(_G8325),
+ pc_update(t_msp(_G8325)),
+ litarg(_G8342, _G8421, [_G8344|_G8449]),
+ litarg(_G8347, _G8449, [')'|_G8404]),
+ infixToLiteral(_G8323, _G8342, _G8344, _G8347),
  !,
- abolish(t_msp,1) .
+ abolish(t_msp, 1) .
 
-lit(_G2534,['('|_G2644],_G2627)  :-
- 'M_SearchSpace'(_G2536),
- pc_update(t_msp(_G2536)),
- litarg(_G2553,_G2644,['[',_G2558,']'|_G2678]),
- litarg(_G2564,_G2678,[')'|_G2627]),
- metaInfixToLiteral(_G2534,_G2553,_G2558,_G2564),
+lit(_G8491, ['('|_G8601], _G8584)  :-
+ 'M_SearchSpace'(_G8493),
+ pc_update(t_msp(_G8493)),
+ litarg(_G8510, _G8601, ['[', _G8515, ']'|_G8635]),
+ litarg(_G8521, _G8635, [')'|_G8584]),
+ metaInfixToLiteral(_G8491, _G8510, _G8515, _G8521),
  !,
- abolish(t_msp,1) .
+ abolish(t_msp, 1) .
 
-lit(_G2720,[:,'('|_G2833],_G2813)  :-
- 'M_SearchSpace'(_G2722),
- pc_update(t_msp(_G2722)),
- litarg(_G2742,_G2833,[_G2744|_G2861]),
- litarg(_G2747,_G2861,[')',:|_G2813]),
- explicatedToLiteral(_G2720,_G2742,_G2744,_G2747),
+lit(_G8677, [:, '('|_G8790], _G8770)  :-
+ 'M_SearchSpace'(_G8679),
+ pc_update(t_msp(_G8679)),
+ litarg(_G8699, _G8790, [_G8701|_G8818]),
+ litarg(_G8704, _G8818, [')', :|_G8770]),
+ explicatedToLiteral(_G8677, _G8699, _G8701, _G8704),
  !,
- abolish(t_msp,1) .
+ abolish(t_msp, 1) .
 
-lit(_G2906,[:,'('|_G3037],_G3017)  :-
- 'M_SearchSpace'(_G2908),
- pc_update(t_msp(_G2908)),
- litarg(_G2928,_G3037,[_G2930,/,_G2936|_G3071]),
- litarg(_G2939,_G3071,[')',:|_G3017]),
- explicatedToLiteral(_G2906,_G2928,[_G2930,_G2936],_G2939),
+lit(_G8863, [:, '('|_G8994], _G8974)  :-
+ 'M_SearchSpace'(_G8865),
+ pc_update(t_msp(_G8865)),
+ litarg(_G8885, _G8994, [_G8887, /, _G8893|_G9028]),
+ litarg(_G8896, _G9028, [')', :|_G8974]),
+ explicatedToLiteral(_G8863, _G8885, [_G8887, _G8893], _G8896),
  !,
- abolish(t_msp,1) .
+ abolish(t_msp, 1) .
 
-lit('TRUE',[ident('TRUE')|_G3138],_G3138)  :-
+lit('TRUE', [ident('TRUE')|_G9095], _G9095)  :-
  true .
 
-lit('FALSE',[ident('FALSE')|_G3176],_G3176)  :-
+lit('FALSE', [ident('FALSE')|_G9133], _G9133)  :-
  true .
 
-litarglist([_G3192|_G3193],_G3216,_G3219)  :-
- litarg(_G3192,_G3216,_G3244),
- litarglist_rest(_G3193,_G3244,_G3219) .
+litarglist([_G9149|_G9150], _G9173, _G9176)  :-
+ litarg(_G9149, _G9173, _G9201),
+ litarglist_rest(_G9150, _G9201, _G9176) .
 
-litarglist_rest(_G3279,[','|_G3326],_G3312)  :-
+litarglist_rest(_G9236, [ (',')|_G9283], _G9269)  :-
  !,
- litarglist(_G3279,_G3326,_G3312) .
+ litarglist(_G9236, _G9283, _G9269) .
 
-litarglist_rest([],_G3372,_G3372)  :-
+litarglist_rest([], _G9329, _G9329)  :-
  ! .
 
-litarg(_G3388,_G3404,_G3407)  :-
- constantval(_G3388,_G3404,_G3407) .
+litarg(_G9345, _G9361, _G9364)  :-
+ constantval(_G9345, _G9361, _G9364) .
 
-litarg(_G3442,_G3458,_G3461)  :-
- deriveExpression(_G3442,_G3458,_G3461) .
+litarg(_G9399, _G9415, _G9418)  :-
+ deriveExpression(_G9399, _G9415, _G9418) .
 
-litarg(_G3496,_G3512,_G3515)  :-
- selectExpression(_G3496,_G3512,_G3515) .
+litarg(_G9453, _G9469, _G9472)  :-
+ selectExpression(_G9453, _G9469, _G9472) .
 
-litarg(_G3550,_G3566,_G3569)  :-
- variableOrObject(_G3550,_G3566,_G3569) .
+litarg(_G9507, _G9523, _G9526)  :-
+ variableOrObject(_G9507, _G9523, _G9526) .
 
-litarg1(_G3604,_G3620,_G3623)  :-
- constantval(_G3604,_G3620,_G3623) .
+litarg1(_G9561, _G9577, _G9580)  :-
+ constantval(_G9561, _G9577, _G9580) .
 
-litarg1(_G3658,_G3674,_G3677)  :-
- arExpr(_G3658,_G3674,_G3677) .
+litarg1(_G9615, _G9631, _G9634)  :-
+ arExpr(_G9615, _G9631, _G9634) .
 
-litarg1(_G3712,_G3728,_G3731)  :-
- deriveExpression(_G3712,_G3728,_G3731) .
+litarg1(_G9669, _G9685, _G9688)  :-
+ deriveExpression(_G9669, _G9685, _G9688) .
 
-litarg1(_G3766,_G3782,_G3785)  :-
- selectExpression(_G3766,_G3782,_G3785) .
+litarg1(_G9723, _G9739, _G9742)  :-
+ selectExpression(_G9723, _G9739, _G9742) .
 
-litarg1(_G3820,_G3836,_G3839)  :-
- variableOrObject(_G3820,_G3836,_G3839) .
+litarg1(_G9777, _G9793, _G9796)  :-
+ variableOrObject(_G9777, _G9793, _G9796) .
 
-typeExpr(_G3874,_G3890,_G3893)  :-
- constantval(_G3874,_G3890,_G3893) .
+typeExpr(_G9831, _G9847, _G9850)  :-
+ constantval(_G9831, _G9847, _G9850) .
 
-typeExpr(_G3928,_G3944,_G3947)  :-
- regularDeriveExpression(_G3928,_G3944,_G3947) .
+typeExpr(_G9885, _G9901, _G9904)  :-
+ regularDeriveExpression(_G9885, _G9901, _G9904) .
 
-typeExpr(_G3982,_G3998,_G4001)  :-
- shortQueryCall(_G3982,_G3998,_G4001) .
+typeExpr(_G9939, _G9955, _G9958)  :-
+ shortQueryCall(_G9939, _G9955, _G9958) .
 
-typeExpr(_G4036,_G4052,_G4055)  :-
- selectExpression(_G4036,_G4052,_G4055) .
+typeExpr(_G9993, _G10009, _G10012)  :-
+ selectExpression(_G9993, _G10009, _G10012) .
 
-typeExpr(_G4090,_G4106,_G4109)  :-
- typename(_G4090,_G4106,_G4109) .
+typeExpr(_G10047, _G10063, _G10066)  :-
+ typename(_G10047, _G10063, _G10066) .
 
-variableOrObject(_G4144,[ident(_G4146)|_G4261],_G4261)  :-
- \+memberchk(_G4146,['Known',new,'UNIFIES',in,isA,not,'In',forall,exists,'IDENTICAL','Ai']),
+variableOrObject(_G10101, [ident(_G10103)|_G10218], _G10218)  :-
+ \+memberchk(_G10103, ['Known', new, 'UNIFIES', in, isA, not, 'In', forall, exists, 'IDENTICAL', 'Ai']),
  (
- isVariable(_G4146,_G4144),
+ isVariable(_G10103, _G10101),
  !;
  (
- temp_msp(_G4200),
- t_name2id(_G4200,_G4146,_G4144),
+ temp_msp(_G10157),
+ t_name2id(_G10157, _G10103, _G10101),
  !;
- report_error('PFNFE',parseAss_dcg,[_G4146]),
- pc_atomconcat('%%UNKNOWN--',_G4146,_G4144),
+ report_error('PFNFE', parseAss_dcg, [_G10103]),
+ pc_atomconcat('%%UNKNOWN--', _G10103, _G10101),
  !)) .
 
-objectname(_G4280,[ident(_G4282)|_G4363],_G4363)  :-
- \+memberchk(_G4282,['Known',new,'UNIFIES',in,isA,not,'In',forall,exists,'IDENTICAL','Ai']),
- temp_msp(_G4328),
- t_name2id(_G4328,_G4282,_G4280),
+objectname(_G10237, [ident(_G10239)|_G10320], _G10320)  :-
+ \+memberchk(_G10239, ['Known', new, 'UNIFIES', in, isA, not, 'In', forall, exists, 'IDENTICAL', 'Ai']),
+ temp_msp(_G10285),
+ t_name2id(_G10285, _G10239, _G10237),
  ! .
 
-typename(_G4388,[ident(_G4390)|_G4487],_G4487)  :-
+typename(_G10345, [ident(_G10347)|_G10444], _G10444)  :-
  (
- \+memberchk(_G4390,['Known',new,'UNIFIES',in,isA,not,'In',forall,exists,'IDENTICAL','Ai']),
- temp_msp(_G4433),
- t_name2id(_G4433,_G4390,_G4388),
+ \+memberchk(_G10347, ['Known', new, 'UNIFIES', in, isA, not, 'In', forall, exists, 'IDENTICAL', 'Ai']),
+ temp_msp(_G10390),
+ t_name2id(_G10390, _G10347, _G10345),
  !;
- report_error('PFNFE',parseAss_dcg,[_G4390]),
+ report_error('PFNFE', parseAss_dcg, [_G10347]),
  !,
  fail) .
 
-constantval(_G4503,[realNumber(_G4505)|_G4537],_G4537)  :-
- create_if_builtin_object(_G4505,'Real',_G4503) .
+constantval(_G10460, [realNumber(_G10462)|_G10494], _G10494)  :-
+ create_if_builtin_object(_G10462, 'Real', _G10460) .
 
-constantval(_G4553,[intNumber(_G4555)|_G4587],_G4587)  :-
- create_if_builtin_object(_G4555,'Integer',_G4553) .
+constantval(_G10510, [intNumber(_G10512)|_G10544], _G10544)  :-
+ create_if_builtin_object(_G10512, 'Integer', _G10510) .
 
-constantval(_G4603,[string(_G4605)|_G4637],_G4637)  :-
- create_if_builtin_object(_G4605,'String',_G4603) .
+constantval(_G10560, [string(_G10562)|_G10594], _G10594)  :-
+ create_if_builtin_object(_G10562, 'String', _G10560) .
 
-label(_G4653,[ident(_G4653)|_G4701],_G4701)  :-
- temp_msp(_G4660),
- prove_literal('Mod'('P'(_G4665,_G4666,_G4653,_G4668),_G4660)),
+assertionval(_G10610, [assertion(_G10612)|_G10649], _G10649)  :-
+ temp_msp(_G10617),
+ t_name2id(_G10617, _G10612, _G10610) .
+
+label(_G10668, [ident(_G10668)|_G10716], _G10716)  :-
+ temp_msp(_G10675),
+ prove_literal('Mod'('P'(_G10680, _G10681, _G10668, _G10683), _G10675)),
  ! .
 
-label(_G4723,[string(_G4723)|_G4771],_G4771)  :-
- temp_msp(_G4730),
- prove_literal('Mod'('P'(_G4735,_G4736,_G4723,_G4738),_G4730)),
+label(_G10738, [string(_G10738)|_G10786], _G10786)  :-
+ temp_msp(_G10745),
+ prove_literal('Mod'('P'(_G10750, _G10751, _G10738, _G10753), _G10745)),
  ! .
 
-variableOrLabel(_G4793,[ident(_G4795)|_G4835],_G4835)  :-
+variableOrLabel(_G10808, [ident(_G10810)|_G10850], _G10850)  :-
  (
- isVariable(_G4795,_G4793),
+ isVariable(_G10810, _G10808),
  !;
- _G4793=_G4795) .
+ _G10808=_G10810) .
 
-simplelabel(_G4851,[ident(_G4851)|_G4873],_G4873)  :-
+simplelabel(_G10866, [ident(_G10866)|_G10888], _G10888)  :-
  true .
 
-typelist([_G4889|_G4890],_G4919,_G4922)  :-
- type(_G4889,_G4919,[','|_G4961]),
- typelist(_G4890,_G4961,_G4922) .
+typelist([_G10904|_G10905], _G10934, _G10937)  :-
+ type(_G10904, _G10934, [ (',')|_G10976]),
+ typelist(_G10905, _G10976, _G10937) .
 
-typelist([_G4985],_G5004,_G5007)  :-
- type(_G4985,_G5004,_G5007) .
+typelist([_G11000], _G11019, _G11022)  :-
+ type(_G11000, _G11019, _G11022) .
 
-type('VAR',[ident('VAR')|_G5072],_G5072)  :-
+type('VAR', [ident('VAR')|_G11087], _G11087)  :-
  ! .
 
-type(_G5088,_G5121,_G5124)  :-
- 'M_SearchSpace'(_G5090),
- pc_update(t_msp(_G5090)),
- typeExpr(_G5088,_G5121,_G5124) .
+type(_G11103, _G11136, _G11139)  :-
+ 'M_SearchSpace'(_G11105),
+ pc_update(t_msp(_G11105)),
+ typeExpr(_G11103, _G11136, _G11139) .
 
-deriveExpression(_G5168,_G5184,_G5187)  :-
- listModExpression(_G5168,_G5184,_G5187) .
+deriveExpression(_G11183, _G11199, _G11202)  :-
+ listModExpression(_G11183, _G11199, _G11202) .
 
-deriveExpression(_G5222,_G5238,_G5241)  :-
- countExpr(_G5222,_G5238,_G5241) .
+deriveExpression(_G11237, _G11253, _G11256)  :-
+ countExpr(_G11237, _G11253, _G11256) .
 
-deriveExpression(_G5276,_G5292,_G5295)  :-
- shortFunctionCall(_G5276,_G5292,_G5295) .
+deriveExpression(_G11291, _G11307, _G11310)  :-
+ shortFunctionCall(_G11291, _G11307, _G11310) .
 
-deriveExpression(_G5330,_G5346,_G5349)  :-
- shortQueryCall(_G5330,_G5346,_G5349) .
+deriveExpression(_G11345, _G11361, _G11364)  :-
+ shortQueryCall(_G11345, _G11361, _G11364) .
 
-deriveExpression(_G5384,_G5400,_G5403)  :-
- regularDeriveExpression(_G5384,_G5400,_G5403) .
+deriveExpression(_G11399, _G11415, _G11418)  :-
+ regularDeriveExpression(_G11399, _G11415, _G11418) .
 
-regularDeriveExpression(derive(_G5438,_G5439),[ident(_G5443),'['|_G5514],_G5497)  :-
- dExpList(_G5439,_G5514,[']'|_G5497]),
- temp_msp(_G5456),
- t_name2id(_G5456,_G5443,_G5438) .
+regularDeriveExpression(derive(_G11453, _G11454), [ident(_G11458), '['|_G11529], _G11512)  :-
+ dExpList(_G11454, _G11529, [']'|_G11512]),
+ temp_msp(_G11471),
+ t_name2id(_G11471, _G11458, _G11453) .
 
-listModExpression(derive(_G5547,_G5548),[ident(listModule),'['|_G5626],_G5609)  :-
- modExpr(_G5548,_G5626,[']'|_G5609]),
+listModExpression(derive(_G11562, _G11563), [ident(listModule), '['|_G11641], _G11624)  :-
+ modExpr(_G11563, _G11641, [']'|_G11624]),
  !,
- temp_msp(_G5568),
- t_name2id(_G5568,listModule,_G5547) .
+ temp_msp(_G11583),
+ t_name2id(_G11583, listModule, _G11562) .
 
-modExpr([substitute(_G5662,module)],_G5706,_G5709)  :-
- modPath(_G5662,_G5706,[/,ident(module)|_G5709]),
+modExpr([substitute(_G11677, module)], _G11721, _G11724)  :-
+ modPath(_G11677, _G11721, [/, ident(module)|_G11724]),
  ! .
 
-modExpr([substitute(_G5753,module)],_G5775,_G5778)  :-
- modPath(_G5753,_G5775,_G5778) .
+modExpr([substitute(_G11768, module)], _G11790, _G11793)  :-
+ modPath(_G11768, _G11790, _G11793) .
 
-modPath(_G5813,_G5837,_G5840)  :-
- modPathMin(_G5813,_G5837,_G5840),
+modPath(_G11828, _G11852, _G11855)  :-
+ modPathMin(_G11828, _G11852, _G11855),
  ! .
 
-modPath(_G5878,_G5902,_G5905)  :-
- modPathSlash(_G5878,_G5902,_G5905),
+modPath(_G11893, _G11917, _G11920)  :-
+ modPathSlash(_G11893, _G11917, _G11920),
  ! .
 
-modPathMin(_G5943,[ident(_G5945),-|_G6016],_G5999)  :-
- modPathMin(_G5953,_G6016,_G5999),
+modPathMin(_G11958, [ident(_G11960), -|_G12031], _G12014)  :-
+ modPathMin(_G11968, _G12031, _G12014),
  !,
- pc_atomconcat([_G5945,-,_G5953],_G5943) .
+ pc_atomconcat([_G11960, -, _G11968], _G11958) .
 
-modPathMin(_G6046,[ident(_G6046)|_G6068],_G6068)  :-
+modPathMin(_G12061, [ident(_G12061)|_G12083], _G12083)  :-
  true .
 
-modPathSlash(_G6084,[ident(_G6084),/,ident(module)|_G6128],_G6128)  :-
+modPathSlash(_G12099, [ident(_G12099), /, ident(module)|_G12143], _G12143)  :-
  ! .
 
-modPathSlash(_G6150,[ident(_G6152),/|_G6223],_G6206)  :-
- modPathSlash(_G6160,_G6223,_G6206),
+modPathSlash(_G12165, [ident(_G12167), /|_G12238], _G12221)  :-
+ modPathSlash(_G12175, _G12238, _G12221),
  !,
- pc_atomconcat([_G6152,/,_G6160],_G6150) .
+ pc_atomconcat([_G12167, /, _G12175], _G12165) .
 
-modPathSlash(_G6253,[ident(_G6253)|_G6286],_G6286)  :-
- _G6253\=module .
+modPathSlash(_G12268, [ident(_G12268)|_G12301], _G12301)  :-
+ _G12268\=module .
 
-countExpr(derive(_G6308,[substitute(_G6302,class)]),[#|_G6367],_G6353)  :-
- litarg(_G6302,_G6367,_G6353),
- temp_msp(_G6318),
- t_name2id(_G6318,'COUNT',_G6308) .
+countExpr(derive(_G12323, [substitute(_G12317, class)]), [#|_G12382], _G12368)  :-
+ litarg(_G12317, _G12382, _G12368),
+ temp_msp(_G12333),
+ t_name2id(_G12333, 'COUNT', _G12323) .
 
-shortFunctionCall(derive(_G6397,[]),[ident(_G6402),'(',')'|_G6451],_G6451)  :-
- temp_msp(_G6413),
- t_name2id(_G6413,_G6402,_G6397) .
+shortFunctionCall(derive(_G12412, []), [ident(_G12417), '(', ')'|_G12466], _G12466)  :-
+ temp_msp(_G12428),
+ t_name2id(_G12428, _G12417, _G12412) .
 
-shortFunctionCall(derive(_G6476,_G6477),[ident(_G6481),'('|_G6564],_G6547)  :-
- shortdExpList(_G6489,_G6564,[')'|_G6547]),
- temp_msp(_G6494),
- t_name2id(_G6494,_G6481,_G6476),
- isFunction(_G6476),
- plainToSubsts(_G6476,_G6489,_G6477) .
+shortFunctionCall(derive(_G12491, _G12492), [ident(_G12496), '('|_G12579], _G12562)  :-
+ shortdExpList(_G12504, _G12579, [')'|_G12562]),
+ temp_msp(_G12509),
+ t_name2id(_G12509, _G12496, _G12491),
+ isFunction(_G12491),
+ plainToSubsts(_G12491, _G12504, _G12492) .
 
-shortQueryCall(derive(_G6603,_G6604),[ident(_G6608),'['|_G6686],_G6669)  :-
- shortdExpList(_G6616,_G6686,[']'|_G6669]),
- temp_msp(_G6621),
- t_name2id(_G6621,_G6608,_G6603),
- plainToSubsts(_G6603,_G6616,_G6604) .
+shortQueryCall(derive(_G12618, _G12619), [ident(_G12623), '['|_G12701], _G12684)  :-
+ shortdExpList(_G12631, _G12701, [']'|_G12684]),
+ temp_msp(_G12636),
+ t_name2id(_G12636, _G12623, _G12618),
+ plainToSubsts(_G12618, _G12631, _G12619) .
 
-arExpr(_G6722,_G6762,_G6765)  :-
- arTerm(_G6724,_G6762,_G6790),
- arAddExpr(add(_G6726,_G6727),_G6790,_G6765),
- makeAddition(_G6724,_G6726,_G6727,_G6722),
+arExpr(_G12737, _G12777, _G12780)  :-
+ arTerm(_G12739, _G12777, _G12805),
+ arAddExpr(add(_G12741, _G12742), _G12805, _G12780),
+ makeAddition(_G12739, _G12741, _G12742, _G12737),
  ! .
 
-arExpr(_G6831,_G6885,_G6888)  :-
- arTerm(_G6833,_G6885,[intNumber(_G6835)|_G6888]),
- pc_atomconcat(-,_G6841,_G6835),
- create_if_builtin_object(_G6841,'Integer',_G6849),
- makeAddition(_G6833,-,_G6849,_G6831),
+arExpr(_G12846, _G12900, _G12903)  :-
+ arTerm(_G12848, _G12900, [intNumber(_G12850)|_G12903]),
+ pc_atomconcat(-, _G12856, _G12850),
+ create_if_builtin_object(_G12856, 'Integer', _G12864),
+ makeAddition(_G12848, -, _G12864, _G12846),
  ! .
 
-arExpr(_G6938,_G6954,_G6957)  :-
- arTerm(_G6938,_G6954,_G6957) .
+arExpr(_G12953, _G12969, _G12972)  :-
+ arTerm(_G12953, _G12969, _G12972) .
 
-arAddExpr(add(_G6992,_G6993),_G7040,_G7043)  :-
- arAddOp(_G6992,_G7040,_G7068),
- arTerm(_G6999,_G7068,_G7093),
- arAddExpr(add(_G7001,_G7002),_G7093,_G7043),
- makeAddition(_G6999,_G7001,_G7002,_G6993),
+arAddExpr(add(_G13007, _G13008), _G13055, _G13058)  :-
+ arAddOp(_G13007, _G13055, _G13083),
+ arTerm(_G13014, _G13083, _G13108),
+ arAddExpr(add(_G13016, _G13017), _G13108, _G13058),
+ makeAddition(_G13014, _G13016, _G13017, _G13008),
  ! .
 
-arAddExpr(add(_G7134,_G7135),_G7158,_G7161)  :-
- arAddOp(_G7134,_G7158,_G7186),
- arTerm(_G7135,_G7186,_G7161) .
+arAddExpr(add(_G13149, _G13150), _G13173, _G13176)  :-
+ arAddOp(_G13149, _G13173, _G13201),
+ arTerm(_G13150, _G13201, _G13176) .
 
-arTerm(_G7221,_G7261,_G7264)  :-
- arFactor(_G7223,_G7261,_G7289),
- arMultTerm(mult(_G7225,_G7226),_G7289,_G7264),
- makeMultiplication(_G7223,_G7225,_G7226,_G7221),
+arTerm(_G13236, _G13276, _G13279)  :-
+ arFactor(_G13238, _G13276, _G13304),
+ arMultTerm(mult(_G13240, _G13241), _G13304, _G13279),
+ makeMultiplication(_G13238, _G13240, _G13241, _G13236),
  ! .
 
-arTerm(_G7330,_G7346,_G7349)  :-
- arFactor(_G7330,_G7346,_G7349) .
+arTerm(_G13345, _G13361, _G13364)  :-
+ arFactor(_G13345, _G13361, _G13364) .
 
-arMultTerm(mult(_G7384,_G7385),_G7432,_G7435)  :-
- arMulOp(_G7384,_G7432,_G7460),
- arFactor(_G7391,_G7460,_G7485),
- arMultTerm(mult(_G7393,_G7394),_G7485,_G7435),
- makeMultiplication(_G7391,_G7393,_G7394,_G7385),
+arMultTerm(mult(_G13399, _G13400), _G13447, _G13450)  :-
+ arMulOp(_G13399, _G13447, _G13475),
+ arFactor(_G13406, _G13475, _G13500),
+ arMultTerm(mult(_G13408, _G13409), _G13500, _G13450),
+ makeMultiplication(_G13406, _G13408, _G13409, _G13400),
  ! .
 
-arMultTerm(mult(_G7526,_G7527),_G7550,_G7553)  :-
- arMulOp(_G7526,_G7550,_G7578),
- arFactor(_G7527,_G7578,_G7553) .
+arMultTerm(mult(_G13541, _G13542), _G13565, _G13568)  :-
+ arMulOp(_G13541, _G13565, _G13593),
+ arFactor(_G13542, _G13593, _G13568) .
 
-arFactor(_G3,_G20,_G21)  :-
- funcExpr(_G3,_G20,_G21),
+arFactor(_G13628, _G13652, _G13655)  :-
+ funcExpr(_G13628, _G13652, _G13655),
  ! .
 
-arFactor(_G47,_G71,_G74)  :-
- constantval(_G47,_G71,_G74),
+arFactor(_G13693, _G13717, _G13720)  :-
+ constantval(_G13693, _G13717, _G13720),
  ! .
 
-arFactor(_G112,_G128,_G131)  :-
- variableOrObject(_G112,_G128,_G131) .
+arFactor(_G13758, _G13774, _G13777)  :-
+ variableOrObject(_G13758, _G13774, _G13777) .
 
-arFactor(_G166,['('|_G219],_G205)  :-
- arExpr(_G166,_G219,[')'|_G205]),
+arFactor(_G13812, ['('|_G13865], _G13851)  :-
+ arExpr(_G13812, _G13865, [')'|_G13851]),
  ! .
 
-arAddOp(+,[+|_G269],_G269)  :-
+arAddOp(+, [+|_G13915], _G13915)  :-
  true .
 
-arAddOp(-,[-|_G305],_G305)  :-
+arAddOp(-, [-|_G13951], _G13951)  :-
  true .
 
-arMulOp(*,[*|_G341],_G341)  :-
+arMulOp(*, [*|_G13987], _G13987)  :-
  true .
 
-arMulOp(/,[/|_G377],_G377)  :-
+arMulOp(/, [/|_G14023], _G14023)  :-
  true .
 
-dExpList([_G393],_G412,_G415)  :-
- dExp(_G393,_G412,_G415) .
+dExpList([_G14039], _G14058, _G14061)  :-
+ dExp(_G14039, _G14058, _G14061) .
 
-dExpList([_G450|_G451],_G480,_G483)  :-
- dExp(_G450,_G480,[','|_G522]),
- dExpList(_G451,_G522,_G483) .
+dExpList([_G14096|_G14097], _G14126, _G14129)  :-
+ dExp(_G14096, _G14126, [ (',')|_G14168]),
+ dExpList(_G14097, _G14168, _G14129) .
 
-dExp(substitute(_G546,_G547),_G579,_G582)  :-
- litarg(_G546,_G579,[/,ident(_G547)|_G582]),
+dExp(substitute(_G14192, _G14193), _G14225, _G14228)  :-
+ litarg(_G14192, _G14225, [/, ident(_G14193)|_G14228]),
  true .
 
-dExp(specialize(_G626,_G627),_G659,_G662)  :-
- litarg(_G626,_G659,[:,ident(_G627)|_G662]),
+dExp(specialize(_G14272, _G14273), _G14305, _G14308)  :-
+ litarg(_G14272, _G14305, [:, ident(_G14273)|_G14308]),
  true .
 
-shortdExpList([_G706],_G725,_G728)  :-
- shortdExp(_G706,_G725,_G728) .
+shortdExpList([_G14352], _G14371, _G14374)  :-
+ shortdExp(_G14352, _G14371, _G14374) .
 
-shortdExpList([_G763|_G764],_G793,_G796)  :-
- shortdExp(_G763,_G793,[','|_G835]),
- shortdExpList(_G764,_G835,_G796) .
+shortdExpList([_G14409|_G14410], _G14439, _G14442)  :-
+ shortdExp(_G14409, _G14439, [ (',')|_G14481]),
+ shortdExpList(_G14410, _G14481, _G14442) .
 
-shortdExp(plainarg(_G859),_G877,_G880)  :-
- litarg(_G859,_G877,_G880) .
+shortdExp(plainarg(_G14505), _G14523, _G14526)  :-
+ litarg(_G14505, _G14523, _G14526) .
 
-funcExpr(derive(_G915,_G916),[ident(_G920),'('|_G1003],_G986)  :-
- funcArgList(_G928,_G1003,[')'|_G986]),
- temp_msp(_G933),
- t_name2id(_G933,_G920,_G915),
- isFunction(_G915),
- plainToSubsts(_G915,_G928,_G916) .
+funcExpr(derive(_G14561, _G14562), [ident(_G14566), '('|_G14649], _G14632)  :-
+ funcArgList(_G14574, _G14649, [')'|_G14632]),
+ temp_msp(_G14579),
+ t_name2id(_G14579, _G14566, _G14561),
+ isFunction(_G14561),
+ plainToSubsts(_G14561, _G14574, _G14562) .
 
-funcExpr(_G1042,_G1058,_G1061)  :-
- countExpr(_G1042,_G1058,_G1061) .
+funcExpr(_G14688, _G14704, _G14707)  :-
+ countExpr(_G14688, _G14704, _G14707) .
 
-funcExpr(_G1096,_G1112,_G1115)  :-
- shortFunctionCall(_G1096,_G1112,_G1115) .
+funcExpr(_G14742, _G14758, _G14761)  :-
+ shortFunctionCall(_G14742, _G14758, _G14761) .
 
-funcArgList([_G1150],_G1169,_G1172)  :-
- funcArg(_G1150,_G1169,_G1172) .
+funcArgList([_G14796], _G14815, _G14818)  :-
+ funcArg(_G14796, _G14815, _G14818) .
 
-funcArgList([_G1207|_G1208],_G1237,_G1240)  :-
- funcArg(_G1207,_G1237,[','|_G1279]),
- funcArgList(_G1208,_G1279,_G1240) .
+funcArgList([_G14853|_G14854], _G14883, _G14886)  :-
+ funcArg(_G14853, _G14883, [ (',')|_G14925]),
+ funcArgList(_G14854, _G14925, _G14886) .
 
-funcArg(plainarg(_G1303),_G1321,_G1324)  :-
- arExpr(_G1303,_G1321,_G1324) .
+funcArg(plainarg(_G14949), _G14967, _G14970)  :-
+ arExpr(_G14949, _G14967, _G14970) .
 
-funcArg(plainarg(_G1359),_G1377,_G1380)  :-
- arFactor(_G1359,_G1377,_G1380) .
+funcArg(plainarg(_G15005), _G15023, _G15026)  :-
+ arFactor(_G15005, _G15023, _G15026) .
 
-selectExpression(_G1415,_G1474,_G1477)  :-
- idorexp(_G1417,_G1474,[select(_G1419)|_G1516]),
- idorexp(_G1424,_G1516,_G1530),
- memberchk(_G1419,[->,=>]),
+selectExpression(_G15061, _G15120, _G15123)  :-
+ idorexp(_G15063, _G15120, [select(_G15065)|_G15162]),
+ idorexp(_G15070, _G15162, _G15176),
+ memberchk(_G15065, [ (->), =>]),
  !,
- selectExpression2(_G1415,select(_G1417,_G1419,_G1424),_G1530,_G1477) .
+ selectExpression2(_G15061, select(_G15063, _G15065, _G15070), _G15176, _G15123) .
 
-selectExpression(_G1581,_G1638,_G1641)  :-
- idorexp(_G1583,_G1638,[select(_G1585)|_G1680]),
- idorexp(_G1590,_G1680,_G1694),
- temp_msp(_G1592),
- eval(_G1592,select(_G1583,_G1585,_G1590),replaceSelectExpression,_G1604),
- selectExpression2(_G1581,_G1604,_G1694,_G1641) .
+selectExpression(_G15227, _G15284, _G15287)  :-
+ idorexp(_G15229, _G15284, [select(_G15231)|_G15326]),
+ idorexp(_G15236, _G15326, _G15340),
+ temp_msp(_G15238),
+ eval(_G15238, select(_G15229, _G15231, _G15236), replaceSelectExpression, _G15250),
+ selectExpression2(_G15227, _G15250, _G15340, _G15287) .
 
-selectExpression(_G1745,['('|_G1790],_G1776)  :-
- selectExpression(_G1745,_G1790,[')'|_G1776]),
+selectExpression(_G15391, ['('|_G15436], _G15422)  :-
+ selectExpression(_G15391, _G15436, [')'|_G15422]),
  true .
 
-selectExpression2(_G1824,select(_G1820,_G1821,_G1822),[select(_G1827)|_G1940],_G1922)  :-
- idorexp(_G1832,_G1940,_G1954),
- memberchk(_G1821,[->,=>]),
- memberchk(_G1827,[!,^,@]),
+selectExpression2(_G15470, select(_G15466, _G15467, _G15468), [select(_G15473)|_G15586], _G15568)  :-
+ idorexp(_G15478, _G15586, _G15600),
+ memberchk(_G15467, [ (->), =>]),
+ memberchk(_G15473, [!, ^, @]),
  !,
- temp_msp(_G1866),
- eval(_G1866,select(_G1822,_G1827,_G1832),replaceSelectExpression,_G1878),
- selectExpression2(_G1824,select(_G1820,_G1821,_G1878),_G1954,_G1922) .
+ temp_msp(_G15512),
+ eval(_G15512, select(_G15468, _G15473, _G15478), replaceSelectExpression, _G15524),
+ selectExpression2(_G15470, select(_G15466, _G15467, _G15524), _G15600, _G15568) .
 
-selectExpression2(_G2024,select(_G2020,_G2021,_G2022),[select(_G2027)|_G2137],_G2119)  :-
- idorexp(_G2032,_G2137,_G2151),
- memberchk(_G2021,[->,=>]),
- memberchk(_G2027,[->,=>]),
+selectExpression2(_G15670, select(_G15666, _G15667, _G15668), [select(_G15673)|_G15783], _G15765)  :-
+ idorexp(_G15678, _G15783, _G15797),
+ memberchk(_G15667, [ (->), =>]),
+ memberchk(_G15673, [ (->), =>]),
  !,
- temp_msp(_G2063),
- eval(_G2063,select(_G2020,_G2021,_G2022),replaceSelectExpression,_G2075),
- selectExpression2(_G2024,select(_G2075,_G2027,_G2032),_G2151,_G2119) .
+ temp_msp(_G15709),
+ eval(_G15709, select(_G15666, _G15667, _G15668), replaceSelectExpression, _G15721),
+ selectExpression2(_G15670, select(_G15721, _G15673, _G15678), _G15797, _G15765) .
 
-selectExpression2(_G2217,_G2218,[select(_G2220)|_G2296],_G2278)  :-
- memberchk(_G2220,[->,=>]),
+selectExpression2(_G15863, _G15864, [select(_G15866)|_G15942], _G15924)  :-
+ memberchk(_G15866, [ (->), =>]),
  !,
- idorexp(_G2242,_G2296,_G2313),
- selectExpression2(_G2217,select(_G2218,_G2220,_G2242),_G2313,_G2278) .
+ idorexp(_G15888, _G15942, _G15959),
+ selectExpression2(_G15863, select(_G15864, _G15866, _G15888), _G15959, _G15924) .
 
-selectExpression2(_G2361,_G2362,[select(_G2364)|_G2438],_G2420)  :-
- idorexp(_G2369,_G2438,_G2452),
- temp_msp(_G2371),
- eval(_G2371,select(_G2362,_G2364,_G2369),replaceSelectExpression,_G2383),
- selectExpression2(_G2361,_G2383,_G2452,_G2420) .
+selectExpression2(_G16007, _G16008, [select(_G16010)|_G16084], _G16066)  :-
+ idorexp(_G16015, _G16084, _G16098),
+ temp_msp(_G16017),
+ eval(_G16017, select(_G16008, _G16010, _G16015), replaceSelectExpression, _G16029),
+ selectExpression2(_G16007, _G16029, _G16098, _G16066) .
 
-selectExpression2(_G2507,select(_G2503,_G2504,_G2505),_G2547,_G2547)  :-
+selectExpression2(_G16153, select(_G16149, _G16150, _G16151), _G16193, _G16193)  :-
  !,
- temp_msp(_G2513),
- eval(_G2513,select(_G2503,_G2504,_G2505),replaceSelectExpression,_G2507) .
+ temp_msp(_G16159),
+ eval(_G16159, select(_G16149, _G16150, _G16151), replaceSelectExpression, _G16153) .
 
-selectExpression2(_G2573,_G2574,_G2599,_G2599)  :-
- _G2573=_G2574 .
+selectExpression2(_G16219, _G16220, _G16245, _G16245)  :-
+ _G16219=_G16220 .
 
-idorexp(_G2619,_G2635,_G2638)  :-
- label(_G2619,_G2635,_G2638) .
+idorexp(_G16265, _G16281, _G16284)  :-
+ label(_G16265, _G16281, _G16284) .
 
-idorexp(_G2673,[intNumber(_G2673)|_G2695],_G2695)  :-
+idorexp(_G16319, [intNumber(_G16319)|_G16341], _G16341)  :-
  true .
 
-idorexp(_G2711,[realNumber(_G2711)|_G2733],_G2733)  :-
+idorexp(_G16357, [realNumber(_G16357)|_G16379], _G16379)  :-
  true .
 
-idorexp(_G2749,['('|_G2794],_G2780)  :-
- selectExpression(_G2749,_G2794,[')'|_G2780]),
+idorexp(_G16395, ['('|_G16440], _G16426)  :-
+ selectExpression(_G16395, _G16440, [')'|_G16426]),
  true .
 
-elemSelectExpB(_G2824,_G2888,_G2891)  :-
- litarg(_G2826,_G2888,[ident(in)|_G2930]),
- selectexpb(_G2833,_G2930,_G2891),
+elemSelectExpB(_G16470, _G16534, _G16537)  :-
+ litarg(_G16472, _G16534, [ident(in)|_G16576]),
+ selectexpb(_G16479, _G16576, _G16537),
  !,
- replaceSelectExpB(_G2833,_G2826,_G2840,_G2841),
- _G2824=and([lit('In'(_G2826,_G2840)),_G2841]) .
+ replaceSelectExpB(_G16479, _G16472, _G16486, _G16487),
+ _G16470=and([lit('In'(_G16472, _G16486)), _G16487]) .
 
-elemSelectExpB(_G2963,_G3053,_G3056)  :-
- selectexpb(_G2965,_G3053,[ident(isA)|_G3095]),
- selectexpb(_G2972,_G3095,_G3056),
+elemSelectExpB(_G16609, _G16699, _G16702)  :-
+ selectexpb(_G16611, _G16699, [ident(isA)|_G16741]),
+ selectexpb(_G16618, _G16741, _G16702),
  !,
- createNewVarname(_G2977),
- replaceSelectExpB(_G2965,_G2977,_G2984,_G2985),
- replaceSelectExpB(_G2972,_G2977,_G2992,_G2993),
- 'VarTabInsert'([_G2977],[_G2984]),
- expandQuantifier(forall,vtype([_G2977],[_G2984]),impl(_G2985,_G2993),_G2963) .
+ createNewVarname(_G16623),
+ replaceSelectExpB(_G16611, _G16623, _G16630, _G16631),
+ replaceSelectExpB(_G16618, _G16623, _G16638, _G16639),
+ 'VarTabInsert'([_G16623], [_G16630]),
+ expandQuantifier(forall, vtype([_G16623], [_G16630]), impl(_G16631, _G16639), _G16609) .
 
-elemSelectExpB(_G3137,_G3236,_G3239)  :-
- selectexpb(_G3139,_G3236,[=|_G3278]),
- selectexpb(_G3144,_G3278,_G3239),
+elemSelectExpB(_G16783, _G16882, _G16885)  :-
+ selectexpb(_G16785, _G16882, [=|_G16924]),
+ selectexpb(_G16790, _G16924, _G16885),
  !,
- createNewVarname(_G3149),
- replaceSelectExpB(_G3139,_G3149,_G3156,_G3157),
- replaceSelectExpB(_G3144,_G3149,_G3164,_G3165),
- 'VarTabInsert'([_G3149],[_G3156]),
- expandQuantifier(forall,vtype([_G3149],[_G3156]),and([impl(_G3157,_G3165),impl(_G3165,_G3157)]),_G3137) .
+ createNewVarname(_G16795),
+ replaceSelectExpB(_G16785, _G16795, _G16802, _G16803),
+ replaceSelectExpB(_G16790, _G16795, _G16810, _G16811),
+ 'VarTabInsert'([_G16795], [_G16802]),
+ expandQuantifier(forall, vtype([_G16795], [_G16802]), and([impl(_G16803, _G16811), impl(_G16811, _G16803)]), _G16783) .
 
-selectexpb(selectExpB(_G3320,_G3321,_G3322),[ident(_G3320),select2(_G3321)|_G3376],_G3359)  :-
- selectexpb2(_G3322,_G3376,_G3359) .
+selectexpb(selectExpB(_G16966, _G16967, _G16968), [ident(_G16966), select2(_G16967)|_G17022], _G17005)  :-
+ selectexpb2(_G16968, _G17022, _G17005) .
 
-selectexpb(selectExpB(_G3400,_G3401,_G3402),[ident(_G3400),select2(_G3401)|_G3456],_G3439)  :-
- restriction(_G3402,_G3456,_G3439) .
+selectexpb(selectExpB(_G17046, _G17047, _G17048), [ident(_G17046), select2(_G17047)|_G17102], _G17085)  :-
+ restriction(_G17048, _G17102, _G17085) .
 
-selectexpb(selectExpB(_G3480,_G3481,_G3482),[ident(_G3480),select2(_G3481),ident(_G3482)|_G3522],_G3522)  :-
+selectexpb(selectExpB(_G17126, _G17127, _G17128), [ident(_G17126), select2(_G17127), ident(_G17128)|_G17168], _G17168)  :-
  true .
 
-selectexpb2(_G3544,_G3560,_G3563)  :-
- selectexpb(_G3544,_G3560,_G3563) .
+selectexpb2(_G17190, _G17206, _G17209)  :-
+ selectexpb(_G17190, _G17206, _G17209) .
 
-selectexpb2(selectExpB(_G3598,_G3599,_G3600),_G3631,_G3634)  :-
- restriction(_G3598,_G3631,[select2(_G3599)|_G3673]),
- selectexpb2(_G3600,_G3673,_G3634) .
+selectexpb2(selectExpB(_G17244, _G17245, _G17246), _G17277, _G17280)  :-
+ restriction(_G17244, _G17277, [select2(_G17245)|_G17319]),
+ selectexpb2(_G17246, _G17319, _G17280) .
 
-selectexpb2(selectExpB(_G3697,_G3698,_G3699),_G3730,_G3733)  :-
- restriction(_G3697,_G3730,[select2(_G3698)|_G3772]),
- restriction(_G3699,_G3772,_G3733) .
+selectexpb2(selectExpB(_G17343, _G17344, _G17345), _G17376, _G17379)  :-
+ restriction(_G17343, _G17376, [select2(_G17344)|_G17418]),
+ restriction(_G17345, _G17418, _G17379) .
 
-selectexpb2(selectExpB(_G3796,_G3797,_G3798),_G3832,_G3835)  :-
- restriction(_G3796,_G3832,[select2(_G3797),ident(_G3798)|_G3835]),
+selectexpb2(selectExpB(_G17442, _G17443, _G17444), _G17478, _G17481)  :-
+ restriction(_G17442, _G17478, [select2(_G17443), ident(_G17444)|_G17481]),
  true .
 
-restriction(restriction(_G3879,_G3880),['(',ident(_G3879),:,ident(_G3880),')'|_G3930],_G3930)  :-
+restriction(restriction(_G17525, _G17526), ['(', ident(_G17525), :, ident(_G17526), ')'|_G17576], _G17576)  :-
  true .
 
-restriction(restriction(_G3958,_G3959),['(',ident(_G3958),:|_G4026],_G4006)  :-
- selectExpression(_G3959,_G4026,[')'|_G4006]),
+restriction(restriction(_G17604, _G17605), ['(', ident(_G17604), :|_G17672], _G17652)  :-
+ selectExpression(_G17605, _G17672, [')'|_G17652]),
  true .
 
-restriction(restriction(_G4056,_G4057),['(',ident(_G4056),:|_G4124],_G4104)  :-
- selectexpb(_G4057,_G4124,[')'|_G4104]),
+restriction(restriction(_G17702, _G17703), ['(', ident(_G17702), :|_G17770], _G17750)  :-
+ selectexpb(_G17703, _G17770, [')'|_G17750]),
  true .
 
-restriction(restriction(_G4156,enumeration(_G4154)),['(',ident(_G4156),:,'['|_G4239],_G4216)  :-
- enumeration(_G4154,_G4239,[']',')'|_G4216]),
+restriction(restriction(_G17802, enumeration(_G17800)), ['(', ident(_G17802), :, '['|_G17885], _G17862)  :-
+ enumeration(_G17800, _G17885, [']', ')'|_G17862]),
  true .
 
-enumeration([class(_G4272)],_G4293,_G4296)  :-
- litarg(_G4272,_G4293,_G4296) .
+enumeration([class(_G17918)], _G17939, _G17942)  :-
+ litarg(_G17918, _G17939, _G17942) .
 
-enumeration([class(_G4331)],_G4352,_G4355)  :-
- selectExpression(_G4331,_G4352,_G4355) .
+enumeration([class(_G17977)], _G17998, _G18001)  :-
+ selectExpression(_G17977, _G17998, _G18001) .
 
-enumeration(_G4390,_G4434,_G4437)  :-
- litarg(_G4392,_G4434,[','|_G4476]),
- enumeration(_G4397,_G4476,_G4437),
- append([class(_G4392)],_G4397,_G4390) .
+enumeration(_G18036, _G18080, _G18083)  :-
+ litarg(_G18038, _G18080, [ (',')|_G18122]),
+ enumeration(_G18043, _G18122, _G18083),
+ append([class(_G18038)], _G18043, _G18036) .
 
-enumeration(_G4503,_G4547,_G4550)  :-
- selectExpression(_G4505,_G4547,[','|_G4589]),
- enumeration(_G4510,_G4589,_G4550),
- append([class(_G4505)],_G4510,_G4503) .
+enumeration(_G18149, _G18193, _G18196)  :-
+ selectExpression(_G18151, _G18193, [ (',')|_G18235]),
+ enumeration(_G18156, _G18235, _G18196),
+ append([class(_G18151)], _G18156, _G18149) .
 
-foralls(_G4616,_G4617,_G4662,_G4665)  :-
- forall(_G4619,_G4620,_G4662,_G4697),
- foralls(_G4622,_G4623,_G4697,_G4665),
- append(_G4619,_G4622,_G4616),
- append(_G4620,_G4623,_G4617) .
+foralls(_G18262, _G18263, _G18308, _G18311)  :-
+ forall(_G18265, _G18266, _G18308, _G18343),
+ foralls(_G18268, _G18269, _G18343, _G18311),
+ append(_G18265, _G18268, _G18262),
+ append(_G18266, _G18269, _G18263) .
 
-foralls([],[],_G4772,_G4772)  :-
+foralls([], [], _G18418, _G18418)  :-
  true .
 
-forall(_G4792,_G4793,[ident(forall)|_G4842],_G4824)  :-
- vartypelist(_G4792,_G4793,_G4842,_G4824) .
+forall(_G18438, _G18439, [ident(forall)|_G18488], _G18470)  :-
+ vartypelist(_G18438, _G18439, _G18488, _G18470) .
 
-buildECArule(ecarule(_G4873,_G4874,_G4875,_G4876,_G4877),_G4915,_G4918)  :-
- optvartypelist(_G4881,[],_G4915,[ident('ON')|_G4964]),
- buildECAruleHelper(ecarule(_G4873,_G4874,_G4875,_G4876,_G4877),_G4964,_G4918) .
+buildECArule(ecarule(_G18519, _G18520, _G18521, _G18522, _G18523), _G18561, _G18564)  :-
+ optvartypelist(_G18527, [], _G18561, [ident('ON')|_G18610]),
+ buildECAruleHelper(ecarule(_G18519, _G18520, _G18521, _G18522, _G18523), _G18610, _G18564) .
 
-buildECAruleHelper(ecarule(_G4991,true,_G4993,[noop],currentqueue),_G5026,_G5029)  :-
- buildECAevent(_G4991,_G5026,[ident('DO')|_G5068]),
- buildECAactionList(_G4993,_G5068,_G5029) .
+buildECAruleHelper(ecarule(_G18637, true, _G18639, [noop], currentqueue), _G18672, _G18675)  :-
+ buildECAevent(_G18637, _G18672, [ident('DO')|_G18714]),
+ buildECAactionList(_G18639, _G18714, _G18675) .
 
-buildECAruleHelper(ecarule(_G5092,_G5093,_G5094,_G5095,currentqueue),_G5143,_G5146)  :-
- buildECAevent(_G5092,_G5143,_G5171),
- ifClause(_G5102,_G5171,_G5196),
- buildECAcondition(_G5102,_G5093,_G5196,[ident('DO')|_G5242]),
- buildECAactionList(_G5094,_G5242,_G5256),
- optELSEactionList(_G5095,_G5256,_G5146) .
+buildECAruleHelper(ecarule(_G18738, _G18739, _G18740, _G18741, currentqueue), _G18789, _G18792)  :-
+ buildECAevent(_G18738, _G18789, _G18817),
+ ifClause(_G18748, _G18817, _G18842),
+ buildECAcondition(_G18748, _G18739, _G18842, [ident('DO')|_G18888]),
+ buildECAactionList(_G18740, _G18888, _G18902),
+ optELSEactionList(_G18741, _G18902, _G18792) .
 
-buildECAruleHelper(ecarule(_G5294,true,_G5296,[noop],q1),[ident('TRANSACTIONAL')|_G5354],_G5340)  :-
- buildECAevent(_G5294,_G5354,[ident('DO')|_G5382]),
- buildECAactionList(_G5296,_G5382,_G5340) .
+buildECAruleHelper(ecarule(_G18940, true, _G18942, [noop], q1), [ident('TRANSACTIONAL')|_G19000], _G18986)  :-
+ buildECAevent(_G18940, _G19000, [ident('DO')|_G19028]),
+ buildECAactionList(_G18942, _G19028, _G18986) .
 
-buildECAruleHelper(ecarule(_G5406,_G5407,_G5408,_G5409,q1),[ident('TRANSACTIONAL')|_G5482],_G5468)  :-
- buildECAevent(_G5406,_G5482,_G5496),
- ifClause(_G5421,_G5496,_G5521),
- buildECAcondition(_G5421,_G5407,_G5521,[ident('DO')|_G5567]),
- buildECAactionList(_G5408,_G5567,_G5581),
- optELSEactionList(_G5409,_G5581,_G5468) .
+buildECAruleHelper(ecarule(_G19052, _G19053, _G19054, _G19055, q1), [ident('TRANSACTIONAL')|_G19128], _G19114)  :-
+ buildECAevent(_G19052, _G19128, _G19142),
+ ifClause(_G19067, _G19142, _G19167),
+ buildECAcondition(_G19067, _G19053, _G19167, [ident('DO')|_G19213]),
+ buildECAactionList(_G19054, _G19213, _G19227),
+ optELSEactionList(_G19055, _G19227, _G19114) .
 
-buildECAruleHelper(ecarule(_G5619,true,_G5621,[noop],_G5623),_G5675,_G5678)  :-
- buildECAevent(_G5619,_G5675,[ident('FOR'),ident(_G5623),ident('DO')|_G5723]),
- buildECAactionList(_G5621,_G5723,_G5737),
- optELSEactionList(_G5646,_G5737,_G5678) .
+buildECAruleHelper(ecarule(_G19265, true, _G19267, [noop], _G19269), _G19321, _G19324)  :-
+ buildECAevent(_G19265, _G19321, [ident('FOR'), ident(_G19269), ident('DO')|_G19369]),
+ buildECAactionList(_G19267, _G19369, _G19383),
+ optELSEactionList(_G19292, _G19383, _G19324) .
 
-buildECAruleHelper(ecarule(_G5772,_G5773,_G5774,_G5775,_G5776),_G5839,_G5842)  :-
- buildECAevent(_G5772,_G5839,[ident('FOR'),ident(_G5776)|_G5884]),
- ifClause(_G5792,_G5884,_G5898),
- buildECAcondition(_G5792,_G5773,_G5898,[ident('DO')|_G5944]),
- buildECAactionList(_G5774,_G5944,_G5958),
- optELSEactionList(_G5775,_G5958,_G5842) .
+buildECAruleHelper(ecarule(_G19418, _G19419, _G19420, _G19421, _G19422), _G19485, _G19488)  :-
+ buildECAevent(_G19418, _G19485, [ident('FOR'), ident(_G19422)|_G19530]),
+ ifClause(_G19438, _G19530, _G19544),
+ buildECAcondition(_G19438, _G19419, _G19544, [ident('DO')|_G19590]),
+ buildECAactionList(_G19420, _G19590, _G19604),
+ optELSEactionList(_G19421, _G19604, _G19488) .
 
-ifClause('IFNEW',[ident('IFNEW')|_G6015],_G6015)  :-
+ifClause('IFNEW', [ident('IFNEW')|_G19661], _G19661)  :-
  true .
 
-ifClause('IFNEW',[ident('IF'),ident('NEW')|_G6069],_G6069)  :-
+ifClause('IFNEW', [ident('IF'), ident('NEW')|_G19715], _G19715)  :-
  ! .
 
-ifClause('IF',[ident('IF')|_G6110],_G6110)  :-
+ifClause('IF', [ident('IF')|_G19756], _G19756)  :-
  true .
 
-optELSEactionList(_G6126,[ident('ELSE')|_G6167],_G6153)  :-
- buildECAactionList(_G6126,_G6167,_G6153) .
+optELSEactionList(_G19772, [ident('ELSE')|_G19813], _G19799)  :-
+ buildECAactionList(_G19772, _G19813, _G19799) .
 
-optELSEactionList([noop],_G6213,_G6213)  :-
+optELSEactionList([noop], _G19859, _G19859)  :-
  true .
 
-buildECAevent(_G6229,_G6277,_G6280)  :-
- 'ECAeventOperation'(_G6231,_G6277,['('|_G6319]),
- lit(_G6236,_G6319,[')'|_G6280]),
- makeECAevent(_G6231,_G6236,_G6229),
+buildECAevent(_G19875, _G19923, _G19926)  :-
+ 'ECAeventOperation'(_G19877, _G19923, ['('|_G19965]),
+ lit(_G19882, _G19965, [')'|_G19926]),
+ makeECAevent(_G19877, _G19882, _G19875),
  ! .
 
-buildECAevent(_G6352,_G6388,_G6391)  :-
- 'ECAeventOperation'(_G6354,_G6388,_G6416),
- lit(_G6356,_G6416,_G6391),
- makeECAevent(_G6354,_G6356,_G6352),
+buildECAevent(_G19998, _G20034, _G20037)  :-
+ 'ECAeventOperation'(_G20000, _G20034, _G20062),
+ lit(_G20002, _G20062, _G20037),
+ makeECAevent(_G20000, _G20002, _G19998),
  ! .
 
-buildECAevent(_G6457,[ident(_G6459),'('|_G6554],_G6537)  :-
- memberchk(_G6459,['Ask',ask]),
- litarg(_G6481,_G6554,[')'|_G6537]),
- resolveDeriveExpression('In'('_tempvarxyz',_G6481),_G6490),
- makeECAevent('Ask',_G6490,_G6457),
+buildECAevent(_G20103, [ident(_G20105), '('|_G20200], _G20183)  :-
+ memberchk(_G20105, ['Ask', ask]),
+ litarg(_G20127, _G20200, [')'|_G20183]),
+ resolveDeriveExpression('In'('_tempvarxyz', _G20127), _G20136),
+ makeECAevent('Ask', _G20136, _G20103),
  ! .
 
-buildECAevent(_G6593,[ident(_G6595)|_G6675],_G6661)  :-
- memberchk(_G6595,['Ask',ask]),
- litarg(_G6614,_G6675,_G6661),
- resolveDeriveExpression('In'('_tempvarxyz',_G6614),_G6620),
- makeECAevent('Ask',_G6620,_G6593),
+buildECAevent(_G20239, [ident(_G20241)|_G20321], _G20307)  :-
+ memberchk(_G20241, ['Ask', ask]),
+ litarg(_G20260, _G20321, _G20307),
+ resolveDeriveExpression('In'('_tempvarxyz', _G20260), _G20266),
+ makeECAevent('Ask', _G20266, _G20239),
  ! .
 
-buildECAcondition(_G6711,_G6712,[ident(_G6712)|_G6757],_G6757)  :-
- memberchk(_G6712,[true,false]),
+buildECAcondition(_G20357, _G20358, [ident(_G20358)|_G20403], _G20403)  :-
+ memberchk(_G20358, [true, false]),
  ! .
 
-buildECAcondition(_G6780,_G6781,_G6815,_G6818)  :-
- 'ECAconditionFormula'(_G6783,_G6815,_G6818),
- makeECAcondition(_G6780,_G6783,_G6781),
+buildECAcondition(_G20426, _G20427, _G20461, _G20464)  :-
+ 'ECAconditionFormula'(_G20429, _G20461, _G20464),
+ makeECAcondition(_G20426, _G20429, _G20427),
  ! .
 
-'ECAconditionFormula'(_G6863,['('|_G6908],_G6894)  :-
- 'ECAconditionFormula'(_G6863,_G6908,[')'|_G6894]),
+'ECAconditionFormula'(_G20509, ['('|_G20554], _G20540)  :-
+ 'ECAconditionFormula'(_G20509, _G20554, [')'|_G20540]),
  true .
 
-'ECAconditionFormula'(_G6938,_G6960,_G6963)  :-
- 'ECAconditionFormula1'(_G6940,_G6960,_G6988),
- 'ECAconditionFormula2'(_G6940,_G6938,_G6988,_G6963) .
+'ECAconditionFormula'(_G20584, _G20606, _G20609)  :-
+ 'ECAconditionFormula1'(_G20586, _G20606, _G20634),
+ 'ECAconditionFormula2'(_G20586, _G20584, _G20634, _G20609) .
 
-'ECAconditionFormula1'(_G7030,_G7046,_G7049)  :-
- ecalit(_G7030,_G7046,_G7049) .
+'ECAconditionFormula1'(_G20676, _G20692, _G20695)  :-
+ ecalit(_G20676, _G20692, _G20695) .
 
-'ECAconditionFormula1'(not(_G7084),[ident(not)|_G7135],_G7121)  :-
- ecalit(_G7084,_G7135,_G7121),
+'ECAconditionFormula1'(not(_G20730), [ident(not)|_G20781], _G20767)  :-
+ ecalit(_G20730, _G20781, _G20767),
  ! .
 
-'ECAconditionFormula1'(not(_G7162),[ident(not),'('|_G7220],_G7203)  :-
- 'ECAconditionFormula'(_G7162,_G7220,[')'|_G7203]),
+'ECAconditionFormula1'(not(_G20808), [ident(not), '('|_G20866], _G20849)  :-
+ 'ECAconditionFormula'(_G20808, _G20866, [')'|_G20849]),
  true .
 
-'ECAconditionFormula2'(_G7250,and(_G7250,_G7251),[ident(and)|_G7302],_G7284)  :-
- 'ECAconditionFormula'(_G7251,_G7302,_G7284) .
+'ECAconditionFormula2'(_G20896, and(_G20896, _G20897), [ident(and)|_G20948], _G20930)  :-
+ 'ECAconditionFormula'(_G20897, _G20948, _G20930) .
 
-'ECAconditionFormula2'(_G7326,or(_G7326,_G7327),[ident(or)|_G7378],_G7360)  :-
- 'ECAconditionFormula'(_G7327,_G7378,_G7360) .
+'ECAconditionFormula2'(_G20972, or(_G20972, _G20973), [ident(or)|_G21024], _G21006)  :-
+ 'ECAconditionFormula'(_G20973, _G21024, _G21006) .
 
-'ECAconditionFormula2'(_G7402,_G7402,_G7425,_G7425)  :-
+'ECAconditionFormula2'(_G21048, _G21048, _G21071, _G21071)  :-
  true .
 
-buildECAactionList([_G7445|_G7446],_G7469,_G7472)  :-
- 'ECAaction'(_G7445,_G7469,_G7497),
- buildECAactionList_rest(_G7446,_G7497,_G7472) .
+buildECAactionList([_G21091|_G21092], _G21115, _G21118)  :-
+ 'ECAaction'(_G21091, _G21115, _G21143),
+ buildECAactionList_rest(_G21092, _G21143, _G21118) .
 
-buildECAactionList_rest(_G7532,[','|_G7579],_G7565)  :-
+buildECAactionList_rest(_G21178, [ (',')|_G21225], _G21211)  :-
  !,
- buildECAactionList(_G7532,_G7579,_G7565) .
+ buildECAactionList(_G21178, _G21225, _G21211) .
 
-buildECAactionList_rest([],_G7625,_G7625)  :-
+buildECAactionList_rest([], _G21271, _G21271)  :-
  ! .
 
-'ECAaction'(noop,[ident(noop)|_G31],_G31)  :-
+'ECAaction'(noop, [ident(noop)|_G21317], _G21317)  :-
  ! .
 
-'ECAaction'(noop,[ident(commit)|_G77],_G77)  :-
+'ECAaction'(noop, [ident(commit)|_G21363], _G21363)  :-
  ! .
 
-'ECAaction'(reject,[ident(reject)|_G123],_G123)  :-
+'ECAaction'(reject, [ident(reject)|_G21409], _G21409)  :-
  ! .
 
-'ECAaction'(tBegin,[ident(tBegin)|_G169],_G169)  :-
+'ECAaction'(tBegin, [ident(tBegin)|_G21455], _G21455)  :-
  ! .
 
-'ECAaction'(tEnd,[ident(tEnd)|_G215],_G215)  :-
+'ECAaction'(tEnd, [ident(tEnd)|_G21501], _G21501)  :-
  ! .
 
-'ECAaction'(_G231,_G279,_G282)  :-
- 'ECAactionOperation'(_G233,_G279,['('|_G321]),
- ecalit(_G238,_G321,[')'|_G282]),
- makeECAaction(_G233,_G238,_G231),
+'ECAaction'(_G21517, _G21565, _G21568)  :-
+ 'ECAactionOperation'(_G21519, _G21565, ['('|_G21607]),
+ ecalit(_G21524, _G21607, [')'|_G21568]),
+ makeECAaction(_G21519, _G21524, _G21517),
  ! .
 
-'ECAaction'(_G354,_G390,_G393)  :-
- 'ECAactionOperation'(_G356,_G390,_G418),
- ecalit(_G358,_G418,_G393),
- makeECAaction(_G356,_G358,_G354),
+'ECAaction'(_G21640, _G21676, _G21679)  :-
+ 'ECAactionOperation'(_G21642, _G21676, _G21704),
+ ecalit(_G21644, _G21704, _G21679),
+ makeECAaction(_G21642, _G21644, _G21640),
  ! .
 
-'ECAaction'(_G459,[ident(_G461),'('|_G547],_G530)  :-
- memberchk(_G461,['Raise',raise]),
- deriveExpression(_G483,_G547,[')'|_G530]),
- makeECAaction('Raise',_G483,_G459),
+'ECAaction'(_G21745, [ident(_G21747), '('|_G21833], _G21816)  :-
+ memberchk(_G21747, ['Raise', raise]),
+ deriveExpression(_G21769, _G21833, [')'|_G21816]),
+ makeECAaction('Raise', _G21769, _G21745),
  ! .
 
-'ECAaction'(_G583,[ident(_G585)|_G656],_G642)  :-
- memberchk(_G585,['Raise',raise]),
- deriveExpression(_G604,_G656,_G642),
- makeECAaction('Raise',_G604,_G583),
+'ECAaction'(_G21869, [ident(_G21871)|_G21942], _G21928)  :-
+ memberchk(_G21871, ['Raise', raise]),
+ deriveExpression(_G21890, _G21942, _G21928),
+ makeECAaction('Raise', _G21890, _G21869),
  ! .
 
-'ECAaction'(_G689,[ident(_G691),ident(_G710)|_G751],_G751)  :-
- memberchk(_G691,['Raise',raise]),
- makeECAaction(_G691,_G710,_G689),
+'ECAaction'(_G21975, [ident(_G21977), ident(_G21996)|_G22037], _G22037)  :-
+ memberchk(_G21977, ['Raise', raise]),
+ makeECAaction(_G21977, _G21996, _G21975),
  ! .
 
-'ECAeventOperation'(_G776,[ident(_G776)|_G824],_G824)  :-
- memberchk(_G776,['Tell','Untell',tell,untell]),
+'ECAeventOperation'(_G22062, [ident(_G22062)|_G22110], _G22110)  :-
+ memberchk(_G22062, ['Tell', 'Untell', tell, untell]),
  ! .
 
-'ECAactionOperation'(_G843,[ident(_G843)|_G912],_G912)  :-
- memberchk(_G843,['Tell','Untell','Retell','Ask','Call','CALL',tell,untell,retell,ask,call]),
+'ECAactionOperation'(_G22129, [ident(_G22129)|_G22198], _G22198)  :-
+ memberchk(_G22129, ['Tell', 'Untell', 'Retell', 'Ask', 'Call', 'CALL', tell, untell, retell, ask, call]),
  ! .
 
-ecalit(new(_G931),[ident(new),'('|_G989],_G972)  :-
- lit(_G931,_G989,[')'|_G972]),
+ecalit(new(_G22217), [ident(new), '('|_G22275], _G22258)  :-
+ lit(_G22217, _G22275, [')'|_G22258]),
  true .
 
-ecalit(new(_G1019),[_G1023|_G1071],_G1057)  :-
- pc_ascii(_G1023,96),
- lit(_G1019,_G1071,_G1057) .
+ecalit(new(_G22305), [_G22309|_G22357], _G22343)  :-
+ pc_ascii(_G22309, 96),
+ lit(_G22305, _G22357, _G22343) .
 
-ecalit(_G1098,_G1114,_G1117)  :-
- lit(_G1098,_G1114,_G1117) .
+ecalit(_G22384, _G22400, _G22403)  :-
+ lit(_G22384, _G22400, _G22403) .
 
-bulkQueryCall(bulkquery(_G1152),[ident(bulk),'['|_G1214],_G1197)  :-
- bulkArgList(_G1152,_G1214,_G1197),
- temp_msp(_G1166) .
+bulkQueryCall(bulkquery(_G22438), [ident(bulk), '['|_G22500], _G22483)  :-
+ bulkArgList(_G22438, _G22500, _G22483),
+ temp_msp(_G22452) .
 
-bulkArgList([_G1241],_G1266,_G1269)  :-
- bulkArg(_G1241,_G1266,[']'|_G1269]),
+bulkArgList([_G22527], _G22552, _G22555)  :-
+ bulkArg(_G22527, _G22552, [']'|_G22555]),
  true .
 
-bulkArgList([_G1310|_G1311],_G1340,_G1343)  :-
- bulkArg(_G1310,_G1340,[','|_G1382]),
- bulkArgList(_G1311,_G1382,_G1343) .
+bulkArgList([_G22596|_G22597], _G22626, _G22629)  :-
+ bulkArg(_G22596, _G22626, [ (',')|_G22668]),
+ bulkArgList(_G22597, _G22668, _G22629) .
 
-bulkArg(plainarg(_G1406),_G1432,_G1435)  :-
- constantval(_G1406,_G1432,_G1435),
+bulkArg(plainarg(_G22692), _G22718, _G22721)  :-
+ constantval(_G22692, _G22718, _G22721),
  ! .
 
-bulkArg(plainarg(_G1473),_G1499,_G1502)  :-
- selectExpression(_G1473,_G1499,_G1502),
+bulkArg(plainarg(_G22759), _G22785, _G22788)  :-
+ assertionval(_G22759, _G22785, _G22788),
  ! .
 
-bulkArg(plainarg(_G1540),_G1566,_G1569)  :-
- objectname(_G1540,_G1566,_G1569),
+bulkArg(plainarg(_G22826), _G22852, _G22855)  :-
+ selectExpression(_G22826, _G22852, _G22855),
  ! .
 
-bulkArg(unknown(_G1607),_G1633,_G1636)  :-
- falseSelectExpression(_G1607,_G1633,_G1636),
+bulkArg(plainarg(_G22893), _G22919, _G22922)  :-
+ objectname(_G22893, _G22919, _G22922),
  ! .
 
-bulkArg(unknown(_G1674),_G1700,_G1703)  :-
- simplelabel(_G1674,_G1700,_G1703),
+bulkArg(unknown(_G22960), _G22986, _G22989)  :-
+ falseSelectExpression(_G22960, _G22986, _G22989),
  ! .
 
-falseSelectExpression(select(_G1741,_G1742,_G1743),_G1803,_G1806)  :-
- anyArg(_G1741,_G1803,[select(_G1742)|_G1845]),
- anyArg(_G1743,_G1845,_G1806),
- memberchk(_G1742,[->,=>,!,^,@]),
+bulkArg(unknown(_G23027), _G23053, _G23056)  :-
+ simplelabel(_G23027, _G23053, _G23056),
  ! .
 
-falseSelectExpression(_G1875,['('|_G1920],_G1906)  :-
- falseSelectExpression(_G1875,_G1920,[')'|_G1906]),
+falseSelectExpression(select(_G23094, _G23095, _G23096), _G23156, _G23159)  :-
+ anyArg(_G23094, _G23156, [select(_G23095)|_G23198]),
+ anyArg(_G23096, _G23198, _G23159),
+ memberchk(_G23095, [ (->), =>, !, ^, @]),
+ ! .
+
+falseSelectExpression(_G23228, ['('|_G23273], _G23259)  :-
+ falseSelectExpression(_G23228, _G23273, [')'|_G23259]),
  true .
 
-anyArg(_G1950,_G1966,_G1969)  :-
- simplelabel(_G1950,_G1966,_G1969) .
+anyArg(_G23303, _G23319, _G23322)  :-
+ simplelabel(_G23303, _G23319, _G23322) .
 
-anyArg(_G2004,[string(_G2004)|_G2026],_G2026)  :-
+anyArg(_G23357, [string(_G23357)|_G23379], _G23379)  :-
  true .
 
-anyArg(_G2042,[intNumber(_G2042)|_G2064],_G2064)  :-
+anyArg(_G23395, [assertion(_G23395)|_G23417], _G23417)  :-
  true .
 
-anyArg(_G2080,[realNumber(_G2080)|_G2102],_G2102)  :-
+anyArg(_G23433, [intNumber(_G23433)|_G23455], _G23455)  :-
  true .
 
-anyArg(_G2118,[falseSelectExpression(_G2118)|_G2140],_G2140)  :-
+anyArg(_G23471, [realNumber(_G23471)|_G23493], _G23493)  :-
  true .
 
-buildQuerycall(class(_G2156),_G2182,_G2185)  :-
- bulkQueryCall(_G2156,_G2182,_G2185),
+anyArg(_G23509, [falseSelectExpression(_G23509)|_G23531], _G23531)  :-
+ true .
+
+buildQuerycall(class(_G23547), _G23573, _G23576)  :-
+ bulkQueryCall(_G23547, _G23573, _G23576),
  ! .
 
-buildQuerycall(class(_G2223),_G2241,_G2244)  :-
- arExpr(_G2223,_G2241,_G2244) .
+buildQuerycall(class(_G23614), _G23632, _G23635)  :-
+ arExpr(_G23614, _G23632, _G23635) .
 
-buildQuerycall(class(_G2279),_G2297,_G2300)  :-
- deriveExpression(_G2279,_G2297,_G2300) .
+buildQuerycall(class(_G23670), _G23688, _G23691)  :-
+ deriveExpression(_G23670, _G23688, _G23691) .
 
-convertSelectExpression(_G2335,_G2351,_G2354)  :-
- selectExpression(_G2335,_G2351,_G2354) .
+convertSelectExpression(_G23726, _G23742, _G23745)  :-
+ selectExpression(_G23726, _G23742, _G23745) .
 
-convertSelectExpression(_G2389,_G2405,_G2408)  :-
- objectname(_G2389,_G2405,_G2408) .
+convertSelectExpression(_G23780, _G23796, _G23799)  :-
+ objectname(_G23780, _G23796, _G23799) .

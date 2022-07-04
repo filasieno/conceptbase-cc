@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2015 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -28,8 +28,8 @@ of the ConceptBase Team.
 
 The ConceptBase Team is represented by
 
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
@@ -66,6 +66,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 #MODULE(QueryProcessor)
 #EXPORT(process_query/2)
+#EXPORT(foldBulkQuery/3)
 #ENDMODDECL()
 
 
@@ -152,6 +153,7 @@ process_query(ask([_builtinquery],_ansrep),_answer) :-
 
 process_query(ask([bulkquery([plainarg(_qid)|_args])],_ansrep),_answer) :-
         extractExistingArgs(_args,_goodargs),  {* filter out undefined objects *}
+write(extractExistingArgs(_args,_goodargs)),nl,
         foldBulkQuery(_qid,_goodargs,_qlist),
         setFlag(bulkQuery,on),  {* influences query processing and answer generation *}
         process_query(ask([],_qlist,_ansrep),_answer),
@@ -174,9 +176,7 @@ process_query(ask([],_qlist,_ansrep),_answer) :-
 		true	{* if RBtime \= Now then we don't trigger ECA rules *}
 	),
         'error_number@F2P'(0),
-write(1),nl,
 	handle_queries(_qlist,_RBtime,_ansrep,_m,_answer),
-write(2),nl,
 
 	(       (_RBtime = Now,
 		fire_def_actions(_defactions),
@@ -272,6 +272,7 @@ process_builtin_queryclass(_q,_ansrep,_answer) :-
         ),
         makeName(_f,_fname),
         adaptAnswerRep(_q,_ansrep,_ansrep_new),   {* get rid of 'default' as answer format *}
+	setFlag(currentAnswerFormat,_ansrep_new),  {*  for JSONIC, ticket #422  *}
         processBuiltin(_fname,_ans,_args),
 	transform_builtin_answer(_ans,_ansrep_new,_answer).
 

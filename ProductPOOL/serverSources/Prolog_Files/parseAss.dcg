@@ -762,6 +762,12 @@ constantval(_id) ==>
 	   where[
 		   create_if_builtin_object(_arg,'String',_id)].
 
+assertionval(_id) ==>
+       [assertion(_arg)],
+	   where[
+		   temp_msp(_m),t_name2id(_m,_arg,_id)].
+
+
 
 label(_l) ==>
 	[ident(_l)],
@@ -1595,6 +1601,7 @@ bulkArgList([_dExp|_rList]) ==>
 
 /* possible arguments in bulk query calls */
 bulkArg(plainarg(_arg)) ==> constantval(_arg),where[!].
+bulkArg(plainarg(_arg)) ==> assertionval(_arg),where[!].
 bulkArg(plainarg(_arg)) ==> selectExpression(_arg),where[!].
 bulkArg(plainarg(_arg)) ==> objectname(_arg),where[!].
 bulkArg(unknown(_x)) ==> falseSelectExpression(_x),where[!].
@@ -1614,6 +1621,7 @@ falseSelectExpression(_selectterm) ==>
 
 anyArg(_x) ==> simplelabel(_x).
 anyArg(_x) ==> [string(_x)].
+anyArg(_x) ==> [assertion(_x)].
 anyArg(_x) ==> [intNumber(_x)].
 anyArg(_x) ==> [realNumber(_x)].
 anyArg(_x) ==> [falseSelectExpression(_x)].
