@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2021 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -385,8 +385,9 @@ public class LocalCBclient implements ICBclient {
     // that was constructed in several tell constructions; ticket #384
     public CBanswer tellTransactions(String sTransactions) throws CBException {
           CBanswer ans=null;
-          if (sTransactions.contains("{---}")) {
-             String[] transactions = sTransactions.split("\\{---\\}");
+          String sTransactionsLF = replaceCRLF(sTransactions);
+          if (sTransactionsLF.contains("{---}")) {
+             String[] transactions = sTransactionsLF.split("\\{---\\}");
              CBanswer oldanswer = null;
              for (int i = 0; i < transactions.length; i++) {
                ans = tell(transactions[i]);
@@ -400,6 +401,13 @@ public class LocalCBclient implements ICBclient {
           return ans;
     } // tellTransactions
 
+    static String replaceCRLF(String s) {
+
+       String crlf = "" + (char)13 + (char)10;
+       String lf = "" + (char)10;
+
+       return s.replaceAll(crlf,lf);  // replace all CR+LF (MS-DOS Ascii) by LF (Unix Ascii)
+    }
 
 
     /**
@@ -846,7 +854,7 @@ public class LocalCBclient implements ICBclient {
     // dirty trick to deal with issue #34 (module names starting with digits)
     // fool Prolog to believe that the module path is a legal term when using the '-' operator.
     // Example 'oHome'-'123Mod' instead oHome-123Mod
-    // Only inserts the quotes when s contains a substring -D where D is a digit
+    // Only inserts the quotes when s contains a substring -D or /D where D is a digit
     public static String quoteModuleNames(String s) {
         if (s.matches("(.*)-[0-9](.*)")) {   
            return "'" + s.replaceAll("-","'-'") + "'";

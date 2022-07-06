@@ -385,8 +385,9 @@ public class LocalCBclient implements ICBclient {
     // that was constructed in several tell constructions; ticket #384
     public CBanswer tellTransactions(String sTransactions) throws CBException {
           CBanswer ans=null;
-          if (sTransactions.contains("{---}")) {
-             String[] transactions = sTransactions.split("\\{---\\}");
+          String sTransactionsLF = replaceCRLF(sTransactions);
+          if (sTransactionsLF.contains("{---}")) {
+             String[] transactions = sTransactionsLF.split("\\{---\\}");
              CBanswer oldanswer = null;
              for (int i = 0; i < transactions.length; i++) {
                ans = tell(transactions[i]);
@@ -400,6 +401,21 @@ public class LocalCBclient implements ICBclient {
           return ans;
     } // tellTransactions
 
+
+   /**
+     * Replaces the string CR+LF by LF
+     *
+     * @param s a string potentially formatted with MS-DOX CR+LF for newlines
+     * @return the string where CR+LF is replaced by just LF (Unix standard for Ascii text)
+     */
+
+    static String replaceCRLF(String s) {
+
+       String crlf = "" + (char)13 + (char)10;
+       String lf = "" + (char)10;
+
+       return s.replaceAll(crlf,lf);  // replace all CR+LF (MS-DOS Ascii) by LF (Unix Ascii), issue #48
+    }
 
 
     /**
