@@ -60,10 +60,10 @@ fi
 makeFATCBINSTALLER
 makeCBLATEST
 
-if [ -d $HOME/Dropbox ]; then
+if [ -d $HOME/ConceptBaseCC-SourceForge ]; then
 	echo Copying CBinstaller to Dropbox
-	cp -f $CBDISTROS/CBinstaller.jar $HOME/Dropbox/
+	cp -f $CBDISTROS/CBinstaller.jar $HOME/ConceptBaseCC-SourceForge/
 fi
 
-echo "\nCreated CBinstaller.jar and cblatest.zip in $CBDISTROS"
+echo "\nCreated CBinstaller.jar and cblatest.zip in $CBDISTROS and copied to $HOME/ConceptBaseCC-SourceForge/"
 echo All done.

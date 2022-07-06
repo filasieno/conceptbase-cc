@@ -60,5 +60,10 @@ fi
 makeFATCBINSTALLER
 makeCBLATEST
 
-echo "\nCreated new CBinstaller.jar and cblatest.zip in $CBDISTROS"
+if [ -d $HOME/Dropbox ]; then
+	echo Copying CBinstaller to Dropbox
+	cp -f $CBDISTROS/CBinstaller.jar $HOME/Dropbox/
+fi
+
+echo "\nCreated CBinstaller.jar and cblatest.zip in $CBDISTROS"
 echo All done.

@@ -4,7 +4,7 @@
 # This is used to create CBPOOL.zip to be shared on Sourceforge
 # Author: Manfred Jeusfeld
 
-STICKDIR=$HOME/Dropbox/
+STICKDIR=$HOME/ConceptBaseCC-SourceForge/
 
 # some USB sticks used by me
 if [ -d /media/$USER/K707 ]; then
@@ -26,7 +26,7 @@ cd $HOME/CBPOOL/ProductPOOL
   /bin/rm $STICKDIR/CBPOOL.zip
 #  zip -r $STICKDIR/CBPOOL.zip CBPOOL -x \*.git* CBPOOL/ProductPOOL/doc/UserManual/**\*
   zip -r $STICKDIR/CBPOOL.zip CBPOOL -x \*.git* CBPOOL/ProductPOOL/doc/UserManual/hevea/**\*
-  echo "CBPOOL put!"
+  echo "CBPOOL.zip created and copied to $STICKDIR"
 else
   echo "No USB stick or Dropbox folder found"
 fi
