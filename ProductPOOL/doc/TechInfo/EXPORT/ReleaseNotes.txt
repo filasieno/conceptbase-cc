@@ -104,6 +104,34 @@ model elements.
    may include the new attribute value for a given attribute.
    (Issue 44: https://gitlab.com/mjeu/conceptbasecc/-/issues/44)
 
+82-10 CBGraph on Windows fails to open GEL files that have blanks in filenames 
+
+   Certain web browsers on Windows create download filenames like "fileX (1).gel" when downloading 
+   a graph file multiple times. If cbgraph.bat is specified as the startup operation for such files,
+   then it cannot open the file, apparently because of the blanks in the filename. The problem does
+   not occur with Firefox on Windows. It does also not occur on Linux. The problem was a bug in
+   the cbgraph.bat script. This is now resolved.
+   (Issue 45: https://gitlab.com/mjeu/conceptbasecc/-/issues/45)
+
+82-11 TelosPalette has wrong priority for ATTR_TP_GT, can be overruled by CLASS_TP_GT
+
+   The priority of ATTR_TP_GT in TelosPalette is 5, the pripority of CLASS_TP_GT is 6. Therefore,
+   an attribute that is also a class gets CLASS_TP_GT as graphical type. This leads to the rendering
+   of the attribute as a class (node). This should never happen. We now safeguard the method
+   getGraphType in GeneralUtilities.pro: individuals are never to be displayed as links (CBLink),
+   and attributes/instantiations/specializations are never to be displayed as nodes (CBIndividual).
+   (Issue 46: https://gitlab.com/mjeu/conceptbasecc/-/issues/46)
+
+82-12 Suppress display of instances of BDMRuleCheck, BDMConstraintCheck as attributes in CBGraph
+
+   The rule/constraint compiler generates instances of BDMRuleCheck, BDMConstraintCheck as attributes
+   of the classes where they are applicable. This is legacy code should better not be shown in
+   tools like CBGraph. We revised the queries find_(_explitcit_)attribute_values to hide
+   them from CBGraph.
+
+
+
+
 
 Version 8.1: Detailed Changes since Version 8.0 (2019-05-30)
 ============================================================

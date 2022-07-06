@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2022-05-06
+                      2022-07-06
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -129,7 +129,25 @@ model elements.
    tools like CBGraph. We revised the queries find_(_explitcit_)attribute_values to hide
    them from CBGraph.
 
+82-13 The character '<' may not occur in a string to be parsed as XML in Java
 
+   ConceptBase uses XML as answer format for many builtin queries for interacting between the
+   Java user interface and the CBserver. This character can well occur in strings and assrtions (e.g.,
+   for comparison operators). However, it is forbidden to occur according the the XML standard.
+   To solve this, the character is escaped appropriately in the Java interface before the XML
+   parser is invoked. This solves quite some issues in CBGraph where previously any such formula
+   text would lead to empty option lists when displaying attributes of objects.
+   (Issue 47: https://gitlab.com/mjeu/conceptbasecc/-/issues/47) 
+
+82-14 Assertions and strings containing MS-DOS style CR+LF for newline cause problems
+
+   If a string (or assertioin) is containing CR+LF (the MS-DOS style for newline), then it causes 
+   problems in the interactiuon with CBGraph and CBIva. The problem is that Linix only uses LF for 
+   newlines, and then while the strings look the same, they are not the same and the CBserver
+   cannot find the corresponding object. The problem is now resolved by extending parseAss to 
+   also allow assertions as parameters for "bulk" queries, and by replaciongf CF+LF by LF in the Java
+   API for telling Telos frames to the CBserver. 
+   (Issue 48: https://gitlab.com/mjeu/conceptbasecc/-/issues/48) 
 
 
 
