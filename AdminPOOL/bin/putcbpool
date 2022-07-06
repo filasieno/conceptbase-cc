@@ -1,5 +1,5 @@
 #!/bin/sh
-# put the current CBPOOL to USBstick or Dropbox after compiling it
+# put the current CBPOOL to USBstick or local ConceptBaseCC-SourceForge folder after compiling it
 # This script is perhaps useful in distributing the CBPOOL.zip archive.
 # This is used to create CBPOOL.zip to be shared on Sourceforge
 # Author: Manfred Jeusfeld
