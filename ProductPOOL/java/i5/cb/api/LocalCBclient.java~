@@ -401,12 +401,20 @@ public class LocalCBclient implements ICBclient {
           return ans;
     } // tellTransactions
 
+
+   /**
+     * Replaces the string CR+LF by LF
+     *
+     * @param s a string potentially formatted with MS-DOX CR+LF for newlines
+     * @return the string where CR+LF is replaced by just LF (Unix standard for Ascii text)
+     */
+
     static String replaceCRLF(String s) {
 
        String crlf = "" + (char)13 + (char)10;
        String lf = "" + (char)10;
 
-       return s.replaceAll(crlf,lf);  // replace all CR+LF (MS-DOS Ascii) by LF (Unix Ascii)
+       return s.replaceAll(crlf,lf);  // replace all CR+LF (MS-DOS Ascii) by LF (Unix Ascii), issue #48
     }
 
 

@@ -484,7 +484,7 @@ public class LocalCBclient implements ICBclient {
             } catch (IOException e) {
             }
         }
-        return tellTransactions(sbContent.toString());
+        return tellTransactions(replaceCRLF(sbContent.toString()));
         //return sendMessage("TELL", CButil.encodeString(sbContent.toString()) );
 
     } // tellModelLocal
