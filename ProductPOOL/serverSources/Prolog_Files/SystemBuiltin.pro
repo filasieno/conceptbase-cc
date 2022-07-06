@@ -162,6 +162,7 @@ do_processBuiltin(get_object,_result,_substlist) :-
 {* oben auch fehlschlagen kann, und die Flags auf irgendwelche Werte gestellt *}
 {* worden sind. 7-6-95/CQ *}
 do_processBuiltin(get_object,_result,[substitute(_x,objname)]) :-
+        {* name(_x,_a),write('objname: '),write(_x),nl,write('asciis : '),write(_a),nl,*}
 	eval(_x, replaceSelectExpression, _objID),
 	name2id(_objID,_),
 	pc_update(ded_get_object(f('FALSE','FALSE','FALSE'))),

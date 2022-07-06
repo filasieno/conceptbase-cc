@@ -91,8 +91,10 @@ IMPORT(append/3,'GeneralUtilities').
 IMPORT(report_error/3,'ErrorMessages').
 IMPORT(pc_atomconcat/2,'PrologCompatibility').
 IMPORT(pc_atomconcat/3,'PrologCompatibility').
+IMPORT(pc_atomconcat13/3,'PrologCompatibility').
 IMPORT(pc_ascii/2,'PrologCompatibility').
 IMPORT(transformIdentifier/2,'MSFOLassertionParserUtilities').  /* ticket #311 */
+IMPORT('WriteTrace'/3,'GeneralUtilities')
 
 :- style_check(-singleton).
 
@@ -149,12 +151,12 @@ token(select2(_s)) ==>
 token(assertion(_assatom)) ==> 	/* scanning of assertion strings, which */
 	['$'],				/* are enclosed in $ and $ and trans-   */
 	assertionString(_charList),    /* formation to Prolog strings          */
-            where[pc_atomconcat(['$'|_charList],_assatom),!].
+            where[pc_atomconcat13(['$'|_charList],_assatom),!].
 
 token(string(_atom)) ==>
 	['"'],
 	string(_charList),
-	where[pc_atomconcat(['"'|_charList],_atom),!].
+	where[pc_atomconcat13(['"'|_charList],_atom),!].
 
 token(_d) ==>
 	delimiter(_w), where [pc_atomconcat(_w,_d),!].
@@ -171,6 +173,23 @@ identifier([_c|_a]) ==>
 
 identifier([_c]) ==>
 	character(_c).
+
+/* also accept identifiers like 1_2 */
+identifier([_d|_a]) ==>
+	digit(_d),
+	nonInteger(_a).
+
+nonInteger([_d|_a]) ==>
+	digit(_d),
+	nonInteger(_a).
+
+nonInteger([_c|_a]) ==>
+	character(_c),
+	alphanumeric(_a).
+
+nonInteger([_c]) ==>
+	character(_c).
+
 
 specialIdentifier([]) ==>
 	['\''].
@@ -252,9 +271,16 @@ intNumber(['-'|_n]) ==>
 assertionString(['$']) ==>
 	['$'].
 
-assertionString([_char| _tail]) ==>
-	[_char],
+/* replace CR+LF (MS-DOS) by just LF (Linux style), issue #48 
+assertionString(_tail) ==>
+	[_char13], where [pc_ascii(_char13,13)],
 	assertionString(_tail).
+*/
+
+assertionString([_char| _tail]) ==>
+        [_char],
+        assertionString(_tail).
+
 
 
 /****  scan list of characters presenting a string  ****/
@@ -274,6 +300,13 @@ string([_char|_tail]) ==>
 	[_char],
 	where[memberchk(_char,['$','\\'])],
 	string(_tail).
+
+/* replace CR+LF (MS-DOS) by just LF (Linux style), issue #48 
+string([_char10|_tail]) ==>
+	[_char13], where [pc_ascii(_char13,13)],
+	[_char10], where [pc_ascii(_char10,10)],
+	string(_tail).
+*/
 
 string([_char|_tail]) ==>
 	[_char],
@@ -350,14 +383,17 @@ character(_c) ==>
                                                      249, 226, 234, 244, 251, 235, 239,
                                                      238, 236, 241, 209])].
 
-
+/* Ç,å,ç,Å as Windows Ascii chars */
 character(_c) ==>
 	[_c], where [pc_ascii(_c, _n), memberchk(_n,[128,134,135,143])].
 
 
 /* underscore also allowed as first character of an identifier, ticket #359 */
-character('_') ==>
-	['_'].
+
+/* _,¹,²,³ as Windows Ascii chars */
+character(_c) ==>
+	[_c], where [pc_ascii(_c, _n), memberchk(_n,[95,185,178,179])].
+
 
 /* ***  scan so called printable characters  *** */
 printableChar(_c) ==>
@@ -405,9 +441,13 @@ delimiter(['<','>']) ==>
 delimiter([_br]) ==>
 	[_br], where [ memberchk( _br, ['(',')','[',']','{','}'] ) ].
 
+
 delimiter([_d]) ==>
 	[_d], where
-	[ memberchk(_d, [',', ';',':', '=','&','_','>','<','`']) ].
+	[ memberchk(_d, [',', ';',':', '=','&','_','>','<']) ].
+/* backquote=ascii char 96 */
+delimiter([_d]) ==>
+	[_d], where [pc_ascii(_d, 96)].
 
 delimiter([_o]) ==>
 	[_o],  where [ memberchk(_o, ['+','-','*','/'] ) ].

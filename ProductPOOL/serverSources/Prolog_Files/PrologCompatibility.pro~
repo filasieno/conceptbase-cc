@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2021 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -46,6 +46,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(pc_has_a_definition/1)
 #EXPORT(pc_atomconcat/2)
 #EXPORT(pc_atomconcat/3)
+#EXPORT(pc_atomconcat13/2)
 #EXPORT(pc_atompart/4)
 #EXPORT(pc_atompartsall/3)
 #EXPORT(pc_atomconstruct/3)
@@ -369,6 +370,26 @@ pc_atomconcat([_atom1|_rest],_atom) :-
   pc_atomconcat(_atom1,_atom2,_atom).
 
 
+pc_atomconcat13([_atom],_atom) :- !.
+
+pc_atomconcat13([_c13,_atom],_atom) :-
+   pc_ascii(_c13,13),
+   !.
+
+pc_atomconcat13([_atom1,_atom2],_atom) :-
+   !,
+   atom_concat(_atom1,_atom2,_atom).
+
+pc_atomconcat13([_c13|_rest],_atom) :-
+   pc_ascii(_c13,13),
+   !,
+   pc_atomconcat13(_rest,_atom).
+
+pc_atomconcat13([_atom1|_rest],_atom) :-
+  pc_atomconcat13(_rest,_atom2),
+  atom_concat(_atom1,_atom2,_atom).
+
+
 
 { atom3 is the concatenation of atom1 and atom2 }
 pc_atomconcat(_atom1,_atom2,_atom3) :-
@@ -556,6 +577,7 @@ pc_stringtoatom(_s,_a) :-
     swi_stringtoatom(_s,_a).
 
 pc_ascii(_char,_num) :-
+    atom(_char),  {* see issue #27 for compatibility with recent SWI-Prolog ; proposed by krietzsche *}
     char_code(_char,_num).
 
 pc_pointer(_p) :-

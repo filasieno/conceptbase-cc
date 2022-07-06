@@ -270,9 +270,11 @@ intNumber(['-'|_n]) ==>
 assertionString(['$']) ==>
 	['$'].
 
+
 assertionString([_char| _tail]) ==>
-	[_char],
-	assertionString(_tail).
+        [_char],
+        assertionString(_tail).
+
 
 
 /****  scan list of characters presenting a string  ****/
@@ -292,6 +294,7 @@ string([_char|_tail]) ==>
 	[_char],
 	where[memberchk(_char,['$','\\'])],
 	string(_tail).
+
 
 string([_char|_tail]) ==>
 	[_char],

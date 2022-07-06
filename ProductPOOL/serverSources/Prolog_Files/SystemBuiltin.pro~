@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2017 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -96,12 +96,22 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(active_user/1,CBserverInterface)
 #IMPORT(getModule/1,ModelConfiguration)
 #IMPORT(setModule/1,ModelConfiguration)
-#IMPORT(listModuleContent/1,ConfigurationUtilities)
+#IMPORT(listModuleContent/2,ConfigurationUtilities)
+#IMPORT(listModuleContentReloadable/2,ConfigurationUtilities)
+#IMPORT(purgeModuleContent/2,ConfigurationUtilities)
 #IMPORT(unquoteAtom/2,GeneralUtilities)
 #IMPORT(makeAlphanumeric/2,GeneralUtilities)
 #IMPORT(makeName/2,cbserver)
 #IMPORT(create_as_individual/2,FragmentToPropositions)
 #IMPORT(is_allNumbers/1,GeneralUtilities)
+#IMPORT(is_id/1,MetaUtilities)
+#IMPORT(toTelosName/2,cbserver)
+#IMPORT(foldBulkQuery/3,QueryProcessor)
+#IMPORT(process_query/2,QueryProcessor)
+#IMPORT(getStringFromBuffer/2,ExternalCodeLoader)
+#IMPORT(createBuffer/2,GeneralUtilities)
+#IMPORT(encodeLabel/3,AnswerTransformUtilities)
+
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -137,7 +147,7 @@ processBuiltin(_qname,_result,_substlist) :-
 
 do_processBuiltin(get_object,_result,_substlist) :-
 	pc_member(substitute(_x,objname),_substlist),
-	pc_member(substitute(_dedin,dedIn),_substlist),
+	pc_member(substitute(_dedIn,dedIn),_substlist),
 	pc_member(substitute(_dedIsa,dedIsa),_substlist),
 	pc_member(substitute(_dedWith,dedWith),_substlist),
 	eval(_x, replaceSelectExpression, _objID),
@@ -152,6 +162,9 @@ do_processBuiltin(get_object,_result,_substlist) :-
 {* oben auch fehlschlagen kann, und die Flags auf irgendwelche Werte gestellt *}
 {* worden sind. 7-6-95/CQ *}
 do_processBuiltin(get_object,_result,[substitute(_x,objname)]) :-
+name(_x,_a),
+write('objname: '),write(_x),nl,
+write('asciis : '),write(_a),nl,
 	eval(_x, replaceSelectExpression, _objID),
 	name2id(_objID,_),
 	pc_update(ded_get_object(f('FALSE','FALSE','FALSE'))),
@@ -246,6 +259,44 @@ do_processBuiltin(listModule,_result,[substitute(_modname,module)]) :-
 
 {* in case of missing access rights or other errors *}
 do_processBuiltin(listModule,'{* no *}',_) :-
+   !.
+
+do_processBuiltin(listModuleReloadable,_result,[]) :-
+   getModule(_mod),
+   listModuleContentReloadable(_result,_mod),
+   !.
+
+do_processBuiltin(listModuleReloadable,_result,[substitute(_modname,module)]) :-
+   getModule(_oldmod),
+   listModuleContentReloadable(_result,_modname),
+   setModule(_oldmod),
+   !.
+
+{* in case of missing access rights or other errors *}
+do_processBuiltin(listModuleReloadable,'{* no *}',_) :-
+   !.
+
+
+{* ***************************************************************************** *}
+{*                                                                               *}
+{*    purgeModule(_mod):  purge the content of module _mod                        *}
+{*                                                                               *}
+{* ***************************************************************************** *}
+
+
+do_processBuiltin(purgeModule,_result,[]) :-
+   getModule(_mod),
+   purgeModuleContent(_result,_mod),
+   !.
+
+do_processBuiltin(purgeModule,_result,[substitute(_modname,module)]) :-
+   getModule(_oldmod),
+   purgeModuleContent(_result,_modname),
+   setModule(_oldmod),
+   !.
+
+{* in case of missing access rights or other errors *}
+do_processBuiltin(purgeModule,'no',_) :-
    !.
 
 
@@ -670,6 +721,69 @@ computeFunction(concat,_res,[_s1,_,_s2,_]) :-
 	!.
 
 
+{* concatenate the labels of s1 and s2, quotes are removed from arguments *}
+computeFunction(concatl,_res,[_s1,_,_s2,_]) :-
+        evalToLabel(_s1,_l1),
+        evalToLabel(_s2,_l2),
+        unquoteAtom(_l1,_ps1),
+        unquoteAtom(_l2,_ps2),
+	pc_atomconcat(_ps1,_ps2,_alpha),
+        toTelosName(_alpha,_telosname),
+        create_as_individual(_telosname,_res),
+	!.
+
+computeFunction(concatl4,_res,[_s1,_,_s2,_,_s3,_,_s4,_]) :-
+        evalToLabel(_s1,_l1),
+        evalToLabel(_s2,_l2),
+        evalToLabel(_s3,_l3),
+        evalToLabel(_s4,_l4),
+        unquoteAtom(_l1,_ps1),
+        unquoteAtom(_l2,_ps2),
+        unquoteAtom(_l3,_ps3),
+        unquoteAtom(_l4,_ps4),
+	pc_atomconcat([_ps1,_ps2,_ps3,_ps4],_alpha),
+        toTelosName(_alpha,_telosname),
+        create_as_individual(_telosname,_res),
+	!.
+
+computeFunction(concatl6,_res,[_s1,_,_s2,_,_s3,_,_s4,_,_s5,_,_s6,_]) :-
+        evalToLabel(_s1,_l1),
+        evalToLabel(_s2,_l2),
+        evalToLabel(_s3,_l3),
+        evalToLabel(_s4,_l4),
+        evalToLabel(_s5,_l5),
+        evalToLabel(_s6,_l6),
+        unquoteAtom(_l1,_ps1),
+        unquoteAtom(_l2,_ps2),
+        unquoteAtom(_l3,_ps3),
+        unquoteAtom(_l4,_ps4),
+        unquoteAtom(_l5,_ps5),
+        unquoteAtom(_l6,_ps6),
+	pc_atomconcat([_ps1,_ps2,_ps3,_ps4,_ps5,_ps6],_alpha),
+        toTelosName(_alpha,_telosname),
+        create_as_individual(_telosname,_res),
+	!.
+
+
+
+{* Issue #39: Function "resultOf" to get query answers as a single value *}
+{* resultOf(Q,x,ansrep) applies the query Q to argument x and converts to to a string according to answerformat ansrep *}
+computeFunction(resultOf,_res,[_q,_,_x,_,_ansrepid,_]) :-
+	ground(_q),
+        ground(_x),
+        ground(_ansrepid),
+        id2name(_ansrepid,_ansrep),
+        createBuffer(_ret,large), 
+        process_query(ask([bulkquery([plainarg(_q),plainarg(_x)])],_ansrep),_ret),
+        getStringFromBuffer(_answer,_ret),
+        encodeLabel(_answer,_ansrepid,_satom),
+	create_if_builtin_object(_satom,'HiddenLabel',_res),
+{* id2name(_res,_out), write('resultOf: '),write(_out),nl, write('resultOf pointer: '),write(_res),nl, *}
+	!.
+
+
+
+
 {* *********************************** *}
 {* for user-defined builtin functions: *}
 {* *********************************** *}
@@ -689,6 +803,12 @@ computeFunction(_fname,_res,_args) :-
         !.
 
 
+
+{* ------------------------------------------------ *}
+
+
+
+
 allNumbers(_s) :-
   is_allNumbers(_s),
   !.
@@ -697,6 +817,24 @@ allNumbers(_s) :-
   report_error(NOTALLNUMBERS, SystemBuiltin,[]),
   !,
   fail.
+
+
+
+
+evalToLabel(_x,_n) :-
+  is_id(_x),
+  id2name(_x,_n),
+  !.
+
+evalToLabel(_x,_x) :-
+  atom(_x),
+  !.
+
+
+evalToLabel(_x,_n) :-
+  evalFunctionArg(_x,_y),
+  makeName(_y,_n),
+  !.
 
 
 
