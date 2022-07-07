@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2021 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -1706,9 +1706,10 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
             ((JLabel) it.next()).setOpaque(false);
         }
 
-// System.out.println("offscreen width="+offScreen.getWidth()+"  height="+offScreen.getHeight());
-// System.out.println("subimage x="+allBounds.x+"  y="+allBounds.y);
-// System.out.println("subimage width="+allBounds.width+"  height="+allBounds.height);
+ System.out.println("Before:");
+ System.out.println("offscreen width="+offScreen.getWidth()+"  height="+offScreen.getHeight());
+ System.out.println("subimage x="+allBounds.x+"  y="+allBounds.y);
+ System.out.println("subimage width="+allBounds.width+"  height="+allBounds.height);
 
         if (allBounds.x+allBounds.width > offScreen.getWidth()) {
           allBounds.width = offScreen.getWidth() - allBounds.x;
@@ -1716,6 +1717,18 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         if (allBounds.y+allBounds.height > offScreen.getHeight()) {
           allBounds.height = offScreen.getHeight() - allBounds.y;
         }
+        if (allBounds.x < 0) {
+          allBounds.x = 0;
+        }
+        if (allBounds.y < 0) {
+          allBounds.y = 0;
+        }
+
+
+ System.out.println("After:");
+ System.out.println("offscreen width="+offScreen.getWidth()+"  height="+offScreen.getHeight());
+ System.out.println("subimage x="+allBounds.x+"  y="+allBounds.y);
+ System.out.println("subimage width="+allBounds.width+"  height="+allBounds.height);
 
         BufferedImage subimage = offScreen.getSubimage(allBounds.x, allBounds.y, allBounds.width,
                 allBounds.height);
@@ -2095,7 +2108,6 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
            if (!imageFilename.startsWith("http://") && !imageFilename.startsWith("file://")) {  // no replacement done for absolute file names
               String sCB_HOME=System.getProperty("CB_HOME", "");
               boolean bWindows = (System.getProperty("os.name").indexOf("Windows") >= 0);
-System.err.println("Check " + sCB_HOME + "/CBICONS/"  + imageFilename);
               if (new java.io.File(sCB_HOME + "/CBICONS/"  + imageFilename).exists()) {
                  if (bWindows) {  // Windows local file URLs are a bit different
                    result = "file:///" + sCB_HOME.replace('\\','/') + "/CBICONS/" + imageFilename;
@@ -2108,7 +2120,6 @@ System.err.println("Check " + sCB_HOME + "/CBICONS/"  + imageFilename);
         } catch (Exception e) { // any exception may occur, since we have the default result
            System.err.println("DiagramDesktop: Image file " + imageFilename + " could not be loaded.");
         }  
-System.err.println("Image file " + result);
         return result;
     }
 

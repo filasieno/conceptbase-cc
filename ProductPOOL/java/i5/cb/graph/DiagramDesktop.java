@@ -1706,16 +1706,22 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
             ((JLabel) it.next()).setOpaque(false);
         }
 
-// System.out.println("offscreen width="+offScreen.getWidth()+"  height="+offScreen.getHeight());
-// System.out.println("subimage x="+allBounds.x+"  y="+allBounds.y);
-// System.out.println("subimage width="+allBounds.width+"  height="+allBounds.height);
-
         if (allBounds.x+allBounds.width > offScreen.getWidth()) {
           allBounds.width = offScreen.getWidth() - allBounds.x;
         }
         if (allBounds.y+allBounds.height > offScreen.getHeight()) {
           allBounds.height = offScreen.getHeight() - allBounds.y;
         }
+        if (allBounds.x < 0) {
+          allBounds.x = 0;
+        }
+        if (allBounds.y < 0) {
+          allBounds.y = 0;
+        }
+
+// System.out.println("offscreen width="+offScreen.getWidth()+"  height="+offScreen.getHeight());
+// System.out.println("subimage x="+allBounds.x+"  y="+allBounds.y);
+// System.out.println("subimage width="+allBounds.width+"  height="+allBounds.height);
 
         BufferedImage subimage = offScreen.getSubimage(allBounds.x, allBounds.y, allBounds.width,
                 allBounds.height);
