@@ -377,7 +377,8 @@ just numbers, e.g.\ use "1" instead of 1 as attribute value.
     the non-numeric values "resizable" (node size can be resized) and
     "wrap" (node size can be resized and label will be wrapped) are allowed as well.
     The value "wrap\_" works like "wrap" but shall also replace "\_" in the node label by
-    a blank. This allows to handle very long labels in combinantion with the labellength property.
+    a blank. If the value is "wrap", then each uppercase character except the first character will have an extra preceding blank.
+    This allows to handle very long labels in combinantion with the labellength property.
     If the size property is set, the user can also resize the element via mouse actions
     (default: undefined, then the size is set by CBGraph).
 
