@@ -152,6 +152,7 @@ process_query(ask([_builtinquery],_ansrep),_answer) :-
 { b) }
 
 process_query(ask([bulkquery([plainarg(_qid)|_args])],_ansrep),_answer) :-
+{* write('Args: '),write(_args),nl, *}
         extractExistingArgs(_args,_goodargs),  {* filter out undefined objects *}
         foldBulkQuery(_qid,_goodargs,_qlist),
         setFlag(bulkQuery,on),  {* influences query processing and answer generation *}

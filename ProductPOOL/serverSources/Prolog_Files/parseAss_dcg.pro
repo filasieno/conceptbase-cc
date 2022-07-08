@@ -818,370 +818,376 @@ idorexp(_G16319, [intNumber(_G16319)|_G16341], _G16341)  :-
 idorexp(_G16357, [realNumber(_G16357)|_G16379], _G16379)  :-
  true .
 
-idorexp(_G16395, ['('|_G16440], _G16426)  :-
- selectExpression(_G16395, _G16440, [')'|_G16426]),
+idorexp(_G16395, [string(_G16395)|_G16417], _G16417)  :-
  true .
 
-elemSelectExpB(_G16470, _G16534, _G16537)  :-
- litarg(_G16472, _G16534, [ident(in)|_G16576]),
- selectexpb(_G16479, _G16576, _G16537),
+idorexp(_G16433, [assertion(_G16433)|_G16455], _G16455)  :-
+ true .
+
+idorexp(_G16471, ['('|_G16516], _G16502)  :-
+ selectExpression(_G16471, _G16516, [')'|_G16502]),
+ true .
+
+elemSelectExpB(_G16546, _G16610, _G16613)  :-
+ litarg(_G16548, _G16610, [ident(in)|_G16652]),
+ selectexpb(_G16555, _G16652, _G16613),
  !,
- replaceSelectExpB(_G16479, _G16472, _G16486, _G16487),
- _G16470=and([lit('In'(_G16472, _G16486)), _G16487]) .
+ replaceSelectExpB(_G16555, _G16548, _G16562, _G16563),
+ _G16546=and([lit('In'(_G16548, _G16562)), _G16563]) .
 
-elemSelectExpB(_G16609, _G16699, _G16702)  :-
- selectexpb(_G16611, _G16699, [ident(isA)|_G16741]),
- selectexpb(_G16618, _G16741, _G16702),
+elemSelectExpB(_G16685, _G16775, _G16778)  :-
+ selectexpb(_G16687, _G16775, [ident(isA)|_G16817]),
+ selectexpb(_G16694, _G16817, _G16778),
  !,
- createNewVarname(_G16623),
- replaceSelectExpB(_G16611, _G16623, _G16630, _G16631),
- replaceSelectExpB(_G16618, _G16623, _G16638, _G16639),
- 'VarTabInsert'([_G16623], [_G16630]),
- expandQuantifier(forall, vtype([_G16623], [_G16630]), impl(_G16631, _G16639), _G16609) .
+ createNewVarname(_G16699),
+ replaceSelectExpB(_G16687, _G16699, _G16706, _G16707),
+ replaceSelectExpB(_G16694, _G16699, _G16714, _G16715),
+ 'VarTabInsert'([_G16699], [_G16706]),
+ expandQuantifier(forall, vtype([_G16699], [_G16706]), impl(_G16707, _G16715), _G16685) .
 
-elemSelectExpB(_G16783, _G16882, _G16885)  :-
- selectexpb(_G16785, _G16882, [=|_G16924]),
- selectexpb(_G16790, _G16924, _G16885),
+elemSelectExpB(_G16859, _G16958, _G16961)  :-
+ selectexpb(_G16861, _G16958, [=|_G17000]),
+ selectexpb(_G16866, _G17000, _G16961),
  !,
- createNewVarname(_G16795),
- replaceSelectExpB(_G16785, _G16795, _G16802, _G16803),
- replaceSelectExpB(_G16790, _G16795, _G16810, _G16811),
- 'VarTabInsert'([_G16795], [_G16802]),
- expandQuantifier(forall, vtype([_G16795], [_G16802]), and([impl(_G16803, _G16811), impl(_G16811, _G16803)]), _G16783) .
+ createNewVarname(_G16871),
+ replaceSelectExpB(_G16861, _G16871, _G16878, _G16879),
+ replaceSelectExpB(_G16866, _G16871, _G16886, _G16887),
+ 'VarTabInsert'([_G16871], [_G16878]),
+ expandQuantifier(forall, vtype([_G16871], [_G16878]), and([impl(_G16879, _G16887), impl(_G16887, _G16879)]), _G16859) .
 
-selectexpb(selectExpB(_G16966, _G16967, _G16968), [ident(_G16966), select2(_G16967)|_G17022], _G17005)  :-
- selectexpb2(_G16968, _G17022, _G17005) .
+selectexpb(selectExpB(_G17042, _G17043, _G17044), [ident(_G17042), select2(_G17043)|_G17098], _G17081)  :-
+ selectexpb2(_G17044, _G17098, _G17081) .
 
-selectexpb(selectExpB(_G17046, _G17047, _G17048), [ident(_G17046), select2(_G17047)|_G17102], _G17085)  :-
- restriction(_G17048, _G17102, _G17085) .
+selectexpb(selectExpB(_G17122, _G17123, _G17124), [ident(_G17122), select2(_G17123)|_G17178], _G17161)  :-
+ restriction(_G17124, _G17178, _G17161) .
 
-selectexpb(selectExpB(_G17126, _G17127, _G17128), [ident(_G17126), select2(_G17127), ident(_G17128)|_G17168], _G17168)  :-
+selectexpb(selectExpB(_G17202, _G17203, _G17204), [ident(_G17202), select2(_G17203), ident(_G17204)|_G17244], _G17244)  :-
  true .
 
-selectexpb2(_G17190, _G17206, _G17209)  :-
- selectexpb(_G17190, _G17206, _G17209) .
+selectexpb2(_G17266, _G17282, _G17285)  :-
+ selectexpb(_G17266, _G17282, _G17285) .
 
-selectexpb2(selectExpB(_G17244, _G17245, _G17246), _G17277, _G17280)  :-
- restriction(_G17244, _G17277, [select2(_G17245)|_G17319]),
- selectexpb2(_G17246, _G17319, _G17280) .
+selectexpb2(selectExpB(_G17320, _G17321, _G17322), _G17353, _G17356)  :-
+ restriction(_G17320, _G17353, [select2(_G17321)|_G17395]),
+ selectexpb2(_G17322, _G17395, _G17356) .
 
-selectexpb2(selectExpB(_G17343, _G17344, _G17345), _G17376, _G17379)  :-
- restriction(_G17343, _G17376, [select2(_G17344)|_G17418]),
- restriction(_G17345, _G17418, _G17379) .
+selectexpb2(selectExpB(_G17419, _G17420, _G17421), _G17452, _G17455)  :-
+ restriction(_G17419, _G17452, [select2(_G17420)|_G17494]),
+ restriction(_G17421, _G17494, _G17455) .
 
-selectexpb2(selectExpB(_G17442, _G17443, _G17444), _G17478, _G17481)  :-
- restriction(_G17442, _G17478, [select2(_G17443), ident(_G17444)|_G17481]),
+selectexpb2(selectExpB(_G17518, _G17519, _G17520), _G17554, _G17557)  :-
+ restriction(_G17518, _G17554, [select2(_G17519), ident(_G17520)|_G17557]),
  true .
 
-restriction(restriction(_G17525, _G17526), ['(', ident(_G17525), :, ident(_G17526), ')'|_G17576], _G17576)  :-
+restriction(restriction(_G17601, _G17602), ['(', ident(_G17601), :, ident(_G17602), ')'|_G17652], _G17652)  :-
  true .
 
-restriction(restriction(_G17604, _G17605), ['(', ident(_G17604), :|_G17672], _G17652)  :-
- selectExpression(_G17605, _G17672, [')'|_G17652]),
+restriction(restriction(_G17680, _G17681), ['(', ident(_G17680), :|_G17748], _G17728)  :-
+ selectExpression(_G17681, _G17748, [')'|_G17728]),
  true .
 
-restriction(restriction(_G17702, _G17703), ['(', ident(_G17702), :|_G17770], _G17750)  :-
- selectexpb(_G17703, _G17770, [')'|_G17750]),
+restriction(restriction(_G17778, _G17779), ['(', ident(_G17778), :|_G17846], _G17826)  :-
+ selectexpb(_G17779, _G17846, [')'|_G17826]),
  true .
 
-restriction(restriction(_G17802, enumeration(_G17800)), ['(', ident(_G17802), :, '['|_G17885], _G17862)  :-
- enumeration(_G17800, _G17885, [']', ')'|_G17862]),
+restriction(restriction(_G17878, enumeration(_G17876)), ['(', ident(_G17878), :, '['|_G17961], _G17938)  :-
+ enumeration(_G17876, _G17961, [']', ')'|_G17938]),
  true .
 
-enumeration([class(_G17918)], _G17939, _G17942)  :-
- litarg(_G17918, _G17939, _G17942) .
+enumeration([class(_G17994)], _G18015, _G18018)  :-
+ litarg(_G17994, _G18015, _G18018) .
 
-enumeration([class(_G17977)], _G17998, _G18001)  :-
- selectExpression(_G17977, _G17998, _G18001) .
+enumeration([class(_G18053)], _G18074, _G18077)  :-
+ selectExpression(_G18053, _G18074, _G18077) .
 
-enumeration(_G18036, _G18080, _G18083)  :-
- litarg(_G18038, _G18080, [ (',')|_G18122]),
- enumeration(_G18043, _G18122, _G18083),
- append([class(_G18038)], _G18043, _G18036) .
+enumeration(_G18112, _G18156, _G18159)  :-
+ litarg(_G18114, _G18156, [ (',')|_G18198]),
+ enumeration(_G18119, _G18198, _G18159),
+ append([class(_G18114)], _G18119, _G18112) .
 
-enumeration(_G18149, _G18193, _G18196)  :-
- selectExpression(_G18151, _G18193, [ (',')|_G18235]),
- enumeration(_G18156, _G18235, _G18196),
- append([class(_G18151)], _G18156, _G18149) .
+enumeration(_G18225, _G18269, _G18272)  :-
+ selectExpression(_G18227, _G18269, [ (',')|_G18311]),
+ enumeration(_G18232, _G18311, _G18272),
+ append([class(_G18227)], _G18232, _G18225) .
 
-foralls(_G18262, _G18263, _G18308, _G18311)  :-
- forall(_G18265, _G18266, _G18308, _G18343),
- foralls(_G18268, _G18269, _G18343, _G18311),
- append(_G18265, _G18268, _G18262),
- append(_G18266, _G18269, _G18263) .
+foralls(_G18338, _G18339, _G18384, _G18387)  :-
+ forall(_G18341, _G18342, _G18384, _G18419),
+ foralls(_G18344, _G18345, _G18419, _G18387),
+ append(_G18341, _G18344, _G18338),
+ append(_G18342, _G18345, _G18339) .
 
-foralls([], [], _G18418, _G18418)  :-
+foralls([], [], _G18494, _G18494)  :-
  true .
 
-forall(_G18438, _G18439, [ident(forall)|_G18488], _G18470)  :-
- vartypelist(_G18438, _G18439, _G18488, _G18470) .
+forall(_G18514, _G18515, [ident(forall)|_G18564], _G18546)  :-
+ vartypelist(_G18514, _G18515, _G18564, _G18546) .
 
-buildECArule(ecarule(_G18519, _G18520, _G18521, _G18522, _G18523), _G18561, _G18564)  :-
- optvartypelist(_G18527, [], _G18561, [ident('ON')|_G18610]),
- buildECAruleHelper(ecarule(_G18519, _G18520, _G18521, _G18522, _G18523), _G18610, _G18564) .
+buildECArule(ecarule(_G18595, _G18596, _G18597, _G18598, _G18599), _G18637, _G18640)  :-
+ optvartypelist(_G18603, [], _G18637, [ident('ON')|_G18686]),
+ buildECAruleHelper(ecarule(_G18595, _G18596, _G18597, _G18598, _G18599), _G18686, _G18640) .
 
-buildECAruleHelper(ecarule(_G18637, true, _G18639, [noop], currentqueue), _G18672, _G18675)  :-
- buildECAevent(_G18637, _G18672, [ident('DO')|_G18714]),
- buildECAactionList(_G18639, _G18714, _G18675) .
+buildECAruleHelper(ecarule(_G18713, true, _G18715, [noop], currentqueue), _G18748, _G18751)  :-
+ buildECAevent(_G18713, _G18748, [ident('DO')|_G18790]),
+ buildECAactionList(_G18715, _G18790, _G18751) .
 
-buildECAruleHelper(ecarule(_G18738, _G18739, _G18740, _G18741, currentqueue), _G18789, _G18792)  :-
- buildECAevent(_G18738, _G18789, _G18817),
- ifClause(_G18748, _G18817, _G18842),
- buildECAcondition(_G18748, _G18739, _G18842, [ident('DO')|_G18888]),
- buildECAactionList(_G18740, _G18888, _G18902),
- optELSEactionList(_G18741, _G18902, _G18792) .
+buildECAruleHelper(ecarule(_G18814, _G18815, _G18816, _G18817, currentqueue), _G18865, _G18868)  :-
+ buildECAevent(_G18814, _G18865, _G18893),
+ ifClause(_G18824, _G18893, _G18918),
+ buildECAcondition(_G18824, _G18815, _G18918, [ident('DO')|_G18964]),
+ buildECAactionList(_G18816, _G18964, _G18978),
+ optELSEactionList(_G18817, _G18978, _G18868) .
 
-buildECAruleHelper(ecarule(_G18940, true, _G18942, [noop], q1), [ident('TRANSACTIONAL')|_G19000], _G18986)  :-
- buildECAevent(_G18940, _G19000, [ident('DO')|_G19028]),
- buildECAactionList(_G18942, _G19028, _G18986) .
+buildECAruleHelper(ecarule(_G19016, true, _G19018, [noop], q1), [ident('TRANSACTIONAL')|_G19076], _G19062)  :-
+ buildECAevent(_G19016, _G19076, [ident('DO')|_G19104]),
+ buildECAactionList(_G19018, _G19104, _G19062) .
 
-buildECAruleHelper(ecarule(_G19052, _G19053, _G19054, _G19055, q1), [ident('TRANSACTIONAL')|_G19128], _G19114)  :-
- buildECAevent(_G19052, _G19128, _G19142),
- ifClause(_G19067, _G19142, _G19167),
- buildECAcondition(_G19067, _G19053, _G19167, [ident('DO')|_G19213]),
- buildECAactionList(_G19054, _G19213, _G19227),
- optELSEactionList(_G19055, _G19227, _G19114) .
+buildECAruleHelper(ecarule(_G19128, _G19129, _G19130, _G19131, q1), [ident('TRANSACTIONAL')|_G19204], _G19190)  :-
+ buildECAevent(_G19128, _G19204, _G19218),
+ ifClause(_G19143, _G19218, _G19243),
+ buildECAcondition(_G19143, _G19129, _G19243, [ident('DO')|_G19289]),
+ buildECAactionList(_G19130, _G19289, _G19303),
+ optELSEactionList(_G19131, _G19303, _G19190) .
 
-buildECAruleHelper(ecarule(_G19265, true, _G19267, [noop], _G19269), _G19321, _G19324)  :-
- buildECAevent(_G19265, _G19321, [ident('FOR'), ident(_G19269), ident('DO')|_G19369]),
- buildECAactionList(_G19267, _G19369, _G19383),
- optELSEactionList(_G19292, _G19383, _G19324) .
+buildECAruleHelper(ecarule(_G19341, true, _G19343, [noop], _G19345), _G19397, _G19400)  :-
+ buildECAevent(_G19341, _G19397, [ident('FOR'), ident(_G19345), ident('DO')|_G19445]),
+ buildECAactionList(_G19343, _G19445, _G19459),
+ optELSEactionList(_G19368, _G19459, _G19400) .
 
-buildECAruleHelper(ecarule(_G19418, _G19419, _G19420, _G19421, _G19422), _G19485, _G19488)  :-
- buildECAevent(_G19418, _G19485, [ident('FOR'), ident(_G19422)|_G19530]),
- ifClause(_G19438, _G19530, _G19544),
- buildECAcondition(_G19438, _G19419, _G19544, [ident('DO')|_G19590]),
- buildECAactionList(_G19420, _G19590, _G19604),
- optELSEactionList(_G19421, _G19604, _G19488) .
+buildECAruleHelper(ecarule(_G19494, _G19495, _G19496, _G19497, _G19498), _G19561, _G19564)  :-
+ buildECAevent(_G19494, _G19561, [ident('FOR'), ident(_G19498)|_G19606]),
+ ifClause(_G19514, _G19606, _G19620),
+ buildECAcondition(_G19514, _G19495, _G19620, [ident('DO')|_G19666]),
+ buildECAactionList(_G19496, _G19666, _G19680),
+ optELSEactionList(_G19497, _G19680, _G19564) .
 
-ifClause('IFNEW', [ident('IFNEW')|_G19661], _G19661)  :-
+ifClause('IFNEW', [ident('IFNEW')|_G19737], _G19737)  :-
  true .
 
-ifClause('IFNEW', [ident('IF'), ident('NEW')|_G19715], _G19715)  :-
+ifClause('IFNEW', [ident('IF'), ident('NEW')|_G19791], _G19791)  :-
  ! .
 
-ifClause('IF', [ident('IF')|_G19756], _G19756)  :-
+ifClause('IF', [ident('IF')|_G19832], _G19832)  :-
  true .
 
-optELSEactionList(_G19772, [ident('ELSE')|_G19813], _G19799)  :-
- buildECAactionList(_G19772, _G19813, _G19799) .
+optELSEactionList(_G19848, [ident('ELSE')|_G19889], _G19875)  :-
+ buildECAactionList(_G19848, _G19889, _G19875) .
 
-optELSEactionList([noop], _G19859, _G19859)  :-
+optELSEactionList([noop], _G19935, _G19935)  :-
  true .
 
-buildECAevent(_G19875, _G19923, _G19926)  :-
- 'ECAeventOperation'(_G19877, _G19923, ['('|_G19965]),
- lit(_G19882, _G19965, [')'|_G19926]),
- makeECAevent(_G19877, _G19882, _G19875),
+buildECAevent(_G19951, _G19999, _G20002)  :-
+ 'ECAeventOperation'(_G19953, _G19999, ['('|_G20041]),
+ lit(_G19958, _G20041, [')'|_G20002]),
+ makeECAevent(_G19953, _G19958, _G19951),
  ! .
 
-buildECAevent(_G19998, _G20034, _G20037)  :-
- 'ECAeventOperation'(_G20000, _G20034, _G20062),
- lit(_G20002, _G20062, _G20037),
- makeECAevent(_G20000, _G20002, _G19998),
+buildECAevent(_G20074, _G20110, _G20113)  :-
+ 'ECAeventOperation'(_G20076, _G20110, _G20138),
+ lit(_G20078, _G20138, _G20113),
+ makeECAevent(_G20076, _G20078, _G20074),
  ! .
 
-buildECAevent(_G20103, [ident(_G20105), '('|_G20200], _G20183)  :-
- memberchk(_G20105, ['Ask', ask]),
- litarg(_G20127, _G20200, [')'|_G20183]),
- resolveDeriveExpression('In'('_tempvarxyz', _G20127), _G20136),
- makeECAevent('Ask', _G20136, _G20103),
+buildECAevent(_G20179, [ident(_G20181), '('|_G20276], _G20259)  :-
+ memberchk(_G20181, ['Ask', ask]),
+ litarg(_G20203, _G20276, [')'|_G20259]),
+ resolveDeriveExpression('In'('_tempvarxyz', _G20203), _G20212),
+ makeECAevent('Ask', _G20212, _G20179),
  ! .
 
-buildECAevent(_G20239, [ident(_G20241)|_G20321], _G20307)  :-
- memberchk(_G20241, ['Ask', ask]),
- litarg(_G20260, _G20321, _G20307),
- resolveDeriveExpression('In'('_tempvarxyz', _G20260), _G20266),
- makeECAevent('Ask', _G20266, _G20239),
+buildECAevent(_G20315, [ident(_G20317)|_G20397], _G20383)  :-
+ memberchk(_G20317, ['Ask', ask]),
+ litarg(_G20336, _G20397, _G20383),
+ resolveDeriveExpression('In'('_tempvarxyz', _G20336), _G20342),
+ makeECAevent('Ask', _G20342, _G20315),
  ! .
 
-buildECAcondition(_G20357, _G20358, [ident(_G20358)|_G20403], _G20403)  :-
- memberchk(_G20358, [true, false]),
+buildECAcondition(_G20433, _G20434, [ident(_G20434)|_G20479], _G20479)  :-
+ memberchk(_G20434, [true, false]),
  ! .
 
-buildECAcondition(_G20426, _G20427, _G20461, _G20464)  :-
- 'ECAconditionFormula'(_G20429, _G20461, _G20464),
- makeECAcondition(_G20426, _G20429, _G20427),
+buildECAcondition(_G20502, _G20503, _G20537, _G20540)  :-
+ 'ECAconditionFormula'(_G20505, _G20537, _G20540),
+ makeECAcondition(_G20502, _G20505, _G20503),
  ! .
 
-'ECAconditionFormula'(_G20509, ['('|_G20554], _G20540)  :-
- 'ECAconditionFormula'(_G20509, _G20554, [')'|_G20540]),
+'ECAconditionFormula'(_G20585, ['('|_G20630], _G20616)  :-
+ 'ECAconditionFormula'(_G20585, _G20630, [')'|_G20616]),
  true .
 
-'ECAconditionFormula'(_G20584, _G20606, _G20609)  :-
- 'ECAconditionFormula1'(_G20586, _G20606, _G20634),
- 'ECAconditionFormula2'(_G20586, _G20584, _G20634, _G20609) .
+'ECAconditionFormula'(_G20660, _G20682, _G20685)  :-
+ 'ECAconditionFormula1'(_G20662, _G20682, _G20710),
+ 'ECAconditionFormula2'(_G20662, _G20660, _G20710, _G20685) .
 
-'ECAconditionFormula1'(_G20676, _G20692, _G20695)  :-
- ecalit(_G20676, _G20692, _G20695) .
+'ECAconditionFormula1'(_G20752, _G20768, _G20771)  :-
+ ecalit(_G20752, _G20768, _G20771) .
 
-'ECAconditionFormula1'(not(_G20730), [ident(not)|_G20781], _G20767)  :-
- ecalit(_G20730, _G20781, _G20767),
+'ECAconditionFormula1'(not(_G20806), [ident(not)|_G20857], _G20843)  :-
+ ecalit(_G20806, _G20857, _G20843),
  ! .
 
-'ECAconditionFormula1'(not(_G20808), [ident(not), '('|_G20866], _G20849)  :-
- 'ECAconditionFormula'(_G20808, _G20866, [')'|_G20849]),
+'ECAconditionFormula1'(not(_G20884), [ident(not), '('|_G20942], _G20925)  :-
+ 'ECAconditionFormula'(_G20884, _G20942, [')'|_G20925]),
  true .
 
-'ECAconditionFormula2'(_G20896, and(_G20896, _G20897), [ident(and)|_G20948], _G20930)  :-
- 'ECAconditionFormula'(_G20897, _G20948, _G20930) .
-
-'ECAconditionFormula2'(_G20972, or(_G20972, _G20973), [ident(or)|_G21024], _G21006)  :-
+'ECAconditionFormula2'(_G20972, and(_G20972, _G20973), [ident(and)|_G21024], _G21006)  :-
  'ECAconditionFormula'(_G20973, _G21024, _G21006) .
 
-'ECAconditionFormula2'(_G21048, _G21048, _G21071, _G21071)  :-
+'ECAconditionFormula2'(_G21048, or(_G21048, _G21049), [ident(or)|_G21100], _G21082)  :-
+ 'ECAconditionFormula'(_G21049, _G21100, _G21082) .
+
+'ECAconditionFormula2'(_G21124, _G21124, _G21147, _G21147)  :-
  true .
 
-buildECAactionList([_G21091|_G21092], _G21115, _G21118)  :-
- 'ECAaction'(_G21091, _G21115, _G21143),
- buildECAactionList_rest(_G21092, _G21143, _G21118) .
+buildECAactionList([_G21167|_G21168], _G21191, _G21194)  :-
+ 'ECAaction'(_G21167, _G21191, _G21219),
+ buildECAactionList_rest(_G21168, _G21219, _G21194) .
 
-buildECAactionList_rest(_G21178, [ (',')|_G21225], _G21211)  :-
+buildECAactionList_rest(_G21254, [ (',')|_G21301], _G21287)  :-
  !,
- buildECAactionList(_G21178, _G21225, _G21211) .
+ buildECAactionList(_G21254, _G21301, _G21287) .
 
-buildECAactionList_rest([], _G21271, _G21271)  :-
+buildECAactionList_rest([], _G21347, _G21347)  :-
  ! .
 
-'ECAaction'(noop, [ident(noop)|_G21317], _G21317)  :-
+'ECAaction'(noop, [ident(noop)|_G21393], _G21393)  :-
  ! .
 
-'ECAaction'(noop, [ident(commit)|_G21363], _G21363)  :-
+'ECAaction'(noop, [ident(commit)|_G21439], _G21439)  :-
  ! .
 
-'ECAaction'(reject, [ident(reject)|_G21409], _G21409)  :-
+'ECAaction'(reject, [ident(reject)|_G21485], _G21485)  :-
  ! .
 
-'ECAaction'(tBegin, [ident(tBegin)|_G21455], _G21455)  :-
+'ECAaction'(tBegin, [ident(tBegin)|_G21531], _G21531)  :-
  ! .
 
-'ECAaction'(tEnd, [ident(tEnd)|_G21501], _G21501)  :-
+'ECAaction'(tEnd, [ident(tEnd)|_G21577], _G21577)  :-
  ! .
 
-'ECAaction'(_G21517, _G21565, _G21568)  :-
- 'ECAactionOperation'(_G21519, _G21565, ['('|_G21607]),
- ecalit(_G21524, _G21607, [')'|_G21568]),
- makeECAaction(_G21519, _G21524, _G21517),
+'ECAaction'(_G21593, _G21641, _G21644)  :-
+ 'ECAactionOperation'(_G21595, _G21641, ['('|_G21683]),
+ ecalit(_G21600, _G21683, [')'|_G21644]),
+ makeECAaction(_G21595, _G21600, _G21593),
  ! .
 
-'ECAaction'(_G21640, _G21676, _G21679)  :-
- 'ECAactionOperation'(_G21642, _G21676, _G21704),
- ecalit(_G21644, _G21704, _G21679),
- makeECAaction(_G21642, _G21644, _G21640),
+'ECAaction'(_G21716, _G21752, _G21755)  :-
+ 'ECAactionOperation'(_G21718, _G21752, _G21780),
+ ecalit(_G21720, _G21780, _G21755),
+ makeECAaction(_G21718, _G21720, _G21716),
  ! .
 
-'ECAaction'(_G21745, [ident(_G21747), '('|_G21833], _G21816)  :-
- memberchk(_G21747, ['Raise', raise]),
- deriveExpression(_G21769, _G21833, [')'|_G21816]),
- makeECAaction('Raise', _G21769, _G21745),
+'ECAaction'(_G21821, [ident(_G21823), '('|_G21909], _G21892)  :-
+ memberchk(_G21823, ['Raise', raise]),
+ deriveExpression(_G21845, _G21909, [')'|_G21892]),
+ makeECAaction('Raise', _G21845, _G21821),
  ! .
 
-'ECAaction'(_G21869, [ident(_G21871)|_G21942], _G21928)  :-
- memberchk(_G21871, ['Raise', raise]),
- deriveExpression(_G21890, _G21942, _G21928),
- makeECAaction('Raise', _G21890, _G21869),
+'ECAaction'(_G21945, [ident(_G21947)|_G22018], _G22004)  :-
+ memberchk(_G21947, ['Raise', raise]),
+ deriveExpression(_G21966, _G22018, _G22004),
+ makeECAaction('Raise', _G21966, _G21945),
  ! .
 
-'ECAaction'(_G21975, [ident(_G21977), ident(_G21996)|_G22037], _G22037)  :-
- memberchk(_G21977, ['Raise', raise]),
- makeECAaction(_G21977, _G21996, _G21975),
+'ECAaction'(_G22051, [ident(_G22053), ident(_G22072)|_G22113], _G22113)  :-
+ memberchk(_G22053, ['Raise', raise]),
+ makeECAaction(_G22053, _G22072, _G22051),
  ! .
 
-'ECAeventOperation'(_G22062, [ident(_G22062)|_G22110], _G22110)  :-
- memberchk(_G22062, ['Tell', 'Untell', tell, untell]),
+'ECAeventOperation'(_G22138, [ident(_G22138)|_G22186], _G22186)  :-
+ memberchk(_G22138, ['Tell', 'Untell', tell, untell]),
  ! .
 
-'ECAactionOperation'(_G22129, [ident(_G22129)|_G22198], _G22198)  :-
- memberchk(_G22129, ['Tell', 'Untell', 'Retell', 'Ask', 'Call', 'CALL', tell, untell, retell, ask, call]),
+'ECAactionOperation'(_G22205, [ident(_G22205)|_G22274], _G22274)  :-
+ memberchk(_G22205, ['Tell', 'Untell', 'Retell', 'Ask', 'Call', 'CALL', tell, untell, retell, ask, call]),
  ! .
 
-ecalit(new(_G22217), [ident(new), '('|_G22275], _G22258)  :-
- lit(_G22217, _G22275, [')'|_G22258]),
+ecalit(new(_G22293), [ident(new), '('|_G22351], _G22334)  :-
+ lit(_G22293, _G22351, [')'|_G22334]),
  true .
 
-ecalit(new(_G22305), [_G22309|_G22357], _G22343)  :-
- pc_ascii(_G22309, 96),
- lit(_G22305, _G22357, _G22343) .
+ecalit(new(_G22381), [_G22385|_G22433], _G22419)  :-
+ pc_ascii(_G22385, 96),
+ lit(_G22381, _G22433, _G22419) .
 
-ecalit(_G22384, _G22400, _G22403)  :-
- lit(_G22384, _G22400, _G22403) .
+ecalit(_G22460, _G22476, _G22479)  :-
+ lit(_G22460, _G22476, _G22479) .
 
-bulkQueryCall(bulkquery(_G22438), [ident(bulk), '['|_G22500], _G22483)  :-
- bulkArgList(_G22438, _G22500, _G22483),
- temp_msp(_G22452) .
+bulkQueryCall(bulkquery(_G22514), [ident(bulk), '['|_G22576], _G22559)  :-
+ bulkArgList(_G22514, _G22576, _G22559),
+ temp_msp(_G22528) .
 
-bulkArgList([_G22527], _G22552, _G22555)  :-
- bulkArg(_G22527, _G22552, [']'|_G22555]),
+bulkArgList([_G22603], _G22628, _G22631)  :-
+ bulkArg(_G22603, _G22628, [']'|_G22631]),
  true .
 
-bulkArgList([_G22596|_G22597], _G22626, _G22629)  :-
- bulkArg(_G22596, _G22626, [ (',')|_G22668]),
- bulkArgList(_G22597, _G22668, _G22629) .
+bulkArgList([_G22672|_G22673], _G22702, _G22705)  :-
+ bulkArg(_G22672, _G22702, [ (',')|_G22744]),
+ bulkArgList(_G22673, _G22744, _G22705) .
 
-bulkArg(plainarg(_G22692), _G22718, _G22721)  :-
- constantval(_G22692, _G22718, _G22721),
+bulkArg(plainarg(_G22768), _G22794, _G22797)  :-
+ constantval(_G22768, _G22794, _G22797),
  ! .
 
-bulkArg(plainarg(_G22759), _G22785, _G22788)  :-
- assertionval(_G22759, _G22785, _G22788),
+bulkArg(plainarg(_G22835), _G22861, _G22864)  :-
+ assertionval(_G22835, _G22861, _G22864),
  ! .
 
-bulkArg(plainarg(_G22826), _G22852, _G22855)  :-
- selectExpression(_G22826, _G22852, _G22855),
+bulkArg(plainarg(_G22902), _G22928, _G22931)  :-
+ selectExpression(_G22902, _G22928, _G22931),
  ! .
 
-bulkArg(plainarg(_G22893), _G22919, _G22922)  :-
- objectname(_G22893, _G22919, _G22922),
+bulkArg(plainarg(_G22969), _G22995, _G22998)  :-
+ objectname(_G22969, _G22995, _G22998),
  ! .
 
-bulkArg(unknown(_G22960), _G22986, _G22989)  :-
- falseSelectExpression(_G22960, _G22986, _G22989),
+bulkArg(unknown(_G23036), _G23062, _G23065)  :-
+ falseSelectExpression(_G23036, _G23062, _G23065),
  ! .
 
-bulkArg(unknown(_G23027), _G23053, _G23056)  :-
- simplelabel(_G23027, _G23053, _G23056),
+bulkArg(unknown(_G23103), _G23129, _G23132)  :-
+ simplelabel(_G23103, _G23129, _G23132),
  ! .
 
-falseSelectExpression(select(_G23094, _G23095, _G23096), _G23156, _G23159)  :-
- anyArg(_G23094, _G23156, [select(_G23095)|_G23198]),
- anyArg(_G23096, _G23198, _G23159),
- memberchk(_G23095, [ (->), =>, !, ^, @]),
+falseSelectExpression(select(_G23170, _G23171, _G23172), _G23232, _G23235)  :-
+ anyArg(_G23170, _G23232, [select(_G23171)|_G23274]),
+ anyArg(_G23172, _G23274, _G23235),
+ memberchk(_G23171, [ (->), =>, !, ^, @]),
  ! .
 
-falseSelectExpression(_G23228, ['('|_G23273], _G23259)  :-
- falseSelectExpression(_G23228, _G23273, [')'|_G23259]),
+falseSelectExpression(_G23304, ['('|_G23349], _G23335)  :-
+ falseSelectExpression(_G23304, _G23349, [')'|_G23335]),
  true .
 
-anyArg(_G23303, _G23319, _G23322)  :-
- simplelabel(_G23303, _G23319, _G23322) .
+anyArg(_G23379, _G23395, _G23398)  :-
+ simplelabel(_G23379, _G23395, _G23398) .
 
-anyArg(_G23357, [string(_G23357)|_G23379], _G23379)  :-
+anyArg(_G23433, [string(_G23433)|_G23455], _G23455)  :-
  true .
 
-anyArg(_G23395, [assertion(_G23395)|_G23417], _G23417)  :-
+anyArg(_G23471, [assertion(_G23471)|_G23493], _G23493)  :-
  true .
 
-anyArg(_G23433, [intNumber(_G23433)|_G23455], _G23455)  :-
+anyArg(_G23509, [intNumber(_G23509)|_G23531], _G23531)  :-
  true .
 
-anyArg(_G23471, [realNumber(_G23471)|_G23493], _G23493)  :-
+anyArg(_G23547, [realNumber(_G23547)|_G23569], _G23569)  :-
  true .
 
-anyArg(_G23509, [falseSelectExpression(_G23509)|_G23531], _G23531)  :-
+anyArg(_G23585, [falseSelectExpression(_G23585)|_G23607], _G23607)  :-
  true .
 
-buildQuerycall(class(_G23547), _G23573, _G23576)  :-
- bulkQueryCall(_G23547, _G23573, _G23576),
+buildQuerycall(class(_G23623), _G23649, _G23652)  :-
+ bulkQueryCall(_G23623, _G23649, _G23652),
  ! .
 
-buildQuerycall(class(_G23614), _G23632, _G23635)  :-
- arExpr(_G23614, _G23632, _G23635) .
+buildQuerycall(class(_G23690), _G23708, _G23711)  :-
+ arExpr(_G23690, _G23708, _G23711) .
 
-buildQuerycall(class(_G23670), _G23688, _G23691)  :-
- deriveExpression(_G23670, _G23688, _G23691) .
+buildQuerycall(class(_G23746), _G23764, _G23767)  :-
+ deriveExpression(_G23746, _G23764, _G23767) .
 
-convertSelectExpression(_G23726, _G23742, _G23745)  :-
- selectExpression(_G23726, _G23742, _G23745) .
+convertSelectExpression(_G23802, _G23818, _G23821)  :-
+ selectExpression(_G23802, _G23818, _G23821) .
 
-convertSelectExpression(_G23780, _G23796, _G23799)  :-
- objectname(_G23780, _G23796, _G23799) .
+convertSelectExpression(_G23856, _G23872, _G23875)  :-
+ objectname(_G23856, _G23872, _G23875) .
