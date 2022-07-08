@@ -416,7 +416,7 @@ public class CBFrameWorker implements java.beans.PropertyChangeListener, IFrameW
          validateBulk(diagramNodes);  // validateBulk is faster than validateIterative but both should have the same result
       else
          validateIterative(diagramNodes);
-      m_cbFrame.getCBEditor().setStatusString("done.");
+      m_cbFrame.getCBEditor().setStatusString("Validation completed.");
       m_cbFrame.getDiagramDesktop().repaint();
     }
 
