@@ -1547,14 +1547,13 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
                 m_defaultGraphTypes=new HashMap();
                 m_implementedBy=new HashMap();
                 m_PropertiesOfGraphicalTypes=new HashMap();
-                this.setStatusString("Loading new graphical palette "+newGraphPal);
+                this.setStatusString("Loading new graphical palette "+newGraphPal+ " ...");
                 loadGraphicalPaletteAndImplementation(true);
                 // previous command could changes the window sizes of the palette has a bgimage
                 // revert those changes here
                 this.setSize(frameSize);
                 m_graphEditor.setSize(geSize);
                 validateNodes();
-                this.getCBEditor().setStatusString("Graphical palette is "+this.getGraphicalPalette());
             }
         }
         catch(Exception ex) {

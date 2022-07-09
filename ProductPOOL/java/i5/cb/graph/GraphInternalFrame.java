@@ -325,6 +325,8 @@ implements ILangChangeable{
         this.m_sStatus = status;
         GraphInternalFrameListener.setStatus(this, status);
         propertyChangeSupport.firePropertyChange("m_sStatus", oldStatus, status);
+// System.out.println("GraphInternalFrame: "+status);
+
     }
     
      /**

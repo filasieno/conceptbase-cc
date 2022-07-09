@@ -1134,6 +1134,7 @@ public class GraphEditor
            m_statusConnectionLabel.setForeground(Color.blue);  // highlight such messages 
         else
            m_statusConnectionLabel.setForeground(Color.black);
+// System.out.println("GraphEditor: "+sStatus);
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
