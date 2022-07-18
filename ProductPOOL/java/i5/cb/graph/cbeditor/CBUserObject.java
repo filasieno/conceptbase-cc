@@ -422,7 +422,7 @@ abstract public class CBUserObject {
           sLabel = insertBlanksBeforeUpperCase(sLabel);
         }
         if (wrapLabel) {
-           sLabel="<html><p>" + sLabel.replaceAll("<","&lt;") + "</p></html>";
+           sLabel="<html><p>" + sLabel.replaceAll("<","&lt;").replaceAll("\\[","<").replaceAll("\\]",">") + "</p></html>";
         }
         smallComponent = new DiagramLabel( sLabel );
 

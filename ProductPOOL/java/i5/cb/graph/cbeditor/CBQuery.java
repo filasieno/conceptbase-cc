@@ -361,6 +361,7 @@ public class CBQuery {
             CBGraphTypeProperty property;
             Text PropertyValueNode=(Text) Values.getFirstChild();
             String sPropertyValue=(String) PropertyValueNode.getNodeValue();
+// System.out.println("value="+sPropertyValue);
             //erase \" at beginning and end
             sPropertyValue=CButil.decodeStringIfPossible(sPropertyValue);
             //create new  CBGraphTypePropertyObject and add it to the set
@@ -417,6 +418,7 @@ public class CBQuery {
             if(ans.getResult().equals("nil")) {
                 return null;
             }
+// System.out.println("encodedresult="+ans.getEncodedResult());
             reader= new StringReader(ans.getEncodedResult());  // replaces some <, <= by LESSTHAN, LESSEQUAL
             source = new InputSource(reader);
             //parse answer and generate DOMTree
