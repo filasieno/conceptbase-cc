@@ -2830,6 +2830,7 @@ gProperty(_x,_label,_val) :-
   id2name(_v,_val).
 
 
+ 
 
 
 {* makeSaveAtom(_a,_saveatom) replaces in _a all blanks and '- by '_'.    *}

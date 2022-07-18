@@ -294,6 +294,7 @@ checkCorrectIDs :-
   checkCorrectID(Module,imports,id_1527),
   checkCorrectID(Module,exports,id_1528),
   checkCorrectID(Class,rule,id_59),
+  checkCorrectID(HiddenLabel,id_2107),
   !.
 
 checkCorrectIDs :-
