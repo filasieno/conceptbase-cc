@@ -136,6 +136,8 @@ Real numbers are implemented by SWI-Prolog as 64-bit double precision
 floating point numbers. ConceptBase uses 12 decimal digits.
 
 \subsection{String manipulation}
+\label{stringmanu}
+
 \begin{description}
 \item[ConcatenateStrings:] concatenates two labels, typically strings; the two arguments
   can be expressions that are concatenated after their evaluation; the result is a string
@@ -157,7 +159,7 @@ an object), useful if labels should be passed as a parameter of a query
 \item[concatl6:] like concatl but with concatenates the six arguments; the result is 
   stored as an individual with the concatenated labels
 \item[resultOf:] The function {\tt resultOf(q,x,a)} computes the text answer of calling the query {\tt q[x]}
-   using the answer format {\tt a} to create the textual answer. This allows for example to specify complex gproperty labels on the fly.
+   using the answer format {\tt a} to create the textual answer. This allows for example to specify complex gproperty labels on the fly (see also section \ref{htmllabels}). 
    The result of the function call is stored as an instance of the class {\tt HiddenLabel}. This hides the label from
    being displayed by the listModule query.
 

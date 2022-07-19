@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2022-07-06
+                      2022-07-07
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -148,6 +148,13 @@ model elements.
    also allow assertions as parameters for "bulk" queries, and by replaciongf CF+LF by LF in the Java
    API for telling Telos frames to the CBserver. 
    (Issue 48: https://gitlab.com/mjeu/conceptbasecc/-/issues/48) 
+
+82-15 CBGraph screendump function could fail
+
+   CBGraph allows to create a screendump of its displayed diagram ia the menu option "save
+   image of graph". Under rare circumstances, negative coordinates could occur, which then
+   led to a failure of the function. This is now corrected.
+
 
 
 
