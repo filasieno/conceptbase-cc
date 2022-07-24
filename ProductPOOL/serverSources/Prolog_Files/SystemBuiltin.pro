@@ -100,6 +100,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(listModuleContentReloadable/2,ConfigurationUtilities)
 #IMPORT(purgeModuleContent/2,ConfigurationUtilities)
 #IMPORT(unquoteAtom/2,GeneralUtilities)
+#IMPORT(quoteAtom/2,GeneralUtilities)
 #IMPORT(makeAlphanumeric/2,GeneralUtilities)
 #IMPORT(makeName/2,cbserver)
 #IMPORT(create_as_individual/2,FragmentToPropositions)
@@ -111,6 +112,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(getStringFromBuffer/2,ExternalCodeLoader)
 #IMPORT(createBuffer/2,GeneralUtilities)
 #IMPORT(encodeLabel/3,AnswerTransformUtilities)
+#IMPORT(val2arg/2,cbserver)
+#IMPORT(makeId/2,cbserver)
 
 
 #IF(SWI)
@@ -779,6 +782,51 @@ computeFunction(resultOf,_res,[_q,_,_x,_,_ansrepid,_]) :-
 {* id2name(_res,_out), write('resultOf: '),write(_out),nl, write('resultOf pointer: '),write(_res),nl, *}
 	!.
 
+
+{* ======== *}
+{* toString *}
+{* ======== *}
+
+{* convert an object _x to a string *}
+
+computeFunction(toString,_res,[_x,_C]) :-
+        nonvar(_x), 
+        makeName(_x,_label),
+        quoteAtom(_label,_string),
+        val2arg(_string,_res),
+        !.
+
+
+{* ====== *}
+{* length *}
+{* ====== *}
+
+{* compute the length of an object label *}
+
+computeFunction(length,_res,[_x,_C]) :-
+        nonvar(_x), 
+        makeName(_x,_label),
+        unquoteAtom(_label,_ua),
+        atom_length(_ua,_len),
+        val2arg(_len,_res),
+        !.
+
+
+{* ====== *}
+{* isLike *}
+{* ====== *}
+
+{* check whether a label matches a pattern *}
+
+computeFunction(isLike,_result,[_label,_C1,_pattern,_C2]) :-
+   makeName(_pattern,_p),
+   makeName(_label,_l),
+   unquoteAtom(_p,_pa),
+   unquoteAtom(_l,_la),
+   (wildcard_match(_pa,_la),_resa='TRUE',!;   {* wildcard_match is a builtin predicate of SWI-Prolog *}
+    _resa= 'FALSE'),
+   makeId(_resa,_result),
+   !.
 
 
 
