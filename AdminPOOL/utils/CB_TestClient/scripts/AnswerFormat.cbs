@@ -23,7 +23,8 @@ You can also use variables as arguments COUNT_AttributeinClass
 You can also use variables as arguments IDIVinClass
 You can also use variables as arguments IMINUSinClass
 You can also use variables as arguments IMULTinClass
-You can also use variables as arguments IPLUSinClass"
+You can also use variables as arguments IPLUSinClass
+You can also use variables as arguments lengthinClass"
 tellModel "$CB_HOME/examples/AnswerFormat/externalcall"
 result OK yes
 ask "get_object[EmpDept/objname]" OBJNAMES FRAME Now
