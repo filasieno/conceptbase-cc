@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2022-07-07
+                      2022-07-19
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -154,6 +154,12 @@ model elements.
    CBGraph allows to create a screendump of its displayed diagram ia the menu option "save
    image of graph". Under rare circumstances, negative coordinates could occur, which then
    led to a failure of the function. This is now corrected.
+
+82-16 HTML code for node labels of CBGraph
+
+   CBGraph can now render a subset of HTML as the node label. This can be used for example to create
+   diagrams resembing UML class diagrams where attributes and operations are included in the class box.
+   (Issue 49: https://gitlab.com/mjeu/conceptbasecc/-/issues/49)
 
 
 

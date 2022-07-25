@@ -135,7 +135,7 @@ Windows and Linux64 arbitrarily long integers.
 Real numbers are implemented by SWI-Prolog as 64-bit double precision
 floating point numbers. ConceptBase uses 12 decimal digits.
 
-\subsection{String manipulation}
+\subsection{String manipulation functions}
 \label{stringmanu}
 
 \begin{description}
@@ -159,9 +159,15 @@ an object), useful if labels should be passed as a parameter of a query
 \item[concatl6:] like concatl but with concatenates the six arguments; the result is 
   stored as an individual with the concatenated labels
 \item[resultOf:] The function {\tt resultOf(q,x,a)} computes the text answer of calling the query {\tt q[x]}
-   using the answer format {\tt a} to create the textual answer. This allows for example to specify complex gproperty labels on the fly (see also section \ref{htmllabels}). 
+   using the answer format {\tt a} to create the textual answer. This allows for example to specify complex gproperty labels on the fly (see also section \ref{htmllabels})
    The result of the function call is stored as an instance of the class {\tt HiddenLabel}. This hides the label from
-   being displayed by the listModule query.
+   being displayed by the listModule query
+\item[toString:] returns a string for the label of an object, e.g.\ {\tt toString(Class)="Class"}.
+\item[length:] returns the number of characters of an object label, excluding the double quotes when the object is
+   a string, e.g.\ {\tt length("Class")=length(Class)=5}
+\item[isLike:] returns TRUE of the object label (first parameter) matches the wildcard
+   pattern (second parameter), otherwise FALSE,
+   e.g.\ {\tt isLike(Class,"Cla*")=TRUE}
 
 \end{description}
 
