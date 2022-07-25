@@ -616,5 +616,22 @@ resultOf in Function isA HiddenLabel with
    a3: AnswerFormat
 end
 
+{* function signatures originally defined in strings.swi.lpi are now predefined in ConceptBase; issue #50 *}
+toString in Function isA String with
+   parameter obj: Proposition
+   comment c: "convert the label of obj into a string with double quotes around it"
+end
+
+length in Function isA Integer with
+  parameter obj: Proposition
+  comment c: "compute the number of characters of the label of obj. The double quotes of strings are not counted."
+end
+
+isLike in Function isA Boolean with
+  parameter
+   label: Proposition;
+   pattern: String
+ comment c: "check wether the label (first parameter) is matching a pattern (2nd parameter); Use wildcard * in the pattern"
+end
 
 
