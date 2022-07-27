@@ -842,13 +842,11 @@ initHeader(_buf,_mod) :-
   appendBuffer(_buf,_tt),
   appendBuffer(_buf,' (UTC) \n'),
 
-{*
   appendBuffer(_buf,'* CBserver version: '),
   appendBuffer(_buf,_cbversion),
   appendBuffer(_buf,' ('),
   appendBuffer(_buf,_reldate),
   appendBuffer(_buf,') \n'),
-*}
 
   appendBuffer(_buf,'*\n'),
   appendModuleComments(_buf,_mod),
