@@ -819,6 +819,8 @@ computeFunction(length,_res,[_x,_C]) :-
 {* check whether a label matches a pattern *}
 
 computeFunction(isLike,_result,[_label,_C1,_pattern,_C2]) :-
+   nonvar(_label), 
+   nonvar(_pattern), 
    makeName(_pattern,_p),
    makeName(_label,_l),
    unquoteAtom(_p,_pa),
