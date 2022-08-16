@@ -71,8 +71,8 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
     static JFrame jfServer=null;
     static ServerThread serverThread=null;
 
-    public static final String CBIVA_VERSION = "2.3.01";
-    public static final String CBIVA_DATE = "2021-05-14";
+    public static final String CBIVA_VERSION = "2.3.02";
+    public static final String CBIVA_DATE = "2022-08-16";
     public static final String JAVA_VERSION = System.getProperty("java.runtime.version");
 
     private JDesktopPane desktopPane;
@@ -423,8 +423,8 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
 
         JPanel panI5 = new JPanel();
         panI5.setLayout(new BorderLayout());
-        panI5.add(new JLabel("Informatik 5, RWTH Aachen",JLabel.LEFT),BorderLayout.NORTH);
-        panI5.add(new JLabel("52056 Aachen, Germany",JLabel.LEFT),BorderLayout.CENTER);
+        panI5.add(new JLabel("Contact:",JLabel.LEFT),BorderLayout.NORTH);
+        panI5.add(new JLabel("Manfred Jeusfeld",JLabel.LEFT),BorderLayout.CENTER);
         JPanel panI5a = new JPanel();
         panI5a.setLayout(new BorderLayout());
         panI5a.add(new JLabel("http://conceptbase.cc/cbteam.html",JLabel.LEFT),BorderLayout.NORTH);
