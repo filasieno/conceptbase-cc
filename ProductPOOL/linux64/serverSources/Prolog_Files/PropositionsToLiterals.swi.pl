@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2021 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -103,6 +103,7 @@ prop2lit('Tell',_props,_lits) :-
 	prop2lit('Tell',_props),
 	get_lits(_lits).
 
+
 prop2lit('Untell',_props,_lits) :-
 	init_prop2lit,
 	set_KBsearchSpace(oldOB,'Now'),
@@ -142,6 +143,7 @@ add_lits(_mode,_origlits) :-
   store_lits(_oldlits,_filteredlits),
   !.
 add_lits(_mode,_).
+
 
 filterMatches(_mode,_oldlits,[],[]) :- !.
 filterMatches(_mode,_oldlits,[_lit|_rest],_newrest) :-
@@ -183,14 +185,15 @@ prop2lit(_mode,[]) :-
 
 /** frequent case deserves special handling for speeding up computation. **/
 /** Makes ECA computation about 5-8% faster.                             **/
-prop2lit(_mode,['P'(_id,_x,_l,_y),'P'(_oid,_id,'*instanceof',_cc)|_r]) :-
-	attribute('P'(_id,_x,_l,_y)),
-	add_lits(_mode,['Adot'(_cc,_x,_y),
-	        'Adot_label'(_cc,_x,_y,_l),'In'(_id,_cc),
-	        'Aidot'(_cc,_x,_id),'From'(_id,_x),'To'(_id,_y)]),
+/**
+prop2lit(_mode,[P(_id,_x,_l,_y),P(_oid,_id,'*instanceof',_cc)|_r]) :-
+	attribute(P(_id,_x,_l,_y)),
+	add_lits(_mode,[Adot(_cc,_x,_y),
+	        Adot_label(_cc,_x,_y,_l),In(_id,_cc),Adot_label(id_6,_x,_y,_l),
+	        Aidot(_cc,_x,_id),From(_id,_x),To(_id,_y)]),
 	!,
 	prop2lit(_mode,_r).
-
+**/
 
 
 prop2lit(_mode,['P'(_id,_x,_l,_y)|_r]) :-
@@ -236,7 +239,7 @@ do_prop2lit(_mode,'P'(_id,_x,_l,_y)) :-
 	attribute('P'(_cc,_a,_ml,_b)),
 	add_lits(_mode,['Adot'(_cc,_x,_y),
 	        'Adot_label'(_cc,_x,_y,_l),
-                'In'(_id,id_6),       /** id_6=Attribute **/    
+	        'Adot_label'(id_6,_x,_y,_l),
 /**
 	        A(_x,_ml,_y),
 	        A_label(_x,_ml,_y,_l),
@@ -262,6 +265,12 @@ do_prop2lit(_mode,'P'(_oid,_id,'*instanceof',_cc)) :-
 	        'Aidot'(_cc,_x,_oid)]),
 	fail.
 
+/** issue #44 : In(_id,Attribute) **/
+do_prop2lit(_mode,'P'(_id,_x,_l,_y)) :-
+        attribute('P'(_id,_x,_l,_y)),
+	add_lits(_mode,['In'(_id,id_6)]),  /** id_6=Attribute **/  
+        fail.
+
 
 /* einfache Literale: From,To */
 /* Known/Label werden nicht erzeugt, koennen also auch nicht im ON-part einer ECA-Regel auftauchen */
@@ -269,7 +278,7 @@ do_prop2lit(_mode,'P'(_oid,_id,'*instanceof',_cc)) :-
 do_prop2lit(_mode,'P'(_id,_x,_l,_y)) :-
         attribute('P'(_id,_x,_l,_y)),
 	add_lits(_mode,['From'(_id,_x),'To'(_id,_y)]),
-         !.
+        !.
 
 
 do_prop2lit(_mode,'P'(_id,_x,_l,_y)).

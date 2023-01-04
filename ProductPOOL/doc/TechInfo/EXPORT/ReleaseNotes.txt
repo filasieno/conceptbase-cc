@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2022-07-19
+                      2022-07-28
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -141,7 +141,7 @@ model elements.
 
 82-14 Assertions and strings containing MS-DOS style CR+LF for newline cause problems
 
-   If a string (or assertioin) is containing CR+LF (the MS-DOS style for newline), then it causes 
+   If a string (or assertion) is containing CR+LF (the MS-DOS style for newline), then it causes 
    problems in the interactiuon with CBGraph and CBIva. The problem is that Linix only uses LF for 
    newlines, and then while the strings look the same, they are not the same and the CBserver
    cannot find the corresponding object. The problem is now resolved by extending parseAss to 
@@ -160,6 +160,12 @@ model elements.
    CBGraph can now render a subset of HTML as the node label. This can be used for example to create
    diagrams resembing UML class diagrams where attributes and operations are included in the class box.
    (Issue 49: https://gitlab.com/mjeu/conceptbasecc/-/issues/49)
+
+82-17 More string functions
+
+   ConceptBase now natively supports the string functions toString, length and isLike, which were
+   previously made available as a so-valled LPI plugin.
+   (Issue 50: https://gitlab.com/mjeu/conceptbasecc/-/issues/50)
 
 
 

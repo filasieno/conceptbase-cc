@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2021 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -168,7 +168,6 @@ pc_atomconcat([_atom1,_atom2],_atom) :-
 pc_atomconcat([_atom1|_rest],_atom) :-
   pc_atomconcat(_rest,_atom2),
   pc_atomconcat(_atom1,_atom2,_atom).
-
 
 
 /* atom3 is the concatenation of atom1 and atom2 */

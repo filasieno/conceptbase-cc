@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2021 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -921,7 +921,6 @@ minus_simple_relation([_x|_list1],_y,[_x|_list2])   :-
 /*                                                               */
 /* ************************************************************* */
 
-
 'DELETE'('P'(_id,_x,_l,_y)) :-
   set_overrule_act_bim2c,
   retrieve_proposition_noimport(_m,'P'(_id,_x,_l,_y)),   /** 26-Feb-2004/M.Jeusfeld           **/
@@ -929,7 +928,7 @@ minus_simple_relation([_x|_list1],_y,[_x|_list2])   :-
     get_cb_feature(securityLevel,'0');         /** no access control enabled: DELETE is always allowed **/
     'M_SearchSpace'(_m)
   ),            /** otherwise: deletion only in current module! **/
-/**  WriteUpdate(low,'-',P(_id,_x,_l,_y)),   **/
+/**  WriteUpdate(low,'-',P(_id,_x,_l,_y)), **/  
   setCheckUpdateModeIfCacheKept,  /** ticket #123 **/
   remove(_id),
   !.
@@ -939,7 +938,7 @@ minus_simple_relation([_x|_list1],_y,[_x|_list2])   :-
 'DELETE'('P'(_id,_x,_l,_y)) :-
   retrieve_temp_ins('P'(_id,_x,_l,_y)), 
   removetmp(_id),
-/**  WriteUpdate(low,'#',P(_id,_x,_l,_y)),   **/
+/**  WriteUpdate(low,'#',P(_id,_x,_l,_y)),  **/ 
   setCheckUpdateModeIfCacheKept,  /** ticket #123 **/
   !.
 

@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2022 The ConceptBase Team. All rights reserved.
+Copyright 1987-2023 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -444,7 +444,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
         panName.setLayout(new GridLayout(4,1));
         panName.add(new JLabel("ConceptBase.cc User Interface in Java -- http://conceptbase.cc",JLabel.CENTER));
         panName.add(new JLabel("Version "+CBIVA_VERSION+" ("+CBIVA_DATE+")",JLabel.CENTER),BorderLayout.CENTER);
-        panName.add(new JLabel("Copyright 1987-2022 by The ConceptBase Team. All rights reserved.",JLabel.CENTER));
+        panName.add(new JLabel("Copyright 1987-2023 by The ConceptBase Team. All rights reserved.",JLabel.CENTER));
         panName.add(new JLabel("Distributed under a FreeBSD-style copyright license.",JLabel.CENTER));
         panName.setBorder(new javax.swing.border.TitledBorder(javax.swing.border.LineBorder.createGrayLineBorder()));
 
@@ -668,7 +668,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
         if (args.length > 0)
           if (args[0].equals("-v") || args[0].equals("-version")) {
                   System.out.println("CBIva " + CBIVA_VERSION + " (Java " + JAVA_VERSION + "), " + CBIVA_DATE );
-                  System.out.println("Copyright 1987-2022 by The ConceptBase Team. All rights reserved.");
+                  System.out.println("Copyright 1987-2023 by The ConceptBase Team. All rights reserved.");
                   System.out.println("Original software by Rainer Langohr and others.");
                   System.out.println("This is free software. See http://conceptbase.cc for details.");
                   System.out.println("No warranty, not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.");

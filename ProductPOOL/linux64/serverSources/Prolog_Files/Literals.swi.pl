@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2021 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -296,6 +296,7 @@ checkCorrectIDs :-
   checkCorrectID('Module',imports,id_1527),
   checkCorrectID('Module',exports,id_1528),
   checkCorrectID('Class',rule,id_59),
+  checkCorrectID('HiddenLabel',id_2107),
   !.
 
 checkCorrectIDs :-

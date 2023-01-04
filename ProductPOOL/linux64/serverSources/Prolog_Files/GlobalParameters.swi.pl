@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2021 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -92,11 +92,11 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
-cb_version('8.2.05').
-cb_date_of_release('2021-07-06'). /* set via environment variable CB_DATE in startCBserver; see serverSources/Makefile */
+cb_version('8.2.11').
+cb_date_of_release('2022-07-24'). /* set via environment variable CB_DATE in startCBserver; see serverSources/Makefile */
 cb_location('Byskola').            /** place where CBserver is compiled, updated in startCBserver **/
 
-cb_copyright_time('Copyright 1987-2021').              /*keep up to date!*/
+cb_copyright_time('Copyright 1987-2022').              /*keep up to date!*/
 
 
 :- dynamic 'cb_installation'/1 .
@@ -405,6 +405,7 @@ cb_feature_longname(repeatLoop,'Restart on error or last client exit').
 cb_feature_longname(moduleSeparator,'Module separator').
 cb_feature_longname(moduleGeneration,'Module source generation').
 cb_feature_longname(stratificationTest,'Rule stratification test').
+cb_feature_longname(maxCacheSize,'Maximum cache size for derived facts').
 
 
 set_cb_feature(_feature,_value) :-

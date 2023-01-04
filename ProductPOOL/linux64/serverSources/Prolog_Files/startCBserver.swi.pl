@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2021 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -589,7 +589,7 @@ writeLicense :-
 nl,
 write('The ConceptBase.cc Copyright'),nl,
 nl,
-write('Copyright 1987-2021 The ConceptBase Team. All rights reserved.'),nl,
+write('Copyright 1987-2022 The ConceptBase Team. All rights reserved.'),nl,
 nl,
 write('Redistribution and use in source and binary forms, with or without modification, are permitted'),nl,
 write('provided that the following conditions are met:'),nl,
@@ -651,6 +651,7 @@ writeHelpMessage :-
     write('                  <untellmode> is either \'verbatim\' or \'cleanup\''),nl,
     write('-c <cachemode>  : turn on the query cache to allow recursive query evaluation'),nl,
     write('                  <cachemode> is one of \'off\', \'transient\', \'keep\' (=default)'),nl,
+    write('-cs <size>      : specifies the maximum number of derived facts retained between two transactions'),nl,
     write('-o <optmode>    : controls the optimizer for rangeform formulas'),nl,
     write('                  <optmode> is one of \'0\' (none), \'1\' (structural), \'2\' (order), \'3\' (struct.+order), or'),nl,
     write('                  \'4\' (struct.+order+trigger pruning); default: '),write(_o),nl,
@@ -1013,6 +1014,21 @@ reportOptionErrorAndStop(_errormessage) :-
           _maxe >= 0
         ),
         ['The parameter -mc must be a number greater or equal 0.']
+).
+
+'Option'('-cs',
+        _x,
+        (
+          pc_inttoatom(_maxe,_x),
+          set_cb_feature(maxCacheSize,_maxe),
+          !
+        ),
+        (
+          atom(_x),
+          pc_inttoatom(_maxe,_x),
+          _maxe >= 0
+        ),
+        ['The parameter -cs must be a number greater or equal 0.']
 ).
 
 

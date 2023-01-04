@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2021 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -154,6 +154,7 @@ process_query(ask([_builtinquery],_ansrep),_answer) :-
 /* b) */
 
 process_query(ask([bulkquery([plainarg(_qid)|_args])],_ansrep),_answer) :-
+/** write('Args: '),write(_args),nl, **/
         extractExistingArgs(_args,_goodargs),  /** filter out undefined objects **/
         foldBulkQuery(_qid,_goodargs,_qlist),
         setFlag(bulkQuery,on),  /** influences query processing and answer generation **/

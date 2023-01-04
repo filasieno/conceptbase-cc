@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2021 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -521,6 +521,16 @@ untell_eca_adot('Adot'(_cc,_x,_y),_labels,_deferredactions,_deferredrules) :-
 
 do_untell_eca_adot(_,[],[],[]).
 
+/** issue #44 **/
+/** Hier auch process_ecarules fuer In(id,id_6) generieren? **/
+
+/** case 1: The attribute category label is just 'attribute' **/
+do_untell_eca_adot('Adot'(id_6,_xid,_yid),[attribute],_deferredactions,_deferredrules) :-
+	!,
+	untell_with(_xid,[ attrdecl([ id(id_6) ], [property(attribute, _yid)])]),  /** id_6=Attribute **/
+	process_ecarules('ECAaction',['Untell'('Adot'(id_6,_xid,_yid))],_deferredactions,_deferredrules).
+
+/** case 2: The attribute category label is not just 'attribute' **/
 do_untell_eca_adot('Adot'(_cc,_xid,_yid),[_label|_labels],_defacts,_defrules) :-
 	!,
 	untell_with(_xid,[ attrdecl([ id(id_6),id(_cc)], [property(_label, _yid)])]),  /** id_6=Attribute **/

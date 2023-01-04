@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2021 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -103,6 +103,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
+
 :- use_module('cbserver.swi.pl').
 
 
@@ -113,6 +114,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 :- use_module('AnswerTransformUtilities.swi.pl').
+
+
 
 
 
@@ -164,6 +167,7 @@ do_processBuiltin(get_object,_result,_substlist) :-
 /** oben auch fehlschlagen kann, und die Flags auf irgendwelche Werte gestellt **/
 /** worden sind. 7-6-95/CQ **/
 do_processBuiltin(get_object,_result,[substitute(_x,objname)]) :-
+        /** name(_x,_a),write('objname: '),write(_x),nl,write('asciis : '),write(_a),nl,**/
 	eval(_x, replaceSelectExpression, _objID),
 	name2id(_objID,_),
 	pc_update(ded_get_object(f('FALSE','FALSE','FALSE'))),
@@ -780,6 +784,53 @@ computeFunction(resultOf,_res,[_q,_,_x,_,_ansrepid,_]) :-
 /** id2name(_res,_out), write('resultOf: '),write(_out),nl, write('resultOf pointer: '),write(_res),nl, **/
 	!.
 
+
+/** ======== **/
+/** toString **/
+/** ======== **/
+
+/** convert an object _x to a string **/
+
+computeFunction(toString,_res,[_x,_C]) :-
+        nonvar(_x), 
+        makeName(_x,_label),
+        quoteAtom(_label,_string),
+        val2arg(_string,_res),
+        !.
+
+
+/** ====== **/
+/** length **/
+/** ====== **/
+
+/** compute the length of an object label **/
+
+computeFunction(length,_res,[_x,_C]) :-
+        nonvar(_x), 
+        makeName(_x,_label),
+        unquoteAtom(_label,_ua),
+        atom_length(_ua,_len),
+        val2arg(_len,_res),
+        !.
+
+
+/** ====== **/
+/** isLike **/
+/** ====== **/
+
+/** check whether a label matches a pattern **/
+
+computeFunction(isLike,_result,[_label,_C1,_pattern,_C2]) :-
+   nonvar(_label), 
+   nonvar(_pattern), 
+   makeName(_pattern,_p),
+   makeName(_label,_l),
+   unquoteAtom(_p,_pa),
+   unquoteAtom(_l,_la),
+   (wildcard_match(_pa,_la),_resa='TRUE',!;   /** wildcard_match is a builtin predicate of SWI-Prolog **/
+    _resa= 'FALSE'),
+   makeId(_resa,_result),
+   !.
 
 
 

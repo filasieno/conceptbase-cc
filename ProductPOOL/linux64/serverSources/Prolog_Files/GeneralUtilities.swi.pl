@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2021 The ConceptBase Team. All rights reserved.
+Copyright 1987-2022 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -333,6 +333,9 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 :- use_module('tokens_dcg.swi.pl').
 
 :- use_module('parseAss_dcg.swi.pl').
+
+
+:- use_module('validProposition.swi.pl').
 
 
 
@@ -2730,12 +2733,42 @@ getGraphTypeCandidates(_gtlist,_palid) :-
 
 lastMatchGT([(_prio,_gtid)],_oid,_gtid) :-
   prove_literal('Adot'(id_876,_oid,_gtid)),   /** id_876=Proposition!graphtype **/
+  eligibleGraphtype(_oid,_gtid),
   !.
 lastMatchGT([_x|_rest],_oid,_gtid) :-
   lastMatchGT(_rest,_oid,_gtid).
 lastMatchGT([(_prio,_gtid)|_rest],_oid,_gtid) :-
   prove_literal('Adot'(id_876,_oid,_gtid)),   /** id_876=Proposition!graphtype **/
+  eligibleGraphtype(_oid,_gtid),
   !.
+
+
+/** issue #46: objects may not have a unsuitablee graphtypes depending on their propositional structure **/
+eligibleGraphtype(_oid,_gtid) :-
+  retrieve_proposition('P'(_oid,_x,_n,_y)),
+  prove_literal('A'(_gtid,'JavaGraphicalType',implementedBy,_javaclassid)),
+  id2name(_javaclassid,_javaclass),
+  !,
+  suitableImplementation('P'(_oid,_x,_n,_y),_javaclass).
+
+eligibleGraphtype(_,_).
+
+
+/** an individual cannot be rendered by CBLink **/
+suitableImplementation(_prop,'"i5.cb.graph.cbeditor.CBLink"') :-
+  individual(_prop),
+  !,
+  fail.
+
+/** a link cannot be rendered by CBIndividual **/
+suitableImplementation(_prop,'"i5.cb.graph.cbeditor.CBIndividual"') :-
+  \+ individual(_prop),
+  !,
+  fail.
+
+suitableImplementation(_,_).
+
+
 
 
 /** for gproperties, ticket #397 **/
@@ -2767,6 +2800,7 @@ gProperty(_x,_label,_val) :-
   id2name(_v,_val).
 
 
+ 
 
 
 /** makeSaveAtom(_a,_saveatom) replaces in _a all blanks and '- by '_'.    **/
