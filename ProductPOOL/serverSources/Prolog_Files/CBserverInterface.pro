@@ -157,6 +157,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(getFlag/2,GeneralUtilities)
 #IMPORT(resetFlag/1,GeneralUtilities)
 #IMPORT(getModulePath/1,ModelConfiguration)
+#IMPORT(isSuffixPath/2,ModelConfiguration)
 #IMPORT(save_setof/3,GeneralUtilities)
 #IMPORT(save_bagof/3,GeneralUtilities)
 #IMPORT(length/2,GeneralUtilities)
@@ -1401,10 +1402,20 @@ enactModuleContext(_module_name,error) :-
   !.
 
 
+
+
 {* issue #7: we are already in the right module, hence no module change *}
 {* needed and no need to empty the cache                                *}
 enactModulePath(_mod) :-
   getModulePath(_mod),
+  !.
+
+
+{* issue #52: a suffix of the current absolute path is regarded to be the same module   *}
+{* For example m1-m2 is a suffix of System-oHome-m1-m2                                  *}
+enactModulePath(_newmodpath) :-
+  getModulePath(_currentmodpath),
+  isSuffixPath(_newmodpath,_currentmodpath),
   !.
 
 enactModulePath(_mod) :-

@@ -110,6 +110,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(getModuleName/1)
 #EXPORT(getModulePath/1)
 #EXPORT(getModulePath/2)
+#EXPORT(isSuffixPath/2)
 #EXPORT(setModule/1)
 #EXPORT(getModule/1)
 #EXPORT(saveFramesToFile/3)
@@ -860,6 +861,28 @@ moduleDefinedIn(_mid,_father) :-
    !.
 
 
+{* check whether suffixpath is a suffix of the absolute wholepath, e.g. m1-m2 is a suffix of System-oHome-c-d *}
+
+isSuffixPath(_suffixpath,_wholepath) :-
+  _suffixpath=_wholepath,
+  !.
+
+isSuffixPath(_suffixhead-_smod,_wholehead-_smod) :-
+  atom(_smod),
+  isSuffixPath(_suffixhead,_wholehead).
+
+isSuffixPath(_suffixhead-_smod,_wholehead/_smod) :-
+  atom(_smod),
+  isSuffixPath(_suffixhead,_wholehead).
+
+isSuffixPath(_smod,System-oHome-_smod) :-
+  atom(_smod),
+  !.
+
+isSuffixPath(_smod,System/oHome/_smod) :-
+  atom(_smod),
+  !.
+  
 
 
 
