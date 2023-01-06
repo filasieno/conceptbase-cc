@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2022 The ConceptBase Team. All rights reserved.
+Copyright 1987-2023 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -110,6 +110,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 ,'getModuleName'/1
 ,'getModulePath'/1
 ,'getModulePath'/2
+,'isSuffixPath'/2
 ,'setModule'/1
 ,'getModule'/1
 ,'saveFramesToFile'/3
@@ -858,6 +859,28 @@ moduleDefinedIn(_mid,_father) :-
    !.
 
 
+/** check whether suffixpath is a suffix of the absolute wholepath, e.g. m1-m2 is a suffix of System-oHome-c-d **/
+
+isSuffixPath(_suffixpath,_wholepath) :-
+  _suffixpath=_wholepath,
+  !.
+
+isSuffixPath(_suffixhead-_smod,_wholehead-_smod) :-
+  atom(_smod),
+  isSuffixPath(_suffixhead,_wholehead).
+
+isSuffixPath(_suffixhead-_smod,_wholehead/_smod) :-
+  atom(_smod),
+  isSuffixPath(_suffixhead,_wholehead).
+
+isSuffixPath(_smod,'System'-oHome-_smod) :-
+  atom(_smod),
+  !.
+
+isSuffixPath(_smod,'System'/oHome/_smod) :-
+  atom(_smod),
+  !.
+  
 
 
 

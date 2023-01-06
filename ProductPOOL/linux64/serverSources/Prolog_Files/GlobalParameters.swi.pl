@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2022 The ConceptBase Team. All rights reserved.
+Copyright 1987-2023 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -92,11 +92,11 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
-cb_version('8.2.11').
-cb_date_of_release('2022-07-24'). /* set via environment variable CB_DATE in startCBserver; see serverSources/Makefile */
+cb_version('8.2.12').
+cb_date_of_release('2023-01-05'). /* set via environment variable CB_DATE in startCBserver; see serverSources/Makefile */
 cb_location('Byskola').            /** place where CBserver is compiled, updated in startCBserver **/
 
-cb_copyright_time('Copyright 1987-2022').              /*keep up to date!*/
+cb_copyright_time('Copyright 1987-2023').              /*keep up to date!*/
 
 
 :- dynamic 'cb_installation'/1 .
@@ -354,7 +354,7 @@ default_cb_feature(forceConcernedClass,strict). /** values: off,strict,extended 
 default_cb_feature(adminUser,'').               /** values: atom **/
 default_cb_feature(maximalErrors,20).           /** values: -1,0,1,2,...; -1 means 'infinite' **/
 default_cb_feature(maximalDepth,50).            /** values: 100,... ; for length of select expressions like x!n!m **/
-default_cb_feature(maxCacheSize,20000).         /** values: 1000,... **/
+default_cb_feature(maxCacheSize,60000).         /** values: 1000,... **/
 /** we empty the cache when we have more than this number of facts in the cache **/
 default_cb_feature(ecaDefaultMode,immediate).   /** values: immediate,immediatedeferred,deferred **/
 /** see also ECAruleCompiler.pro **/

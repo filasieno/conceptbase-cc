@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2022-07-28
+                      2023-01-06
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -166,6 +166,16 @@ model elements.
    ConceptBase now natively supports the string functions toString, length and isLike, which were
    previously made available as a so-valled LPI plugin.
    (Issue 50: https://gitlab.com/mjeu/conceptbasecc/-/issues/50)
+
+82-18 Avoid unnecessary cache resets
+
+   ConceptBase uses a fact cache to realize and optimize the computation of predicate extensions. This
+   cache is emptied on certain conditions like changing the module context or updating the database.
+   There was a case when an unnecessary module context switch to itself was performed, leading to an 
+   unnecessary cache reset. This is now resolved, leading to faster query processing in some cases due
+   to re-using the cache rather than re-calculation the predicate extensions. Moreover, the default cache
+   size is increased from 20000 facts to 60000 facts, reflecting that modern computers have more RAM.
+   (Issue 52: https://gitlab.com/mjeu/conceptbasecc/-/issues/52)
 
 
 

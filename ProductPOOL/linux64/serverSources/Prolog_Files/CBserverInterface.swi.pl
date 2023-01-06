@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2022 The ConceptBase Team. All rights reserved.
+Copyright 1987-2023 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -150,6 +150,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 :- use_module('FragmentToPropositions.swi.pl').
 
 :- use_module('AnswerTransform.swi.pl').
+
 
 
 
@@ -1401,10 +1402,20 @@ enactModuleContext(_module_name,error) :-
   !.
 
 
+
+
 /** issue #7: we are already in the right module, hence no module change **/
 /** needed and no need to empty the cache                                **/
 enactModulePath(_mod) :-
   getModulePath(_mod),
+  !.
+
+
+/** issue #52: a suffix of the current absolute path is regarded to be the same module   **/
+/** For example m1-m2 is a suffix of System-oHome-m1-m2                                  **/
+enactModulePath(_newmodpath) :-
+  getModulePath(_currentmodpath),
+  isSuffixPath(_newmodpath,_currentmodpath),
   !.
 
 enactModulePath(_mod) :-
