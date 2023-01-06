@@ -2092,11 +2092,17 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
     }
 
     /** 
-    Expand a relative image filename to its absolute form. I particulr check whether the image
+    Expand a relative image filename to its absolute form. In particular check whether the image
     is locally stored in the CBICONS subdirectory of CB_HOME.
     */
     public static String getImageUrl(String imageFilename) {
         String result = imageFilename; // default
+        // http://conceptbase.sourceforge.net/CBICONS/ is no longer served by SourceForge as of September 2022
+        // so we try the relative path to the local CBICONS directory
+        if (imageFilename.startsWith("http://conceptbase.sourceforge.net/CBICONS/")) {
+          // remove the http address and only keep the relative path
+          imageFilename = imageFilename.replaceFirst("http://conceptbase.sourceforge.net/CBICONS/","");  
+        }
         try {
            if (!imageFilename.startsWith("http://") && !imageFilename.startsWith("file://")) {  // no replacement done for absolute file names
               String sCB_HOME=System.getProperty("CB_HOME", "");
@@ -2108,7 +2114,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
                     result = "file://" + sCB_HOME + "/CBICONS/" + imageFilename;
                  }
               } else 
-                 result = "http://conceptbase.sourceforge.net/CBICONS/" + imageFilename;
+                 result = imageFilename;  // was originally the http path at SourceForge but this is no longer served as they switched to https
            }
         } catch (Exception e) { // any exception may occur, since we have the default result
            System.err.println("DiagramDesktop: Image file " + imageFilename + " could not be loaded.");
