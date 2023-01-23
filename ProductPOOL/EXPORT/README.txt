@@ -4,8 +4,6 @@
                The ConceptBase Team
                    represented by
  * Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
- * Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
- * Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
                http://conceptbase.cc
 
