@@ -29,8 +29,6 @@ of the ConceptBase Team.
 The ConceptBase Team is represented by
 
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
-Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
 This license is a FreeBSD-style copyright license.
@@ -90,8 +88,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
-cb_version('8.2.12').
-cb_date_of_release('2023-01-05'). { set via environment variable CB_DATE in startCBserver; see serverSources/Makefile }
+cb_version('8.2.13').
+cb_date_of_release('2023-01-24'). { set via environment variable CB_DATE in startCBserver; see serverSources/Makefile }
 cb_location('Byskola').            {* place where CBserver is compiled, updated in startCBserver *}
 
 cb_copyright_time('Copyright 1987-2023').              {keep up to date!}
