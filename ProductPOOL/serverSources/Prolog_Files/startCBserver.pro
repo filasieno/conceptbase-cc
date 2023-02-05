@@ -184,6 +184,7 @@ startCBserver :-
     loadSessionCounter,
     initializeCBstate,
     setUserName,
+    setFlag(currentPalette,'DefaultJavaPalette'),
     loadDB,
     enroll,
     loadModuleTree(_compl),
