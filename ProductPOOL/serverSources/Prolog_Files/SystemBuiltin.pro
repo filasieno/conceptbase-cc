@@ -112,6 +112,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(encodeLabel/3,AnswerTransformUtilities)
 #IMPORT(val2arg/2,cbserver)
 #IMPORT(makeId/2,cbserver)
+#IMPORT(getFlag/2,GeneralUtilities)
 
 
 #IF(SWI)
