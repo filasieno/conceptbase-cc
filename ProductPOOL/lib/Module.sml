@@ -632,4 +632,13 @@ isLike in Function isA Boolean with
  comment c: "check wether the label (first parameter) is matching a pattern (2nd parameter); Use wildcard * in the pattern"
 end
 
+GlobalVariable end
+currentPalette in GlobalVariable end
+
+valueOf in Function isA Proposition with
+  parameter
+   variable: GlobalVariable 
+end
+
+
 
