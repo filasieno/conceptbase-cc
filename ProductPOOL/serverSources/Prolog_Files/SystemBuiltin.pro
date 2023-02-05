@@ -829,6 +829,22 @@ computeFunction(isLike,_result,[_label,_C1,_pattern,_C2]) :-
    !.
 
 
+{* ======= *}
+{* valueOf *}
+{* ======= *}
+
+{* return the current value of global variable 'varname' *}
+{* Global variables can be used for example for the      *}
+{* current user, the current graphical palette etc.      *}
+
+computeFunction(valueOf,_res,[_x,_C]) :-
+        nonvar(_x), 
+        makeName(_x,_varname),
+        getFlag(_varname,_value),
+        makeId(_value,_res),
+        !.
+
+
 
 {* *********************************** *}
 {* for user-defined builtin functions: *}

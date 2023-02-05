@@ -336,7 +336,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(getCC/3,Literals)
 #IMPORT(write_lcall/1,Literals)
 #IMPORT(individual/1,validProposition)
-
+#IMPORT(getFlag/2,GeneralUtilities)
 
 
 
