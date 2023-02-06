@@ -168,6 +168,9 @@ an object), useful if labels should be passed as a parameter of a query
 \item[isLike:] returns TRUE of the object label (first parameter) matches the wildcard
    pattern (second parameter), otherwise FALSE,
    e.g.\ {\tt isLike(Class,"Cla*")=TRUE}
+\item[valueOf:] takes as parameter the name of an instance of the class {\tt GlobalVariable} and returns its value. Currently, we support
+  the global variable {\tt currentPalette}. It holds the instance of JavaGraphicalPalette, which is currenty used 
+  by the current CBGraph client connected to the CBserver. Example: {\tt valueOf(currentPalette)=TelosPalette}.
 
 \end{description}
 
