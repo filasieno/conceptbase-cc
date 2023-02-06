@@ -253,6 +253,9 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(member/2)
 #EXPORT(is_allNumbers/1)
 #EXPORT(appendGproperties/2)
+#EXPORT(setGlobalVar/3)
+#EXPORT(getGlobalVar/3)
+#EXPORT(resetGlobalVar/2)
 
 
 
@@ -340,6 +343,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 #DYNAMIC(user_name/1)
+#DYNAMIC(globalvariable/3)
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -723,6 +727,53 @@ getFlag(_label,_value) :-
 resetFlag(_label) :-
   atom(_label),
   pc_erase(_label,'labelValuePair'),
+  !.
+
+
+{* Manage global variables like current username, current palette etc. *}
+{* The variable is identified by the combination of a domain label    *}
+{* and a variable label. Both labels must be atomic (atom or number). *}
+{* Same for the variable value. The domain label could for example be *}
+{* the current client of the CBserver, allowing to memorize different *}
+{* properties of a client in the CBserver. Otherwise, you can use a   *}
+{* generic domain label such as 'global'.      2023-02-06/Manfred     *}
+{* See issue #53                                                      *}
+
+
+setGlobalVar(_domain,_label,_value) :-
+  atomic(_domain),
+  atomic(_label),
+  atomic(_value),
+  globalvariable(_domain,_label,_value),
+  !.
+
+setGlobalVar(_domain,_label,_value) :-
+  atomic(_domain),
+  atomic(_label),
+  atomic(_value),
+  globalvariable(_domain,_label,_oldvalue),
+  retract(globalvariable(_domain,_label,_oldvalue)),
+  assert(globalvariable(_domain,_label,_value)),
+  !.
+
+setGlobalVar(_domain,_label,_value) :-
+  atomic(_domain),
+  atomic(_label),
+  atomic(_value),
+  assert(globalvariable(_domain,_label,_value)),
+  !.
+
+
+getGlobalVar(_domain,_label,_value) :- 
+  atomic(_domain), 
+  atomic(_label),
+  globalvariable(_domain,_label,_value),
+  !.
+
+resetGlobalVar(_domain,_label) :-
+  atomic(_domain), 
+  atomic(_label),
+  retractall(globalvariable(_domain,_label,_)),
   !.
 
 

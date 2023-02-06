@@ -112,7 +112,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(encodeLabel/3,AnswerTransformUtilities)
 #IMPORT(val2arg/2,cbserver)
 #IMPORT(makeId/2,cbserver)
-#IMPORT(getFlag/2,GeneralUtilities)
+#IMPORT(getGlobalVar/3,GeneralUtilities)
+#IMPORT(currentClient/3,CBserverInterface)
 
 
 #IF(SWI)
@@ -841,7 +842,8 @@ computeFunction(isLike,_result,[_label,_C1,_pattern,_C2]) :-
 computeFunction(valueOf,_res,[_x,_C]) :-
         nonvar(_x), 
         makeName(_x,_varname),
-        getFlag(_varname,_value),
+        domainOfVar(_varname,_domain),
+        getGlobalVar(_domain,_varname,_value),
         makeId(_value,_res),
         !.
 
@@ -868,6 +870,13 @@ computeFunction(_fname,_res,_args) :-
 
 
 {* ------------------------------------------------ *}
+
+domainOfVar('currentPalette',_toolid) :-
+  currentClient(_toolid,_toolclass,_user),
+  !.
+
+domainOfVar(_varname,'global') :-
+  !.
 
 
 

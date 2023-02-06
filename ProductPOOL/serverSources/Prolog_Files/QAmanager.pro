@@ -109,6 +109,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(mergeAnswersForBulkQueries/2,AnswerTransformator)
 #IMPORT(getFlag/2,GeneralUtilities)
 #IMPORT(setFlag/2,GeneralUtilities)
+#IMPORT(setGlobalVar/3,GeneralUtilities)
+#IMPORT(currentClient/3,CBserverInterface)
 
 #DYNAMIC(QueryObject/4)
 #DYNAMIC(EvalDecision/3)
@@ -173,12 +175,25 @@ process_qlist([],[]) :- !.
 
 process_qlist([derive(_h,_temp)|_t],[derive(_nh,_temp)|_nt]) :-
         !,  { otherwise crash in garbage collection! 12.10.1998 CR }
+        hooksForQueryCall(derive(_h,_temp)),
 	name2id(_h,_nh),
 	process_qlist(_t,_nt).
 
 process_qlist([_h|_t],[_nh|_nt]) :-
+        hooksForQueryCall(derive(_h,_temp)),
 	name2id(_h,_nh),
 	process_qlist(_t,_nt).
+
+
+{* issue #53: memorize the currentPalette of the current client *}
+hooksForQueryCall(derive(GetJavaGraphicalPalette, [substitute(_palette, pal)])) :-
+       currentClient(_toolid,_toolclass,_user),
+       setGlobalVar(_toolid,'currentPalette',_palette),
+       !.
+hooksForQueryCall(_).
+
+
+
 
 
 handle_queries(_q,_RBtime,_ansrep,_m,_a) :-
