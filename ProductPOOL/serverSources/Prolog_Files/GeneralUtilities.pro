@@ -339,6 +339,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(getCC/3,Literals)
 #IMPORT(write_lcall/1,Literals)
 #IMPORT(individual/1,validProposition)
+#IMPORT(checkToEmptyCacheOnGlobalVarChange/0,Literals)
 
 
 
@@ -754,6 +755,7 @@ setGlobalVar(_domain,_label,_value) :-
   globalvariable(_domain,_label,_oldvalue),
   retract(globalvariable(_domain,_label,_oldvalue)),
   assert(globalvariable(_domain,_label,_value)),
+  checkToEmptyCacheOnGlobalVarChange,
   !.
 
 setGlobalVar(_domain,_label,_value) :-
@@ -761,6 +763,7 @@ setGlobalVar(_domain,_label,_value) :-
   atomic(_label),
   atomic(_value),
   assert(globalvariable(_domain,_label,_value)),
+  checkToEmptyCacheOnGlobalVarChange,
   !.
 
 
@@ -774,6 +777,7 @@ resetGlobalVar(_domain,_label) :-
   atomic(_domain), 
   atomic(_label),
   retractall(globalvariable(_domain,_label,_)),
+  checkToEmptyCacheOnGlobalVarChange,
   !.
 
 

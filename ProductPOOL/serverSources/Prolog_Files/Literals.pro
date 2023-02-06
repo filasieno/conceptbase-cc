@@ -109,6 +109,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(checkToEmptyCacheOnUpdate/0)
 #EXPORT(checkToEnableCacheAfterUpdate/0)
 #EXPORT(checkToEmptyCacheOnStratificationError/0)
+#EXPORT(checkToEmptyCacheOnGlobalVarChange/0)
 #EXPORT(eraseCachedFacts/1)
 #EXPORT(not_prove_literal/1)
 #EXPORT(prove_explicit/1)
@@ -3283,6 +3284,14 @@ checkToEmptyCacheOnUpdate :-
   !.
 
 checkToEmptyCacheOnUpdate.  {* never fail *}
+
+{* see setGlobalVar in GeneralUtilities, global variables can be checked in rules, so if the variable changes, we need to invalidate the cache *}
+checkToEmptyCacheOnGlobalVarChange :-
+  getFlag(currentCacheMode,'keep'),
+  setCacheInvalid,
+  !.
+checkToEmptyCacheOnGlobalVarChange.
+
 
 
 {* 1-Nov-2005: don't re-use caches containing stratification errors *}
