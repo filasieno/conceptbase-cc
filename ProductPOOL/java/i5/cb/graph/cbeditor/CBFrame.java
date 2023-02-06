@@ -422,14 +422,32 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
      * @value the object name of the new palette 
      */
 
-    public void setGraphicalPalette(String value){
+    public void setGraphicalPalette(String value) {
        if (getDiagramDesktop() != null &&
            m_sPalette != null &&
            !m_sPalette.equals(value)) {
           getDiagramDesktop().setEdited(true);
         }
+        // issue #53: inform the CBserver that this CBGraph is using the given palette
+        if (isConnected()) {
+            String ans=getObi().ask("GetJavaGraphicalPalette[" + this.getGraphicalPalette() + "/pal]","LABEL");
+            if(ans==null)
+                JOptionPane.showMessageDialog(this,"Could verify graphical palette");
+        }
         m_sPalette = value;
     }
+
+    /** verify that the graphical palette exists at the CBserve
+     */
+    public void existsGraphicalPalette() {
+        // issue #53: inform the CBserver that this CBGraph is using the given palette
+        if (isConnected()) {
+            String ans=getObi().ask("GetJavaGraphicalPalette[" + this.getGraphicalPalette() + "/pal]","LABEL");
+            if(ans==null)
+                JOptionPane.showMessageDialog(this,"Could verify graphical palette");
+        }
+    }
+
 
     /** set the hostname that this CBFrame shall be connected to
      * @value the name of the host

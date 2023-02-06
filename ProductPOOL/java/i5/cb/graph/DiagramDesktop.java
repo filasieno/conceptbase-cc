@@ -1306,11 +1306,13 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
           this.setZoom(newzoomfactor);
           this.repaint();
 
+          cbf.existsGraphicalPalette(); // ask the CBserver whether it knows the current graphical palette
 
         } catch (Exception e) {
            System.err.println(e.getMessage());
         }
 
+        
         this.setVisible(true);
         this.setEdited(false);
         graphInternalFrame.finishedLoading();
