@@ -350,6 +350,7 @@ abstract public class CBUserObject {
         cbuo.setQueryTree(new CBTree(cbuo) );
         cbuo.setValid(true);
         dc.putCBUserObject(to,cbuo);
+        cbuo.setEdges(new HashSet());
         return cbuo;
     }
 
