@@ -190,6 +190,15 @@ abstract public class CBUserObject {
         return mapProperties.containsKey(property);
     }
 
+    // for debugging purposes
+    private void printProperties() {
+        System.out.println("\nProperties of " + this.toString() + ":");
+        Set<String> keys = mapProperties.keySet();
+        for (String key: keys) {
+            System.out.println(key + "=" + getProperty(key) ); 
+        }
+    }
+
     /** Get the CB User object for the given TelosObject that will be shown
      * in the CBFrame. This method will set GraphicalType for the telos object,
      * and create an instantiation of the specified class.
@@ -325,7 +334,7 @@ abstract public class CBUserObject {
         // these setting then overrule/augment the settings via the graphtype properties
         // The "**" is prepended to the objname to avoid collusions with entries for regular graphtypes
         gtProperties=(CBGraphTypePropertySet) graphTypeProperties.get("**"+objname);  // set in CBQuery, "gproperty" tag
-// System.out.println("CBUO getGTproperties of "+objname+"="+gtProperties);
+ //System.out.println("CBUO getGTproperties of "+objname+"="+gtProperties);
         if(gtProperties!=null) {
             en=gtProperties.getProperties();
             java.util.Iterator iterator=en.iterator();
@@ -333,6 +342,7 @@ abstract public class CBUserObject {
                 CBGraphTypeProperty prCurrent=(CBGraphTypeProperty) iterator.next();
                 String sLabel=prCurrent.getName();
                 cbuo.setProperty(sLabel,prCurrent.getValue());
+//System.out.println(cbuo.toString() + ": " + sLabel+"="+prCurrent.getValue());
             }
         }
 
@@ -340,7 +350,6 @@ abstract public class CBUserObject {
         cbuo.setQueryTree(new CBTree(cbuo) );
         cbuo.setValid(true);
         dc.putCBUserObject(to,cbuo);
-        cbuo.setEdges(new HashSet());
         return cbuo;
     }
 
@@ -457,6 +466,7 @@ abstract public class CBUserObject {
         if ( hasProperty("shape") ) {
           shapeName = getProperty("shape");
         }
+
         // nodes that have special shapes need adapted dimensions for the label
         dSC = adaptSmallComponentSize(dSC,shapeName);
 
@@ -1065,9 +1075,15 @@ abstract public class CBUserObject {
     protected Dimension adaptSmallComponentSize(Dimension dim, String shapeName) {
       int nwidth;
       int nheight;
+
+
+// printProperties();   // for debugging, to show the graph properties of this user object
+
       if (shapeName.endsWith("Rect") ||
-          shapeName.endsWith("Circle"))
-         return dim; 
+          shapeName.endsWith("Circle")) {
+         nwidth = dim.width;
+         nheight = dim.height;
+      }
       else if (shapeName.endsWith("ArrowL") ||
                shapeName.endsWith("ArrowR")) {
          nwidth = dim.width + 2 ;
@@ -1093,6 +1109,19 @@ abstract public class CBUserObject {
          nwidth = dim.width + 4 ;
          nheight = dim.height + 2;
       }
+
+      // thick linewidth requires to increase the small components size as well
+      // 2023-02-08: gproperty linewidth is not assigned yet to 'this'  CBUserObject when adaptSmallComponentSize is called
+
+      if (this.hasProperty("linewidth")) {
+        int sc_linewidth = (int) Float.parseFloat(getProperty("linewidth"));
+        if (sc_linewidth>2) {
+          nwidth = nwidth + 2*sc_linewidth;
+          nheight = nheight + 2*sc_linewidth;
+        }
+      }
+
+
      return new Dimension(nwidth,nheight);
     }
 
