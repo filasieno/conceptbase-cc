@@ -1117,8 +1117,8 @@ abstract public class CBUserObject {
       if (this.hasProperty("linewidth")) {
         int sc_linewidth = (int) Float.parseFloat(getProperty("linewidth"));
         if (sc_linewidth>2) {
-          nwidth = nwidth + 2*sc_linewidth;
-          nheight = nheight + 2*sc_linewidth;
+          nwidth = nwidth + sc_linewidth; // line sits centered on the border (?)
+          nheight = nheight + sc_linewidth;
         }
       }
 
