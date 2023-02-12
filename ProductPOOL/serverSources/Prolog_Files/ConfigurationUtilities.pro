@@ -1334,6 +1334,15 @@ toBeDropped(P(_id,_x,_l,_y)) :-
   labelGenerated(_l,_y),
 {*  write(labelGenerated(_l,_y)),nl, *}
   !.
+
+
+{* sometimes, orpahned transaction time object are left over such as "tt(millisecond(...))" with no class and *}
+{* no attributes. These are then not included in the module listing                                           *}
+toBeDropped(P(_x,_x,_ttlabel,_x)) :-
+  name(_ttlabel,[34, 116, 116, 40|_]),   {* _ttlabel = "tt(", so this object name is a transaction time *}
+  \+ (retrieve_proposition(P(_id,_x,_n,_y)),_id \= _x),
+  \+ (retrieve_proposition(P(_id,_y,_n,_x)),_id \= _y),
+  !.
   
 labelGenerated(_lab,_y) :-
   atom(_lab),
