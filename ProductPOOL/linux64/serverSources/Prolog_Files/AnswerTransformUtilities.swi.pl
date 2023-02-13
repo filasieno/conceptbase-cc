@@ -29,8 +29,6 @@ of the ConceptBase Team.
 The ConceptBase Team is represented by
 
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
-Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
 This license is a FreeBSD-style copyright license.
@@ -55,6 +53,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 ,'From'/2
 ,'To'/2
 ,'Label'/2
+,'LabelAC'/2
 ,'Oid'/2
 ,'STRINGENCODING'/2
 ,'STRINGDECODING'/2
@@ -71,6 +70,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 :- use_module('debug.swi.pl').
 
 /* BIM/MasterProlog: declare predicates as global if they should be visible in other modules */
+
 
 
 
@@ -323,8 +323,22 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
   appendBuffer(_buf,_oid),
   !.
 
-
-
+/** output the label of an attribute together with its attribute category **/
+'LabelAC'(_buf,_objname) :-
+  atom(_objname),
+  select2id(_objname,_oid),
+  prove_literal('In'(_oid,id_6)),   /** id_6 = Attribute = Proposition!attribute **/
+  prove_literal('In_s'(_oid,_acid)),
+  prove_literal('Label'(_oid,_x)),
+  prove_literal('Label'(_acid,_ac)),  /** the label of an explicit attribute category **/
+  \+ member(_ac,[single,necessary,transitive,reflexive,symmetric]), /** those are not to be shown **/ 
+  appendBuffer(_buf,_ac),
+  appendBuffer(_buf,'/'),
+  appendBuffer(_buf,_x),
+  !.
+/** if no attribute category is found: just output the label **/
+'LabelAC'(_buf,_objname) :-
+  'Label'(_buf,_objname).
 
 /*ASKquery ruft eine Anfrage durch ihren Namen. Man bemerkt wenn ein Format fuer diese Anfrage existiert, wird das Ergebniss
 gemaess dieses Format ausgegeben. Hier denke ich, der Aufruf ist nur fuer die genetische Anfragen sinnvoller...

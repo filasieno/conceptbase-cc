@@ -29,8 +29,6 @@ of the ConceptBase Team.
 The ConceptBase Team is represented by
 
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
-Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
 This license is a FreeBSD-style copyright license.
@@ -1335,6 +1333,15 @@ toBeDropped('P'(_id,_x,_l,_y)) :-
   attribute('P'(_id,_x,_l,_y)),
   labelGenerated(_l,_y),
 /**  write(labelGenerated(_l,_y)),nl, **/
+  !.
+
+
+/** sometimes, orpahned transaction time object are left over such as "tt(millisecond(...))" with no class and **/
+/** no attributes. These are then not included in the module listing                                           **/
+toBeDropped('P'(_x,_x,_ttlabel,_x)) :-
+  name(_ttlabel,[34, 116, 116, 40|_]),   /** _ttlabel = "tt(", so this object name is a transaction time **/
+  \+ (retrieve_proposition('P'(_id,_x,_n,_y)),_id \= _x),
+  \+ (retrieve_proposition('P'(_id,_y,_n,_x)),_id \= _y),
   !.
   
 labelGenerated(_lab,_y) :-

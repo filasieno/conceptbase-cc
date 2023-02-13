@@ -29,8 +29,6 @@ of the ConceptBase Team.
 The ConceptBase Team is represented by
 
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
-Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
 This license is a FreeBSD-style copyright license.
@@ -114,6 +112,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
+
+
 :- dynamic 'QueryObject'/4 .
 :- dynamic 'EvalDecision'/3 .
 
@@ -177,12 +177,25 @@ process_qlist([],[]) :- !.
 
 process_qlist([derive(_h,_temp)|_t],[derive(_nh,_temp)|_nt]) :-
         !,  /* otherwise crash in garbage collection! 12.10.1998 CR */
+        hooksForQueryCall(derive(_h,_temp)),
 	name2id(_h,_nh),
 	process_qlist(_t,_nt).
 
 process_qlist([_h|_t],[_nh|_nt]) :-
+        hooksForQueryCall(derive(_h,_temp)),
 	name2id(_h,_nh),
 	process_qlist(_t,_nt).
+
+
+/** issue #53: memorize the currentPalette of the current client **/
+hooksForQueryCall(derive('GetJavaGraphicalPalette', [substitute(_palette, pal)])) :-
+       currentClient(_toolid,_toolclass,_user),
+       setGlobalVar(_toolid,'currentPalette',_palette),
+       !.
+hooksForQueryCall(_).
+
+
+
 
 
 handle_queries(_q,_RBtime,_ansrep,_m,_a) :-

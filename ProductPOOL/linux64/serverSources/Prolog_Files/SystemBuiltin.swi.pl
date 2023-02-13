@@ -29,8 +29,6 @@ of the ConceptBase Team.
 The ConceptBase Team is represented by
 
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
-Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
 This license is a FreeBSD-style copyright license.
@@ -114,6 +112,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 :- use_module('AnswerTransformUtilities.swi.pl').
+
+
 
 
 
@@ -833,6 +833,23 @@ computeFunction(isLike,_result,[_label,_C1,_pattern,_C2]) :-
    !.
 
 
+/** ======= **/
+/** valueOf **/
+/** ======= **/
+
+/** return the current value of global variable 'varname' **/
+/** Global variables can be used for example for the      **/
+/** current user, the current graphical palette etc.      **/
+
+computeFunction(valueOf,_res,[_x,_C]) :-
+        nonvar(_x), 
+        makeName(_x,_varname),
+        domainOfVar(_varname,_domain),
+        getGlobalVar(_domain,_varname,_value),
+        makeId(_value,_res),
+        !.
+
+
 
 /** *********************************** **/
 /** for user-defined builtin functions: **/
@@ -855,6 +872,13 @@ computeFunction(_fname,_res,_args) :-
 
 
 /** ------------------------------------------------ **/
+
+domainOfVar('currentPalette',_toolid) :-
+  currentClient(_toolid,_toolclass,_user),
+  !.
+
+domainOfVar(_varname,'global') :-
+  !.
 
 
 

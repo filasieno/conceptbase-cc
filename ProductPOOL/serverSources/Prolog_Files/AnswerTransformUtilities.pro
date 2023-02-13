@@ -53,6 +53,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(From/2)
 #EXPORT(To/2)
 #EXPORT(Label/2)
+#EXPORT(LabelAC/2)
 #EXPORT(Oid/2)
 #EXPORT(STRINGENCODING/2)
 #EXPORT(STRINGDECODING/2)
@@ -79,6 +80,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #GLOBAL(From/2)
 #GLOBAL(To/2)
 #GLOBAL(Label/2)
+#GLOBAL(LabelAC/2)
 #GLOBAL(Oid/2)
 #GLOBAL(STRINGENCODING/2)
 #GLOBAL(STRINGDECODING/2)
@@ -319,8 +321,24 @@ Oid(_buf,_objname) :-
   appendBuffer(_buf,_oid),
   !.
 
+{* output the label of an attribute together with its attribute category *}
 
+LabelAC(_buf,_objname) :-
+  atom(_objname),
+  select2id(_objname,_oid),
+  prove_literal(In(_oid,id_6)),   {* id_6 = Attribute = Proposition!attribute *}
+  prove_literal(In_s(_oid,_acid)),
+  prove_literal(Label(_oid,_x)),
+  prove_literal(Label(_acid,_ac)),  {* the label of an explicit attribute category *}
+  \+ member(_ac,[single,necessary,transitive,reflexive,symmetric]), {* those are not to be shown *} 
+  appendBuffer(_buf,_ac),
+  appendBuffer(_buf,'/'),
+  appendBuffer(_buf,_x),
+  !.
 
+{* if no attribute category is found: just output the label *}
+LabelAC(_buf,_objname) :-
+  Label(_buf,_objname).
 
 {ASKquery ruft eine Anfrage durch ihren Namen. Man bemerkt wenn ein Format fuer diese Anfrage existiert, wird das Ergebniss
 gemaess dieses Format ausgegeben. Hier denke ich, der Aufruf ist nur fuer die genetische Anfragen sinnvoller...

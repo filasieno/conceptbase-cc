@@ -29,8 +29,6 @@ of the ConceptBase Team.
 The ConceptBase Team is represented by
 
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
-Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
 This license is a FreeBSD-style copyright license.
@@ -111,6 +109,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 ,'checkToEmptyCacheOnUpdate'/0
 ,'checkToEnableCacheAfterUpdate'/0
 ,'checkToEmptyCacheOnStratificationError'/0
+,'checkToEmptyCacheOnGlobalVarChange'/0
 ,'eraseCachedFacts'/1
 ,'not_prove_literal'/1
 ,'prove_explicit'/1
@@ -3287,6 +3286,14 @@ checkToEmptyCacheOnUpdate :-
   !.
 
 checkToEmptyCacheOnUpdate.  /** never fail **/
+
+/** see setGlobalVar in GeneralUtilities, global variables can be checked in rules, so if the variable changes, we need to invalidate the cache **/
+checkToEmptyCacheOnGlobalVarChange :-
+  getFlag(currentCacheMode,'keep'),
+  setCacheInvalid,
+  !.
+checkToEmptyCacheOnGlobalVarChange.
+
 
 
 /** 1-Nov-2005: don't re-use caches containing stratification errors **/

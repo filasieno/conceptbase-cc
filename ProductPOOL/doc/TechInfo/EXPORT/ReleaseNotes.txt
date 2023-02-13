@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2023-01-06
+                      2023-02-06
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -176,6 +176,15 @@ model elements.
    to re-using the cache rather than re-calculation the predicate extensions. Moreover, the default cache
    size is increased from 20000 facts to 60000 facts, reflecting that modern computers have more RAM.
    (Issue 52: https://gitlab.com/mjeu/conceptbasecc/-/issues/52)
+
+82-19 Global variables and the function valueOf
+
+   A global variable is maintained by the CBserver to store for example the current palette of the current
+   CBGraph client. This can then be used in conditions of rules like in $ ... (valueOf(currentPalette)=pal1) $.
+   One use of this new function is to compute object-specific graph properties such as linewidth and enforce
+   that they are only active when a certain palette is selected.
+   (Issue 53: https://gitlab.com/mjeu/conceptbasecc/-/issues/53)
+
 
 
 
