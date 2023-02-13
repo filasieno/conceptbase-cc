@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2023-02-06
+                      2023-02-13
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -184,6 +184,12 @@ model elements.
    One use of this new function is to compute object-specific graph properties such as linewidth and enforce
    that they are only active when a certain palette is selected.
    (Issue 53: https://gitlab.com/mjeu/conceptbasecc/-/issues/53)
+
+82-20 New function LabelAC for answer formats
+
+   Besides Label(x) you can now use LabelAC(x) to produce an extended attribute label that includes the
+   (explicit) attribute category of an attribute, e.g. "manages/department1". The new function works like
+   Label(x) if x is not an attribute or x has no explicit attribute category.
 
 
 

@@ -484,6 +484,8 @@ computed by the predicate {\tt To(x,o)} of section \ref{sec:CBL}.
 \item \verb+{Label(expr)}+ inserts the label of the object referenced by {\tt expr}. The label is
 computed by the predicate {\tt Label(x,l)} of section \ref{sec:CBL}.
 
+\item \verb+{LabelAC(expr)}+ inserts the combination of the attribute category plus the label of the object referenced by {\tt expr} if that object is itself an attribute. Otherwise, only the label of the referenced object is inserted like for {\tt Label(expr)}. "AC" stands for "attribute category" An example output of LabelAC looks like {\tt name/billsname}. 
+
 \item \verb+{Oid(expr)}+ inserts the identifier of the object referenced by {\tt expr}. 
 \end{itemize}
 
