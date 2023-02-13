@@ -322,7 +322,7 @@ Oid(_buf,_objname) :-
   !.
 
 {* output the label of an attribute together with its attribute category *}
-
+  
 LabelAC(_buf,_objname) :-
   atom(_objname),
   select2id(_objname,_oid),
