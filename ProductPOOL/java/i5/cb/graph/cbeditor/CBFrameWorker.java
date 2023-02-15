@@ -75,7 +75,7 @@ public class CBFrameWorker implements java.beans.PropertyChangeListener, IFrameW
 
     public final static int TASK_VALIDATE = 3;
 
-    public final static int SMALLDIAGRAMSIZE = 75; 
+    public final static int SMALLDIAGRAMSIZE = 125; 
 
     private int m_iTaskID;
 
