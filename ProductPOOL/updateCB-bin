@@ -6,7 +6,7 @@
 # pulled from Sourceforge
 
 
-if [ ! -f $HOME/conceptbase/make-executable ]
+if [ ! -f $HOME/conceptbase/make-executable ] || [ ! -f $HOME/conceptbase/CB-FreeBSD-License.txt ] ;
 then
     echo "Directory $HOME/conceptbase does not exist or is malformed. Use the installation method from https://conceptbase.sourceforge.net/CB-Download.html"
     exit 1
@@ -37,5 +37,7 @@ unzip -o -q $CBINSTALLERZIP
 echo 'Make binaries executable ...'
 chmod u+x ./make-executable
 ./make-executable
-echo 'done'
+echo '\n'
+./cbserver -version
+echo '\n==> ConceptBase binaries successfully updated in $HOME/conceptbase'
 
