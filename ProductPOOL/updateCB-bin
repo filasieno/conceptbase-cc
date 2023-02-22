@@ -35,9 +35,8 @@ echo 'Unpacking ...'
 mv $CBINSTALLER $CBINSTALLERZIP
 unzip -o -q $CBINSTALLERZIP
 echo 'Make binaries executable ...'
-chmod u+x ./make-executable
-./make-executable
+sh ./make-executable
 echo '\n'
 ./cbserver -version
-echo '\n==> ConceptBase binaries successfully updated in $HOME/conceptbase'
+echo '\n==> ConceptBase binaries updated in $HOME/conceptbase; if libraries are missing, then consult https://conceptbase.sourceforge.net/CB-Download.html'
 
