@@ -1,0 +1,41 @@
+#!/bin/sh
+# Update the ConceptBase binaries via a script as alternative to the interactive CBinstaller.jar program
+# If called with a parameter like in
+#   updateCB-bin CBinstaller.jar
+# then the local CBinstaller file is taken as input. Otherwise, the installer file is
+# pulled from Sourceforge
+
+
+if [ ! -f $HOME/conceptbase/make-executable ]
+then
+    echo "Directory $HOME/conceptbase does not exist or is malformed. Use the installation method from https://conceptbase.sourceforge.net/CB-Download.html"
+    exit 1
+fi
+
+
+cd $HOME/conceptbase
+
+
+CBINSTALLER=CBinstaller.jar
+CBINSTALLERZIP=CBinstaller.zip
+if [ "$1" = "" ]; then
+  /bin/rm -f $CBINSTALLER
+  echo 'Pulling the installer file from Sourceforge ...'
+  wget -q --no-check-certificate https://sourceforge.net/projects/conceptbase/files/Binaries/CBinstaller.jar
+else
+  if [ -r "$1" ]; then
+    CBINSTALLER="$1"
+  else
+    echo "File $1 does not exist or is not readable."
+    exit 1
+  fi
+fi
+
+echo 'Unpacking ...'
+mv $CBINSTALLER $CBINSTALLERZIP
+unzip -o -q $CBINSTALLERZIP
+echo 'Make binaries executable ...'
+chmod u+x ./make-executable
+./make-executable
+echo 'done'
+

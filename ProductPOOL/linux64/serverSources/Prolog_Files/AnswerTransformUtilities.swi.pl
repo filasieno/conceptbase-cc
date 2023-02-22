@@ -324,6 +324,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
   !.
 
 /** output the label of an attribute together with its attribute category **/
+  
 'LabelAC'(_buf,_objname) :-
   atom(_objname),
   select2id(_objname,_oid),
@@ -336,6 +337,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
   appendBuffer(_buf,'/'),
   appendBuffer(_buf,_x),
   !.
+
 /** if no attribute category is found: just output the label **/
 'LabelAC'(_buf,_objname) :-
   'Label'(_buf,_objname).

@@ -45,7 +45,7 @@ CurrDir=
 # Die Sourcen
 MK_SOURCES=Makefile config.mk rules.mk
 
-EXPORTFILES=README.txt CB-FreeBSD-License.txt cbshell cbshell.bat cbserver cbserver.bat cbiva cbiva.bat make-executable cbgraph cbgraph.bat
+EXPORTFILES=README.txt CB-FreeBSD-License.txt cbshell cbshell.bat cbserver cbserver.bat cbiva cbiva.bat make-executable cbgraph cbgraph.bat updateCB-bin
 
 # Die Targets
 # hier gibt es keine
