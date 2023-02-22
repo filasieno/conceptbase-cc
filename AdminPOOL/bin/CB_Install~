@@ -39,6 +39,7 @@ PRODUCT_DIRS="include \
 	examples \
 	examples/Clients \
 	examples/Clients/PrologClient \
+	examples/Clients/SWI-CLIENT \
 	examples/Clients/C++Client \
 	examples/Clients/JavaClient \
 	examples/Clients/C_Client \
@@ -89,6 +90,7 @@ NORMAL_EXPORT="doc/UserManual \
 	examples/AnswerFormat \
 	examples/Clients/JavaClient \
 	examples/Clients/PrologClient \
+	examples/Clients/SWI-CLIENT \
 	examples/Clients/C++Client \
 	examples/Clients/C_Client \
 	examples/libtelos \
@@ -133,6 +135,9 @@ cp $CB_POOL/lib/$EXPDIR/cb*logo.* $CB_PRODUCT/lib
 cp $CB_POOL/lib/$EXPDIR/*.svg $CB_PRODUCT/lib
 cp $CB_POOL/lib/$EXPDIR/cb*.xml $CB_PRODUCT/lib
 
+# copy GEL files
+cp $CB_POOL/lib/$EXPDIR/*.gel $CB_PRODUCT/lib
+
 # copy lpi files
 # cp $CB_POOL/lib/$EXPDIR/*.lpi $CB_PRODUCT/lib
 
@@ -163,7 +168,7 @@ cp $CB_POOL/java/lib/*.jar $CB_PRODUCT/lib/classes
 # Copy README.txt etc. to root directory of ConceptBase
 cp $CB_POOL/$EXPDIR/*.txt $CB_PRODUCT/
 
-# Copy icons and desoktop files to root directory of ConceptBase
+# Copy icons and desktop files to root directory of ConceptBase
 cp $CB_POOL/lib/$EXPDIR/cb*.ico $CB_PRODUCT/
 cp $CB_POOL/lib/$EXPDIR/cb*.png $CB_PRODUCT/
 cp $CB_POOL/lib/$EXPDIR/cb*.desktop $CB_PRODUCT/
@@ -210,6 +215,9 @@ cp $CB_POOL/clientSources/libCBview/testlib.cc $CB_PRODUCT/examples/Clients/C++C
 
 cp $CB_POOL/examples/Clients/JavaClient/*.java $CB_PRODUCT/examples/Clients/JavaClient
 cp $CB_POOL/examples/Clients/JavaClient/README $CB_PRODUCT/examples/Clients/JavaClient
+
+cp $CB_POOL/examples/Clients/SWI-CLIENT/*.pl $CB_PRODUCT/examples/Clients/SWI-CLIENT
+cp $CB_POOL/examples/Clients/SWI-CLIENT/*.txt $CB_PRODUCT/examples/Clients/SWI-CLIENT
 
 #cp $CB_POOL/examples/Clients/PrologClient/*.pro $CB_PRODUCT/examples/Clients/PrologClient
 #cp $CB_POOL/examples/Clients/PrologClient/*.o $CB_PRODUCT/examples/Clients/PrologClient

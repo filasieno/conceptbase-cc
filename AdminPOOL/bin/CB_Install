@@ -180,6 +180,7 @@ cp $CB_POOL/lib/$EXPDIR/application*.svg $CB_PRODUCT/
 # Copy (new) script files to the root of the ConceptBase installation directory
 cp $CB_POOL/$EXPDIR/cb* $CB_PRODUCT/
 cp $CB_POOL/$EXPDIR/make-* $CB_PRODUCT/
+cp $CB_POOL/$EXPDIR/updateCB* $CB_PRODUCT/
 chmod 755 $CB_PRODUCT/cb*
 
 
