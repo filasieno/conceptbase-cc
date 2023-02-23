@@ -333,6 +333,23 @@ A ConceptBase client running on the same computer will then connect to this
 CBserver, when it uses 'localhost' as host and 4001 as port number. Since
 the CBserver runs un slave mode, it will shut down when its client disconnects.
 
+\subsection{Updating the CBserver software}
+
+You can always update your local installation of ConceptBase downloading and executing 
+the interactive CBinstaller.jar Java installer from \url{http://conceptbase.cc}.
+Be sure to terminate the ConceptBase server and the ConceptBase user interface programs
+before updating the software.
+
+An alternative to the interactive update via CBinstaller.jar is the shell script
+
+\begin{verbatim}
+   updateCB-bin
+\end{verbatim}
+
+located in the ConceptBase installation directory. We recommend to update the ConceptBase software
+at least once per year.
+
+
 \section{ConceptBase under Windows 10}
 \label{sec:win10}
 The CBserver is only compiled for Linux architectures. This means that user of
