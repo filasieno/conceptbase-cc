@@ -14,25 +14,25 @@ fi
 
 if [ "`ps -e | grep CBserver`" != "" ] ;
 then
-    echo "A CBserver process is still runing. First terminate the process before updating the software."
+    echo "A CBserver process is still running. First terminate the process before updating the software."
     exit 1
 fi
 
 if [ "`jps -v | grep cb.jar`" != "" ] ;
 then
-    echo "A CBIva process is still runing. First terminate the process before updating the software."
+    echo "A CBIva process is still running. First terminate the process before updating the software."
     exit 1
 fi
 
 if [ "`jps -v | grep CBEditor`" != "" ] ;
 then
-    echo "A CBGraph process is still runing. First terminate the process before updating the software."
+    echo "A CBGraph process is still running. First terminate the process before updating the software."
     exit 1
 fi
 
 if [ "`jps -v | grep CBShell`" != "" ] ;
 then
-    echo "A CBShell process is still runing. First terminate the process before updating the software."
+    echo "A CBShell process is still running. First terminate the process before updating the software."
     exit 1
 fi
 
