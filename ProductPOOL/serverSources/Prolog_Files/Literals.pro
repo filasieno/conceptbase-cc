@@ -2684,7 +2684,10 @@ write_callid(_callid) :-
   write('-'),write_lcall(_call),
   !.
 
-
+write_callid((_argkey,_predkey)) :-
+  pc_atomconcat(_argkey,_predkey,_callid),
+  write_callid(_callid),
+  !.
 
 write_callid(_callid) :- write(_callid).
   
@@ -2760,6 +2763,7 @@ moveIncompleteUp(_cacheSlotId,[_firstCall|_rest]) :-
 
 moveIncompleteUp(_cacheSlotId,[_cacheSlotId|_rest]) :-  {* first call in list is not an older incomplete call *}
   isIncompleteInRest(_rest),
+{* writeCallPath('New dirty call'), *}
   setCallState(_cacheSlotId,'dirty'),  {* shall be regarded as dirty under iteration of existing incomplete call *}
   !.
 
