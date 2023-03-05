@@ -16,6 +16,7 @@ echo "Using Javac version $JAVAC_VERSION"
 
 
 if [ "$1" = "-all"  ]; then
+  (cd $CB_WORK/doc/UserManual; touch CB-Manual.tex; CB_Make all)
   (cd $CB_WORK/; CB_Make clean)
 fi
 

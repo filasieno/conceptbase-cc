@@ -16,13 +16,13 @@ echo "Using Javac version $JAVAC_VERSION"
 
 
 if [ "$1" = "-all"  ]; then
-  (cd $CB_WORK/doc/UserManual; touch CB-Manual.tex; CB_Make all)
   (cd $CB_WORK/; CB_Make clean)
 fi
 
 (cd $CB_WORK/; CB_Make touch_src)
 echo 'Converting dcg ...'
 (cd $CB_WORK/serverSources/Prolog_Files; CB_Make dcg)  
+(cd $CB_WORK/doc/UserManual; touch CB-Manual.tex; CB_Make all)
 echo 'Compiling ...'
 (cd $CB_WORK/;  CB_Make all)  
 echo 'Installing ...'
