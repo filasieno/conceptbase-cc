@@ -12,10 +12,10 @@
 CB_PORTNR=${CB_PORTNR:=6387}
 
 # The directory with the scripts
-SCRIPTDIR=/home/cbase/CB_NewStruct/CB_Admin/utils/CB_TestClient/scripts
+SCRIPTDIR=$CB_WORK/../AdminPOOL/utils/CB_TestClient/scripts/scripts
 
 # The command to execute the test client
-CBSHELL=/home/cbase/CB_NewStruct/CB_Product/bin/CBshell
+CBSHELL=$CB_WORK/bin/CBshell
 
 # The directory, where log files are moved to
 LOGDIR=../log
@@ -36,17 +36,17 @@ do
 	if [ "$CURSCRIPT" = "ECArules" ]; then
                 /bin/rm -rf ECArules
 		mkdir ECArules
-		cp /home/cbase/CB_NewStruct/ProductPOOL/src/examples/ECArules/*.lpi ECArules
+		cp $CB_WORK/examples/ECArules/*.lpi ECArules
 	fi
 	if [ "$CURSCRIPT" = "AnswerFormat" ]; then
                 /bin/rm -rf AnswerFormat
 		mkdir AnswerFormat
-		cp /home/cbase/CB_NewStruct/ProductPOOL/src/examples/AnswerFormat/*.lpi AnswerFormat
+		cp $CB_WORK/examples/AnswerFormat/*.lpi AnswerFormat
 	fi
 	if [ "$CURSCRIPT" = "BuiltinQueries" ]; then
                 /bin/rm -rf BuiltinQueries
 		mkdir BuiltinQueries
-		cp /home/cbase/CB_NewStruct/ProductPOOL/src/examples/BuiltinQueries/*.lpi BuiltinQueries
+		cp $CB_WORK/examples/BuiltinQueries/*.lpi BuiltinQueries
 	fi
 	$CBSHELL -l -f $f $*
 	mv error.log $LOGDIR/error.$CURSCRIPT.$CB_VARIANT

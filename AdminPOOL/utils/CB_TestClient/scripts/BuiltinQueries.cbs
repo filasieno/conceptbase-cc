@@ -1,4 +1,4 @@
-startServer -d BuiltinQueries -c transient -U verbatim 
+startServer -d BuiltinQueries -c transient -U verbatim
 tell "has_attribute in BuiltinQueryClass with
 parameter
           attrtype : Proposition;
