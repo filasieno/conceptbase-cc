@@ -801,6 +801,7 @@ remove_assertion_code(constraint,_d) :-
   name2id(MSFOLconstraint,_MSFOLconId),
   DELETE( P( _IoId, _d, '*instanceof', _MSFOLconId)),
   untell_BDMIntegrityConstraint(_d),
+  untell_Formula_if_cleanup(_d),
   !.
 
 remove_assertion_code(rule,_d) :-
@@ -808,6 +809,7 @@ remove_assertion_code(rule,_d) :-
   DELETE( P( _IoId1, _d, '*instanceof', _MSFOLruleId)),
   untell_Rule(_d),
   untell_BDMRule(_d),
+  untell_Formula_if_cleanup(_d),
   !.
 
 {20-7-93 MSt}
@@ -823,6 +825,15 @@ remove_assertion_code(ecarule,_d) :-
 	!.
 
 remove_assertion_code(_,_d).
+
+
+{* issue #54: also remove the formula itself in the default 'cleanup' mode *}
+untell_Formula_if_cleanup(_fid) :-
+  get_cb_feature(UntellMode,cleanup),
+  id2name(_fid,_formula),
+  DELETE( P(_fid,_fid,_formula,_fid) ), 
+  !.
+
 
 
 { *********** u n t e l l _ i f _ d e r i v e d Q u e r y ********** }
