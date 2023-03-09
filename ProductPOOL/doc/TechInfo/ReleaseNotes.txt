@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2023-02-13
+                      2023-03-09
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -191,6 +191,14 @@ model elements.
    (explicit) attribute category of an attribute, e.g. "manages/department1". The new function works like
    Label(x) if x is not an attribute or x has no explicit attribute category.
 
+82-21 Untelling rules and constraints
+
+   When untelling rules and constraints, ConceptBase failed to remove the formula text $ ... $ as an
+   object. This is as such not affecting the correctness of the Untell, since the executable code was
+   removed as well as the instantiation of the formula to MSFOLrule or MSFOLconstraint. However, the
+   orphaned formula text in the database prevented the execution of a subsequent Tell to re-create
+   the rules/constraints just deleted. This is now resolved for the default update model 'cleanup'.
+   (Issue 54: https://gitlab.com/mjeu/conceptbasecc/-/issues/54)
 
 
 
