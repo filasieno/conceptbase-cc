@@ -833,7 +833,7 @@ untell_Formula_if_cleanup(_fid) :-
   id2name(_fid,_formula),
   DELETE( P(_fid,_fid,_formula,_fid) ), 
   !.
-
+untell_Formula_if_cleanup(_fid).
 
 
 { *********** u n t e l l _ i f _ d e r i v e d Q u e r y ********** }

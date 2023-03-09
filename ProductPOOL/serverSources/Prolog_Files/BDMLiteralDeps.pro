@@ -384,6 +384,8 @@ WeakLiteral(_lit) :-
                UNIFIES(_,_),
                NE(_,_),
                IDENTICAL(_,_),
+               P(_,_,_,_),  {* 2023-03-09: new weak literals P,Pa *}
+               Pa(_,_,_,_),
                From(_,_),
                Label(_,_),
                To(_,_),
