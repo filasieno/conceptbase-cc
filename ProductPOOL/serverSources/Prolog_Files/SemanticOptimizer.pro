@@ -540,7 +540,7 @@ showAlreadyGuaranteed(In(_y,_d),_rangelits) :-
 showAlreadyGuaranteed(In(_y,_d),_rangelits) :-
   oLevel(1),
   VarTabConstant(_d),
-  _alit = (Adot_label(_cc,_x,_y,_l);Aedot_label(_cc,_x,_y,_l)),
+  ( _alit = Adot_label(_cc,_x,_y,_l); _alit=Aedot_label(_cc,_x,_y,_l) ),
   show(_alit,_rangelits),
   retrieve_proposition(P(_cc,_c,_m,_d)),
   WriteTrace(veryhigh,SemanticOptimizer,[In(_y,_d),' guaranteed by ',_alit, ' [R5]']),
