@@ -107,6 +107,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(whatID/2)
 #EXPORT(isVisible/1)
 #EXPORT(isFunction/1)
+#EXPORT(isValue/1)
 #ENDMODDECL()
 
 
@@ -117,6 +118,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(pc_member/2,PrologCompatibility)
 #IMPORT(pc_atomconcat/2,PrologCompatibility)
 #IMPORT(pc_atomconcat/3,PrologCompatibility)
+#IMPORT(pc_atom_to_term/2,PrologCompatibility)
 #IMPORT(is_id/1,MetaUtilities)
 #IMPORT(prove_literal/1,Literals)
 
@@ -442,6 +444,27 @@ isVisible(_ID) :-
 isFunction(_f) :-
   prove_literal(In_e(_f,id_106)).    {* id_106 = Function *}
 
+
+
+{* check whether the object _x is an instance of Integer, Real, Boolean, String *}
+isValue(_x) :-
+  ground(_x),
+  id2name(_x,_xatom),
+  pc_atom_to_term(_xatom,_num), 
+  number(_num),
+  !.
+
+isValue(_x) :-
+  ground(_x),
+  id2name(_x,_xatom),
+  ( _xatom = 'TRUE'; xatom = 'FALSE'),
+  !.
+
+isValue(_x) :-
+  ground(_x),
+  name2id('String',_idString),
+  prove_literal(In_e(_x,_idString)),
+  !.
 
 
 

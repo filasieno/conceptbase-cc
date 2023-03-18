@@ -117,6 +117,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(systemLabel/1,validProposition)
 #IMPORT(ordinaryLabel/1,validProposition)
 #IMPORT(systemOmegaClass/1,validProposition)
+#IMPORT(isValue/1,validProposition)
 #IMPORT(prove_literal/1,Literals)
 #IMPORT(prove_edb_literal/1,Literals)
 #IMPORT(not_prove_literal/1,Literals)
@@ -289,11 +290,13 @@ violatesIOC1(P(_P,_X,_l,_Y),_Q) :-
 
 IsA_constraint_1(P(_A1,_P,_l,_R1)) :-
   attribute(P(_A1,_P,_l,_R1)),
+  \+ isValue(_R1),
    is_proper_specialization_of(_P, _Q),
   name2id(QueryClass,_QueryClass),
   \+(prove_literal( In(_P,_QueryClass))),  {id_65=QueryClass; QueryClasses do not need to specialize  }
-  retrieve_proposition(P(_A,_Q,_l,_R)),    {their attributes since the instances of }
-  ( (\+(is_specialization_of(_R1,_R)),     {their attributes are derived.           }
+  retrieve_proposition(P(_A,_Q,_l,_R)),    {their attributes since the instances of their attributes are derived. }
+  \+ isValue(_R),
+  ( (\+(is_specialization_of(_R1,_R)),    
      _error = ATTRIBUTE_MISMATCH);
     (\+(is_specialization_of(_A1,_A)),
      _error = ATTRIBUTE_UNSPECIALIZED)
@@ -313,11 +316,13 @@ IsA_constraint_1(P(_A1,_P,_l,_R1)) :-
 
 IsA_constraint_1(P(_A1,_P,_l,_R1)) :-
   attribute(P(_A1,_P,_l,_R1)),
+  \+ isValue(_R1),
    is_proper_specialization_of(_Q, _P),
   name2id(QueryClass,_QueryClass),
   \+(prove_literal( In(_Q,_QueryClass))),  {id_65=QueryClass; QueryClasses do not need to specialize  }
-  retrieve_proposition(P(_A,_Q,_l,_R)),   	 {their attributes since the instances of }
-  ( (\+(is_specialization_of(_R,_R1)),    	 {their attributes are derived.           }
+  retrieve_proposition(P(_A,_Q,_l,_R)),   	 {their attributes since the instances of their attributes are derived. }
+  \+ isValue(_R),
+  ( (\+(is_specialization_of(_R,_R1)),    	
      _error = ATTRIBUTE_MISMATCH);
     (\+(is_specialization_of(_A,_A1)),
      _error = ATTRIBUTE_UNSPECIALIZED)
@@ -346,6 +351,9 @@ IsA_constraint_1(_).
 {  (C3) If C is a subclass of D then the source of C must be a   }
 {       subclass of the source of D, and the destination of C    }
 {       must be a subclass of the destination of D.              }
+{                                                                }
+{ 2023-03-18/Manfred: The constraint does not apply to values    }
+{ D1,D2 such as integers.                                        }
 {                                                                }
 { ************************************************************** }
 
