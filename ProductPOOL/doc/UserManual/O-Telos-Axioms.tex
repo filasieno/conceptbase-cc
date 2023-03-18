@@ -169,6 +169,12 @@ in understanding the foundations. So, O-Telos is the foundation of ConceptBase
 but ConceptBase has more pre-defined constructs than those mentioned in
 the axioms of O-Telos. 
 
+% 2023-03-18
+Axiom 15 is only applicable to attribute classes, i.e.\ where the attribute value is
+an object that potentially can have instances. If the attribute value is for example
+a number, then ConceptBase will not enforce the axiom. We leave the formula unchanged,
+since classes for numbers such as {\tt Integer}, are not part of the axiomatization.
+
 
 ConceptBase allows to add user-defined rules and constraints. The semantics
 of an O-Telos database including such rules and constraints is 

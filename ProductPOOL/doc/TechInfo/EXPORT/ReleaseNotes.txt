@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2023-03-09
+                      2023-03-18
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -200,7 +200,20 @@ model elements.
    the rules/constraints just deleted. This is now resolved for the default update model 'cleanup'.
    (Issue 54: https://gitlab.com/mjeu/conceptbasecc/-/issues/54)
 
+82-22 P and Pa predicates in formulas
 
+   The P(id,x,n,y) and Pa(id,x,n,y) were not fully supported in formulas since they could not be assigned to
+   a meaningful "concerned class" (except Proposition, which is way to large). We now support the 
+   two predicates as so-called weak predicates, just like comparison predicates (x < y), which also
+   have no concerned class. The corncerned class is used for generating efficient code for the
+   evaluation of rules and constraints.
+
+82-23 Attribute refinement axiom not to be checked for numbers
+
+   Subclasses may refine the attribute of a superclass. This however only applies to attribute classes,
+   i.e. where the value is a class/type. If the value is a number (or boolean or string), then the
+   axiom 15 of O-Telos should not be enforced.
+   (Issue 55: https://gitlab.com/mjeu/conceptbasecc/-/issues/55)
 
 
 Version 8.1: Detailed Changes since Version 8.0 (2019-05-30)
