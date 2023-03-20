@@ -286,12 +286,15 @@ violatesIOC1(P(_P,_X,_l,_Y),_Q) :-
 { examined. In the case "Q = P" there won't be a matching        }
 { attribute class A \= A1 due to (C3)! Right?                    }
 {                                                                }
+{ 2023-03-18/Manfred: The constraint does not apply to values    }
+{ R1,R such as integers.                                        }
+{                                                                }
 { ************************************************************** }
 
 IsA_constraint_1(P(_A1,_P,_l,_R1)) :-
   attribute(P(_A1,_P,_l,_R1)),
   \+ isValue(_R1),
-   is_proper_specialization_of(_P, _Q),
+  is_proper_specialization_of(_P, _Q),
   name2id(QueryClass,_QueryClass),
   \+(prove_literal( In(_P,_QueryClass))),  {id_65=QueryClass; QueryClasses do not need to specialize  }
   retrieve_proposition(P(_A,_Q,_l,_R)),    {their attributes since the instances of their attributes are derived. }
@@ -317,7 +320,7 @@ IsA_constraint_1(P(_A1,_P,_l,_R1)) :-
 IsA_constraint_1(P(_A1,_P,_l,_R1)) :-
   attribute(P(_A1,_P,_l,_R1)),
   \+ isValue(_R1),
-   is_proper_specialization_of(_Q, _P),
+  is_proper_specialization_of(_Q, _P),
   name2id(QueryClass,_QueryClass),
   \+(prove_literal( In(_Q,_QueryClass))),  {id_65=QueryClass; QueryClasses do not need to specialize  }
   retrieve_proposition(P(_A,_Q,_l,_R)),   	 {their attributes since the instances of their attributes are derived. }
@@ -360,8 +363,10 @@ IsA_constraint_1(_).
 IsA_constraint_2(P(_A1,_C,_isa,_D)) :-
   _isa == '*isa',
   retrieve_proposition(P(_C,_C1,_l1,_D1)),
+  \+ isValue(_D1),
   _C1 \== _C,     {_C is not an individual}
   retrieve_proposition(P(_D,_C2,_l2,_D2)),
+  \+ isValue(_D2),
   (
      \+(is_specialization_of(_C1,_C2));
      \+(is_specialization_of(_D1,_D2))
