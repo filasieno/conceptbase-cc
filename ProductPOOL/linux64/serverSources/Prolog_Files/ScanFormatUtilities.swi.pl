@@ -817,6 +817,13 @@ convertLit('P'(_id,_x,_l,_y),_s) :-
   pc_atomconcat(['P(',_idname,',',_xname,',',_l,',',_yname,')'],_s),
   !.
 
+convertLit('Pa'(_id,_x,_l,_y),_s) :-
+  outObjectName(_id,_idname),
+  outObjectName(_x,_xname),
+  outObjectName(_y,_yname),
+  pc_atomconcat(['Pa(',_idname,',',_xname,',',_l,',',_yname,')'],_s),
+  !.
+
 
 /** for query calls: **/
 convertLit(_lit,_s) :-

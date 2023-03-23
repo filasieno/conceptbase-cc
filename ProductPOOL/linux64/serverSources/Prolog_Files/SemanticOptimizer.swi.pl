@@ -512,7 +512,7 @@ showAlreadyGuaranteed('In'(_x,_c),_rangelits) :-
 showAlreadyGuaranteed('In'(_x,_c),_rangelits) :-
   oLevel(1),
   'VarTabConstant'(_c),
-  _alit = ('Adot_label'(_cc,_x,_y,_l);'Aedot_label'(_cc,_x,_y,_l)),
+  (_alit = 'Adot_label'(_cc,_x,_y,_l); _alit = 'Aedot_label'(_cc,_x,_y,_l)),
   show(_alit,_rangelits),
   retrieve_proposition('P'(_cc,_c,_m,_d)),
   'WriteTrace'(veryhigh,'SemanticOptimizer',['In'(_x,_c),' guaranteed by ',_alit, ' [R3]']),
@@ -542,7 +542,7 @@ showAlreadyGuaranteed('In'(_y,_d),_rangelits) :-
 showAlreadyGuaranteed('In'(_y,_d),_rangelits) :-
   oLevel(1),
   'VarTabConstant'(_d),
-  _alit = ('Adot_label'(_cc,_x,_y,_l);'Aedot_label'(_cc,_x,_y,_l)),
+  (_alit = 'Adot_label'(_cc,_x,_y,_l); _alit='Aedot_label'(_cc,_x,_y,_l) ),
   show(_alit,_rangelits),
   retrieve_proposition('P'(_cc,_c,_m,_d)),
   'WriteTrace'(veryhigh,'SemanticOptimizer',['In'(_y,_d),' guaranteed by ',_alit, ' [R5]']),
@@ -612,7 +612,7 @@ showAlreadyGuaranteed('In'(_x,_c),_rangelits) :-
 showAlreadyGuaranteed('In'(_x,_c),_rangelits) :-
   oLevel(1),
   'VarTabConstant'(_c),
-  _alit = ('A_label'(_x,_l,_y,_);'Ae_label'(_x,_l,_y,_)),
+  (_alit = 'A_label'(_x,_l,_y,_); _alit = 'Ae_label'(_x,_l,_y,_)),
   show(_alit,_rangelits),
   'ConcernedClass'('A'(_x,_l,_y),_class),
   retrieve_proposition('P'(_class,_c,_l,_d)),
@@ -644,7 +644,7 @@ showAlreadyGuaranteed('In'(_y,_d),_rangelits) :-
 showAlreadyGuaranteed('In'(_y,_d),_rangelits) :-
   oLevel(1),
   'VarTabConstant'(_d),
-  _alit = ('A_label'(_x,_l,_y,_);'Ae_label'(_x,_l,_y,_)),
+  (_alit = 'A_label'(_x,_l,_y,_); _alit = 'Ae_label'(_x,_l,_y,_)),
   show(_alit,_rangelits),
   'ConcernedClass'('A'(_x,_l,_y),_class),
   retrieve_proposition('P'(_class,_c,_l,_d)),

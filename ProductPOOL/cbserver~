@@ -50,21 +50,29 @@ if [ "$CB_VARIANT" = "linux64" ]; then
    export LD_LIBRARY_PATH
 fi
 
+params="$@"
 crashed=0
+restart=0
+rstring="-r"
+
+#memorize if this CBserver is started with -r option
+if test "$params" != "${params%$rstring*}" ; then
+  restart=1
+fi
 
 # specify the path to the 'lock' file; depends of parameter -d which can be at any position in the command line
 lock="_nofile_"
-if [ "$1" = "-d" ]; then
+if [ "$1" = "-d" ] || [ "$1" = "-db" ] ; then
    lock="${2}/OB.lock"
-elif [ "$3" = "-d" ]; then
+elif [ "$3" = "-d" ] || [ "$3" = "-db" ] ; then
    lock="${4}/OB.lock"
-elif [ "$5" = "-d" ]; then
+elif [ "$5" = "-d" ] || [ "$5" = "-db" ] ; then
    lock="${6}/OB.lock"
-elif [ "$7" = "-d" ]; then
+elif [ "$7" = "-d" ] || [ "$7" = "-db" ] ; then
    lock="${8}/OB.lock"
-elif [ "$9" = "-d" ]; then
+elif [ "$9" = "-d" ] || [ "$9" = "-db" ] ; then
    lock="${10}/OB.lock"
-elif [ "$11" = "-d" ]; then
+elif [ "$11" = "-d" ] || [ "$11" = "-db" ] ; then
    lock="${12}/OB.lock"
 fi
 
@@ -82,7 +90,7 @@ if [ -f $lock ]; then
 	$PS > /dev/null 2>&1
 	if [ "$?" = "0" ] && [ "$host" = "$curhost" ]; then
 		$PS $pid > /dev/null
-		if [ "$?" = "1" ]; then rm $lock 
+		if [ "$?" = "1" ]; then /bin/rm $lock 
                 fi
 	fi
 fi
@@ -107,8 +115,15 @@ elif [ "$1" = "-h" ]; then
     echo " "
    else
 #     echo Launching "$CB_EXE" "$@" 
-      "$CB_EXE" "$@"
-      crashed=$?
+      if [ "$restart" = "0" ]; then
+         "$CB_EXE" "$@"
+          crashed=$?
+      else
+          # The 'echo a' is for sending the 'abort' command to SWI-Prolog if it enteres the trace mode upon a crash
+          echo a | "$CB_EXE" "$@"
+          crashed=$?
+      fi
+
 #     echo Exit status of $CB_EXE is $crashed 
 fi
 
@@ -125,7 +140,6 @@ if [ -f $lock ]; then
   /bin/rm -f $lock
 fi
 
-params="$@"
 while [ "$1" != "" ]; do
    if [ "$1" = "-r" ]; then
       sectowait=0

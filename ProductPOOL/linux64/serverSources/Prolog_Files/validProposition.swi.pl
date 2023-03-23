@@ -107,6 +107,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 ,'whatID'/2
 ,'isVisible'/1
 ,'isFunction'/1
+,'isValue'/1
 ]).
 :- use_module('GlobalPredicates.swi.pl').
 :- use_module('debug.swi.pl').
@@ -117,6 +118,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 :- use_module('PrologCompatibility.swi.pl').
+
 
 
 :- use_module('MetaUtilities.swi.pl').
@@ -444,6 +446,27 @@ isVisible(_ID) :-
 isFunction(_f) :-
   prove_literal('In_e'(_f,id_106)).    /** id_106 = Function **/
 
+
+
+/** check whether the object _x is an instance of Integer, Real, Boolean, String **/
+isValue(_x) :-
+  ground(_x),
+  id2name(_x,_xatom),
+  pc_atom_to_term(_xatom,_num), 
+  number(_num),
+  !.
+
+isValue(_x) :-
+  ground(_x),
+  id2name(_x,_xatom),
+  ( _xatom = 'TRUE'; xatom = 'FALSE'),
+  !.
+
+isValue(_x) :-
+  ground(_x),
+  name2id('String',_idString),
+  prove_literal('In_e'(_x,_idString)),
+  !.
 
 
 

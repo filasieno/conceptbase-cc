@@ -119,6 +119,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
+
 :- use_module('Literals.swi.pl').
 
 
@@ -287,15 +288,20 @@ violatesIOC1('P'(_P,_X,_l,_Y),_Q) :-
 /* examined. In the case "Q = P" there won't be a matching        */
 /* attribute class A \= A1 due to (C3)! Right?                    */
 /*                                                                */
+/* 2023-03-18/Manfred: The constraint does not apply to values    */
+/* R1,R such as integers.                                        */
+/*                                                                */
 /* ************************************************************** */
 
 'IsA_constraint_1'('P'(_A1,_P,_l,_R1)) :-
   attribute('P'(_A1,_P,_l,_R1)),
-   is_proper_specialization_of(_P, _Q),
+  \+ isValue(_R1),
+  is_proper_specialization_of(_P, _Q),
   name2id('QueryClass',_QueryClass),
   \+(prove_literal( 'In'(_P,_QueryClass))),  /*id_65=QueryClass; QueryClasses do not need to specialize  */
-  retrieve_proposition('P'(_A,_Q,_l,_R)),    /*their attributes since the instances of */
-  ( (\+(is_specialization_of(_R1,_R)),     /*their attributes are derived.           */
+  retrieve_proposition('P'(_A,_Q,_l,_R)),    /*their attributes since the instances of their attributes are derived. */
+  \+ isValue(_R),
+  ( (\+(is_specialization_of(_R1,_R)),    
      _error = 'ATTRIBUTE_MISMATCH');
     (\+(is_specialization_of(_A1,_A)),
      _error = 'ATTRIBUTE_UNSPECIALIZED')
@@ -315,11 +321,13 @@ violatesIOC1('P'(_P,_X,_l,_Y),_Q) :-
 
 'IsA_constraint_1'('P'(_A1,_P,_l,_R1)) :-
   attribute('P'(_A1,_P,_l,_R1)),
-   is_proper_specialization_of(_Q, _P),
+  \+ isValue(_R1),
+  is_proper_specialization_of(_Q, _P),
   name2id('QueryClass',_QueryClass),
   \+(prove_literal( 'In'(_Q,_QueryClass))),  /*id_65=QueryClass; QueryClasses do not need to specialize  */
-  retrieve_proposition('P'(_A,_Q,_l,_R)),   	 /*their attributes since the instances of */
-  ( (\+(is_specialization_of(_R,_R1)),    	 /*their attributes are derived.           */
+  retrieve_proposition('P'(_A,_Q,_l,_R)),   	 /*their attributes since the instances of their attributes are derived. */
+  \+ isValue(_R),
+  ( (\+(is_specialization_of(_R,_R1)),    	
      _error = 'ATTRIBUTE_MISMATCH');
     (\+(is_specialization_of(_A,_A1)),
      _error = 'ATTRIBUTE_UNSPECIALIZED')
@@ -349,13 +357,18 @@ violatesIOC1('P'(_P,_X,_l,_Y),_Q) :-
 /*       subclass of the source of D, and the destination of C    */
 /*       must be a subclass of the destination of D.              */
 /*                                                                */
+/* 2023-03-18/Manfred: The constraint does not apply to values    */
+/* D1,D2 such as integers.                                        */
+/*                                                                */
 /* ************************************************************** */
 
 'IsA_constraint_2'('P'(_A1,_C,_isa,_D)) :-
   _isa == '*isa',
   retrieve_proposition('P'(_C,_C1,_l1,_D1)),
+  \+ isValue(_D1),
   _C1 \== _C,     /*_C is not an individual*/
   retrieve_proposition('P'(_D,_C2,_l2,_D2)),
+  \+ isValue(_D2),
   (
      \+(is_specialization_of(_C1,_C2));
      \+(is_specialization_of(_D1,_D2))

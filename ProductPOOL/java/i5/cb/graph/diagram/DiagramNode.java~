@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2017 The ConceptBase Team. All rights reserved.
+Copyright 1987-2023 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -29,8 +29,6 @@ of the ConceptBase Team.
 The ConceptBase Team is represented by
 
 Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
-Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
 
 
 This license is a FreeBSD-style copyright license.
@@ -161,7 +159,12 @@ public class DiagramNode
     /** Node level relative to the JLayeredPane level */
     private int m_nodeLevel=0;
 
+    /** True is this diagram node is frozen to its current position */
+    private boolean m_isFrozen=false;
 
+
+    /** designated location of this node */
+    private Point m_designatedLocation = null;
 
 
     // ***** Public Constructors *****
@@ -196,7 +199,7 @@ public class DiagramNode
 
         m_bundle = ResourceBundle.getBundle(GEConstants.GE_BUNDLE_NAME);
 
-        this.setResizable(false);
+        this.setResizable(true);
         bComponentVisible = false;
         //bSmallComponentVisible = false;
 
@@ -287,6 +290,24 @@ public class DiagramNode
          m_dSmallComponentSize = dim;
        }
     }
+
+
+
+    /**
+     * Sets this diagram node's designated location to <code>p</code>; the designation is typically set
+     * by the graph property "location" of this node.
+     *
+     * @param p the designated location of this diagram node
+     */
+    public void designateLocation(Point p) {
+       m_designatedLocation = p;
+    }
+
+
+    public Point getDesignatedLocation() {
+       return m_designatedLocation;
+    }
+
 
 
 
@@ -627,6 +648,7 @@ public class DiagramNode
          // depending on its "align" property
          compLoc = new Point((m_dSmallComponentSize.width - compSize.width)/2,
                              (m_dSmallComponentSize.height -compSize.height)/2);
+
          if (m_userObject != null && m_userObject instanceof CBUserObject)
             compLoc = ((CBUserObject)m_userObject).getAlignedLocation(m_dSmallComponentSize,compSize);
          this.getRootPane().setSize(m_dSmallComponentSize);
@@ -646,7 +668,9 @@ public class DiagramNode
          compLoc = new Point((m_dComponentSize.width - compSize.width)/2,
                              (m_dComponentSize.height -compSize.height)/2);
          this.getContentPane().setBounds(compLoc.x,compLoc.y,compSize.width,compSize.height);
-         this.getContentPane().validate();
+         this.getContentPane().revalidate();
+         this.pack();
+         this.revalidate();
        }
     }
 
@@ -698,7 +722,9 @@ public class DiagramNode
       System.out.print(lev+" ");
       for (int i=0;i<lev;i++)
          System.out.print(" ");
-      System.out.println(comp.toString());
+      if (lev==3) {
+        System.out.println(comp.toString() + ": " + comp.getSize());
+      }
       for (int ind=0; ind<comp.getComponentCount(); ind++) {
         printComp(lev+1,(JComponent)comp.getComponent(ind));
       }
@@ -747,7 +773,10 @@ public class DiagramNode
      */
     final public void drawRect(Graphics g) {
         Rectangle rBounds = this.getBounds();
-        g.setColor(Color.RED);
+        if (isFrozen())
+           g.setColor(Color.BLUE); // to indicate that the node is frozen
+        else
+           g.setColor(Color.RED);
         g.drawRect(
             rBounds.x + 1,
             rBounds.y + 1,
@@ -777,7 +806,11 @@ public class DiagramNode
         }
         --- for debugging component sizes*/
 
-          Color transparentRED = new Color(1.0F,0.3F,0.3F,0.10F);  // last argument is alpha value
+          Color transparentRED;
+          if (isFrozen())
+             transparentRED = new Color(0.3F,0.3F,1.0F,0.10F);  // blueish; last argument is alpha value
+          else
+             transparentRED = new Color(1.0F,0.3F,0.3F,0.10F);  // redish; last argument is alpha value
           g.setColor(transparentRED);
           Rectangle gpBounds = this.getGlassPane().getBounds();
           g.fillRect(
@@ -992,7 +1025,7 @@ public class DiagramNode
      * DiagramNode. The association is managed by this node's
      * {@link DiagramClass}
      *
-     * @param  g1  a <code>Graphics</code> value
+     * @param  g  a <code>Graphics</code> value
      */
 
     protected void paintShape(Graphics g) {
@@ -1019,8 +1052,8 @@ public class DiagramNode
         // set the Size:
         at = new java.awt.geom.AffineTransform();
 
-        double sx = (bounds.getWidth() - 3) / boundsShape.getWidth();
-        double sy = (bounds.getHeight() - 3) / boundsShape.getHeight();
+        double sx = (bounds.getWidth() - 1) / boundsShape.getWidth();
+        double sy = (bounds.getHeight() - 1) / boundsShape.getHeight();
 
         at.scale(sx, sy);
 
@@ -1220,6 +1253,24 @@ public class DiagramNode
      */
     public void setDragged(boolean newDragged) {
         m_isDragged = newDragged;
+    }
+
+
+    /** Getter for property isFrozen.
+     * @return true iff this node is currently being frozen (see DiagramNodeMouseListener.java)
+     *
+     */
+    public boolean isFrozen() {
+        return m_isFrozen;
+    }
+
+
+    /** Setter for property isFrozen.
+     * @param newFrozen New value of property isFrozen.
+     */
+    public void setFrozen(boolean newFrozen) {
+        m_isFrozen = newFrozen;
+        this.repaint();
     }
 
 
