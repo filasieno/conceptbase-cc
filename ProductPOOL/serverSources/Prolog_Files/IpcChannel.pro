@@ -606,7 +606,7 @@ serve_goal2( 0, _fd, _out, _parserOutput ) :-
 	!.
 
 {* ipcmessage is broken; still try to recover sender and receiver *}
-serve_goal2( 0, _fd, _out, _parserOutput ) :-
+serve_goal2( _err, _fd, _out, _parserOutput ) :-
         GetIpcMessageFromC( _parserOutput, ipcmessage(_s,_r,_m,_a) ),
 	write('IpcChannel: error in ipcmessage '), write(ipcmessage(_s,_r,_m,_a)),nl,
         report_error( IPC1, IpcChannel, []), 
