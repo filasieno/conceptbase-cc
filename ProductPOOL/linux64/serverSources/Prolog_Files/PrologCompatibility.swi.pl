@@ -177,7 +177,7 @@ pc_atomconcat(_atom1,_atom2,_atom3) :-
     atom_concat(_atom1,_atom2,_atom3).
 
 pc_atomconcat(_atom1,_atom2,_atom3) :-
-   write('!!! Prolog Compopatibility: Insufficient instantiation in call '),
+   write('!!! PrologCompatibility: Insufficient instantiation in call '),
    write(pc_atomconcat(_atom1,_atom2,_atom3)),
    nl,!,
    fail.

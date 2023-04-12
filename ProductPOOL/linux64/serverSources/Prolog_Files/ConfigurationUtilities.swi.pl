@@ -650,8 +650,8 @@ listModuleContent_internal(_frames,_mod,_modpath) :-
   disposeBuffer(_buf),
   !.
 
-listModuleContent_internal('{* no *}',_,_) :-
-  write('!!! ConfigurationUtilities: Error with listModuleContent_internal'),nl,
+listModuleContent_internal('{* no *}',_mod,_modpath) :-
+  write('!!! ConfigurationUtilities: Error with listModuleContent_internal '),write(_mod),write(', '),write(_modpath),nl,
   !.
 
 

@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2023-03-18
+                      2023-03-23
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -214,6 +214,13 @@ model elements.
    i.e. where the value is a class/type. If the value is a number (or boolean or string), then the
    axiom 15 of O-Telos should not be enforced.
    (Issue 55: https://gitlab.com/mjeu/conceptbasecc/-/issues/55)
+
+82-24 Assign a nicer priority to the CBserver executable
+
+   We now use "nice" in cbserver sh script for starting the CBserver executable with a lower priority
+   to prevent affecting the responsiveness of the desktop when the CBserver is busy for a longer time.
+
+
 
 
 Version 8.1: Detailed Changes since Version 8.0 (2019-05-30)
