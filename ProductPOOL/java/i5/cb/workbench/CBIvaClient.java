@@ -1052,10 +1052,13 @@ public class CBIvaClient {
           }
         }
         CBI.repaint();
-        if (enrolled)
+        if (enrolled) {
           CBI.getStatusBar().setStatus("localhost",newPort);
+          CBI.getTelosEditor().setTitle("Telos Editor -- "+"localhost"+':'+newPort);
+        }
         return enrolled;  
     }
+
 
     private boolean testEnroll(String newPort) {
         try {
@@ -1122,6 +1125,7 @@ public class CBIvaClient {
                     CBI.getStatusBar().insertMessage("Connection to " + sHost + ":" + sPort +
                         " established");
                     CBI.getStatusBar().setStatus(sHost,sPort);
+                    CBI.getTelosEditor().setTitle("Telos Editor -- "+sHost+':'+sPort);
                 }
                 else {
                     CBI.getStatusBar().insertMessage("Connection to " + sHost + ":" + sPort +
