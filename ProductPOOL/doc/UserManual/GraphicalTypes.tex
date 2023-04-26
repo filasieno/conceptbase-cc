@@ -36,6 +36,9 @@ used visualization tool, the definition of {\tt Graphical\-Type} looks very simp
 \begin{verbatim}
 GraphicalType in Class
 end
+JavaGraphicalType isA GraphicalType 
+end
+
 \end{verbatim}
 }
 
@@ -69,7 +72,9 @@ A graphical notation (as e.g. the Entity-Relationship diagram)
 typically consists of a set of different graphical symbols
 (as e.g. diamonds, rectangles, and lines).
 A {\em graphical palette} is used to combine the set of
-graphical types that together form a notation:
+graphical types that together form a notation.
+Note that CBGraph uses {\tt JavaGraphicalPalette} instead of the less
+expressive {\tt GraphicalPalette}. 
 
 {\small
 \begin{verbatim}
@@ -78,8 +83,11 @@ Individual GraphicalPalette in Class with
      contains : GraphicalType;
      default : GraphicalType
 end
+JavaGraphicalPalette in Class isA GraphicalPalette 
+end 
 \end{verbatim}
 }
+
 
 In such a setting the same object may participate in different perspectives.
 ConceptBase offers the possibility to specify multiple graphical types for
@@ -93,6 +101,7 @@ description to the CBGraph Editor.
 The {\tt default} specification serves as a catch all: an answer object, for
 which none of the graphical types of the current palette is specified, is
 presented using the default graphical type of that palette.
+
 
 
 \section{The standard graphical types}
@@ -173,6 +182,11 @@ end
 \end{verbatim}
 }
 
+{\tt JavaGraphicalPalette} offer categories for the {\tt defaultIndividual}
+graphical type (specifies how nodes are displayed by default) and
+{\tt defaultLink} (default graphical type for links).
+The four implicit graphical types are for specifying how derived attributes (derived
+specializations, derived instantiations) are visualized in CBGraph.
 The attribute {\tt palproperty} is used for declaring any number of properties
 of a palette. The properties are passed to the CBGraph Editor when it loads
 the palette at startup time. CBGraph supports the following properties for palettes:
@@ -246,7 +260,7 @@ graphical types. See file {\tt 03-ERD-GTs.sml} at
 for an example.
 
 Starting from ConceptBase 8.2, we provide an alternative graphical palette
-{\tt TelosPalette}, which is closer to the style of OML class diagrams
+{\tt TelosPalette}, which is closer to the style of UML class diagrams
 and allows for easy specialization when creating user-defined palettes.
 See section \ref{telospalette} for more information.
 
