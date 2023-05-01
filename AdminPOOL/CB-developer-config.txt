@@ -29,6 +29,8 @@ and distributions derived from it.
    sudo apt-get install libreadline5
    sudo apt-get install libreadline-gplv2-dev
    sudo apt-get install libncursesw5-dev
+   sudo apt-get install libncursesw5
+   sudo apt-get install libncurses5
  #  sudo apt-get install openjdk-8-jdk  # See comments at the end of the file on Java-11
    sudo apt-get install openjdk-11-jdk  
    sudo apt-get install libxpm-dev
