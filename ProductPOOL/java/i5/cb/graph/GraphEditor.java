@@ -1196,12 +1196,29 @@ public class GraphEditor
             return; // GEL is in a temporary directory; will not propose to save it
           if (dd != null && dd.isEdited()) {
              try {
- //               this.saveActiveGraphInternalFrame();  // this actually pops up a window asking to save the GEL file
                 showSaveGraphDialog(gelFilename);
              } catch (Exception ex) {
              }
           }
     }
+
+
+    public void saveGraphForResync(String gelFilename) {
+       DiagramDesktop dd = null;
+       if (this.getActiveGraphInternalFrame() != null) {
+          dd = this.getActiveGraphInternalFrame().getDiagramDesktop();
+       }
+       saveGraphForResync(dd,gelFilename);
+    }
+
+    public void saveGraphForResync(DiagramDesktop dd,String gelFilename) {
+          if (!(this instanceof CBEditor))
+            return;
+          if (dd != null) {
+             saveToGEL(new File(gelFilename), getActiveGraphInternalFrame(), true);
+          }
+    }
+
 
     public void showSaveGraphDialog(String gelFilename) {
         int response =JOptionPane.showConfirmDialog(this,

@@ -157,6 +157,21 @@ pc_has_a_definition(_pred) :-
     !.
 
 /* concat a list of atoms (arg1), result is arg2 */
+
+containsNonAtom([_x|_rest]) :-
+  (\+ atomic(_x));
+  containsNonAtom(_rest).
+
+
+pc_atomconcat(_list,_atom) :-
+  containsNonAtom(_list),
+  write('!!! PrologCompatibility: pc_atomconcat input list contains elements that are not atoms: '),
+  write(_list),nl,
+  !,
+  fail.
+
+
+
 pc_atomconcat([_atom],_atom) :- !.
 
 pc_atomconcat([_atom1,_atom2],_atom) :-
@@ -170,9 +185,9 @@ pc_atomconcat([_atom1|_rest],_atom) :-
 
 /* atom3 is the concatenation of atom1 and atom2 */
 pc_atomconcat(_atom1,_atom2,_atom3) :-
-    (atom(_atom1),atom(_atom2);
-     atom(_atom1),atom(_atom3);
-     atom(_atom2),atom(_atom3)),
+    (atomic(_atom1),atomic(_atom2);
+     atomic(_atom1),atomic(_atom3);
+     atomic(_atom2),atomic(_atom3)),
     !,
     atom_concat(_atom1,_atom2,_atom3).
 

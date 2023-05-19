@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2023-03-23
+                      2023-05-19
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -219,6 +219,13 @@ model elements.
 
    We now use "nice" in cbserver sh script for starting the CBserver executable with a lower priority
    to prevent affecting the responsiveness of the desktop when the CBserver is busy for a longer time.
+
+82-25 Offline resync mode for CBGraph
+
+   The new mode -resync allows to call CBGraph on a GEL file, let it synchronize with a running CBserver,
+   possibly validate the shown objects, and then save the GEL file. This allows to keep a bulk of
+   GEL files synchronized without the need to do it manually.
+   (Issue 56: https://gitlab.com/mjeu/conceptbasecc/-/issues/56)
 
 
 

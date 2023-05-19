@@ -69,6 +69,7 @@ public class CBEditor extends GraphEditor {
     private boolean m_dumpSourceFiles= false;
     private boolean m_CommandLineOptionsPresent = false;
     private boolean m_demoMode = false;
+    private boolean m_resyncMode = false;
     public StringArray gelFilenames = null;
     private String m_overrideHost = null;
     private String m_overridePort = null;
@@ -159,9 +160,14 @@ public class CBEditor extends GraphEditor {
                   System.exit(0);
           }
         CBEditor editor = new CBEditor(null);
-        editor.setVisible(true);
         editor.analyzeCmdArgs(args);
 
+        if (editor.getResyncMode() && editor.gelFilenames.size != 1) {
+          System.err.println("Option -resync can only be used when providing a single GEL file as argument.");
+          System.exit(1);
+        }
+
+        editor.setVisible(true);
 
         for (int i = 0; i < editor.gelFilenames.size; i++) {
           String filename = editor.gelFilenames.get(i);
@@ -178,6 +184,15 @@ public class CBEditor extends GraphEditor {
           }
           newFrame.repaint();
         }
+
+        // issue #56: save GEL file and then exit if option -resync was used
+        if (editor.getResyncMode()) {
+           editor.saveGraphForResync(editor.gelFilenames.get(0));
+           System.out.println("Resynced GEL file " + editor.gelFilenames.get(0));
+           editor.shutdown();
+           System.exit(0);
+        }
+        
 
         // issue #26: disable some menu items in the "demo mode"
         if (editor.m_demoMode) {
@@ -254,6 +269,9 @@ public class CBEditor extends GraphEditor {
          }
          else if (cmdargs[i].equals("-demo")) {   // issue #26: disable some menu items in the "demo mode"
             m_demoMode = true;
+         }
+         else if (cmdargs[i].equals("-resync")) {   // issue #56: resync mode 
+            this.setResyncMode(true);
          }
          else if (cmdargs[i].equals("+f")) {  // for dumping module sources to a text file
             this.setReadCBModule(true);
@@ -703,6 +721,15 @@ public class CBEditor extends GraphEditor {
     public boolean getCommandLineOptionsPresent() {
       return m_CommandLineOptionsPresent;
     }
+
+    public void setResyncMode(boolean value) {
+      m_resyncMode = value;
+    }
+
+    public boolean getResyncMode() {
+      return m_resyncMode;
+    }
+
 
 
     /**
