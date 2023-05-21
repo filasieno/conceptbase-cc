@@ -833,6 +833,13 @@ public class CBEditor extends GraphEditor {
         saveLayoutPath();
         CBConfiguration.storeConfig();
 
+        // issue #56
+        if (getSavePngMode()) {
+           super.savePngFile();
+           setSavePngMode(false);
+        }
+
+
         Iterator it = m_vGraphInternalFrames.iterator();
         while (it.hasNext()) {
             Object o = it.next();

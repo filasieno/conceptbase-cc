@@ -1065,6 +1065,7 @@ public class GraphEditor
         // issue #56: save the image of the diagram desktop as PNG file if option -savepng was used with CBGraph
         if (cbEditor.getSavePngMode()) {
            savePngFile();
+           cbEditor.setSavePngMode(false);
         }
 
         if (cbEditor.getWorkbench()==null){
