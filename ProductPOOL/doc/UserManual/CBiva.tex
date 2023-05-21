@@ -613,12 +613,14 @@ with the CBserver:
 \item[-resync] Loads the graph file, connects to the CBserver, then saves the graph file using the sources from the
 CBserver, and exits CBGraph. This option can be used to refresh the sources of a graph file with the module contents
 of a running CBserver. In particular, this is useful in combination with the option +r.
+\item[-savepng] Will instruct CBGraph to save a screendump of the current graph as PNG file in the same directory
+as the graph file when closing CBGraph.
 
 \end{description}
 
 If you supply these options when calling CBGraph, it will also store them in the graph file when you store it.
 If you later call CBGraph with such a graph file, it will apply the stored options unless you specify
-new options in the command line. Hence, the options stored in the GEL file serve as new defaults for
+new options in the command line. Hence, the options stored in the graph file (file type ".gel") serve as new defaults for
 synchronizing the graph file with the CBserver.
 
 Consider the two calls of CBGraph below. The first call sets the synchronization option to "+r", i.e.\
