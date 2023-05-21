@@ -1059,10 +1059,18 @@ public class GraphEditor
           shutdown();
           return;
         }
+
         CBEditor cbEditor = (CBEditor) this;
+
+        // issue #56: save the image of the diagram desktop as PNG file if option -savepng was used with CBGraph
+        if (cbEditor.getSavePngMode()) {
+           savePngFile();
+        }
+
         if (cbEditor.getWorkbench()==null){
            shutdown();
         }
+
         cbEditor.getWorkbench().setCBEditor(null);
         java.util.Iterator it=cbEditor.getGraphInternalFrames().iterator();
         // iterate over all internal Frames, disconnect and dispose them
@@ -1203,6 +1211,8 @@ public class GraphEditor
     }
 
 
+    // issue #56: synchronize the module sources in the GEL file from the CBserver if flag -resync was used to start CBGraph
+
     public void saveGraphForResync(String gelFilename) {
        DiagramDesktop dd = null;
        if (this.getActiveGraphInternalFrame() != null) {
@@ -1217,6 +1227,22 @@ public class GraphEditor
           if (dd != null) {
              saveToGEL(new File(gelFilename), getActiveGraphInternalFrame(), true);
           }
+    }
+
+
+    /* savePngFile is called on close() of the GraphEditor if the flag -savepng was used to start CBGraph */
+
+    public void savePngFile() {
+       DiagramDesktop dd = null;
+       String pngFilename = null;
+       if (this.getActiveGraphInternalFrame() != null) {
+          dd = this.getActiveGraphInternalFrame().getDiagramDesktop();
+          pngFilename = this.getActiveGraphInternalFrame().getGelfile().replaceAll(".gel",".png");
+       }
+       if (dd == null)
+         return;
+       File pngFile = new File(pngFilename);
+       dd.saveScreenShot("png",pngFile);
     }
 
 

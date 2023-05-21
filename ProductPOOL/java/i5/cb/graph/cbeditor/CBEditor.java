@@ -70,6 +70,7 @@ public class CBEditor extends GraphEditor {
     private boolean m_CommandLineOptionsPresent = false;
     private boolean m_demoMode = false;
     private boolean m_resyncMode = false;
+    private boolean m_savePngMode = false;
     public StringArray gelFilenames = null;
     private String m_overrideHost = null;
     private String m_overridePort = null;
@@ -272,6 +273,9 @@ public class CBEditor extends GraphEditor {
          }
          else if (cmdargs[i].equals("-resync")) {   // issue #56: resync mode 
             this.setResyncMode(true);
+         }
+         else if (cmdargs[i].equals("-savepng")) {   // issue #56: savepng mode 
+            this.setSavePngMode(true);
          }
          else if (cmdargs[i].equals("+f")) {  // for dumping module sources to a text file
             this.setReadCBModule(true);
@@ -728,6 +732,14 @@ public class CBEditor extends GraphEditor {
 
     public boolean getResyncMode() {
       return m_resyncMode;
+    }
+
+    public void setSavePngMode(boolean value) {
+      m_savePngMode = value;
+    }
+
+    public boolean getSavePngMode() {
+      return m_savePngMode;
     }
 
 
