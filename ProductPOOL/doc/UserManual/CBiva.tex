@@ -608,18 +608,6 @@ with the CBserver:
 \item[-rw] No synchronization.
 \item[+f]  Enable bidirectional synchronization and also write the module sources to text files in the directory
    where your started CBGraph; useful for debugging.
-\item[-demo] Disables certain menu items such as File/Save to make CBGraph more stable in demonstration
-   scenarios.
-\item[-resync] Loads the graph file, connects to the CBserver, then saves the graph file using the sources from the
-CBserver, and exits CBGraph. This option can be used to refresh the sources of a graph file with the module contents
-of a running CBserver. In particular, this is useful in combination with the option +r.
-\item[-revalidate] Instructs CBGraph to validate the nodes and links of the graph file upon start of CBGraph.
-Note that invalid nodes and links may be marked and may have to be removed/corrected manually. The validation
-procedure is the same as the "validate and update shown objects" option in the "Current connection" menu of
-CBGraph, see section \ref{sec:currentconnection}.
-\item[-savepng] Will instruct CBGraph to save a screendump of the current graph as PNG file in the same directory
-as the graph file when closing CBGraph.
-
 \end{description}
 
 If you supply these options when calling CBGraph, it will also store them in the graph file when you store it.
@@ -631,6 +619,8 @@ Consider the two calls of CBGraph below. The first call sets the synchronization
 stores the module sources from the CBserver in the graph file when it is saved. 
 The second call has no such option. Hence, it shall adopt the "+r" that was stored earlier in the graph file
 {\tt example.gel}.
+
+
 
 {\small
 \begin{verbatim}
@@ -676,6 +666,40 @@ and subclasses shall also not work.
 An example on how to create and use graph files containing materialized database views
 is available in the CB-Forum at
 \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/3613919}.
+
+There are further command line options to control the bahavior of CBGraph:
+
+\begin{description}
+\item[-demo] Disables certain menu items such as File/Save to make CBGraph more stable in demonstration
+   scenarios.
+\item[-resync] Loads the graph file, connects to the CBserver, then saves the graph file using the sources from the
+CBserver, and exits CBGraph. This option can be used to refresh the sources of a graph file with the module contents
+of a running CBserver. In particular, this is useful in combination with the option +r.
+\item[-revalidate] Instructs CBGraph to validate the nodes and links of the graph file upon start of CBGraph.
+Note that invalid nodes and links may be marked and may have to be removed/corrected manually. The validation
+procedure is the same as the "validate and update shown objects" option in the "Current connection" menu of
+CBGraph, see section \ref{sec:currentconnection}.
+\item[-savepng] Will instruct CBGraph to save a screendump of the current graph as PNG file in the same directory
+as the graph file when closing CBGraph.
+\end{description}
+
+The options can be combined to achieve the desired bahavior, e.g.\
+
+{\small
+\begin{verbatim}
+cbgraph -resync -savepng -revalidate +r myfile.gel
+\end{verbatim}
+}
+
+The "resync" option together with "+r" will make sure that the module sources to be stored in the graph file
+are taken from the CBserver. It will also terminate CBGraph after execiting the synchronization in order to
+allow bulk synchronizations of many graph files that are all views of the same database. Note that you should
+start the CBserver before executing the above cbgraph command.
+
+The "savepng" option will store the PNG image of the current graph when exiting CBGraph. The "revalidate" option
+will check whether the nodes and links in the graph file are still in the database and may update their graphical
+type, if the database assigns a new graphical type to them.
+
 
 \subsection{Redirecting the CBserver location}
 
