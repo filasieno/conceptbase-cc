@@ -613,6 +613,10 @@ with the CBserver:
 \item[-resync] Loads the graph file, connects to the CBserver, then saves the graph file using the sources from the
 CBserver, and exits CBGraph. This option can be used to refresh the sources of a graph file with the module contents
 of a running CBserver. In particular, this is useful in combination with the option +r.
+\item[-revalidate] Instructs CBGraph to validate the nodes and links of the graph file upon start of CBGraph.
+Note that invalid nodes and links may be marked and may have to be removed/corrected manually. The validation
+procedure is the same as the "validate and update shown objects" option in the "Current connection" menu of
+CBGraph, see section \ref{sec:currentconnection}.
 \item[-savepng] Will instruct CBGraph to save a screendump of the current graph as PNG file in the same directory
 as the graph file when closing CBGraph.
 
@@ -907,6 +911,7 @@ graphical layout. This option is only available when automatic layout is enabled
 
 
 \subsubsection{Current connection menu}
+\label{sec:currentconnection}
 
 These operations have effect on the current connection, i.e. the connection
 of currently activated internal window.

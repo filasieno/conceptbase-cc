@@ -64,6 +64,7 @@ import javax.swing.text.DefaultStyledDocument;
 public class CBEditor extends GraphEditor {
 
     private CBIva m_CBIva;
+
     private boolean m_writeCBModule = false;
     private boolean m_readCBModule = false;
     private boolean m_dumpSourceFiles= false;
@@ -71,6 +72,8 @@ public class CBEditor extends GraphEditor {
     private boolean m_demoMode = false;
     private boolean m_resyncMode = false;
     private boolean m_savePngMode = false;
+    private boolean m_revalidateMode = false;
+
     public StringArray gelFilenames = null;
     private String m_overrideHost = null;
     private String m_overridePort = null;
@@ -183,6 +186,9 @@ public class CBEditor extends GraphEditor {
             System.err.println("Problem loading the GEL file " + filename);
             System.err.println(e.getMessage());
           }
+          if (editor.getRevalidateMode()) {
+            newFrame.validateNodes();  // issue #56; validate if option -revalidate was set
+          }
           newFrame.repaint();
         }
 
@@ -276,6 +282,9 @@ public class CBEditor extends GraphEditor {
          }
          else if (cmdargs[i].equals("-savepng")) {   // issue #56: savepng mode 
             this.setSavePngMode(true);
+         }
+         else if (cmdargs[i].equals("-revalidate")) {   // issue #56: revalidate mode 
+            this.setRevalidateMode(true);
          }
          else if (cmdargs[i].equals("+f")) {  // for dumping module sources to a text file
             this.setReadCBModule(true);
@@ -741,6 +750,15 @@ public class CBEditor extends GraphEditor {
     public boolean getSavePngMode() {
       return m_savePngMode;
     }
+
+    public void setRevalidateMode(boolean value) {
+      m_revalidateMode = value;
+    }
+
+    public boolean getRevalidateMode() {
+      return m_revalidateMode;
+    }
+
 
 
 
