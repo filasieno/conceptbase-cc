@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2023-05-21
+                      2023-05-22
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -225,7 +225,9 @@ model elements.
    The new mode -resync allows to call CBGraph on a GEL file, let it synchronize with a running CBserver,
    possibly validate the shown objects, and then save the GEL file. This allows to keep a bulk of
    GEL files synchronized without the need to do it manually. A second new option is -saveimg, which 
-   saves a PNG file of the current graph when closing CBGraph.
+   saves a PNG file of the current graph when closing CBGraph. Thirdly, the option -revalidate instructs CBGraph to
+   validate a graph file against the database when started. Instructions are in the user manual section
+   on "The cbgraph command".
    (Issue 56: https://gitlab.com/mjeu/conceptbasecc/-/issues/56)
 
 
