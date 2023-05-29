@@ -81,7 +81,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 }
 #MODULE(MetaBindingPath)
 #EXPORT(findBindingPathsForVars/6)
-#EXPORT(selectCheapestPath/5)
+#EXPORT(selectCheapestPath/6)
 #EXPORT(substituteBP/4)
 #ENDMODDECL()
 
@@ -124,7 +124,7 @@ testBP(_metaVs,_cons,_vars,_lits,_clevel,_bPs,_cList) :-
 	computeAllCosts(_metaVs,_cons,_bPs,_cList).
  testBP1(_metaVs,_cons,_vars,_lits,_clevel,_bP) :-
 	findBindingPathsForVars(_metaVs,_cons,_vars,_lits,_clevel,_bPs),
-	selectCheapestPath(_metaVs,_cons,_bPs,_bP,0).
+	selectCheapestPath(_metaVs,_cons,_bPs,_bP,_bcost,0).
 {
 testBP([c,d],[Nec],[p,c,x,m,d,y],[In(p,Nec),In(x,c),P(p,c,m,d)],10,_bps,_cost).
 testBP([c,d],[RevSingle],[p,c,m,d,y,x1,x2],[In(p,RevSingle),In(y,d),P(p,c,m,d),In(x1,c),In(x2,c),A(x1,m,y),A(x2,m,y)],10,_bps,_cost).
@@ -155,13 +155,20 @@ findBindingPathsForVars(_mVs,_cons,_vars,_lits,_clevel,_bPathList) :-
 {-------------------------------------
 selectCheapestPath(mVars,cons,bPaths,bPath,status)
 Find that element bPath in bPaths with cost function is minimal
+_mVars: meta variables to be bound
+_cons: constants in the formula
+_bList: vandidate binding paths
+_b: cheapest binding path
+_bcost: cost of the selected cheapest path 
+_status: -1: no binding path, 0 success
 }
-selectCheapestPath(_mVars,_,[],_,-1) .
-selectCheapestPath(_mVars,_cons,_bList,_b,0) :-
+selectCheapestPath(_mVars,_,[],_,_,-1) :- !.
+selectCheapestPath(_mVars,_cons,_bList,_b,_bcost,0) :-
 	not_empty(_bList),
         optimizeBindingList(_bList,_optbList),   {* new by M.Jeusfeld, 25-Oct-2001, CBNEWS[202] *}
  	selectCheapestPath1(_mVars,_cons,_optbList,_b,_bcost),
-        WriteTrace(high,MetaBindingPath,['Cheapest binding path is ',idterm(_b),' (cost=',_bcost,')']).
+        WriteTrace(high,MetaBindingPath,['Cheapest binding path is ',idterm(_b),' (cost=',_bcost,')']),
+	!.
 
 
 
