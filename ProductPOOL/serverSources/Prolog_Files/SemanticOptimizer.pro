@@ -241,6 +241,23 @@ applyOptimizationMethods(_rangeform,_optrangeform) :-
 {* Please insert other semantic optimizations here         *}
 {***********************************************************}
 
+
+optRangeform(forall(_v,_rangelits,TRUE),TRUE) :-  !.
+
+optRangeform(exists(_v,_rangelits,FALSE),FALSE) :- !.
+
+{* collapse rangeforms that are always TRUE *}
+optRangeform(_F,TRUE) :-
+    alwaysTrue(_F),
+    WriteTrace(veryhigh,SemanticOptimizer,[_F,' is always TRUE [R35]']),
+    !.
+
+{* collapse rangeforms that are always FALSE *}
+optRangeform(_F,FALSE) :-
+    alwaysFalse(_F),
+    WriteTrace(veryhigh,SemanticOptimizer,[_F,' is always FALSE [R36]']),
+    !.
+
 optRangeform(forall(_v,_rangelits,_F),_result) :-
     !,
 	optimizeRangeByCrosscheck(_rangelits,_F,_optrangelits1),   {* take care of a special pattern *}
@@ -300,6 +317,11 @@ optimizeAndlist([_a|_as],_nas) :-
 	!,
 	optimizeAndlist(_as,_nas).
 
+{* if FALSE is in an AND list, the whole is FALSE *}
+optimizeAndlist([_a|_as],FALSE) :-
+	optRangeform(_a,FALSE), {* formula _a is equivalent to FALSE *}
+	!.
+
 optimizeAndlist([_a|_as],[_na|_nas]) :-
 	optRangeform(_a,_na),
 	!,
@@ -315,6 +337,11 @@ optimizeOrlist([_a|_as],_nas) :-
 	optRangeform(_a,FALSE),
 	!,
 	optimizeOrlist(_as,_nas).
+
+{* if TRUE is in an OR list, the whole is TRUE *}
+optimizeOrlist([_a|_as],TRUE) :-
+	optRangeform(_a,TRUE), {* formula _a is equivalent to TRUE *}
+	!.
 
 optimizeOrlist([_a|_as],[_na|_nas]) :-
 	optRangeform(_a,_na),
