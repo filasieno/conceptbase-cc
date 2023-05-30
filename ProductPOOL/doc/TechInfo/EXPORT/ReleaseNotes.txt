@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2023-05-22
+                      2023-05-30
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -229,6 +229,12 @@ model elements.
    validate a graph file against the database when started. Instructions are in the user manual section
    on "The cbgraph command".
    (Issue 56: https://gitlab.com/mjeu/conceptbasecc/-/issues/56)
+
+82-26 Meta formula compiler needs to be protected against meta variables that have too many possible bindings
+
+   Certain meta formulas have bad ranges for meta variables such as In(mvar,Individual). We use a new cb feature
+   pathMaxCost (initially set to 45000) to exclude such expensive meta formulas from compilation. 
+   (Issue 56: https://gitlab.com/mjeu/conceptbasecc/-/issues/58)
 
 
 
