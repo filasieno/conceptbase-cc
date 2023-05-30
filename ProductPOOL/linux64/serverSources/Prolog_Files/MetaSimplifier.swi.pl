@@ -378,12 +378,27 @@ findBindingPath(_mVars,_cons,_vars,_lits,_) :-
    fail.
 
 
-findBindingPathWithCostLevel(_mVars,_cons,_vars,_lits,_mcost,_bPath) :-        
+findBindingPathWithCostLevel(_mVars,_cons,_vars,_lits,_mcost,_bPath) :-
+	get_cb_feature(pathMaxCost,_maxpathcost),   /** ticket #246 **/
 	findBindingPathsForVars(_mVars,_cons,_vars,_lits,_mcost,_bPaths),
 	'WriteTrace'(veryhigh,'MetaSimplifier',['Candidate binding paths:',_bPaths]),
 	not_empty(_bPaths),
- 	selectCheapestPath(_mVars,_cons,_bPaths,_bPath,0),
+ 	selectCheapestPath(_mVars,_cons,_bPaths,_bPath,_bcost,0),  /** status 0 indicates success **/
+	checkPathCost(_bcost,_maxpathcost),
         !.
+
+
+/** issue #58: only accept bindings paths below the pathMaxCost defined as cb_feature **/
+checkPathCost(_bcost,_maxpathcost) :-
+	_bcost =< _maxpathcost,  /** all good **/
+	!.
+
+checkPathCost(_bcost,_maxpathcost) :-
+	'WriteTrace'(veryhigh,'MetaSimplifier',['Cheapest binding path cost ',_bcost, ' exceeds maximum binding path cost ',_maxpathcost]),
+	!,
+	fail.
+
+
 
 
 

@@ -90,8 +90,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
-cb_version('8.2.20').
-cb_date_of_release('2023-05-21'). /* set via environment variable CB_DATE in startCBserver; see serverSources/Makefile */
+cb_version('8.2.21').
+cb_date_of_release('2023-05-30'). /* set via environment variable CB_DATE in startCBserver; see serverSources/Makefile */
 cb_location('Byskola').            /** place where CBserver is compiled, updated in startCBserver **/
 
 cb_copyright_time('Copyright 1987-2023').              /*keep up to date!*/
@@ -358,6 +358,7 @@ default_cb_feature(ecaDefaultMode,immediate).   /** values: immediate,immediated
 /** see also ECAruleCompiler.pro **/
 default_cb_feature(optimisticCostLevel,10).       /** values: 1,2,... **/
 default_cb_feature(maxCostLevel,150).            /** values: 1,2,... **/
+default_cb_feature(pathMaxCost,45000).            /** values: 1,2,... **/
 default_cb_feature(bindingPathLen,5).            /** values: 1,2,... **/
 default_cb_feature(iterMax,3).                   /** values: 1,2,... **/
 default_cb_feature(ecaControl,safe).             /** values: off,safe,unsafe **/
@@ -389,6 +390,7 @@ cb_feature_longname('UntellMode','Untell mode').
 cb_feature_longname(multiuser,'Multiuser mode').
 cb_feature_longname(maximalErrors,'Maximal error reports per transaction').
 cb_feature_longname(maxCostLevel,'Maximum cost level for meta formulas').
+cb_feature_longname(pathMaxCost,'Maximum accumulated cost for a binding path').
 cb_feature_longname(optimisticCostLevel,'Optimistic cost level for meta formulas').
 cb_feature_longname(bindingPathLen,'Maximum length of a binding path').
 cb_feature_longname(ecaControl,'Control of ECArules').
