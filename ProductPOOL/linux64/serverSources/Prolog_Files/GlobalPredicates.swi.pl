@@ -68,6 +68,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 ,'error_number@UI'/1
 ,'error_number@F2HP'/1
 ,'error_number@ECA'/1
+,'ruleTriggerCalls'/1
+,'constraintTriggerCalls'/1
 ,'var@counter'/1
 ,'buildCBEditorResult'/6
 ,'buildCBEditorResultWithoutEdges'/3
@@ -147,7 +149,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 :- dynamic 'error_number@ECA'/1 .
 
-
+:- dynamic 'ruleTriggerCalls'/1 .
+:- dynamic 'constraintTriggerCalls'/1 .
 
 
 /* from RuleBase.pro */

@@ -132,6 +132,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
+
 :- style_check(-singleton).
 
 
@@ -727,6 +728,7 @@ untellObjectConcerningIntegrityConstraintsOrRules( _) :-
            isVisible(_SimpRuleId)  /** check due to ticket #64 **/
 	)),
 
+increment('ruleTriggerCalls'),
 
         deltaRuleConclusions(_InsDel,_SetOfLiterals,_Literal,
                              _nowInsDel,_RuleConcl,_RuleCondMerged,
@@ -929,6 +931,8 @@ storeLit('Delete',_lit) :- assert('Deleted'(_lit)).
 	   	retrieve_BDMFormula_once( 'applyConstraintIfDelete@BDMCompile'( _IcId, _, _SimpIcId, _Literal, _IcFormSimplMerged)),		/* 26-May-1995 LWEB */
 	        isVisible(_IcId)
 	)),
+
+increment('constraintTriggerCalls'),
 
 		/* Fuer jedes der neu hergeleiteten Literale:                  */
                 /* (gleichzeitig werden die freien Variablen in                */

@@ -192,6 +192,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
+
 :- dynamic 'i_import'/1 .
 :- dynamic 'i_export'/1 .
 :- dynamic 'd_import'/1 .
@@ -281,7 +282,11 @@ tell_check(noerror) :-
         'WriteListOnTrace'(low,['   ... semantic integrity for Tell checked (',
                               _errno2, ' error(s), ',
                               _T2, ' sec used)']),
+
+        writeTriggerCalls(tell_check),
+
   	_errno2 = 0,
+
 	!,
 
 	generate_additional_vm_rules,
@@ -331,6 +336,13 @@ do_store_tmp(_listofSMLfragments,_defactions,_defrules) :-
   	_errno1 = 0,
   	!.
 
+writeTriggerCalls(_case) :-
+        ruleTriggerCalls(_rtrigs),
+        constraintTriggerCalls(_ictrigs),
+        'WriteListOnTrace'(high,['   ... ',_case,': rule/constraint trigger calls ',_rtrigs, ' / ',_ictrigs]),
+        !.
+
+
 
 /* ************ t e l l _ t m p _ o b j p r o c ******************* */
 /*                                                    08-03-90 MSt  */
@@ -378,7 +390,11 @@ do_tell_tmp(_listofSMLfragments) :-
         'WriteListOnTrace'(low,['   ... semantic integrity checked (',
                               _errno2, ' error(s), ',
                               _T2, ' sec used)']),
+
+        writeTriggerCalls(do_tell_tmp),
+
   	_errno2 = 0,
+
   !.
 
 do_tell_tmp(_listofSMLfragments) :-
@@ -498,6 +514,9 @@ untell_check(noerror) :-
         'WriteListOnTrace'(low,['   ... semantic integrity for Untell checked (',
                               _errno2, ' error(s), ',
                               _T2, ' sec used)']),
+
+        writeTriggerCalls(untell_check),
+
   	_errno2 = 0,
 	!,
 
@@ -645,6 +664,9 @@ retell_check(noerror):-
         'WriteListOnTrace'(low,['   ... semantic integrity for Retell checked (',
                               _errno2, ' error(s), ',
                               _T2, ' sec used']),
+
+        writeTriggerCalls(retell_check),
+
   	_errno2 = 0,
 	!,
 	generate_additional_vm_rules,

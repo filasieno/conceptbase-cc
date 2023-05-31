@@ -1542,7 +1542,8 @@ write2(_n,_a) :-
 
 'WriteListOnTrace'(_prio,[_x|_rest]) :-
   writeX(_x),
-  'WriteListOnTrace'(_prio,_rest).
+  'WriteListOnTrace'(_prio,_rest),
+  !.
 
 'WriteListOnTrace'(_,_).  /** never fail **/
 

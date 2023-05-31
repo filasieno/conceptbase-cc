@@ -1148,6 +1148,8 @@ resetCountersAndState :-
         reset_counter('error_number@SI'),
         reset_counter('error_number@UI'),
         reset_counter('error_number@ECA'),
+        reset_counter('ruleTriggerCalls'),
+        reset_counter('constraintTriggerCalls'),
         reset_ECA_ExecutionQueue,          /** see ticket #93 **/
         init_eca_state,
         removeCheckUpdateMode,             /** see TellAndAsk.pro **/

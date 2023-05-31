@@ -3,10 +3,10 @@
 Software development for the ConceptBase.cc metamodeling system
 
 ---
-ConceptBase.cc is a multi-user deductive database system with an object-oriented 
-(data, class, metaclass, meta-metaclass, etc.) makes it a powerful
-tool for metamodeling and engineering of customized modeling languages. The
-system is accompanied by a highly configurable graphical user interface that
+ConceptBase.cc is a multi-user deductive database system with an object-oriented data
+model and unlimited classification levels that makes it a powerful tool for metamodeling
+and engineering of customized modeling languages.
+The system is accompanied by a highly configurable graphical user interface that
 builds upon the logic-based features of the ConceptBase.cc server. 
 
 Development started in 1987 at the University of Passau, then moved on to
