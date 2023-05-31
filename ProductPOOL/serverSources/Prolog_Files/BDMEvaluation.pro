@@ -128,6 +128,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(createModTerm/4,PrologCompatibility)
 #IMPORT(isVisible/1,validProposition)
 #IMPORT(cm_findall/3,GeneralUtilities)
+#IMPORT(increment/1,GeneralUtilities)
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -725,6 +726,7 @@ TestRules( _ListOfSimpRuleIds, _SetOfLiterals, _InsDel) :-
            isVisible(_SimpRuleId)  {* check due to ticket #64 *}
 	)),
 
+increment('ruleTriggerCalls'),
 
         deltaRuleConclusions(_InsDel,_SetOfLiterals,_Literal,
                              _nowInsDel,_RuleConcl,_RuleCondMerged,
@@ -927,6 +929,8 @@ TestIntegrityConstraints( _ListOfSimpIcIds, _SetOfLiterals, _InsDel) :-
 	   	retrieve_BDMFormula_once( 'applyConstraintIfDelete@BDMCompile'( _IcId, _, _SimpIcId, _Literal, _IcFormSimplMerged)),		{ 26-May-1995 LWEB }
 	        isVisible(_IcId)
 	)),
+
+increment('constraintTriggerCalls'),
 
 		{ Fuer jedes der neu hergeleiteten Literale:                  }
                 { (gleichzeitig werden die freien Variablen in                }

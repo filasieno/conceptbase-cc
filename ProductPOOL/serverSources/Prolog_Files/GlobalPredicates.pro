@@ -68,6 +68,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT('error_number@UI'/1)
 #EXPORT('error_number@F2HP'/1)
 #EXPORT('error_number@ECA'/1)
+#EXPORT('ruleTriggerCalls'/1)
+#EXPORT('constraintTriggerCalls'/1)
 #EXPORT('var@counter'/1)
 #EXPORT(buildCBEditorResult/6)             {* from SYSTEM*.builtin; ticket #256 *}
 #EXPORT(buildCBEditorResultWithoutEdges/3) {*    "   *}
@@ -145,7 +147,8 @@ M_SearchSpace( System ).
 
 #DYNAMIC('error_number@ECA'/1)
 
-
+#DYNAMIC('ruleTriggerCalls'/1)
+#DYNAMIC('constraintTriggerCalls'/1)
 
 
 { from RuleBase.pro }

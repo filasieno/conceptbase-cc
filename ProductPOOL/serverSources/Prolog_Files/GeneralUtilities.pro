@@ -1570,7 +1570,8 @@ WriteListOnTrace(_prio,[]) :-
 
 WriteListOnTrace(_prio,[_x|_rest]) :-
   writeX(_x),
-  WriteListOnTrace(_prio,_rest).
+  WriteListOnTrace(_prio,_rest),
+  !.
 
 WriteListOnTrace(_,_).  {* never fail *}
 
