@@ -38,6 +38,7 @@ SML_FILES=Empl_woRuleIc.sml
 # Dateien, die nach EXPORT kopiert werden sollen
 EXPORTFILES=$(SML_FILES) \
 	EmployeeFormulas.doc \
+	check-rules-constraints.cbs \
 	README
 
 # Kurze Beschreibung der Komponente
