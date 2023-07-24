@@ -698,7 +698,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         // edge. If that is the case we have to remove the edge as well
         while (itNodesWalker.hasNext()) {
             currentNode = (DiagramNode) itNodesWalker.next();
-System.out.println("To remove "+currentNode.getLabel());
+//          System.out.println("To remove "+currentNode.getLabel());
             if (!currentNode.isOnEdge()
                     || (currentNode.isOnEdge() && (!cNodes.contains(currentNode
                             .getDiagramEdge().getSource()) && !cNodes
