@@ -965,7 +965,9 @@ abstract public class CBUserObject {
          if (!valid){
                dc.removeCBUserObject(this.getTelosObject() );
 
-               m_cbFrame.addObjectToAdd(this.getDiagramNode().getDiagramClass().getHashtableEntry(this) );
+               // issue #57: getDiagramNode() could be null when executing DiagramDesktop.removeInvalidNodes()
+               if (this.getDiagramNode() != null)
+                 m_cbFrame.addObjectToAdd(this.getDiagramNode().getDiagramClass().getHashtableEntry(this) );
 
          }else if(!dc.containsCBUserObject(this) ){
             dc.putCBUserObject(this.getTelosObject(), this);

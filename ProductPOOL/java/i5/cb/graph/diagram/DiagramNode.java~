@@ -199,7 +199,7 @@ public class DiagramNode
 
         m_bundle = ResourceBundle.getBundle(GEConstants.GE_BUNDLE_NAME);
 
-        this.setResizable(true);
+        this.setResizable(false);
         bComponentVisible = false;
         //bSmallComponentVisible = false;
 
@@ -399,6 +399,8 @@ public class DiagramNode
      */
     final public void erase() {
 
+        if (this == null || getDiagramDesktop() == null)
+           return;
         DiagramEdge currentDiagramEdge;
         int numberOfEdges = getEdges().size();
         getDiagramDesktop().setNodeSelected(this, false);

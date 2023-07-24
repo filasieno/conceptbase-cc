@@ -399,6 +399,10 @@ public class DiagramNode
      */
     final public void erase() {
 
+        // issue #57: check for null values; getDiagramDesktop() could already be null
+        if (this == null || getDiagramDesktop() == null)
+           return;
+
         DiagramEdge currentDiagramEdge;
         int numberOfEdges = getEdges().size();
         getDiagramDesktop().setNodeSelected(this, false);

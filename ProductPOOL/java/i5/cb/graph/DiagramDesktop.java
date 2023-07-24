@@ -665,6 +665,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
      *            The DiagramObject to be removed.
      */
     public void removeDiagramObject(DiagramObject dobj) {
+
         IFrameWorker gifW = graphInternalFrame.getFrameWorker();
 
         boolean bStoppedGifWorker = false;
@@ -697,6 +698,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         // edge. If that is the case we have to remove the edge as well
         while (itNodesWalker.hasNext()) {
             currentNode = (DiagramNode) itNodesWalker.next();
+System.out.println("To remove "+currentNode.getLabel());
             if (!currentNode.isOnEdge()
                     || (currentNode.isOnEdge() && (!cNodes.contains(currentNode
                             .getDiagramEdge().getSource()) && !cNodes
@@ -734,9 +736,20 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
      * Removes the nodes that are considered invalid in some sense.
      */
     public void removeInvalidNodes() {
-        removeNodes(m_cInvalidNodes);
+
+        // Issue #57: Due to ConcurrentModificationException we may not modify a Collection that is itegrated over
+        // in removeNodes; we thus use a m_cInvalidNodes_copy, which is a shallow copy of m_cInvalidNodes
+        // to avoid this problem; it is a workaround until we find a better solution; Manfred J
+        Collection m_cInvalidNodes_copy = new ArrayList();
+        Iterator iterator1 = m_cInvalidNodes.iterator();
+        while(iterator1.hasNext()){
+          m_cInvalidNodes_copy.add(iterator1.next());
+        }
+
+        removeNodes(m_cInvalidNodes_copy);
         m_cInvalidNodes.clear();
     }
+
 
     /**
      * Gets this DiagramDesktop's DiagramNodes (including the nodes on Edges)
