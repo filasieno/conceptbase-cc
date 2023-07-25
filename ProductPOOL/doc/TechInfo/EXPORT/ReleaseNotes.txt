@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2023-05-30
+                      2023-05-31
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -236,6 +236,11 @@ model elements.
    pathMaxCost (initially set to 45000) to exclude such expensive meta formulas from compilation. 
    (Issue 56: https://gitlab.com/mjeu/conceptbasecc/-/issues/58)
 
+82-27 Show integrity trigger activations in tracemode high
+
+   There are now new counters ruleTriggerCalls and constraintTriggerCalls to provide better insight in
+   complexity of integrity checking; used in tracemode high.
+   Commit: https://gitlab.com/mjeu/conceptbasecc/-/commit/4b918f9e59aaa93a63a4fe850463506a0bf42e62)
 
 
 
