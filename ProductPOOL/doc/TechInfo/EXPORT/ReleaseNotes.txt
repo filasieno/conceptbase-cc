@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2023-05-31
+                      2023-07-25
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -241,6 +241,14 @@ model elements.
    There are now new counters ruleTriggerCalls and constraintTriggerCalls to provide better insight in
    complexity of integrity checking; used in tracemode high.
    Commit: https://gitlab.com/mjeu/conceptbasecc/-/commit/4b918f9e59aaa93a63a4fe850463506a0bf42e62)
+
+82-28 Invalid objects are not removed from CBGraph view
+
+   The objects in a graph may no longer be in the database. The operation "Validate and check shown
+   objects" could mark them but not auto-remove them although this is one of the options. This bug is now
+   removed. 
+   (Issue 57: https://gitlab.com/mjeu/conceptbasecc/-/issues/57)
+
 
 
 
