@@ -1515,6 +1515,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
 
         Object[] valTaskData = { vNodes };
 
+        this.setNrInvalidNodes(0); // reset counter before new validation
         CBFrameWorker gifWorker = (CBFrameWorker)cbEditor.getActiveGraphInternalFrame().getFrameWorker();
         gifWorker.setTask(CBFrameWorker.TASK_VALIDATE, valTaskData);
         cbEditor.showProgressStatus(true);
