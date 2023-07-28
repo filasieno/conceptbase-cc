@@ -489,6 +489,7 @@ public class CBFrameWorker implements java.beans.PropertyChangeListener, IFrameW
             if (newUserObject==null) { // old user object does not occur in database anymore
                dc.addUserAndDiagramObject(oldUserObject, dn);
                oldUserObject.setValid(false);
+               m_cbFrame.incrementNrInvalidNodes();  // for statistics purposes
             } else {  // oldUserObject matches
                 java.util.logging.Logger.getLogger("global").fine("Updating CBUserObject for " + oldUserObject.toString());
                 if(oldUserObject.getTelosObject().isAttribute() &&

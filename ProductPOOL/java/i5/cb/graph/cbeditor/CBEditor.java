@@ -195,9 +195,14 @@ public class CBEditor extends GraphEditor {
         // issue #56: save GEL file and then exit if option -resync was used
         if (editor.getResyncMode()) {
            editor.saveGraphForResync(editor.gelFilenames.get(0));
-           System.out.println("Resynced GEL file " + editor.gelFilenames.get(0));
+           int invalidNr = ( (CBFrame)editor.getActiveGraphInternalFrame() ).getNrInvalidNodes();
+           System.out.println("Resynced GEL file " + editor.gelFilenames.get(0) 
+                  + " (" + invalidNr + " invalid)");
            editor.shutdown();
-           System.exit(0);
+           if (invalidNr == 0) 
+              System.exit(0);
+           else 
+              System.exit(1);  // allow bash shell to check wether resync was successful
         }
         
 

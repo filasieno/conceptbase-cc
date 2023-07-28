@@ -105,6 +105,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     private List m_DiagHashObjectsToDelete;
     String modulesToBeSaved=null;     // can hold the sequence of modules sources to be saved in GEL file, e.g. "oHome-M1"
     StringArray moduleSources=null;  // can hold the module sources read from a GEL file
+    int nrInvalidNodes=0; 
 
 
     /** Constructor for the CBFrame object
@@ -171,6 +172,21 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     public void resetDiagramClass() {
         m_diagramClass = new CBDiagramClass(this);
     }
+
+
+    // Issue #56: facilitate reporting number of invalid nodes detected by validateNodes
+    public void setNrInvalidNodes(int n) {
+        nrInvalidNodes = n;
+    }
+
+    public void incrementNrInvalidNodes() {
+        nrInvalidNodes++;
+    }
+
+    public int getNrInvalidNodes() {
+        return nrInvalidNodes;
+    }
+    
 
 
     /** Checks wether there are any objected marked as to be added or to be deleted
