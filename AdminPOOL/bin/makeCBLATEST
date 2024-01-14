@@ -12,6 +12,9 @@ mv -f cb-latest.zip cb-latest.zip.previous
 
 cd $HOME/ConceptBase-Distros/CB-LATEST
 
+# somehow this redundant file wants to sneek into the archive
+/bin/rm -f CBinstaller.zip
+
 zip -r $HOME/ConceptBase-Distros/cb-latest.zip *
 
 ls -l $HOME/ConceptBase-Distros/cb-latest.zip*

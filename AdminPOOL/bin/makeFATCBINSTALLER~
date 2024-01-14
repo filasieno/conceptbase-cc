@@ -25,7 +25,11 @@ if [ -f $CBDISTROS/CBinstaller.jar ] ; then
   /bin/rm -f $CBDISTROS/CBinstaller.jar
 fi
 
+rm CBinstaller.zip
+
 zip -r ../CBinstaller.jar *
+
+cp $CBINSTALLER $CBDISTROS/thin-CBinstaller.jar
 
 echo "Created fat CBinstaller.jar in $CBDISTROS."
 
