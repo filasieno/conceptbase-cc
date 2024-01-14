@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2023 The ConceptBase Team. All rights reserved.
+Copyright 1987-2024 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -94,7 +94,7 @@ cb_version('8.2.22').
 cb_date_of_release('2023-07-25'). /* set via environment variable CB_DATE in startCBserver; see serverSources/Makefile */
 cb_location('Byskola').            /** place where CBserver is compiled, updated in startCBserver **/
 
-cb_copyright_time('Copyright 1987-2023').              /*keep up to date!*/
+cb_copyright_time('Copyright 1987-2024').              /*keep up to date!*/
 
 
 :- dynamic 'cb_installation'/1 .

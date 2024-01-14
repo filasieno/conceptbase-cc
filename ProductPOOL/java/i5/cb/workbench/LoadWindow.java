@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2023 The ConceptBase Team. All rights reserved.
+Copyright 1987-2024 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -83,7 +83,7 @@ public class LoadWindow extends JFrame {
         JPanel panSouth = new JPanel();
         panSouth.setLayout(new BorderLayout());
         panSouth.add(new JLabel("ConceptBase.cc User Interface in Java",JLabel.CENTER),"North");
-        panSouth.add(new JLabel("Copyright 1987-2023 by The ConceptBase Team. All rights reserved.",JLabel.CENTER),"Center");
+        panSouth.add(new JLabel("Copyright 1987-2024 by The ConceptBase Team. All rights reserved.",JLabel.CENTER),"Center");
         panSouth.add(new JLabel("Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.",JLabel.CENTER),"South");
 
         this.getContentPane().add(text,"North");
