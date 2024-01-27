@@ -431,6 +431,20 @@ public class CBShell {
     }
 
 
+    // This code does not work since the input filename is already stripped by its backslash before
+    // Java under Windows expects / instead \ in a filepath to regocnise that it is a local file
+    private static String replaceBackslash(String filename) {
+      System.out.println("Orig filename: "+filename);
+      if (filename.length() > 1 && filename.charAt(1) == ':') {
+ //     if (filename.startsWith("C:")) {  // this indicates a Windows file path e.g. "C:\dir\file.sml"
+        System.out.println("New filename: "+filename.replaceAll("\\\\","/"));
+        return filename.replaceAll("\\\\","/");
+      } else {
+        return filename;
+      }
+    }
+
+
     private static boolean containsUnclosedQuote(StringBuffer input,int prevLen) {
         if (input==null)
             return false;

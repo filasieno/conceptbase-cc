@@ -5,8 +5,11 @@ SETLOCAL
 rem *** We can give some help
 if "%1%"=="-h" goto help
 
-rem *** Great! This Windows has a Linux sub-system WSL
-if exist c:\Windows\System32\bash.exe goto viabash
+rem *** Check whether this Windows has a Ubuntu Linux sub-system WSL
+rem *** if exist c:\Windows\System32\bash.exe goto viabash
+wsl -l > %temp%\wsltest.txt
+find /n /i "Ubuntu" %temp%\wsltest.txt >nul
+if %errorlevel% equ 0 goto viabash
 
 rem *** Else: This Windows has no sub-system WSL
 
