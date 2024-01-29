@@ -2,12 +2,14 @@ conceptbase/
 *~
 ProductPOOL/**/EXPORT/*
 ProductPOOL/**/classes/*
+ProductPOOL/**/classes/**/*
 ProductPOOL/**/objects/*
 ProductPOOL/**/objects.SWI/*
 *.1
 *.2
 *.3
 *.class
+ProductPOOL/java/**/*.class
 ProductPOOL/java/docs/**/*.html
 ProductPOOL/linux/**/Prolog_Files/*.swi.pl
 ProductPOOL/linux64/**/Prolog_Files/*.swi.pl

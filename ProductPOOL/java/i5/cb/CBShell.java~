@@ -1204,7 +1204,7 @@ public class CBShell {
         while(i<input.length()) {
             if (argDelimiter == '"' && input.charAt(i) == '\\') {
                 i++;
-                if (input.charAt(i) == '=' || command.equals("tellModel"))
+                if (input.charAt(i) == '=' || command.equals("tellModel") || command.equals("showAnswer"))
                    sbCurrentArg.append('\\');  // take care that substrings \= remain \= 
                 sbCurrentArg.append(input.charAt(i));
                 i++;
@@ -1213,7 +1213,7 @@ public class CBShell {
                 i++;
                 if (sbCurrentArg.length()>0) {
                     alCommandAndArgs.add(sbCurrentArg.toString());
-                    if (!command.equals("undefined")) {
+                    if (command.equals("undefined")) {
                        command = sbCurrentArg.toString();  // memorize the first word as the command
                     }
                     sbCurrentArg=new StringBuffer();
@@ -1225,7 +1225,7 @@ public class CBShell {
                 while(bInQuotes && i<input.length()) {
                     if (argDelimiter == '"' && input.charAt(i) == '\\') {
                         i++;
-                       if (input.charAt(i) == '=' || command.equals("tellModel"))
+                       if (input.charAt(i) == '=' || command.equals("tellModel") || command.equals("showAnswer"))
                            sbCurrentArg.append('\\');  // take care that substrings \= remain \= 
                         sbCurrentArg.append(input.charAt(i));
                         i++;
