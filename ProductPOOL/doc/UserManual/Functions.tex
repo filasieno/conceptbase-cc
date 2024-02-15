@@ -168,6 +168,7 @@ Hence, the function shortcut for this expression is
 \end{verbatim}
 The whole expression returns a real number.
 
+The arguments in functional expressions must be object names (including instances of Integer and Real) or variables. ConceptBase does allow object names such as {\tt A-B} and {\tt A+B} to cover certain special cases. However, when used in a functional expression, such object names will be interpreted as arithmetic expressions, e.g. $A + B$. To avoid this confusion, we recommend to enclose such object names in double quotes, e.g.± {\tt "A+B"}.
 
 
 % Examples for Usage
