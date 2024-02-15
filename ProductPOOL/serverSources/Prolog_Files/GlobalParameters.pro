@@ -88,8 +88,8 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
-cb_version('8.2.23').
-cb_date_of_release('2024-01-28'). { set via environment variable CB_DATE in startCBserver; see serverSources/Makefile }
+cb_version('8.2.24').
+cb_date_of_release('2024-02-15'). { set via environment variable CB_DATE in startCBserver; see serverSources/Makefile }
 cb_location('Byskola').            {* place where CBserver is compiled, updated in startCBserver *}
 
 cb_copyright_time('Copyright 1987-2024').              {keep up to date!}
