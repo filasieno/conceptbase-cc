@@ -249,10 +249,7 @@ model elements.
    removed. 
    (Issue 57: https://gitlab.com/mjeu/conceptbasecc/-/issues/57)
 
-82-29 ConceptBase accepts object names such as A-B
 
-   ConceptBase accepts now object names such as A-B and A+B. However, they do not work inside
-   formulas or arithmetic expressions, because they will be parsed as sub-expressions.
 
 
 
