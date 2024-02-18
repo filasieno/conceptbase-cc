@@ -638,22 +638,22 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static const flex_int16_t yy_accept[122] =
+static const flex_int16_t yy_accept[123] =
     {   0,
         0,    0,   34,   34,    0,    0,    0,    0,    0,    0,
         0,    0,   38,   19,    5,    6,   17,   20,   25,   32,
-        7,   19,   32,   19,   36,   36,   19,   19,   19,   33,
+        7,   36,   32,   19,   36,   36,   19,   19,   19,   33,
        34,   35,   23,   24,   37,   28,   29,   37,   19,   19,
-       19,   19,   19,    0,   19,   18,   30,   30,   19,    9,
-       19,   19,    0,   34,   22,   21,   27,   26,   19,    8,
-       19,   19,   19,    0,   30,   16,   11,   19,    0,   14,
-       10,   19,   15,    0,   30,   13,    0,   12,    0,    0,
+       19,   19,   19,    0,   31,   18,   30,   30,   19,   19,
+        9,   19,   19,    0,   34,   22,   21,   27,   26,   19,
+        8,   19,   19,   19,    0,   30,   16,   11,   19,    0,
+       14,   10,   19,   15,    0,   30,   13,    0,   12,    0,
         0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-        0,    0,    0,    0,    0,    0,    0,    4,    0,    0,
+        0,    0,    0,    0,    0,    0,    0,    0,    4,    0,
 
-        0,    0,    1,    0,    0,    0,    0,    0,    0,    0,
-        0,    0,    0,    0,    0,    0,    0,    3,    0,    2,
-        0
+        0,    0,    0,    1,    0,    0,    0,    0,    0,    0,
+        0,    0,    0,    0,    0,    0,    0,    0,    3,    0,
+        2,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -691,104 +691,108 @@ static const YY_CHAR yy_ec[256] =
 static const YY_CHAR yy_meta[51] =
     {   0,
         1,    2,    2,    2,    2,    2,    2,    2,    2,    1,
-        1,    2,    1,    2,    2,    2,    1,    1,    1,    1,
+        3,    2,    1,    2,    2,    2,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         2,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    2,    3
+        1,    1,    1,    1,    1,    1,    1,    1,    2,    4
     } ;
 
-static const flex_int16_t yy_base[131] =
+static const flex_int16_t yy_base[132] =
     {   0,
-        0,   49,  122,  121,    4,   11,   12,   13,    1,    4,
-      135,  134,  168,    0,  173,  173,  173,  173,  173,  173,
-      173,   32,  154,   15,  151,  173,  125,   26,  127,  156,
-        0,  173,  173,  173,  156,  173,  173,  154,  135,   11,
-      137,  118,    0,  144,   27,  173,   54,   55,  122,    0,
-      138,  110,  110,    0,  173,  173,  173,  173,  133,    0,
-      134,  122,  115,   60,   59,    0,    0,  112,  112,    0,
-        0,  125,    0,  132,  131,    0,   99,    0,  138,   38,
-      100,   92,  105,   98,   92,   92,   97,  102,   98,   85,
-      117,  116,    0,   65,   79,  104,   89,  173,  103,   93,
+        0,   49,  133,  132,    4,   11,   12,   13,    1,    4,
+      146,  145,  179,    0,  184,  184,  184,  184,  184,  184,
+      184,   32,  165,   15,  162,  184,  136,   26,  138,  167,
+        0,  184,  184,  184,  167,  184,  184,  165,  146,   11,
+      148,  129,    0,  155,   27,  184,   54,   55,   58,  133,
+        0,  149,  121,  121,    0,  184,  184,  184,  184,  144,
+        0,  145,  133,  126,   66,   65,    0,    0,  123,  123,
+        0,    0,  136,    0,  143,  142,    0,  110,    0,  149,
+       44,  111,  103,  116,  109,  103,  103,  108,  113,  109,
+       96,  128,  127,    0,   55,   90,  115,  100,  184,  114,
 
-       74,   86,  173,   82,    1,   89,   79,   64,   54,   57,
-       51,   53,   47,   45,   38,   28,   35,  173,    9,  173,
-      173,   99,  102,  105,  108,   21,  111,  113,  116,    0
+      104,   85,   97,  184,   93,    1,  100,   90,   96,   55,
+       60,   53,   58,   52,   51,   44,   32,   31,  184,    9,
+      184,  184,  100,  104,  108,  112,    0,  116,  119,  123,
+      127
     } ;
 
-static const flex_int16_t yy_def[131] =
+static const flex_int16_t yy_def[132] =
     {   0,
-      122,  122,  123,  123,  124,  124,  125,  125,    2,    2,
-        2,    2,  121,  126,  121,  121,  121,  121,  121,  121,
-      121,  126,  121,  126,  121,  121,  126,  126,  126,  121,
-      127,  121,  121,  121,  128,  121,  121,  129,  126,  126,
-      126,  126,  126,  121,  126,  121,  121,  121,  126,  126,
-      126,  126,  121,  127,  121,  121,  121,  121,  126,  126,
-      126,  126,  126,  121,  121,  126,  126,  126,  121,  126,
-      126,  126,  126,  121,  121,  126,  121,  126,  121,  121,
-      121,  121,  121,  121,  121,  121,  121,  121,  121,  121,
-      121,  121,  130,  121,  130,  121,  121,  121,  121,  121,
+      123,  123,  124,  124,  125,  125,  126,  126,    2,    2,
+        2,    2,  122,  127,  122,  122,  122,  122,  122,  122,
+      122,  122,  122,  127,  122,  122,  127,  127,  127,  122,
+      128,  122,  122,  122,  129,  122,  122,  130,  127,  127,
+      127,  127,  127,  122,  122,  122,  122,  122,  127,  127,
+      127,  127,  127,  122,  128,  122,  122,  122,  122,  127,
+      127,  127,  127,  127,  122,  122,  127,  127,  127,  122,
+      127,  127,  127,  127,  122,  122,  127,  122,  127,  122,
+      122,  122,  122,  122,  122,  122,  122,  122,  122,  122,
+      122,  122,  122,  131,  122,  131,  122,  122,  122,  122,
 
-      121,  121,  121,  121,  121,  121,  121,  121,  121,  121,
-      121,  121,  121,  121,  121,  121,  121,  121,  121,  121,
-        0,  121,  121,  121,  121,  121,  121,  121,  121,  121
+      122,  122,  122,  122,  122,  122,  122,  122,  122,  122,
+      122,  122,  122,  122,  122,  122,  122,  122,  122,  122,
+      122,    0,  122,  122,  122,  122,  122,  122,  122,  122,
+      122
     } ;
 
-static const flex_int16_t yy_nxt[224] =
+static const flex_int16_t yy_nxt[235] =
     {   0,
-       95,   15,   16,   15,   17,   18,   19,   20,   21,   34,
-       22,   23,   24,   25,   26,   17,   34,  106,   37,   37,
-       39,   43,   40,   39,  121,   40,   48,   45,  107,   41,
-       17,  121,   41,   35,   27,   60,   28,   61,   48,   45,
-       35,   38,   38,   44,   45,   29,   46,  121,   30,   26,
-       15,   16,   15,   17,   18,   19,   20,   21,  120,   22,
-       23,   24,   25,   26,   17,   50,   47,   65,   51,   74,
-       74,   65,   75,   64,   64,  119,   81,  118,   64,   17,
-       82,  117,   96,   27,  116,   28,  115,  114,   64,   64,
-       97,  113,  112,   64,   29,  111,  110,   30,   26,   14,
+       43,   15,   16,   15,   17,   18,   19,   20,   21,   34,
+       22,   23,   24,   25,   26,   17,   34,  107,   37,   37,
+       39,  122,   40,   39,  122,   40,   48,   49,  108,   41,
+       17,  122,   41,   35,   27,   61,   28,   62,   48,   45,
+       35,   38,   38,   44,   45,   29,   46,  122,   30,   26,
+       15,   16,   15,   17,   18,   19,   20,   21,  121,   22,
+       23,   24,   25,   26,   17,   51,   47,   66,   52,   48,
+       49,  120,   97,   65,   65,   75,   75,   66,   76,   17,
+       98,  119,   82,   27,   65,   28,   83,  118,   65,   65,
+      117,  116,  115,  114,   29,  113,  112,   30,   26,   65,
 
-       14,   14,   31,   31,   31,   33,   33,   33,   36,   36,
-       36,   54,   54,   55,   55,   55,   57,   57,   57,  109,
-      108,  105,  104,  103,  102,  101,  100,   99,   98,   94,
-       93,   92,   91,   90,   89,   88,   87,   86,   85,   84,
-       83,   80,   79,   75,   75,   78,   77,   76,   73,   72,
-       71,   70,   69,   68,   67,   66,   47,   63,   62,   59,
-       58,   56,   53,   52,   49,   46,   47,  121,   42,   42,
-       32,   32,   13,  121,  121,  121,  121,  121,  121,  121,
-      121,  121,  121,  121,  121,  121,  121,  121,  121,  121,
-      121,  121,  121,  121,  121,  121,  121,  121,  121,  121,
+       14,   14,   14,   14,   31,   31,   31,   31,   33,   33,
+       33,   33,   36,   36,   36,   36,   55,   55,   55,   56,
+       56,   56,   56,   58,   58,   58,   58,   96,  111,   96,
+      110,  109,  106,  105,  104,  103,  102,  101,  100,   99,
+       95,   94,   93,   92,   91,   90,   89,   88,   87,   86,
+       85,   84,   81,   80,   76,   76,   79,   78,   77,   74,
+       73,   72,   71,   70,   69,   68,   67,   47,   64,   63,
+       60,   59,   57,   54,   53,   50,   46,   47,  122,   42,
+       42,   32,   32,   13,  122,  122,  122,  122,  122,  122,
+      122,  122,  122,  122,  122,  122,  122,  122,  122,  122,
 
-      121,  121,  121,  121,  121,  121,  121,  121,  121,  121,
-      121,  121,  121,  121,  121,  121,  121,  121,  121,  121,
-      121,  121,  121
+      122,  122,  122,  122,  122,  122,  122,  122,  122,  122,
+      122,  122,  122,  122,  122,  122,  122,  122,  122,  122,
+      122,  122,  122,  122,  122,  122,  122,  122,  122,  122,
+      122,  122,  122,  122
     } ;
 
-static const flex_int16_t yy_chk[224] =
+static const flex_int16_t yy_chk[235] =
     {   0,
-      130,    1,    1,    1,    1,    1,    1,    1,    1,    5,
-        1,    1,    1,    1,    1,    1,    6,  105,    7,    8,
-        9,  126,    9,   10,    0,   10,   24,   24,  105,    9,
+      127,    1,    1,    1,    1,    1,    1,    1,    1,    5,
+        1,    1,    1,    1,    1,    1,    6,  106,    7,    8,
+        9,    0,    9,   10,    0,   10,   24,   24,  106,    9,
         1,    0,   10,    5,    1,   40,    1,   40,   45,   45,
         6,    7,    8,   22,   22,    1,   22,    0,    1,    1,
-        2,    2,    2,    2,    2,    2,    2,    2,  119,    2,
-        2,    2,    2,    2,    2,   28,   47,   48,   28,   64,
-       64,   65,   64,   47,   48,  117,   80,  116,   65,    2,
-       80,  115,   94,    2,  114,    2,  113,  112,   47,   48,
-       94,  111,  110,   65,    2,  109,  108,    2,    2,  122,
+        2,    2,    2,    2,    2,    2,    2,    2,  120,    2,
+        2,    2,    2,    2,    2,   28,   47,   48,   28,   49,
+       49,  118,   95,   47,   48,   65,   65,   66,   65,    2,
+       95,  117,   81,    2,   66,    2,   81,  116,   47,   48,
+      115,  114,  113,  112,    2,  111,  110,    2,    2,   66,
 
-      122,  122,  123,  123,  123,  124,  124,  124,  125,  125,
-      125,  127,  127,  128,  128,  128,  129,  129,  129,  107,
-      106,  104,  102,  101,  100,   99,   97,   96,   95,   92,
-       91,   90,   89,   88,   87,   86,   85,   84,   83,   82,
-       81,   79,   77,   75,   74,   72,   69,   68,   63,   62,
-       61,   59,   53,   52,   51,   49,   44,   42,   41,   39,
-       38,   35,   30,   29,   27,   25,   23,   13,   12,   11,
-        4,    3,  121,  121,  121,  121,  121,  121,  121,  121,
-      121,  121,  121,  121,  121,  121,  121,  121,  121,  121,
-      121,  121,  121,  121,  121,  121,  121,  121,  121,  121,
+      123,  123,  123,  123,  124,  124,  124,  124,  125,  125,
+      125,  125,  126,  126,  126,  126,  128,  128,  128,  129,
+      129,  129,  129,  130,  130,  130,  130,  131,  109,  131,
+      108,  107,  105,  103,  102,  101,  100,   98,   97,   96,
+       93,   92,   91,   90,   89,   88,   87,   86,   85,   84,
+       83,   82,   80,   78,   76,   75,   73,   70,   69,   64,
+       63,   62,   60,   54,   53,   52,   50,   44,   42,   41,
+       39,   38,   35,   30,   29,   27,   25,   23,   13,   12,
+       11,    4,    3,  122,  122,  122,  122,  122,  122,  122,
+      122,  122,  122,  122,  122,  122,  122,  122,  122,  122,
 
-      121,  121,  121,  121,  121,  121,  121,  121,  121,  121,
-      121,  121,  121,  121,  121,  121,  121,  121,  121,  121,
-      121,  121,  121
+      122,  122,  122,  122,  122,  122,  122,  122,  122,  122,
+      122,  122,  122,  122,  122,  122,  122,  122,  122,  122,
+      122,  122,  122,  122,  122,  122,  122,  122,  122,  122,
+      122,  122,  122,  122
     } ;
 
 /* Table of booleans, true if rule could match eol. */
@@ -885,18 +889,15 @@ void init_te_parser_InputBuffer( char *buf, unsigned bufSize ) {
 #endif
 
 
-#line 889 "<stdout>"
+#line 893 "<stdout>"
 /* Zustaende */
 
 /* Zeilennummern verwalten */
 /* Startzustaende */
 
 /* Makros */
-/* old version forbids '-' as character in a String/LABEL
-String                  [^\.\|\'\"\$\:\; \n\@\t\r\f\!\^\-\>\=\,\(\)\[\]\{\}\/]+
-*/
 /******* REGELN ********/
-#line 900 "<stdout>"
+#line 901 "<stdout>"
 
 #define INITIAL 0
 #define comment_state 1
@@ -1118,9 +1119,9 @@ YY_DECL
 		}
 
 	{
-#line 112 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 109 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 
-#line 1124 "<stdout>"
+#line 1125 "<stdout>"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1147,13 +1148,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 122 )
+				if ( yy_current_state >= 123 )
 					yy_c = yy_meta[yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 173 );
+		while ( yy_base[yy_current_state] != 184 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -1189,7 +1190,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 113 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 110 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("%s ", te_parser_text); ECHO1("CML Mode");
 	BEGIN CML; 
@@ -1197,7 +1198,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 118 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 115 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("%s ", te_parser_text); ECHO1("PT Mode");
 	BEGIN PT; 
@@ -1205,7 +1206,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 123 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 120 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("%s ", te_parser_text); ECHO1("PA Mode");
 	BEGIN 0; 
@@ -1213,7 +1214,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 128 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 125 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 {
 	char *dummy;
 	/* kopiert die Modulkomponente "Module" aus dem Token */
@@ -1245,18 +1246,18 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 157 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 154 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 ;
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 159 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 156 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 ;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 161 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 158 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("%s ", te_parser_text);
 	te_parser_lval.s = (char *)strdup(te_parser_text);
@@ -1265,7 +1266,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 167 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 164 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("%s ", te_parser_text);
 	te_parser_lval.s = (char *)strdup(te_parser_text);
@@ -1274,7 +1275,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 173 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 170 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("%s ", te_parser_text);
 	te_parser_lval.s = (char *)strdup(te_parser_text);
@@ -1283,7 +1284,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 179 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 176 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("%s ", te_parser_text);
 	te_parser_lval.s = (char *)strdup(te_parser_text);
@@ -1292,7 +1293,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 185 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 182 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("%s ", te_parser_text);
 	te_parser_lval.s = (char *)strdup(te_parser_text);
@@ -1301,7 +1302,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 191 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 188 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("%s ", te_parser_text);
 	te_parser_lval.s = (char *)strdup(te_parser_text);
@@ -1310,7 +1311,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 197 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 194 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("%s ", te_parser_text);
 	te_parser_lval.s = (char *)strdup(te_parser_text);
@@ -1319,7 +1320,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 203 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 200 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("%s ", te_parser_text);
 	te_parser_lval.s = (char *)strdup(te_parser_text);
@@ -1328,7 +1329,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 209 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 206 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("%s ", te_parser_text);
 	te_parser_lval.s = (char *)strdup(te_parser_text);
@@ -1337,7 +1338,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 215 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 212 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("end:%s ", te_parser_text);
 	te_parser_lval.s = (char *)strdup(te_parser_text);
@@ -1346,7 +1347,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 221 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 218 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("%s ", te_parser_text);
 	te_parser_lval.s = (char *)strdup(te_parser_text);
@@ -1355,7 +1356,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 227 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 224 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("%s ", te_parser_text);
 	te_parser_lval.s = (char *)strdup(te_parser_text);
@@ -1364,7 +1365,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 233 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 230 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("LABEL: %s \n", te_parser_text);
 	te_parser_lval.s = (char *)strdup(te_parser_text);
@@ -1373,7 +1374,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 239 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 236 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { /* for String */
 	string_buf_max_size=32;
 	string_buf_ptr=(char*) malloc(string_buf_max_size);
@@ -1386,7 +1387,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 249 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 246 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 {
 	ECHO2("%s",te_parser_text);
 	addToStringBuf(te_parser_text);
@@ -1395,7 +1396,7 @@ YY_RULE_SETUP
 case 22:
 /* rule 22 can match eol */
 YY_RULE_SETUP
-#line 254 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 251 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 {
 	ECHO2("%s",te_parser_text);
 	addToStringBuf(te_parser_text);
@@ -1404,7 +1405,7 @@ YY_RULE_SETUP
 case 23:
 /* rule 23 can match eol */
 YY_RULE_SETUP
-#line 259 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 256 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 {
 	ECHO2("%s",te_parser_text);
 	addToStringBuf(te_parser_text);
@@ -1412,7 +1413,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 264 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 261 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 {
 	ECHO2("%s",te_parser_text);
 	addToStringBuf(te_parser_text);
@@ -1423,7 +1424,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 272 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 269 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { /* for Rule */
 	string_buf_max_size=32;
 	string_buf_ptr=(char*) malloc(string_buf_max_size);
@@ -1436,7 +1437,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 282 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 279 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 {
 	ECHO2("%s",te_parser_text);
 	addToStringBuf(te_parser_text);
@@ -1445,7 +1446,7 @@ YY_RULE_SETUP
 case 27:
 /* rule 27 can match eol */
 YY_RULE_SETUP
-#line 287 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 284 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 {
 	ECHO2("%s",te_parser_text);
 	addToStringBuf(te_parser_text);
@@ -1454,7 +1455,7 @@ YY_RULE_SETUP
 case 28:
 /* rule 28 can match eol */
 YY_RULE_SETUP
-#line 292 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 289 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 {
 	ECHO2("%s",te_parser_text);
 	addToStringBuf(te_parser_text);
@@ -1462,7 +1463,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 297 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 294 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 {
 	ECHO2("%s",te_parser_text);
 	addToStringBuf(te_parser_text);
@@ -1473,7 +1474,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 305 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 302 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("REAL:%s ", te_parser_text);
 	te_parser_lval.s = (char *)strdup(te_parser_text);
@@ -1482,7 +1483,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 311 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 308 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("INTEGER:%s ", te_parser_text);
 	te_parser_lval.s = (char *)strdup(te_parser_text);
@@ -1491,7 +1492,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 317 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 314 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("%s ", te_parser_text); 
 	te_parser_lval.ch=te_parser_text[0];
@@ -1500,7 +1501,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 323 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 320 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { /* for {Comment} */
 	ECHO1("{");
 	old_state=YYSTATE;
@@ -1510,14 +1511,14 @@ YY_RULE_SETUP
 case 34:
 /* rule 34 can match eol */
 YY_RULE_SETUP
-#line 329 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 326 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	ECHO2("%s",te_parser_text); 
 }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 333 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 330 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 {
 	ECHO1("}");
 	BEGIN(old_state);
@@ -1529,14 +1530,14 @@ case YY_STATE_EOF(string_state):
 case YY_STATE_EOF(rule_state):
 case YY_STATE_EOF(CML):
 case YY_STATE_EOF(PT):
-#line 338 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 335 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 {
     return(ENDOFINPUT);
 }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 342 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 339 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 { 
 	te_parser_errmsg=(char*)malloc(strlen(te_parser_text)+40);
 	sprintf(te_parser_errmsg,"lexical error at symbol \"%s\"",te_parser_text);
@@ -1545,10 +1546,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 347 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 344 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 ECHO;
 	YY_BREAK
-#line 1552 "<stdout>"
+#line 1553 "<stdout>"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1843,7 +1844,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 122 )
+			if ( yy_current_state >= 123 )
 				yy_c = yy_meta[yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
@@ -1871,11 +1872,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 122 )
+		if ( yy_current_state >= 123 )
 			yy_c = yy_meta[yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
-	yy_is_jam = (yy_current_state == 121);
+	yy_is_jam = (yy_current_state == 122);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -2563,7 +2564,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 347 "../../../../serverSources/C_Files/libtelos/te_parser.l"
+#line 344 "../../../../serverSources/C_Files/libtelos/te_parser.l"
 
 
 /* yywrap */

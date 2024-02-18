@@ -7,7 +7,7 @@
 
                  http://conceptbase.cc
 
-                      2023-07-25
+                      2024-02-15
 
 
 ConceptBase is a multi-user deductive object manager mainly developed at 
@@ -248,6 +248,11 @@ model elements.
    objects" could mark them but not auto-remove them although this is one of the options. This bug is now
    removed. 
    (Issue 57: https://gitlab.com/mjeu/conceptbasecc/-/issues/57)
+
+82-29 ConceptBase accepts object names such as A-B
+
+   ConceptBase accepts now object names such as A-B and A+B. However, they do not work inside
+   formulas or arithmetic expressions, because they will be parsed as sub-expressions.
 
 
 
