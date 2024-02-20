@@ -333,17 +333,31 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
   prove_literal('Label'(_oid,_x)),
   prove_literal('Label'(_acid,_ac)),  /** the label of an explicit attribute category **/
   \+ member(_ac,[single,necessary,transitive,reflexive,symmetric]), /** those are not to be shown **/ 
-  appendBuffer(_buf,_ac),
-  appendBuffer(_buf,'/'),
-  appendBuffer(_buf,_x),
+  writeToBuffer(_buf,_ac,_x),
   !.
+
 
 /** if no attribute category is found: just output the label **/
 'LabelAC'(_buf,_objname) :-
   'Label'(_buf,_objname).
 
+
+/** attribute category label and attribute label are the same: only show the attribute label **/
+writeToBuffer(_buf,_x,_x) :-
+  appendBuffer(_buf,_x),
+  appendBuffer(_buf),
+  !.
+
+/** else: show both **/
+writeToBuffer(_buf,_ac,_x) :-
+  appendBuffer(_buf,_ac),
+  appendBuffer(_buf,'/'),
+  appendBuffer(_buf,_x),
+  !.
+
+
 /*ASKquery ruft eine Anfrage durch ihren Namen. Man bemerkt wenn ein Format fuer diese Anfrage existiert, wird das Ergebniss
-gemaess dieses Format ausgegeben. Hier denke ich, der Aufruf ist nur fuer die genetische Anfragen sinnvoller...
+gemaess dieses Format ausgegeben. Hier denke ich, der Aufruf ist nur fuer die generische Anfragen sinnvoller...
 _Objname ist der Anfragename und _Format ist der default Format wie FRAME, LABEL, etc.*/
 
 
