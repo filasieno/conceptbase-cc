@@ -343,7 +343,6 @@ LabelAC(_buf,_objname) :-
 {* attribute category label and attribute label are the same: only show the attribute label *}
 writeToBuffer(_buf,_x,_x) :-
   appendBuffer(_buf,_x),
-  appendBuffer(_buf),
   !.
 
 {* else: show both *}

@@ -345,7 +345,6 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 /** attribute category label and attribute label are the same: only show the attribute label **/
 writeToBuffer(_buf,_x,_x) :-
   appendBuffer(_buf,_x),
-  appendBuffer(_buf),
   !.
 
 /** else: show both **/
