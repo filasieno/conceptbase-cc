@@ -1,6 +1,5 @@
 conceptbase/
 **/*~
-ProductPOOL/**/EXPORT/*
 ProductPOOL/**/classes/*
 ProductPOOL/**/classes/**/*
 ProductPOOL/**/objects/*
@@ -17,8 +16,6 @@ ProductPOOL/linux/**/Prolog_Files/*.swi.pl
 ProductPOOL/linux64/**/Prolog_Files/*.swi.pl
 ProductPOOL/linuxarm/**/Prolog_Files/*.swi.pl
 ProductPOOL/java/classes/*.jar
-ProductPOOL/**/serverSources/objects.SWI/CBserver
-ProductPOOL/**/serverSources/EXPORT/CBserver
 AdminPOOL/utils/CB_TestClient/log/OLD/
 AdminPOOL/utils/CB_TestClient/log/*.*
 ProductPOOL/doc/TechInfo/EXPORT/ReleaseNotes.txt
