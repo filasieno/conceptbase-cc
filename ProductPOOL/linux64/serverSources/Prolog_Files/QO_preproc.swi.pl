@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -45,6 +45,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 ,'preprocRuleList'/3
 ,'isFunctionLit'/2
 ,'postProcEcaCond'/4
+,'reorderRangelits'/3
 ]).
 :- use_module('GlobalPredicates.swi.pl').
 :- use_module('debug.swi.pl').
@@ -100,6 +101,11 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 :- use_module('GlobalParameters.swi.pl').
+
+
+
+
+:- use_module('PropositionProcessor.swi.pl').
 
 
 
@@ -897,19 +903,48 @@ postprocRule(_literals,_head,(_head :- _ruleTerm)) :-
     restoreParamIns(_literals,_lits1),
     removeBoundParamIns(_head,_lits1,_ilits),
     applyLitFilters(_ilits,_olits,
-                    [earlyRedNegPost,
-                     moveBackInLits,
-                     guardComplexQueryParameters,
-                     removeInsOfFunctionResult,
-                     preferGoodLitsDatalog,  /** use a heuristic from ticket #292 here as well **/
-                     moveUnifiesForward,
-                     move_EQ_Forward,        /** ticket #175 **/
-                     move_FromTo_Forward,
-                     moveBoundForward        /** ticket #147 **/
+                    [
+ 
+                      earlyRedNegPost
+                     ,moveBackInLits
+                     ,guardComplexQueryParameters
+                     ,removeInsOfFunctionResult
+                     ,preferGoodLitsDatalog  /** use a heuristic from ticket #292 here as well **/
+                     ,moveUnifiesForward
+                     ,move_EQ_Forward        /** ticket #175 **/
+                     ,move_FromTo_Forward
+                     ,moveBoundForward       /** ticket #147 **/
+                     ,eliminateAlreadyGuaranteed
+                     /*,moveInAfterP_iter*/
+
                     ]),
- /**   WriteTrace(high,QO_preprec,[_ilits, ' -- postprocRule --> ',_olits]), **/
+    'WriteTrace'(high,'QO_preprec',[_ilits, ' -- postprocRule --> ',_olits]), 
     'List2Conjunct'(_olits,_ruleTerm),
     !.
+
+
+/** nissue #7: post-processing rules for rules and constraints (rangeforms), see SemanticOptimizer.pro **/
+reorderRangelits(_vars,_inputlits,_outputlits) :-
+   setFlag('rangevars',_vars),
+   applyLitFilters(_inputlits,_outputlits,
+                   [
+                      /*move_EQ_Forward,*/
+                      /*move_FromTo_Forward,*/  
+                      /*earlyRedNegPost,*/
+                      preferGoodLits_rangeform,
+                      moveInAfterP_iter
+                      ,moveIsolatedPredToEnd
+                      /*,eliminateAlreadyGuaranteed*/
+
+                   ]),
+   resetFlag('rangevars'),
+   !.
+
+
+/** move_EQ_Forward: seems to have negative effect with large DBs and transitive closure **/
+/** move_FromTo_Forward: seems to have negative effect with large DBs and transitive closure **/
+/** moveIsolatedPredToEnd: quite negative effect with large DBs and transitive closure **/
+/** earlyRedNegPost: no significant effect with large DBs and transitive closure **/
 
 
 
@@ -1338,6 +1373,23 @@ simpleVar(_x) :-
   pc_atomprefix('_',1,_x),
   !.
 
+simpleVar(_x) :-
+  atom(_x),
+  pc_atomprefix('~',1,_x),
+  !.
+
+simpleVar(_x) :-
+  getFlag('rangevars',_vars),
+  pc_member(_x,_vars),
+  !.
+
+boundVar_rangeform(_x) :-
+  atom(_x),
+  getFlag('rangevars',_vars),
+  \+ is_id(_x),
+  \+ simpleVar(_x),
+  !.
+
 
 /** 2021-06-22: remove cuts to find all complex vars, even in qlits with many arguments **/
 scanComplexVar(_x,_x) :-
@@ -1628,6 +1680,136 @@ isFromToLit(_lit,_alllits,_restlits) :-
 
 
 
+/** nissue #7                                                            **/
+
+/** pattern 1: The sequence                                              **/
+/**     ...,In(y,d),...,In(a,ac),...,P(a,x,n,y)                          **/
+/**  should be reordered to                                              **/
+/**    ...,In(a,ac),...,P(a,x,n,y),In(y,d)                               **/
+/**                                                                      **/
+/** The reason is that the P-predicate with bound argument a has only    **/
+/** one possible value for y. So, the In(y,d) predicate is better        **/
+/** evaluated once the variable y is set.                                **/
+/**                                                                      **/
+ 
+ 
+moveInAfterP_iter(_inputlits,_outputlits) :-
+  moveInAfterP(_inputlits,_outputlits1),
+  continue_moveInAfterP(_inputlits,_outputlits1,_outputlits).
+
+continue_moveInAfterP(_lits,_lits,_lits) :- !.
+continue_moveInAfterP(_inputlits,_intermediatelits,_outputlits) :-
+  moveInAfterP_iter(_intermediatelits,_outputlits).
+
+/** functionallyDependent(lit,a,b): the variable b is functionally dependent       **/
+/** on variable a in predicate lit. The predicate lit contains variables a and b.  **/
+functionallyDependent('P'(_a,_x,_n,_y),_a,_y).
+functionallyDependent('Pa'(_a,_x,_n,_y),_a,_y).
+functionallyDependent('P'(_a,_x,_n,_y),_a,_x).
+functionallyDependent('Pa'(_a,_x,_n,_y),_a,_x).
+functionallyDependent('To'(_a,_y),_a,_y).
+functionallyDependent('From'(_a,_x),_a,_x).
+
+moveInAfterP(_inputlits,_outputlits) :-
+  functionallyDependent(_plit,_a,_y),
+  pc_member(_plit,_inputlits),
+  memberRest2('In'(_y,_d),'In'(_a,_ac),_inputlits,_restinput2),
+  memberRest(_plit,_restinput2,_restinput3),
+  removeLit('In'(_y,_d),_inputlits,_inputlits1),
+  moveLitAfterLit('In'(_y,_d),_plit,_inputlits1,_outputlits),
+  !.
+
+moveInAfterP(_inputlits,_inputlits).
+
+/** lit1 before lit2 or lit2 before lit1 **/
+memberRest2(_lit1,_lit2,_inputlits,_restinput2) :-
+   memberRest(_lit1,_inputlits,_restinput1),
+   memberRest(_lit2,_restinput1,_restinput2).
+memberRest2(_lit1,_lit2,_inputlits,_restinput2) :-
+   memberRest(_lit2,_inputlits,_restinput1),
+   memberRest(_lit1,_restinput1,_restinput2).
+
+
+/** memberRest(x,L,R) checks whether x is a member of list L. If so, **/
+/** memberRest succeeds with R being the list of elements after x.   **/
+memberRest(_lit,[_lit|_restlits],_restlits).
+memberRest(_lit,[_otherlit|_restlits],_result) :-
+  memberRest(_lit,_restlits,_result).
+
+
+removeLit(_lit,[],[]) :-!.
+removeLit(_lit,[_lit|_rest],_rest) :-!.
+removeLit(_lit,[_otherlit|_rest1],[_otherlit|_rest]) :-
+  removeLit(_lit,_rest1,_rest).
+
+
+
+/** pattern 2: The sequence                                              **/
+/**    ...,litx,lit1,...,litk,rest                                       **/
+/**  where no variable of litx occurs in  lit1 ... litk should be        **/
+/**  reordered to                                                        **/
+/**    ...,lit1,...,litk,litx,rest                                       **/
+/**                                                                      **/
+/** The reason is that lit1,...litk are likely expensive to evaluate and **/
+/** this evaluation would be repeated for all solutions of litx.         **/
+
+/** 2024-04-18: seems to have negative overall effect **/
+
+moveIsolatedPredToEnd([],[]).
+
+
+moveIsolatedPredToEnd([_litx|_restlits1], _newlits) :-
+  movablePred(_litx),  /** we move only certain lits in moveIsolatedPredToEnd **/
+  splitLitsbyLitx(_litx,_restlits1,_lits1,_lits2),
+  length(_lits1,_len1), _len1 > 4,
+  append(_lits1,[_litx|_lits2],_newlits),
+/** write('Filter moveIsolatedPredToEnd for '),write_lcall(_litx),nl, **/
+  !.
+
+moveIsolatedPredToEnd([_litx|_restlits1], [_litx|_restlits2]) :-
+  moveIsolatedPredToEnd(_restlits1,_restlits2),
+  !.
+
+moveIsolatedPredToEnd(_lits,_lits).
+
+movablePred(_lit) :-
+  _lit =.. [_predname|_args],
+  pc_member(_predname,['In','Isa','Adot','Adot_label']),
+  !.
+
+
+splitLitsbyLitx(_litx,_inputlits,_lits1,_lits2) :-
+  getVarsOf(_litx,[_x]),   /** only handle when _litx has a single variable like In(x,Employee) **/
+  splitLitsbyVar(_x,_inputlits,_lits1,_lits2).
+
+splitLitsbyVar(_x,[_lit|_restinputlits],[_lit|_restlits1],_lits2) :-
+  _lit =.. [_predname|_args],
+  \+ pc_member(_x,_args),
+  !,
+  splitLitsbyVar(_x,_restinputlits,_restlits1,_lits2).
+
+splitLitsbyVar(_x,_rest,[],_rest).
+
+
+
+getVarsOf(_lit,_vars) :-
+  _lit =.. [_predname|_args],
+  pruneConstants(_args,_vars).
+
+pruneConstants([],[]).
+
+pruneConstants([_x|_restargs],_vars) :-
+/*  is_id(_x),*/
+  atom(_x),
+  \+ simpleVar(_x),
+  !,
+  pruneConstants(_restargs,_vars).
+
+pruneConstants([_var|_restargs],[_var|_restvars]) :-
+  pruneConstants(_restargs,_restvars).
+
+
+
 
 
 
@@ -1644,9 +1826,103 @@ moveLitAfterLit('In'(_x,_c),_eqlit,[_otherlit|_rest],[_otherlit|_newrest]) :-
 moveLitAfterLit('In'(_x,_c),_eqlit,[],['In'(_x,_c)]).
 
 
+
+/** pattern 3: The sequence                                              **/
+/**     ...,In(x,c),...,In(y,d),...,Adot(cc,x,m,y)                       **/
+/**  should be replaced by                                               **/
+/**    Adot(cc,x,m,y)                                                    **/
+/**                                                                      **/
+/** if P(cc,c,m,d) is a database fact. This is the same rule as for      **/
+/** R2-R5 in SemanticOptimizer.pro. We only use the most common cases    **/
+/** here.                                                                **/
+/**                                                                      **/
   
 
-  
+eliminateAlreadyGuaranteed(_rangelits,_newrangelits) :-
+  do_eliminateAlreadyGuaranteed(_rangelits,_rangelits,[],_newrangelits).
+
+
+/** all investigated:*/
+do_eliminateAlreadyGuaranteed([],_allrangelits,_sofar,_sofar) :- !.
+
+/** a literal _lit can be eliminated: **/
+do_eliminateAlreadyGuaranteed([_lit|_rest_todo],_allrangelits,_sofar,_newrangelits) :-
+  alreadyGuaranteed(_lit,_allrangelits),
+  !,
+  do_eliminateAlreadyGuaranteed(_rest_todo,_allrangelits,_sofar,_newrangelits).
+
+/** the literal occurs as a duplicate **/
+do_eliminateAlreadyGuaranteed([_lit|_rest_todo],_allrangelits,_sofar,_newrangelits) :-
+  pc_member(_lit,_rest_todo),
+  !,
+  do_eliminateAlreadyGuaranteed(_rest_todo,_allrangelits,_sofar,_newrangelits).
+
+/** the literal _lit cannot be eliminated:*/
+do_eliminateAlreadyGuaranteed([_lit|_rest_todo],_allrangelits,_sofar,_newrangelits) :-
+  append(_sofar,[_lit],_sofarnew),
+  !,
+  do_eliminateAlreadyGuaranteed(_rest_todo,_allrangelits,_sofarnew,_newrangelits).
+
+
+
+/** R2 **/
+alreadyGuaranteed('In'(_x,_c),_rangelits) :-
+  is_id(_c),
+  show('Adot'(_cc,_x,_y),_rangelits),
+  retrieve_proposition('P'(_cc,_c,_l,_d)),
+  'WriteTrace'(high,'QO_preproc',['In'(_x,_c),' guaranteed by ','Adot'(_cc,_x,_y), ' [R2]']),
+  !.
+
+
+/** R2c **/
+alreadyGuaranteed('In'(_x,_c),_rangelits) :-
+  is_id(_c),
+  show('Aedot'(_cc,_x,_y),_rangelits),
+  retrieve_proposition('P'(_cc,_c,_l,_d)),
+  'WriteTrace'(high,'QO_preproc',['In'(_x,_c),' guaranteed by ','Aedot'(_cc,_x,_y), ' [R2c]']),
+  !.
+
+
+/** R3 **/
+alreadyGuaranteed('In'(_x,_c),_rangelits) :-
+  is_id(_c),
+  (_alit = 'Adot_label'(_cc,_x,_y,_l); _alit = 'Aedot_label'(_cc,_x,_y,_l)),
+  show(_alit,_rangelits),
+  retrieve_proposition('P'(_cc,_c,_m,_d)),
+  'WriteTrace'(high,'QO_preproc',['In'(_x,_c),' guaranteed by ',_alit, ' [R3]']),
+  !.
+
+/** R4 **/
+alreadyGuaranteed('In'(_y,_d),_rangelits) :-
+  is_id(_d),
+  show('Adot'(_cc,_x,_y),_rangelits),
+  retrieve_proposition('P'(_cc,_c,_l,_d)),
+  'WriteTrace'(high,'QO_preproc',['In'(_y,_d),' guaranteed by ','Adot'(_cc,_x,_y), ' [R4]']),
+  !.
+
+/** R4a **/
+alreadyGuaranteed('In'(_y,_d),_rangelits) :-
+  is_id(_d),
+  show('Aedot'(_cc,_x,_y),_rangelits),
+  retrieve_proposition('P'(_cc,_c,_l,_d)),
+  'WriteTrace'(high,'QO_preproc',['In'(_y,_d),' guaranteed by ','Aedot'(_cc,_x,_y), ' [R4a]']),
+  !.
+
+
+/** R5 **/
+alreadyGuaranteed('In'(_y,_d),_rangelits) :-
+  is_id(_d),
+  (_alit = 'Adot_label'(_cc,_x,_y,_l); _alit='Aedot_label'(_cc,_x,_y,_l) ),
+  show(_alit,_rangelits),
+  retrieve_proposition('P'(_cc,_c,_m,_d)),
+  'WriteTrace'(high,'QO_preproc',['In'(_y,_d),' guaranteed by ',_alit, ' [R5]']),
+  !.
+
+show(_toshow,[_given|_rest_given]) :-
+  _toshow = _given.
+
+show(_toshow,[_|_rest_given]) :-
+  show(_toshow,_rest_given).  
   
 
 
@@ -1705,7 +1981,7 @@ do_postProcEcaCond(_mix,_event,_inlits,_outlits) :-
 
 
 /** "Good" lits are those predicates that efficiently bind a free variable **/
-/** We move such predicates towards the beggining of a conjunction.        **/
+/** We move such predicates towards the beginning of a conjunction.        **/
 /** Currently, we only regard Adot(id_cat,a1,a2) as a a good lit iff one   **/
 /** of the two arguments is either bound or constant AND the other one is  **/
 /** a variable. So, after evaluating Adot(idcat,a1,a2) we have exactly one **/
@@ -1713,6 +1989,44 @@ do_postProcEcaCond(_mix,_event,_inlits,_outlits) :-
 /** thus aims at quickly and efficiently getting rid of free variables.    **/
 /** The parameter _event gives as the start setting for the bound          **/
 /** variables.                                                             **/
+
+/** scaled down version for rangeforms **/
+preferGoodLits_rangeform(_lits,_newlits) :-
+  get_cb_feature(iterMax,_max),
+  getBoundVars_rangeform(_lits,_bvars),
+  iterateGoodLits(_max,_bvars,_lits,_newlits),    /** do maximum _max iterations **/
+  !.
+preferGoodLits_rangeform(_lits,_lits).
+
+getBoundVars_rangeform(_lits,_bvars) :-
+  getBoundVars_rangeform(_lits,[],_bvars).
+
+
+/** this is a preliminary implementation, it fails to distinguish constants from bound variables **/
+getBoundVars_rangeform([],_sofar,_sofar) :- !.
+
+getBoundVars_rangeform([_lit|_rest],_sofar,_bvars) :-
+  _lit =.. [_predname|_args],
+  getBoundVarsFromArgs(_args,_bvars1),
+  append(_bvars1,_sofar,_newsofar),
+  getBoundVars_rangeform(_rest,_newsofar,_bvars),
+  !.
+getBoundVars_rangeform(_,_,[]). /** catchall **/
+
+getBoundVarsFromArgs([],[]).
+
+getBoundVarsFromArgs([_x|_rest], [_x|_restbvars]) :-
+  boundVar_rangeform(_x),
+  !,
+  getBoundVarsFromArgs(_rest,_restbvars).
+
+getBoundVarsFromArgs([_x|_rest], _bvars) :-
+  getBoundVarsFromArgs(_rest,_bvars).
+
+
+
+
+
 
 preferGoodLits(_mix,_event,_lits,_newlits) :-
   _mix \= nolist,    /** so it is a conjunction of predicates **/
@@ -1747,7 +2061,7 @@ iterateGoodLits(_n,_bvars,_lits,_newlits) :-
 /** last iteration did not change the order: we found the 'optimum' **/
 exitOrContinueGoodLits(_n,_bvars,_lits,_lits,_lits) :- !.  
 
-/** else iterate with the intermediate sultion newlits1 **/
+/** else iterate with the intermediate solution newlits1 **/
 exitOrContinueGoodLits(_n,_bvars,_lits,_newlits1,_newlits) :-
   iterateGoodLits(_n,_bvars,_newlits1,_newlits).
 
@@ -1762,7 +2076,9 @@ separateGoodFromRest(_bvars,[],_good,_rest,_good,_rest) :- !.
 
 /** case 1: we found a good lit: goes to "good_sofar" **/
 separateGoodFromRest(_bvars,[_lit|_restlits],_good_sofar,_rest_sofar,_good,_rest) :- 
-  _lit = 'Adot'(_id_cat,_arg1,_arg2),
+  (_lit = 'Adot'(_id_cat,_arg1,_arg2);
+   _lit = 'Adot_label'(_id_cat,_arg1,_arg2,_lab)
+  ),
   is_id(_id_cat),
   oneArgBound(_bvars,_arg1,_arg2,_newbvar),
   append(_good_sofar,[_lit],_new_good_sofar),   /** keep the relative order of predicates intact **/
@@ -1835,11 +2151,13 @@ traceFilterEffect(_filter,_ilits,_tlits) :-
   conforms(veryhigh,_tracemode),
   toBeObserved(_filter), 
   _ilits \= _tlits,
-  'WriteTrace'(veryhigh,'QO_preproc',['Filter ',_filter,' --> ',idterm(_tlits)]),
+  'WriteTrace'(_tracemode,'QO_preproc',['Filter ',_filter,' --> ',idterm(_tlits)]),
   !.
 traceFilterEffect(_filter,_ilits,_tlits).
 
-toBeObserved(_) :- !.
+
+
+/** toBeObserved(_) :- !. **/
 
 toBeObserved(_filter) :-
  pc_member(_filter,[
@@ -1849,14 +2167,19 @@ toBeObserved(_filter) :-
                      /** earlyRedNegPost, **/
                      /** moveBackInLits, **/
                      /** moveUnifiesForward, **/
-                     /** guardComplexQueryParameters, **/
+                     guardComplexQueryParameters,
                      /** removeInsOfFunctionResult, **/
                      /** moveBoundForward, **/
                      /** move_EQ_Forward, **/
                      /** move_FromTo_Forward, **/
-                     preferGoodLitsDatalog
+                     /** preferGoodLitsDatalog, **/
+                     preferGoodLits_rangeform,
+                     moveIsolatedPredToEnd,
+                     moveInAfterP_iter,
+                     eliminateAlreadyGuaranteed
                  ]),
   !.
+
 
 
 

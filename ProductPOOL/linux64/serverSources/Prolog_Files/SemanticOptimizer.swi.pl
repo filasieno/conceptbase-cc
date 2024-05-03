@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -94,6 +94,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 :- use_module('MetaUtilities.swi.pl').
 :- use_module('QO_preproc.swi.pl').
+
 
 
 
@@ -263,7 +264,8 @@ optRangeform(_F,'FALSE') :-
 optRangeform(forall(_v,_rangelits,_F),_result) :-
     !,
 	optimizeRangeByCrosscheck(_rangelits,_F,_optrangelits1),   /** take care of a special pattern **/
-	optimizeRangeByElimination(_optrangelits1,_optrangelits),
+	optimizeRangeByElimination(_optrangelits1,_optrangelits2),
+        reorderRangelits(_v,_optrangelits2,_optrangelits),
 	!,
 	optRangeform(_F,_optF),
 	!,
@@ -273,7 +275,8 @@ optRangeform(forall(_v,_rangelits,_F),_result) :-
 optRangeform(exists(_v,_rangelits,_F),_result) :-
     !,
 	optimizeRangeByCrosscheck(_rangelits,_F,_optrangelits1),   /** take care of a special pattern **/
-	optimizeRangeByElimination(_optrangelits1,_optrangelits),
+	optimizeRangeByElimination(_optrangelits1,_optrangelits2),
+        reorderRangelits(_v,_optrangelits2,_optrangelits),
 	!,
 	optRangeform(_F,_optF),
 	!,
