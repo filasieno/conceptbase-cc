@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -58,6 +58,41 @@ public class CBUtil extends GEUtil {
     /**
      * Positions for new diagram objects, relative to current diagram object
      */
+
+
+
+    /** Creates several new {@link i5.cb.graph.diagram.DiagramObject} from sTelosObjects
+     *
+     * @param sTelosFrames The string containing several Telos object names
+     * @param cbFrame the CBFrame which handles the connection to the ConceptBase server the new node will belong to
+     */
+
+    public static void addNewDiagramObjectsFromTelosEditor(String sTelosFrames, CBFrame cbFrame) {
+
+        String[] parts0 = sTelosFrames.split("}");
+
+        for (String frames1: parts0) {
+           String[] parts1 = frames1.split("}");
+           for (String frames2: parts1) {
+              String[] parts2 = frames2.split("end");
+              for (String frames3: parts2) {
+                 String[] parts3 = frames3.split(" in ");
+                 for (String frames4: parts3) {
+                   String[] parts4 = frames4.split(" with ");
+                   for (String frames5: parts4) {
+                      String sTelosObject = frames5.trim();
+                      if (!sTelosObject.contains(" ") && !sTelosObject.contains(":") && !sTelosObject.equals("")) {
+                        // System.out.println("To display: " + sTelosObject);
+                        boolean success = createAndAddNewDiagramObject(sTelosObject,cbFrame,null);
+                      }
+                   }
+                 }
+              }
+           }
+        }
+
+    } // addNewDiagramObjectsFromTelosEditor
+
 
     /** Creates a new {@link i5.cb.graph.diagram.DiagramObject} which represents a {@link i5.cb.telos.object.TelosObject} and adds it to the {@link i5.cb.graph.DiagramDesktop}.
      *
@@ -126,6 +161,9 @@ public class CBUtil extends GEUtil {
             }
 
             cbFrame.getDiagramDesktop().addDiagramNode(newDNode);
+            // newly added nodes are marked as selected to facilitate easier relocation by the user:
+            cbFrame.getDiagramDesktop().setNodeSelected(newDNode,true,false);
+
 
         } else {
             HashSet set = new HashSet();

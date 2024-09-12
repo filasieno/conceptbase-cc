@@ -1,7 +1,8 @@
 Steps to configure a ConceptBase development environment ***
 Manfred Jeusfeld
 
-2007-11-29 (2021-07-08)
+2007-11-29 (2024-03-19)
+
 
 
 This file documents how to set-up a Linux or Unix system as a development
@@ -42,6 +43,10 @@ and distributions derived from it.
 sudo ln -s /lib/x86_64-linux-gnu/libreadline.so.8 /lib/x86_64-linux-gnu/libreadline.so.6
 sudo ln -s /usr/lib/x86_64-linux-gnu/libgmp.so.10 /usr/lib/x86_64-linux-gnu/libgmp.so.3
 sudo ldconfig
+
+The symbolic links make some libraries accessible under the label of an earlier version.
+This is because we support Ubuntu 16, 18, 20, and 22 as development platforms.
+The libraries are needed for linking the CBserver with SWI-Prolog runtimes.
 
 
 
@@ -254,12 +259,15 @@ The command 'CB_Make clean' removes generated binaries.
 It only needs to be executed once after you have installed
 a new CBPOOL on your computer.
 
-You can also update your ConceptBase sources to the latest published version:
+You can also update your ConceptBase sources to the latest version published on Sourceforge:
 
   updateCB
 
-It will download the sources, compile them and install the binaries in
+It will download the sources from the Sourceforge repository, compile them and install the binaries in
 $CB_Work/conceptbase.
+
+Note that this is the public version of ConceptBase, a.k.a. ConceptBase.cc.
+So, do not use this command for ConceptBase+!!!
 
 
 
@@ -315,6 +323,18 @@ and then re-install it again
   sudo apt-get install g++-4.4
 
 
+Create an installer file CBinstaller.jar
+========================================
+
+Make sure you have a directory ConceptBase-Distros
+
+mkdir $HOME/ConceptBase-Distros
+
+Then, you can create a self-extracting Java archive CBinstaller.jar by the command
+
+publishCB
+
+
 
 
 
@@ -326,7 +346,7 @@ MISCELANEOUS
 Java compilation with Java 8 or Java 11
 =======================================
 
-The Java sources are compatible with Java 1.4, 1.5 (Java 5), and Java 6, 7, 8, and 11.
+The Java sources are compatible with 7, 8, and 11.
 
 - Compile all Java stuff (need to touch all Java files, otherwise compilation may be incomplete)
      cd CBPOOL/ProductPOOL/java
@@ -338,10 +358,10 @@ This step is usually unnecessary since it is part of the overall compile procedu
 
 We recommend to use Java 8 JDK both for compilation (JDK) and as a runtime environment!
 
-Under Linux, you can use the OpenJDK-6-JDK package for compilation.
+Under Linux, you should use the OpenJDK-8-JDK package for compilation.
 
 To run ConceptBase, you should use the most recent version of Java-8.
-Java-11 may also work but of a binary is compiled with Java-11, then it will
+Java-11 may also work but of a binary is compiled with Java-11, then it may
 not run with Java-8. 
 
 There used to be an issue with Java version 6 Build 12 and later (i.e. also Java 7, Java 8).

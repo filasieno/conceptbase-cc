@@ -2,7 +2,7 @@
 #
 # File:         CB_Install
 # Creation:     2-Apr-2009, Manfred Jeusfeld (UvT)
-# Last Change:  2-Apr-2009, Manfred Jeusfeld (UvT)
+# Last Change:  14-Mar-2024, Manfred Jeusfeld (UvT)
 #
 #-------------------------------------
 #
@@ -18,9 +18,12 @@
 CB_POOL=$CB_WORK
 
 CB_PRODUCT=$CB_POOL/../conceptbase  # default target
+
 if [ -n "$1" ]; then
    CB_PRODUCT=$1
 fi
+
+# echo Installing to $CB_Product ...
 
 
 EXPDIR=EXPORT
@@ -227,6 +230,8 @@ cp $CB_POOL/examples/Clients/SWI-CLIENT/*.txt $CB_PRODUCT/examples/Clients/SWI-C
 
 #cp $CB_POOL/examples/Clients/TclClient/*.tcl $CB_PRODUCT/examples/Clients/TclClient
 #cp $CB_POOL/examples/Clients/TclClient/README $CB_PRODUCT/examples/Clients/TclClient
+
+cp -r $HOME/ConceptBase-Distros/CB-LATEST/CBICONS $CB_PRODUCT/
 
 
 # copy required shared libraries

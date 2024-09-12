@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -279,7 +279,7 @@ public class CBTree extends JTree {
             try {
                 if(parent.getInOrOut() == AttribCatNode.INCOMING) {
                     newQuery = new CBQuery("find_referring_objects2["+m_cbUO.toString()+"/objname,"+ toAttrCat.toString() + "/cat]",
-                                           m_cbFrame, m_cbUO.getTelosObject(), "Attribute", "dst",toAttrCat);
+                                           m_cbFrame, m_cbUO.getTelosObject(), toAttrCat.toString(), "dst",toAttrCat);
                     newQueryNode = new QueryNode(newQuery, bundle.getString("queryResult_Explicit"));
                     newLabelNode.add(newQueryNode);
                     newQueryNode.add(new WaitNode() );
@@ -295,7 +295,7 @@ public class CBTree extends JTree {
                 }
                 else {
                     newQuery = new CBQuery("find_explicit_attribute_values["+m_cbUO.toString()+"/objname,"+ toAttrCat.toString() + "/cat]",
-                                           m_cbFrame, m_cbUO.getTelosObject(), "Attribute", "src",toAttrCat);
+                                           m_cbFrame, m_cbUO.getTelosObject(), toAttrCat.toString(), "src",toAttrCat);
                     newQueryNode = new QueryNode(newQuery, bundle.getString("queryResult_Explicit"));
                     newLabelNode.add(newQueryNode);
                     newQueryNode.add(new WaitNode() );

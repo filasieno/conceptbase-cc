@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -389,10 +389,12 @@ public class DiagramEdge
        if (!isReflexive() && m_pCurrentCenter_source != null &&
            m_pCurrentCenter_dest != null &&
            m_dnNodeOnEdge != null) {
-         int newx = (int)Math.round((m_pCurrentCenter_source.x + m_pCurrentCenter_dest.x)/2.0);
-         int newy = (int)Math.round((m_pCurrentCenter_source.y + m_pCurrentCenter_dest.y)/2.0);
-         m_dnNodeOnEdge.setCenter(new Point(newx,newy));
-         updateEdge();  // causes redrawing and setting the location of the nodon on edge
+         if (!m_dnNodeOnEdge.isFrozen()) {  // frozen edges are not straightened
+             int newx = (int)Math.round((m_pCurrentCenter_source.x + m_pCurrentCenter_dest.x)/2.0);
+             int newy = (int)Math.round((m_pCurrentCenter_source.y + m_pCurrentCenter_dest.y)/2.0);
+             m_dnNodeOnEdge.setCenter(new Point(newx,newy));
+             updateEdge();  // causes redrawing and setting the location of the node on edge (=the label of the edge)
+         }
        }
     }
 

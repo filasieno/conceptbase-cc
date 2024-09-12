@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -116,8 +116,7 @@ getoutofConceptBase :-
 /* ************************************************************** */
 
 sayGoodbye :-
-  'WriteListOnTrace'(minimal,['>>> Goodbye from ConceptBase (CBserver)      ..             ..             .']),
-  (printCBdevelopers;true),                 /** 5-Mar-1990/MJf*/
+  'WriteListOnTrace'(minimal,['>>> Goodbye from ConceptBase+ (CBserver)     ...            ..             .']),
   'WriteListOnTrace'(minimal,['----------------------------------------------------------------------------']),
   'WriteListOnTrace'(minimal,[' ']),
   !.

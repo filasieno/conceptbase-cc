@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -282,27 +282,80 @@ atomconcatWithCommata([_a|_r],_res) :-
     !,
     pc_atomconcat([_a,',',_ar],_res).
 
-replaceSpecialCharacter(_object,_object) :-
-    sub_atom(_object,_,_,_,'<').
 
+{* The '<' character may not be in elements of an XML object string, *}
+{* used for many answer formats                                      *}
 replaceSpecialCharacter(_object,_newobject) :-
+    sub_atom(_object,_,_,_,'<'),
     atom_chars(_object,_list),
     replace('<',_list,'&lt;',_newlist),
     pc_atomconcat(_newlist,_newobject),
     !.
+replaceSpecialCharacter(_x,_x).
 
 
+
+{* this currently only finds explicits edges (attributes, instantiations, specializations) *}
+
+{*** forward links ***}
+{* id_6=Attribute *}
+getEdges(_oid,_dstid,id_6,dst,_edges) :-
+    save_setof(_e,
+        (_l)^(prove_literal('Pa'(_e,_oid,_l,_dstid))),
+        _edges),
+    !.
+
+{* id_1=InstanceOf *}
+getEdges(_oid,_dstid,id_1,dst,_edges) :-
+    save_setof(_e,
+        (_l)^(prove_literal('P'(_e,_oid,'*instanceof',_dstid))),
+        _edges),
+    !.
+
+{* id_15=IsA *}
+getEdges(_oid,_dstid,id_15,dst,_edges) :-
+    save_setof(_e,
+        (_l)^(prove_literal('P'(_e,_oid,'*isa',_dstid))),
+        _edges),
+    !.
+
+{* otherwise: all other categories _catid *}
 getEdges(_oid,_dstid,_catid,dst,_edges) :-
     save_setof(_e,
         (_l)^(prove_literal('P'(_e,_oid,_l,_dstid)),
          prove_literal('In'(_e,_catid))),
         _edges).
 
+
+{*** backward links ***}
+{* id_6=Attribute *}
+getEdges(_oid,_srcid,id_6,src,_edges) :-
+    save_setof(_e,
+        (_l)^(prove_literal('Pa'(_e,_srcid,_l,_oid))),
+        _edges),
+    !.
+
+{* id_1=InstanceOf *}
+getEdges(_oid,_srcid,id_1,src,_edges) :-
+    save_setof(_e,
+        (_l)^(prove_literal('P'(_e,_srcid,'*instanceof',_oid))),
+        _edges),
+    !.
+
+{* id_15=IsA *}
+getEdges(_oid,_srcid,id_15,src,_edges) :-
+    save_setof(_e,
+        (_l)^(prove_literal('P'(_e,_srcid,'*isa',_oid))),
+        _edges),
+    !.
+
+{* otherwise: all other categories _catid *}
 getEdges(_oid,_srcid,_catid,src,_edges) :-
     save_setof(_e,
         (_l)^(prove_literal('P'(_e,_srcid,_l,_oid)),
          prove_literal('In'(_e,_catid))),
         _edges).
+
 
 makeEdgesElement([],_,'') :- !.
 

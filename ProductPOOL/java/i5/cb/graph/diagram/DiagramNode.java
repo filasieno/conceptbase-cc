@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -1274,6 +1274,12 @@ public class DiagramNode
      */
     public void setFrozen(boolean newFrozen) {
         m_isFrozen = newFrozen;
+        if (m_isFrozen) {
+           this.setResizable(false);  // frozen nodes are not resizable
+        } else { // unfrozen nodes are resizable when configured so by theur CBUserObject 
+           this.setResizable(m_userObject != null && m_userObject instanceof CBUserObject
+                                                  && ((CBUserObject)m_userObject).hasProperty("size"));
+        }
         this.repaint();
     }
 
@@ -1326,13 +1332,15 @@ public class DiagramNode
     }
 
 
+    // this method was designed when Java 8 carried the version number 1.8... 
+    // This has changed since then. For example Java 11.0.22 would have been Java 1.11.0.22 in the old scheme.
     private static double getJavaVersion() {
         int first = 1;
         int major = 4;
         int minor = 0;
         int update = 0;
         try {
-           String[] javaVersionElements = System.getProperty("java.runtime.version").split("\\.|_|-");
+           String[] javaVersionElements = System.getProperty("java.runtime.version").split("\\.|_|-|\\+");
           // some java version strings are very short; hence we need to check the array length
           // typical java.runtime.versions are 1.7.0_91 or 1.5.0_06-b05 or 1.8.0_03-Ubuntu 
            if (javaVersionElements.length > 0)
@@ -1341,8 +1349,10 @@ public class DiagramNode
               major  = Integer.parseInt(javaVersionElements[1]);
            if (javaVersionElements.length > 2)
               minor  = Integer.parseInt(javaVersionElements[2]);
-           if (javaVersionElements.length > 3)
-              update = Integer.parseInt(javaVersionElements[3]);
+           try {
+              if (javaVersionElements.length > 3)
+                 update = Integer.parseInt(javaVersionElements[3]);
+           } catch (Exception e) {}
         } catch (Exception e) { // if the calculation fails, we assume Java 8 
             first = 1;
             major = 8;

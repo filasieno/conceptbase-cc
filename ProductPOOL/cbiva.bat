@@ -16,7 +16,8 @@ if exist "%programfiles%\Java" goto :java_default
 rem *** default java found via search path, wait 1 sec to let java start
 :java_default
 timeout /T 1 > nul
-start /b javaw -DCB_HOME="%CB_HOME%" -jar "%CB_HOME%"\lib\classes\cb.jar
+# start /b javaw -DCB_HOME="%CB_HOME%" -jar "%CB_HOME%"\lib\classes\cb.jar
+start /b javaw -DCB_HOME="%CB_HOME%" -classpath "%CB_HOME%"\lib\classes\* i5.cb.workbench.CBIva
 goto :alldone
 
 

@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -614,6 +614,7 @@ write('The views and conclusions contained in the software and documentation are
 write('and should not be interpreted as representing official policies, either expressed or implied,'),nl,
 write('of the ConceptBase Team.'),nl,
   nl.
+
 
 
 {***********************************************************}

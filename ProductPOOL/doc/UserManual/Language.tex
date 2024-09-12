@@ -1,7 +1,7 @@
 % The ConceptBase User Manual (CB-Manual)
 % Copyright 1987-2024 by The ConceptBase Team
 % The CB-Manual may only be updated by members of the ConceptBase Team
-% as listed on http://conceptbase.cc
+% as listed on https://conceptbase.sourceforge.net/
 % The TeX sources of the CB-Manual and the accompanying
 % figures can be freely distributed under the provision that this
 % clause is included in file CB-Manual.tex and that CB-Manual.tex
@@ -578,6 +578,8 @@ end
 In this example, the whole semantics of bill's salary attribute is carried by the "salary" label at the class level. 
 This feature may be useful when no object-level attribute label is known, e.g. when translating CSV files to
 ConceptBase frames.
+A second definition of the same attribute {\tt (bill salary/\_ 1000)} will not create a duplicate attribute in ConceptBase.
+
 
 
 \section{Rules and constraints}
@@ -698,22 +700,22 @@ The class {\tt c} is a direct subclass of class {\tt d}.
 \item {\tt AD(p,x,y)}\\
 The objects {\tt x} and {\tt y} are linked by an explicit or derived relation/attribute
 of category {\tt m}, where {\tt P(p,c,m,d)} defines the attribute category. This predicate
-is mostly used for internal purposes of ConceptBase. The predicate is computationally expensive
-when the first argument is a variable. 
+is only used for internal purposes of ConceptBase. The predicate is computationally expensive
+when the first argument is a variable.
 \end{enumerate}
 
 The above predicates can be used, for example,
 to define defaults values (see
 \url{http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/2396075})
 Since deduction should be transparent to the user,
-one should avoid using the above predicates if the proper predicates {\tt In(x,c)} and
-{\tt A(x,m,y)} can do the job.
+one should avoid using the above predicates if the proper predicates {\tt In(x,c)} or {\tt (x in c)} and
+{\tt A(x,m,y)} or {\tt (x m y)} can do the job.
 
-The predicate {\tt A(x,m,y)} is translated by the ConceptBase to the {\tt AD(p,x,y)} predicate, where 
-the first argument is a constant. For example, $$
-\forall ~e/Employee~ \exists ~s/Integer ~A(e,salary,s) $$
-would be translated to $$
-\forall ~e/Employee~ \exists ~s/Integer ~AD(Employee!salary,e,s) $$
+%The predicate {\tt A(x,m,y)} is translated by the ConceptBase to the {\tt AD(p,x,y)} predicate, where 
+%the first argument is a constant. For example, $$
+%\forall ~e/Employee~ \exists ~s/Integer ~A(e,salary,s) $$
+%would be translated to $$
+%\forall ~e/Employee~ \exists ~s/Integer ~AD(Employee!salary,e,s) $$
 
 
 \subsection{Notes on attribution}
@@ -2509,7 +2511,7 @@ since it is 2 instantiation levels below {\tt Product}.
 While this form of attribution is not part of Telos, one can well
 axiomatize potencies using rules and constraints in ConceptBase \cite{DDI2014}.
 The example specifications are also available at
-\url{http://conceptbase.cc/ddi/}.
+\url{https://conceptbase.sourceforge.net/ddi/}.
 
 As stated in \cite{RLGW2014}, ConceptBase was one of the earliest systems 
 supporting a simple form of multi-level modeling. Before the 
@@ -2688,7 +2690,7 @@ end
 }
 
 
-Further discussion and examples of DeepTelos are available at \url{http://conceptbase.cc/deeptelos}.
+Further discussion and examples of DeepTelos are available at \url{https://conceptbase.sourceforge.net/ddi/deeptelos}.
 
 
 

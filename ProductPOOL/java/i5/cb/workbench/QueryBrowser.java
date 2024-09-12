@@ -1,7 +1,24 @@
 /*
+The ConceptBase+ Copyright
+
+Copyright 2024-2024 Norgald AB. All rights reserved.
+
+ConceptBase+ is derived from ConceptBase.cc (http://conceptbase.cc). See
+[ProductPool]/doc/ExternalLicenses for details.
+
+ConceptBase.cc is free software distributed under a FreeBSD-style license.
+ConceptBase+ is a fork of ConceptBase.cc and adds functions for the
+management of large enterprise architecture models to support various
+methods for analyzing such models.
+
+Contact: info@norgald.com
+*/
+
+
+/*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -39,14 +56,16 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 package i5.cb.workbench;
 
 import javax.swing.JLayeredPane;
+import java.awt.*;
 
 public class  QueryBrowser extends GenericSelectionDialog {
 
 
     public QueryBrowser(CBIva CBI, String[] buttons,String[] queries, String wintitle) {
-        super(CBI, wintitle, "Select one ...", buttons, queries) ;
-
-        this.setSize(300,300);
+        super(CBI, wintitle, "Select one ...", buttons, queries,true) ;  // single selection set to true
+        this.setSize(260,560);
+        if (CBI.getMainQueryBrowser() == null) 
+          CBI.setMainQueryBrowser(this);
     }
 
     public void buttonPressed(String label) {
@@ -56,6 +75,8 @@ public class  QueryBrowser extends GenericSelectionDialog {
 
             QueryDialog qd=new QueryDialog(CBI,selectedItem);
             CBI.add(qd,JLayeredPane.MODAL_LAYER);
+            qd.setLocation(220,5);
+            try { qd.setSelected(false); qd.setSelected(true); } catch(Exception ex) {};
             return;
         }
 

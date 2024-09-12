@@ -1,5 +1,5 @@
 Licenses of third party components that might be included
-with the ConceptBase distribution:
+with the ConceptBase+ distribution:
 
 
 (1) The SWI-Prolog runtime environment is copyrighted by SWI, www.swi-prolog.org.
@@ -13,18 +13,22 @@ License copy:  Grappa-License-14Jan2008.txt
 licensed under https://creativecommons.org/licenses/by-nd/4.0/legalcode#languages.
 License copy: CBLogo-CC-BY-ND-40.txt
 
+(4) ConceptBase.cc source code copyrighted by ConceptBase Team
+licensed under a FreeBSD-style license
+License copy: CB-FreeBSD-License.txt
+
+(5) FlatLaf class files copyrighted by Karl Tauber, FormDev Software GmbH
+Licensed under a Apache 2.0 License
+License copy: FlatLaf-LICENSE-9Mar2024.txt
+Developer site: https://www.formdev.com/flatlaf/
+
 
 Distributed under the terms of their respective licenses 
 available from the web sites above.
 
 
-If the ConceptBase distribution contains a Java JRE, then it
-is located in the subdirectory jre1.6.* and distributed in compliance
-with the license file contained in that subdirectory.
-Java is copyrighted by Oracle, formerly by Sun Microsystems.
-
 All trademarks are property of their respective owners!
 
 --
-2020-10-28
+2024-03-09
 

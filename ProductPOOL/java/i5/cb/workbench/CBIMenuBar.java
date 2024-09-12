@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -412,13 +412,21 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
         }
         mOptions.add(mLookAndFeel);
 
+        // We configure FlatLaf in CBIva.java in a way that disables the OS frame around the CBIva window
+        // FlatLaf can deal by this by creating its own frame but older Look&Feels cannat deal with this
+        // Hence we disable changing the Look&Feel if FlatFaf is used
+        if (UIManager.getLookAndFeel().getName().startsWith("FlatLaf"))
+           mLookAndFeel.setEnabled(false);
+
         mOptions.addSeparator();
 
+/* 2024-07-14: The options are now always save when edited, hense no need to manually save them
         mi = new JMenuItem("Save Options");
         mi.addActionListener(new CBICommand(CBICommand.iSAVE_OPTIONS, CBI));
         mOptions.add(mi);
+*/
 
-        mi = new JMenuItem("Edit Options Manually");
+        mi = new JMenuItem("Edit Options");
         mi.addActionListener(new CBICommand(CBICommand.iEDIT_OPTIONS, CBI));
         mOptions.add(mi);
 

@@ -16,11 +16,11 @@ rem *** default java found via search path
 timeout /T 1 > nul
 if '%1'=='' goto :useohome
 
-start /b javaw -DCB_HOME="%CB_HOME%" -cp "%CB_HOME%\lib\classes\cb.jar" i5.cb.graph.cbeditor.CBEditor %*
+start /b javaw -DCB_HOME="%CB_HOME%" -classpath "%CB_HOME%"\lib\classes\* i5.cb.graph.cbeditor.CBEditor %*
 goto :alldone
 
 :useohome
-start /b javaw -DCB_HOME="%CB_HOME%" -cp "%CB_HOME%\lib\classes\cb.jar" i5.cb.graph.cbeditor.CBEditor "%CB_HOME%\lib\ohome.gel"
+start /b javaw -DCB_HOME="%CB_HOME%" -classpath "%CB_HOME%"\lib\classes\* i5.cb.graph.cbeditor.CBEditor "%CB_HOME%\lib\ohome.gel"
 goto :alldone
 
 

@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -557,6 +557,11 @@ Cost_litExtAd(lit(ground(_),[c]),1.0).
 
 
 'Cost_litExtAd'(lit('P'(_p,_c,_m,_d),_),infinity).
+
+
+'Cost_litExtAd'(lit('Pa'(_p,_c,_m,_d),_ad),_cost) :-
+	'Cost_litExtAd'(lit('P'(_p,_c,_m,_d),_ad),_cost).
+
 
 /******************************************************/
 /** A **/

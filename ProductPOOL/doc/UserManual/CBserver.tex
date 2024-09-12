@@ -1,7 +1,7 @@
 % The ConceptBase User Manual (CB-Manual)
 % Copyright 1987-2024 by The ConceptBase Team
 % The CB-Manual may only be updated by members of the ConceptBase Team
-% as listed on http://conceptbase.cc
+% as listed on https://conceptbase.sourceforge.net/
 % The TeX sources of the CB-Manual and the accompanying
 % figures can be freely distributed under the provision that this
 % clause is included in file CB-Manual.tex and that CB-Manual.tex
@@ -336,7 +336,7 @@ the CBserver runs un slave mode, it will shut down when its client disconnects.
 \subsection{Updating the CBserver software}
 
 You can always update your local installation of ConceptBase downloading and executing 
-the interactive CBinstaller.jar Java installer from \url{http://conceptbase.cc}.
+the interactive CBinstaller.jar Java installer from \url{https://conceptbase.sourceforge.net}.
 Be sure to terminate the ConceptBase server and the ConceptBase user interface programs
 before updating the software.
 
@@ -547,7 +547,7 @@ regardless of how long ago its last interaction occurred.
 
 
 Configure the CBIva interface to use the public CBserver via the variable {\tt PublicCBserver}.
-It can be set by the menu item "Options/Edit Options Manually" of CBIva, see section \ref{sec:config}.
+It can be set by the menu item "Options/Edit Options" of CBIva, see section \ref{sec:config}.
 A value different from {\tt none} enables the use of the public CBserver by CBGraph.
 You can optionally append a port number like "cbserver.acme.com/4002". The default value
 for the port number is 4001. Installations of ConceptBase on platforms, for which no binaries of the CBserver
@@ -556,8 +556,6 @@ exist, may use a default public CBserver. This is the case OS-X and older versio
 which can then be used to start CBserver transparently.
 If you had previously used a public CBserver under Windows 10 and now want to utilize a local CBserver,
 then reset the variable {\tt PublicCBserver} to {\tt none}.}.
-
-Don't forget to save the options after changing the variable.
 
 
 The best way to interact with a public CBserver is to use graph files, see section
@@ -1268,7 +1266,9 @@ to the CBShell variables \$1 to \$9. The CBShell variable \$0 is bound to the na
 
 \item[cd {\it mod}] :
       changes the module context of this shell; if the parameter {\it mod} is omitted, 
-      the module context will set the module to the user's home module, by default {\tt oHome}
+      the module context will set the module to the user's home module, by default {\tt oHome};
+      the command "cd .." shall switch to the super module of the currenbt module, the command
+      "cd ." shall leave the current module unchanged
 
 \item[pwd] :
       display the current absolute module path, e.g. "System-oHome-MyModule"

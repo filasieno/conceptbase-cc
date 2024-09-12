@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -236,13 +236,17 @@ public class DiagramNodeMouseListener extends MouseInputAdapter {
 		if (dd.getSelectedNodes().contains(dn)) {
 
 			// dd.setUseSmoothLines(false);  // always use smooth lines
-			moveSelectedGroup(dd.getSelectedNodes(), dx, dy);
+			// if dn is a containernode that already is at x=0 or y=0, then the contained nodes are note moved further
+			if (dn.getBounds().x + dx >= 0 && dn.getBounds().y + dy >= 0)
+			   	moveSelectedGroup(dd.getSelectedNodes(), dx, dy);
 			return;
 
 		} // end of if (dd.getSelectedNodes().contains(dn))
 
-		dn.setCenter(dn.getCenter().x + dx, dn.getCenter().y + dy);
-                dn.setDragged(true);
+               // prevent that nodes are seemingly dragged into negative coordinates
+               if (dn.getBounds().x + dx >= 0 && dn.getBounds().y + dy >= 0) 
+		  dn.setCenter(dn.getCenter().x + dx, dn.getCenter().y + dy);
+               dn.setDragged(true);
 		
 	} //mouseDragged
 
@@ -267,9 +271,10 @@ public class DiagramNodeMouseListener extends MouseInputAdapter {
 		DiagramNode currentNode = null;
 		while (selectedNodesW.hasNext()) {
 			currentNode = (DiagramNode) selectedNodesW.next();
-			currentNode.setCenter(
-            currentNode.getCenter().x + dx,
-            currentNode.getCenter().y + dy);
+                       // frozen nodes in a selected group are not moved when the group is moved
+                       if (!currentNode.isFrozen()) {
+			   currentNode.setCenter( currentNode.getCenter().x + dx, currentNode.getCenter().y + dy);
+                       }
 		}
 //		selectedNodesW = selectedNodes.iterator();
 //		while (selectedNodesW.hasNext()) {

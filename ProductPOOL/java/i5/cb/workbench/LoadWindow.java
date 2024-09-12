@@ -1,7 +1,26 @@
 /*
+The ConceptBase+ Copyright
+
+Copyright 2024-2024 Norgald AB. All rights reserved.
+
+ConceptBase+ is derived from ConceptBase.cc (http://conceptbase.cc). See
+[ProductPool]/doc/ExternalLicenses for details.
+
+ConceptBase.cc is free software distributed under a FreeBSD-style license.
+ConceptBase+ is a fork of ConceptBase.cc and adds functions for the
+management of large enterprise architecture models to support various
+methods for analyzing such models.
+
+Contact: info@norgald.com
+
+2024-03-05
+*/
+
+
+/*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -82,9 +101,9 @@ public class LoadWindow extends JFrame {
         this.getContentPane().add(LCBIva, "Center");
         JPanel panSouth = new JPanel();
         panSouth.setLayout(new BorderLayout());
-        panSouth.add(new JLabel("ConceptBase.cc User Interface in Java",JLabel.CENTER),"North");
-        panSouth.add(new JLabel("Copyright 1987-2024 by The ConceptBase Team. All rights reserved.",JLabel.CENTER),"Center");
-        panSouth.add(new JLabel("Distributed under a FreeBSD license. See CB-FreeBSD-License.txt for details.",JLabel.CENTER),"South");
+        panSouth.add(new JLabel("ConceptBase+ User Interface in Java",JLabel.CENTER),"North");
+        panSouth.add(new JLabel("Copyright 2024-2024 by Norgald AB. All rights reserved.",JLabel.CENTER),"Center");
+        panSouth.add(new JLabel("Based on the sources of ConceptBase.cc, copyrighted by The ConceptBase Team",JLabel.CENTER),"South");
 
         this.getContentPane().add(text,"North");
         this.getContentPane().add(panSouth, "South");

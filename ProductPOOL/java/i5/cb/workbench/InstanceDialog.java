@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -123,6 +123,10 @@ public class  InstanceDialog extends JInternalFrame implements ActionListener,Mo
         mi2.addActionListener(this);
         contextMenu.add(mi2);
 
+        JMenuItem mi3 = new JMenuItem("Add to Telos Editor");
+        mi3.addActionListener(this);
+        contextMenu.add(mi3);
+
         list = new RList(contextMenu);
         list.addMouseListener(this);
         list.add("Class");
@@ -180,13 +184,14 @@ public class  InstanceDialog extends JInternalFrame implements ActionListener,Mo
 
 
         // call Telos Editor if "Telos Editor" button is pressed or
-        // the menu item "Telos Editor" of popup menu  is choosen
+        // the menu item "Telos Editor" of popup menu is choosen
         else if(source == editorButton || command.equals("Telos Editor")) {
             Object[] objects=list.getSelectedItems();
             if(objects.length>1) {
                 StringBuffer sb=new StringBuffer();
-                for(int i=0;i<objects.length;i++)
-                    sb.append(CBI.getCBClient().getObject(objects[i].toString()));
+                for(int i=0;i<objects.length;i++) {
+                    sb.append(CBI.getCBClient().getObject(objects[i].toString())+System.lineSeparator());
+                }
                 CBI.getActiveTelosEditor().getTelosTextArea().setText(sb.toString());
             }
             else {
@@ -194,6 +199,23 @@ public class  InstanceDialog extends JInternalFrame implements ActionListener,Mo
                 if(selectedItem != null)
                     CBI.getActiveTelosEditor().getTelosTextArea().setText(CBI.getCBClient().
                         getObject(selectedItem.toString()));
+            }
+        }
+
+        else if(command.equals("Add to Telos Editor")) {
+            Object[] objects=list.getSelectedItems();
+            String oldtext=CBI.getActiveTelosEditor().getTelosTextArea().getText();
+            if(objects.length>1) {
+                StringBuffer sb=new StringBuffer();
+                for(int i=0;i<objects.length;i++) {
+                    sb.append(CBI.getCBClient().getObject(objects[i].toString())+System.lineSeparator());
+                }
+                CBI.getActiveTelosEditor().getTelosTextArea().setText(oldtext+System.lineSeparator()+sb.toString());
+            }
+            else {
+                Object selectedItem=list.getSelectedItem();
+                if(selectedItem != null)
+                    CBI.getActiveTelosEditor().getTelosTextArea().setText(oldtext+System.lineSeparator()+CBI.getCBClient().getObject(selectedItem.toString()));
             }
         }
 
@@ -293,7 +315,7 @@ public class  InstanceDialog extends JInternalFrame implements ActionListener,Mo
         tfTextField.setText(object);
         Enumeration en = CBI.getCBClient().enParseObjectNames(result);
 
-        // remove all old  entries from the lis
+        // remove all old  entries from the list
         list.removeAll();
         // and add new ones
         while (en.hasMoreElements()) {

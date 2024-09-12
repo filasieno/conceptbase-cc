@@ -34,16 +34,12 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
+
+
+
 {
 *
-* File:        %M%
-* Version:     %I%
-*
-*
-* Date released : %E%  (YY/MM/DD)
-*
-* SCCS-Source-Pool : %P%
-* Date retrieved : %D% (YY/MM/DD)
+* File:        GeneralUtilities.pro
 ***************************************************************************
 *
 *
@@ -1208,16 +1204,14 @@ writeConceptBaseVersionMessage :-
    getenv(CB_VARIANT,_variant),
    getPROLOG_VARIANT(_pvariant),
    cb_copyright_time(_copyyears),
-   write('ConceptBase.cc Server '),
+   write('ConceptBase+ Server '),
    write(_v),
    write(' ('),write(_variant),
    write(','),write(_pvariant),write('), '),
    write(_loc),write(', '),
    write(_d),nl,
-   write( _copyyears), write(' by The ConceptBase Team. All rights reserved.'),nl,
-   write('Original software by Manfred Jeusfeld, Martin Staudt, Christoph Quix and others.'),nl,
-   write('This is free software. '),
-   write('See http://conceptbase.cc for details.'),nl,
+   write( _copyyears), write(' by Norgald AB. All rights reserved.'),nl,
+   write('Derived in part from ConceptBase.cc sources.'),nl,
    write('No warranty, not even for MERCHANTABILITY or '),
    write('FITNESS FOR A PARTICULAR PURPOSE.'),nl, 
    !.
@@ -1239,13 +1233,11 @@ copyright_notice(_tool) :-
    addAnswerParameters('PersistentAnswerParameter',
                          [_v/cb_version,_d/cb_date_of_release,_variant/CB_VARIANT,
                           _pvariant/PROLOG_VARIANT]),
-   WriteListOnTrace(minimal,['> This is ConceptBase.cc (',_tool,') ',_v,', ',_loc,', ',_d]),
-   WriteListOnTrace(minimal,['> ', _copyyears, ' by The ConceptBase Team. All rights reserved.']),
-   WriteListOnTrace(minimal,['> Distributed under a BSD-style license. Call "cbserver -license" for details.']),
+   WriteListOnTrace(minimal,['> This is ConceptBase+ (',_tool,') ',_v,', ',_loc,', ',_d]),
+   WriteListOnTrace(minimal,['> ', _copyyears, ' by Norgald AB. All rights reserved.']),
+   WriteListOnTrace(minimal,['> Use requires license. Call "cbserver -license" for details.']),
    WriteNewlineOnTrace(minimal),
-   WriteListOnTrace(minimal,['>    Contact: M.Jeusfeld,University of Skovde,54128 Skovde/Sweden']),
-{*   WriteListOnTrace(minimal,['>    M.Jarke,C.Quix,RWTH Aachen,Ahornstr.55,52056 Aachen/Germany']), *}
-   WriteListOnTrace(minimal,['>    http://conceptbase.cc']),
+   WriteListOnTrace(minimal,['>    Contact: Norgald AB, info@norgald.com']),
    WriteNewlineOnTrace(minimal),
    (
     (cb_installation(runtime),!);

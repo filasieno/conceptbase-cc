@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -188,7 +188,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         super();
 
         setPreferredSize(new Dimension(1500, 1500));
-        m_cSelectedNodes = new ArrayList();
+        m_cSelectedNodes = new HashSet();   // see nissue #15: avoids duplicate entries via add()
         m_cInvalidNodes = new ArrayList();
         bUseSmoothLines = true; 
         ddMouseListener = new DDMouseListener();
@@ -1823,16 +1823,33 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         return Printable.PAGE_EXISTS;
     } //print
 
+
+
+
     /**
-     * Tells if a node and at least one other node are selected.
+     * True if a node is selected.
      *
      * @param dn
      *            the node we want to know about
-     * @return true if the node is selcted on this desktop and if he is not the
+     * @return true if the node is selected on this desktop 
+     */
+
+    public boolean isSelectedNode(DiagramNode dn) {
+        return m_cSelectedNodes.contains(dn);
+    }
+
+
+    /**
+     * True if a node and at least one other node are selected.
+     *
+     * @param dn
+     *            the node we want to know about
+     * @return true if the node is selected on this desktop and if he is not the
      *         only selected one
      */
+
     public boolean isInSelectedGroup(DiagramNode dn) {
-        return (m_cSelectedNodes.contains(dn) && m_cSelectedNodes.size() > 1);
+        return ( m_cSelectedNodes.size() > 1 && m_cSelectedNodes.contains(dn) );
     }
 
     /**
@@ -1853,12 +1870,10 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
                 + node.getUserObject().toString()
                 + "' must be inside this DiagramDesktop";
 
-        if (node.isFrozen()) 
-          return;   // frozen nodes are not selectable
         if (bIsSelected) {
             if (m_cSelectedNodes.size() == 0)  // first node selected
               setSquareDots(true);  // set little square dots on edges opaque
-            m_cSelectedNodes.add(node);
+            m_cSelectedNodes.add(node);  // since m_cSelectedNodes is a HashSet, duplicates are avoided, nissue #15
             if (!node.isSelected()) {
                 this.setLayer(node, NODE_LAYER.intValue()+node.getNodeLevel(), 0);
             }

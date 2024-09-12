@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -74,7 +74,7 @@ public interface CBConstants extends GEConstants {
     public final static int QUERY_EXPLICIT_CLASSES = 6;
     public final static int QUERY_ATTRIBUTES = 7;
 
-    public final static String DEFAULT_PALETTE = "DefaultJavaPalette";
+    public final static String DEFAULT_PALETTE = "TelosPalette";
     public final static String CB_HOME_MODULE = "oHome";
     public final static String CB_SYSTEM_MODULE = "System";
 

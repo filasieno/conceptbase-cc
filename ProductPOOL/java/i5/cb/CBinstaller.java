@@ -1,7 +1,8 @@
+
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -71,7 +72,7 @@ public class CBinstaller extends JFrame implements ActionListener {
     JButton jbSelectFile;
 
     String helpURL = "http://conceptbase.sourceforge.net/CB-Download.html";
-    String cblatestURL = "http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d3191820/cb-latest.zip";
+    String cblatestURL = "undefined";
     String curDir=System.getProperty("user.dir");
     String downloadDir=getDownloadDir(curDir);
     String cbInstallerPath = curDir + File.separator + "CBinstaller.jar";
@@ -81,7 +82,7 @@ public class CBinstaller extends JFrame implements ActionListener {
     boolean bExtractFromJar = false;  // true if the binaries are being extracted from CBinstaller.jar itself
 
     public CBinstaller() {
-        super("CBinstaller for ConceptBase (2019-11-07)");
+        super("CBinstaller for ConceptBase.cc (2024-03-31)");
 
         UIManager.put("Label.font", new FontUIResource(new Font("Dialog", Font.PLAIN, 16)));
         UIManager.put("Button.font", new FontUIResource(new Font("Dialog", Font.PLAIN, 18)));
@@ -397,6 +398,8 @@ public class CBinstaller extends JFrame implements ActionListener {
       "The views and conclusions contained in the software and documentation are those of the authors\n" +
       "and should not be interpreted as representing official policies, either expressed or implied,\n" +
       "of the ConceptBase Team.\n";
+
+
 
         JTextArea textArea = new JTextArea(26, 65);
         textArea.setText(licenseText);

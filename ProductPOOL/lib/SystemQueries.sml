@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -209,7 +209,7 @@ GenericQueryClass find_referring_objects in HiddenObject isA Proposition with
   required,parameter
      class : Proposition
   attribute,constraint
-     r : $ exists a/Attribute l/Label P(a,this,l,~class) $
+     r : $ exists a/Attribute l/Label Pa(a,this,l,~class) $
 end
 
 AnswerFormat AF_find_referring_objects_obi  with
@@ -269,7 +269,7 @@ GenericQueryClass find_all_explicit_attribute_values in HiddenObject isA Proposi
   required,parameter
      objname : Proposition
   constraint
-     r : $ exists x/Attribute l/Label P(x,~objname,l,this) $
+     r : $ exists x/Attribute l/Label Pa(x,~objname,l,this) $
 end
 
 GenericQueryClass find_referring_objects2 in HiddenObject isA Proposition with
@@ -277,7 +277,7 @@ GenericQueryClass find_referring_objects2 in HiddenObject isA Proposition with
      objname : Proposition;
      cat : Attribute
   constraint
-{*     r : $ exists a/Attribute l/Label P(a,this,l,~objname) and In(a,~cat) $ *}
+{*     r : $ exists a/Attribute l/Label Pa(a,this,l,~objname) and In(a,~cat) $ *}
      r : $ AeD(~cat,this,~objname) $
 end
 
@@ -297,7 +297,7 @@ GenericQueryClass find_attribute_categories in HiddenObject isA Attribute with
   required,parameter
      objname : Proposition
   attribute,constraint
-     r : $ (exists c,d/Proposition l/Label In(~objname,c) and P(this,c,l,d) and not(UNIFIES(c,Proposition)) and
+     r : $ (exists c,d/Proposition l/Label In(~objname,c) and Pa(this,c,l,d) and not(UNIFIES(c,Proposition)) and
  not (In(d,MSFOLassertion) or In(d,BDMRuleCheck) or In(d,BDMConstraintCheck))) or UNIFIES(this,Attribute) $
 end
 
@@ -328,7 +328,7 @@ GenericQueryClass find_explicit_attribute_values in HiddenObject isA Proposition
      objname : Proposition;
      cat : Attribute
   attribute,constraint
-{*      r : $ exists x/Attribute l/Label P(x,~objname,l,this) and In(x,~cat) $ *}
+{*      r : $ exists x/Attribute l/Label Pa(x,~objname,l,this) and In(x,~cat) $ *}
      r : $ AeD(~cat,~objname,this) and not In(this,BDMRuleCheck) and not In(this,BDMConstraintCheck) $
 end
 
@@ -336,7 +336,7 @@ GenericQueryClass find_incoming_attribute_categories in HiddenObject isA Attribu
   required,parameter
      objname : Proposition
   attribute,constraint
-     r : $ (exists c,d/Proposition l/Label In(~objname,c) and P(this,d,l,c) and not(UNIFIES(c,Proposition))) or UNIFIES(this,Attribute) $
+     r : $ (exists c,d/Proposition l/Label In(~objname,c) and Pa(this,d,l,c) and not(UNIFIES(c,Proposition))) or UNIFIES(this,Attribute) $
 end
 
 {* see also find_used_attribute_categories *}

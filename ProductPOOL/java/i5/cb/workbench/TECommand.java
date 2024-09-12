@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -214,7 +214,9 @@ public class TECommand implements ActionListener {
                    Thread th=new Thread() {
                        public void run() {
                            teTelosEditor.getCBIva().setCBEditor(i5.cb.graph.cbeditor.CBEditor.startCBEditorWithWorkbench(teTelosEditor.getCBIva(),
-                               teTelosEditor.getCBIva().getCBClient(),sObject1));
+                               teTelosEditor.getCBIva().getCBClient(),null));
+                           CBUtil.addNewDiagramObjectsFromTelosEditor(sObject1,
+                                (i5.cb.graph.cbeditor.CBFrame)teTelosEditor.getCBIva().getCBEditor().getActiveGraphInternalFrame());
                        }
                    };
                    th.start();
@@ -222,8 +224,8 @@ public class TECommand implements ActionListener {
                 //add the object in the graph browser also, if it is present
                   if(teTelosEditor.getCBIva().getCBEditor().getActiveGraphInternalFrame() !=null &&
                         ((i5.cb.graph.cbeditor.CBFrame)(teTelosEditor.getCBIva().getCBEditor().getActiveGraphInternalFrame())).isConnected()){
-                      CBUtil.createAndAddNewDiagramObject(sObject1,
-                                (i5.cb.graph.cbeditor.CBFrame)teTelosEditor.getCBIva().getCBEditor().getActiveGraphInternalFrame(),null);
+                      CBUtil.addNewDiagramObjectsFromTelosEditor(sObject1,
+                                (i5.cb.graph.cbeditor.CBFrame)teTelosEditor.getCBIva().getCBEditor().getActiveGraphInternalFrame());
                   }
                   else  {
                         te.getCBIva().getStatusBar().insertMessage("CBEditor not connected to server, or no Frame selected");

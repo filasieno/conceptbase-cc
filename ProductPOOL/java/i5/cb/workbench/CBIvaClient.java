@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -319,6 +319,7 @@ public class CBIvaClient {
 
             if (cbaAns.getCompletion() == CBanswer.OK) {
                 CBI.getStatusBar().insertMessage("Successfully told");
+                updateCBIvaWindows(sFrames);
                 CBI.getLogWindow().insertOperation(LogWindow.TELL, asArgs, true);
             }
             else {
@@ -391,6 +392,7 @@ public class CBIvaClient {
 
             if (cbaAns.getCompletion() == CBanswer.OK) {
                 CBI.getStatusBar().insertMessage("Successfully untold");
+                updateCBIvaWindows(sFrames);
                 CBI.getLogWindow().insertOperation(LogWindow.UNTELL, asArgs, true);
             }
             else {
@@ -464,6 +466,7 @@ public class CBIvaClient {
 
             if (cbaAns.getCompletion() == CBanswer.OK) {
                 CBI.getStatusBar().insertMessage("Successfully re-told");
+                updateCBIvaWindows(sUntellFrames+sTellFrames);
                 CBI.getLogWindow().insertOperation(LogWindow.RETELL, asArgs, true);
             }
             else {
@@ -641,13 +644,27 @@ public class CBIvaClient {
         }
     }
 
+
+    // CBIva maintains a main QueryBrowser wondow and a main ModuleDialog; these contain views on the database
+    // and should be kept up to date; The parameter 'about' is usually the tell/untell transaction if it contains
+    // some of the keyword "QueryClass" or "Module", then the windows need to be updated
+    public void updateCBIvaWindows(String about) {
+        if (CBI.getMainQueryBrowser() != null && about.contains("QueryClass")) {
+            CBI.updateMainQueryBrowser();
+        }
+        if (CBI.getMainModuleDialog() != null && about.contains("Module")) {
+            CBI.updateMainModuleDialog();
+        }
+    }
+
     public void setModule(String s) {
         try {
             if (isConnected()) {
                 CBanswer ans=cbc.setModule(s);
-                if(ans.getCompletion() == CBanswer.OK )
+                if(ans.getCompletion() == CBanswer.OK ) {
                     CBI.getStatusBar().setModule(s);
-                else {
+                    updateCBIvaWindows("QueryClass, Module");
+                } else {
                     String errMsg=cbc.getErrorMessages();
                     JOptionPane.showMessageDialog(CBI,errMsg,"Unable to change module",JOptionPane.ERROR_MESSAGE);
                     CBI.getStatusBar().insertMessage("Unable to change module");
@@ -696,6 +713,7 @@ public class CBIvaClient {
             if (cbaAns.getCompletion() == CBanswer.OK) {
                 CBI.getStatusBar().insertMessage("Successfully told");
                 CBI.getLogWindow().insertOperation(LogWindow.TELLMODEL, asFiles, true);
+                updateCBIvaWindows("QueryClass,Module");
             }
             else {
             	CBI.getLogWindow().insertOperation(LogWindow.TELLMODEL, asFiles, false);

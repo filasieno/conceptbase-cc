@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -1124,6 +1124,7 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
             break;
             /*
              * Options|Save Options
+             * 2024-07-14: now disabled in CBIMenuBar.java
              */
         case iSAVE_OPTIONS:
             i5.cb.CBConfiguration.storeConfig();
@@ -1181,7 +1182,7 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
 
         }
         case iCALL_TELOS_PARSER: {
-            if(event.getSource() instanceof JCheckBoxMenuItem) {
+            if (event.getSource() instanceof JCheckBoxMenuItem) {
                 JCheckBoxMenuItem jcmi=(JCheckBoxMenuItem) event.getSource();
                 CBI.getCBClient().setCallTelosParser(jcmi.isSelected());
                 i5.cb.CBConfiguration.setCallTelosParser(jcmi.isSelected());
@@ -1190,7 +1191,7 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
         }
 
         case iSHOW_LINE_NUMBERS: {
-            if(event.getSource() instanceof JCheckBoxMenuItem) {
+            if (event.getSource() instanceof JCheckBoxMenuItem) {
                 JCheckBoxMenuItem jcmi=(JCheckBoxMenuItem) event.getSource();
                 CBI.getCBClient().setShowLineNumbers(jcmi.isSelected());
                 i5.cb.CBConfiguration.setShowLineNumbers(jcmi.isSelected());
@@ -1207,9 +1208,10 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
                 if(propName.indexOf("For_")<0)
                     alPropNames.add(propName);
             }
+            java.util.Collections.sort(alPropNames);
             JPanel jp=new JPanel(new GridLayout(alPropNames.size(),2));
             ArrayList alTextFields=new ArrayList(alPropNames.size());
-            for(int i=0;i<alPropNames.size();i++) {
+            for (int i=0;i<alPropNames.size();i++) {
                 JLabel jl=new JLabel((String) alPropNames.get(i));
                 jp.add(jl);
                 String propValue=props.getProperty((String) alPropNames.get(i));
@@ -1218,16 +1220,16 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
                 jp.add(jtf);
                 alTextFields.add(jtf);
             }
-            int ret=JOptionPane.showConfirmDialog(CBI, jp, "Edit Options",
+            int ret=JOptionPane.showConfirmDialog(CBI, jp, "Edit Options for ConceptBase Java Interface",
                                                   JOptionPane.OK_CANCEL_OPTION,
                                                   JOptionPane.QUESTION_MESSAGE);
-            if(ret == JOptionPane.CANCEL_OPTION) {
-                return;
-            }
-            else {
+            if (ret == JOptionPane.OK_OPTION) {
                 for(int i=0;i<alPropNames.size();i++) {
                     props.setProperty((String) alPropNames.get(i),((JTextField) alTextFields.get(i)).getText());
                 }
+                i5.cb.CBConfiguration.storeConfig();
+            } else {
+                return;
             }
             break;
         }

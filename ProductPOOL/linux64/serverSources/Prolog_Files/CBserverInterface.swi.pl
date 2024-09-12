@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -1015,6 +1015,11 @@ do_set_module_context(_s,_toolclass,_user,_fd,_old_module,_newmodule,ok) :-
 evalModuleExpression(_toolclass,_username,'..',_new_module) :-
   getModulePath(_mpath),        /** fetch the path to the current module **/
   getSuperModule(_mpath,_new_module),
+  !.
+
+/** also support "cd ." **/
+evalModuleExpression(_toolclass,_username,'.',_module) :-
+  getModuleName(_module),
   !.
 
 evalModuleExpression(_toolclass,_username,'$Home',_homemodule) :-

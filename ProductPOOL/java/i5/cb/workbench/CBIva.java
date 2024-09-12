@@ -1,7 +1,8 @@
+
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -53,6 +54,11 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+// for more modern FlatLight Look&Feel
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.ui.FlatListUI;
+
+
 /**  <BR>
 *   Class:    <b> for CBIva  </b><BR>
 *   Function: <b>  </b> <BR>
@@ -69,8 +75,8 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
     static JFrame jfServer=null;
     static ServerThread serverThread=null;
 
-    public static final String CBIVA_VERSION = "2.3.02";
-    public static final String CBIVA_DATE = "2022-08-16";
+    public static final String CBIVA_VERSION = "2.5.01";
+    public static final String CBIVA_DATE = "2024-07-16";
     public static final String JAVA_VERSION = System.getProperty("java.runtime.version");
 
     private JDesktopPane desktopPane;
@@ -129,6 +135,8 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
 
     private TelosEditor teMain;
     private TelosEditor teActive;
+    private QueryBrowser qbMain;
+    private ModuleDialog mdMain;
 
     private StatusBar SB;
 
@@ -196,6 +204,23 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
         teActive=te;
     }
 
+    public void setMainQueryBrowser(QueryBrowser qb) {
+        qbMain=qb;
+    }
+
+    public QueryBrowser getMainQueryBrowser() {
+        return qbMain;
+    }
+
+    public void setMainModuleDialog(ModuleDialog md) {
+        mdMain=md;
+    }
+
+    public ModuleDialog getMainModuleDialog() {
+        return mdMain;
+    }
+
+
     private String sStart="Successfully started";
 
     private LoadWindow loadWindow;
@@ -212,7 +237,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
            loadWindow.setText("CBIva Client");
            // wait some milliseconds to let the user see the load window
            try {
-                 Thread.sleep(50);  
+                 Thread.sleep(1500);  // show the load window for around 1.5 sec
                }
            catch (InterruptedException e) {}
         }
@@ -228,12 +253,20 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
 
         //Window Options
         this.setLocation(155,95);
-        this.setTitle("CBIva - ConceptBase.cc User Interface in Java");
+        this.setTitle("ConceptBase.cc CBIva");
         this.setIconImage(this.LoadImage("CBIvaS.gif"));
-        this.setSize(new Dimension(700,600)); // Fenstergroesse setzen
+
+        // Fenstergroesse setzen
+        if (this.hasBrowserWindows()) {
+           this.setSize(new Dimension(1002,900));
+        } else {
+           this.setSize(new Dimension(748,900));
+        }
+
         if (showLoadWindow) 
           loadWindow.setText("Telos Editor/Log Window");
         initTeloslogWindow();
+
         if (showLoadWindow) {
           loadWindow.setText("ready");
           loadWindow.dispose();
@@ -277,7 +310,65 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
 
    public void quickConnectCBserver() {
       cbClient.connectOrStartLocalCBserver();
+      this.showBrowserWindows();
    }
+
+
+   public boolean hasBrowserWindows() {
+      return CBConfiguration.hasCBIvaBrowserWindows();
+   }
+
+   // add the query browser and a module dialog left of the TelosEditor as soon as connection is established
+   public void showBrowserWindows() {
+      if (cbClient.isConnected() && hasBrowserWindows()) {
+          String[] buttonLabels= {"Ask", "Telos Editor","Cancel"};
+          String result=cbClient.ask("find_instances[vQueryClass/class]", "OBJNAMES", "LABEL");
+          String[] listElements=cbClient.asParseObjectNames(result);
+          QueryBrowser qb=new QueryBrowser(this, buttonLabels, listElements, "User Queries");
+          this.setMainQueryBrowser(qb);
+          this.add(qb);
+
+          String[] buttonLabels1= {"Change","Cancel"};
+          String result1=cbClient.findModules();
+          String[] listElements1=cbClient.asParseObjectNames(result1);
+          ModuleDialog dlg=new ModuleDialog(this, cbClient.getModule(), buttonLabels1, listElements1);
+          dlg.setVisible(true);
+          this.setMainModuleDialog(dlg);
+          this.add(dlg, JLayeredPane.MODAL_LAYER);
+          
+      }
+   }
+
+    public void updateMainQueryBrowser() {
+       if (cbClient.isConnected() && hasBrowserWindows()) {
+          if (this.getMainQueryBrowser() != null) {
+              this.getMainQueryBrowser().dispose();
+              this.setMainQueryBrowser(null);
+          }
+          String[] buttonLabels= {"Ask", "Telos Editor","Cancel"};
+          String result=cbClient.ask("find_instances[vQueryClass/class]", "OBJNAMES", "LABEL");
+          String[] listElements=cbClient.asParseObjectNames(result);
+          QueryBrowser qb=new QueryBrowser(this, buttonLabels, listElements, "User Queries");
+          this.setMainQueryBrowser(qb);
+          this.add(qb);
+       }
+    }
+
+    public void updateMainModuleDialog() {
+       if (cbClient.isConnected() && hasBrowserWindows()) {
+          if (this.getMainModuleDialog() != null) {
+              this.getMainModuleDialog().dispose();
+              this.setMainModuleDialog(null);
+          }
+          String[] buttonLabels1= {"Change","Cancel"};
+          String result1=cbClient.findModules();
+          String[] listElements1=cbClient.asParseObjectNames(result1);
+          ModuleDialog dlg=new ModuleDialog(this, cbClient.getModule(), buttonLabels1, listElements1);
+          dlg.setVisible(true);
+          this.setMainModuleDialog(dlg);
+          this.add(dlg, JLayeredPane.MODAL_LAYER);
+       }
+    }
 
 
 
@@ -410,6 +501,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
         this.getContentPane().add(SB,BorderLayout.SOUTH);
         this.getContentPane().add(ToolBar,BorderLayout.NORTH);
         this.setJMenuBar(MenuBar);
+
     }
 
     public void showAboutWindow() {
@@ -425,7 +517,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
         panI5.add(new JLabel("Manfred Jeusfeld",JLabel.LEFT),BorderLayout.CENTER);
         JPanel panI5a = new JPanel();
         panI5a.setLayout(new BorderLayout());
-        panI5a.add(new JLabel("http://conceptbase.cc/cbteam.html",JLabel.LEFT),BorderLayout.NORTH);
+        panI5a.add(new JLabel("http://conceptbase.cc/mjf",JLabel.LEFT),BorderLayout.NORTH);
         panI5.add(panI5a,BorderLayout.SOUTH);
 
         JPanel panProg = new JPanel();
@@ -445,6 +537,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
         panName.add(new JLabel("Copyright 1987-2024 by The ConceptBase Team. All rights reserved.",JLabel.CENTER));
         panName.add(new JLabel("Distributed under a FreeBSD-style copyright license.",JLabel.CENTER));
         panName.setBorder(new javax.swing.border.TitledBorder(javax.swing.border.LineBorder.createGrayLineBorder()));
+
 
 
         JPanel panSouth = new JPanel();
@@ -580,6 +673,12 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
            }
     }
 
+    private static boolean linuxHost() {
+        String osName = System.getProperty("os.name");
+        int linuxFound = osName.indexOf("Linux");
+        return (linuxFound != -1);
+    }
+
 
     /**
     *  showWebPageWithoutBrowser displays a web page with a JEditorPane. This is supported
@@ -624,7 +723,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
         catch(SecurityException secex) {
             sCB_HOME="";
             }
-        String sUrl="file:///"+sCB_HOME+"/CB-FreeBSD-License.txt";
+        String sUrl="file:///"+sCB_HOME+"/CB+Copyright.txt";
         try {
             java.net.URL helpURL = new java.net.URL(sUrl);
             editorPane.setPage(helpURL);
@@ -633,7 +732,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
             JOptionPane.showMessageDialog(this,"Could not open URL: " + sUrl + "\n" + e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
         }
         JScrollPane jsp=new JScrollPane(editorPane);
-        JFrame jfHelp=new JFrame("CB-FreeBSD-License.txt");
+        JFrame jfHelp=new JFrame("CB+Copyright.txt");
         jfHelp.getContentPane().add(jsp);
         jfHelp.setSize(750,550);
         jfHelp.setVisible(true);
@@ -672,6 +771,23 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
                   System.out.println("No warranty, not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.");
                   System.exit(0);
           }
+
+
+
+        // activate FlatLightLaf Look & Feel if possible
+        try {
+            UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
+        } catch (Exception ex) {
+            System.err.println("CBIva: Failed to initialize Look&Feel FlatLightLaf");
+        }
+
+        // No OS window frame, instead let Look&Feel create a custom frame (default on Windows)
+        // Only works with FlatLaf Look&Feels!
+        //if (UIManager.getLookAndFeel().getName().startsWith("FlatLaf") && linuxHost()) {
+        //   JFrame.setDefaultLookAndFeelDecorated(true);
+        //   JDialog.setDefaultLookAndFeelDecorated(true);
+        //}
+
         CBIva cbiva = new CBIva(true);
         // try to connect to CBserver 
         cbiva.quickConnectCBserver();
@@ -723,6 +839,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
             }
         }
         CBI.startedFromCBGraph = true;
+        CBI.showBrowserWindows();
         return CBI;
     }
 

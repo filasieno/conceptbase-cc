@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -230,10 +230,13 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
+
+
 :- dynamic 't_msp'/1 .
     /** Temporaerer ModulSearchSpace **/
 
 :- dynamic 'IS_DEDUCABLE'/1 .
+:- dynamic 'IS_DEDUCABLE_INAC'/1 .
 :- dynamic 'DEDUCED_ACs'/1 .
     /** Local precomputed facts **/
 
@@ -333,12 +336,6 @@ checkCorrectID(_name,_label,_id) :-
   !.
 
 
- 
-
-
-
-
-
 
 /* ********************* p r o v e _ l i t e r a l *************************** */
 /*                                                              MSt 12-Apr-89  */
@@ -351,23 +348,35 @@ checkCorrectID(_name,_label,_id) :-
 /*                                                                             */
 /* *************************************************************************** */
 
-
-
 /* "Dotted" A predicate replaces AttrValue in integrity constraints and
   triggered rules. The cc is the "concerned" class of the the original
   AttrValue. See also CBNEWS[152]*/
 
-/** #195: used only by SystemQueries.sml **/
-prove_literal('AD'(_cc,_x,_y)) :-
-	var(_cc),
-	!,
-        (get_Adot(_cc,_x,_y,_);
-         ded_Adot(_cc,_x,_y)).
 
+
+
+/** #195: used only by SystemQueries.sml **/
+/** only used in find_used_incoming_attribute_categories and **/
+/** find_used_attribute_categories with var(_cc)             **/
+prove_literal('AD'(_cc,_x,_y)) :-
+	var(_cc),   
+	!,
+        prove_AD_var(_cc,_x,_y).
+/** old implementation will evaluate the whole extension
+        (get_Adot(_cc,_x,_y,_,_);
+         ded_Adot(_cc,_x,_y);
+         ded_Adot_label(_cc,_x,_y,_)
+        ).
+**/
+
+
+
+/** this variant is used by other SystemQueries; there _cc is a required parameter **/
 prove_literal('AD'(_cc,_x,_y)) :-
         ground(_cc),
         !,
         prove_literal('Adot'(_cc,_x,_y)).
+
 
 
 /** ticket #414: this predicate should be used for the builtin query find_explicit_attribute_values **/
@@ -379,16 +388,18 @@ prove_literal('AeD'(_cc,_x,_y)) :-
 
 /*Bei Anfrage-Auswertung, wenn prove_literal(Adot(_cc,_x,_ml,_y)) und _x oder _y nach einer Instanz von ExternalObject oder
  ExternalQuery referenziert ist, muessen alle Instanzen von der ggf. in CB eingeladen werden. Damit Auswertung fortfuehren kann.*/
-prove_literal('Adot'(_cc,_x,_y)) :-
-	'LoadExternalDataForQueryEvaluating'(yes),
-	retrieve_proposition('P'(_cc,_c,_ml,_d)),
+/** deactivated
+prove_literal(Adot(_cc,_x,_y)) :-
+	LoadExternalDataForQueryEvaluating(yes),
+	retrieve_proposition(P(_cc,_c,_ml,_d)),
 	testIfShallLoad([_c,_d],_ObjToLoad),
 	_ObjToLoad\==[],
 	!,
 	tell_temp_ExObj(_ObjToLoad),
 	write('Instance for '),write(_ObjToLoad),write(' loaded!\n'),
   	!,
-	prove_literal('Adot'(_cc,_x,_y)).
+	prove_literal(Adot(_cc,_x,_y)).
+**/
 
 prove_literal('Adot'(id_1529,_x,_y)) :-   /** id_1529=Module!contains **/  /** see checkCorrectIDs **/
     !,
@@ -397,23 +408,6 @@ prove_literal('Adot'(id_1529,_x,_y)) :-   /** id_1529=Module!contains **/  /** s
 prove_literal('Adot'(_cc,_x,_y)) :-
         get_Aedot(_cc,_x,_y).
 
-/* If concerned class is the system class Attribute,
-* then use get_Adot because these facts are not stored in the C-implemented object base. */
-/** 18-Jan-2005/M.Jeusfeld: only consider Attribute, not the other system omega classes **/
-/** and do not use prove_by_cache for this literal pattern!                             **/
-
-/** if _x is a variable, then we cannot use prove_C_Attr_s **/
-prove_literal('Adot'(id_6,_x,_y)) :-   /** id_6=Attribute **/  /** see checkCorrectIDs **/
-	var(_x),!,
-        retrieve_proposition('P'(_id,_x,_l,_y)),
-        attribute('P'(_id,_x,_l,_y)).
-
-
-prove_literal('Adot'(id_6,_x,_y)) :-   /** id_6=Attribute **/  /** see checkCorrectIDs **/
-	!,
-        prove_C_Attr_s(_x,_id),
-        retrieve_proposition('P'(_id,_x,_l,_y)).
-
 prove_literal('Adot'(_cc,_x,_y)) :-
 	!,  /* Keine weiteren Loesungen weiter unten relevant */
 	ded_Adot(_cc,_x,_y).
@@ -421,23 +415,25 @@ prove_literal('Adot'(_cc,_x,_y)) :-
 
 /*Bei Anfrage-Auswertung, wenn prove_literal(Adot_label(_cc,_x,_y,_l)) und _x oder _y nach einer Instanz von ExternalObject oder
  ExternalQuery referenziert ist, muessen alle Instanzen von der ggf. in CB eingeladen werden. Damit Auswertung fortfuehren kann.*/
-prove_literal('Adot_label'(_cc,_x,_y,_l)) :-
+/** deactivated, will likely not work anymore
+prove_literal(Adot_label(_cc,_x,_y,_l)) :-
 	ground(_cc),
-	'LoadExternalDataForQueryEvaluating'(yes),
-	retrieve_proposition('P'(_cc,_c,_ml,_d)),
+	LoadExternalDataForQueryEvaluating(yes),
+	retrieve_proposition(P(_cc,_c,_ml,_d)),
 	testIfShallLoad([_c,_d],_ObjToLoad),
 	_ObjToLoad\==[],
 	!,
 	tell_temp_ExObj(_ObjToLoad),
 	write('Instance for '),write(_ObjToLoad),write(' loaded!\n'),
   	!,
-	prove_PROLOG_literal('Adot_label'(_cc,_x,_y,_l)).   /** was: Adot(.): _l was not bound! **/
+	lowselectivity_Adot_label(_cc,_x,_y,_l).   
+**/
 
 /* Adot_label: Adot mit Attributlabel   11-Oct-96/CQ*/
 prove_literal('Adot_label'(_cc,_x,_y,_l)) :-
-	(var(_cc);systemOmegaClass(_cc)),
+	(var(_cc);_cc=id_6),   /** id_6 = Proposition!attribute **/
 	!,
-	prove_PROLOG_literal('Adot_label'(_cc,_x,_y,_l)).
+	lowselectivity_Adot_label(_cc,_x,_y,_l).
 
 /** ticket #164: generalize the AL literal; do not use prove_C_Adot **/
 /** since it does not allow to consider derived instantiations of   **/
@@ -514,8 +510,9 @@ prove_literal('A_label'(_x,_ml,_y,_catom)) :-
 /*Bei Anfrage-Auswertung, wenn prove_literal(In(_x,_c)) und _c eine Instanz von ExternalObject oder ExternalQuery ist,
 muessen alle Instanzen von _c ggf. in CB eingeladen werden. Damit Auswertung fortfuehren kann.*/
 
-prove_literal('In'(_x,_c)) :-
-	'LoadExternalDataForQueryEvaluating'(yes),
+/** deactivated
+prove_literal(In(_x,_c)) :-
+	LoadExternalDataForQueryEvaluating(yes),
 	ground(_c),
 	testIfShallLoad([_c],_ObjToLoad),
 	_ObjToLoad\==[],
@@ -523,7 +520,8 @@ prove_literal('In'(_x,_c)) :-
 	tell_temp_ExObj(_ObjToLoad),
 	write('Instance for '),write(_ObjToLoad),write(' loaded!\n'),
   	!,
- 	prove_literal('In'(_x,_c)).
+ 	prove_literal(In(_x,_c)).
+**/
 
 
 prove_literal('In'(_x,_c)) :-
@@ -546,7 +544,7 @@ prove_literal('In'(_x,_c)) :-
 /** ticket #412: special case for singleton classes **/
 prove_literal('In'(_x,_x)) :-
   var(_x),!,
-  prove_In(_x,id_0),  /** id_0 = Proposition; provide a range for _x */
+  prove_In_e(_x,id_0),  /** id_0 = Proposition; provide a range for _x */
   prove_In(_x,_x).
 
 prove_literal('In'(_x,_querycall)) :-
@@ -1013,11 +1011,16 @@ evalFunctionCall(_lit,_f,_args) :-
   prove_function_by_cache(_lit).   /** will deliver at most one answer **/
 
 
-prove_PROLOG_literal('Adot_label'(_cc,_x,_y,_l)) :-
-	get_Adot(_cc,_x,_y,_id),
-	retrieve_proposition('P'(_id,_x,_l,_y)).
 
-prove_PROLOG_literal('Adot_label'(_cc,_x,_y,_catom)) :-
+
+/** lowselectivity_Adot_label is used when the parameter _cc is either a variable or **/
+/** equal to Proposition!attribute (id_6).                                           **/
+
+
+lowselectivity_Adot_label(_cc,_x,_y,_l) :-
+	get_Adot(_cc,_x,_y,_id,_l).
+
+lowselectivity_Adot_label(_cc,_x,_y,_catom) :-
 	ded_Adot(_cc,_x,_y),
 	get_computed_atom(_ml,_y,_catom).
 
@@ -1343,8 +1346,7 @@ prove_In_eh(_x,_c) :-
 ded_In_cc(_id,_cc) :-
    var(_cc),
    !,
-   'IS_DEDUCABLE'('In'(_id,_cc)),  /** if there is more than one rule head, we shall backtrack **/
-   \+ prove_In_e(_cc,id_65),     /** id_65 = QueryClass **/
+   'IS_DEDUCABLE_INAC'('In'(_id,_cc)),  /** _cc is guaranteed to be an attribute category **/
    prove_by_cache('In'(_id,_cc)).
 
 
@@ -1369,34 +1371,57 @@ get_A(_x,_ml,_y) :-
 
 /* dotted A predicates: make distinction upon instantiation of x*/
 
-get_Adot(_cc,_x,_y,_id1) :-
+get_Adot(_cc,_x,_y,_id1,_l) :-
   (atom(_x); atom(_y)),
   !,
   retrieve_proposition('P'( _id1, _x, _l, _y)),
   attribute('P'( _id1, _x, _l, _y)),
   ( prove_In_e(_id1,_cc) ; ded_In_cc(_id1,_cc) ).   /** ded_In_cc case only needed for calls where _cc is a variable **/
 
-get_Adot(_cc,_x,_y,_id1) :-
+get_Adot(_cc,_x,_y,_id1,_l) :-
   prove_In_e(_id1,_cc),
   retrieve_proposition( 'P'( _id1, _x, _l, _y)).
 
 
 /** Ticket #207 **/
-/** There are 2 ways to make Aedot(cc,x,y) true:                        **/
+/** There are 2 ways to make Aedot(cc,x,y) true:                          **/
 /**  (1): There is an explicit attribute between x,y that has the         **/
-/**       explicit attribute category m.                                  **/
+/**       explicit attribute category cc.                                 **/
 /**  (2): There is an explicit attribute between x,y and the attribute    **/
 /**       category is derived by a rule.                                  **/
 /**                                                                       **/
-/** We assume that the argument cc (concerned class) is always bound.     **/
 
 
-get_Aedot(_cc,_x,_y) :-    
+/* If concerned class is the system class Attribute,
+* then use get_Adot because these facts are not stored in the C-implemented object base. */
+/** 18-Jan-2005/M.Jeusfeld: only consider Attribute, not the other system omega classes **/
+/** and do not use prove_by_cache for this literal pattern!                             **/
+
+/** if _x is a variable, then we cannot use prove_C_Attr_s **/
+get_Aedot(_cc,_x,_y) :-
    ground(_cc),
    _cc = id_6, /** id_6 = Proposition!attribute **/
-   !,
+   var(_x),!,
    retrieve_proposition('P'(_id,_x,_l,_y)),
    attribute('P'(_id,_x,_l,_y)).
+
+/** use special predicate prove_C_Attr_s if x is ground and cc is Proposition!attribute **/
+get_Aedot(_cc,_x,_y) :- 
+   ground(_cc),
+   _cc = id_6, /** id_6 = Proposition!attribute **/
+   ground(_x),
+   !,
+   prove_C_Attr_s(_x,_id),
+   retrieve_proposition('P'(_id,_x,_l,_y)).
+
+/** old alternative for id_6
+get_Aedot(_cc,_x,_y) :-    
+   ground(_cc),
+   _cc = id_6, 
+   !,
+   retrieve_proposition(P(_id,_x,_l,_y)),
+   attribute(P(_id,_x,_l,_y)).
+**/
 
 
 get_Aedot(_cc,_x,_y) :-
@@ -1412,7 +1437,7 @@ get_Aedot(_cc,_x,_y) :-
 
 
 get_Aedot(_cc,_x,_y) :-
-   'IS_DEDUCABLE'('In'(_id,_cc)),  /** if there is more than one rule head, we shall backtrack **/
+   'IS_DEDUCABLE_INAC'('In'(_id,_cc)),  /** is derivable by a deductive rule **/
    prove_by_cache('In'(_id,_cc)),
    retrieve_proposition('P'(_id,_x,_l,_y)).
 
@@ -1420,6 +1445,8 @@ get_Aedot(_cc,_x,_y) :-
 
 get_Aidot(_cc,_x,_l,_id) :-
    prove_C_Aidot(_cc,_x,_l,_id).
+
+
 
 
 
@@ -1482,9 +1509,54 @@ do_ded_Adot(_cc,_x,_y) :-
 
 
 
+/** same for ded_Adot_label **/
+
+ded_Adot_label(_cc,_x,_y) :-
+    ground(_cc),
+    !,
+    do_ded_Adot_label(_cc,_x,_y,_l).
+
+ded_Adot_label(_cc,_x,_y,_l) :-
+   (ground(_x);ground(_y)),
+   !,
+   isDeducableAttribution(_cc),
+   prove_by_cache('Adot_label'(_cc,_x,_y,_l)).
 
 ded_Adot_label(_cc,_x,_y,_l) :-
     prove_by_cache('Adot_label'(_cc,_x,_y,_l)).
+
+do_ded_Adot_label(_cc,_x,_y,_l) :-
+  prove_by_cache('Adot_label'(_cc,_x,_y,_l)).
+
+
+
+/** prove_AD_var(_cc,_x,_y) implements part of the AD(_cc,_x,_y) predicate used in some   **/
+/** queries of SystemQueries.sml. Specifically, it covers the case that _cc is a variable **/
+/** but at least _x or _y is a constant. Rather than deriving all solutions, prove_AD_var **/
+/** only checks whether either Adot(_cc,_x,_y) is aan explicit fact (not derived)         **/
+/** or there is a rule that matches Adot(_cc,_x,_y) and _x resp y_ are instances of the   **/
+/** source/destination of _cc.                                                            **/
+/** CBGraph uses the relevant queries find_used_[incoming_]attribute_categories. The new  **/
+/** implementation prove_AD_var(_cc,_x,_y) will thus deliver more solutions for _cc than  **/
+/** the old implementation. But it is much faster.                                        **/
+
+prove_AD_var(_cc,_x,_y) :-
+  get_Adot(_cc,_x,_y,_,_).
+
+prove_AD_var(_cc,_x,_y) :-
+   ground(_x),
+   !,
+   isDeducableAttribution(_cc),
+   retrieve_proposition('P'(_cc,_c,_m,_d)),
+   prove_literal('In'(_x,_c)). /** so _x could have a derived attribute under _cc **/
+
+prove_AD_var(_cc,_x,_y) :-
+   ground(_y),
+   !,
+   isDeducableAttribution(_cc),
+   retrieve_proposition('P'(_cc,_c,_m,_d)),
+   prove_literal('In'(_y,_d)). /** so _y could be a derived attribute value under _cc **/
+
 
 
 
@@ -1721,6 +1793,7 @@ getQueryArg(_label,[_|_rest],_arg) :-
 
 prove_by_cache(_lit) :-
   effectiveCacheMode(_mode),   /** ticket #237 **/
+  /** litCardinality(_lit,_card),*/ /** possibly exploit functionality of certain lits **/
   prove_by_cache(relational,_mode,_lit).   /** relational: can deliver multiple answers **/
 
 
@@ -1748,6 +1821,20 @@ prove_by_cache(_card,_,_lit) :-
   save_prove(_card,_lit,_clit,_cacheSlotId).
 
 
+
+/** litCardinality checks whether a predicate call _lit can have more than one solution. **/
+/** If yes, then it is classified as relational, otherwise functional.                   **/
+
+/** 2024-04-28: does not lead to better performance and has the disadvantage of not
+   being able to have multiple solutions of (x m/n y) when x,m,,n are bound.
+litCardinality(Adot_label(_cc,_x,_m,_y,_label),functional) :-
+  atomic(_x),
+  atomic(_cc),
+  atomic(_m),
+  atomic(_label),
+  !.
+litCardinality(_lit,relational).
+**/
 
 
 
@@ -2250,6 +2337,7 @@ precompute_DEDUCABLE.
 
 precompute_DEDUCABLE :-
   retractall('IS_DEDUCABLE'(_)),
+  retractall('IS_DEDUCABLE_INAC'(_)),
   retractall('DEDUCED_ACs'(_)),
   cleanCachedSpeedyFacts, 
   save_setof(_dlit,deducableLit(_dlit),_dlits),
@@ -2267,8 +2355,18 @@ storeDeducableLits([]).
 
 storeDeducableLits([_lit|_rest]) :-
   assert('IS_DEDUCABLE'(_lit)),
-  tryStore('IS_DEDUCABLE'(_lit)),
+  storeIsDeducable_INAC(_lit),
+/*  tryStore(IS_DEDUCABLE(_lit)), */  /** obviously redundant **/
   storeDeducableLits(_rest).
+
+
+/** also memorize if instantiation to an attribute category ac is derivable by a rule **/
+storeIsDeducable_INAC('In'(_a,_ac)) :-
+  retrieve_proposition('P'(_ac,_c,_m,_d)),
+  attribute('P'(_ac,_c,_m,_d)),
+  assert('IS_DEDUCABLE_INAC'(_lit)),
+  !.
+storeIsDeducable_INAC(_).
 
 
 storeDeducableAttributes(_acs) :-

@@ -10,6 +10,19 @@ CBICONSTARGET=$CBDISTROS/CB-LATEST/CBICONS
 
 CB_VARIANT=`CBvariant`
 
+CB_POOL=$CB_WORK
+
+CB_PRODUCT=$CB_POOL/../conceptbase  # default target
+if [ -d $HOME/ELVIRA-BIN/conceptbase ]; then
+   CB_PRODUCT=$HOME/ELVIRA-BIN/conceptbase
+fi
+if [ -n "$1" ]; then
+   CB_PRODUCT=$1
+fi
+
+echo "Using conceptbase directory $CB_PRODUCT ..."
+
+
 if [ ! -d $CBDISTROS ]; then
 	mkdir $CBDISTROS
 fi
@@ -22,14 +35,25 @@ fi
 # First copy all local binaries (incl. documentation, Java, etc.)
 # The directory  $HOME/CBPOOL/conceptbase/ is supposed to be created
 # by compileCB
+
+
+
 echo Copying local ConceptBase to CB-LATEST ...
-cp -rf $HOME/CBPOOL/conceptbase/* $CBDISTROS/CB-LATEST
+cp -rf $CB_PRODUCT/* $CBDISTROS/CB-LATEST
 
 # Copy SWI-PL shared libs if needed 
 if [ -d $SWI_HOME/lib/swipl-6.6.6/lib/`arch`-linux/ ]; then
 	echo Copying libswipl.so 
 	cp $SWI_HOME/lib/swipl-6.6.6/lib/`arch`-linux/libswipl.so.* $CBDISTROS/CB-LATEST/$CB_VARIANT/lib
 fi
+
+# When compiled under Ubuntu 20.04, these libraries are needed by cbserver/SWI-Prolog and are added in case the target is different (older or newer)
+echo "Copying certain Ubuntu 20.04 (Mint 20.1) libraries to local Linux lib directory of cbserver used by LD_LIBRARY_PATH"
+cp  /usr/lib/x86_64-linux-gnu/libtinfo.so.6 $CBDISTROS/CB-LATEST/$CB_VARIANT/lib/libtinfo.so.6
+cp  /usr/lib/x86_64-linux-gnu/libm.so.6 $CBDISTROS/CB-LATEST/$CB_VARIANT/lib/libm.so.6
+cp  /usr/lib/x86_64-linux-gnu/libreadline.so.5 $CBDISTROS/CB-LATEST/$CB_VARIANT/lib/libreadline.so.5
+cp  /usr/lib/x86_64-linux-gnu/libncurses.so.6 $CBDISTROS/CB-LATEST/$CB_VARIANT/lib/libncurses.so.6
+cp  /usr/lib/x86_64-linux-gnu/libncursesw.so.6 $CBDISTROS/CB-LATEST/$CB_VARIANT/lib/libncursesw.so.6
 
 
 # CBserver binaries for other platforms need to be compiled on other computers
@@ -60,10 +84,10 @@ fi
 makeFATCBINSTALLER
 makeCBLATEST
 
-if [ -d $HOME/Dropbox ]; then
-	echo Copying CBinstaller to Dropbox
-	cp -f $CBDISTROS/CBinstaller.jar $HOME/Dropbox/
+if [ -d $HOME/ConceptBaseCC-SourceForge ]; then
+	echo Copying CBinstaller to ConceptBaseCC-SourceForge
+	cp -f $CBDISTROS/CBinstaller.jar $HOME/ConceptBaseCC-SourceForge/
 fi
 
-echo "\nCreated CBinstaller.jar and cblatest.zip in $CBDISTROS"
+echo "\nCreated CBinstaller.jar and cblatest.zip in $CBDISTROS and copied to $HOME/ConceptBaseCC-SourceForge/"
 echo All done.

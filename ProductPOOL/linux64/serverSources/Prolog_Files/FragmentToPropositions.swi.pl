@@ -1,7 +1,7 @@
 /**
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -248,6 +248,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 :- use_module('GlobalParameters.swi.pl').
+
 
 
 :- dynamic 'x@type'/1 .
@@ -1167,8 +1168,14 @@ store_propertylist(_x,_AClist,[property(_label,_)|_rest]) :-
   fail.
 
 store_propertylist(_x,_AClist,[_property|_rest]) :-
-  checkLabel(_AClist,_property,_property1),
+  checkLabel(_x,_AClist,_property,_property1),
+  !,
   store_property(_x,_AClist,_property1),
+  store_propertylist(_x,_AClist,_rest).
+
+/** nissue #5: When checkLabel in above clause fails, then the _property does not need to be stored again to **/
+/** avoid duplicate attributes when using anonymous property label '_'                                       **/
+store_propertylist(_x,_AClist,[_property|_rest]) :-
   store_propertylist(_x,_AClist,_rest).
 
 forbiddenLabel('and').   /** list of forbidden attribute labels **/
@@ -1180,22 +1187,35 @@ forbiddenLabel('exists').
 
 /* ... replace empty label -- indicated by '?' -- with a new unique label */
 
-checkLabel(_AClist,property('?',_a),
+checkLabel(_x,_AClist,property('?',_a),
            property(_l,_a)) :-
   newIdentifier(_newid),
   pc_atomconcat('l',_newid,_l),
   !.
 
-/** issue #40: replace placeholder label '_' as well **/
+
+
+/** issue #40, nissue #5: replace placeholder label '_' as well **/
+
+/** case 0: the predicate Aedot(catid,x,a) is already true, then checkLabel fails and the property is not stored **/
+checkLabel(_x,[_catid],property('_',_a),_) :-
+  is_id(_x),
+  is_id(_catid),
+  is_id(_a),
+  prove_literal('Aedot'(_catid,_x,_a)),  /** the link is already defined **/
+/**  write_lcall(Aedot(_catid,_x,_a)),nl, **/
+  !,
+  fail.
+
 /** case 1: we only have one attribute category, then use its label as prefix and append a unique identifier **/
-checkLabel([_catid],property('_',_a),
+checkLabel(_x,[_catid],property('_',_a),
            property(_l,_a)) :-
   id2name(_catid,_catlabel),
   newIdentifier(_newid),
   pc_atomconcat([_catlabel,'__',_newid],_l),
   !.
 /** case 2: otherwise use the prefix 'a' **/
-checkLabel(_AClist,property('_',_a),
+checkLabel(_x,_AClist,property('_',_a),
            property(_l,_a)) :-
   newIdentifier(_newid),
   pc_atomconcat('a__',_newid,_l),
@@ -1203,7 +1223,7 @@ checkLabel(_AClist,property('_',_a),
 
 
 /** normal case: we take the property label as supplied in the SMLfragment **/
-checkLabel(_AClist,_property,_property).
+checkLabel(_x,_AClist,_property,_property).
 
 
 

@@ -1,7 +1,7 @@
 % The ConceptBase User Manual (CB-Manual)
 % Copyright 1987-2024 by The ConceptBase Team
 % The CB-Manual may only be updated by members of the ConceptBase Team
-% as listed on http://conceptbase.cc
+% as listed on https://conceptbase.sourceforge.net/
 % The TeX sources of the CB-Manual and the accompanying
 % figures can be freely distributed under the provision that this
 % clause is included in file CB-Manual.tex and that CB-Manual.tex
@@ -179,9 +179,8 @@ calls to builtin query classes like {\tt get\_object[Class/objname]} may only oc
 	in a table view.
 	\item[Look and Feel:] You can switch the look and feel to an other style. Default and preferred is
              'Metal'.
-	\item[Save Options:] Saves the current options for subsequent sessions of CBIva.
-	\item[Edit Options Manually:] Complete and editable list of options for CBIva. The contents
-        is maintained in a file '.CBjavaInterface' of the user home directory.
+	\item[Edit Options:] Complete and editable list of options for CBIva. The new options
+        are stored in a file '.CBjavaInterface' of the user home directory.
 	\end{description}
 \item[Help:]
 	\begin{description}
@@ -1653,13 +1652,15 @@ can also be modified CBIva via the "Options" menu.
 \item[UseQueryResultWindow:] Use the query result window to display results of a query (true/false).
 \item[ConnectionTimeout:] Number of milliseconds the interface waits for a response of the server
 \item[LPICall:] Enable LPI-Call (internal use only).
-\item[ShowLineNumbers:] If set to 'true', the Telos editor of CBIva shall display line numbers.
-\item[CBIvaSmallfont:] The font size of the TelosEditor text and log area as regular (small) font, default "12f".
-\item[CBIvaLargefont:] The font size of the TelosEditor text and log area as large font, default "18f".
-\item[PublicCBserver:] Either 'none' (=disabled) or the domain name of a computer that hosts a publicly accessible
-ConceptBase server. A port number can be appended as well like in 'cbserver.acme.com/4002'. Default port number is 4001.
+\item[ShowLineNumbers:] If set to \verb+true+, the Telos editor of CBIva shall display line numbers.
+\item[CBIvaSmallfont:] The font size of the TelosEditor text and log area as regular (small) font, default \verb+12f+.
+\item[CBIvaLargefont:] The font size of the TelosEditor text and log area as large font, default \verb+18f+.
+\item[PublicCBserver:] Either \verb+none+ (=disabled) or the domain name of a computer that hosts a publicly accessible
+ConceptBase server. A port number can be appended as well like in 'cbserver.acme.com/4002'. Default port number is \verb+4001+.
 The variable PublicCBserver also applies to CBGraph and CBShell. See section \ref{sec:pubcbserver} for more details. If the value is different
 from 'none', then CBIva shall attempt to connect to the public CBserver at startup.
+\item[CBIvaBrowserWindows:] Set to \verb+true+ if CBIva shall display windows for the currently defined queries
+and the visible modules nect to the TelosEditor window. Default is \verb+false+.
 \end{description}
 
 

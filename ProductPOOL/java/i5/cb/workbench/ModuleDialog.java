@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -48,21 +48,26 @@ public class  ModuleDialog extends GenericSelectionDialog implements MouseListen
 
 
     public ModuleDialog(CBIva CBI,String module, String[] buttons,String[] modules) {
-        super(CBI, "Change Module", "Current Module is:  " + module,buttons,modules) ;
+        super(CBI, "Visible Modules", "Current Module is:  " + module,buttons,modules,true) ;
+        this.setSize(260,225);
+        this.setLocation(0,555);
         list.addMouseListener(this);
+        if (CBI.getMainModuleDialog() == null) 
+          CBI.setMainModuleDialog(this);
     }
 
     public void buttonPressed(String label) {
         // Hier muessen die einzelnen Actions eingetragen werden
         if (label.equals("Change")) {
             String selectedItem = list.getSelectedItem().toString();
-
             cbClient.setModule(selectedItem);
-            this.setVisible(false);
-            this.dispose();
+            if (CBI.getMainModuleDialog() != null) {
+                CBI.updateMainModuleDialog();
+            }
         }
-        else {
+        else {   // "Cancel "
             this.setVisible(false);
+            CBI.setMainModuleDialog(null);
             this.dispose();
         }
     }
@@ -71,19 +76,9 @@ public class  ModuleDialog extends GenericSelectionDialog implements MouseListen
         if(e.getClickCount()>1) {
             String selectedItem = list.getSelectedItem().toString();
             cbClient.setModule(selectedItem);
-            Dimension dim=this.getSize();
-            Point pt=this.getLocation();
-            this.dispose();
-
-            String[] buttonLabels = {"Change", "Cancel"};
-            String result=CBI.getCBClient().findModules();
-            String[] listElements=CBI.getCBClient().asParseObjectNames(result);
-
-            ModuleDialog dlg = new ModuleDialog(CBI,CBI.getCBClient().getModule(),buttonLabels,listElements);
-            dlg.setVisible(true);
-            CBI.add(dlg,JLayeredPane.MODAL_LAYER);
-            dlg.setSize(dim);
-            dlg.setLocation(pt);
+            if (CBI.getMainModuleDialog() != null) {
+                CBI.updateMainModuleDialog();
+            }
         }
     }
     public void mouseEntered(MouseEvent e) {}

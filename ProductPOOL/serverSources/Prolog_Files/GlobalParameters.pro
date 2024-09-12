@@ -34,16 +34,11 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
+
+
 {
 *
-* File:        %M%
-* Version:     %I%
-*
-*
-* Date released : %E%  (YY/MM/DD)
-*
-* SCCS-Source-Pool : %P%
-* Date retrieved : %D% (YY/MM/DD)
+* File:        GlobalParameters.pro
 *
 * -----------------------------------------------------------------------------
 *
@@ -88,11 +83,11 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 
-cb_version('8.2.25').
-cb_date_of_release('2024-05-03'). { set via environment variable CB_DATE in startCBserver; see serverSources/Makefile }
+cb_version('8.5.00').
+cb_date_of_release('2024-09-12'). { set via environment variable CB_DATE in startCBserver; see serverSources/Makefile }
 cb_location('Byskola').            {* place where CBserver is compiled, updated in startCBserver *}
 
-cb_copyright_time('Copyright 1987-2024').              {keep up to date!}
+cb_copyright_time('Copyright 2024-2024').              {keep up to date!}
 
 
 #DYNAMIC(cb_installation/1)

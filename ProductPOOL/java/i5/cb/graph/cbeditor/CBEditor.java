@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -38,6 +38,7 @@ package i5.cb.graph.cbeditor;
 
 import i5.cb.CBConfiguration;
 import i5.cb.graph.*;
+import i5.cb.graph.diagram.DiagramNode;
 import i5.cb.graph.cbeditor.StringArray;
 import i5.cb.workbench.*;
 import i5.cb.api.CBanswer;
@@ -52,6 +53,12 @@ import java.util.*;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.text.DefaultStyledDocument;
+
+// for more modern FlatLight Look&Feel
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.ui.FlatListUI;
+
+
 /**
  * The CBEditor is the main class for the ConceptBase application. It can
  * contain several {@linkCBFrame}s and controls the ToolBar and the MenuBar.
@@ -88,7 +95,7 @@ public class CBEditor extends GraphEditor {
      * ConceptBase specific items/buttons.
      */
     public CBEditor(CBEditorApplet applet) {
-        super(CBConstants.CBEDITOR_NAME + " - ConceptBase.cc Graph Editor", false, true, (Applet) applet);
+        super("ConceptBase.cc " + CBConstants.CBEDITOR_NAME, false, true, (Applet) applet);
         setLocation(110, 110);
         extendMenuBar();
         extendToolBar();
@@ -131,14 +138,15 @@ public class CBEditor extends GraphEditor {
                 setVisible(false);
             }
         });
-        //reset lookandfell to metal, others will produce errors
-        try {
-            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-            SwingUtilities.updateComponentTreeUI(this);
-        } catch (Exception e) {
-            System.err.println("Sorry, Look And Feel not supported by this platform!");
-            System.err.println(e.getMessage());
-        }
+
+//reset look&feel to metal, others will produce errors
+//        try {
+//            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+//            SwingUtilities.updateComponentTreeUI(this);
+//        } catch (Exception e) {
+//            System.err.println("Sorry, Look And Feel not supported by this platform!");
+//            System.err.println(e.getMessage());
+//        }
 
     }
 
@@ -163,6 +171,15 @@ public class CBEditor extends GraphEditor {
                   System.out.println("No warranty, not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.");
                   System.exit(0);
           }
+
+        // activate FlatLightLaf Look & Feel if possible
+        try {
+            UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
+        } catch (Exception ex) {
+            System.out.println("Java version is: "+DiagramNode.JAVA_VERSION);
+            System.err.println("CBEditor: Failed to initialize Look&Feel FlatLightLaf");
+        }
+
         CBEditor editor = new CBEditor(null);
         editor.analyzeCmdArgs(args);
 
@@ -481,7 +498,7 @@ public class CBEditor extends GraphEditor {
 
         m_graphMenuBar.getOptionsMenu().add(gmPopupMenu);
 
-         JMenu mLookAndFeel = new JMenu("Look & Feel");
+        JMenu mLookAndFeel = new JMenu("Look & Feel");
 
         // Vordefinierte Look And Feels
         UIManager.LookAndFeelInfo[] lafInfo = UIManager
@@ -495,6 +512,12 @@ public class CBEditor extends GraphEditor {
             }
         }
         m_graphMenuBar.getOptionsMenu().add(mLookAndFeel);
+
+        // We configute FlatLaf in CBEditor.java in a way that disables the OS frame around the CBIva window
+        // FlatLaf can deal by this by creating its own frame but older Look&Feels cannat deal with this
+        // Hence we disable changing the Look&Feel if FlatFaf is used
+        if (UIManager.getLookAndFeel().getName().startsWith("FlatLaf"))
+           mLookAndFeel.setEnabled(false);
 
 
        // Checkbox for enabling click actions

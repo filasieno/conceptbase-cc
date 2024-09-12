@@ -27,10 +27,10 @@ if [ -x /usr/bin/java ]; then
 fi
 
 if [ "$1" ]; then
-  exec $JAVAEXEC -Djava.awt.headless=false -DCB_HOME="$CB_HOME" -classpath "$CB_HOME/lib/classes/cb.jar" i5.cb.graph.cbeditor.CBEditor "$@"
+  exec $JAVAEXEC -Djava.awt.headless=false -DCB_HOME="$CB_HOME" -classpath "$CB_HOME/lib/classes/*" i5.cb.graph.cbeditor.CBEditor "$@"
 else
 # start with ohome.gel as argument to let cbgraph connect to a CBserver
-  exec $JAVAEXEC -Djava.awt.headless=false -DCB_HOME="$CB_HOME" -classpath "$CB_HOME/lib/classes/cb.jar" i5.cb.graph.cbeditor.CBEditor "$CB_HOME/lib/ohome.gel"
+  exec $JAVAEXEC -Djava.awt.headless=false -DCB_HOME="$CB_HOME" -classpath "$CB_HOME/lib/classes/*" i5.cb.graph.cbeditor.CBEditor "$CB_HOME/lib/ohome.gel"
 fi
 
 

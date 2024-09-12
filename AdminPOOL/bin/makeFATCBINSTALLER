@@ -30,8 +30,11 @@ fi
 
 zip -r ../CBinstaller.jar *
 
+# thin CBinstaller not needed anymore; we keep it for a while
 cp $CBINSTALLER $CBDISTROS/thin-CBinstaller.jar
 
 echo "Created fat CBinstaller.jar in $CBDISTROS."
+ls -l /home/jeusfeld/ConceptBase-Distros/*.jar
+
 
 

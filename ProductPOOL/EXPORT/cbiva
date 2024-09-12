@@ -26,7 +26,10 @@ if [ -x /usr/bin/java ]; then
   JAVAEXEC=/usr/bin/java
 fi
 
-exec $JAVAEXEC -Djava.awt.headless=false -DCB_HOME="$CB_HOME" -jar "$CB_HOME/lib/classes/cb.jar" "$@"
+# exec $JAVAEXEC -Djava.awt.headless=false -DCB_HOME="$CB_HOME" -jar "$CB_HOME/lib/classes/cb.jar" "$@"
+
+# This call makes sure that all relevant JAR files are visible to JAVAEXEX, not just cb.jar
+exec $JAVAEXEC -Djava.awt.headless=false -DCB_HOME="$CB_HOME" -classpath "$CB_HOME/lib/classes/*" i5.cb.workbench.CBIva "$@"
 
 
 

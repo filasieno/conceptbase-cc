@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -352,7 +352,7 @@ public class LogWindow extends JPanel {
                                          "Frames told:\n"+log.asGetArg()[1]);
             }
             else if (id==ASK) {
-                color = new Color(152, 210, 244);
+                color = new Color(162, 230, 255);
                 AnzeigeArgumente.setBackground(color);
                 String logmsg;
                 if (log.asGetArg()[1].equals("OBJNAMES") &&

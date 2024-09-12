@@ -3,7 +3,7 @@
 # File:         cbserver
 # Version:      7.8
 # Creation:     04-Aug-1989 Martin Staudt (UPA)
-# Last Change:  26-Jun-2015, Manfred Jeusfeld (HIS)
+# Last Change:  17-Mar-2024, Manfred Jeusfeld 
 #
 # ----------------------------------
 #
@@ -26,27 +26,22 @@ export CBL_DIR
 export CB_VARIANT
 export CB_HOME
 
-# if your platform is sun4 (Solaris Sparc) you might have to adapt the path to gcc*/lib
-if [ "$CB_VARIANT" = "sun4" ]; then
-   LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
-   export LD_LIBRARY_PATH
-fi
 
-# Linux64 uses shared libraries by default; needed to include the SWI shared library
-if [ "$CB_VARIANT" = "linux64" ]; then
-   LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$CB_HOME/lib
-   export LD_LIBRARY_PATH
-fi
-
-# LinuxArm needs libswipl, in particular when compiled with SWI-Prolog 6.6.6
+# Set LD_LIBRARY_PATH to be able to add dedicated versions of libraries
 if [ "$CB_VARIANT" = "linuxarm" ]; then
-   LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$CB_HOME/linuxarm/lib
+   LD_LIBRARY_PATH=$CB_HOME/linuxarm/lib:${LD_LIBRARY_PATH}
    export LD_LIBRARY_PATH
 fi
 
-# Linux64 needs libswipl, in particular when compiled with SWI-Prolog 6.6.6
+
+if [ "$CB_VARIANT" = "linux" ]; then
+   LD_LIBRARY_PATH=$CB_HOME/linux/lib:${LD_LIBRARY_PATH}
+   export LD_LIBRARY_PATH
+fi
+
+
 if [ "$CB_VARIANT" = "linux64" ]; then
-   LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$CB_HOME/linux64/lib
+   LD_LIBRARY_PATH=$CB_HOME/linux64/lib:${LD_LIBRARY_PATH}
    export LD_LIBRARY_PATH
 fi
 
@@ -103,7 +98,8 @@ export PROLOG_VARIANT
 if [ "$PROLOG_VARIANT" = "SWI" ]; then
     CB_EXE=$CB_HOME/$CB_VARIANT/bin/CBserver;
 else
-    CB_EXE=$CB_HOME/$CB_VARIANT/bin/cbRTexec;
+    echo "ConceptBase only supports SWI-Prolog"
+    exit
 fi
 
 

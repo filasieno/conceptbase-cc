@@ -1,4 +1,4 @@
-startServer -d SYSTEM -v off -cc off
+startServer -d SYSTEM0 -v off -cc off -u nonpersistent
 tellModel "$CB_WORK/lib/SML1"
 result OK "yes"
 tellModel "$CB_WORK/lib/SML2"
@@ -19,8 +19,8 @@ tellModel "$CB_WORK/lib/CompleteBDMRuleConstraintModel"
 result OK "yes"
 tellModel "$CB_WORK/lib/StandardQueries"
 result OK "yes"
-tellModel "$CB_WORK/lib/SystemQueries"
-result OK "yes"
+#tellModel "$CB_WORK/lib/SystemQueries"  (fails because the queries are already defined)
+#result OK "yes"
 tellModel "$CB_WORK/lib/graphical_types"
 result OK "yes"
 tellModel "$CB_WORK/lib/JavaGraphicalTypes"

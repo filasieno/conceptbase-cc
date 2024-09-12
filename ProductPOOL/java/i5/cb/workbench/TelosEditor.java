@@ -1,7 +1,24 @@
 /*
+The ConceptBase+ Copyright
+
+Copyright 2024-2024 Norgald AB. All rights reserved.
+
+ConceptBase+ is derived from ConceptBase.cc (http://conceptbase.cc). See
+[ProductPool]/doc/ExternalLicenses for details.
+
+ConceptBase.cc is free software distributed under a FreeBSD-style license.
+ConceptBase+ is a fork of ConceptBase.cc and adds functions for the
+management of large enterprise architecture models to support various
+methods for analyzing such models.
+
+Contact: info@norgald.com
+*/
+
+
+/*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -52,6 +69,7 @@ import javax.swing.text.Document;
 import javax.swing.*;
 import java.net.*;
 import java.io.*;
+import i5.cb.CBConfiguration;
 
 
 /**
@@ -133,13 +151,19 @@ public class TelosEditor extends JInternalFrame {
         this.cbIva=cbIva;
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, initTelosPanel(), LogPanel);
         this.getContentPane().add(splitPane,BorderLayout.CENTER);
-        Dimension dimSize=new Dimension(600,450);
+        Dimension dimSize=new Dimension(744,780);
         this.setPreferredSize(dimSize);
         this.setMinimumSize(new Dimension(400,300));
         this.setSize(dimSize);
-        splitPane.setDividerLocation(0.7);
-        splitPane.setResizeWeight(0.7);  // 70% of vertical space reserved for upper window (Telos editor)
+        if (cbIva.hasBrowserWindows()) {
+           this.setLocation(254,0); // make room for the CBIva browser windows left of the TelosEditor
+        } else {
+           this.setLocation(0,0);
+        }
+        splitPane.setDividerLocation(0.8);
+        splitPane.setResizeWeight(0.8);  // 80% of vertical space reserved for upper window (Telos editor)
         cbIva.add(this);
+        this.getTelosTextArea().setTextFontSize(CBConfiguration.getCBIvaSmallfont());
     }
 
 
@@ -162,6 +186,7 @@ public class TelosEditor extends JInternalFrame {
         this.setPreferredSize(dimSize);
         this.setMinimumSize(new Dimension(50,50));
         this.setSize(dimSize);
+        this.getTelosTextArea().setTextFontSize(CBConfiguration.getCBIvaSmallfont());
     }
 
 
@@ -207,6 +232,23 @@ public class TelosEditor extends JInternalFrame {
       return text;
     }
 
+
+    /**
+     *   Function: <b> Get line numbers width </b> <BR>
+     *
+     *  Compute how wide the linenumber area needs to be display all line numbers
+     */
+
+    private int getLineNumbersWidth() {
+      if (oldLineCount < 1000)
+        return 2;
+      else if (oldLineCount < 10000)
+        return 3;
+      else if (oldLineCount < 100000)
+        return 5;
+      else return 6;  
+    }
+
     /**
      *   Function: <b> check whether the line count of doc has changed </b> <BR>
      *   @param doc the document to be checked
@@ -249,16 +291,19 @@ public class TelosEditor extends JInternalFrame {
         if (showLineNumbers) {
 
 	  linenumbers = new JTextArea("1 ");
+	  linenumbers.setColumns(1);
           linenumbers.setFont(linenumbers.getFont().deriveFont(taTelos.getTextFontSize()));  // needs to be same font size as taTelos
-	  linenumbers.setBackground(new Color(225,240,255));
-	  linenumbers.setForeground(new Color(100,100,180));
+	  linenumbers.setBackground(new Color(240,240,240));
+	  linenumbers.setForeground(new Color(100,100,100));
 	  linenumbers.setEditable(false);
+ //         linenumbers.setComponentOrientation(java.awt.ComponentOrientation.RIGHT_TO_LEFT);
 
           if (docListener == null) {
             docListener = new DocumentListener(){
               public void changedUpdate(DocumentEvent de) {
                 if (lineCountChanged(taTelos.getDocument())) {
                    linenumbers.setText(getLinenumbersText(taTelos.getDocument()));
+                   linenumbers.setColumns(getLineNumbersWidth());
                 }
                 // realize drag&drop of file locations
                 textFromUrl = checkReadUrl();
@@ -274,6 +319,7 @@ public class TelosEditor extends JInternalFrame {
               public void insertUpdate(DocumentEvent de) {
                 if (lineCountChanged(taTelos.getDocument())) {
                    linenumbers.setText(getLinenumbersText(taTelos.getDocument()));
+                   linenumbers.setColumns(getLineNumbersWidth());
                 }
                 textFromUrl = checkReadUrl();
                 if (textFromUrl != null)

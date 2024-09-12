@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -671,7 +671,7 @@ public class CBPopup extends GraphPopup {
          * @param actionEvent
          *
          */
-
+ 
         public void actionPerformed(java.awt.event.ActionEvent actionEvent) {
 
             CBUtil.createAndAddNewDiagramObjects(m_uoc, m_cbUserObject.getCBFrame(), m_diagNode);

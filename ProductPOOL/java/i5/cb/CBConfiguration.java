@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2024 The ConceptBase Team. All rights reserved.
+Derived from ConceptBase.cc, originally created by the ConceptBase Team under a FreeBSD-style license.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -82,6 +82,7 @@ public class CBConfiguration {
     private final static String KEY_OPTION_CBIVA_SMALLFONT="CBIvaSmallFont";
     private final static String KEY_OPTION_CBIVA_LARGEFONT="CBIvaLargeFont";
     private final static String KEY_OPTION_DERIVED_LINKS="DerivedLinks";
+    private final static String KEY_OPTION_BROWSER_WINDOWS="CBIvaBrowserWindows";
 
     private final static String KEY_OPTION_DEBUG_LEVEL="DebugLevel";
 
@@ -141,7 +142,7 @@ public class CBConfiguration {
         if(!m_Properties.containsKey(KEY_OPTION_INVALIDOBJSMETHOD))
             m_Properties.setProperty(KEY_OPTION_INVALIDOBJSMETHOD,VALUE_MARK);
         if(!m_Properties.containsKey(KEY_OPTION_TIMEOUT))
-            m_Properties.setProperty(KEY_OPTION_TIMEOUT,"3600000");   // timeout in ms for waiting for an answer from CBserver
+            m_Properties.setProperty(KEY_OPTION_TIMEOUT,"38000000");   // timeout in ms for waiting for an answer from CBserver
         if(!m_Properties.containsKey(KEY_OPTION_LPICALL))
             m_Properties.setProperty(KEY_OPTION_LPICALL,VALUE_FALSE);
         if(!m_Properties.containsKey(KEY_OPTION_USE_QUERYRESULTWINDOW))
@@ -162,6 +163,9 @@ public class CBConfiguration {
             m_Properties.setProperty(KEY_OPTION_DEBUG_LEVEL,"WARNING");
         if(!m_Properties.containsKey(KEY_OPTION_SHOW_LINE_NUMBERS))
             m_Properties.setProperty(KEY_OPTION_SHOW_LINE_NUMBERS,VALUE_TRUE);
+        if(!m_Properties.containsKey(KEY_OPTION_BROWSER_WINDOWS))
+            m_Properties.setProperty(KEY_OPTION_BROWSER_WINDOWS,VALUE_FALSE);
+
 
         // Plain Windows and Mac clients get autoconnected to the default public CBserver
         // since we do not provide binaries for the CBserver on these platforms.
@@ -576,7 +580,7 @@ public class CBConfiguration {
 
 
     public static void setShowLineNumbers(boolean val) {
-        if(val)
+        if (val)
             m_Properties.setProperty(KEY_OPTION_SHOW_LINE_NUMBERS,VALUE_TRUE);
         else
             m_Properties.setProperty(KEY_OPTION_SHOW_LINE_NUMBERS,VALUE_FALSE);
@@ -597,6 +601,31 @@ public class CBConfiguration {
            return false;
         }
     }
+
+
+    public static void setHasCBIvaBrowserWindows(boolean val) {
+        if (val)
+            m_Properties.setProperty(KEY_OPTION_BROWSER_WINDOWS,VALUE_TRUE);
+        else
+            m_Properties.setProperty(KEY_OPTION_BROWSER_WINDOWS,VALUE_FALSE);
+    }
+
+
+    public static boolean hasCBIvaBrowserWindows() {
+        // true is CBIva shall show the query and modeule browser windows next to the TelosEditor window
+        try {
+           String value=m_Properties.getProperty(KEY_OPTION_BROWSER_WINDOWS);
+           if (value.equals(VALUE_TRUE)) {
+               return true;
+           } else {
+               return false;
+           }
+        } catch (Exception e) {
+           return false;
+        }
+    }
+
+
 
 
 

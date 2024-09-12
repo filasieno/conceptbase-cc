@@ -1,27 +1,118 @@
 
 
-               CONCEPTBASE RELEASE NOTES
+               CONCEPTBASE+ RELEASE NOTES
 
                    Manfred Jeusfeld
-                   ConceptBase Team
-
-                 http://conceptbase.cc
-
-                      2024-02-15
+                       Norgald AB
 
 
-ConceptBase is a multi-user deductive object manager mainly developed at 
-the University of Skovde, Sweden. Earlier versions were developed in
-cooperation within the team of Matthias Jarke, RWTH Aachen, Germany.
+                      2024-08-17
+
+
+ConceptBase+ is a multi-user deductive object manager mainly developed by
+Manfred Jeusfeld. 
+
+Earlier versions were developed in cooperation within the team of Matthias Jarke,
+RWTH Aachen, Germany, the University of Passau, Germany, and from 2013 onwards by the 
+University of Skovde, Sweden.
 
 The release notes of earlier versions are available at the end of this file.
 
 The ConceptBase Forum (CB-Forum) is accessible via
     http://conceptbase.sourceforge.net/CB-Forum.html
 
-The list of issues and their solutions is available at
+The list of issues and their solutions  for version 8.0 to 8.2 is available at
 https://gitlab.com/mjeu/conceptbasecc/-/issues
 
+The list of issues and their solutiond from version 8.5 onwards is available at
+https://github.com/Norgald/Elvira/issues
+
+
+
+Version 8.5: Detailed Changes since Version 8.2 (2024-02-15)
+============================================================
+
+Version 8.5. is the first ConceptBase+ version, distributed by Norgald AB.
+It is derived from ConceptBase,cc Version 8.2.
+
+85-01 Use FlatLaf Look and Feel
+
+   ConceptBase+ now uses the FlatLaf Look&Feel for the Java User Interfaces CBIva
+   and CBGraph. This comes with a much more current style and better font support.
+   Moreover, CBIva has now live windows for the list of queries and the list of
+   modules. They are updated on the fly, e.g. when a new query is defined.
+
+85-02 More optimization rules for rules, queries, and constraints
+
+   When the semantic optimizer of ConceptBase could not eliminate certain In(x,c) predicates,
+   it left them in a sequence like In(x,c),In(y,d) without checking whether there
+   is a better sequence possible. New optimization rules in QO_preproc.pro were 
+   introduced and can lead to improvements from 10% up to 20-fold.
+   https://github.com/Norgald/Elvira/issues/7
+
+85-03 Duplicate attributes could be generated when anonymous labels was used
+
+   The attribute label "_" instructs ConceptBase to system-generate a label. 
+   However, this could lead to unwanted duplicates when such an attribute already 
+   existed.
+   https://github.com/Norgald/Elvira/issues/5
+
+85-04 CBGraph does not show outgoing derived attributes (x m/n y)
+
+   If the derived attribute is computed by the predicate (x m/n y), then the expansion of
+   outgoing/incoming attributes does not include the derived attribute category.
+   https://github.com/Norgald/Elvira/issues/10
+
+85-05 CBGraph shows more explicit links than asked for
+
+   CBGraph did show more links than asked for the "outgoing / only-explicit" pop-up menu.
+   This is now resolved.   
+   https://github.com/Norgald/Elvira/issues/11
+
+85-06 Objects with "<" in their name cannot be expanded to in CBGraph 
+
+   CBGraph could not expand to objects that contain the special character "<". This is
+   now solved.   
+   https://github.com/Norgald/Elvira/issues/8
+
+85-07 No empty lines in JSONIC answer format 
+
+   The JSON format does not allow empty lines. We now support this restriction for the
+   JSONIC answer format. This should lead to greater interoperability with tools that
+   import JSON files.
+
+85-08 Allow to add multiple Telos objects from CBIva TelosEditor to CBGraph 
+
+   Before, one could only select a single object name and then add it as a node/link to
+   CBGraph. Now. it is possible to select the whole or part of content of the TelosEditor
+   text area, extract the defined object names and then add then one after the
+   other to CBGraph.
+   https://github.com/Norgald/Elvira/issues/14
+
+85-09 Frozen edges don't get moved, straightened or resized
+
+   Nodes and edges in CBGraph can be "frozen" to their current location via the context menu.
+   Such frozen edges should not be affected by the "straighten edges" option, i.e. the function to
+   put the center of an edge right in the direct line between source and destination of the 
+   edge. Likewise, frozen nodes cannot be resized. If a node is frozen and selected, it is marked
+   by a blue rectangle instead a red one. If a group of nodes is selected and moved, only the
+   unfrozen members are moved.
+
+85-10 Double selected nodes in a diagram desktop
+
+   CBGraph allows to put nodes into the area of container node. If the so-called nodelevel of the
+   container node is negative, then all nodes inside the area are selected when the container node
+   is selected. This leads to a double selection of nodes if the user selected all nodes with a
+   bounding area selected (i.e. draws a selection rectangle around an area of nodes to be selected.
+   When then the user moves the selected nodes, the double-selected nodes are moved twice, 
+   destroying the layout. This bug is now solved.
+   https://github.com/Norgald/Elvira/issues/15
+
+85-11 New pop-up menu option "Add to Telos Editor" for DisplayInstances dialog
+
+   CBIva allows to display the set of instances of a class. Some of several can be selected to be
+   displayed in the Telos Editor window. Now a new menu item "Add to Telos Editor" is used to append
+   the Telos frames of the selected objects to the Telos Editor, rather than overwriting its contents.
 
 
 

@@ -573,7 +573,7 @@ JAVA_CLASSPATH=java/classes
 #CB_JAVA_LIB=/home/cbase/CB_NewStruct/src/ProductPOOL/java/lib
 CB_JAVA_LIB=$(CB_POOL)/java/lib
 #JAVA_JARS=$(CB_JAVA_LIB)/jgl3.1.0.jar:$(CB_JAVA_LIB)/grappa1_2.jar:/home/java/jsdk2.1/servlet.jar:$(JENA_JARS1):$(JENA_JARS2)
-JAVA_JARS=$(CB_JAVA_LIB)/jgl3.1.0.jar:$(CB_JAVA_LIB)/grappa1_2.jar
+JAVA_JARS=$(CB_JAVA_LIB)/jgl3.1.0.jar:$(CB_JAVA_LIB)/grappa1_2.jar:$(CB_JAVA_LIB)/flatlaf-3.4.jar
 
 ifeq "$(CB_VARIANT)" "windows"
 override CLASSPATH=.;$(POOL_ROOT)/java;$(POOL_ROOT)/$(JAVA_CLASSPATH);$(CB_POOL)/$(JAVA_CLASSPATH);$(POOL_ROOT)/src/java
@@ -597,6 +597,7 @@ JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH)
 ifdef JAVAC_VERSION
   ifneq "$(findstring 11,$(JAVAC_VERSION))" ""
      JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH) --release 8
+#     JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH) -source 1.8 -target 1.8
   endif
 endif
 
