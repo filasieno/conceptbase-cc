@@ -723,7 +723,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
         catch(SecurityException secex) {
             sCB_HOME="";
             }
-        String sUrl="file:///"+sCB_HOME+"/CB+Copyright.txt";
+        String sUrl="file:///"+sCB_HOME+"/CB-FreeBSD-License.txt";
         try {
             java.net.URL helpURL = new java.net.URL(sUrl);
             editorPane.setPage(helpURL);
@@ -732,7 +732,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
             JOptionPane.showMessageDialog(this,"Could not open URL: " + sUrl + "\n" + e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
         }
         JScrollPane jsp=new JScrollPane(editorPane);
-        JFrame jfHelp=new JFrame("CB+Copyright.txt");
+        JFrame jfHelp=new JFrame("CB-FreeBSD-License.txt");
         jfHelp.getContentPane().add(jsp);
         jfHelp.setSize(750,550);
         jfHelp.setVisible(true);

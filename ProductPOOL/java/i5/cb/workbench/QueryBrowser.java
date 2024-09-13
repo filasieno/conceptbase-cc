@@ -1,19 +1,3 @@
-/*
-The ConceptBase+ Copyright
-
-Copyright 2024-2024 Norgald AB. All rights reserved.
-
-ConceptBase+ is derived from ConceptBase.cc (http://conceptbase.cc). See
-[ProductPool]/doc/ExternalLicenses for details.
-
-ConceptBase.cc is free software distributed under a FreeBSD-style license.
-ConceptBase+ is a fork of ConceptBase.cc and adds functions for the
-management of large enterprise architecture models to support various
-methods for analyzing such models.
-
-Contact: info@norgald.com
-*/
-
 
 /*
 The ConceptBase.cc Copyright
