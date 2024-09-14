@@ -48,6 +48,9 @@ import i5.cb.graph.cbeditor.CBUtil;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import i5.cb.CBConfiguration;
+import i5.cb.graph.cbeditor.*;
+import javax.swing.JOptionPane;
+
 
 /**  <BR>
 *   Class:    <b> TECommand for CBIva  </b><BR>
@@ -209,23 +212,25 @@ public class TECommand implements ActionListener {
 
             case iTOGRAPHEDITOR:
                 final String sObject1=te.getTelosTextArea().getSelectedText();
-                if(teTelosEditor.getCBIva().getCBEditor()==null) {
+                if (sObject1 == null) {
+                  JOptionPane.showMessageDialog(teTelosEditor,"No object names selected to be displayed in graph editor");
+                  break;
+                }
+                if (teTelosEditor.getCBIva().getCBEditor()==null) {
                 //add the object in a newly started graph browser
                    Thread th=new Thread() {
                        public void run() {
-                           teTelosEditor.getCBIva().setCBEditor(i5.cb.graph.cbeditor.CBEditor.startCBEditorWithWorkbench(teTelosEditor.getCBIva(),
+                           teTelosEditor.getCBIva().setCBEditor(CBEditor.startCBEditorWithWorkbench(teTelosEditor.getCBIva(),
                                teTelosEditor.getCBIva().getCBClient(),null));
-                           CBUtil.addNewDiagramObjectsFromTelosEditor(sObject1,
-                                (i5.cb.graph.cbeditor.CBFrame)teTelosEditor.getCBIva().getCBEditor().getActiveGraphInternalFrame());
+                           CBUtil.addNewDiagramObjectsFromTelosEditor(sObject1,(CBFrame)teTelosEditor.getCBIva().getCBEditor().getActiveGraphInternalFrame());
                        }
                    };
                    th.start();
                 } else  {
                 //add the object in the graph browser also, if it is present
-                  if(teTelosEditor.getCBIva().getCBEditor().getActiveGraphInternalFrame() !=null &&
-                        ((i5.cb.graph.cbeditor.CBFrame)(teTelosEditor.getCBIva().getCBEditor().getActiveGraphInternalFrame())).isConnected()){
-                      CBUtil.addNewDiagramObjectsFromTelosEditor(sObject1,
-                                (i5.cb.graph.cbeditor.CBFrame)teTelosEditor.getCBIva().getCBEditor().getActiveGraphInternalFrame());
+                  if (teTelosEditor.getCBIva().getCBEditor().getActiveGraphInternalFrame() !=null &&
+                        ((CBFrame)(teTelosEditor.getCBIva().getCBEditor().getActiveGraphInternalFrame())).isConnected()){
+                      CBUtil.addNewDiagramObjectsFromTelosEditor(sObject1,(CBFrame)teTelosEditor.getCBIva().getCBEditor().getActiveGraphInternalFrame());
                   }
                   else  {
                         te.getCBIva().getStatusBar().insertMessage("CBEditor not connected to server, or no Frame selected");

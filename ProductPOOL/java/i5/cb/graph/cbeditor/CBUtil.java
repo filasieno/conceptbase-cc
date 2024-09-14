@@ -46,6 +46,7 @@ import i5.cb.telos.object.Specialization;
 import java.awt.Color;
 import java.io.StringReader;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 /** Contains static methods for the CBEditor
  *
@@ -69,26 +70,30 @@ public class CBUtil extends GEUtil {
 
     public static void addNewDiagramObjectsFromTelosEditor(String sTelosFrames, CBFrame cbFrame) {
 
-        String[] parts0 = sTelosFrames.split("}");
+        if (sTelosFrames != null) {
+           String[] parts0 = sTelosFrames.split("}");
 
-        for (String frames1: parts0) {
-           String[] parts1 = frames1.split("}");
-           for (String frames2: parts1) {
-              String[] parts2 = frames2.split("end");
-              for (String frames3: parts2) {
-                 String[] parts3 = frames3.split(" in ");
-                 for (String frames4: parts3) {
-                   String[] parts4 = frames4.split(" with ");
-                   for (String frames5: parts4) {
-                      String sTelosObject = frames5.trim();
-                      if (!sTelosObject.contains(" ") && !sTelosObject.contains(":") && !sTelosObject.equals("")) {
-                        // System.out.println("To display: " + sTelosObject);
-                        boolean success = createAndAddNewDiagramObject(sTelosObject,cbFrame,null);
+           for (String frames1: parts0) {
+              String[] parts1 = frames1.split("}");
+              for (String frames2: parts1) {
+                 String[] parts2 = frames2.split("end");
+                 for (String frames3: parts2) {
+                    String[] parts3 = frames3.split(" in ");
+                    for (String frames4: parts3) {
+                      String[] parts4 = frames4.split(" with ");
+                      for (String frames5: parts4) {
+                         String sTelosObject = frames5.trim();
+                         if (!sTelosObject.contains(" ") && !sTelosObject.contains(":") && !sTelosObject.equals("")) {
+                           // System.out.println("To display: " + sTelosObject);
+                           boolean success = createAndAddNewDiagramObject(sTelosObject,cbFrame,null);
+                         }
                       }
-                   }
+                    }
                  }
               }
            }
+        } else {
+           JOptionPane.showMessageDialog(cbFrame,"No object selected to be added to graph");
         }
 
     } // addNewDiagramObjectsFromTelosEditor
