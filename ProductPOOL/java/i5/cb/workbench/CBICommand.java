@@ -967,13 +967,13 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
          */
         case iLIST_MODULE:
             CBI.getStatusBar().setStatus("LIST MODULE");
-            te.getTelosTextArea().setBackground(new Color(230,230,230));
+//            te.getTelosTextArea().setBackground(new Color(230,230,230));
             te.paintImmediately(te.getBounds());
             String modulecontent=CBclient.ask("listModule", "OBJNAMES", "FRAME");
             if(!modulecontent.equals("")) {
                new QueryResultWindow(modulecontent, CBI);
             }
-            te.getTelosTextArea().setBackground(Color.white);
+//            te.getTelosTextArea().setBackground(Color.white);
             CBI.getStatusBar().setStatus(true);
             break;
             

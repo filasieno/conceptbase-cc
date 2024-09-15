@@ -89,7 +89,7 @@ public class TETextArea extends JTextArea {
         this.te=te;
         InitPopupMenu();
         this.taTelosTextArea.setEditable(true);
-        this.setBackground(Color.white);
+//        this.setBackground(Color.white);
     }
 
     private JMenuItem miDisIn, miLoOb, miChMod;

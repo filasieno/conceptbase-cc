@@ -75,8 +75,8 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
     static JFrame jfServer=null;
     static ServerThread serverThread=null;
 
-    public static final String CBIVA_VERSION = "2.5.01";
-    public static final String CBIVA_DATE = "2024-07-16";
+    public static final String CBIVA_VERSION = "3.0.00";
+    public static final String CBIVA_DATE = "2024-09-15";
     public static final String JAVA_VERSION = System.getProperty("java.runtime.version");
 
     private JDesktopPane desktopPane;
@@ -777,6 +777,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
         // activate FlatLightLaf Look & Feel if possible
         try {
             UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
+//            UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarkLaf");
         } catch (Exception ex) {
             System.err.println("CBIva: Failed to initialize Look&Feel FlatLightLaf");
         }
