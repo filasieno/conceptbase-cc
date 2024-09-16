@@ -83,6 +83,7 @@ public class CBConfiguration {
     private final static String KEY_OPTION_CBIVA_LARGEFONT="CBIvaLargeFont";
     private final static String KEY_OPTION_DERIVED_LINKS="DerivedLinks";
     private final static String KEY_OPTION_BROWSER_WINDOWS="CBIvaBrowserWindows";
+    private final static String KEY_OPTION_DARKMODE="DarkMode";
 
     private final static String KEY_OPTION_DEBUG_LEVEL="DebugLevel";
 
@@ -165,6 +166,8 @@ public class CBConfiguration {
             m_Properties.setProperty(KEY_OPTION_SHOW_LINE_NUMBERS,VALUE_TRUE);
         if(!m_Properties.containsKey(KEY_OPTION_BROWSER_WINDOWS))
             m_Properties.setProperty(KEY_OPTION_BROWSER_WINDOWS,VALUE_FALSE);
+        if(!m_Properties.containsKey(KEY_OPTION_DARKMODE))
+            m_Properties.setProperty(KEY_OPTION_DARKMODE,VALUE_FALSE);
 
 
         // Plain Windows and Mac clients get autoconnected to the default public CBserver
@@ -612,7 +615,7 @@ public class CBConfiguration {
 
 
     public static boolean hasCBIvaBrowserWindows() {
-        // true is CBIva shall show the query and modeule browser windows next to the TelosEditor window
+        // true if CBIva shall show the query and modeule browser windows next to the TelosEditor window
         try {
            String value=m_Properties.getProperty(KEY_OPTION_BROWSER_WINDOWS);
            if (value.equals(VALUE_TRUE)) {
@@ -625,6 +628,28 @@ public class CBConfiguration {
         }
     }
 
+
+    public static void setUIDarkMode(boolean val) {
+        if (val)
+            m_Properties.setProperty(KEY_OPTION_DARKMODE,VALUE_TRUE);
+        else
+            m_Properties.setProperty(KEY_OPTION_DARKMODE,VALUE_FALSE);
+    }
+
+
+    public static boolean hasUIDarkMode() {
+        // true if CBIva/CBGraph shall use the dark mode of the Look&Feel (if supported)
+        try {
+           String value=m_Properties.getProperty(KEY_OPTION_DARKMODE);
+           if (value.equals(VALUE_TRUE)) {
+               return true;
+           } else {
+               return false;
+           }
+        } catch (Exception e) {
+           return false;
+        }
+    }
 
 
 

@@ -99,7 +99,7 @@ public class CBEditor extends GraphEditor {
         setLocation(110, 110);
         extendMenuBar();
         extendToolBar();
-        currentLayoutDir = new File(i5.cb.CBConfiguration.getLoadLayoutPath());
+        currentLayoutDir = new File(CBConfiguration.getLoadLayoutPath());
 
         // set icon for CBGraph need to use resources/... instead /resources/... for an unknown reason
         java.net.URL url = ClassLoader.getSystemResource("resources/graph_resources/CBGraphS.gif");
@@ -172,9 +172,14 @@ public class CBEditor extends GraphEditor {
                   System.exit(0);
           }
 
+
+        CBConfiguration.openConfig();
         // activate FlatLightLaf Look & Feel if possible
         try {
-            UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
+            if (CBConfiguration.hasUIDarkMode()) 
+              UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarkLaf");
+            else
+              UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
         } catch (Exception ex) {
             System.out.println("Java version is: "+DiagramNode.JAVA_VERSION);
             System.err.println("CBEditor: Failed to initialize Look&Feel FlatLightLaf");
@@ -245,8 +250,8 @@ public class CBEditor extends GraphEditor {
       CBFrame newFrame = this.createFrame("Not Connected");
       addCBFrame(newFrame);
       if (newFrame.usePublicCBserver()) {  // autoconnect if a public CBserver is configured
-         String host = i5.cb.CBConfiguration.getPublicCBserverHost();
-         String port = i5.cb.CBConfiguration.getPublicCBserverPort();
+         String host = CBConfiguration.getPublicCBserverHost();
+         String port = CBConfiguration.getPublicCBserverPort();
          newFrame.connectToServerFromDisconnected(host,port,"oHome");
          if (newFrame.isConnected()) {
            newFrame.setModule(newFrame.getUserHome());
@@ -513,7 +518,7 @@ public class CBEditor extends GraphEditor {
         }
         m_graphMenuBar.getOptionsMenu().add(mLookAndFeel);
 
-        // We configute FlatLaf in CBEditor.java in a way that disables the OS frame around the CBIva window
+        // We configure FlatLaf in CBEditor.java in a way that disables the OS frame around the CBIva window
         // FlatLaf can deal by this by creating its own frame but older Look&Feels cannat deal with this
         // Hence we disable changing the Look&Feel if FlatFaf is used
         if (UIManager.getLookAndFeel().getName().startsWith("FlatLaf"))
@@ -1007,7 +1012,7 @@ public class CBEditor extends GraphEditor {
      * {@link CBConfiguration}
      */
     public void saveLayoutPath() {
-        i5.cb.CBConfiguration.setLoadLayoutPath(currentLayoutDir.getPath());
+        CBConfiguration.setLoadLayoutPath(currentLayoutDir.getPath());
     }
 
     /**

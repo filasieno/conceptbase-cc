@@ -282,11 +282,11 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
     */
 
     public void connectToPublicCBserverIfConfigured() {
-       String pubCBserver = i5.cb.CBConfiguration.getPublicCBserverHost();
+       String pubCBserver = CBConfiguration.getPublicCBserverHost();
        try {
           // if public CBserver is defined then prefer it
            if (!pubCBserver.equals("none")) {
-             String pubPort = i5.cb.CBConfiguration.getPublicCBserverPort();
+             String pubPort = CBConfiguration.getPublicCBserverPort();
              int port = Integer.parseInt(pubPort);
              this.getStatusBar().insertMessage("Trying to connect to " + pubCBserver + ":" + pubPort);
              cbClient.enrollMe(pubCBserver, port, "CBIva", CBIva.getProp("user.name", "unknownuser"));
@@ -773,13 +773,15 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
           }
 
 
-
+        CBConfiguration.openConfig();
         // activate FlatLightLaf Look & Feel if possible
         try {
-            UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
-//            UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarkLaf");
+            if (CBConfiguration.hasUIDarkMode()) 
+              UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarkLaf");
+            else
+              UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
         } catch (Exception ex) {
-            System.err.println("CBIva: Failed to initialize Look&Feel FlatLightLaf");
+            System.err.println("CBIva: Failed to initialize Look&Feel FlatLaf");
         }
 
         // No OS window frame, instead let Look&Feel create a custom frame (default on Windows)
@@ -874,7 +876,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
         if(serverThread != null) {
             serverThread.stopServer();
         }
-        i5.cb.CBConfiguration.storeConfig();
+        CBConfiguration.storeConfig();
         try {
             if(getCBEditor() != null)
                 getCBEditor().shutdown();
