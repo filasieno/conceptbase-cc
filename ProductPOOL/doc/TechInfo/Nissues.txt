@@ -1,0 +1,305 @@
+
+
+
+====================================================================================================================
+
+Nissue-4
+ ConceptBase does not allow computed_attribute "lab: Label" in QueryClass #4 
+
+The class Label is not having real instances. It just stands for labels of objects. For this reason, it does not work correctly when a computed_attribute "lab: label" is used in a query class.
+
+The problem can be solved by using "~lab" in the constraint formula of the query. See :
+
+FriendsOfBill in QueryClass isA Person with
+  computed_attribute
+    fr: Person;
+    lab: Label
+  constraint
+    c1: $ (this friend/~lab fr) $
+end
+
+
+
+====================================================================================================================
+
+Nissue-5
+
+ When anonymous label is used then ConceptBase should avoid to create duplicate links for same source+destination #5 
+
+Consider for example
+
+bill in Employee with
+  salary
+    _: 1000
+end
+
+Here, FragmentToPropositions.pro shall replace the anonymous label '_' by a system genereated label.
+
+However, when we tell the same frame, it should see that the predicate (bill salary 1000) is already true and not generate a new link.
+
+Test script:
+nissue5.cbs.txt
+
+Should be solved by updating checkLabel and store_propertylist in FragmentToPropositions.pro
+
+
+====================================================================================================================
+
+Nissue-6
+
+ ConceptBase CBGraph with new look and feel does not work on Windows/Java 1.8 #6 
+
+t seems that Java 1.8 (Java 8) is not compatible with some class files compiled for Java Runtime "class file version 55.0". Javac 11 creates such class files but Java 8 seems to have problems with at least Zoomable.class. It throws the exception "UnsupportedClassVersionError" when Java8 JRE is used on Windows.
+
+A way out may be to install Java 11 on Windows via
+winget install Microsoft.OpenJDK.11
+or from
+https://learn.microsoft.com/en-us/java/openjdk/download#openjdk-11
+
+The problem indeed vanishes when installing Java 11 (openjdk11.0.22) from the URL https://learn.microsoft.com/en-us/java/openjdk/download#openjdk-11
+
+Note that Windows Defender or other Antivirus programs may block to download the installer file for Java11.
+
+
+====================================================================================================================
+
+Nissue-7
+
+ Missing optimization for integrity constraints #7 
+
+
+Apparently, the predicate re-ordering QO_preproc applied to queries and deductive rules is not applied to integrity constraints (DBM formulas).
+For the formula
+
+c1: $ forall x,c1,c2/Element t1,t2/DataType a1,a2/ElementAttribute lab/Label 
+    ((x instanceOf c1) or (x isA c1)) and 
+    ((x instanceOf c2) or (x isA c2)) and 
+    Pa(a1,c1,lab,t1) and Pa(a2,c2,lab,t2) and (x <> c1) and (x<>c2)
+     ==> (c1 = c2) $;
+
+ConceptBase generates the BDM formula
+
+SemanticOptimizer: Optimize rangeform---> forall([x, c1, c2, t1, t2, a1, a2, lab], [In(x, id_2502), In(c1, id_2502), In(c2, id_2502), In(t1, id_2712), In(t2, id_2712), In(a1, id_2743), In(a2, id_2743), Pa(a1, c1, lab, t1), Pa(a2, c2, lab, t2), NE(x, c1), NE(x, c2)], or([and([not(Adot(id_2933, x, c1)), not(Isa(x, c1))]), and([not(Adot(id_2933, x, c2)), not(Isa(x, c2))]), EQ(c1, c2)]))
+
+The problem here is that most In-predicates remain in the formula and predicates like In(c1,id_...) are not moved after Pa(a1, c1, lab, t1).
+The example is from the CBMODEL MultiDim-MLM.
+
+nissue7.cbs.txt
+
+
+One of the problems is that the constraint c1 has two disjunctions, where the (x isA ci) does not bind x,c to the class Element. Still, the predicates In(t1,DataType) and In(t2,DataType) should better be moved after the P/Pa predicate since they are functionally set to a single value by P/Pa.
+So, if there is a sequence
+In(t,D),In(c,C),In(a,AC),Pa(a,c,n,t)
+then it should be rearranged as
+In(c,C),In(a,AC),Pa(a,c,n,t),In(t,D)
+
+Likewise, a predicate like In(x,c) that is not any of the other predicates of a conjunction should be moved towards the end:
+
+In(x,c),In(c,C),In(a,AC),Pa(a,c,n,t),In(t,D)
+becomes
+In(c,C),In(a,AC),Pa(a,c,n,t),In(t,D),In(x,c)
+The reason is that otherwise the sub-expression
+In(c,C),In(a,AC),Pa(a,c,n,t),In(t,D)
+would be evaluated for all values of x.
+
+===> Solved by new rules in QO_preproc
+
+
+
+====================================================================================================================
+
+Nissue-8
+
+  Objects with "<" in their name cannot be expanded to in CBGraph #8 
+
+
+
+Consider the following definitions:
+
+MyClass in Class end
+abc in MyClass end
+"<abc>" in MyClass end
+
+When displaying MyClass in CBGraph and then showing its instances, then no instances at all can be displayed.
+
+The problem is the implementation of find_instances with the graphical palette CBGraphEditorResult. It transforms the answer to XML and if that contains "<" at the wrong spots, it cannot be parsed by CBGraph.
+
+GlobalPredicates.pro contains a procedure replaceSpecialCharacter to cope with this when called in buildCBEditorResult, but apparently it does not work correctly.
+
+Should be solved by associated check-in
+
+
+====================================================================================================================
+
+Nissue-10
+
+ CBGraph does not show outgoing derived attributes (x m/n y) #10 
+
+
+If the derived attribute is computed by the predicate (x m/n y), then the expansion of outgoing/incoming attributes does not include the derived attribute category.
+
+Employee in Class with 
+   attribute
+    dept : Department;
+    deptsize : Integer
+  rule
+    sizerule : $ forall e/Employee d/Department s/Integer n/Label 
+                      (e dept d) and Label(d,n) and (d size s) ==> (e deptsize/n s) $
+end 
+
+Department with 
+   attribute
+    size : Integer
+end 
+
+{---} { 2024-05-10,21:43:25.246 }
+
+bill in Employee with 
+   dept d1 : D1
+end 
+
+D1 in Department  end 
+
+D2 in Department  end 
+
+bill in Employee with 
+   dept
+    d2 : D2; d3 : D3
+end 
+
+D3 in Department  end 
+
+mary in Employee with 
+   dept
+    d1 : D1; d2 : D2
+end 
+
+D1 in Department with 
+   size s : 100
+end 
+
+D2 in Department with 
+   size  s : 121
+end 
+
+D3 in Department with 
+   size  s : 100
+end 
+
+The attribute category is shown including the derived values if there is at least one such explicit attribute:
+
+bill in Employee with 
+  deptsize
+    ds : 0
+end 
+
+
+Solution is to revise the AD predicate in Literals .pro:
+
+prove_literal(AD(_cc,_x,_y)) :-
+	var(_cc),
+	!,
+        (get_Adot(_cc,_x,_y,_);
+         ded_Adot(_cc,_x,_y);
+         ded_Adot_label(_cc,_x,_y,_)    <--- use also ded_Adot_label 
+        ).
+
+The AD predicate is used in the System query find_used_attribute_categories, which CBGraph used in 'outgoing attributes' menu.
+
+
+====================================================================================================================
+
+Nissue-11
+
+ CBGraph shows more explicit links than asked for #11 
+
+
+Consider the definition
+
+Person with
+  attribute
+     knows: Person;
+     likes: Person
+end
+
+mary in Person end
+anna in Person end
+
+bill in Person with
+  knows
+      p1: mary
+  likes
+     p2: mary
+end
+
+Person in Class with
+  rule
+     r1: $ (bill knows anna) $
+end
+
+Then display 'bill' in CBGraph, right-click on it an display outgoing attributes with category 'knows'. Select mary under 'only explicit'. It will then show not only the attribute 'p1' but also 'p2'.
+
+The problem does not occur when using the sub-menu 'all' instead 'only explicit'.
+
+The cause is probably in CBGraph itself. It uses 'get_object' to get the explicit attributes of an object like 'bill'. It uses 'find_attribute_values' for finding all attributes. The latter works correctly.
+
+It may be better if CBGraph would use 'find_explicit_attribute_values' instead 'get_object'.
+
+
+
+nissue11.cbs.txt
+
+
+The fault has nothing to do with get_object but with the query string that CBGraph puts together:
+
+For explicit attribute values:
+CALL ASK ON [OBJNAMES, find_explicit_attribute_values[bill/objname,Person!knows/cat], CBGraphEditorResult[TelosPalette/pal,bill/obj,Attribute/cat,src/objtype], Now]
+
+For all attribute values:
+CALL ASK ON [OBJNAMES, find_attribute_values[bill/objname,Person!knows/cat], CBGraphEditorResult[TelosPalette/pal,bill/obj,Person!knows/cat,src/objtype], Now]
+
+Note that the query itself returns attribute values, here 'mary'. The links are created by the CBGraphEditorResult answer format. Note that it uses Attribute in the first case and Person!knows in the second.
+
+
+Should be solved by the associated change on CBTree.java. The query string contains a substring on the answer format CBGraphEditorResult. This answer format is implemented in buildCBEditorResult of GlobalPredicates.pro (Prolog source). Inside, the predicates getEdges does the main work to collect the edges/links. Previously, the attribute category "Attribute" was used as a parameter of the answer format. This was the reason why too many links were returned.
+
+
+
+====================================================================================================================
+
+Nissue-12
+
+ CBGraph uses ISADEDUCED_TP_GT instead ISA_TP_GT when showing superclasses of objects #12 
+
+
+Load Class and QueryClass into CBGraph. Then show superclasses of QueryClass.
+
+When showing the three objects in CBGraph and then showing all links connection the objects, it uses ISA_TP_GT in TelosPalette. However, when rightclicking on Manager and showing its superclasses, it uses ISADEDUCED_TP_GT.
+
+Problem seems to be that ConceptBase does not return edges in the result of the query "find_generalizations. For example, the edge QueryClass=>Class is not returned when expanding the superclasses of QueryClass.
+
+nissue12.cbs.txt
+Should solved by the correction of getEdges in GlobalPredicates.pro; getEdges must use the P predicate instead Pa because it must return attributes, instantiations and specializations, not just attributes
+
+
+
+====================================================================================================================
+
+Nissue-14
+
+ Allow to add multiple Telos objects from CBIva TelosEditor to CBGraph #14 
+
+Currently, one can only select a single object name and then add it as a node/link to CBGraph. It should be possible to select the whole content of the TelosEditor text area, extract the defined object names and then add then one after the other to CBGraph.
+
+Affected modules are
+
+    CBUtil.java: does the work
+    TECommand.java: calls createAndAddNewDiagramObjects
+
+
+The issue is now solved. A simple heuristic is used to extract object names from a text of Telos frames. When "Display in GraphEditor" is selected, then all those elements are displayed in CBGraph.
+A better way would be to call the CBserver to extract all object names from a selected text including links such as attributes. But that is not yet implemented.
+
+
+
+

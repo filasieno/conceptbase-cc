@@ -1,12 +1,12 @@
 
 
-               CONCEPTBASE+ RELEASE NOTES
+               CONCEPTBASE.CC RELEASE NOTES
 
                    Manfred Jeusfeld
-                       Norgald AB
+              University of Skövde, Sweden
 
 
-                      2024-08-17
+                      2024-09-18
 
 
 ConceptBase+ is a multi-user deductive object manager mainly developed by
@@ -25,15 +25,16 @@ The list of issues and their solutions  for version 8.0 to 8.2 is available at
 https://gitlab.com/mjeu/conceptbasecc/-/issues
 
 The list of issues and their solutiond from version 8.5 onwards is available at
-https://github.com/Norgald/Elvira/issues
+Nissue
 
 
 
 Version 8.5: Detailed Changes since Version 8.2 (2024-02-15)
 ============================================================
 
-Version 8.5. is the first ConceptBase+ version, distributed by Norgald AB.
-It is derived from ConceptBase,cc Version 8.2.
+Version 8.5. is modernizing the Lokk&Feel of the ConceptBase User Interface
+and provides further performance boosts for the CBserver. 
+
 
 85-01 Use FlatLaf Look and Feel
 
@@ -48,32 +49,32 @@ It is derived from ConceptBase,cc Version 8.2.
    it left them in a sequence like In(x,c),In(y,d) without checking whether there
    is a better sequence possible. New optimization rules in QO_preproc.pro were 
    introduced and can lead to improvements from 10% up to 20-fold.
-   https://github.com/Norgald/Elvira/issues/7
+   Nissue-7
 
 85-03 Duplicate attributes could be generated when anonymous labels was used
 
    The attribute label "_" instructs ConceptBase to system-generate a label. 
    However, this could lead to unwanted duplicates when such an attribute already 
    existed.
-   https://github.com/Norgald/Elvira/issues/5
+   Nissue-5
 
 85-04 CBGraph does not show outgoing derived attributes (x m/n y)
 
    If the derived attribute is computed by the predicate (x m/n y), then the expansion of
    outgoing/incoming attributes does not include the derived attribute category.
-   https://github.com/Norgald/Elvira/issues/10
+   Nissue-10
 
 85-05 CBGraph shows more explicit links than asked for
 
    CBGraph did show more links than asked for the "outgoing / only-explicit" pop-up menu.
    This is now resolved.   
-   https://github.com/Norgald/Elvira/issues/11
+   Nissue-11
 
 85-06 Objects with "<" in their name cannot be expanded to in CBGraph 
 
    CBGraph could not expand to objects that contain the special character "<". This is
    now solved.   
-   https://github.com/Norgald/Elvira/issues/8
+   Nissue-8
 
 85-07 No empty lines in JSONIC answer format 
 
@@ -87,7 +88,7 @@ It is derived from ConceptBase,cc Version 8.2.
    CBGraph. Now. it is possible to select the whole or part of content of the TelosEditor
    text area, extract the defined object names and then add then one after the
    other to CBGraph.
-   https://github.com/Norgald/Elvira/issues/14
+   Nissue-14
 
 85-09 Frozen edges don't get moved, straightened or resized
 
@@ -106,13 +107,23 @@ It is derived from ConceptBase,cc Version 8.2.
    bounding area selected (i.e. draws a selection rectangle around an area of nodes to be selected.
    When then the user moves the selected nodes, the double-selected nodes are moved twice, 
    destroying the layout. This bug is now solved.
-   https://github.com/Norgald/Elvira/issues/15
+   Nissue-15
 
 85-11 New pop-up menu option "Add to Telos Editor" for DisplayInstances dialog
 
    CBIva allows to display the set of instances of a class. Some of several can be selected to be
    displayed in the Telos Editor window. Now a new menu item "Add to Telos Editor" is used to append
    the Telos frames of the selected objects to the Telos Editor, rather than overwriting its contents.
+
+85-12 Moving nodes up or left to the window boundaries no longer distorts the edge layout
+
+   The upper and left boundaries of a CBGraph window have the coordinate value 0. Moving nodes to
+   these boundaries could distort the edge layout. This is now solved.
+
+85-13 Dark mode for CBIva and CBGraph
+
+   CBIva and CBGraph now support an experimental dark mode. It can be activated via the Edit Options dialog
+   of CBIva. restart CBIva to use it.
 
 
 
