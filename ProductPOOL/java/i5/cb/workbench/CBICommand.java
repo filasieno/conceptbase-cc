@@ -1238,7 +1238,7 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
          * Help|ConceptBase Manual
          */
         case iCONCEPTBASE_MANUAL:
-            CBI.showWebPage("http://conceptbase.sourceforge.net/userManual82/");
+            CBI.showWebPage("http://conceptbase.sourceforge.net/userManual85/");
             break;
 
         /*
