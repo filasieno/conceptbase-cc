@@ -35,7 +35,7 @@ CurrDir=doc/TechInfo/
 MK_SOURCES=Makefile
 
 # Die exportierten Dateien
-EXPORTFILES=InstallationGuide.txt ReleaseNotes.txt
+EXPORTFILES=InstallationGuide.txt ReleaseNotes.txt Nissues.txt
 
 # Kurze Beschreibung der Komponente
 INFO_TXT=Technische Informationen zum ConceptBase Release (Release-Notes, etc)

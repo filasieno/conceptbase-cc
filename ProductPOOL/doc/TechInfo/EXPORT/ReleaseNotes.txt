@@ -9,7 +9,7 @@
                       2024-09-18
 
 
-ConceptBase+ is a multi-user deductive object manager mainly developed by
+ConceptBase.cc is a multi-user deductive object manager mainly developed by
 Manfred Jeusfeld. 
 
 Earlier versions were developed in cooperation within the team of Matthias Jarke,
@@ -24,8 +24,8 @@ The ConceptBase Forum (CB-Forum) is accessible via
 The list of issues and their solutions  for version 8.0 to 8.2 is available at
 https://gitlab.com/mjeu/conceptbasecc/-/issues
 
-The list of issues and their solutiond from version 8.5 onwards is available at
-Nissue
+The list of some issues and their solutions of version 8.5 are available at
+Nissues.txt in this folder.
 
 
 
