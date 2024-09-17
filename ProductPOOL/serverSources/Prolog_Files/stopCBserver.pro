@@ -114,7 +114,7 @@ getoutofConceptBase :-
 { ************************************************************** }
 
 sayGoodbye :-
-  WriteListOnTrace(minimal,['>>> Goodbye from ConceptBase+ (CBserver)     ...            ..             .']),
+  WriteListOnTrace(minimal,['>>> Goodbye from ConceptBase.cc (CBserver)   ...            ..             .']),
   WriteListOnTrace(minimal,['----------------------------------------------------------------------------']),
   WriteListOnTrace(minimal,[' ']),
   !.
