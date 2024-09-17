@@ -123,7 +123,7 @@ and provides further performance boosts for the CBserver.
 85-13 Dark mode for CBIva and CBGraph
 
    CBIva and CBGraph now support an experimental dark mode. It can be activated via the Edit Options dialog
-   of CBIva. restart CBIva to use it.
+   of CBIva. Restart CBIva to use it.
 
 
 

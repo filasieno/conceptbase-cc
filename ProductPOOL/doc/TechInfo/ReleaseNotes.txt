@@ -3,10 +3,10 @@
                CONCEPTBASE.CC RELEASE NOTES
 
                    Manfred Jeusfeld
-              University of Skövde, Sweden
+              University of Skovde, Sweden
 
 
-                      2024-09-18
+                      2024-09-17
 
 
 ConceptBase.cc is a multi-user deductive object manager mainly developed by
