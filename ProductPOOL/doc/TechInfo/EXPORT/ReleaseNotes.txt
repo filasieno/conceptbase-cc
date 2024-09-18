@@ -3,10 +3,10 @@
                CONCEPTBASE.CC RELEASE NOTES
 
                    Manfred Jeusfeld
-              University of Skövde, Sweden
+              University of Skovde, Sweden
 
 
-                      2024-09-18
+                      2024-09-17
 
 
 ConceptBase.cc is a multi-user deductive object manager mainly developed by
@@ -32,7 +32,7 @@ Nissues.txt in this folder.
 Version 8.5: Detailed Changes since Version 8.2 (2024-02-15)
 ============================================================
 
-Version 8.5. is modernizing the Lokk&Feel of the ConceptBase User Interface
+Version 8.5. is modernizing the Look&Feel of the ConceptBase User Interface
 and provides further performance boosts for the CBserver. 
 
 
