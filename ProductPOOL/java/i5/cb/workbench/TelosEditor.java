@@ -277,8 +277,13 @@ public class TelosEditor extends JInternalFrame {
 	  linenumbers = new JTextArea("1 ");
 	  linenumbers.setColumns(1);
           linenumbers.setFont(linenumbers.getFont().deriveFont(taTelos.getTextFontSize()));  // needs to be same font size as taTelos
-	  linenumbers.setBackground(new Color(240,240,240));
-	  linenumbers.setForeground(new Color(100,100,100));
+          if (CBConfiguration.hasUIDarkMode()) {
+            linenumbers.setBackground(new Color(100,100,100));
+            linenumbers.setForeground(new Color(200,200,200));
+          } else {
+            linenumbers.setBackground(new Color(240,240,240));
+            linenumbers.setForeground(new Color(100,100,100));
+          }
 	  linenumbers.setEditable(false);
  //         linenumbers.setComponentOrientation(java.awt.ComponentOrientation.RIGHT_TO_LEFT);
 

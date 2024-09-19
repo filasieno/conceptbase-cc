@@ -47,6 +47,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.JTextComponent;
+import i5.cb.CBConfiguration;
 
 
 
@@ -261,7 +262,7 @@ public class LogWindow extends JPanel {
 
         ImageIcon IIBack = new ImageIcon(CBI.LoadImage("back.gif"));
         butBack = new JButton(IIBack);
-        butBack.setToolTipText("Gob back in history");
+        butBack.setToolTipText("Go back in history");
         panButtons.add(butBack);
         butBack.addActionListener(BackCmd);
 
@@ -336,23 +337,35 @@ public class LogWindow extends JPanel {
             AnzeigeBefehl.setText(s+":  "+log.sGetTyp());
             int id=log.iGetTyp();
             if (id==TELL) {
-                color = new Color(235, 243, 165);
+                if (CBConfiguration.hasUIDarkMode()) 
+                  color = new Color(117, 121, 60);
+                else
+                  color = new Color(235, 243, 165);
                 AnzeigeArgumente.setBackground(color);
                 AnzeigeArgumente.setText("Frames told:\n"+log.asGetArg()[0]);
             }
             else if (id==UNTELL) {
-                color = new Color(253, 188, 41);
+                if (CBConfiguration.hasUIDarkMode()) 
+                  color = new Color(126, 94, 21);
+                else
+                  color = new Color(253, 188, 41);
                 AnzeigeArgumente.setBackground(color);
                 AnzeigeArgumente.setText("Frames untold:\n"+log.asGetArg()[0]);
             }
             else if (id==RETELL) {
-                color = new Color(253, 188, 41);
+                if (CBConfiguration.hasUIDarkMode()) 
+                  color = new Color(126, 94, 21);
+                else
+                  color = new Color(253, 188, 41);
                 AnzeigeArgumente.setBackground(color);
                 AnzeigeArgumente.setText("Frames untold:\n"+log.asGetArg()[0] + "\n" +
                                          "Frames told:\n"+log.asGetArg()[1]);
             }
             else if (id==ASK) {
-                color = new Color(162, 230, 255);
+                if (CBConfiguration.hasUIDarkMode()) 
+                  color = new Color(81, 115, 128);
+                else
+                  color = new Color(162, 230, 255);
                 AnzeigeArgumente.setBackground(color);
                 String logmsg;
                 if (log.asGetArg()[1].equals("OBJNAMES") &&
@@ -368,17 +381,26 @@ public class LogWindow extends JPanel {
                                          "Result: " + log.asGetArg()[4] + "\n");
             }
             else if (id==TELLMODEL) {
-                color = new Color(162, 245, 141);
+                if (CBConfiguration.hasUIDarkMode()) 
+                  color = new Color(81, 122, 71);
+                else
+                  color = new Color(162, 245, 141);
                 AnzeigeArgumente.setBackground(color);
                 AnzeigeArgumente.setText("Files: "+log.asGetArg()[0]);
             }
             else if (id==LPICALL) {
-                color = new Color(244, 242, 86);
+                if (CBConfiguration.hasUIDarkMode()) 
+                  color = new Color(122, 121, 43);
+                else
+                  color = new Color(244, 242, 86);
                 AnzeigeArgumente.setBackground(color);
                 AnzeigeArgumente.setText("LPICall: "+log.asGetArg()[0]+ "\n" +
                                          "Result: "+log.asGetArg()[1]);
             }
             else if(id==ERROR) {
+                if (CBConfiguration.hasUIDarkMode()) 
+                  color = new Color(128, 80, 64);
+                else
                 color = new Color(255, 160, 150);
                 AnzeigeArgumente.setBackground(color);
                 AnzeigeArgumente.setText("Error Message:\n" + log.asGetArg()[0] + "\n");
