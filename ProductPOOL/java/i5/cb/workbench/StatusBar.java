@@ -67,12 +67,21 @@ public class StatusBar extends JPanel {
     private String displayedModule="oHome";
     private String displayedServer=null;
     private CBIVersion displayedVersion=null;
-    private Color colStatusBackground=Color.lightGray;
+//    private Color colStatusBackground=Color.lightGray;
+    private static Color darkGreen = new Color(10,168,10);
+    private static Color darkRed = new Color(200,10,10);
 
     /**
      * StatusLabel (zeigt Zustand CONNECTED/DISCONNECTED an)
      */
     private JTextField tfStatusLabel;
+
+    private Color statusBackgroundColor() {
+	if (CBConfiguration.hasUIDarkMode()) 
+		return Color.darkGray;
+	else
+		return Color.lightGray;
+    }
 
 
    /**
@@ -94,12 +103,12 @@ public class StatusBar extends JPanel {
         if (bConnected) {
             tfStatusLabel.setText("Connected");
             tfStatusLabel.setToolTipText(null);
-            tfStatusLabel.setBackground(Color.green); // gruener Hintergrund, wenn CONNECTED
+            tfStatusLabel.setBackground(StatusBar.darkGreen); // gruener Hintergrund, wenn CONNECTED
         }
         else {
             tfStatusLabel.setText("Disconnected");
             tfStatusLabel.setToolTipText(null);
-            tfStatusLabel.setBackground(Color.red);   // roter Hintergrund, wenn nicht CONNECTED
+            tfStatusLabel.setBackground(StatusBar.darkRed);   // roter Hintergrund, wenn nicht CONNECTED
             displayedServer = null;
         }
         tfStatusLabel.paintImmediately(tfStatusLabel.getBounds());
@@ -107,7 +116,7 @@ public class StatusBar extends JPanel {
 
     public void setStatus(String host, String port) {
         tfStatusLabel.setToolTipText(host + ":" + port);
-        tfStatusLabel.setBackground(Color.green); // gruener Hintergrund, wenn CONNECTED
+        tfStatusLabel.setBackground(StatusBar.darkGreen); // gruener Hintergrund, wenn CONNECTED
         if (host.equals("localhost") && port.equals("4001"))
            displayedServer = "Connected";
         else if (host.equals(CBConfiguration.getPublicCBserverHost()) && port.equals(CBConfiguration.getPublicCBserverPort()))
@@ -171,7 +180,7 @@ public class StatusBar extends JPanel {
 
     public void setLinkedTool(String toolname) {
         tfLinkedTool.setText(toolname);
-        tfLinkedTool.setBackground(Color.white); // green background when linked to a tool
+//        tfLinkedTool.setBackground(StatusBar.darkGreen); // green background when linked to a tool         
     }
 
     public void setModule(String s) {
@@ -186,7 +195,7 @@ public class StatusBar extends JPanel {
         displayedVersion=ver;
         if (displayedVersion.getName().equals(CBIVersion.Now)) {
           tfVersion.setText("Version: "+displayedVersion.getName() + " -- " + displayedTime);
-          tfVersion.setBackground(colStatusBackground);
+          tfVersion.setBackground(statusBackgroundColor());
         }
         else {
           tfVersion.setText("Rollback: "+ displayedVersion.toString());
@@ -201,7 +210,7 @@ public class StatusBar extends JPanel {
           tfVersion.setText(displayedTime);
         else if (displayedVersion.getName().equals(CBIVersion.Now)) {
           tfVersion.setText("Version: "+displayedVersion.getName() + " -- " + displayedTime);
-          tfVersion.setBackground(colStatusBackground);
+          tfVersion.setBackground(statusBackgroundColor());
         }
         else {
           tfVersion.setText("Rollback: " + displayedVersion.toString());
@@ -216,21 +225,21 @@ public class StatusBar extends JPanel {
         // tfStatusLabel.setHorizontalAlignment(JTextField.CENTER);
         tfStatusLabel.setEditable(false);
         tfModule.setEditable(false);
-        tfModule.setBackground(colStatusBackground);
+        tfModule.setBackground(statusBackgroundColor());
         tfMessageField = new JTextField(sStart);
-        tfMessageField.setBackground(colStatusBackground);
+        tfMessageField.setBackground(statusBackgroundColor());
         tfMessageField.setEditable(false);
         tfLinkedTool.setEditable(false);
-        tfLinkedTool.setBackground(colStatusBackground);
+        tfLinkedTool.setBackground(statusBackgroundColor());
         tfLinkedTool.setText(" ");
 
 /* not used anymore
         tfTime = new JTextField("12:00",5);
-        tfTime.setBackground(colStatusBackground);
+        tfTime.setBackground(statusBackgroundColor());
         tfTime.setEditable(false);
 
         tfTATime = new JTextField("0.00s",5);
-        tfTATime.setBackground(colStatusBackground);
+        tfTATime.setBackground(statusBackgroundColor());
         tfTATime.setEditable(false);
 */
 
@@ -238,7 +247,7 @@ public class StatusBar extends JPanel {
         tt.start();
 
 
-        tfVersion.setBackground(colStatusBackground);
+        tfVersion.setBackground(statusBackgroundColor());
         tfVersion.setEditable(false);
         tfVersion.setToolTipText("Rollback time");
         this.setVersion(new CBIVersion());
