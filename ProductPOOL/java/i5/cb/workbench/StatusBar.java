@@ -103,12 +103,12 @@ public class StatusBar extends JPanel {
         if (bConnected) {
             tfStatusLabel.setText("Connected");
             tfStatusLabel.setToolTipText(null);
-            tfStatusLabel.setBackground(StatusBar.darkGreen); // gruener Hintergrund, wenn CONNECTED
+//            tfStatusLabel.setBackground(StatusBar.darkGreen); // gruener Hintergrund, wenn CONNECTED
         }
         else {
             tfStatusLabel.setText("Disconnected");
             tfStatusLabel.setToolTipText(null);
-            tfStatusLabel.setBackground(StatusBar.darkRed);   // roter Hintergrund, wenn nicht CONNECTED
+//            tfStatusLabel.setBackground(StatusBar.darkRed);   // roter Hintergrund, wenn nicht CONNECTED
             displayedServer = null;
         }
         tfStatusLabel.paintImmediately(tfStatusLabel.getBounds());
@@ -116,7 +116,7 @@ public class StatusBar extends JPanel {
 
     public void setStatus(String host, String port) {
         tfStatusLabel.setToolTipText(host + ":" + port);
-        tfStatusLabel.setBackground(StatusBar.darkGreen); // gruener Hintergrund, wenn CONNECTED
+//        tfStatusLabel.setBackground(StatusBar.darkGreen); // gruener Hintergrund, wenn CONNECTED
         if (host.equals("localhost") && port.equals("4001"))
            displayedServer = "Connected";
         else if (host.equals(CBConfiguration.getPublicCBserverHost()) && port.equals(CBConfiguration.getPublicCBserverPort()))
@@ -136,7 +136,7 @@ public class StatusBar extends JPanel {
     public void setStatus(String statustext) {
         tfStatusLabel.setToolTipText(statustext);
         tfStatusLabel.setText(statustext);
-        tfStatusLabel.setBackground(Color.orange); // orange Hintergrund, wenn Connecting
+//        tfStatusLabel.setBackground(Color.orange); // orange Hintergrund, wenn Connecting
         tfStatusLabel.paintImmediately(tfStatusLabel.getBounds());
     }
 
@@ -195,11 +195,11 @@ public class StatusBar extends JPanel {
         displayedVersion=ver;
         if (displayedVersion.getName().equals(CBIVersion.Now)) {
           tfVersion.setText("Version: "+displayedVersion.getName() + " -- " + displayedTime);
-          tfVersion.setBackground(statusBackgroundColor());
+//          tfVersion.setBackground(statusBackgroundColor());
         }
         else {
           tfVersion.setText("Rollback: "+ displayedVersion.toString());
-          tfVersion.setBackground(Color.orange);
+//          tfVersion.setBackground(Color.orange);
         }
         insertMessage("Rollback time changed to "+displayedVersion.getName());
     }
@@ -210,11 +210,11 @@ public class StatusBar extends JPanel {
           tfVersion.setText(displayedTime);
         else if (displayedVersion.getName().equals(CBIVersion.Now)) {
           tfVersion.setText("Version: "+displayedVersion.getName() + " -- " + displayedTime);
-          tfVersion.setBackground(statusBackgroundColor());
+//          tfVersion.setBackground(statusBackgroundColor());
         }
         else {
           tfVersion.setText("Rollback: " + displayedVersion.toString());
-          tfVersion.setBackground(Color.orange);
+//          tfVersion.setBackground(Color.orange);
         }
     }
 
@@ -225,12 +225,12 @@ public class StatusBar extends JPanel {
         // tfStatusLabel.setHorizontalAlignment(JTextField.CENTER);
         tfStatusLabel.setEditable(false);
         tfModule.setEditable(false);
-        tfModule.setBackground(statusBackgroundColor());
+//        tfModule.setBackground(statusBackgroundColor());
         tfMessageField = new JTextField(sStart);
-        tfMessageField.setBackground(statusBackgroundColor());
+//        tfMessageField.setBackground(statusBackgroundColor());
         tfMessageField.setEditable(false);
         tfLinkedTool.setEditable(false);
-        tfLinkedTool.setBackground(statusBackgroundColor());
+//        tfLinkedTool.setBackground(statusBackgroundColor());
         tfLinkedTool.setText(" ");
 
 /* not used anymore
@@ -247,7 +247,7 @@ public class StatusBar extends JPanel {
         tt.start();
 
 
-        tfVersion.setBackground(statusBackgroundColor());
+ //       tfVersion.setBackground(statusBackgroundColor());
         tfVersion.setEditable(false);
         tfVersion.setToolTipText("Rollback time");
         this.setVersion(new CBIVersion());
