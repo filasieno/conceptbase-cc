@@ -32,13 +32,13 @@ Nissues.txt in this folder.
 Version 8.5: Detailed Changes since Version 8.2 (2024-02-15)
 ============================================================
 
-Version 8.5. is modernizing the Look&Feel of the ConceptBase User Interface
+Version 8.5 is modernizing the Look&Feel of the ConceptBase User Interface
 and provides further performance boosts for the CBserver. 
 
 
 85-01 Use FlatLaf Look and Feel
 
-   ConceptBase+ now uses the FlatLaf Look&Feel for the Java User Interfaces CBIva
+   ConceptBase now uses the FlatLaf Look&Feel for the Java User Interfaces CBIva
    and CBGraph. This comes with a much more current style and better font support.
    Moreover, CBIva has now live windows for the list of queries and the list of
    modules. They are updated on the fly, e.g. when a new query is defined.
