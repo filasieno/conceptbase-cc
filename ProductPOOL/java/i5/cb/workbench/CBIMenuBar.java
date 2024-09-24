@@ -415,8 +415,8 @@ public class CBIMenuBar extends JMenuBar implements MenuListener {
         // We configure FlatLaf in CBIva.java in a way that disables the OS frame around the CBIva window
         // FlatLaf can deal by this by creating its own frame but older Look&Feels cannat deal with this
         // Hence we disable changing the Look&Feel if FlatFaf is used
-        if (UIManager.getLookAndFeel().getName().startsWith("FlatLaf"))
-           mLookAndFeel.setEnabled(false);
+//        if (UIManager.getLookAndFeel().getName().startsWith("FlatLaf"))
+//           mLookAndFeel.setEnabled(false);
 
         mOptions.addSeparator();
 

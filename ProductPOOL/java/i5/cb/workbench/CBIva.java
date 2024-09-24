@@ -776,10 +776,15 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
         CBConfiguration.openConfig();
         // activate FlatLightLaf Look & Feel if possible
         try {
-            if (CBConfiguration.hasUIDarkMode()) 
+            if (CBConfiguration.hasUIDarkMode()) {
               UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarkLaf");
-            else
+              com.formdev.flatlaf.FlatLightLaf.installLafInfo();
+              com.formdev.flatlaf.FlatDarkLaf.installLafInfo();
+            } else {
               UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
+              com.formdev.flatlaf.FlatLightLaf.installLafInfo();
+              com.formdev.flatlaf.FlatDarkLaf.installLafInfo();
+            }
         } catch (Exception ex) {
             System.err.println("CBIva: Failed to initialize Look&Feel FlatLaf");
         }
