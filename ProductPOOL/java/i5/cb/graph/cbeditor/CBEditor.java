@@ -176,10 +176,14 @@ public class CBEditor extends GraphEditor {
         CBConfiguration.openConfig();
         // activate FlatLightLaf Look & Feel if possible
         try {
-            if (CBConfiguration.hasUIDarkMode()) 
+            if (CBConfiguration.hasUIDarkMode()) {
               UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarkLaf");
-            else
+
+            } else {
               UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
+            }
+            com.formdev.flatlaf.FlatLightLaf.installLafInfo();
+            com.formdev.flatlaf.FlatDarkLaf.installLafInfo();
         } catch (Exception ex) {
             System.out.println("Java version is: "+DiagramNode.JAVA_VERSION);
             System.err.println("CBEditor: Failed to initialize Look&Feel FlatLightLaf");
@@ -521,8 +525,8 @@ public class CBEditor extends GraphEditor {
         // We configure FlatLaf in CBEditor.java in a way that disables the OS frame around the CBIva window
         // FlatLaf can deal by this by creating its own frame but older Look&Feels cannat deal with this
         // Hence we disable changing the Look&Feel if FlatFaf is used
-        if (UIManager.getLookAndFeel().getName().startsWith("FlatLaf"))
-           mLookAndFeel.setEnabled(false);
+        //if (UIManager.getLookAndFeel().getName().startsWith("FlatLaf"))
+        //   mLookAndFeel.setEnabled(false);
 
 
        // Checkbox for enabling click actions
