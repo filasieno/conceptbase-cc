@@ -1135,6 +1135,7 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
         case iLOOK_AND_FEEL:
             try {
                 UIManager.setLookAndFeel(sLookAndFeel);
+                // CBI.adaptToLookAndFeel(sLookAndFeel);
                 SwingUtilities.updateComponentTreeUI(jfRootFrame);
             }
             catch(Exception e) {
