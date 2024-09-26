@@ -1137,10 +1137,6 @@ public class GraphEditor
         m_statusConnectionLabel.setText(sStatus);
         if (sStatus == null)
           return;
-        if (sStatus.endsWith("..."))
-           m_statusConnectionLabel.setForeground(Color.blue);  // highlight such messages 
-        else
-           m_statusConnectionLabel.setForeground(Color.black);
 // System.out.println("GraphEditor: "+sStatus);
     }
 
