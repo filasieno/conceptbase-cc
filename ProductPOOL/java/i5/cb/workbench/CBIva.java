@@ -75,8 +75,8 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
     static JFrame jfServer=null;
     static ServerThread serverThread=null;
 
-    public static final String CBIVA_VERSION = "3.0.00";
-    public static final String CBIVA_DATE = "2024-09-15";
+    public static final String CBIVA_VERSION = "3.0.01";
+    public static final String CBIVA_DATE = "2024-09-29";
     public static final String JAVA_VERSION = System.getProperty("java.runtime.version");
 
     private JDesktopPane desktopPane;
@@ -229,6 +229,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
        this(true); // show LoadWindow when starting CBIva
     }
 
+
     public CBIva(boolean showLoadWindow) {
         CBConfiguration.openConfig();
 
@@ -306,11 +307,17 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
 
     /**
     * try to connect to a local or public CBserver when CBIva is started as a standalone program
+    * if connection is established, the browser windows (user queries, modules list) are created
+    * and the TelosEditor is loaded with the source of the current module
     */
 
    public void quickConnectCBserver() {
       cbClient.connectOrStartLocalCBserver();
-      this.showBrowserWindows();
+      if (cbClient.isConnected()) {
+        this.showBrowserWindows();
+        this.getActiveTelosEditor().getTelosTextArea().setText(cbClient.ask("listModule", "OBJNAMES", "FRAME"));
+        this.getActiveTelosEditor().getTelosTextArea().setCaretPosition(0);
+      }
    }
 
 
