@@ -324,14 +324,6 @@ public class LogWindow extends JPanel {
             clearAnzeige();
         } // Logbuch leer
         else if (abVisible[log.iGetTyp()]) {
-            if (log.bGetSuccess()) {
-                // Setze Farbe auf schwarz:
-                AnzeigeBefehl.setForeground(Color.black);
-            }
-            else {
-                // Setze Farbe auf rot:
-                AnzeigeBefehl.setForeground(Color.red);
-            }
             Integer i = new Integer(log.iGetNumber());
             String s = i.toString();
             AnzeigeBefehl.setText(s+":  "+log.sGetTyp());

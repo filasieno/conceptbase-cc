@@ -272,6 +272,7 @@ public class TelosEditor extends JInternalFrame {
   }
   
   private void updateLineNumbers(boolean showLineNumbers) {
+
         if (showLineNumbers) {
 
 	  linenumbers = new JTextArea("1 ");

@@ -1134,9 +1134,9 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
              */
         case iLOOK_AND_FEEL:
             try {
+                i5.cb.CBConfiguration.setSessionDarkMode(sLookAndFeel);
                 UIManager.setLookAndFeel(sLookAndFeel);
-                // CBI.adaptToLookAndFeel(sLookAndFeel);
-                SwingUtilities.updateComponentTreeUI(jfRootFrame);
+                SwingUtilities.updateComponentTreeUI(jfRootFrame);  // jfRootFrame is the CBIva window
             }
             catch(Exception e) {
                 System.out.println("Sorry, Look And Feel not supported by this platform!");

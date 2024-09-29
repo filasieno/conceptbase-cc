@@ -105,6 +105,8 @@ public class CBConfiguration {
 
     private static Properties m_Properties=null;
 
+    private static boolean bSessionDarkMode = false;  // may be set via changing look&feel during a session
+
     /**
      * Defines defaultvalues for all options and tries to load a properties object from a file.
      * Uses all default-options that have not been overridden by the file's porperties.
@@ -168,6 +170,9 @@ public class CBConfiguration {
             m_Properties.setProperty(KEY_OPTION_BROWSER_WINDOWS,VALUE_FALSE);
         if(!m_Properties.containsKey(KEY_OPTION_DARKMODE))
             m_Properties.setProperty(KEY_OPTION_DARKMODE,VALUE_FALSE);
+        else  // initialize the session dark/light mode flag from the config file
+            bSessionDarkMode = (m_Properties.getProperty(KEY_OPTION_DARKMODE).equals(VALUE_TRUE));
+        
 
 
         // Plain Windows and Mac clients get autoconnected to the default public CBserver
@@ -629,26 +634,29 @@ public class CBConfiguration {
     }
 
 
+    // this setting will be stored in .CBJavaInterface configuration file
     public static void setUIDarkMode(boolean val) {
         if (val)
             m_Properties.setProperty(KEY_OPTION_DARKMODE,VALUE_TRUE);
         else
             m_Properties.setProperty(KEY_OPTION_DARKMODE,VALUE_FALSE);
+        bSessionDarkMode = val;
+    }
+
+    // this setting only stays valid during the current CBIva/CBGraph session
+    public static void setSessionDarkMode(boolean val) {
+        bSessionDarkMode = val;
+    }
+
+    public static void setSessionDarkMode(String lookandfeel) {
+        if (lookandfeel != null)
+          bSessionDarkMode = (lookandfeel.contains("Dark"));
     }
 
 
     public static boolean hasUIDarkMode() {
         // true if CBIva/CBGraph shall use the dark mode of the Look&Feel (if supported)
-        try {
-           String value=m_Properties.getProperty(KEY_OPTION_DARKMODE);
-           if (value.equals(VALUE_TRUE)) {
-               return true;
-           } else {
-               return false;
-           }
-        } catch (Exception e) {
-           return false;
-        }
+       return bSessionDarkMode;
     }
 
 

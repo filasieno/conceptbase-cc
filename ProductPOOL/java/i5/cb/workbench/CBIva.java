@@ -472,14 +472,6 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
         cbClient.setCallTelosParser(CBConfiguration.getCallTelosParser());
     }
 
-    public void adaptToLookAndFeel(String sLookFeel) {
-        if (sLookFeel.contains("Dark") && getActiveTelosEditor() != null) {
-          // set custom background colors for dark mode such as the linenumber background
-          System.out.println("need to adapt linenumber background etc.");
-//        getActiveTelosEditor().  
-        }
-    }
-
 
     private void initTeloslogWindow() {
 
