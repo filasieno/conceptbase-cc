@@ -6,7 +6,7 @@
               University of Skovde, Sweden
 
 
-                      2024-09-17
+                      2024-09-29
 
 
 ConceptBase.cc is a multi-user deductive object manager mainly developed by
@@ -124,6 +124,11 @@ and provides further performance boosts for the CBserver.
 
    CBIva and CBGraph now support an experimental dark mode. It can be activated via the Edit Options dialog
    of CBIva. Restart CBIva to use it.
+
+85-14 Low-level LPI and PROLOG calls disabled for CBIva and CBShell
+
+   For debugging purposes, CBIva and CBShell used to allow low level calls to the CBserver. This could
+   open undesired vulnerabilities and thus we removed these functions from CBIva/CBShell.
 
 
 
