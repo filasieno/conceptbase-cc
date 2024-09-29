@@ -992,9 +992,12 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
                 CBI.getStatusBar().insertMessage("no Telos Editor selected");
             }
             else {
-                String result=CBclient.LPIcall(te.getTelosTextArea().getText());
-                if(!result.equals(""))
-                    te.getTelosTextArea().setText(result);
+// We do not execute LPI calls anymore; they are a potential vulnerability to the CBserver
+// They may be useful for debugging but CBShell may be a much better choice
+//                String result=CBclient.LPIcall(te.getTelosTextArea().getText());
+//                if(!result.equals(""))
+//                    te.getTelosTextArea().setText(result);
+                  CBI.getStatusBar().insertMessage("LPI calls not available in this version");
             }
             break;
             /*

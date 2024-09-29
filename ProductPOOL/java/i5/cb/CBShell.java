@@ -723,6 +723,11 @@ public class CBShell {
                 }
             }
         }
+
+
+/** for security reasons, we do not support lpicall and prolog commands in CBShell anymore
+ ** remove comments if you want to re-enable it;  Manfred
+
         else if (command.equals("lpicall")) {
             if (isConnected && currentCommand.length == 2) {
                 try {
@@ -767,6 +772,7 @@ public class CBShell {
                 }
             }
         }
+**/
 
         else if (command.equals("setModule") || command.equals("cd") ) {
             String newmod = "$Home";  // default, shall be evaluated by CBserver to the user's home module
