@@ -150,6 +150,12 @@ public class CBEditor extends GraphEditor {
 
     }
 
+    private static boolean linuxHost() {
+        String osName = System.getProperty("os.name");
+        int linuxFound = osName.indexOf("Linux");
+        return (linuxFound != -1);
+    }
+
     /**
      * The 'main' method is only called when the CBEditor is used as a standalone program, i.e. not as
      * part of a running CBIva. It creates a CBEditor instance.
@@ -187,6 +193,13 @@ public class CBEditor extends GraphEditor {
         } catch (Exception ex) {
             System.out.println("Java version is: "+DiagramNode.JAVA_VERSION);
             System.err.println("CBEditor: Failed to initialize Look&Feel FlatLightLaf");
+        }
+
+        // No OS window frame, instead let Look&Feel create a custom frame (default on Windows)
+        // Only works with FlatLaf Look&Feels!
+        if (UIManager.getLookAndFeel().getName().startsWith("Flat") && linuxHost()) {
+           JFrame.setDefaultLookAndFeelDecorated(true);
+           JDialog.setDefaultLookAndFeelDecorated(true);
         }
 
         CBEditor editor = new CBEditor(null);
