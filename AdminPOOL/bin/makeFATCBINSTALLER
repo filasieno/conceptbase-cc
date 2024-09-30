@@ -17,9 +17,12 @@ fi
 
 mkdir CBinstaller
 cd CBinstaller
-unzip $CBINSTALLER
-
 cp -r $CBDISTROS/CB-LATEST/* .
+# the directories i5/META-INF of CB-LATEST shall not be used
+/bin/rm -rf i5
+/bin/rm -rf META-INF
+# instead we take the files from the fresh CBinstaller.jar of CBPOOL
+unzip -u $CBINSTALLER
 
 if [ -f $CBDISTROS/CBinstaller.jar ] ; then
   /bin/rm -f $CBDISTROS/CBinstaller.jar

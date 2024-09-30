@@ -17,20 +17,25 @@ fi
 
 mkdir CBinstaller
 cd CBinstaller
-unzip $CBINSTALLER
-
 cp -r $CBDISTROS/CB-LATEST/* .
+/bin/rm -rf i5
+/bin/rm -rf META-INF
+unzip -u $CBINSTALLER
 
 if [ -f $CBDISTROS/CBinstaller.jar ] ; then
   /bin/rm -f $CBDISTROS/CBinstaller.jar
 fi
 
-rm CBinstaller.zip
+# somehow this redundant file wants to sneek into the archive
+/bin/rm -f CBinstaller.zip
 
 zip -r ../CBinstaller.jar *
 
+# thin CBinstaller not needed anymore; we keep it for a while
 cp $CBINSTALLER $CBDISTROS/thin-CBinstaller.jar
 
 echo "Created fat CBinstaller.jar in $CBDISTROS."
+ls -l /home/jeusfeld/ConceptBase-Distros/*.jar
+
 
 
