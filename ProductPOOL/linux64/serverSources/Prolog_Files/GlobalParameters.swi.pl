@@ -89,7 +89,7 @@ cb_version('8.5.01').
 cb_date_of_release('2024-09-29'). /* set via environment variable CB_DATE in startCBserver; see serverSources/Makefile */
 cb_location('Byskola').            /** place where CBserver is compiled, updated in startCBserver **/
 
-cb_copyright_time('Copyright 2024-2024').              /*keep up to date!*/
+cb_copyright_time('Copyright 1987-2024').              /*keep up to date!*/
 
 
 :- dynamic 'cb_installation'/1 .
