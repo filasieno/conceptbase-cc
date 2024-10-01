@@ -901,7 +901,7 @@ Class AgentGT in JavaGraphicalType with
   property
    textcolor : "0,0,0";
    linecolor : "0,0,0";
-   image: "http://myserver.comp.eu/images/AgentIcon.png"
+   image: "https://myserver.comp.eu/images/AgentIcon.png"
   implementedBy
    implBy : "i5.cb.graph.cbeditor.CBIndividual"
   priority
@@ -910,8 +910,8 @@ end
 \end{verbatim}
 }
 
-associates the graphical type {\tt AgentGT} to the image icon {\tt AgentIcon.png}. Note that
-only normal http addresses are supported, not https.
+associates the graphical type {\tt AgentGT} to the image icon {\tt AgentIcon.png}.
+Both {\tt http} and {\tt https addresses} are supported if you use Java 11 or later.
 You can also point to local files via the {\tt file} protocol:
 
 {\small
