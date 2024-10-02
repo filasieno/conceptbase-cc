@@ -197,10 +197,10 @@ public class CBEditor extends GraphEditor {
 
         // No OS window frame, instead let Look&Feel create a custom frame (default on Windows)
         // Only works with FlatLaf Look&Feels!
-        if (UIManager.getLookAndFeel().getName().startsWith("Flat") && linuxHost()) {
-           JFrame.setDefaultLookAndFeelDecorated(true);
-           JDialog.setDefaultLookAndFeelDecorated(true);
-        }
+        // if (UIManager.getLookAndFeel().getName().startsWith("Flat") && linuxHost()) {
+        //    JFrame.setDefaultLookAndFeelDecorated(true);
+        //    JDialog.setDefaultLookAndFeelDecorated(true);
+        // }
 
         CBEditor editor = new CBEditor(null);
         editor.analyzeCmdArgs(args);

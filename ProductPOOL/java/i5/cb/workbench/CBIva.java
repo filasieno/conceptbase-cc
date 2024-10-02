@@ -797,10 +797,10 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
 
         // No OS window frame, instead let Look&Feel create a custom frame (default on Windows)
         // Only works with FlatLaf Look&Feels!
-        if (UIManager.getLookAndFeel().getName().startsWith("Flat") && linuxHost()) {
-           JFrame.setDefaultLookAndFeelDecorated(true);
-           JDialog.setDefaultLookAndFeelDecorated(true);
-        }
+        // if (UIManager.getLookAndFeel().getName().startsWith("Flat") && linuxHost()) {
+        //   JFrame.setDefaultLookAndFeelDecorated(true);
+        //   JDialog.setDefaultLookAndFeelDecorated(true);
+        // }
 
         CBIva cbiva = new CBIva(true);
         // try to connect to CBserver 
