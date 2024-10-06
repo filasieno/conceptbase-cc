@@ -151,6 +151,9 @@ public class CDCommand implements ActionListener {
                     i5.cb.CBConfiguration.addNewConnection(cd.getHost(),cd.getPortString());
                 }
             CBClient.updateCBIvaWindows("QueryClass, Module");
+// also update the content of the TelosEditor window:
+            CBI.getActiveTelosEditor().getTelosTextArea().setText(CBClient.ask("listModule", "OBJNAMES", "FRAME"));
+            CBI.getActiveTelosEditor().getTelosTextArea().setCaretPosition(0);
             }
             else {
                 CBI.getStatusBar().insertMessage("Connection failed, try again");
