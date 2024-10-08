@@ -135,7 +135,7 @@ public class StatusBar extends JPanel {
 
     public void setStatus(String statustext) {
         tfStatusLabel.setToolTipText(statustext);
-        tfStatusLabel.setText(statustext);
+        tfStatusLabel.setText(statustext+" ⏲");
 //        tfStatusLabel.setBackground(Color.orange); // orange Hintergrund, wenn Connecting
         tfStatusLabel.paintImmediately(tfStatusLabel.getBounds());
     }
