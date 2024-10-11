@@ -314,12 +314,15 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
    public void quickConnectCBserver() {
       cbClient.connectOrStartLocalCBserver();
       if (cbClient.isConnected() && hasBrowserWindows()) {
+
+        // setText sometimes fails after showBrowserWindows, so we call it first 
+        String editorcontent = cbClient.ask("listModule", "OBJNAMES", "FRAME");
+        this.getActiveTelosEditor().getTelosTextArea().setText(editorcontent);
+        this.getActiveTelosEditor().getTelosTextArea().setCaretPosition(0);
+
+        // the user queries and the module browser are shown if scpeivied in .CBjavaInterface
         this.showBrowserWindows();
-        // setText sometimes fails after showBrowserWindows, so we do not use it until the bug is understood 
-        // maybe we need to use a thread 
-        // try { Thread.sleep(200); } catch (InterruptedException e) {}  // sleeping does not help
-        // this.getActiveTelosEditor().getTelosTextArea().setText(cbClient.ask("listModule", "OBJNAMES", "FRAME"));
-        // this.getActiveTelosEditor().getTelosTextArea().setCaretPosition(0); 
+
       }
    }
 
