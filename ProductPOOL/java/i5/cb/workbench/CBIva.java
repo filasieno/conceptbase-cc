@@ -535,8 +535,8 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
 
         JPanel panProg = new JPanel();
         panProg.setLayout(new BorderLayout());
-        panProg.add(new JLabel("University of Skovde, IIT",JLabel.RIGHT),BorderLayout.NORTH);
-        panProg.add(new JLabel("S-54128 Skovde, Sweden",JLabel.RIGHT),BorderLayout.CENTER);
+        panProg.add(new JLabel("University of Skövde, IIT",JLabel.RIGHT),BorderLayout.NORTH);
+        panProg.add(new JLabel("S-54128 Skövde, Sweden",JLabel.RIGHT),BorderLayout.CENTER);
         JPanel panProga = new JPanel();
         panProga.setLayout(new BorderLayout());
         panProga.add(new JLabel("manfred.jeusfeld@acm.org",JLabel.RIGHT),BorderLayout.NORTH);
@@ -587,7 +587,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
 
 
     public void setTimeoutOption() {
-        String sRet=JOptionPane.showInputDialog(this,"Enter the timeout value in milli-seconds",new Integer(CBConfiguration.getTimeout()));
+        String sRet=JOptionPane.showInputDialog(this,"Enter the timeout value in milli-seconds",Integer.valueOf(CBConfiguration.getTimeout()));
 
         if(sRet!=null) {
             this.getCBClient().setTimeOut(Integer.parseInt(sRet));
@@ -833,7 +833,7 @@ public class CBIva extends JFrame implements InternalFrameListener, HyperlinkLis
         if(cbf != null){
             try {
                 if(cbf.isConnected()){
-                    java.lang.Integer Port = new Integer(cbf.getPort());
+                    java.lang.Integer Port = Integer.valueOf(cbf.getPort());
                     CBI.getStatusBar().insertMessage("Trying to connect...");
                     CBClient.enrollMe(cbf.getHost(),Port.intValue(), "CBIva",
                               System.getProperty("user.name","unknownuser"));

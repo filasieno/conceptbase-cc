@@ -54,6 +54,9 @@ import java.util.regex.*;
  */
 public class CBShell {
 
+    public static final String CBSHELL_VERSION = "3.0.00";
+    public static final String CBSHELL_DATE = "2024-10-13";
+
     private CBclient cbClient=null;
     private CBanswer currentAns=null;
     private BufferedWriter output=null;
@@ -134,7 +137,7 @@ public class CBShell {
                   cbs.bStartInteractiveServer=true;
               }
               else if (args[i].equals("-v") || args[i].equals("-version")) {
-                  System.out.println("This is CBShell, the command line interface to ConceptBase.cc");
+                  System.out.println("This is CBShell " + CBSHELL_VERSION +" (" + CBSHELL_DATE + ")" + ", the command line interface to ConceptBase.cc");
                   System.out.println("Copyright 1987-2024 by The ConceptBase Team. All rights reserved.");
                   System.out.println("Original software by Achim Schlosser and others.");
                   System.out.println("This is free software. See http://conceptbase.cc for details.");
@@ -1371,7 +1374,7 @@ public class CBShell {
 			else {
 				System.out.println(inputLine);
 			}
-                        yield();
+                        this.yield();
                         inputLine=inReader.readLine();
                     }
                 }
@@ -1431,7 +1434,7 @@ public class CBShell {
                     while(errorLine != null) {
                         System.out.println(errorLine);
                         //collect output to check whether server started succesfully
-                        yield();
+                        this.yield();
                         errorLine=errReader.readLine();
                     }
                 }
