@@ -119,7 +119,7 @@ public class LogCmd {
 
     public String getText() {
         String text="";
-        Integer i = new Integer(No);
+        Integer i = Integer.valueOf(No);
         String s = i.toString();
         if (iTyp==LogWindow.TELL) {
             text=s+":  "+sTyp+"\nFrames told:\n"+asArg[0];

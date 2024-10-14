@@ -98,7 +98,7 @@ public class FEComboBox extends AttributeLayout {
         }
         if ((this.iFlag & AttributeLayout.INTEGER) != 0) {
             try {
-                new Integer(box.getSelectedItem().toString());
+                Integer.valueOf(box.getSelectedItem().toString());
             }
             catch (NumberFormatException exception) {
                 sbError.append(" must be an integer\n");

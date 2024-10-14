@@ -127,7 +127,7 @@ public class FEList extends AttributeLayout {
         }
         if ((this.iFlag & AttributeLayout.INTEGER) != 0) {
             try {
-                new Integer(list.getSelectedValue().toString());
+                Integer.valueOf(list.getSelectedValue().toString());
             }
             catch (NumberFormatException exception) {
                 sbError.append(" must be an integer\n");

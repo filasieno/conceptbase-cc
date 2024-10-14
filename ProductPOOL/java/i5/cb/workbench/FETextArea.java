@@ -88,7 +88,7 @@ public class FETextArea extends AttributeLayout {
         }
         if ((this.iFlag & AttributeLayout.INTEGER) != 0) {
             try {
-                new Integer(text.getText());
+                Integer.valueOf(text.getText());
             }
             catch (NumberFormatException exception) {
                 sbError.append(" must be an integer\n");

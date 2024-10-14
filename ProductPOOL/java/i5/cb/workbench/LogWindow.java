@@ -324,7 +324,7 @@ public class LogWindow extends JPanel {
             clearAnzeige();
         } // Logbuch leer
         else if (abVisible[log.iGetTyp()]) {
-            Integer i = new Integer(log.iGetNumber());
+            Integer i = Integer.valueOf(log.iGetNumber());
             String s = i.toString();
             AnzeigeBefehl.setText(s+":  "+log.sGetTyp());
             int id=log.iGetTyp();
