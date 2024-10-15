@@ -1,8 +1,8 @@
 #
 # File:        $Source: /home/cbase/CVS/ProductPOOL/config.mk,v $
-# Version:     $Revision: 14.119 $
+# Version:     $Revision: 14.127 $
 # Creation:    16-10-95, Christoph Quix (RWTH)
-# Last Change: $Date: 2016/01/07 14:09:57 $ , Manfred Jeusfeld (UvT)
+# Last Change: $Date: 2018/10/04 13:17:19 $ , Manfred Jeusfeld (UvT)
 # Release:     %R%
 #
 # -----------------------------------------
@@ -58,22 +58,27 @@ ifneq "$(CB_LOCATION)" "Aachen"
    ifndef JAVA_CAPABLE
      JAVA_CAPABLE:="/$(CB_VARIANT)/"
    endif
+   ifndef JAVA_DOC_CAPABLE
+     JAVA_DOC_CAPABLE:="/linux/linux64/"
+   endif
    ifndef TEX_CAPABLE
      TEX_CAPABLE:="/none/"
    endif
    JAVADIR:=/usr
-   CC:=/usr/bin/gcc-4.4
-   CXX:=/usr/bin/g++-4.4
-#   CC:=/usr/bin/clang
-#   CXX:=/usr/bin/clang++
+#   CC:=/usr/bin/gcc-4.4
+#   CXX:=/usr/bin/g++-4.4
+   CC:=/usr/bin/clang
+   CXX:=/usr/bin/clang++
+# CB_CC/CB_CXX can be defined in .bashrc to override the choice of CC/CXX 
    ifdef CB_CC
      CC:=$(CB_CC)
    endif 
    ifdef CB_CXX
      CXX:=$(CB_CXX)
    endif 
-
+# LATEX2HTML is no no longer supported
    LATEX2HTML=/home/jeusfeld/CBPOOL/AdminPOOL/utils/latex2html/latex2html
+# Set SWI_HOME to the installation directory of SWI-Prolog
    ifndef SWI_HOME
      SWI_HOME:=/home/jeusfeld/swiprolog
      SWI_INCLUDE:=$(SWI_HOME)/lib/pl-5.7.10/include
@@ -568,7 +573,7 @@ JAVA_CLASSPATH=java/classes
 #CB_JAVA_LIB=/home/cbase/CB_NewStruct/src/ProductPOOL/java/lib
 CB_JAVA_LIB=$(CB_POOL)/java/lib
 #JAVA_JARS=$(CB_JAVA_LIB)/jgl3.1.0.jar:$(CB_JAVA_LIB)/grappa1_2.jar:/home/java/jsdk2.1/servlet.jar:$(JENA_JARS1):$(JENA_JARS2)
-JAVA_JARS=$(CB_JAVA_LIB)/jgl3.1.0.jar:$(CB_JAVA_LIB)/grappa1_2.jar
+JAVA_JARS=$(CB_JAVA_LIB)/jgl3.1.0.jar:$(CB_JAVA_LIB)/grappa1_2.jar:$(CB_JAVA_LIB)/flatlaf-3.4.jar
 
 ifeq "$(CB_VARIANT)" "windows"
 override CLASSPATH=.;$(POOL_ROOT)/java;$(POOL_ROOT)/$(JAVA_CLASSPATH);$(CB_POOL)/$(JAVA_CLASSPATH);$(POOL_ROOT)/src/java
@@ -578,7 +583,24 @@ override CLASSPATH=.:$(POOL_ROOT)/java:$(POOL_ROOT)/$(JAVA_CLASSPATH):$(POOL_ROO
 export CLASSPATH
 endif
 
-JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH) -source 1.6
+
+#ifeq "$(CB_VARIANT)" "linux64"
+  # assume Java 9 or later on 64bit linux
+#  JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH) --add-exports java.desktop/com.sun.java.swing.plaf.motif=ALL-UNNAMED
+#else
+#  JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH)
+#endif
+
+JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH) 
+
+# for OpenJDK after openjdk-8: : create binaries for Java8
+ifdef JAVAC_VERSION
+  ifneq "$(findstring 11,$(JAVAC_VERSION))" ""
+     JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH) --release 8
+#     JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH) -source 1.8 -target 1.8
+  endif
+endif
+
 #-Xlint:deprecation
 #-Xlint:unchecked
 

@@ -596,7 +596,7 @@ JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH)
 # for OpenJDK after openjdk-8: : create binaries for Java8
 ifdef JAVAC_VERSION
   ifneq "$(findstring 11,$(JAVAC_VERSION))" ""
-     JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH) --release 8
+     JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH) 
 #     JAVA_FLAGS=-d $(POOL_ROOT)/$(JAVA_CLASSPATH) -source 1.8 -target 1.8
   endif
 endif
