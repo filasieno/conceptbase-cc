@@ -103,7 +103,7 @@ public class Config {
 		level.add(i, node);
 		for (; i < level.size(); i++) {
 			Node rightNode = (Node) level.get(i);
-			rightNode.setAttribute(LayoutGraph.NODE_ORDER, new Integer(i));
+			rightNode.setAttribute(LayoutGraph.NODE_ORDER, Integer.valueOf(i));
 		}
 	}
 
@@ -119,7 +119,7 @@ public class Config {
 		List level = (List) m_configuration.get(rank);
 		level.add(node);
 		int order = level.size() - 1;
-		node.setAttribute(LayoutGraph.NODE_ORDER, new Integer(order));
+		node.setAttribute(LayoutGraph.NODE_ORDER, Integer.valueOf(order));
 		if (order == 0) {
 			// the node is the first element
 			node.setAttribute(LayoutGraph.NODE_POSITION, new GrappaPoint(1.0,
@@ -184,10 +184,10 @@ public class Config {
 		List vedgeList = Collections.synchronizedList(new ArrayList());
 		for (int i = tr + 1; i < hr; i++) {
 			Node vnode = new Node(m_conGraph);
-			vnode.setAttribute(LayoutGraph.NODE_RANK, new Integer(i));
+			vnode.setAttribute(LayoutGraph.NODE_RANK, Integer.valueOf(i));
 			vnode.setAttribute(LayoutGraph.NODE_DUMMY, Boolean.TRUE);
-			vnode.setAttribute(LayoutGraph.NODE_WIDTH, new Double(2.0));
-			vnode.setAttribute(LayoutGraph.NODE_HEIGHT, new Double(2.0));
+			vnode.setAttribute(LayoutGraph.NODE_WIDTH, Double.valueOf(2.0));
+			vnode.setAttribute(LayoutGraph.NODE_HEIGHT, Double.valueOf(2.0));
 			addConNode(vnode, i, (xh * (i - tr) + xt * (hr - i)) / (hr - tr));
 			Edge vedge = new Edge(m_conGraph, tail, vnode);
 			vedge.setAttribute(LayoutGraph.EDGE_DUMMY, Boolean.TRUE);
@@ -492,7 +492,7 @@ public class Config {
 			oldLevel.remove(cnode);
 			for (; i < oldLevel.size(); i++) {
 				Node rightNode = (Node) oldLevel.get(i);
-				rightNode.setAttribute(LayoutGraph.NODE_ORDER, new Integer(i));
+				rightNode.setAttribute(LayoutGraph.NODE_ORDER, Integer.valueOf(i));
 			}
 
 			// insert the node into the new rank with new x
@@ -544,7 +544,7 @@ public class Config {
 		level.remove(order);
 		for (int i = order; i < level.size(); i++) {
 			Node rightnode = (Node) level.get(i);
-			rightnode.setAttribute(LayoutGraph.NODE_ORDER, new Integer(i));
+			rightnode.setAttribute(LayoutGraph.NODE_ORDER, Integer.valueOf(i));
 		}
 	}
 
@@ -564,7 +564,7 @@ public class Config {
 			while (itr.hasNext()) {
 				int o = itr.nextIndex();
 				Node node = (Node) itr.next();
-				node.setAttribute(LayoutGraph.NODE_ORDER, new Integer(o));
+				node.setAttribute(LayoutGraph.NODE_ORDER, Integer.valueOf(o));
 				rank.set(o, node);
 			}
 		}

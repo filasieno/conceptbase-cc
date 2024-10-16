@@ -531,7 +531,7 @@ public class CBConfiguration {
     }
 
     public static void setTimeout(int milliseconds) {
-        m_Properties.setProperty(KEY_OPTION_TIMEOUT,(new Integer(milliseconds)).toString());
+        m_Properties.setProperty(KEY_OPTION_TIMEOUT,Integer.valueOf(milliseconds).toString());
     }
 
     public static int getTimeout() {
@@ -831,7 +831,7 @@ public class CBConfiguration {
     }
 
     public static void setPopupMenuDelay(int delayInMilliSeconds) {
-        m_Properties.setProperty(KEY_OPTION_POPUP_DELAY,(new Integer(delayInMilliSeconds)).toString());
+        m_Properties.setProperty(KEY_OPTION_POPUP_DELAY,Integer.valueOf(delayInMilliSeconds).toString());
     }
 
     public static boolean getPopupMenuBlocks() {

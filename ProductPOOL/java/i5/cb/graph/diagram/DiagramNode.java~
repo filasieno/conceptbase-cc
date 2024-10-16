@@ -994,7 +994,7 @@ public class DiagramNode
     /**
 	 * Description:
 	 *
-	 * @author Li Xiang
+	 * author Li Xiang
 	 */
 	public void validateCenterSetting() {
 		propertyChangeSupport.firePropertyChange(

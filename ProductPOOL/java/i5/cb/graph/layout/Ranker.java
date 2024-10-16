@@ -70,7 +70,7 @@ public class Ranker {
             Node node = (Node) ne.nextElement();
             node.setAttribute(LayoutGraph.NODE_PRERANK, node
                     .getAttributeValue(LayoutGraph.NODE_RANK));
-            node.setAttribute(LayoutGraph.NODE_RANK, new Integer(0));
+            node.setAttribute(LayoutGraph.NODE_RANK, Integer.valueOf(0));
         }
 
         root: for (Enumeration ne = g.nodeElements(); ne.hasMoreElements();) {
@@ -119,8 +119,7 @@ public class Ranker {
                         : oldChildRank;
             }
             child
-                    .setAttribute(LayoutGraph.NODE_RANK, new Integer(
-                            newChildRank));
+                    .setAttribute(LayoutGraph.NODE_RANK, Integer.valueOf(newChildRank));
 
             // deal with children recursively
             stk.push(child);

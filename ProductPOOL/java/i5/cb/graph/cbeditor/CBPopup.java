@@ -514,7 +514,7 @@ public class CBPopup extends GraphPopup {
                                              sPalette);
                 try {
                     Object[] task= {newFrame, sHost,
-                                  new Integer(m_cbUserObject.getCBFrame().getPort()),
+                                  Integer.valueOf(m_cbUserObject.getCBFrame().getPort()),
                                   m_cbUserObject.toString(),
                                   m_cbUserObject.getObi().getCBClient().getModule()};
                     CBFrameWorker gifWorker=(CBFrameWorker) newFrame.getFrameWorker();

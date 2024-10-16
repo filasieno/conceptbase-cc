@@ -116,15 +116,12 @@ public class DiagramDesktopGLayouter {
 
         // create one new node
         Node newNode = new Node(m_gGraph, label);
-        newNode.setAttribute(LayoutGraph.NODE_RANK, new Integer(0));
-        newNode.setAttribute(LayoutGraph.NODE_PRERANK, new Integer(0));
-        newNode.setAttribute(LayoutGraph.NODE_ORDER, new Integer(-1));
-        newNode.setAttribute(LayoutGraph.NODE_WIDTH,
-                new Double(node.getWidth()));
-        newNode.setAttribute(LayoutGraph.NODE_HEIGHT, new Double(node
-                .getHeight()));
-        newNode.setAttribute(LayoutGraph.NODE_POSITION, new GrappaPoint(node
-                .getCenter().x, node.getCenter().y));
+        newNode.setAttribute(LayoutGraph.NODE_RANK, Integer.valueOf(0));
+        newNode.setAttribute(LayoutGraph.NODE_PRERANK, Integer.valueOf(0));
+        newNode.setAttribute(LayoutGraph.NODE_ORDER, Integer.valueOf(-1));
+        newNode.setAttribute(LayoutGraph.NODE_WIDTH, Double.valueOf(node.getWidth()));
+        newNode.setAttribute(LayoutGraph.NODE_HEIGHT, Double.valueOf(node.getHeight()));
+        newNode.setAttribute(LayoutGraph.NODE_POSITION, new GrappaPoint(node.getCenter().x, node.getCenter().y));
         newNode.setAttribute(LayoutGraph.NODE_FIXED, Boolean.FALSE);
         newNode.setAttribute(LayoutGraph.NODE_DUMMY, Boolean.FALSE);
         newNode.setAttribute(LayoutGraph.NODE_NEW, Boolean.TRUE);
@@ -278,13 +275,13 @@ public class DiagramDesktopGLayouter {
                     .getAttributeValue(LayoutGraph.NODE_FIXED));
             bn.setAttribute(LayoutGraph.NODE_NEW, node
                     .getAttributeValue(LayoutGraph.NODE_FIXED));
-            bn.setAttribute(LayoutGraph.NODE_ORDER, new Integer(((Integer) node
+            bn.setAttribute(LayoutGraph.NODE_ORDER, Integer.valueOf(((Integer) node
                     .getAttributeValue(LayoutGraph.NODE_ORDER)).intValue()));
             bn.setAttribute(LayoutGraph.NODE_PRERANK,
-                    new Integer(((Integer) node
+                    Integer.valueOf(((Integer) node
                             .getAttributeValue(LayoutGraph.NODE_PRERANK))
                             .intValue()));
-            bn.setAttribute(LayoutGraph.NODE_RANK, new Integer(((Integer) node
+            bn.setAttribute(LayoutGraph.NODE_RANK, Integer.valueOf(((Integer) node
                     .getAttributeValue(LayoutGraph.NODE_RANK)).intValue()));
             bn.setAttribute(LayoutGraph.NODE_POSITION, node.getCenterPoint());
         }
@@ -326,12 +323,12 @@ public class DiagramDesktopGLayouter {
                                   .getAttributeValue(LayoutGraph.NODE_FIXED));
                 node.setAttribute(LayoutGraph.NODE_NEW, bn
                                   .getAttributeValue(LayoutGraph.NODE_FIXED));
-                node.setAttribute(LayoutGraph.NODE_ORDER, new Integer(((Integer) bn
+                node.setAttribute(LayoutGraph.NODE_ORDER, Integer.valueOf(((Integer) bn
                     .getAttributeValue(LayoutGraph.NODE_ORDER)).intValue()));
-                node.setAttribute(LayoutGraph.NODE_PRERANK, new Integer(
+                node.setAttribute(LayoutGraph.NODE_PRERANK, Integer.valueOf(
                     ((Integer) bn.getAttributeValue(LayoutGraph.NODE_PRERANK))
                     .intValue()));
-                node.setAttribute(LayoutGraph.NODE_RANK, new Integer(((Integer) bn
+                node.setAttribute(LayoutGraph.NODE_RANK, Integer.valueOf(((Integer) bn
                     .getAttributeValue(LayoutGraph.NODE_RANK)).intValue()));
                 node.setAttribute(LayoutGraph.NODE_POSITION, bn.getCenterPoint());
             }

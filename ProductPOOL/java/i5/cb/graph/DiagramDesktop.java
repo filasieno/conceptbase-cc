@@ -1033,7 +1033,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
         Hashtable htNodeToHandle = new Hashtable();
 
-        out.writeObject(new Integer(nSize));
+        out.writeObject(Integer.valueOf(nSize));
 
         float origZoomFactor = getZoom();
         boolean zoomChanged = false;
@@ -1059,7 +1059,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
                     + currentNode.getBounds());
         }
 
-        out.writeObject(new Integer(eSize));
+        out.writeObject(Integer.valueOf(eSize));
 
         for (int i = 0; i < eSize; i++) {
             currentEdge = (DiagramEdge) vEdges.elementAt(i);
@@ -1125,7 +1125,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         if (this.backgroundImage != null) 
            saveflag = saveflag | HAS_IMAGE;
 
-        out.writeObject(new Integer(saveflag));
+        out.writeObject(Integer.valueOf(saveflag));
 
        // add saving HAS_PARAMS etc. here, i.e. from higher bits to lower bits
        // If HAS_PARAMS is set, then we save the current CBGraph parameters also in the GEL file

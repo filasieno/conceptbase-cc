@@ -114,7 +114,7 @@ class ConnectionDLGCommand implements ActionListener, PropertyChangeListener {
                                  (String)m_oPalette);
         int iPort = Integer.parseInt(m_sPort);
 
-        Object[] task = {m_newFrame, m_sHost, new Integer(iPort), (String)m_oSelectedObject, (String) m_oSelectedModule};
+        Object[] task = {m_newFrame, m_sHost, Integer.valueOf(iPort), (String)m_oSelectedObject, (String) m_oSelectedModule};
         CBFrameWorker gifWorker = (CBFrameWorker)m_newFrame.getFrameWorker();
 
         gifWorker.addPropertyChangeListener( (PropertyChangeListener)this );

@@ -166,8 +166,8 @@ public class CrossOptimizer {
             Node next = (Node) nodelist.get(i - 1);
             if (com.compare(cur, next) < 0) {
                 // it's better to swap two nodes
-                cur.setAttribute(LayoutGraph.NODE_ORDER, new Integer(i - 1));
-                next.setAttribute(LayoutGraph.NODE_ORDER, new Integer(i));
+                cur.setAttribute(LayoutGraph.NODE_ORDER, Integer.valueOf(i - 1));
+                next.setAttribute(LayoutGraph.NODE_ORDER, Integer.valueOf(i));
                 GrappaPoint cp = cur.getCenterPoint();
                 cur.setAttribute(LayoutGraph.NODE_POSITION, next
                         .getCenterPoint());
@@ -187,8 +187,8 @@ public class CrossOptimizer {
             Node next = (Node) nodelist.get(i + 1);
             if (com.compare(cur, next) > 0) {
                 // it's better to swap two nodes
-                cur.setAttribute(LayoutGraph.NODE_ORDER, new Integer(i + 1));
-                next.setAttribute(LayoutGraph.NODE_ORDER, new Integer(i));
+                cur.setAttribute(LayoutGraph.NODE_ORDER, Integer.valueOf(i + 1));
+                next.setAttribute(LayoutGraph.NODE_ORDER, Integer.valueOf(i));
                 GrappaPoint cp = cur.getCenterPoint();
                 cur.setAttribute(LayoutGraph.NODE_POSITION, next
                         .getCenterPoint());

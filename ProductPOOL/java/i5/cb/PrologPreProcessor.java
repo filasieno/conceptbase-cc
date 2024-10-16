@@ -263,7 +263,7 @@ public class PrologPreProcessor {
     }
 
     static void handleIf(String[] argv) {
-        ifStack.push(new Integer(currentIf));
+        ifStack.push(Integer.valueOf(currentIf));
         currentIf=0;
         for(int i=0;i<argv.length;i++) {
             if(argv[i].equals("BIM"))

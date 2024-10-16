@@ -509,7 +509,7 @@ public class CBEditor extends GraphEditor {
             public void actionPerformed(java.awt.event.ActionEvent ae) {
                 String res = JOptionPane.showInputDialog(
                         "Enter delay for popup menu in milliseconds",
-                        new Integer(CBConfiguration.getPopupMenuDelay()));
+                        Integer.valueOf(CBConfiguration.getPopupMenuDelay()));
                 if (res != null)
                     CBConfiguration.setPopupMenuDelay(Integer.parseInt(res));
             }
@@ -1110,7 +1110,7 @@ public class CBEditor extends GraphEditor {
                 CBFrameWorker cbf = (CBFrameWorker) newFrame.getFrameWorker();
                 cbf.connect(newFrame,
                             cbIClient.getCBClient().getHostName(),
-                            new java.lang.Integer(cbIClient.getCBClient().getPort()),
+                            Integer.valueOf(cbIClient.getCBClient().getPort()),
                             sObject, combiPath(cbivaModule,sModule));
                 newFrame.setFrameTitle(); // refresh the title based on connection status
             } catch (java.rmi.RemoteException rme) {
@@ -1155,7 +1155,7 @@ public static CBEditor startCBEditorWithWorkbench(CBIva CBI, CBIvaClient cbIClie
                 CBFrameWorker cbf = (CBFrameWorker) newFrame.getFrameWorker();
                 cbf.connect(newFrame,
                             cbIClient.getCBClient().getHostName(),
-                            new java.lang.Integer(cbIClient.getCBClient().getPort()),
+                            Integer.valueOf(cbIClient.getCBClient().getPort()),
                             sObject, combiPath(cbivaModule,sModule));
                 newFrame.setFrameTitle(); // refresh the title based on connection status
             } catch (java.rmi.RemoteException rme) {

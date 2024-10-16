@@ -663,7 +663,7 @@ public class CBFrameWorker implements java.beans.PropertyChangeListener, IFrameW
     public void setCurrentFlag(int currentFlag) {
         int oldCurrentFlag = this.currentFlag;
         this.m_currentFlag = currentFlag;
-        propertyChangeSupport.firePropertyChange("currentFlag", new Integer(oldCurrentFlag), new Integer(currentFlag));
+        propertyChangeSupport.firePropertyChange("currentFlag", Integer.valueOf(oldCurrentFlag), Integer.valueOf(currentFlag));
     }
 
 
@@ -722,7 +722,7 @@ public class CBFrameWorker implements java.beans.PropertyChangeListener, IFrameW
     public void setStatus(int status) {
         int oldStatus = this.m_iStatus;
         this.m_iStatus = status;
-        propertyChangeSupport.firePropertyChange("status", new Integer(oldStatus), new Integer(m_iStatus));
+        propertyChangeSupport.firePropertyChange("status", Integer.valueOf(oldStatus), Integer.valueOf(m_iStatus));
     }
 
     public boolean showsProgressBar() {
