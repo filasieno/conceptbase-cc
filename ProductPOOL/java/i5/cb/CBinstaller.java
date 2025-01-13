@@ -377,7 +377,7 @@ public class CBinstaller extends JFrame implements ActionListener {
     private boolean acceptLicense() {
 
         String licenseText = "The ConceptBase.cc Copyright\n"+
-     "Copyright 1987-2024 The ConceptBase Team. All rights reserved.\n\n" +
+     "Copyright 1987-2025 The ConceptBase Team. All rights reserved.\n\n" +
      "Redistribution and use in source and binary forms, with or without modification, are permitted\n" +
      "provided that the following conditions are met:\n\n" +
      "1. Redistributions of source code must retain the above copyright notice, this list of\n"+

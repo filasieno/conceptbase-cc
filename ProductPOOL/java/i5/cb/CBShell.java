@@ -138,7 +138,7 @@ public class CBShell {
               }
               else if (args[i].equals("-v") || args[i].equals("-version")) {
                   System.out.println("This is CBShell " + CBSHELL_VERSION +" (" + CBSHELL_DATE + ")" + ", the command line interface to ConceptBase.cc");
-                  System.out.println("Copyright 1987-2024 by The ConceptBase Team. All rights reserved.");
+                  System.out.println("Copyright 1987-2025 by The ConceptBase Team. All rights reserved.");
                   System.out.println("Original software by Achim Schlosser and others.");
                   System.out.println("This is free software. See http://conceptbase.cc for details.");
                   System.out.println("No warranty, not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.");

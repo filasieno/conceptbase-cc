@@ -84,7 +84,7 @@ public class LoadWindow extends JFrame {
         JPanel panSouth = new JPanel();
         panSouth.setLayout(new BorderLayout());
         panSouth.add(new JLabel("ConceptBase.cc User Interface in Java",JLabel.CENTER),"North");
-        panSouth.add(new JLabel("Copyright 1987-2024 by The ConceptBase Team. All rights reserved.",JLabel.CENTER),"Center");
+        panSouth.add(new JLabel("Copyright 1987-2025 by The ConceptBase Team. All rights reserved.",JLabel.CENTER),"Center");
         panSouth.add(new JLabel("Distributed under a FreeBSD-style copyright license.",JLabel.CENTER),"South");
 
         this.getContentPane().add(text,"North");
