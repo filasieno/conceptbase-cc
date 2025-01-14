@@ -191,6 +191,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 ,'operatingSystemIsWindows'/0
 ,'pcall'/1
 ,'printCBdevelopers'/0
+,'listCBdevelopers'/0
 ,'read_term_eof'/2
 ,'remove_multiple_elements'/2
 ,'replace'/4
@@ -1111,6 +1112,11 @@ outputCBdeveloper(_name) :-
   assert(bufferedCBdeveloper(_name)),
   !.
 
+listCBdevelopers :-
+  'CBdeveloper'(_name),
+  write(_name),nl,
+  fail.
+listCBdevelopers.
 
 
 /* ************** i n i t i a l i z e C B s t a t e ************* */

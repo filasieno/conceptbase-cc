@@ -150,6 +150,7 @@ main:-startCBserver.
 #IMPORT(enactModuleContext/2,CBserverInterface)
 #IMPORT(TELL/2,TellAndAsk)
 #IMPORT(pc_stringtoatom/2,PrologCompatibility)
+#IMPORT(listCBdevelopers/0,GeneralUtilities)
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -505,6 +506,10 @@ assert_argv(_l,-3) :-
     !.
 
 
+assert_argv(_l,-4) :-
+    my_member('-team',_l),
+    !.
+
 assert_argv(_l,_x) :-
     my_member('--',_l),
     !,
@@ -553,6 +558,12 @@ setOption(-2) :-
 
 setOption(-3) :-
   writeLicense,
+  !,
+  fail.
+
+setOption(-4) :-
+write('ConceptBase developers:'),nl,
+  listCBdevelopers,
   !,
   fail.
 
