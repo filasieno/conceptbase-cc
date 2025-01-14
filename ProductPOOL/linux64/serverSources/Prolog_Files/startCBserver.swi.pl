@@ -652,6 +652,7 @@ writeHelpMessage :-
     write('-version        : display version info and exit'),nl,
     write('-help           : display this text and exit'),nl,
     write('-license        : display license and exit'),nl,
+    write('-team           : display ConceptBase developers and exit'),nl,
     write('-t <tracemode>  : set tracemode'),nl,
     write('                  <tracemode> is one of \'silent\', \'no\',  \'minimal\', \'low\', \'high\', \'veryhigh\''),nl,
     write('                  default: '),write(_t),nl,
