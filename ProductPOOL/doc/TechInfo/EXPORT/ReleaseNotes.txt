@@ -6,7 +6,7 @@
               University of Skovde, Sweden
 
 
-                      2024-09-29
+                      2025-02-13
 
 
 ConceptBase.cc is a multi-user deductive object manager mainly developed by
@@ -129,6 +129,11 @@ and provides further performance boosts for the CBserver.
 
    For debugging purposes, CBIva and CBShell used to allow low level calls to the CBserver. This could
    open undesired vulnerabilities and thus we removed these functions from CBIva/CBShell.
+
+85-15 Show link options
+   
+   Allow to constrain the link types shown by the CBGraph function "Show links between marked objects".
+   https://gitlab.com/mjeu/conceptbasecc/-/issues/69
 
 
 
