@@ -16,6 +16,8 @@ GMB_OptionsMenu_CommitTellsInvalid='Commit' also tells invalid Telosobjects
 GMB_OptionsMenu_PopupMenu=Popup Menu
 GMB_OptionsMenu_PopupMenu_Blocks=Popup Menu blocks while waiting for server
 GMB_OptionsMenu_PopupMenu_Delay=Popup Menu Delay
+GMB_OptionsMenu_ClickActCheckBx=Enable Click Actions
+GMB_OptionsMenu_DerivedLinksCheckBx=Enable Derived Links
 
 ConnectionDialog_Title=Connection to ConceptBase
 ConnectionDialog_Adress=Address
@@ -29,11 +31,11 @@ ConnectionDialog_Module=Module
 CBFrame_confirmDisconnect_message=Do you want to disconnect from this server?
 CBFrame_confirmDisconnect_title=Disconnect from ConcepBase Server
 
-AddNodedialog_title=Show another TelosObject
-AddNodeDialog_objectName=Name of the Telosobject
-AddNodeDialog_add=Show Telosobject
+AddNodedialog_title=Show another Telos object
+AddNodeDialog_objectName=Name of the Telos object
+AddNodeDialog_add=Show Telos object
 
-ToolTip_AddNewNode=Load object
+ToolTip_AddNewNode=Show another Telos object in this view
 ToolTip_ShowRelations=Shows the links between the marked objects
 ToolTip_Connect=Opens a connection to a ConceptBase server
 
@@ -65,6 +67,8 @@ PopupMenu_addAttribute=Add Attribute
 PopupMenu_addIndividual=Add Individual
 PopupMenu_displayOnWorkbench=Display in Telos Editor
 PopupMenu_showInNewFrame=Show in new Frame
+PopupMenu_straightenEdges=Straighten attached edges
+PopupMenu_freezeUnfreeze=Freeze / Unfreeze
 
 queryResult_NoObjects=No Objects found
 queryResult_Explicit=only explicit

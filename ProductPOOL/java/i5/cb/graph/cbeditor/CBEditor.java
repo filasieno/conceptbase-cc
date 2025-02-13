@@ -58,6 +58,9 @@ import javax.swing.text.DefaultStyledDocument;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.ui.FlatListUI;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 
 /**
  * The CBEditor is the main class for the ConceptBase application. It can
@@ -582,6 +585,27 @@ public class CBEditor extends GraphEditor {
 
         m_graphMenuBar.getOptionsMenu().add(jcbDerivedLinksEnable);
        // --------------------------
+
+
+       // Sub-menu for show links (nissue #69)
+
+        JMenuItem jmi = new JMenuItem(bundle.getString("GMB_OptionsMenu_ShowLinkOptions"));
+
+        jmi.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                String sRet=JOptionPane.showInputDialog("Enter category",CBConfiguration.getShowLinkCategory());
+                if (sRet != null && !sRet.trim().equals("")) {
+                    CBConfiguration.setShowLinkCategory(sRet);
+                } else {
+                    CBConfiguration.setShowLinkCategory("Proposition");
+                }
+            }
+        });
+
+        m_graphMenuBar.getOptionsMenu().add(jmi);
+
+
+
 
 
        // entries for the "Current connection" menu

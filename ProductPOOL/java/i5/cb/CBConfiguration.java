@@ -87,6 +87,8 @@ public class CBConfiguration {
 
     private final static String KEY_OPTION_DEBUG_LEVEL="DebugLevel";
 
+    private final static String KEY_OPTION_SHOWLINKCATEGORY="ShowLinkCategory";
+
     public final static String VALUE_TREE = "tree";
     public final static String VALUE_FRAME = "frame";
     public static final String VALUE_DEFAULT_DD_BACKGROUNDCOLOR ="255, 255, 255";
@@ -156,6 +158,8 @@ public class CBConfiguration {
             m_Properties.setProperty(KEY_OPTION_CALL_TELOSPARSER,VALUE_FALSE);
         if(!m_Properties.containsKey(KEY_OPTION_LOADLAYOUTPATH))
             m_Properties.setProperty(KEY_OPTION_LOADLAYOUTPATH,userHome);
+        if(!m_Properties.containsKey(KEY_OPTION_SHOWLINKCATEGORY))
+            m_Properties.setProperty(KEY_OPTION_SHOWLINKCATEGORY,"Proposition");
         if(!m_Properties.containsKey(KEY_OPTION_POPUP_DELAY))
             m_Properties.setProperty(KEY_OPTION_POPUP_DELAY,"0");
         if(!m_Properties.containsKey(KEY_OPTION_POPUP_BLOCKS))
@@ -825,6 +829,16 @@ public class CBConfiguration {
     public static String getLoadLayoutPath() {
         return m_Properties.getProperty(KEY_OPTION_LOADLAYOUTPATH);
     }
+
+    // nissue #69
+    public static void setShowLinkCategory(String category) {
+        m_Properties.setProperty(KEY_OPTION_SHOWLINKCATEGORY,category);
+    }
+
+    public static String getShowLinkCategory() {
+        return m_Properties.getProperty(KEY_OPTION_SHOWLINKCATEGORY);
+    }
+
 
     public static int getPopupMenuDelay() {
         return Integer.parseInt(m_Properties.getProperty(KEY_OPTION_POPUP_DELAY));

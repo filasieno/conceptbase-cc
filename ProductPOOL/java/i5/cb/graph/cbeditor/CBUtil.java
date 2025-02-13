@@ -47,6 +47,7 @@ import java.awt.Color;
 import java.io.StringReader;
 import java.util.*;
 import javax.swing.JOptionPane;
+import i5.cb.CBConfiguration;
 
 /** Contains static methods for the CBEditor
  *
@@ -411,11 +412,10 @@ public class CBUtil extends GEUtil {
         //generate Query
         CBQuery query =
             new CBQuery(
-                "get_links2["
-                    + source.getTelosObject().toString()
-                    + "/src,"
-                    + dest.getTelosObject().toString()
-                    + "/dst]",
+                "get_links3["
+                    + source.getTelosObject().toString() + "/src,"
+                    + dest.getTelosObject().toString() + "/dst,"
+                    + CBConfiguration.getShowLinkCategory() + "/cat]",
                 cbFrame);
         //ask CB
         Collection edgeColl = query.ask();
