@@ -89,7 +89,7 @@ public class CBEditor extends GraphEditor {
     private String m_overridePort = null;
 
     public static final String CBGRAPH_VERSION = "3.0.01";
-    public static final String CBGRAPH_DATE = "2024-10-14";
+    public static final String CBGRAPH_DATE = "2025-02-14";
     public static final String JAVA_VERSION = System.getProperty("java.runtime.version");
 
     /**
