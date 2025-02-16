@@ -88,6 +88,9 @@ public class CBEditor extends GraphEditor {
     private String m_overrideHost = null;
     private String m_overridePort = null;
 
+    // link category for "shows links between marked objects" button
+    private String sSessionLinkCategory = CBConfiguration.getShowLinkCategory();  
+
     public static final String CBGRAPH_VERSION = "3.0.01";
     public static final String CBGRAPH_DATE = "2025-02-14";
     public static final String JAVA_VERSION = System.getProperty("java.runtime.version");
@@ -158,6 +161,17 @@ public class CBEditor extends GraphEditor {
         int linuxFound = osName.indexOf("Linux");
         return (linuxFound != -1);
     }
+
+
+    // nissue #69
+    public void setSessionLinkCategory(String category) {
+        sSessionLinkCategory = category;
+    }
+
+    public String getSessionLinkCategory() {
+        return sSessionLinkCategory;
+    }
+
 
     /**
      * The 'main' method is only called when the CBEditor is used as a standalone program, i.e. not as
@@ -593,11 +607,9 @@ public class CBEditor extends GraphEditor {
 
         jmi.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
-                String sRet=JOptionPane.showInputDialog("Enter category",CBConfiguration.getShowLinkCategory());
+                String sRet=JOptionPane.showInputDialog("Enter category",getSessionLinkCategory());
                 if (sRet != null && !sRet.trim().equals("")) {
-                    CBConfiguration.setShowLinkCategory(sRet);
-                } else {
-                    CBConfiguration.setShowLinkCategory("Proposition");
+                    setSessionLinkCategory(sRet);
                 }
             }
         });

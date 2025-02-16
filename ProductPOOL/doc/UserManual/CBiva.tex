@@ -907,8 +907,9 @@ pop menu displayed when right-clicking on a node or link. It would show all poss
 attribute categories rather than only the used ones. For technical reasons, a change
 in this flag becomes only effective after re-starting CBGraph.
 \item[Set Link Category:] Allows to set a category to be used for the toolbar button
-"Show links between marked objects". By default, the category is set to "Proposition", i.e.
-all links are displayed. You can set the category to "Attribute", if you only want to show links that are attributes
+"Show links between marked objects". The default category is taken from the Configuration file
+variable "ShowLinkCategory". This is normally set to "Proposition".
+You can set the category to "Attribute", if you only want to show links that are attributes
 or relations. Use "InstanceOf" for displaying only instantiation relations, and "IsA" for
 specialization relations. You can also select a model-specific category such as
 "Product!partOf". 
@@ -1686,7 +1687,7 @@ Default is \verb+false+.
 \item[ModuleSeparator:] Can be either '-' or '/'. 
 \item[NodeLevelAware:] Enables or disables the special behavior of nodes with negative level in CBGraph. See also
 section \ref{sec:nodelevel}. Default is "true".
-\item[ShowLinkCategory:] Allows to limit the type of links expanded when using the tool bar button "Show links between marked objects").
+\item[ShowLinkCategory:] Allows to limit the default type of links expanded when using the tool bar button "Show links between marked objects".
 \end{description}
 \end{itemize}
 

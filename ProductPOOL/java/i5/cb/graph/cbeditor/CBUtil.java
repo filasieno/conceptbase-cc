@@ -415,7 +415,7 @@ public class CBUtil extends GEUtil {
                 "get_links3["
                     + source.getTelosObject().toString() + "/src,"
                     + dest.getTelosObject().toString() + "/dst,"
-                    + CBConfiguration.getShowLinkCategory() + "/cat]",
+                    + cbFrame.getCBEditor().getSessionLinkCategory() + "/cat]",
                 cbFrame);
         //ask CB
         Collection edgeColl = query.ask();

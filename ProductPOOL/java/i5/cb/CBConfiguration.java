@@ -831,6 +831,7 @@ public class CBConfiguration {
     }
 
     // nissue #69
+    // note that CBEditor.java uses its local get/setSessionLinkCategory
     public static void setShowLinkCategory(String category) {
         m_Properties.setProperty(KEY_OPTION_SHOWLINKCATEGORY,category);
     }
