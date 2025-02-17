@@ -300,7 +300,7 @@ public class CBFrameWorker implements java.beans.PropertyChangeListener, IFrameW
         m_cbFrame.getDiagramDesktop().adjustContentPaneSize();
     }//findEdges
 
-    public void connect(CBFrame cbf, String sHost, Integer port, String sSelectedObject, String selectedModule) {
+    public void connect(CBFrame cbf, String sHost, Integer port, String sSelectedObjects, String selectedModule) {
         java.util.logging.Logger.getLogger("global").fine("Connecting...");
         CBEditor cbEditor = cbf.getCBEditor();
         java.util.ResourceBundle bundle = cbEditor.getCBBundle();
@@ -391,14 +391,27 @@ public class CBFrameWorker implements java.beans.PropertyChangeListener, IFrameW
         }
         // end of else
 
-        if(sSelectedObject!=null){
-            if(CBUtil.createAndAddNewDiagramObject(sSelectedObject, cbf, null) ) {
-                CBConfiguration.addStartingObject(sSelectedObject, sHost, sPort);
-                CBConfiguration.addGraphicalPalette(cbf.getGraphicalPalette() ,sHost, sPort);
-            }
-            else {
-                javax.swing.JOptionPane.showMessageDialog(cbEditor, "Sorry, no such TelosObject found: '"+sSelectedObject.toString()+"'");
-            }
+        if (sSelectedObjects == null) {
+          javax.swing.JOptionPane.showMessageDialog(cbEditor, "No Object name provided");
+          return;
+        }
+
+        String[] sObjectNameArray = sSelectedObjects.split(",");
+        String existingObject = null;
+        for (String sObjectName: sObjectNameArray) {
+           if (CBUtil.createAndAddNewDiagramObject(sObjectName, cbf, null)) {
+              if (existingObject == null) {
+                existingObject = sObjectName;
+             }
+          }
+        }
+
+        if (existingObject != null) {
+          CBConfiguration.addStartingObject(existingObject, sHost, sPort);
+          CBConfiguration.addGraphicalPalette(cbf.getGraphicalPalette() ,sHost, sPort);
+        } else {
+          javax.swing.JOptionPane.showMessageDialog(cbEditor, "Sorry, no such Telos Objects found: '" +
+               sSelectedObjects.toString() + "'");
         }
 
     }//connect
