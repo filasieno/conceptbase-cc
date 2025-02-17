@@ -135,6 +135,10 @@ and provides further performance boosts for the CBserver.
    Allow to constrain the link types shown by the CBGraph function "Show links between marked objects".
    https://gitlab.com/mjeu/conceptbasecc/-/issues/69
 
+85-16 Start CBGraph with several initial objects
+   
+   You can now specify several objects as initial objects for starting the CBGraph window from CBIva via
+   the Browse/GraphEditor dialog. For example, 'Class,QueryClass'.
 
 
 Version 8.2: Detailed Changes since Version 8.1 (2021-05-14)
