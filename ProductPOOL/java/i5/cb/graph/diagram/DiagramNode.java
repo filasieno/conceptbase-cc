@@ -448,6 +448,8 @@ public class DiagramNode
      *
      */
     public void toggleComponentView() {
+        if (this.isFrozen())
+           return; // do not toggle component view if the node is frozen
         if (bSmallComponentVisible) {
             setComponentVisible();
 

@@ -1288,7 +1288,7 @@ public class DiagramNode
    
     /** Getter for property m_nodeLevel.
      * @return the nodelevel of this node relative to DiagramDesktop.NODE_LAYER
-     * (=JLayeredPane.MODAL_LAYER=Integer(200))
+     * (=JLayeredPane.MODAL_LAYER=Integer.valueOf(200))
      *
      */
     public int getNodeLevel() {
