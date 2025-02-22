@@ -1,7 +1,7 @@
 Steps to configure a ConceptBase development environment ***
 Manfred Jeusfeld
 
-2007-11-29 (2024-10-15)
+2007-11-29 (2025-02-22)
 
 
 
@@ -563,6 +563,12 @@ requires SWI-Prolog 5.6.x to 6.0.x.
 
 1- Edit CBPOOL/config.mk to let SWI_HOME and SWI_INCLUDE point to the
    version of SWI-Prolog that you want to use
+
+2- If the new target SWI-Prolog was compiled with an old gcc version,
+   you should created symbolic links to fool SWI-Prolog that the
+   old gcc is still there, e.g. assuming that you are using clang-7:
+    ln -s /usr/bin/clang-7 /usr/bin/gcc-4.4
+    ln -s /usr/bin/clang++-7 /usr/bin/g++-4.4
 
 2- Execute: CBPOOL/AdminPOOL/bin/makePlcb
 
