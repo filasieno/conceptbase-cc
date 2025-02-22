@@ -567,8 +567,8 @@ requires SWI-Prolog 5.6.x to 6.0.x.
 2- If the new target SWI-Prolog was compiled with an old gcc version,
    you should created symbolic links to fool SWI-Prolog that the
    old gcc is still there, e.g. assuming that you are using clang-7:
-    ln -s /usr/bin/clang-7 /usr/bin/gcc-4.4
-    ln -s /usr/bin/clang++-7 /usr/bin/g++-4.4
+    sudo ln -s /usr/bin/clang-7 /usr/bin/gcc-4.4
+    sudo ln -s /usr/bin/clang++-7 /usr/bin/g++-4.4
 
 2- Execute: CBPOOL/AdminPOOL/bin/makePlcb
 
