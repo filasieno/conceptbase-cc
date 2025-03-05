@@ -1,7 +1,7 @@
 {*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2013 The ConceptBase Team. All rights reserved.
+Copyright 1987-2024 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -28,12 +28,10 @@ of the ConceptBase Team.
 
 The ConceptBase Team is represented by
 
-Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
-Manfred Jeusfeld, Tilburg University, Warandelaan 2, 5037 AB Tilburg, The Netherlands
-Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 
 
-This license is a FreeBSD copyright license.
+This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
 Class JavaGraphicalType isA GraphicalType with
@@ -106,7 +104,7 @@ end
   to get the XML document 
   
   DTD of the document:
-  <!ELEMENT palette (contains,defaultIndividual,defaultLink,implicitIsA,implicitInstanceOf,implicitAttribute,palproperty) >
+  <!ELEMENT palette (contains,defaultIndividual,defaultLink,implicitIsA,implicitInstanceOf,implicitAttribute,palproperty*) >
   <!ELEMENT contains (graphtype*)>
   <!ELEMENT graphtype (name,property*,implementedBy)>
   <!ELEMENT property (name,value)>
@@ -116,7 +114,6 @@ end
   <!ELEMENT implicitIsA (#PCDATA)>
   <!ELEMENT implicitInstanceOf (#PCDATA)>
   <!ELEMENT implicitAttribute (#PCDATA)>
-  <!ELEMENT palproperty (property*)>
   <!ELEMENT name (#PCDATA)>
   <!ELEMENT label (#PCDATA)>
   <!ELEMENT implementedBy (#PCDATA)>
@@ -142,7 +139,8 @@ AnswerFormat XML_JavaGraphicalPalette with
   forQuery
      fq : GetJavaGraphicalPalette
   head
-     h : "<palette>"
+     h : "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>
+<palette>"
   tail
      t : "</palette>"
   pattern

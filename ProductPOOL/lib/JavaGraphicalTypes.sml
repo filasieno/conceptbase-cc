@@ -73,7 +73,8 @@ Individual CBGraphEditorResult in AnswerFormat with
    specifies whether 'obj' should be considered as source (src) or destination (dst)
    in the set of edges to be included in answer."
   attribute,head
-     hd : "<result>"
+     hd : "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>
+<result>"
   attribute,tail
      tl : "</result>"
   attribute,pattern
@@ -87,7 +88,8 @@ Individual CBGraphEditorResultWithoutEdges in AnswerFormat with
    will not output any edges. Therefore, it has only the parameter
    'pal' to indicate the graphical palette."
   attribute,head
-     hd : "<result>"
+     hd : "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>
+<result>"
   attribute,tail
      tl : "</result>"
   attribute,pattern
@@ -139,7 +141,8 @@ AnswerFormat XML_JavaGraphicalPalette with
   forQuery
      fq : GetJavaGraphicalPalette
   head
-     h : "<palette>"
+     h : "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>
+<palette>"
   tail
      t : "</palette>"
   pattern
