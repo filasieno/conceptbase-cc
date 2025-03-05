@@ -140,6 +140,17 @@ and provides further performance boosts for the CBserver.
    You can now specify several objects as initial objects for starting the CBGraph window from CBIva via
    the Browse/GraphEditor dialog. For example, 'Class,QueryClass'.
 
+85-17 Improved compatibility with newer Java versions
+
+   Most of the user interface was written for Java 6, then updated for Java 8. We now standardize on
+   Java 11 as the default environment to compile and run the ConceptBase user interface. Some measures have
+   been taken to even support Java 21, in particular getting rid of the deprecated "new Integer(N)" method
+   and by prepending the XML prolog header to some of the XML answer formats.
+   https://gitlab.com/mjeu/conceptbasecc/-/issues/68
+   https://gitlab.com/mjeu/conceptbasecc/-/issues/70
+
+   
+
 
 Version 8.2: Detailed Changes since Version 8.1 (2021-05-14)
 ============================================================

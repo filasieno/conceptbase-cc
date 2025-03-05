@@ -1428,8 +1428,20 @@ example below:
 }
 
 The two new palette properties {\tt outcatquery} and {\tt incatquery} specify the
-replacement queries for the default queries.
-Note that you need to define these queries as well, e.g.:
+replacement queries for the default queries. Next, define two new categories for graphical types:
+
+{\small
+\begin{verbatim}
+   JavaGraphicalType with 
+      attribute
+       forOutgoing : Proposition!attribute;
+       forIncoming : Proposition!attribute
+   end
+\end{verbatim}
+}
+
+
+These allow to define dedicated query classes such as the following:
 
 {\small
 \begin{verbatim}
@@ -1463,7 +1475,8 @@ In this case, the applicable attribute categories are attached to the graphical 
 
 
 The new feature allows to hide certain attribute/relation properties from the pop-up menu. 
-
+The method works for incoming attributes in a simular fashion. Just use "forIncoming" and define a query class for
+"alt\_used\_incoming\_attribute\_categories"
 
 
 
