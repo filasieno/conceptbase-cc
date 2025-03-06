@@ -79,7 +79,7 @@ public class CBUtil extends GEUtil {
               for (String frames2: parts1) {
                  String[] parts2 = frames2.split("end");
                  for (String frames3: parts2) {
-                    String[] parts3 = frames3.split(" in ");
+                    String[] parts3 = frames3.split(" in | isA ");  // regex in or isA 
                     for (String frames4: parts3) {
                       String[] parts4 = frames4.split(" with ");
                       for (String frames5: parts4) {
