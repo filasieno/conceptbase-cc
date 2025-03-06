@@ -83,10 +83,13 @@ public class CBUtil extends GEUtil {
                     for (String frames4: parts3) {
                       String[] parts4 = frames4.split(" with ");
                       for (String frames5: parts4) {
-                         String sTelosObject = frames5.trim();
-                         if (sTelosObject != null && !sTelosObject.contains(" ") && !sTelosObject.contains(":") && !sTelosObject.equals("")) {
-                           // System.out.println("To display: " + sTelosObject);
-                           boolean success = createAndAddNewDiagramObject(sTelosObject,cbFrame,null);
+                         String[] parts5 = frames5.split(":|;");
+                         for (String frames6: parts5) {
+                            String sTelosObject = frames6.trim();
+                            if (sTelosObject != null && !sTelosObject.contains(" ") && !sTelosObject.contains(":") && !sTelosObject.equals("")) {
+                              // System.out.println("To display: " + sTelosObject);
+                              boolean success = createAndAddNewDiagramObject(sTelosObject,cbFrame,null);
+                            }
                          }
                       }
                     }
@@ -99,6 +102,15 @@ public class CBUtil extends GEUtil {
 
     } // addNewDiagramObjectsFromTelosEditor
 
+
+    // for debugging addNewDiagramObjectsFromTelosEditor
+    private static void reportParts(String head,String[] parts) {
+       System.out.print(head+"=");
+       for (String elem: parts) {
+          System.out.print('"'+elem+'"'+", ");
+       }
+       System.out.println();
+    }
 
     /** Creates a new {@link i5.cb.graph.diagram.DiagramObject} which represents a {@link i5.cb.telos.object.TelosObject} and adds it to the {@link i5.cb.graph.DiagramDesktop}.
      *
