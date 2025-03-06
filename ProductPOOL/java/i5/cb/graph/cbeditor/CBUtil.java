@@ -84,7 +84,7 @@ public class CBUtil extends GEUtil {
                       String[] parts4 = frames4.split(" with ");
                       for (String frames5: parts4) {
                          String sTelosObject = frames5.trim();
-                         if (!sTelosObject.contains(" ") && !sTelosObject.contains(":") && !sTelosObject.equals("")) {
+                         if (sTelosObject != null && !sTelosObject.contains(" ") && !sTelosObject.contains(":") && !sTelosObject.equals("")) {
                            // System.out.println("To display: " + sTelosObject);
                            boolean success = createAndAddNewDiagramObject(sTelosObject,cbFrame,null);
                          }

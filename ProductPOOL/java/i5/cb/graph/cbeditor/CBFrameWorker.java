@@ -392,7 +392,7 @@ public class CBFrameWorker implements java.beans.PropertyChangeListener, IFrameW
         // end of else
 
         if (sSelectedObjects == null) {
-          javax.swing.JOptionPane.showMessageDialog(cbEditor, "No Object name provided");
+        //  javax.swing.JOptionPane.showMessageDialog(cbEditor, "No Object name provided");
           return;
         }
 
