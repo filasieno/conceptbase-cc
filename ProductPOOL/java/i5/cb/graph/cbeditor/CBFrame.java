@@ -455,13 +455,16 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
 
     /** verify that the graphical palette exists at the CBserve
      */
-    public void existsGraphicalPalette() {
+    public boolean existsGraphicalPalette() {
         // issue #53: inform the CBserver that this CBGraph is using the given palette
         if (isConnected()) {
             String ans=getObi().ask("GetJavaGraphicalPalette[" + this.getGraphicalPalette() + "/pal]","LABEL");
-            if(ans==null)
-                JOptionPane.showMessageDialog(this,"Could verify graphical palette");
+            if (ans!=null)
+              return true;
+            else
+              return false;
         }
+        return false;
     }
 
 
@@ -1557,43 +1560,58 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
 
 
     /**
-     * Opens a dialog to select a new graphical palette for this CBFrame
+     * Opens a dialog to select a new graphical palette for this CBFrame and then loads the selected palette
      */
+
     public void changeGraphicalPalette() {
         if(!isConnected()) {
             showNotConnected();
             return;
         }
         try {
-            Dimension geSize=m_graphEditor.getSize();
-            Dimension frameSize = this.getSize();
-            String sInst=getObi().getCBClient().findInstances("JavaGraphicalPalette");
-            StringTokenizer st=new StringTokenizer(sInst,",");
-            Vector vGraphPals=new Vector(st.countTokens());
-            while(st.hasMoreTokens())
-                vGraphPals.add(st.nextToken());
-            String newGraphPal=(String) JOptionPane.showInputDialog(getCBEditor(),"Select Graphical Palette",
-                "Change Graphical Palette",JOptionPane.QUESTION_MESSAGE,
-                null,vGraphPals.toArray(),getGraphicalPalette());
-            if(newGraphPal!=null) {
-                setGraphicalPalette(newGraphPal);
-                m_defaultGraphTypes=new HashMap();
-                m_implementedBy=new HashMap();
-                m_PropertiesOfGraphicalTypes=new HashMap();
-                this.setStatusString("Loading new graphical palette "+newGraphPal+ " ...");
-                loadGraphicalPaletteAndImplementation(true);
-                // previous command could changes the window sizes of the palette has a bgimage
-                // revert those changes here
-                this.setSize(frameSize);
-                m_graphEditor.setSize(geSize);
-                validateNodes();
-            }
-        }
-        catch(Exception ex) {
+           String sInst=getObi().getCBClient().findInstances("JavaGraphicalPalette");
+           StringTokenizer st=new StringTokenizer(sInst,",");
+           Vector vGraphPals=new Vector(st.countTokens());
+           while(st.hasMoreTokens())
+               vGraphPals.add(st.nextToken());
+           String newGraphPal=(String) JOptionPane.showInputDialog(getCBEditor(),"Select Graphical Palette",
+               "Change Graphical Palette",JOptionPane.QUESTION_MESSAGE,
+               null,vGraphPals.toArray(),getGraphicalPalette());
+          loadGraphicalPalette(newGraphPal);
+       } catch(Exception ex) {
             JOptionPane.showMessageDialog(getCBEditor(),ex.getMessage(),"Exception",JOptionPane.ERROR_MESSAGE);
-        }
-
+       }
     }
+
+
+    /**
+     * Loads the palette newGraphPal and validates the graph against the palette to make sure that
+     * incatquery and outcatquery are set correctly; it may also be that the database has changed so that
+     * some objects are no longer valid or some graph types have to be re-assigned
+     */
+
+    public void loadGraphicalPalette(String newGraphPal) {
+        if(!isConnected()) {
+            showNotConnected();
+            return;
+        }
+        Dimension geSize=m_graphEditor.getSize();
+        Dimension frameSize = this.getSize();
+        if(newGraphPal!=null) {
+            setGraphicalPalette(newGraphPal);
+            m_defaultGraphTypes=new HashMap();
+            m_implementedBy=new HashMap();
+            m_PropertiesOfGraphicalTypes=new HashMap();
+            this.setStatusString("Loading new graphical palette "+newGraphPal+ " ...");
+            loadGraphicalPaletteAndImplementation(true);
+            // previous command could changes the window sizes of the palette has a bgimage
+            // revert those changes here
+            this.setSize(frameSize);
+            m_graphEditor.setSize(geSize);
+            validateNodes();
+        }
+    }
+    
 
 
     /**

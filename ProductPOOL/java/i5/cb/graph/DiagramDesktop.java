@@ -1319,7 +1319,16 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
           this.setZoom(newzoomfactor);
           this.repaint();
 
-          cbf.existsGraphicalPalette(); // ask the CBserver whether it knows the current graphical palette
+          // ask the CBserver whether it knows the current graphical palette
+          if (cbf.existsGraphicalPalette()) {  
+            // System.out.println("Graphical palette " + cbf.getGraphicalPalette() + " was found");
+            // We need to reload the graphical palette from the database and validate the graph against the
+            // database, because the database could have been changed and to make sure that
+            // the properties of the graphical palette are set properly in CBFrame
+            cbf.loadGraphicalPalette(cbf.getGraphicalPalette());
+          } else {
+            JOptionPane.showMessageDialog(this,"Could not find graphical palette " + cbf.getGraphicalPalette() + " in the database");
+          } 
 
         } catch (Exception e) {
            System.err.println(e.getMessage());
