@@ -1192,17 +1192,19 @@ public class GraphEditor
             return;
           }
           if (
-                gelFilename.toLowerCase().startsWith("/tmp")      ||    // Linux temporary directory
-                gelFilename.toLowerCase().indexOf("temp\\") != -1 ||    // Windows temporary directory
-                gelFilename.toLowerCase().indexOf("tmp\\") != -1  ||    // another Windows temporary directory
+                gelFilename.toLowerCase().startsWith("/tmp")      ||         // Linux temporary directory
+                gelFilename.toLowerCase().indexOf("temp\\") != -1 ||         // Windows temporary directory
+                gelFilename.toLowerCase().indexOf("tmp\\") != -1  ||         // another Windows temporary directory
                 gelFilename.toLowerCase().indexOf("\\temporary") != -1  ||   // yet another Windows temporary directory
-                gelFilename.toLowerCase().indexOf("downloads\\") != -1  // the Windows download directory
+                gelFilename.toLowerCase().indexOf("downloads/") != -1 ||     // the Linux download directory
+                gelFilename.toLowerCase().indexOf("downloads\\") != -1       // the Windows download directory
              )
             return; // GEL is in a temporary directory; will not propose to save it
           if (dd != null && dd.isEdited()) {
              try {
                 showSaveGraphDialog(gelFilename);
              } catch (Exception ex) {
+                Logger.getLogger("global").warning(ex.getMessage());
              }
           }
     }

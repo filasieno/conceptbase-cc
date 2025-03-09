@@ -358,6 +358,7 @@ public class CBFrameWorker implements java.beans.PropertyChangeListener, IFrameW
             cbf.setItemEnabled("GMB_ActiveFrameMenu_ChangeGraphModule", true);
 
             cbf.setStatusString(bundle.getString("Status_Connected")+" "+sHost);
+            cbf.setLocalServer(false);
 
             cbEditor.addGraphInternalFrame(cbf);
 

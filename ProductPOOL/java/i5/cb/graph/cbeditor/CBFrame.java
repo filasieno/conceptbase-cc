@@ -106,6 +106,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     String modulesToBeSaved=null;     // can hold the sequence of modules sources to be saved in GEL file, e.g. "oHome-M1"
     StringArray moduleSources=null;  // can hold the module sources read from a GEL file
     int nrInvalidNodes=0; 
+    boolean m_localserver=false;  // true if the CBserver was started specifically for a graph file
 
 
     /** Constructor for the CBFrame object
@@ -447,8 +448,8 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
         // issue #53: inform the CBserver that this CBGraph is using the given palette
         if (isConnected()) {
             String ans=getObi().ask("GetJavaGraphicalPalette[" + this.getGraphicalPalette() + "/pal]","LABEL");
-            if(ans==null)
-                JOptionPane.showMessageDialog(this,"Could verify graphical palette");
+            if (ans==null)
+                JOptionPane.showMessageDialog(this,"Could not locate graphical palette " + value);
         }
         m_sPalette = value;
     }
@@ -472,15 +473,31 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
      * @value the name of the host
      */
 
-    public void setHost(String value){
+    public void setHost(String value) {
         m_sHost = value;
     }
+
+
+    /** set whether the CBserver was started locally for a graph file
+     * @value true if it was started locally
+     */
+    public void setLocalServer(boolean value) {
+        m_localserver = value;
+        //System.out.println("setLocalServer: "+value);
+    }
+
+    public boolean isLocalServer() {
+        return m_localserver;
+    }
+
+    
+
 
     /** set the portnumber that this CBFrame shall be connected to
      * @value the port number
      */
 
-    public void setPort(String value){
+    public void setPort(String value) {
         m_sPort = value;
     }
 
@@ -488,7 +505,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
      * @value the long title
      */
 
-    public void setLongTitle(String value){
+    public void setLongTitle(String value) {
        m_longtitle = value;
     }
 
@@ -496,7 +513,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
      * @value the default label of the module context
      */
 
-    public void setContext(String value){
+    public void setContext(String value) {
         m_Context = value;
         try {
           CBanswer ans=getCBclient().getModulePath();
@@ -657,6 +674,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
         this.setItemEnabled("GMB_ActiveFrameMenu_ChangeGraphicalPalette", true);
         this.setItemEnabled("GMB_ActiveFrameMenu_ChangeGraphModule", true);
         this.setStatusString(getBundle().getString("Status_Connected")+" "+newHost);
+        this.setLocalServer(false);
       }
     }
 
@@ -683,6 +701,8 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
       } 
       if (!m_bIsConnected)
         showNotConnected();
+      else
+        setLocalServer(true);  // this server was started just for the graph file opened with the cbgraph command
     }
 
 
@@ -1591,13 +1611,13 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
      */
 
     public void loadGraphicalPalette(String newGraphPal) {
-        if(!isConnected()) {
+        if (!isConnected()) {
             showNotConnected();
             return;
         }
         Dimension geSize=m_graphEditor.getSize();
         Dimension frameSize = this.getSize();
-        if(newGraphPal!=null) {
+        if (newGraphPal != null) {
             setGraphicalPalette(newGraphPal);
             m_defaultGraphTypes=new HashMap();
             m_implementedBy=new HashMap();
@@ -1620,7 +1640,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
 
 
     public void changeGraphModule() {
-        if(!isConnected()) {
+        if (!isConnected()) {
             showNotConnected();
             return;
         }

@@ -6,7 +6,7 @@
               University of Skovde, Sweden
 
 
-                      2025-02-13
+                      2025-03-09
 
 
 ConceptBase.cc is a multi-user deductive object manager mainly developed by
@@ -148,6 +148,14 @@ and provides further performance boosts for the CBserver.
    and by prepending the XML prolog header to some of the XML answer formats.
    https://gitlab.com/mjeu/conceptbasecc/-/issues/68
    https://gitlab.com/mjeu/conceptbasecc/-/issues/70
+
+85-18 Corrections with palette-specific methods to expand related objects
+
+   Graphical palettes can specify dedicated queries "incatquery" and "outcatquery" to configure the
+   way how nodes can be expanded in CBGraph. Some errors were corrected with this new mechanism, in
+   particular a graph loaded from a GEL file needs to be synchronized with the database.
+   https://gitlab.com/mjeu/conceptbasecc/-/issues/71
+
 
    
 
