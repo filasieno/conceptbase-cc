@@ -92,8 +92,10 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     String m_bgimage; // background image for the DiagramDesktop of this CBFrame
     String m_longtitle; //long title of the palette of this CBFrame
     String m_Context;  // name of an object, model or module that characterizes this CBFrame
-    String m_queryOutgoingCats = "find_used_attribute_categories" ; //the outgoing query name
-    String m_queryIncomingCats = "find_used_incoming_attribute_categories" ; //the incoming query name
+    String m_default_queryOutgoingCats = "find_used_attribute_categories" ; //the outgoing query name
+    String m_default_queryIncomingCats = "find_used_incoming_attribute_categories" ; //the incoming query name
+    String m_queryOutgoingCats = m_default_queryOutgoingCats;
+    String m_queryIncomingCats = m_default_queryIncomingCats; 
     String m_UserHome = "System"+CBConfiguration.getModuleSeparator()+"oHome";  // module path of the home module of the user
     HashMap m_PropertiesOfGraphicalTypes;
     HashMap m_implementedBy;
@@ -1327,6 +1329,8 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
         m_bgcolor = "255,255,255";   //default background for the diagram desktop of this CBFrame
         m_bgimage = null;            // undefined by default
         m_longtitle = null;          // undefined by default
+        m_queryIncomingCats = m_default_queryIncomingCats;
+        m_queryOutgoingCats = m_default_queryOutgoingCats;
     }
 
     /** returns the Hashmap containing the properties of all graphicalTypes of the current DB, this
