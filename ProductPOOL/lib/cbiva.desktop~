@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Terminal=false
-Version=2.0
-Name=CBiva
-Comment=ConceptBase.cc User Interface
-Icon=/home/jeusfeld/CBPOOL/conceptbase/cbiva-logo.png
-Exec=/home/jeusfeld/CBPOOL/conceptbase/cbiva
