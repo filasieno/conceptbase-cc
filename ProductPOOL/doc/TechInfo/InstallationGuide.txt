@@ -2,7 +2,7 @@
                    ConceptBase.cc
   
                   InstallationGuide
-                     2021-04-14
+                     2025-03-12
 
 
                          by
@@ -67,7 +67,7 @@ shipped for the platform, ConceptBase.cc will use a public CBserver.
 
 
 Windows 10: Since April 2017, you can install a Linux sub-system and then also start
-the CBserver locally on your Windows 10 machine.
+the CBserver locally on your Windows 10/11 machine.
 See http://conceptbase.sourceforge.net/CB-WinLinux.html
 
 Mac OS: You can also install the CBserver with a Docker container on Mac OS, see also
@@ -78,7 +78,8 @@ https://github.com/keesL/conceptbase-docker
 1.1 Java
 ========
 
-ConceptBase.cc requires a Java Runtime Environment (JRE) compliant to Java 8.
+ConceptBase.cc Version 8.5 requires a Java Runtime Environment (JRE) compliant to Java 11.
+Newer versions may laos work.
 
 
 
@@ -90,9 +91,11 @@ The ConceptBase server requires the following dynamic libraries. Most of them sh
 be installed on your computer. You can check this after installation on Unix/Linux by
 the command
 
-   ldd $CB_HOME/`CBvariant`/bin/CBserver
+   ldd $CB_HOME/linux64/bin/CBserver
 
-after adding $CB_HOME/bin to your search path.
+after adding $CB_HOME/bin to your search path. Since ConceptBase.cc Version 8.5, the
+necessary libraries are included in $CB_HOME/linux64/lib of your ConceptBase
+installation directory $CB_HOME. 
 
 
 ConceptBase is distributed under a FreeBSD-style copyright license. See file
