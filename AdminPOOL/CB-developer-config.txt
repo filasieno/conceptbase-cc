@@ -1,7 +1,7 @@
 Steps to configure a ConceptBase development environment ***
 Manfred Jeusfeld
 
-2007-11-29 (2025-02-22)
+2007-11-29 (2025-03-12)
 
 
 
@@ -593,6 +593,10 @@ https://sourceforge.net/projects/conceptbase/files/Sources/
 The command updateCB will use the sources from SourceForge rather than from
 GitLab. The sources on SourceForge are more stable than on GitLab.
 
+
+
+Create a distributable ConceptBasae binary based on SWI-Prolog 6.6
+==================================================================
 
 
 
