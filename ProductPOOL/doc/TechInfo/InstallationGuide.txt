@@ -62,8 +62,10 @@ ConceptBase.cc should also run on other platforms such as Windows, FreeBSD or Ma
 We do however not provide CBserver binaries for those platforms. You may want to
 compile ConceptBase.cc from its sources on them.
 Note however, that ConceptBase.cc is fully operational on any platform with
-a Java Runtime Environment Version 8 or higher, e.g. OpenJDK8! If the CBserver binaries are not
-shipped for the platform, ConceptBase.cc will use a public CBserver. 
+a Java Runtime Environment Version 11 or higher, specifically OpenJDK11!
+
+
+If the CBserver binaries are not shipped for the platform, ConceptBase.cc will use a public CBserver. 
 
 
 Windows 10: Since April 2017, you can install a Linux sub-system and then also start
@@ -79,7 +81,12 @@ https://github.com/keesL/conceptbase-docker
 ========
 
 ConceptBase.cc Version 8.5 requires a Java Runtime Environment (JRE) compliant to Java 11.
-Newer versions may laos work.
+Newer versions may also work.
+Windows users should install OpenJDK from
+   https://learn.microsoft.com/en-us/java/openjdk/download
+Linux users can use their package managers to install OpenJDK, e.g. on Debian/Ubuntu/Mint:
+
+  sudo apt install openjdk-11-jdk
 
 
 
