@@ -17,6 +17,7 @@ ProductPOOL/**/objects.SWI/*
 ProductPOOL/java/**/*.class
 ProductPOOL/java/docs/**/*.html
 ProductPOOL/linux/Prolog_Files/*.swi.pl
+ProductPOOL/serverSources/objects.SWI/*
 ProductPOOL/linux64/Prolog_Files/*.swi.pl
 ProductPOOL/linuxarm/Prolog_Files/*.swi.pl
 ProductPOOL/java/classes/*.jar

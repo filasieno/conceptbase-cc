@@ -97,6 +97,10 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
         assert(startCBserver:cb_compile_error(yes)),
         write('\033[30m '),nl,nl)).
 
+/* preload some 'packs' from 'SWI'-'Prolog' 6.6 onwards 
+?- current_prolog_flag(version,_v),_v >= 60600, use_module(library(clpfd)). 
+*/
+
 
 
 :- use_module('GeneralUtilities.swi.pl').

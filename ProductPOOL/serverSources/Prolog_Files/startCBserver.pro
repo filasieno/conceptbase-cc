@@ -96,6 +96,10 @@ main:-startCBserver.
         write(_sa),
         assert(startCBserver:cb_compile_error(yes)),
         write('\033[30m '),nl,nl)).
+
+/* preload some 'packs' from SWI-Prolog 6.6 onwards 
+?- current_prolog_flag(version,_v),_v >= 60600, use_module(library(clpfd)). 
+*/
 #ENDIF(SWI)
 
 

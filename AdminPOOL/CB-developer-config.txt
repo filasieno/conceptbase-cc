@@ -1,7 +1,7 @@
 Steps to configure a ConceptBase development environment ***
 Manfred Jeusfeld
 
-2007-11-29 (2025-03-12)
+2007-11-29 (2025-03-15)
 
 
 
@@ -32,7 +32,6 @@ and distributions derived from it.
    sudo apt-get install libncursesw5-dev
    sudo apt-get install libncursesw5
    sudo apt-get install libncurses5
- #  sudo apt-get install openjdk-8-jdk  # See comments at the end of the file on Java-11
    sudo apt-get install openjdk-11-jdk  
    sudo apt-get install libxpm-dev
    sudo apt-get install libjpeg62-dev
@@ -40,18 +39,15 @@ and distributions derived from it.
    sudo apt-get install libxmu-dev
    sudo apt-get install tcsh 
 
-sudo ln -s /lib/x86_64-linux-gnu/libreadline.so.8 /lib/x86_64-linux-gnu/libreadline.so.6
-sudo ln -s /usr/lib/x86_64-linux-gnu/libgmp.so.10 /usr/lib/x86_64-linux-gnu/libgmp.so.3
-sudo ldconfig
+%These commands are no longer necessary because the required libraries are now included
+%in the directory linux64/lib of the ConceptBase installation directory
+%"sudo ln -s /lib/x86_64-linux-gnu/libreadline.so.8 /lib/x86_64-linux-gnu/libreadline.so.6
+%sudo ln -s /usr/lib/x86_64-linux-gnu/libgmp.so.10 /usr/lib/x86_64-linux-gnu/libgmp.so.3
+%sudo ldconfig
 
-The symbolic links make some libraries accessible under the label of an earlier version.
-This is because we support Ubuntu 16, 18, 20, and 22 as development platforms.
-The libraries are needed for linking the CBserver with SWI-Prolog runtimes.
-
-
-
-For syncing with the GIT Lab repository
-   sudo apt-get install git
+%The symbolic links make some libraries accessible under the label of an earlier version.
+%This is because we support Ubuntu 16, 18, 20, and 22 as development platforms.
+%The libraries are needed for linking the CBserver with SWI-Prolog runtimes.
 
 
 In .bashrc set:
@@ -105,7 +101,7 @@ Debian users: You can install all required packages by
         libossp-uuid-dev \
         libxext-dev libice-dev libjpeg-dev libxinerama-dev libxft-dev \
         libxpm-dev libxt-dev \
-        openjdk-8-jdk junit
+        openjdk-11-jdk junit
 
 Some packages would be redundant if you disable certain modules like 'ssl'
 in the 'build' file of SWI-Prolog.
@@ -443,7 +439,7 @@ The whole test takes a few minutes. If no errors are found it reports:
 
 The summary at the end shows that the new version (log 1) needed 8.77 CPU time
 in total. The previous one (log 2) needed 8.92 CPU time (all in seconds).
-Most time is wait time for I/O. The CPOU time shows you whether your changes
+Most time is wait time for I/O. The CPU time shows you whether your changes
 made the system faster or slower.
 
 
@@ -595,8 +591,54 @@ GitLab. The sources on SourceForge are more stable than on GitLab.
 
 
 
-Create a distributable ConceptBasae binary based on SWI-Prolog 6.6
-==================================================================
+Create a distributable ConceptBase binary based on SWI-Prolog 6.6.6
+===================================================================
+
+Step 1: Install required packages for SWI-Prolog
+    sudo apt-get install \
+        build-essential autoconf curl chrpath pkg-config \
+        ncurses-dev libreadline-dev libunwind8-dev \
+        libgmp-dev \
+        libssl-dev \
+        unixodbc-dev \
+        zlib1g-dev libarchive-dev \
+        libossp-uuid-dev \
+        libxext-dev libice-dev libjpeg-dev libxinerama-dev libxft-dev \
+        libxpm-dev libxt-dev \
+        openjdk-11-jdk junit clang-7
+
+Step 2: Download the sources pl-6.6.6.tar.gz from https://www.swi-prolog.org/download/stable/src/
+        into a directory $HOME/Software
+
+
+Step 3: Uncompress the source tar file and prepare the build
+  cd $HOME/Software; tar -zxvf pl-6.6.6.tar.gz
+  cd $HOME/Software/pl-6.6.6
+  cp build.templ build
+
+Step 4: Edit 'build' file and add
+
+PREFIX=$HOME/SWIPL
+export CC=clang-7
+export DISABLE_PKGS="jpl xpce"
+
+at the appropriate lines in the build file. The jpl package is excluded since the Java compiler failed to work. The xpce package is a GUI system for SWI-Prolog. ConceptBase does not use it.
+We use clang-7 as our default compiler for ConceptBase. It should thus also
+be used to compile SWI-Prolog.
+
+Step 5:
+  mkdir $HOME/SWIPL 
+  ./build
+
+As a result the software is installed at $HOME/SWIPL.
+Symbolic links are made in $HOME/bin
+
+Step 6: Compatibility links to ensure that SWPL works with ConceptBase 'make' files
+  ln -s $HOME/SWIPL/bin/swipl $HOME/SWIPL/bin/pl
+  ln -s $HOME/SWIPL/bin/swipl-ld $HOME/SWIPL/bin/plld
+  ln -s $HOME/SWIPL/lib/swipl-6.6.6/lib/`arch`-linux/libswipl.a $HOME/SWIPL/lib/swipl-6.6.6/lib/`arch`-linux/libpl.a
+
+(not yet complete!)
 
 
 
