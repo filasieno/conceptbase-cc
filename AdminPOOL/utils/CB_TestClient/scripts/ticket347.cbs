@@ -98,7 +98,8 @@ result OK yes
 # this query is used by GraphEditor to display all 'knows' attributes of bill including the derived ones
 # wrongly uses Attribute as category in the CBGraphEditorResult format
 ask find_attribute_values[bill/objname,Person!knows/cat] OBJNAMES CBGraphEditorResult[DefaultJavaPalette/pal,bill/obj,Attribute/cat,src/objtype]
-result OK "<result>
+result OK "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>
+<result>
   <object>
     <name>bill</name>
     <graphtype>DefaultIndividualGT</graphtype>
@@ -124,7 +125,8 @@ result OK "<result>
 
 # this should be the right query
 ask find_attribute_values[bill/objname,Person!knows/cat] OBJNAMES CBGraphEditorResult[DefaultJavaPalette/pal,bill/obj,Person!knows/cat,src/objtype]
-result OK "<result>
+result OK "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>
+<result>
   <object>
     <name>bill</name>
     <graphtype>DefaultIndividualGT</graphtype>
@@ -146,7 +148,8 @@ result OK "<result>
 
 # same query from the view of john
 ask find_attribute_values[john/objname,Person!knows/cat] OBJNAMES CBGraphEditorResult[DefaultJavaPalette/pal,john/obj,Person!knows/cat,src/objtype]
-result OK "<result>
+result OK "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>
+<result>
   <object>
     <name>bill</name>
     <graphtype>DefaultIndividualGT</graphtype>

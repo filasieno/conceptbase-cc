@@ -46,7 +46,8 @@ end"
 ask "find_instances[JavaGraphicalPalette/class]" OBJNAMES  LABEL  Now
 result OK "DWQ_Palette,TelosPalette,XBridgePalette,DefaultJavaPalette"
 ask "GetJavaGraphicalPalette[DWQ_Palette/pal]" OBJNAMES default Now
-result OK "<palette>
+result OK "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>
+<palette>
 <contains>
 
 <graphtype>
