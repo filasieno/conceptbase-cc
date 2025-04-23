@@ -903,8 +903,7 @@ postprocRule(_literals,_head,(_head :- _ruleTerm)) :-
     applyLitFilters(_ilits,_olits,
                     [
  
-                      earlyRedNegPost
-                     ,moveBackInLits
+                      moveBackInLits
                      ,guardComplexQueryParameters
                      ,removeInsOfFunctionResult
                      ,preferGoodLitsDatalog  {* use a heuristic from ticket #292 here as well *}
@@ -913,6 +912,7 @@ postprocRule(_literals,_head,(_head :- _ruleTerm)) :-
                      ,move_FromTo_Forward
                      ,moveBoundForward       {* ticket #147 *}
                      ,eliminateAlreadyGuaranteed
+                     ,earlyRedNegPost  {* must be after eliminateAlreadyGuaranteed because some binding lits may have disappeared *}
                      {,moveInAfterP_iter}
 
                     ]),
@@ -2162,7 +2162,7 @@ toBeObserved(_filter) :-
                      {* cleanLiterals, *}
                      {* earlyRedNegPre, *}
                      {* transformFunctionCalls,*}
-                     {* earlyRedNegPost, *}
+                     earlyRedNegPost,
                      {* moveBackInLits, *}
                      {* moveUnifiesForward, *}
                      guardComplexQueryParameters,
