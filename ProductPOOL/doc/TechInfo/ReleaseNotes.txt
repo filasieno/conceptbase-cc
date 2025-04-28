@@ -6,7 +6,7 @@
               University of Skovde, Sweden
 
 
-                      2025-03-09
+                      2025-04-28
 
 
 ConceptBase.cc is a multi-user deductive object manager mainly developed by
@@ -156,6 +156,12 @@ and provides further performance boosts for the CBserver.
    particular a graph loaded from a GEL file needs to be synchronized with the database.
    https://gitlab.com/mjeu/conceptbasecc/-/issues/71
 
+85-19 Queries with negated predicated may be compiled incorrectly 
+
+   The query optimizer applied its optimization rules in a wrong order, leading in some cases to
+   negated predicated with unbound variables. This is now corrected.
+   https://gitlab.com/mjeu/conceptbasecc/-/issues/72
+   
 
    
 
