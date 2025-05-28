@@ -920,7 +920,8 @@ specialization relations. You can also select a model-specific category such as
 \cbfigure{componentview}{9cm}{Component view of Telos objects: tree and frame}
 
 If an object is displayed in component view, one can switch back to the node
-view by double-clicking its title section. 
+view by double-clicking its title section. Note that the component view can be disabled
+via the configuration file entry "ComponentView". See also section \ref{sec:config}.
 
 \subsubsection{View menu}
 
@@ -1678,7 +1679,7 @@ Default is \verb+false+.
 \item Variables related to CBGraph
 \begin{description}
 \item[PathForLayout:] Path used by the dialog to store and load graphs (contains the most recent directory selected in a dialog).
-\item[ComponentView:] Default view for the detailed representation in CBGraph (might be ``\verb+frame+'' or ``\verb+tree+'').
+\item[ComponentView:] Default view for the detailed representation in CBGraph (can be ``\verb+frame+'' or ``\verb+tree+'' or ``\verb+none+'').
 \item[SaveLayoutWithGraphType:] Layouts of CBGraph are stored with all information about graphical types (true/false).
 \item[InvalidObjectsMethod:] Specifies whether objects that have been identified as invalid should be marked or deleted (mark/delete).
 \item[DiagramDesktopBackgroundColor:] Background color of the desktop of CBGraph (comma-separated representation of an RGB-value).

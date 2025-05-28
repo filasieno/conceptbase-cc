@@ -84,7 +84,6 @@ public class CBConfiguration {
     private final static String KEY_OPTION_DERIVED_LINKS="DerivedLinks";
     private final static String KEY_OPTION_BROWSER_WINDOWS="CBIvaBrowserWindows";
     private final static String KEY_OPTION_DARKMODE="DarkMode";
-    private final static String KEY_OPTION_GRAPHCOMPONENTVIEW="GraphComponentView";
 
     private final static String KEY_OPTION_DEBUG_LEVEL="DebugLevel";
 
@@ -92,6 +91,7 @@ public class CBConfiguration {
 
     public final static String VALUE_TREE = "tree";
     public final static String VALUE_FRAME = "frame";
+    public final static String VALUE_NONE = "none";
     public static final String VALUE_DEFAULT_DD_BACKGROUNDCOLOR ="255, 255, 255";
     public static final String VALUE_DEFAULT_PUBLIC_CBSERVER ="cbserver.iit.his.se";  // hope it is online!
     public final static String VALUE_TRUE = "true";
@@ -177,8 +177,7 @@ public class CBConfiguration {
             m_Properties.setProperty(KEY_OPTION_DARKMODE,VALUE_FALSE);
         else  // initialize the session dark/light mode flag from the config file
             bSessionDarkMode = (m_Properties.getProperty(KEY_OPTION_DARKMODE).equals(VALUE_TRUE));
-        if(!m_Properties.containsKey(KEY_OPTION_GRAPHCOMPONENTVIEW))  // nissue #74
-            m_Properties.setProperty(KEY_OPTION_GRAPHCOMPONENTVIEW,"ObjectFrame");
+
         
 
 
@@ -231,8 +230,7 @@ public class CBConfiguration {
      * @param view one of VALUE_TREE or VALUE_FRAME as defined in CBConstants.
      */
     public static void setComponentView(String view) {
-        assert(view == VALUE_TREE)
-            || (view == VALUE_FRAME);
+        assert(view == VALUE_TREE) || (view == VALUE_FRAME);
         m_Properties.setProperty(KEY_OPTION_COMPONENTVIEW, view);
     }
 
@@ -244,9 +242,16 @@ public class CBConfiguration {
         String value =m_Properties.getProperty(KEY_OPTION_COMPONENTVIEW);
         if (value.equals(VALUE_TREE)) {
             tree.setSelected(true);
-        } else {
+        } else if (value.equals(VALUE_FRAME)) {
             frame.setSelected(true);
         }
+    }
+
+    /**
+     * Returns the value of the component view configuration setting
+    */
+    public static String getComponentViewSetting() {
+        return m_Properties.getProperty(KEY_OPTION_COMPONENTVIEW);
     }
 
     /**
@@ -842,16 +847,6 @@ public class CBConfiguration {
     public static String getShowLinkCategory() {
         return m_Properties.getProperty(KEY_OPTION_SHOWLINKCATEGORY);
     }
-
-    // control what happens when double-clicking a node in a dragram desktop
-    public static void setGraphComponentView(String viewtype) {
-        m_Properties.setProperty(KEY_OPTION_GRAPHCOMPONENTVIEW,viewtype);
-    }
-
-    public static String getGraphComponentView() {
-        return m_Properties.getProperty(KEY_OPTION_GRAPHCOMPONENTVIEW);
-    }
-
 
     public static int getPopupMenuDelay() {
         return Integer.parseInt(m_Properties.getProperty(KEY_OPTION_POPUP_DELAY));

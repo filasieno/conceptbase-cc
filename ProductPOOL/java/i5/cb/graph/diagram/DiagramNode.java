@@ -478,7 +478,7 @@ public class DiagramNode
     final public boolean setComponentVisible(boolean forceSet) {
 
         // nissue #74
-        if (CBConfiguration.getGraphComponentView() == null || CBConfiguration.getGraphComponentView().equals("none")) {
+        if (CBConfiguration.getComponentViewSetting() == null || CBConfiguration.getComponentViewSetting().equals("none")) {
           getDiagramDesktop().getGraphEditor().setStatusString("No graph component view enabled in CBConfiguration");
           return false; // no large component such as "ObjectFrame" enabled in CBConfiguration
         }
