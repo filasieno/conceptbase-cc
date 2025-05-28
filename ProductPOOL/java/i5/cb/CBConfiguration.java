@@ -84,6 +84,7 @@ public class CBConfiguration {
     private final static String KEY_OPTION_DERIVED_LINKS="DerivedLinks";
     private final static String KEY_OPTION_BROWSER_WINDOWS="CBIvaBrowserWindows";
     private final static String KEY_OPTION_DARKMODE="DarkMode";
+    private final static String KEY_OPTION_GRAPHCOMPONENTVIEW="GraphComponentView";
 
     private final static String KEY_OPTION_DEBUG_LEVEL="DebugLevel";
 
@@ -176,6 +177,8 @@ public class CBConfiguration {
             m_Properties.setProperty(KEY_OPTION_DARKMODE,VALUE_FALSE);
         else  // initialize the session dark/light mode flag from the config file
             bSessionDarkMode = (m_Properties.getProperty(KEY_OPTION_DARKMODE).equals(VALUE_TRUE));
+        if(!m_Properties.containsKey(KEY_OPTION_GRAPHCOMPONENTVIEW))  // nissue #74
+            m_Properties.setProperty(KEY_OPTION_GRAPHCOMPONENTVIEW,"ObjectFrame");
         
 
 
@@ -838,6 +841,15 @@ public class CBConfiguration {
 
     public static String getShowLinkCategory() {
         return m_Properties.getProperty(KEY_OPTION_SHOWLINKCATEGORY);
+    }
+
+    // control what happens when double-clicking a node in a dragram desktop
+    public static void setGraphComponentView(String viewtype) {
+        m_Properties.setProperty(KEY_OPTION_GRAPHCOMPONENTVIEW,viewtype);
+    }
+
+    public static String getGraphComponentView() {
+        return m_Properties.getProperty(KEY_OPTION_GRAPHCOMPONENTVIEW);
     }
 
 

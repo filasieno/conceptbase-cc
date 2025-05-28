@@ -50,6 +50,7 @@ import javax.swing.text.DefaultStyledDocument;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import i5.cb.CBConfiguration;
 
 /**
  * A DiagramNode is a visible node shown on a {@link
@@ -475,6 +476,12 @@ public class DiagramNode
      *associated with this node.
      */
     final public boolean setComponentVisible(boolean forceSet) {
+
+        // nissue #74
+        if (CBConfiguration.getGraphComponentView() == null || CBConfiguration.getGraphComponentView().equals("none")) {
+          getDiagramDesktop().getGraphEditor().setStatusString("No graph component view enabled in CBConfiguration");
+          return false; // no large component such as "ObjectFrame" enabled in CBConfiguration
+        }
 
         if (!isComponentVisible() || forceSet) {
             Component c = getDiagramClass().getComponent(getUserObject());
