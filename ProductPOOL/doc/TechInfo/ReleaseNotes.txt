@@ -6,7 +6,7 @@
               University of Skovde, Sweden
 
 
-                      2025-04-28
+                      2025-05-30
 
 
 ConceptBase.cc is a multi-user deductive object manager mainly developed by
@@ -161,7 +161,14 @@ and provides further performance boosts for the CBserver.
    The query optimizer applied its optimization rules in a wrong order, leading in some cases to
    negated predicated with unbound variables. This is now corrected.
    https://gitlab.com/mjeu/conceptbasecc/-/issues/72
-   
+
+85-20 Manually disable component view in CBGraph 
+
+   Some users are getting confused when double-clicking a node in CBGraph opens a big view of the
+   node object frame. It is somewhat difficult to return to the original "small" component view. The option
+   "ComponentView" of CBConfiguration (see menu Options/Edit Options) now controls the component view for a
+   node. If set to "none", nothing happens when double-clicking a node.
+   https://gitlab.com/mjeu/conceptbasecc/-/issues/74
 
    
 
