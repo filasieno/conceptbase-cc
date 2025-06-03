@@ -1913,9 +1913,11 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
      */
     public void clearSelectedNodes() {
 
+	getGraphEditor().setStatusStringDelayed("");  // clear the last status message if it is old enough
         m_cSelectedNodes.clear();
         setSquareDots(false);  // set little square dots on edges transparent
         repaint();
+
     } //clearSelectedNodes
 
     /**

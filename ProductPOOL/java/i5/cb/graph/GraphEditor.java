@@ -133,6 +133,9 @@ public class GraphEditor
 
     private boolean bSizeSet = false; // to control setting the size of this GraphEditor
 
+    private long lastStatusUpdateTime = 0L;  // time in millis when the status message was last updated
+    private int messageDelayTime = 2500;  // time in millseconds after which a status messages is considered old
+
     /**
      * Instanciates a new GraphEditor Object and specifies the bShowInfoWindow Flag. If the
      * Constructor is called without a String specifying the Mainwindow's title, it is called with
@@ -1135,9 +1138,19 @@ public class GraphEditor
      */
     public void setStatusString(String sStatus) {
         m_statusConnectionLabel.setText(sStatus);
-        if (sStatus == null)
-          return;
+        lastStatusUpdateTime = System.currentTimeMillis();
 // System.out.println("GraphEditor: "+sStatus);
+    }
+
+
+    /**
+     * Like setStatusString but shall only update the status message if the last one is outdated
+     *
+     * @param sStatus the new status we want to change to.
+     */
+    public void setStatusStringDelayed(String sStatus) {
+        if (System.currentTimeMillis() > lastStatusUpdateTime + messageDelayTime)
+          setStatusString(sStatus);
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
