@@ -1879,6 +1879,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
                 + node.getUserObject().toString()
                 + "' must be inside this DiagramDesktop";
 
+	getGraphEditor().setStatusStringDelayed("");  // clear the last status message if it is old enough
         if (bIsSelected) {
             if (m_cSelectedNodes.size() == 0)  // first node selected
               setSquareDots(true);  // set little square dots on edges opaque
