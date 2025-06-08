@@ -129,6 +129,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(isVisible/1,validProposition)
 #IMPORT(cm_findall/3,GeneralUtilities)
 #IMPORT(increment/1,GeneralUtilities)
+#IMPORT(write_lcall/1,Literals)
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -869,6 +870,7 @@ scanAllLits(_InsDel,[],[]) :- !.
 
 scanAllLits(_InsDel,[_lit|_rest],_newlits) :-
   alreadyProcessed(_InsDel,_lit),
+{* write('alreadyProcessed: '),write_lcall(_lit),nl, *}
   !,
   scanAllLits(_InsDel,_rest,_newlits).
 
