@@ -5,9 +5,7 @@ ProductPOOL/**/classes/*
 ProductPOOL/**/classes/**/*
 ProductPOOL/**/objects/*
 ProductPOOL/**/objects.SWI/*
-**/EXPORT/*.pdf
-**/EXPORT/CBserver
-**/EXPORT/ReleaseNotes.txt
+**/EXPORT/*
 **/*.1
 **/*.2
 **/*.3
