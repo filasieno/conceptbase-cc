@@ -702,6 +702,44 @@ resetFlag(_label) :-
   !.
 
 
+
+/** manage labeled sets **/
+
+
+initLabelSet(_category,_setname) :-
+  atom(_category),
+  atom(_setname),
+  pc_rerecord(_category,_setname,[]),  /** empty set of values **/
+  !.
+
+addLabelSetValue(_category,_setname,_value) :-
+  atom(_category),
+  atom(_setname),
+  pc_recorded(_category,_setname,_oldset),
+  pc_rerecord(_category,_setname,[_value|_oldset]), /** not checking whether _value is already in oldset **/
+  !.
+
+memberLabelSet(_category,_setname,_value) :-
+  atom(_category),
+  atom(_setname),
+  pc_recorded(_category,_setname,_set),
+  member(_value,_set).
+
+
+resetAllLabelSets(_category) :-
+  atom(_category),
+  pc_erase_all(_category),
+  !.
+resetAllLabelSets(_category).
+
+resetLabelSet(_category,_setname) :-
+  atom(_category),
+  atom(_setname),
+  pc_erase(_category,_setname),
+  !.
+resetLabelSet(_category,_setname).
+
+
 /** Manage global variables like current username, current palette etc. **/
 /** The variable is identified by the combination of a domain label    **/
 /** and a variable label. Both labels must be atomic (atom or number). **/
