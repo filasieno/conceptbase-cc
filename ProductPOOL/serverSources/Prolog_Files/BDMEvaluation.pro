@@ -941,6 +941,9 @@ increment('constraintTriggerCalls'),
 	member( _Literal, _SetOfLiterals),
 
 		{ Auswerten der Integritaetsbedingung mit diesem Literal:     }
+
+        violatesSimplifiedIntegrityConstraint(_Literal, _SimpIcId, _IcFormSimplMerged),
+
         \+proveEvaFormula_once(_IcFormSimplMerged),
 		{ Und weiter mit den anderen neuen Objekten, bzw. ICs!        }
 
@@ -964,6 +967,17 @@ TestIntegrityConstraints( _, _, _) :-
 	!.
 
 
+{* case 1: _IcFormSimplMerged is true (fulfilled), then no violation found and let this *}
+{* predicate fail to trigger backtracking to the next literal                           *}
+
+violatesSimplifiedIntegrityConstraint(_Literal, _SimpIcId, _IcFormSimplMerged) :- 
+        proveEvaFormula_once(_IcFormSimplMerged),
+        !,
+        fail. 
+
+{* case 2: otherwise _IcFormSimplMerged is false (violated), then let this predivate success to exet backtracking *}
+violatesSimplifiedIntegrityConstraint(_Literal, _SimpIcId, _IcFormSimplMerged) :-
+        !.
 
 {* 3-Mar-2005/M.Jeusfeld: solve ticket #58, i.e. output a user-definable text *}
 {* when an integrity constraint is violatated.                                *}
