@@ -14,7 +14,7 @@ ProductPOOL/**/objects.SWI/*
 **/*.o
 ProductPOOL/java/**/*.class
 ProductPOOL/java/docs/**/*.html
-ProductPOOL/linux/Prolog_Files/*.swi.pl
+ProductPOOL/linux*/serverSources/Prolog_Files/*.swi.pl
 ProductPOOL/serverSources/objects.SWI/*
 ProductPOOL/**/serverSources/Prolog_Files/*.swi.pl
 ProductPOOL/java/classes/*.jar
@@ -26,10 +26,10 @@ ProductPOOL/doc/TechInfo/EXPORT/ReleaseNotes.txt
 ProductPOOL/java/classes/CBinstaller.jar
 ProductPOOL/java/classes/cb.jar
 ProductPOOL/java/docs/*
-ProductPOOL/linux64/serverSources/EXPORT/CBserver
-ProductPOOL/linux64/serverSources/objects.SWI/CBserver
-ProductPOOL/linux64/**/*.a
-ProductPOOL/linux64/**/*.o
+ProductPOOL/linux*/serverSources/EXPORT/CBserver
+ProductPOOL/linux*/serverSources/objects.SWI/CBserver
+ProductPOOL/linux*/**/*.a
+ProductPOOL/linux*/**/*.o
 *.html
 *.pl
 *search-index.zip

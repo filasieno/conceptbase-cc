@@ -253,6 +253,11 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(setGlobalVar/3)
 #EXPORT(getGlobalVar/3)
 #EXPORT(resetGlobalVar/2)
+#EXPORT(initLabelSet/2)
+#EXPORT(addLabelSetValue/3)
+#EXPORT(memberLabelSet/3)
+#EXPORT(resetAllLabelSets/1)
+#EXPORT(resetLabelSet/2)
 
 
 
@@ -743,6 +748,13 @@ addLabelSetValue(_category,_setname,_value) :-
   atom(_setname),
   pc_recorded(_category,_setname,_oldset),
   pc_rerecord(_category,_setname,[_value|_oldset]), {* not checking whether _value is already in oldset *}
+  !.
+
+{* label set _setname does not yet exist: *}
+addLabelSetValue(_category,_setname,_value) :-
+  atom(_category),
+  atom(_setname),
+  pc_record(_category,_setname,[_value]),
   !.
 
 memberLabelSet(_category,_setname,_value) :-

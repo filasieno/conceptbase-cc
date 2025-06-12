@@ -130,6 +130,11 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(cm_findall/3,GeneralUtilities)
 #IMPORT(increment/1,GeneralUtilities)
 #IMPORT(write_lcall/1,Literals)
+#IMPORT(initLabelSet/2,GeneralUtilities)
+#IMPORT(addLabelSetValue/3,GeneralUtilities)
+#IMPORT(memberLabelSet/3,GeneralUtilities)
+#IMPORT(resetAllLabelSets/1,GeneralUtilities)
+#IMPORT(resetLabelSet/2,GeneralUtilities)
 
 #IF(SWI)
 :- style_check(-singleton).
@@ -944,7 +949,7 @@ increment('constraintTriggerCalls'),
 
         violatesSimplifiedIntegrityConstraint(_Literal, _SimpIcId, _IcFormSimplMerged),
 
-        \+proveEvaFormula_once(_IcFormSimplMerged),
+{*         \+proveEvaFormula_once(_IcFormSimplMerged), *}
 		{ Und weiter mit den anderen neuen Objekten, bzw. ICs!        }
 
 
@@ -967,16 +972,37 @@ TestIntegrityConstraints( _, _, _) :-
 	!.
 
 
-{* case 1: _IcFormSimplMerged is true (fulfilled), then no violation found and let this *}
+
+
+
+{* violatesSimplifiedIntegrityConstraint uses a cache to make sure that a simplified *}
+{* integrity constraint _SimpIcId is tested only once for a given _Literal           *}
+
+
+{* case 1: the constraint _SimpIcId was already checked for _Literal before *}
+{* Then, backtrack for the next _Literal in TestIntegrityConstraints        *}
+
+violatesSimplifiedIntegrityConstraint(_Literal, _SimpIcId, _IcFormSimplMerged) :- 
+        memberLabelSet('bdmcachelits',_SimpIcId,_Literal),
+{* write_lcall(_Literal),write(' was checked earlier for simplified constraint '),write(_SimpIcId),nl, *}
+        !,
+        fail.
+
+
+{* case 2: _IcFormSimplMerged is true (fulfilled), then no violation found and let this *}
 {* predicate fail to trigger backtracking to the next literal                           *}
 
 violatesSimplifiedIntegrityConstraint(_Literal, _SimpIcId, _IcFormSimplMerged) :- 
         proveEvaFormula_once(_IcFormSimplMerged),
+        addLabelSetValue('bdmcachelits',_SimpIcId,_Literal),
+{* write_lcall(_Literal),write(' fulfills simplified constraint '),write(_SimpIcId),nl, *}
         !,
         fail. 
 
-{* case 2: otherwise _IcFormSimplMerged is false (violated), then let this predivate success to exet backtracking *}
+{* case 3: otherwise _IcFormSimplMerged is false (violated), then let this predicate success to exit backtracking *}
 violatesSimplifiedIntegrityConstraint(_Literal, _SimpIcId, _IcFormSimplMerged) :-
+        addLabelSetValue('bdmcachelits',_SimpIcId,_Literal),
+{* write_lcall(_Literal),write(' violates for simplified constraint '),write(_SimpIcId),nl, *}
         !.
 
 {* 3-Mar-2005/M.Jeusfeld: solve ticket #58, i.e. output a user-definable text *}

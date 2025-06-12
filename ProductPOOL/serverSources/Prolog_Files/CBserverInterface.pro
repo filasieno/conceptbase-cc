@@ -167,6 +167,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #IMPORT(haltCBserver/0,IpcChannel)
 #IMPORT(pc_gettime/1,PrologCompatibility)
 #IMPORT(pc_atompartsall/3,PrologCompatibility)
+#IMPORT(resetAllLabelSets/1,GeneralUtilities)
 
 
 
@@ -1093,6 +1094,7 @@ BEGIN_TRANSACTION(_s,_module,_user,_op) :-
    	_newTid is _tid + 1,
    	setFlag(Transaction_counter,_newTid),
    	resetFlag(currentAnswerFormat),
+        resetAllLabelSets('bdmcachelits'),
         usernameWithouthost(_user,_u),
         set_active_user(_u),
         resetCountersAndState,
