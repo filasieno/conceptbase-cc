@@ -905,26 +905,24 @@ storeLit(Delete,_lit) :- assert(Deleted(_lit)).
 { *************************************************************************** }
 
 
-TestIntegrityConstraints( [], _, _) :-
-
-		{ Es sind keine Integritaetsbedingungen zu ueberpruefen.      }
+{ no more simplified ICs left to check:      }
+TestIntegrityConstraints([], _, _) :-
 	!.
 
-
-TestIntegrityConstraints( _ListOfSimpIcIds, [], _) :-
-
-		{ Es sind keine Objekte mehr zu ueberpruefen.                 }
+{ no more literals left to check:                 }
+TestIntegrityConstraints(_ListOfSimpIcIds, [], _) :-
 	!.
-
 
 
 TestIntegrityConstraints( _ListOfSimpIcIds, _SetOfLiterals, _InsDel) :-
+
+        {* length(_SetOfLiterals,_nrlits), *}  {* decide on whether to use simplified ICs *}
 
 {*       WriteTrace(veryhigh,BDMEvaluation,['Test integrity constraints ',
                   _ListOfSimpIcIds, ' on literals ',_SetOfLiterals,
                   ' for operation ',_InsDel]), *}
 
-		{ Mit jeder betroffenen Integritaetsbedingung:                }
+	{* interate over all simplified ICs in _ListOfSimpIcIds: *}
 	member( _SimpIcId, _ListOfSimpIcIds),
 
 	(( _InsDel == Insert,
@@ -937,12 +935,9 @@ TestIntegrityConstraints( _ListOfSimpIcIds, _SetOfLiterals, _InsDel) :-
 	        isVisible(_IcId)
 	)),
 
-increment('constraintTriggerCalls'),
+        increment('constraintTriggerCalls'),
 
-		{ Fuer jedes der neu hergeleiteten Literale:                  }
-                { (gleichzeitig werden die freien Variablen in                }
-                { _IcFormSimplMerged belegt!)                                 }
-
+        {* iterate over all literals in _SetOfLiterals, unifying certain free variables in _IcFormSimplMerged: *}
 	member( _Literal, _SetOfLiterals),
 
 		{ Auswerten der Integritaetsbedingung mit diesem Literal:     }
@@ -975,35 +970,23 @@ TestIntegrityConstraints( _, _, _) :-
 
 
 
-{* violatesSimplifiedIntegrityConstraint uses a cache to make sure that a simplified *}
-{* integrity constraint _SimpIcId is tested only once for a given _Literal           *}
+{* violatesSimplifiedIntegrityConstraint(_Literal, _SimpIcId, _IcFormSimplMerged) *}
+{* is true if the simplified integrity constraint _IcFormSimplMerged is not true  *}
 
-
-{* case 1: the constraint _SimpIcId was already checked for _Literal before *}
-{* Then, backtrack for the next _Literal in TestIntegrityConstraints        *}
-
-violatesSimplifiedIntegrityConstraint(_Literal, _SimpIcId, _IcFormSimplMerged) :- 
-        memberLabelSet('bdmcachelits',_SimpIcId,_Literal),
-{* write_lcall(_Literal),write(' was checked earlier for simplified constraint '),write(_SimpIcId),nl, *}
-        !,
-        fail.
-
-
-{* case 2: _IcFormSimplMerged is true (fulfilled), then no violation found and let this *}
+{* case 1: _IcFormSimplMerged is true (fulfilled), then no violation found and let this *}
 {* predicate fail to trigger backtracking to the next literal                           *}
 
 violatesSimplifiedIntegrityConstraint(_Literal, _SimpIcId, _IcFormSimplMerged) :- 
         proveEvaFormula_once(_IcFormSimplMerged),
-        addLabelSetValue('bdmcachelits',_SimpIcId,_Literal),
-{* write_lcall(_Literal),write(' fulfills simplified constraint '),write(_SimpIcId),nl, *}
         !,
         fail. 
 
-{* case 3: otherwise _IcFormSimplMerged is false (violated), then let this predicate success to exit backtracking *}
+{* case 2: otherwise _IcFormSimplMerged is false (violated), then let this predicate success to exit backtracking *}
 violatesSimplifiedIntegrityConstraint(_Literal, _SimpIcId, _IcFormSimplMerged) :-
-        addLabelSetValue('bdmcachelits',_SimpIcId,_Literal),
-{* write_lcall(_Literal),write(' violates for simplified constraint '),write(_SimpIcId),nl, *}
         !.
+
+
+
 
 {* 3-Mar-2005/M.Jeusfeld: solve ticket #58, i.e. output a user-definable text *}
 {* when an integrity constraint is violatated.                                *}

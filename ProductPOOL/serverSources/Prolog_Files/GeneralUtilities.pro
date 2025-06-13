@@ -229,6 +229,10 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 #EXPORT(setFlag/2)
 #EXPORT(getFlag/2)
 #EXPORT(resetFlag/1)
+#EXPORT(setFlag/3)
+#EXPORT(getFlag/3)
+#EXPORT(resetFlag/2)
+#EXPORT(resetFlags/1)
 #EXPORT(quicksortLabels/2)
 #EXPORT(quicksortLabels/3)
 #EXPORT(makeAtom/2)
@@ -712,24 +716,46 @@ reset_counter_if_undefined(_counter) :-
 {* manage label/value pairs *}
 
 setFlag(_label,_value) :-
-  atom(_label),
-  pc_recorded(_label,'labelValuePair',_oldvalue),
-  pc_rerecord(_label,'labelValuePair',_value),
-  !.
-
-setFlag(_label,_value) :-
-  atom(_label),
-  pc_record(_label,'labelValuePair',_value),
-  !.
+  setFlag('labelValuePair',_label,_value).
 
 getFlag(_label,_value) :-  
-  atom(_label),
-  pc_recorded(_label,'labelValuePair',_value),
-  !.
+  getFlag('labelValuePair',_label,_value).
 
 resetFlag(_label) :-
+  resetFlag('labelValuePair',_label).
+
+
+
+{* manage categorized label/value pairs *}
+
+setFlag(_category,_label,_value) :-
+  atom(_category),
   atom(_label),
-  pc_erase(_label,'labelValuePair'),
+  pc_recorded(_category,_label,_oldvalue),
+  pc_rerecord(_category,_label,_value),
+  !.
+
+setFlag(_category,_label,_value) :-
+  atom(_category),
+  atom(_label),
+  pc_record(_category,_label,_value),
+  !.
+
+getFlag(_category,_label,_value) :-  
+  atom(_category),
+  atom(_label),
+  pc_recorded(_category,_label,_value),
+  !.
+
+resetFlag(_category,_label) :-
+  atom(_category),
+  atom(_label),
+  pc_erase(_category,_label),
+  !.
+
+resetFlags(_category) :-
+  atom(_category),
+  pc_erase_all(_category),
   !.
 
 
