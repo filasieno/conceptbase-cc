@@ -1194,15 +1194,16 @@ public class GraphEditor
           if (!(this instanceof CBEditor))
             return;
           CBEditor cbed = (CBEditor)this;
-          if (cbed.gelFilenames == null)
-            return;
+ //         if (cbed.gelFilenames == null)
+ //           return;
   
-          if (gelFilename == null && cbed.gelFilenames.size == 1)
+          if (gelFilename == null && cbed.gelFilenames != null && cbed.gelFilenames.size == 1)
             gelFilename = cbed.gelFilenames.get(0);
-          if (gelFilename == null)
-            return;
-          if (gelFilename.toLowerCase().endsWith("ohome.gel")) {
-            return;
+//          if (gelFilename.toLowerCase().endsWith("ohome.gel")) {
+//            return;
+          if (gelFilename == null) {
+            CBFrame cbf = (CBFrame) this.getActiveGraphInternalFrame();
+            gelFilename = cbf.getShortContext() + ".gel";
           }
           if (
                 gelFilename.toLowerCase().startsWith("/tmp")      ||         // Linux temporary directory
