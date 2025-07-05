@@ -76,7 +76,7 @@ public class LoadWindow extends JFrame {
     public LoadWindow(CBIva CBI) {
         this.setIconImage((new ImageIcon(CBI.LoadImage("CBIvaS.gif"))).getImage());
         this.setLocation(200,200);
-        this.setSize(100,200);
+        this.setSize(400,250);
         this.getContentPane().setLayout(new BorderLayout());
         ImageIcon ICBIva = new ImageIcon(CBI.LoadImage("CBIva.gif"));
         JLabel LCBIva=new JLabel(ICBIva);
