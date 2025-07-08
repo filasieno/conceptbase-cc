@@ -640,5 +640,28 @@ valueOf in Function isA Proposition with
    variable: GlobalVariable 
 end
 
+{* new version to hide isolated instances of CB_User *}
 
+IsolatedCB_User in HiddenObject,QueryClass isA CB_User with
+  constraint
+    isolated: $ not exists a/Attribute From(a,this) or To(a,this) $
+end
+
+DoNotSave_2 in HiddenObject,QueryClass isA Proposition with  
+  constraint
+    cnts : $ (~this in HiddenObject) or
+             ((~this in MSFOLassertion) and not (~this in QueryClass)) or
+             (~this in BDMRuleCheck) or
+             (~this in BDMConstraintCheck) or (~this in Proposition!deducedBy) or
+             (~this in Proposition!applyConstraintIfInsert) or (~this in Proposition!applyConstraintIfDelete) or
+             (~this in ECAassertion) or
+             ( (~this in IsA) and exists a/Attribute From(~this,a) and 
+             ((a in QueryClass!retrieved_attribute) or (a in View!inherited_attribute))) or
+             (~this in IsolatedValue[String/type]) or
+             (~this in IsolatedValue[Integer/type]) or
+             (~this in IsolatedValue[Real/type]) or
+             (~this in IsolatedCB_User) or
+             :(~this in TransactionTime): and not (exists z/Proposition (~this attribute z))
+             $
+end
 

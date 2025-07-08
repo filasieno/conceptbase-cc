@@ -1313,6 +1313,12 @@ setNotToSave :-
   setFlag(notToSave,_idlist),
   !.
 
+
+{* version as of 2025-07-08 *}
+getDoNotSaveQuery(_queryid) :-
+  name2id('DoNotSave_2',_queryid),   
+  !.
+
 {* version as of 2018-09-02 *}
 getDoNotSaveQuery(_queryid) :-
   name2id('DoNotSave_1',_queryid),   
