@@ -1033,7 +1033,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         }
     }
 
-    // 2025-07-15; compiles and runs but produces just a while background image
+    // 2025-07-15; experimental solution to support SVG as export format
     void saveScreenShotVectorGraphics(String sFormat, File file) {
 //        System.out.println("saveScreenShotVectorGraphics " +  file.getAbsolutePath());
         Rectangle clipRectangle = getDiagramClipRectangle();
