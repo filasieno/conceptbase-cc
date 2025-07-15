@@ -1035,14 +1035,15 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
     // 2025-07-15; compiles and runs but produces just a while background image
     void saveScreenShotVectorGraphics(String sFormat, File file) {
-        System.out.println("saveScreenShotVectorGraphics " +  file.getAbsolutePath());
+//        System.out.println("saveScreenShotVectorGraphics " +  file.getAbsolutePath());
         Rectangle clipRectangle = getDiagramClipRectangle();
+//        System.out.println("Clip rectangle: x="+clipRectangle.x+" y="+clipRectangle.y+" width="+clipRectangle.width+" height="+clipRectangle.height);
         DOMImplementation impl = SVGDOMImplementation.getDOMImplementation(); 
         String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
         Document svgdoc = impl.createDocument(svgNS, "svg", null); 
         SVGGraphics2D svgGraphics = new SVGGraphics2D(svgdoc); 
-        svgGraphics.setSVGCanvasSize(new Dimension(clipRectangle.width, clipRectangle.height));
-        svgGraphics.setClip(clipRectangle.x, clipRectangle.y, clipRectangle.width, clipRectangle.height);
+        svgGraphics.setSVGCanvasSize(new Dimension(clipRectangle.width+clipRectangle.x, clipRectangle.height+clipRectangle.y));
+        svgGraphics.setClip(0, 0, clipRectangle.width+clipRectangle.x, clipRectangle.height+clipRectangle.y);
         this.paint(svgGraphics);
         try {
            Writer out = new FileWriter(file.getAbsolutePath());
@@ -1762,6 +1763,24 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
             allBounds.height = allBounds.height + 4;
             allBounds.y = allBounds.y - 2;
         }
+
+        BufferedImage offScreen = new java.awt.image.BufferedImage(
+                getSize().width, getSize().height,
+                java.awt.image.BufferedImage.TYPE_INT_RGB);
+
+        if (allBounds.x+allBounds.width > offScreen.getWidth()) {
+          allBounds.width = offScreen.getWidth() - allBounds.x;
+        }
+        if (allBounds.y+allBounds.height > offScreen.getHeight()) {
+          allBounds.height = offScreen.getHeight() - allBounds.y;
+        }
+        if (allBounds.x < 0) {
+          allBounds.x = 0;
+        }
+        if (allBounds.y < 0) {
+          allBounds.y = 0;
+        }
+
         return allBounds;
 
     }
@@ -1786,32 +1805,6 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         Graphics2D offScreenGraphics = offScreen.createGraphics();
 
         this.paint(offScreenGraphics);
-
-        // Do setOpaque(false) for all labels which been set opaque before
-        // painting
-/*
-        Iterator it = alOpaqueLabels.iterator();
-        while (it.hasNext()) {
-            ((JLabel) it.next()).setOpaque(false);
-        }
-*/
-
-        if (allBounds.x+allBounds.width > offScreen.getWidth()) {
-          allBounds.width = offScreen.getWidth() - allBounds.x;
-        }
-        if (allBounds.y+allBounds.height > offScreen.getHeight()) {
-          allBounds.height = offScreen.getHeight() - allBounds.y;
-        }
-        if (allBounds.x < 0) {
-          allBounds.x = 0;
-        }
-        if (allBounds.y < 0) {
-          allBounds.y = 0;
-        }
-
-// System.out.println("offscreen width="+offScreen.getWidth()+"  height="+offScreen.getHeight());
-// System.out.println("subimage x="+allBounds.x+"  y="+allBounds.y);
-// System.out.println("subimage width="+allBounds.width+"  height="+allBounds.height);
 
         BufferedImage subimage = offScreen.getSubimage(allBounds.x, allBounds.y, allBounds.width,
                 allBounds.height);
