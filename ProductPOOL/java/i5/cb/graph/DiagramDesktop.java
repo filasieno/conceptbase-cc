@@ -68,6 +68,21 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
+// for Batik 1.17
+import org.apache.batik.svggen.SVGGraphics2D; 
+import org.apache.batik.anim.dom.SVGDOMImplementation; 
+import org.apache.batik.i18n.*;
+import org.apache.batik.util.*;
+import org.apache.batik.ext.awt.g2d.AbstractGraphics2D;
+import org.apache.batik.css.engine.*;
+import org.apache.batik.w3c.dom.*;
+import org.apache.batik.parser.*;
+import org.w3c.dom.DOMImplementation; 
+import org.w3c.dom.Document; 
+import org.w3c.dom.svg.*; 
+import java.awt.Dimension; 
+
+
 /**
  * Description of the Class
  *
@@ -1000,6 +1015,14 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
      *            the file the image shall be saved in
      */
     void saveScreenShot(String sFormat, File file) {
+        if (sFormat.equals("svg")) {
+           saveScreenShotVectorGraphics(sFormat, file);
+        } else {
+           saveScreenShotBitmap(sFormat, file);
+        }
+    }
+
+    void saveScreenShotBitmap(String sFormat, File file) {
         m_ScreenshotTaken = true;
         BufferedImage screenShot = getImageOfDesktop();
         m_ScreenshotTaken = false;
@@ -1009,6 +1032,27 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
             java.util.logging.Logger.getLogger("global").warning(ioe.getMessage());
         }
     }
+
+    // 2025-07-15; compiles and runs but produces just a while background image
+    void saveScreenShotVectorGraphics(String sFormat, File file) {
+        System.out.println("saveScreenShotVectorGraphics " +  file.getAbsolutePath());
+        Rectangle clipRectangle = getDiagramClipRectangle();
+        DOMImplementation impl = SVGDOMImplementation.getDOMImplementation(); 
+        String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
+        Document svgdoc = impl.createDocument(svgNS, "svg", null); 
+        SVGGraphics2D svgGraphics = new SVGGraphics2D(svgdoc); 
+        svgGraphics.setSVGCanvasSize(new Dimension(clipRectangle.width, clipRectangle.height));
+        svgGraphics.setClip(clipRectangle.x, clipRectangle.y, clipRectangle.width, clipRectangle.height);
+        this.paint(svgGraphics);
+        try {
+           Writer out = new FileWriter(file.getAbsolutePath());
+           svgGraphics.stream(out, true); // true to use CSS for styling 
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+    }
+
+
 
     /**
      * Stores the position of all nodes, and which edges must be displayed. At
@@ -1614,15 +1658,19 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
     	this.getGraphInternalFrame().getContentPane().validate();
     }
 
+
+
     /**
-     * Creates a screenshot of this diagramDesktop and returns it
+     * computes the smallest rectangle that includes all nodes and edgens if this DiagramDesktop
      *
-     * @return a BufferedImage containing a screenshot of this desktop
+     * @return the clip rectangle to include the current diagram
      */
-    private BufferedImage getImageOfDesktop() {
+
+    private Rectangle getDiagramClipRectangle() {
+
         Vector vEdges = getDiagramEdges(false);
         Vector vNodes = getDiagramNodes();
-        ArrayList alOpaqueLabels = new ArrayList(vNodes.size());
+//        ArrayList alOpaqueLabels = new ArrayList(vNodes.size());
 
         if (vNodes.size() == 0) {
             java.util.logging.Logger.getLogger("global")
@@ -1662,6 +1710,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
             Component c = dnCurrent.getVisibleComponent();
 
             // Set all labels opaque to have a correct bufferedImage; only needed for old Java
+/*
             if (DiagramNode.JAVA_VERSION <= 1.601101 && c != null && c instanceof JLabel) {
                 JLabel jl = (JLabel) c;
                 if (!jl.isOpaque() ) {  
@@ -1669,6 +1718,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
                     alOpaqueLabels.add(jl);
                 }
             }
+*/
             currentBounds = dnCurrent.getBounds();
             if (currentBounds.x < allBounds.x) {
                 allBounds.setBounds(currentBounds.x, allBounds.y,
@@ -1712,6 +1762,22 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
             allBounds.height = allBounds.height + 4;
             allBounds.y = allBounds.y - 2;
         }
+        return allBounds;
+
+    }
+
+
+    /**
+     * Creates a screenshot of this diagramDesktop and returns it
+     *
+     * @return a BufferedImage containing a screenshot of this desktop
+     */
+    private BufferedImage getImageOfDesktop() {
+
+        Rectangle allBounds = getDiagramClipRectangle();
+
+        if (allBounds == null) 
+          return null;
 
         BufferedImage offScreen = new java.awt.image.BufferedImage(
                 getSize().width, getSize().height,
@@ -1723,10 +1789,12 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
         // Do setOpaque(false) for all labels which been set opaque before
         // painting
+/*
         Iterator it = alOpaqueLabels.iterator();
         while (it.hasNext()) {
             ((JLabel) it.next()).setOpaque(false);
         }
+*/
 
         if (allBounds.x+allBounds.width > offScreen.getWidth()) {
           allBounds.width = offScreen.getWidth() - allBounds.x;
@@ -1751,6 +1819,9 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         return subimage;  // return a non-magnified version of the image
 
     } //getImageOfDesktop
+
+
+
 
     // scale the image for better readability
     // inspired by https://stackoverflow.com/questions/4216123/how-to-scale-a-bufferedimage

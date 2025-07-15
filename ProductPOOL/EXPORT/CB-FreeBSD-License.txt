@@ -32,3 +32,6 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
+
+ConceptBase.cc is based free and open source packages. See directory doc/ExternalLicenses in your local
+installation directory for more information.

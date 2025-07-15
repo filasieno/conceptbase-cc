@@ -497,10 +497,7 @@ public class GraphEditor
             // new Java: put PNG at first position if found; this one is preselected 
             if (i5.cb.graph.diagram.DiagramNode.JAVA_VERSION > 1.6011 && pngFound) {
                filter =
-                 new GEFileFilter(
-                     "png",
-                     ".png" ,
-                     "*.png");
+                 new GEFileFilter("png", ".png", "*.png");
                 dialog.addChoosableFileFilter(filter);
             }
 
@@ -514,17 +511,8 @@ public class GraphEditor
                         "*." + currentExtension);
                 dialog.addChoosableFileFilter(filter);
             }
-
-            // old JAVA: put PNG at last position if found; this one is preselected 
-            if (i5.cb.graph.diagram.DiagramNode.JAVA_VERSION <= 1.601101 && pngFound) {
-               filter =
-                 new GEFileFilter(
-                     "png",
-                     ".png" ,
-                     "*.png");
-                dialog.addChoosableFileFilter(filter);
-            }
-
+            // also add SVG as potential output file format
+            dialog.addChoosableFileFilter(new GEFileFilter("svg", ".svg", "*.svg"));
 
             if (currentLayoutDir != null)
               dialog.setCurrentDirectory(currentLayoutDir);

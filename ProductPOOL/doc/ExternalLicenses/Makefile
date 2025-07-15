@@ -35,7 +35,7 @@ CurrDir=doc/ExternalLicenses/
 MK_SOURCES=Makefile
 
 # Die exportierten Dateien
-EXPORTFILES=Grappa-License-14Jan2008.txt Swi-Prolog-License-14Jan2008.txt CBLogo-CC-BY-ND-40.txt README.txt FlatLaf-LICENSE-9Mar2024.txt
+EXPORTFILES=Grappa-License-14Jan2008.txt Swi-Prolog-License-14Jan2008.txt CBLogo-CC-BY-ND-40.txt README.txt FlatLaf-LICENSE-9Mar2024.txt Batik-License-2025.txt
 
 
 # Kurze Beschreibung der Komponente

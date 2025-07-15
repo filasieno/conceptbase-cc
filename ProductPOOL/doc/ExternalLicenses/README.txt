@@ -1,5 +1,5 @@
 Licenses of third party components that might be included
-with the ConceptBase+ distribution:
+with the ConceptBase.cc distribution:
 
 
 (1) The SWI-Prolog runtime environment is copyrighted by SWI, www.swi-prolog.org.
@@ -22,6 +22,10 @@ Licensed under a Apache 2.0 License
 License copy: FlatLaf-LICENSE-9Mar2024.txt
 Developer site: https://www.formdev.com/flatlaf/
 
+(6) BATIK SVG libraries copyrighted by The Apache Software Foundation
+Licensed under a Apache 2.0 License
+License copy: Batik-License-2025.txt
+Developer site: https://xmlgraphics.apache.org/batik/
 
 Distributed under the terms of their respective licenses 
 available from the web sites above.
@@ -30,5 +34,5 @@ available from the web sites above.
 All trademarks are property of their respective owners!
 
 --
-2024-03-09
+2025-07-13
 
