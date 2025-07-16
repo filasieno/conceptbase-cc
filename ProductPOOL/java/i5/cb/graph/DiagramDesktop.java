@@ -1036,9 +1036,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
     // 2025-07-15; experimental solution to support SVG as export format
     void saveScreenShotVectorGraphics(String sFormat, File file) {
-//        System.out.println("saveScreenShotVectorGraphics " +  file.getAbsolutePath());
         Rectangle clipRectangle = getDiagramClipRectangle();
-//        System.out.println("Clip rectangle: x="+clipRectangle.x+" y="+clipRectangle.y+" width="+clipRectangle.width+" height="+clipRectangle.height);
         DOMImplementation impl = SVGDOMImplementation.getDOMImplementation(); 
         String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
         Document svgdoc = impl.createDocument(svgNS, "svg", null); 
@@ -1046,6 +1044,17 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         SVGGraphics2D svgGraphics = new SVGGraphics2D(svgdoc); 
         svgGraphics.setSVGCanvasSize(new Dimension(clipRectangle.width+clipRectangle.x, clipRectangle.height+clipRectangle.y));
         svgGraphics.setClip(0, 0, clipRectangle.width+clipRectangle.x, clipRectangle.height+clipRectangle.y);
+
+
+//        Dimension panelSize = this.getSize();
+//        System.out.println("Panel size: " + panelSize.width + "x" + panelSize.height);
+//        System.out.println("Clip rectangle: x=" + clipRectangle.x + ", y=" + clipRectangle.y + ", width=" + clipRectangle.width + ", height=" + clipRectangle.height);
+
+//        svgGraphics.setSVGCanvasSize(new Dimension(clipRectangle.width, clipRectangle.height));
+//        svgGraphics.setClip(clipRectangle.x, clipRectangle.y, clipRectangle.width, clipRectangle.height);
+//        svgGraphics.translate(-clipRectangle.x, -clipRectangle.y);
+
+//        svgGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         this.paint(svgGraphics);
         try {
            Writer out = new FileWriter(file.getAbsolutePath());
@@ -1807,6 +1816,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
         Graphics2D offScreenGraphics = offScreen.createGraphics();
 
+        offScreenGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         this.paint(offScreenGraphics);
 
         BufferedImage subimage = offScreen.getSubimage(allBounds.x, allBounds.y, allBounds.width,
