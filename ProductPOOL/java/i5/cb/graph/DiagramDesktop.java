@@ -1045,16 +1045,6 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         svgGraphics.setSVGCanvasSize(new Dimension(clipRectangle.width+clipRectangle.x, clipRectangle.height+clipRectangle.y));
         svgGraphics.setClip(0, 0, clipRectangle.width+clipRectangle.x, clipRectangle.height+clipRectangle.y);
 
-
-//        Dimension panelSize = this.getSize();
-//        System.out.println("Panel size: " + panelSize.width + "x" + panelSize.height);
-//        System.out.println("Clip rectangle: x=" + clipRectangle.x + ", y=" + clipRectangle.y + ", width=" + clipRectangle.width + ", height=" + clipRectangle.height);
-
-//        svgGraphics.setSVGCanvasSize(new Dimension(clipRectangle.width, clipRectangle.height));
-//        svgGraphics.setClip(clipRectangle.x, clipRectangle.y, clipRectangle.width, clipRectangle.height);
-//        svgGraphics.translate(-clipRectangle.x, -clipRectangle.y);
-
-//        svgGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         this.paint(svgGraphics);
         try {
            Writer out = new FileWriter(file.getAbsolutePath());
