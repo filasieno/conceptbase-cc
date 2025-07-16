@@ -1028,6 +1028,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         m_ScreenshotTaken = false;
         try {
             javax.imageio.ImageIO.write(screenShot, sFormat, file);
+            this.getGraphInternalFrame().setStatusString("Diagram saved as "+file.getAbsolutePath());
         } catch (java.io.IOException ioe) {
             java.util.logging.Logger.getLogger("global").warning(ioe.getMessage());
         }
@@ -1041,6 +1042,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         DOMImplementation impl = SVGDOMImplementation.getDOMImplementation(); 
         String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
         Document svgdoc = impl.createDocument(svgNS, "svg", null); 
+
         SVGGraphics2D svgGraphics = new SVGGraphics2D(svgdoc); 
         svgGraphics.setSVGCanvasSize(new Dimension(clipRectangle.width+clipRectangle.x, clipRectangle.height+clipRectangle.y));
         svgGraphics.setClip(0, 0, clipRectangle.width+clipRectangle.x, clipRectangle.height+clipRectangle.y);
@@ -1048,6 +1050,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         try {
            Writer out = new FileWriter(file.getAbsolutePath());
            svgGraphics.stream(out, true); // true to use CSS for styling 
+           this.getGraphInternalFrame().setStatusString("Diagram saved as "+file.getAbsolutePath());
         } catch (Exception e) {
            e.printStackTrace();
         }
