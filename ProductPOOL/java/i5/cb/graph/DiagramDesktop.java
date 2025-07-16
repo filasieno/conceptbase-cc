@@ -68,7 +68,7 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-// for Batik 1.17
+// for Batik 1.19
 import org.apache.batik.svggen.SVGGraphics2D; 
 import org.apache.batik.anim.dom.SVGDOMImplementation; 
 import org.apache.batik.i18n.*;
