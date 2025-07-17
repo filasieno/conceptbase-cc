@@ -573,7 +573,6 @@ JAVA_CLASSPATH=java/classes
 #CB_JAVA_LIB=/home/cbase/CB_NewStruct/src/ProductPOOL/java/lib
 CB_JAVA_LIB=$(CB_POOL)/java/lib
 #JAVA_JARS=$(CB_JAVA_LIB)/jgl3.1.0.jar:$(CB_JAVA_LIB)/grappa1_2.jar:/home/java/jsdk2.1/servlet.jar:$(JENA_JARS1):$(JENA_JARS2)
-#JAVA_JARS=$(CB_JAVA_LIB)/jgl3.1.0.jar:$(CB_JAVA_LIB)/grappa1_2.jar:$(CB_JAVA_LIB)/flatlaf-3.4.jar:$(CB_JAVA_LIB)/batik-dom-1.17.jar:$(CB_JAVA_LIB)/batik-svg-dom-1.17.jar:$(CB_JAVA_LIB)/batik-svggen-1.17.jar:$(CB_JAVA_LIB)/batik-util-1.17.jar:$(CB_JAVA_LIB)/batik-anim-1.17.jar:$(CB_JAVA_LIB)/batik-i18n-1.17.jar:$(CB_JAVA_LIB)/batik-constants-1.17.jar:$(CB_JAVA_LIB)/batik.ext-awt.jar:$(CB_JAVA_LIB)/batik-css-1.17.jar:$(CB_JAVA_LIB)/xml-apis-ext-1.3.04.jar:$(CB_JAVA_LIB)/batik-ext-1.17.jar:$(CB_JAVA_LIB)/batik-parser-1.17.jar
 JAVA_JARS=$(CB_JAVA_LIB)/jgl3.1.0.jar:$(CB_JAVA_LIB)/grappa1_2.jar:$(CB_JAVA_LIB)/flatlaf-3.4.jar:$(CB_JAVA_LIB)/batik-all-1.19.jar:$(CB_JAVA_LIB)/xml-apis-ext-1.3.04.jar
 
 ifeq "$(CB_VARIANT)" "windows"

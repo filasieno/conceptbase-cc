@@ -6,7 +6,7 @@
               University of Skovde, Sweden
 
 
-                      2025-05-30
+                      2025-07-17
 
 
 ConceptBase.cc is a multi-user deductive object manager mainly developed by
@@ -169,6 +169,13 @@ and provides further performance boosts for the CBserver.
    "ComponentView" of CBConfiguration (see menu Options/Edit Options) now controls the component view for a
    node. If set to "none", nothing happens when double-clicking a node.
    https://gitlab.com/mjeu/conceptbasecc/-/issues/74
+
+85-21 Support SVG as output format in CBGraph
+
+   CBGraph supports saving a diagram in external files such as PNG files. Now, you can also
+   save a diagram as a scalable vector graphics (SVG) file. This allows to include high-resolution
+   diagrams to papers.
+   https://gitlab.com/mjeu/conceptbasecc/-/issues/75
 
    
 
