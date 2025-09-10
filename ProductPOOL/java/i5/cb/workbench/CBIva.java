@@ -35,6 +35,14 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 */
+
+/*
+This file uses the FlatLaf Look&Feel package
+Copyright 2003-2025 FormDev Software GmbH
+under the license https://github.com/JFormDesigner/FlatLaf/blob/main/LICENSE
+*/
+
+
 /**
 *   <b> for CBIva 02.98  (ConceptBase) </b>
 *
