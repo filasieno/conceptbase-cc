@@ -2,7 +2,7 @@
                    ConceptBase.cc
   
                   InstallationGuide
-                     2025-03-12
+                     2025-09-21
 
 
                          by
@@ -68,7 +68,7 @@ a Java Runtime Environment Version 11 or higher, specifically OpenJDK11!
 If the CBserver binaries are not shipped for the platform, ConceptBase.cc will use a public CBserver. 
 
 
-Windows 10: Since April 2017, you can install a Linux sub-system and then also start
+Windows 10/11: Since April 2017, you can install a Linux sub-system and then also start
 the CBserver locally on your Windows 10/11 machine.
 See http://conceptbase.sourceforge.net/CB-WinLinux.html
 
@@ -91,8 +91,8 @@ Linux users can use their package managers to install OpenJDK, e.g. on Debian/Ub
 
 
 
-1.2 Libraries
-=============
+1.2 Compilation from Sources
+============================
 
 The ConceptBase server requires the following dynamic libraries. Most of them should already
 be installed on your computer. You can check this after installation on Unix/Linux by
@@ -144,7 +144,7 @@ the file:
 =================================
 
 To run the CBinstaller program, you must have the Java Runtime
-Environment Version 6 or newer. 
+Environment Version 11 or newer. 
 
 Download CBinstaller.jar from the ConceptBase download page.
 Start the CBinstaller either by a double-click on the
@@ -162,7 +162,7 @@ have it installed at a different location.
 
 You can un-select variants/components that you do not want to install. We
 recommend to leave all variants/components selected! 
-Under Windows 10, you should also install the Linux64 binaries since
+Under Windows 10/11, you should also install the Linux64 binaries since
 there is a Linux sub-system available for Windows to run the CBserver,
 see also: http://conceptbase.sourceforge.net/CB-WinLinux.html
 
@@ -335,11 +335,15 @@ alpha and beta can be located anywhere in the Internet. You can also start
 both processes on the same machine (use 'localhost' as hostname). 
 To connect through a firewall, we recommend the use of secure shell tunnels.
 
-Note: If you use ConceptBase on Windows7, Windows 10 (32bit) or Mac OS-X, then CBiva shall automatically
-attempt to connect to a public ConceptBase server, since there are no recent binaries
-of the ConceptBase server for these Windows versions or Mac OS-X. 
-Windows 10 (64bit) can run the CBserver when you configure it according to
+Note: If you use ConceptBase on Windows or Mac OS-X, then CBiva shall automatically
+attempt to connect to a public ConceptBase server. We do not guarantee that the
+public server is always reachable.
+On Windows 10/11 (64bit) you can run the CBserver locally by enabling the
+Windows Subsystem for Linux (WSL) according to
 http://conceptbase.sourceforge.net/CB-WinLinux.html
+On Mac OS-X, you can check-out the Docker method from
+https://github.com/keesL/conceptbase-docker
+if you prefer to run the ConceptBase server locally.
 
 
 4.2 Method 2 - Starting ConceptBase via CBiva
@@ -354,7 +358,7 @@ settings. If you start the CBserver in this way, you do not need to connect
 CBiva to the CBserver. They are automatically connected. See the ConceptBase 
 user manual for more details.
 
-On Windows/MacOS, the user interface CBiva automatically connects to a public
+On Windows/MacOS, the user interface CBiva connects by default to a public
 ConceptBase server located at the University of Skovde. You can also run the
 ConceptBase server on a local Linux server in your network and connect to it.
 
