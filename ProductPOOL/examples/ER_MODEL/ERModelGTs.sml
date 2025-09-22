@@ -59,7 +59,7 @@ end
 Class EntityTypeGtype in JavaGraphicalType with 
 property
      bgcolor : "10,0,250";
-     textcolor : "0,0,0";
+     textcolor : "255,255,255"; {* updated from "0,0,0" *}
      linecolor : "0,55,144";
      shape : "i5.cb.graph.shapes.Rect"
 implementedBy
