@@ -1110,15 +1110,29 @@ showAlreadyGuaranteed(P(_a,_x,_l,_y),_rangelits) :-
   WriteTrace(veryhigh,SemanticOptimizer,[idterm(P(_a,_x,_l,_y)),' is redundant in the formula [R32]']),
   !.
 
-{* R33: if (x=y) and In(y,c) is true, then also In(x,c) *}
+{* R33: if (x=y) and In(y,c) is true, then also In(x,c) [only x is a variable] *}
 
 showAlreadyGuaranteed(In(_x,_c),_rangelits) :-
   oLevel(1),
   is_id(_c),
   (show(EQ(_x,_y),_rangelits);  show(EQ(_y,_x),_rangelits)),
+  is_id(_y),
   show(In(_y,_c),_rangelits),
   WriteTrace(veryhigh,SemanticOptimizer,[idterm(In(_x,_c)),' guaranteed by ',idterm(EQ(_x,_y)),' [R33]']),
   !.
+
+{* R33a: if (x=y) and In(y,c) is true, then also In(x,c) [both x,y variables]
+
+- currently disabled
+showAlreadyGuaranteed(In(_x,_c),_rangelits) :-
+  oLevel(1),
+  is_id(_c),
+  show(EQ(_x,_y),_rangelits),
+  VarTabVariable(_y),
+  show(In(_y,_c),_rangelits),
+  WriteTrace(veryhigh,SemanticOptimizer,[idterm(In(_x,_c)),' guaranteed by ',idterm(EQ(_x,_y)),' [R33a]']),
+  !.
+*}
 
 {* R34: if (x=val) and val has domain D, then In(x,D) is redundant *}
 
