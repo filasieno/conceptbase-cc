@@ -6,7 +6,7 @@
               University of Skovde, Sweden
 
 
-                      2025-07-17
+                      2025-09-29
 
 
 ConceptBase.cc is a multi-user deductive object manager mainly developed by
@@ -176,6 +176,12 @@ and provides further performance boosts for the CBserver.
    save a diagram as a scalable vector graphics (SVG) file. This allows to include high-resolution
    diagrams to papers.
    https://gitlab.com/mjeu/conceptbasecc/-/issues/75
+
+85-22 Buggy compilation of rules with the EQ predicate
+
+   Conjunctions (x in c),(y in c),(x=y) were optimized to just (x=y). This leads to wrong code. We
+   now eleminate only one instantce-of predicate: (y in c),(x=y).
+   https://gitlab.com/mjeu/conceptbasecc/-/issues/77
 
    
 
