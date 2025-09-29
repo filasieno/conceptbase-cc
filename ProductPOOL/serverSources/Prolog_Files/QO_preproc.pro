@@ -907,7 +907,6 @@ postprocRule(_literals,_head,(_head :- _ruleTerm)) :-
                      ,guardComplexQueryParameters
                      ,removeInsOfFunctionResult
                      ,preferGoodLitsDatalog  {* use a heuristic from ticket #292 here as well *}
-                     ,moveUnifiesForward
                      ,move_EQ_Forward        {* ticket #175 *}
                      ,move_FromTo_Forward
                      ,moveBoundForward       {* ticket #147 *}
@@ -1542,36 +1541,6 @@ requiresGuard2(_lit) :-
   isFunctionLit(_lit).    {* also take care of normal function queries, ticket #122 *}
 
 
-moveUnifiesForward(_in,_out) :-
-    moveUnifiesForward2(_in,_unifiesLits,_restLits),
-    !,
-    append(_unifiesLits,_restLits,_out),
-    !.
-
-moveUnifiesForward2([],[],[]).
-
-moveUnifiesForward2([UNIFIES(_x,_y)|_t],[UNIFIES(_x,_y)|_unifiesLits],_out) :-
-    !,
-    moveUnifiesForward2(_t,_unifiesLits,_out).
-
-{* 18-Jul-2007/M.Jeusfeld: treat EQ analogously to UNIFIES. It has now the same *}
-{* variable binding power as UNIFIES (thanks ticket #142). Moreover, we want to *}
-{* make sure that it is evaluated before other comparison literals like LT.     *}
-{* So, UNIFIES and EQ are evaluated as soon as possible to enforce variable     *}
-{* bindings.                                                                    *}
-{* If we wouldn't do this, we might end up with a conjunction                   *}
-{*     LT(x,20),EQ(x,10)                                                        *}
-{* This would be wrongly evaluated to false. The sequence EQ(x,10),LT(10,20)    *}
-{* delivers the expected result true.                                           *}
-
-moveUnifiesForward2([EQ(_x,_y)|_t],[EQ(_x,_y)|_unifiesLits],_out) :-
-    isComparisonLit(EQ(_x,_y)),
-    !,
-    moveUnifiesForward2(_t,_unifiesLits,_out).
-
-
-moveUnifiesForward2([_l|_t],_unifiesLits,[_l|_out]) :-
-    moveUnifiesForward2(_t,_unifiesLits,_out).
 
 
 
@@ -1971,7 +1940,7 @@ do_postProcEcaCond(_mix,_event,_inlits,_outlits) :-
    preferGoodLits(_mix,_event,_lits3,_lits3a),
    applyLitFilters(_lits3a,_outlits,
                         [earlyRedNegPost,moveBackInLits,guardComplexQueryParameters,
-                         removeInsOfFunctionResult,moveUnifiesForward,move_EQ_Forward,
+                         removeInsOfFunctionResult,move_EQ_Forward,
                          move_FromTo_Forward]),
    !.
 
@@ -2164,7 +2133,6 @@ toBeObserved(_filter) :-
                      {* transformFunctionCalls,*}
                      earlyRedNegPost,
                      {* moveBackInLits, *}
-                     {* moveUnifiesForward, *}
                      guardComplexQueryParameters,
                      {* removeInsOfFunctionResult, *}
                      {* moveBoundForward, *}
