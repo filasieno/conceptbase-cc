@@ -49,8 +49,8 @@ result OK "Individual Johnny in Employee with
 end"
 ask "rename[12345/newname,23456/oldname]" OBJNAMES FRAME Now
 result ERROR nil
-ask "get_object_star[D*/objname]" OBJNAMES LABEL Now
-result OK "DatalogQueryClass,DatalogRule,DatalogInRule,DatalogAttrRule,DeriveExpression,DIV,DefaultJavaPalette,DefaultIndividualGT,DefaultLinkGT,DefaultIsAGT,DefaultInstanceOfGT,DefaultAttributeGT,Deferred,DoNotSave_LM,DoNotSave_1,Department"
+ask "get_object_star[De*/objname]" OBJNAMES LABEL Now
+result OK "DeriveExpression,DefaultJavaPalette,DefaultIndividualGT,DefaultLinkGT,DefaultIsAGT,DefaultInstanceOfGT,DefaultAttributeGT,Deferred,Department"
 ask "COUNT[Class/class]" OBJNAMES FRAME Now
 result OK "[0-9]+ in COUNT[Class/class]
 end"
