@@ -279,7 +279,7 @@ result OK "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>
   <name>EntityTypeGtype</name>
   <property>
     <name>textcolor</name>
-    <value>\"0,0,0\"</value>
+    <value>\"255,255,255\"</value>
   </property>
   <property>
     <name>shape</name>
