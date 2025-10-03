@@ -6,7 +6,7 @@
               University of Skovde, Sweden
 
 
-                      2025-09-29
+                      2025-10-03
 
 
 ConceptBase.cc is a multi-user deductive object manager mainly developed by
@@ -183,7 +183,12 @@ and provides further performance boosts for the CBserver.
    now eleminate only one instance-of predicate resulting in (y in c),(x=y).
    https://gitlab.com/mjeu/conceptbasecc/-/issues/77
 
-   
+85-23 CBShell positional parameters not replaced when quoted
+
+   CBShell has a primitive mechanism to replace positional parameters $0 .. $9 by the values in the call of CBShell.
+   This could lead to problems when a substring like "$2" is in a string like in "We paid 2$". This is now resolved.
+   Quoted occurences like in "We paid 2$" are not replaced.
+   https://gitlab.com/mjeu/conceptbasecc/-/issues/78   
 
 
 Version 8.2: Detailed Changes since Version 8.1 (2021-05-14)
