@@ -321,24 +321,34 @@ public class CBShell {
 
     private static String replaceParams(String text, CBShell cbs) {
       StringBuffer result = new StringBuffer();
-      if (isCommentLine(text)) {
+      if (isCommentLine(text))
         return text;
-      } else {
-        int i = 0;
-        while (i < text.length()) {
-          if ((text.charAt(i)=='$') && (i+1 < text.length()) 
-                                    && (text.charAt(i+1) >= '0')
-                                    && (text.charAt(i+1) <= '9')) {
-            int param = (int)text.charAt(i+1) - (int)'0';
-            appendParam(result,param,cbs);
-            i = i + 2;
-          } else {
-            result.append(text.charAt(i));
-            i++;
-          } // if
-        } // while
-      } // if cbs.paramList
-
+      // issue #78: positional parameters are not replaced if they occur
+      // between double quotes; not a perfect solution but positional parameters
+      // in CBShell are not as sophisticated as in bash
+      // case 1: there are no positional parameters $1..$9 defined and $0 is not in text
+      if ((cbs.paramList == null || cbs.paramList.length == 0) 
+           && !text.matches(".*\\$0.*") ) {
+        return text;
+      }
+      // case 2:  The positional parameters in text are within double quotes
+      if (text.matches(".*\".*\\$[0-9].*\".*"))  {
+        return text;
+      }
+   
+      int i = 0;
+      while (i < text.length()) {
+        if ((text.charAt(i)=='$') && (i+1 < text.length()) 
+                                  && (text.charAt(i+1) >= '0')
+                                  && (text.charAt(i+1) <= '9')) {
+          int param = (int)text.charAt(i+1) - (int)'0';
+          appendParam(result,param,cbs);
+          i = i + 2;
+        } else {
+          result.append(text.charAt(i));
+          i++;
+        } // if
+      } // while
 
       return result.toString();
     }
