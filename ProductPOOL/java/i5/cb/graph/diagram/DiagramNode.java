@@ -1062,15 +1062,25 @@ public class DiagramNode
         java.awt.geom.AffineTransform at;
         Rectangle boundsShape = shape.getBounds();
 
-        // set the Size:
+        // set the Size and location of shape inside the diagram nodes bounds
+        // the location is adapted by translate(); see issue #76
         at = new java.awt.geom.AffineTransform();
 
-        double sx = (bounds.getWidth() - 1) / boundsShape.getWidth();
-        double sy = (bounds.getHeight() - 1) / boundsShape.getHeight();
+        double sx = (bounds.getWidth() - ((IGraphShape) shape).getLineWidth()/2 - 1) / boundsShape.getWidth();
+        double sy = (bounds.getHeight() - ((IGraphShape) shape).getLineWidth()/2 - 1) / boundsShape.getHeight();
 
+        // Center the scaled shape
+        double scaledWidth = boundsShape.width * sx;
+        double scaledHeight = boundsShape.height * sy;
+        double offsetX = (bounds.width - scaledWidth) / 2;
+        double offsetY = (bounds.height - scaledHeight) / 2;
+
+        at.translate(offsetX, offsetY);
         at.scale(sx, sy);
+        at.translate(-boundsShape.x, -boundsShape.y);
 
         newArea.transform(at);
+
         // set Size
 
         //newArea.subtract( horizontalLine);
