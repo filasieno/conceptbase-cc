@@ -190,6 +190,14 @@ and provides further performance boosts for the CBserver.
    Quoted occurences like in "We paid 2$" are not replaced.
    https://gitlab.com/mjeu/conceptbasecc/-/issues/78   
 
+85-24 The shape of a disgram node was not 100% inside the diagram node boundaries
+
+   The shape of a diagram node can be a rectangle, an ellipse and many other user-definable shapes. The 
+   rendering of the diagram node sometimes cut off some part of the shape. This was in particular visible
+   when exporting a diagram as SVG. Then, part of the shape was lost, in particular on the top and left
+   sides. This is now resolved by placing the shape right into the boundaries of the diagram node.
+   https://gitlab.com/mjeu/conceptbasecc/-/issues/76   
+
 
 Version 8.2: Detailed Changes since Version 8.1 (2021-05-14)
 ============================================================
