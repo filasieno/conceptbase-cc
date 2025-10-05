@@ -1066,8 +1066,11 @@ public class DiagramNode
         // the location is adapted by translate(); see issue #76
         at = new java.awt.geom.AffineTransform();
 
-        double sx = (bounds.getWidth() - ((IGraphShape) shape).getLineWidth()/2 - 1) / boundsShape.getWidth();
-        double sy = (bounds.getHeight() - ((IGraphShape) shape).getLineWidth()/2 - 1) / boundsShape.getHeight();
+        // Get the full line width for stroke padding
+        float lineWidth = ((IGraphShape) shape).getLineWidth();
+
+        double sx = (bounds.getWidth() - lineWidth - 1) / boundsShape.getWidth();
+        double sy = (bounds.getHeight() - lineWidth - 1) / boundsShape.getHeight();
 
         // Center the scaled shape
         double scaledWidth = boundsShape.width * sx;
