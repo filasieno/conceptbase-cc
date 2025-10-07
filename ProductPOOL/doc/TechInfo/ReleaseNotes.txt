@@ -6,7 +6,7 @@
               University of Skovde, Sweden
 
 
-                      2025-10-03
+                      2025-10-07
 
 
 ConceptBase.cc is a multi-user deductive object manager mainly developed by
@@ -197,6 +197,12 @@ and provides further performance boosts for the CBserver.
    when exporting a diagram as SVG. Then, part of the shape was lost, in particular on the top and left
    sides. This is now resolved by placing the shape right into the boundaries of the diagram node.
    https://gitlab.com/mjeu/conceptbasecc/-/issues/76   
+
+85-25 Zoom function of CBGraph now also works for zoom factors greater than 100%
+
+   Parts of diagram labels were cut off when a diagram was zoomed in. This is now corrected.
+   https://gitlab.com/mjeu/conceptbasecc/-/issues/79   
+
 
 
 Version 8.2: Detailed Changes since Version 8.1 (2021-05-14)
