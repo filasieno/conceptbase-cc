@@ -45,6 +45,7 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 package i5.cb.graph.zooming;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.Hashtable;
@@ -85,10 +86,14 @@ public class AbstractZoomer implements Zoomer {
 		b.x=centerX-b.width/2;
 		b.y=centerY-b.height/2;
 		c.setBounds(b);
-		//then the text
+               c.setPreferredSize(b.getSize()); // need to adapt the size of the component c itself (here a DiagramLabel.
+		//adapt the font size to the zoomed component
 		Font origFont  = this.getComponentOriginalSize(c).getFont();
 		c.setFont(new Font(origFont.getName(),origFont.getStyle(),(int)(origFont.getSize()*factor)));
 	}
+
+
+
 	
 	/* According to our zooming strategy, translate comonents
 	 * farther away from the left upper corner.recursivity is 
