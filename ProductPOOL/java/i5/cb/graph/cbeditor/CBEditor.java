@@ -91,8 +91,8 @@ public class CBEditor extends GraphEditor {
     // link category for "shows links between marked objects" button
     private String sSessionLinkCategory = CBConfiguration.getShowLinkCategory();  
 
-    public static final String CBGRAPH_VERSION = "3.0.01";
-    public static final String CBGRAPH_DATE = "2025-02-14";
+    public static final String CBGRAPH_VERSION = "3.0.02";
+    public static final String CBGRAPH_DATE = "2025-10-09";
     public static final String JAVA_VERSION = System.getProperty("java.runtime.version");
 
     /**
