@@ -1034,6 +1034,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         }
     }
 
+
     // 2025-07-15; experimental solution to support SVG as export format
     void saveScreenShotVectorGraphics(String sFormat, File file) {
         Rectangle clipRectangle = getDiagramClipRectangle();
@@ -1042,20 +1043,22 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         Document svgdoc = impl.createDocument(svgNS, "svg", null); 
 
         SVGGraphics2D svgGraphics = new SVGGraphics2D(svgdoc); 
-        svgGraphics.setSVGCanvasSize(new Dimension(clipRectangle.width+clipRectangle.x, clipRectangle.height+clipRectangle.y));
-        svgGraphics.setClip(0, 0, clipRectangle.width+clipRectangle.x, clipRectangle.height+clipRectangle.y);
-
+    
+        // 2025-10-09: Set canvas to content dimensions only (no empty space)
+        svgGraphics.setSVGCanvasSize(new Dimension(clipRectangle.width, clipRectangle.height));
+        // Apply translation to shift content to (0,0)
+        svgGraphics.translate(-clipRectangle.x, -clipRectangle.y);
+    
         this.paint(svgGraphics);
+    
         try {
-           Writer out = new FileWriter(file.getAbsolutePath());
-           svgGraphics.stream(out, true); // true to use CSS for styling 
-           this.getGraphInternalFrame().setStatusString("Diagram saved as "+file.getAbsolutePath());
+            Writer out = new FileWriter(file.getAbsolutePath());
+            svgGraphics.stream(out, true); // true to use CSS for styling 
+            this.getGraphInternalFrame().setStatusString("Diagram saved as "+file.getAbsolutePath());
         } catch (Exception e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
     }
-
-
 
     /**
      * Stores the position of all nodes, and which edges must be displayed. At
