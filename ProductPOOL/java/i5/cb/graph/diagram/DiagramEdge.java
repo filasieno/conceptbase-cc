@@ -48,6 +48,8 @@ import java.util.Vector;
 
 import javax.swing.JComponent;
 
+import java.lang.Math;
+
 /**
  * This class represents the binary relations or edges between two
  * userObjects. It draws an edge between two {@link DiagramNode}s and
@@ -1461,5 +1463,7 @@ public class DiagramEdge
       m_doSource.getNode().setCenter(sourceP.x+dx1, sourceP.y+dy1);  // a bit apart to trigger repainting
       m_doSource.getNode().setCenter(sourceP);  // back to original point
    }
+
+
 
 } // DiagramEdge

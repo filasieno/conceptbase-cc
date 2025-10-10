@@ -1036,6 +1036,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
     }
 
 
+
     // 2025-07-15; experimental solution to support SVG as export format
     void saveScreenShotVectorGraphics(String sFormat, File file) {
         Rectangle clipRectangle = getDiagramClipRectangle();
@@ -1044,8 +1045,11 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         Document svgdoc = impl.createDocument(svgNS, "svg", null); 
 
         SVGGraphics2D svgGraphics = new SVGGraphics2D(svgdoc); 
-        svgGraphics.setSVGCanvasSize(new Dimension(clipRectangle.width+clipRectangle.x, clipRectangle.height+clipRectangle.y));
-        svgGraphics.setClip(0, 0, clipRectangle.width+clipRectangle.x, clipRectangle.height+clipRectangle.y);
+        svgGraphics.setSVGCanvasSize(new Dimension(clipRectangle.width, clipRectangle.height));
+        svgGraphics.setClip(0, 0, clipRectangle.width, clipRectangle.height);
+
+        // Translate to shift the clip rectangle's top-left to (0,0)
+        svgGraphics.translate(-clipRectangle.x, -clipRectangle.y);
 
         this.paint(svgGraphics);
         try {
@@ -1056,7 +1060,6 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
            e.printStackTrace();
         }
     }
-
 
     /**
      * Stores the position of all nodes, and which edges must be displayed. At
@@ -1685,7 +1688,9 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         Rectangle allBounds = ((DiagramNode) vNodes.elementAt(0)).getBounds();
         Rectangle currentBounds;
         for (int i = 0; i < vEdges.size(); i++) {
-            currentBounds = ((DiagramEdge) vEdges.elementAt(i)).getBounds();
+            DiagramEdge edge = (DiagramEdge) vEdges.elementAt(i);
+            // old:     currentBounds = edge.getBounds();
+            currentBounds = edge.getNodeOnEdge().getBounds();  // use the bounds of the edge label, not of the edge itself
             if (currentBounds.x < allBounds.x) {
                 allBounds.setBounds(currentBounds.x, allBounds.y,
                         allBounds.width + (allBounds.x - currentBounds.x),
