@@ -1689,8 +1689,10 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         Rectangle currentBounds;
         for (int i = 0; i < vEdges.size(); i++) {
             DiagramEdge edge = (DiagramEdge) vEdges.elementAt(i);
-            // old:     currentBounds = edge.getBounds();
-            currentBounds = edge.getNodeOnEdge().getBounds();  // use the bounds of the edge label, not of the edge itself
+            if (edge.isReflexive()) 
+               currentBounds = edge.getBounds();  // be cautious with reflexive edges, they can extend their labels bounds
+            else
+               currentBounds = edge.getNodeOnEdge().getBounds();  // otherwise use the bounds of the edge label
             if (currentBounds.x < allBounds.x) {
                 allBounds.setBounds(currentBounds.x, allBounds.y,
                         allBounds.width + (allBounds.x - currentBounds.x),

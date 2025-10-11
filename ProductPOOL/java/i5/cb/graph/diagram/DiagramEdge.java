@@ -549,7 +549,7 @@ public class DiagramEdge
         } // end of else
     } //updateEdge
 
-    private Rectangle getEdgeBounds() {
+    public Rectangle getEdgeBounds() {
 
         Point pSourceCenter = m_doSource.getNode().getCenter();
         Point pDestCenter = m_doDest.getNode().getCenter();
