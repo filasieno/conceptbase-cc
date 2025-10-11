@@ -1066,6 +1066,7 @@ public class DiagramNode
         // the location is adapted by translate(); see issue #76
         at = new java.awt.geom.AffineTransform();
 
+
         // Get the full line width for stroke padding
         float lineWidth = ((IGraphShape) shape).getLineWidth();
 
