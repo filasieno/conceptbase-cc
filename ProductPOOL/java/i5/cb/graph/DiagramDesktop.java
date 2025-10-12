@@ -232,7 +232,9 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         return null;
     }
 
- 
+    public CBZoomer getZoomer() {
+            return zoomer;
+    }
 
 
     /**
@@ -2586,6 +2588,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         public int getDragStartY() {
             return dragStartY;
         }
+
 
         /**
          * Setter for property dragStartY.

@@ -1069,15 +1069,18 @@ public class DiagramNode
 
         // Get the full line width for stroke padding
         float lineWidth = ((IGraphShape) shape).getLineWidth();
+        float zoomfactor = getDiagramDesktop().getZoomer().getFactor();
+        float scaledLineWidth = (float)(lineWidth * zoomfactor);
 
-        double sx = (bounds.getWidth() - lineWidth - 1) / boundsShape.getWidth();
-        double sy = (bounds.getHeight() - lineWidth - 1) / boundsShape.getHeight();
+        double sx = (bounds.getWidth() - scaledLineWidth - 1) / boundsShape.getWidth();
+        double sy = (bounds.getHeight() - scaledLineWidth - 1) / boundsShape.getHeight();
 
         // Center the scaled shape
         double scaledWidth = boundsShape.width * sx;
         double scaledHeight = boundsShape.height * sy;
         double offsetX = (bounds.width - scaledWidth) / 2;
         double offsetY = (bounds.height - scaledHeight) / 2;
+
 
         at.translate(offsetX, offsetY);
         at.scale(sx, sy);
@@ -1109,7 +1112,10 @@ public class DiagramNode
             g.setColor(outlineColor);
 
             if(shape instanceof IGraphShape) {
-                g.setStroke(new BasicStroke(((IGraphShape) shape).getLineWidth()));
+                if (0.95f < zoomfactor && zoomfactor < 1.05f)
+                   g.setStroke(new BasicStroke(((IGraphShape) shape).getLineWidth()));
+                else
+                   g.setStroke(new BasicStroke(scaledLineWidth));
             }
             g.draw(newArea);
             g.setColor(Color.yellow);
