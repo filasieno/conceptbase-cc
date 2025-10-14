@@ -655,8 +655,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
     private Point findPlaceNearTo(Point location, Dimension node, int dir) {
         Vector allNodes = getDiagramNodes();
         DiagramNode currentNode;
-        Rectangle nodeBounds = new Rectangle(location.x, location.y,
-                node.width, node.height);
+        Rectangle nodeBounds = new Rectangle(location.x, location.y, node.width, node.height);
 
         boolean bRunAgain = true;
         while (bRunAgain) {
@@ -1034,7 +1033,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
     void saveScreenShotBitmap(String sFormat, File file, boolean diagramChosen) {
         m_ScreenshotTaken = true;
-        BufferedImage screenShot = getImageOfDesktop();
+        BufferedImage screenShot = getImageOfDesktop(diagramChosen);
         m_ScreenshotTaken = false;
         try {
             javax.imageio.ImageIO.write(screenShot, sFormat, file);
@@ -1048,7 +1047,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
     // 2025-07-15; experimental solution to support SVG as export format
     void saveScreenShotVectorGraphics(String sFormat, File file, boolean diagramChosen) {
-        Rectangle clipRectangle = getDiagramClipRectangle();
+        Rectangle clipRectangle = getClipRectangle(diagramChosen);
         DOMImplementation impl = SVGDOMImplementation.getDOMImplementation(); 
         String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
         Document svgdoc = impl.createDocument(svgNS, "svg", null); 
@@ -1819,9 +1818,9 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
      *
      * @return a BufferedImage containing a screenshot of this desktop
      */
-    private BufferedImage getImageOfDesktop() {
+    private BufferedImage getImageOfDesktop(boolean diagramChosen) {
 
-        Rectangle allBounds = getDiagramClipRectangle();
+        Rectangle allBounds = getClipRectangle(diagramChosen);
 
         if (allBounds == null) 
           return null;
@@ -1842,6 +1841,15 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
     } //getImageOfDesktop
 
+
+   private Rectangle getClipRectangle(boolean diagramChosen) {
+     if (diagramChosen) {
+       return getDiagramClipRectangle();  // the minimal rectangle containg the whole diagram
+     } else {
+       Rectangle gifbounds = getGraphInternalFrame().getBounds();
+       return new Rectangle(0,0,gifbounds.width-25,gifbounds.height-42); // the visible canvas of the diagram
+     }
+   }
 
 
 
@@ -1886,7 +1894,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
             return Printable.NO_SUCH_PAGE;
         }
 
-        BufferedImage offScreen = getImageOfDesktop();
+        BufferedImage offScreen = getImageOfDesktop(true);
         if (offScreen == null) {
             return Printable.NO_SUCH_PAGE;
         }

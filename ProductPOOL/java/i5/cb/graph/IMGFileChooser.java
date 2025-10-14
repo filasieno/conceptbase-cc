@@ -60,10 +60,10 @@ public class IMGFileChooser extends JFileChooser {
     IMGFileChooser(boolean exportAsDiagram) {
       super();
 
-      exportDiagramButton = new JRadioButton("Export as diagram");
+      exportDiagramButton = new JRadioButton("Export the diagram");
       exportDiagramButton.setSelected(exportAsDiagram);
 
-      exportCanvasButton = new JRadioButton("Export as canvas");
+      exportCanvasButton = new JRadioButton("Export the canvas");
       exportCanvasButton.setSelected(!exportAsDiagram);
 
       // Group the radio buttons so only one can be selected
@@ -85,6 +85,8 @@ public class IMGFileChooser extends JFileChooser {
 
     }
 
+    // return true if the user wants to export the whole diagram (all nodes and edges)
+    // this is also the default
     public boolean diagramChosen() {
       if (exportDiagramButton == null)
          return true;
@@ -92,6 +94,8 @@ public class IMGFileChooser extends JFileChooser {
          return(exportDiagramButton.isSelected());
     }
 
+    // return true if the user wants to export the currently visiable canvas in which
+    // parts or all of the diagram is visible
     public boolean canvasChosen() {
       if (exportCanvasButton == null)
          return false;
