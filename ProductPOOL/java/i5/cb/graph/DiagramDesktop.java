@@ -1846,8 +1846,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
      if (diagramChosen) {
        return getDiagramClipRectangle();  // the minimal rectangle containg the whole diagram
      } else {
-       Rectangle gifbounds = getGraphInternalFrame().getBounds();
-       return new Rectangle(0,0,gifbounds.width-25,gifbounds.height-42); // the visible canvas of the diagram
+       return this.getVisibleRect();
      }
    }
 
