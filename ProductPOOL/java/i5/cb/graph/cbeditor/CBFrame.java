@@ -62,6 +62,7 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.xml.parsers.*;
 import java.awt.Dimension;
+import java.awt.event.*;
 
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
@@ -167,7 +168,10 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
         setClosable(true);
         setIconifiable(true);
         getDiagramDesktop().setBackground(CBConfiguration.getDDColor() );
+
     }
+
+
 
     /** Makes sure that the frame's DiagramClass is a completely empty {@link CBDiagramClass}.
      */

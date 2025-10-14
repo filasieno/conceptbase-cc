@@ -216,6 +216,10 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         zoomer = CBZoomer.getInstance();
     }
 
+
+
+
+
     /**
      * Resize desktop to given values
      */
@@ -1016,16 +1020,19 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
      *            the format of the imagerfile
      * @param file
      *            the file the image shall be saved in
+     * @param diagramChosen
+     *            true if user wants that the diagram in its boundaries shall be saved, otherwise
+     *            the canvas will be saved
      */
-    void saveScreenShot(String sFormat, File file) {
+    void saveScreenShot(String sFormat, File file, boolean diagramChosen) {
         if (sFormat.equals("svg")) {
-           saveScreenShotVectorGraphics(sFormat, file);
+           saveScreenShotVectorGraphics(sFormat, file, diagramChosen);
         } else {
-           saveScreenShotBitmap(sFormat, file);
+           saveScreenShotBitmap(sFormat, file, diagramChosen);
         }
     }
 
-    void saveScreenShotBitmap(String sFormat, File file) {
+    void saveScreenShotBitmap(String sFormat, File file, boolean diagramChosen) {
         m_ScreenshotTaken = true;
         BufferedImage screenShot = getImageOfDesktop();
         m_ScreenshotTaken = false;
@@ -1040,7 +1047,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
 
     // 2025-07-15; experimental solution to support SVG as export format
-    void saveScreenShotVectorGraphics(String sFormat, File file) {
+    void saveScreenShotVectorGraphics(String sFormat, File file, boolean diagramChosen) {
         Rectangle clipRectangle = getDiagramClipRectangle();
         DOMImplementation impl = SVGDOMImplementation.getDOMImplementation(); 
         String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
@@ -1557,6 +1564,15 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
      */
     public void setMovableDiagramNodeOnEdge(boolean value) {
         m_bMovableDNonEdge = value;
+    }
+
+
+    public void zoomIn() {
+        this.setZoom(this.getZoom() * 1.25f);
+    }
+
+    public void zoomOut() {
+        this.setZoom(this.getZoom() / 1.25f);
     }
 
 

@@ -471,7 +471,7 @@ public class GraphEditor
         } else {
 
             // -- a dialog is created to choose a file
-            JFileChooser dialog = new JFileChooser();
+            IMGFileChooser dialog = new IMGFileChooser(true);
 
             dialog.setMultiSelectionEnabled(false);
             dialog.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -541,8 +541,7 @@ public class GraphEditor
             }
 
             gif.getDiagramDesktop().saveScreenShot(
-                ((GEFileFilter) dialog.getFileFilter()).getFilterFormat(),
-                saveFile);
+                ((GEFileFilter) dialog.getFileFilter()).getFilterFormat(), saveFile, dialog.diagramChosen());
         }
 
     }
@@ -1240,7 +1239,7 @@ public class GraphEditor
        if (dd == null)
          return;
        File pngFile = new File(pngFilename);
-       dd.saveScreenShot("png",pngFile);
+       dd.saveScreenShot("png",pngFile,true);  // by default we save the diagram, not the canvas
     }
 
 
