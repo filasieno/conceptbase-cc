@@ -58,12 +58,13 @@ public class IMGFileChooser extends JFileChooser {
     }
 
     IMGFileChooser(boolean exportAsDiagram) {
+
       super();
 
-      exportDiagramButton = new JRadioButton("Export the diagram");
+      exportDiagramButton = new JRadioButton("Whole diagram");
       exportDiagramButton.setSelected(exportAsDiagram);
 
-      exportCanvasButton = new JRadioButton("Export the canvas");
+      exportCanvasButton = new JRadioButton("Visible canvas");
       exportCanvasButton.setSelected(!exportAsDiagram);
 
       // Group the radio buttons so only one can be selected
@@ -76,12 +77,12 @@ public class IMGFileChooser extends JFileChooser {
       radioPanel.setLayout(new BoxLayout(radioPanel, BoxLayout.Y_AXIS));
       radioPanel.setBorder(BorderFactory.createTitledBorder("Export Options"));
       
-      // Add radio buttons to the panel
+      // Add radio buttons to the panel, which is then set as accessory of the file chooser
       radioPanel.add(exportDiagramButton);
       radioPanel.add(exportCanvasButton);
-      
-      // Set the panel as the accessory (instead of individual buttons)
       this.setAccessory(radioPanel);
+
+      this.setDialogTitle("Export Image");
 
     }
 

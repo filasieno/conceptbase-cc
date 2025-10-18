@@ -818,15 +818,11 @@ the graph file and tell them to the CBserver.
 the page size, it will be automatically reduced to fit into the page.
 Thus, all printouts will be on one page.
 
-\item[Save image of graph:] Saves an image of the current graph
-as bitmap (e.g. PNG) and vector graphics (SVG) file. The PNG file format is the default.
-For technical reasons, the image saving has
-to set the background color of the node/edge labels. This can overlap
-with the node shapes when they are not rectangles. If so, then use the
-screenshot function of your operating system to get better results.
-By default, the whole diagram i.e. the rectangle containing all nodes and edges)
-is exported. You can also select the option to export the visible part of the 
-diagram canvas.
+\item[Export image of graph:] Exports an image of the current graph
+as bitmap (e.g. PNG) or vector graphics (SVG) file. The PNG file type is the default.
+You can choose wether whole diagram (=the rectangle containing all nodes and edges)
+is exported or only the visible part of the diagram canvas. The export function can also
+be applied to zoomed graphs.
 
 \item[Close:] Closes CBGraph. A CBIva window will be still available
 if it has not been closed before.
@@ -940,7 +936,7 @@ it is not recommended.
 graphical layout. This option is only available when automatic layout is enabled.
 \item[Layout graph:] Call the layout algorithm.
 \item[Zoom:] Set the zoom factor of the graph, e.g. 120 (20 percent enlarged).
-\item[200,100,75,50,25:]: Set the zoom factor accordingly.
+\item[400,200,100,75,50,25:] Set the zoom factor accordingly.
 \end{description}
 
 
