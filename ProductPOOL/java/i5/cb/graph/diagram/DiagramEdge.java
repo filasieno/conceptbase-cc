@@ -1254,12 +1254,17 @@ public class DiagramEdge
 
         // then the destination head
         if (m_atDestEdgeHead != null) {
+            Shape transformedHead = m_atDestEdgeHead.createTransformedShape(m_sDestEdgeHead);
             if ( !getEdgeHeadColor().equals(getEdgeColor()) ) {
               // head color is different from edge color
               g.setColor(getEdgeHeadColor());
-              g.fill(m_atDestEdgeHead.createTransformedShape(m_sDestEdgeHead));
+              g.fill(transformedHead);
               g.setColor(getEdgeColor());
-              g.draw(m_atDestEdgeHead.createTransformedShape(m_sDestEdgeHead));
+              // Create a solid stroke with the same width as the edge stroke
+              BasicStroke solidHeadStroke = new BasicStroke(
+                  0.5F * m_sEdgeStroke.getLineWidth(), m_sEdgeStroke.getEndCap(), m_sEdgeStroke.getLineJoin());
+              g.setStroke(solidHeadStroke);
+              g.draw(transformedHead);
             }
             else {
               g.setColor(getEdgeColor());
