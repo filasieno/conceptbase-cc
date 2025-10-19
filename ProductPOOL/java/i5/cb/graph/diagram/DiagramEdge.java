@@ -1240,9 +1240,15 @@ public class DiagramEdge
 
 
         // draw a background color circle around the arrow head peak to overwrite the edge stroke there
+        // 2025-10-19: scale the size of the circle depending on the zoom factor; 
+        // otherwise, some of the edgestroke may be left over
         if (m_DestArrowHeadPoint != null) {
           g.setColor(getDestArrowHeadBackgroundcolor());
-          g.fillOval(m_DestArrowHeadPoint.x-6,m_DestArrowHeadPoint.y-6,13,13);
+          int owidth = Math.round(13 * this.factor);
+          int oheight = Math.round(13 * this.factor);
+          int deltax = Math.round(6 * this.factor);
+          int deltay = Math.round(6 * this.factor);
+          g.fillOval(m_DestArrowHeadPoint.x-deltax,m_DestArrowHeadPoint.y-deltay,owidth,oheight);
           
         }
 
@@ -1363,10 +1369,12 @@ public class DiagramEdge
 		// zoom EdgeHead
 		AffineTransform at = new AffineTransform();
 		at.scale(factor/oldFactor,factor/oldFactor);
-		if (m_sSourceEdgeHead != null)
-			m_sSourceEdgeHead = at.createTransformedShape(m_sSourceEdgeHead);
-		if (m_sDestEdgeHead != null)
+		if (m_sSourceEdgeHead != null) {
+			m_sSourceEdgeHead = at.createTransformedShape(m_sSourceEdgeHead);		
+               }
+		if (m_sDestEdgeHead != null) {
 			m_sDestEdgeHead = at.createTransformedShape(m_sDestEdgeHead);
+               }
 		//zoom edge stroke
 		float newWidth = m_sEdgeStroke.getLineWidth() * (factor/oldFactor);
 		
