@@ -50,6 +50,26 @@ and distributions derived from it.
 %The libraries are needed for linking the CBserver with SWI-Prolog runtimes.
 
 
+Linux Mint 21 instructions (2025-10-20)
+=======================================
+
+
+libreadline.so.5 is no longer shipped. But the following command makes it available:
+
+ln -s /lib/x86_64-linux-gnu/libreadline.so.8 /lib/x86_64-linux-gnu/libreadline.so.5
+
+clang-7 is also no longer available -->  sudo apt install clang-11
+sudo apt install libstdc++-12-dev
+sudo apt-get install libreadline-dev
+
+
+
+
+
+
+
+
+
 In .bashrc set:
 
    export CB_CC=/usr/bin/clang-7
