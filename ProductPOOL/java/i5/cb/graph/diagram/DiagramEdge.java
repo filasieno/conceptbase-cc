@@ -1260,9 +1260,11 @@ public class DiagramEdge
               g.setColor(getEdgeHeadColor());
               g.fill(transformedHead);
               g.setColor(getEdgeColor());
-              // Create a solid stroke with the same width as the edge stroke
+              // Create a solid stroke with the same width as the edge stroke; we make the stroke of the edge
+              // head a bit narrower than the edge stroke itself; since the latter is already zoomed, the
+              // stroke of the edhe head is correctly zoomed
               BasicStroke solidHeadStroke = new BasicStroke(
-                  0.5F * m_sEdgeStroke.getLineWidth(), m_sEdgeStroke.getEndCap(), m_sEdgeStroke.getLineJoin());
+                  0.6F * m_sEdgeStroke.getLineWidth(), m_sEdgeStroke.getEndCap(), m_sEdgeStroke.getLineJoin());
               g.setStroke(solidHeadStroke);
               g.draw(transformedHead);
             }
