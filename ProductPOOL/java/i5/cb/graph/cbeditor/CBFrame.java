@@ -1605,6 +1605,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
            String newGraphPal=(String) JOptionPane.showInputDialog(getCBEditor(),"Select Graphical Palette",
                "Change Graphical Palette",JOptionPane.QUESTION_MESSAGE,
                null,vGraphPals.toArray(),getGraphicalPalette());
+          getDiagramDesktop().setZoom(1.0F);  // changing the palette requires that the zoom is reset to 100%
           loadGraphicalPalette(newGraphPal);
        } catch(Exception ex) {
             JOptionPane.showMessageDialog(getCBEditor(),ex.getMessage(),"Exception",JOptionPane.ERROR_MESSAGE);

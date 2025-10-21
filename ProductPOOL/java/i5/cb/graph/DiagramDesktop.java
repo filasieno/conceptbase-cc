@@ -1585,6 +1585,9 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
           this.getGraphInternalFrame().setStatusString("Zooming to factor " + z + " ..."); 
 
           float oldZ = getZoom();
+          if (Math.abs(oldZ-z) < 0.01F)
+             return;  // zoom did not change, nothing to do
+
           zoomer.setFactor(z);
           JViewport viewport =((JScrollPane)(this.getGraphInternalFrame().getContentPane())).getViewport();
 
@@ -1641,7 +1644,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
           // resize graphInternalFrame only when this DiagramDesktop has a background image
           // that needs to adjust to the zoom factor
-          if (backgroundImage != null && Math.abs(z-oldZ) > 0.01) {
+          if (backgroundImage != null && Math.abs(z-oldZ) > 0.01F) {
              float f = z/oldZ;
              int gifwidth = (int)(f * graphInternalFrame.getWidth());
              int gifheight = (int)(f * graphInternalFrame.getHeight());
@@ -1650,7 +1653,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
           // the edge strokes of zoomed edges are misplaced from their edge heads; needs to be corrected
           // consequence of the changes of ticket #340
-          if (Math.abs(z-1.0F) > 0.001F || Math.abs(z-oldZ) > 0.01) 
+          if (Math.abs(z-1.0F) > 0.001F || Math.abs(z-oldZ) > 0.01F) 
             this.redrawEdges();
 
 
