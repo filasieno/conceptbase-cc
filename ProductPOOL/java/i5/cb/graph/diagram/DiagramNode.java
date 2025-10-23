@@ -1123,6 +1123,7 @@ public class DiagramNode
         }
     }
 
+
     public DefaultStyledDocument updateLang(Locale l) {
         return null;
 
