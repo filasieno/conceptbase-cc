@@ -1580,6 +1580,10 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         return zoomer.getFactor();
     }
 
+    public boolean zoomIsNear(float expected) {
+      return (Math.abs(getZoom()-expected) < 0.01F);
+    }
+
     public void setZoom(float z) {
 
           this.getGraphInternalFrame().setStatusString("Zooming to factor " + z + " ..."); 
