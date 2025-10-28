@@ -752,7 +752,7 @@ public class DiagramNode
      */
     final public void paint(Graphics g) {
 
-// System.out.println(); printComp(0,this);
+ // System.out.println(); printComp(0,this);
 
 
         if (m_iPaintShapePolicy == PAINT_SHAPE_ALWAYS
