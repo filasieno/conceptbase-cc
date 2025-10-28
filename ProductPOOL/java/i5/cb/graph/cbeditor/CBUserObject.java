@@ -938,7 +938,7 @@ abstract public class CBUserObject {
       * @return true if the user object is resizable, else false
       */
      public boolean isResizable() {
-        if (this.hasProperty("size") ) 
+        if ( this.hasProperty("size") ) 
            return true;
         else
            return false;
