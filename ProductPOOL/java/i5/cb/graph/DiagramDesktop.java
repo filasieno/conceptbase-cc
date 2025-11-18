@@ -82,6 +82,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.svg.*; 
 import java.awt.Dimension; 
 import org.w3c.dom.Element;
+import org.w3c.dom.DocumentType;
+import org.apache.batik.svggen.SVGGeneratorContext;
 
 
 /**
@@ -1060,6 +1062,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         svgGraphics.translate(-clipRectangle.x, -clipRectangle.y);
 
         this.paint(svgGraphics);
+
         try {
            Writer out = new FileWriter(file.getAbsolutePath());
            svgGraphics.stream(out, true); // true to use CSS for styling 
