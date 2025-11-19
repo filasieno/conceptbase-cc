@@ -327,6 +327,11 @@ public class GraphMenuBar
 			new GECommand(geMain, GECommand.M_VIEW_ZOOMX));
 		gmViewMenu.add(jmiViewZoom1);
 
+		JMenuItem jmiViewZoom1a = new JMenuItem("125%");
+		jmiViewZoom1a.addActionListener(
+			new GECommand(geMain, GECommand.M_VIEW_ZOOMX));
+		gmViewMenu.add(jmiViewZoom1a);
+
 		JMenuItem jmiViewZoom2 = new JMenuItem("100%");
 		jmiViewZoom2.addActionListener(
 			new GECommand(geMain, GECommand.M_VIEW_ZOOMX));
