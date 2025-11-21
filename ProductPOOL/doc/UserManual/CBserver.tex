@@ -352,20 +352,20 @@ located in the ConceptBase installation directory. We recommend to update the Co
 at least once per year.
 
 
-\section{ConceptBase under Windows 10}
+\section{ConceptBase under Windows 10/11}
 \label{sec:win10}
 The CBserver is only compiled for Linux architectures. This means that user of
 other platforms must rely on a Linux system to utilize ConceptBase. The traditional
 way is to start the CBserver on such a Linux system and then connect to it, possibly
 using a so-called public CBserver (see section \ref{sec:pubcbserver}).
-Since April 2017, this detour is no longer required for users of Windows 10 (64bit,
-Creators Update). This version of Windows is capable to let Linux programs
+Since April 2017, this detour is no longer required for users of Windows 10/11 (64bit).
+This version of Windows is capable to let Linux programs
 run under the 'bash' utility, which is basically a whole Linux system under Windows
 that realizes calls to the Linux API by hooks to the Windows API. Hence, it is not
 a virtual machine, it lets you run the Linux (64bit) variant of the CBserver
-natively on Windows 10.
+natively on Windows 10/11.
 
-To enable the Linux capability on Windows 10, follow the instructions at
+To enable the Linux capability on Windows 10/11, follow the instructions at
 \url{http://conceptbase.sourceforge.net/CB-WinLinux.html}. Note that you must have
 installed Java (64bit) on your Windows machine, not Java (32bit) to take full advantage
 of this feature. You can check whether your Java is 64bit by calling the following command
@@ -554,9 +554,9 @@ A value different from {\tt none} enables the use of the public CBserver by CBGr
 You can optionally append a port number like "cbserver.acme.com/4002". The default value
 for the port number is 4001. Installations of ConceptBase on platforms, for which no binaries of the CBserver
 exist, may use a default public CBserver. This is the case OS-X and older versions of Windows%
-\footnote{Windows 10 (64bit) Creators Update has the ability to activate a Linux sub-system
+\footnote{Windows 10/11 (64bit) has the ability to activate a Linux sub-system
 which can then be used to start CBserver transparently.
-If you had previously used a public CBserver under Windows 10 and now want to utilize a local CBserver,
+If you had previously used a public CBserver under Windows 10/11 and now want to utilize a local CBserver,
 then reset the variable {\tt PublicCBserver} to {\tt none}.}.
 
 
@@ -581,7 +581,7 @@ cbgraph -host localhost graph1.gel
 \end{verbatim}
 
 If you are using ConceptBase under Linux, then the CBserver is running by default on your local computer
-("localhost"). The same is true for Windows 10 with an enabled Linux subsystem. Users on Mac
+("localhost"). The same is true for Windows 10/11 with an enabled Linux subsystem. Users on Mac
 computers or older Windows versions are by default using a public CBserver at the university where
 ConceptBase is developed. This public server is meant for testing the system. {\bf DO NOT USE it for
 managing confidential information!} If you plan to use ConceptBase in a serious way, we
@@ -952,7 +952,7 @@ sAnswer = cbClient.cbserver();
 \item This method attempts to start a single-user CBserver in "slave mode" 
 on localhost with port number 4001.
 The method only works on platforms for which the CBserver was compiled. This is currently
-limited to Linux and Windows 10 (see also section \ref{sec:win10}). In other cases,
+limited to Linux and Windows 10/11 (see also section \ref{sec:win10}). In other cases,
 you need to start a CBserver on a host system that supports the CBserver and then use the 'connect'
 method. If the CBserver was successfully started, the method returns "yes", otherwise "no".
 If the cbClient is already connected to a CBserver, then the method also returns "yes".
