@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConceptBase Web Console</title>
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --panel-bg: #252526;
+            --text-color: #d4d4d4;
+            --accent-color: #007acc;
+            --success-color: #4caf50;
+            --error-color: #f44336;
+            --border-color: #3e3e42;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 95vh;
+        }
+
+        h1 { margin-top: 0; font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+
+        /* Layout Grid */
+        .container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            height: 100%;
+        }
+
+        .sidebar {
+            background-color: var(--panel-bg);
+            padding: 15px;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Input Groups */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label { font-size: 0.8rem; font-weight: bold; color: #aaa; }
+        
+        input, select, textarea {
+            background-color: #3c3c3c;
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 8px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        textarea { resize: none; flex-grow: 1; }
+
+        /* Buttons */
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+        button:hover { opacity: 0.8; }
+        
+        .btn-connect { background-color: var(--success-color); color: white; }
+        .btn-disconnect { background-color: var(--error-color); color: white; display: none;}
+        .btn-exec { background-color: var(--accent-color); color: white; }
+
+        /* Status Bar */
+        #status-indicator {
+            padding: 5px 10px;
+            background-color: #333;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .status-offline { color: var(--error-color); border: 1px solid var(--error-color); }
+        .status-online { color: var(--success-color); border: 1px solid var(--success-color); }
+
+        /* Output Terminal */
+        .terminal {
+            background-color: black;
+            border: 1px solid var(--border-color);
+            flex-grow: 1;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .log-tx { color: #aaa; }
+        .log-rx { color: #4caf50; }
+        .log-err { color: #f44336; }
+    </style>
+</head>
+<body>
+
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>ConceptBase Web Interface</h1>
+        <div id="status-indicator" class="status-offline">Disconnected</div>
+    </div>
+
+    <div class="container">
+        
+        <div class="sidebar">
+            <div class="input-group">
+                <label>Host</label>
+                <input type="text" id="cbHost" value="localhost" placeholder="e.g. 127.0.0.1">
+            </div>
+            <div class="input-group">
+                <label>Port</label>
+                <input type="number" id="cbPort" value="4001">
+            </div>
+            <div class="input-group">
+                <label>User</label>
+                <input type="text" id="cbUser" value="webUser">
+            </div>
+            <div class="input-group">
+                <label>Tool Name</label>
+                <input type="text" id="cbTool" value="JSClient">
+            </div>
+            
+            <button id="btnConnect" class="btn-connect" onclick="toggleConnection()">Connect</button>
+            <button id="btnDisconnect" class="btn-disconnect" onclick="toggleConnection()">Disconnect</button>
+
+            <hr style="width: 100%; border-color: #333;">
+
+            <div class="input-group">
+                <label>Operation</label>
+                <select id="cbOperation">
+                    <option value="ASK_FRAMES">Ask (Frames)</option>
+                    <option value="ASK_OBJNAMES">Ask (Object Names)</option>
+                    <option value="TELL">Tell</option>
+                    <option value="UNTELL">Untell</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Answer Representation</label>
+                <select id="cbAnswerRep">
+                    <option value="FRAME">FRAME</option>
+                    <option value="LABEL">LABEL</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label>Rollback Time</label>
+                <input type="text" id="cbRollback" value="Now">
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="input-group" style="height: 30%;">
+                <label>Query / Frames Input</label>
+                <textarea id="cbInput" placeholder="Enter your query or frames here..."></textarea>
+            </div>
+            
+            <button class="btn-exec" onclick="executeCommand()">Execute Command</button>
+
+            <div class="input-group" style="height: 60%;">
+                <label>Server Response</label>
+                <div id="cbOutput" class="terminal"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let isConnected = false;
+        // NOTE: In a real deployment, this URL points to your Java Middleware
+        const API_BASE_URL = "http://localhost:8080/api/cb"; 
+
+        const ui = {
+            status: document.getElementById('status-indicator'),
+            btnConnect: document.getElementById('btnConnect'),
+            btnDisconnect: document.getElementById('btnDisconnect'),
+            output: document.getElementById('cbOutput'),
+            host: document.getElementById('cbHost'),
+            port: document.getElementById('cbPort'),
+            user: document.getElementById('cbUser'),
+            tool: document.getElementById('cbTool'),
+            op: document.getElementById('cbOperation'),
+            input: document.getElementById('cbInput'),
+            ansRep: document.getElementById('cbAnswerRep'),
+            rollback: document.getElementById('cbRollback')
+        };
+
+        function log(message, type = 'tx') {
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = `log-${type}`;
+            entry.innerText = `[${timestamp}] ${message}`;
+            ui.output.appendChild(entry);
+            ui.output.scrollTop = ui.output.scrollHeight;
+        }
+
+        async function toggleConnection() {
+            if (!isConnected) {
+                // Simulate EnrollMe
+                const payload = {
+                    host: ui.host.value,
+                    port: parseInt(ui.port.value),
+                    user: ui.user.value,
+                    tool: ui.tool.value
+                };
+
+                log(`Connecting to ${payload.host}:${payload.port}...`, 'tx');
+
+                try {
+                    // This fetch calls the Java Middleware to run LocalCBclient.enrollMe()
+                    const response = await fetch(`${API_BASE_URL}/connect`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        setConnectedState(true);
+                        log(`Connected! ServerID: ${data.serverId}`, 'rx');
+                    } else {
+                        log(`Connection Failed: ${data.message}`, 'err');
+                    }
+                } catch (e) {
+                    log(`Network Error: Is the Java Middleware running?`, 'err');
+                }
+
+            } else {
+                // Simulate CancelMe
+                log("Disconnecting...", 'tx');
+                try {
+                    await fetch(`${API_BASE_URL}/disconnect`, { method: 'POST' });
+                    log("Disconnected.", 'rx');
+                } catch(e) {
+                    log("Forced local disconnect (Server unreachable)", 'err');
+                }
+                setConnectedState(false);
+            }
+        }
+
+        async function executeCommand() {
+            if (!isConnected) {
+                log("Error: Not connected to server.", 'err');
+                return;
+            }
+
+            const operation = ui.op.value;
+            const content = ui.input.value;
+            
+            if (!content.trim()) {
+                log("Error: Input cannot be empty", 'err');
+                return;
+            }
+
+            log(`Sending ${operation}...`, 'tx');
+
+            // Prepare payload based on LocalCBclient method signatures
+            const payload = {
+                operation: operation,
+                content: content, // The query or the frames
+                answerRep: ui.ansRep.value,
+                rollbackTime: ui.rollback.value
+            };
+
+            try {
+                // Calls Java Middleware to run tell(), ask(), etc.
+                const response = await fetch(`${API_BASE_URL}/execute`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    log(result.data, 'rx');
+                } else {
+                    log(`CB Error: ${result.message}`, 'err');
+                }
+
+            } catch (e) {
+                log(`Execution Error: ${e.message}`, 'err');
+            }
+        }
+
+        function setConnectedState(state) {
+            isConnected = state;
+            if (state) {
+                ui.status.className = 'status-online';
+                ui.status.innerText = 'Connected';
+                ui.btnConnect.style.display = 'none';
+                ui.btnDisconnect.style.display = 'block';
+                disableInputs(true);
+            } else {
+                ui.status.className = 'status-offline';
+                ui.status.innerText = 'Disconnected';
+                ui.btnConnect.style.display = 'block';
+                ui.btnDisconnect.style.display = 'none';
+                disableInputs(false);
+            }
+        }
+
+        function disableInputs(disabled) {
+            ui.host.disabled = disabled;
+            ui.port.disabled = disabled;
+            ui.user.disabled = disabled;
+            ui.tool.disabled = disabled;
+        }
+    </script>
+</body>
+</html>
