@@ -1,3 +1,12 @@
+/*
+* Tiny Middleware HTTP server that receives messages from the CB-Webclient.html and passes them to the ConceptBase API
+*
+* Author: Manfred Jeusfeld (with help from LLM)
+* Date: 2025-11-22 (2025-11-22)
+* --------------------------------------------------------------
+* License: Creative Commons CC-BY 4.0
+*
+*/
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
