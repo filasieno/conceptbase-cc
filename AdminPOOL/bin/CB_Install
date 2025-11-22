@@ -45,6 +45,7 @@ PRODUCT_DIRS="include \
 	examples/Clients/SWI-CLIENT \
 	examples/Clients/C++Client \
 	examples/Clients/JavaClient \
+	examples/Clients/WebClient \
 	examples/Clients/C_Client \
 	examples/FLIGHT \
 	examples/QUERIES \
@@ -96,6 +97,7 @@ NORMAL_EXPORT="doc/UserManual \
 	examples/Clients/SWI-CLIENT \
 	examples/Clients/C++Client \
 	examples/Clients/C_Client \
+	examples/Clients/WebClient \
 	examples/libtelos \
 	examples/ECArules \
 	examples/FLIGHT \
@@ -219,6 +221,8 @@ cp $CB_POOL/clientSources/libCBview/testlib.cc $CB_PRODUCT/examples/Clients/C++C
 
 cp $CB_POOL/examples/Clients/JavaClient/*.java $CB_PRODUCT/examples/Clients/JavaClient
 cp $CB_POOL/examples/Clients/JavaClient/README $CB_PRODUCT/examples/Clients/JavaClient
+
+cp $CB_POOL/examples/Clients/WebClient/*.* $CB_PRODUCT/examples/Clients/WebClient
 
 cp $CB_POOL/examples/Clients/SWI-CLIENT/*.pl $CB_PRODUCT/examples/Clients/SWI-CLIENT
 cp $CB_POOL/examples/Clients/SWI-CLIENT/*.txt $CB_PRODUCT/examples/Clients/SWI-CLIENT
