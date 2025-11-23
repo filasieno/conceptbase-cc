@@ -12,24 +12,31 @@ License for the source code in this directory: CC-BY 4.0
 
 
 
-Compile the ConceptBaseGateway
-==============================
+1. Compile the ConceptBaseGateway
+=================================
 
 javac -classpath $HOME/conceptbase/lib/classes/cb.jar ConceptBaseGateway.java
 
 
-Start ConceptBase and the Gateway
+2. Start ConceptBase and the Gateway
+====================================
 
 cbserver -t low -sm slave & 
 java -classpath $HOME/conceptbase/lib/classes/cb.jar:. ConceptBaseGateway
 
-The ConceptBaseGateway needs to be terminated by CTRL-C
+The ConceptBaseGateway later needs to be terminated by CTRL-C
 
 
-Start CB-WebClient.html
+3. Start the Web Client
 =======================
 
-Just open the HTML file in a browser on the same computer that runs the ConceptBaseGateway
+Open the HTML file in a browser on the same computer that runs the ConceptBaseGateway.
+There are two variants
+
+- CB-WebClient.html : The first version
+- CB-WebClient.html2: A slightly more sophisticated version that has separate buttons for TELL, UNTELL, ASK, CLEAR and LIST
+
+
 
 
 

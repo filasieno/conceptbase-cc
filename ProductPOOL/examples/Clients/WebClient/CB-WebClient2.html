@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
 *
-* File: CB-WebClient.html
+* File: CB-WebClient2.html
 * Simple HTML/JavaScript client for ConceptBase. 
 * See also README.txt
 *
@@ -10,11 +10,10 @@
 * --------------------------------------------------------------
 * License: Creative Commons CC-BY 4.0
 -->
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ConceptBase Web Interface</title>
+    <title>ConceptBase Web Interface V2.0</title>
     <style>
         /* --- General Reset & Fonts --- */
         body { 
@@ -86,25 +85,36 @@
             resize: vertical;
         }
         
-        /* Buttons */
-        .connect-buttons button {
-            background-color: #28a745;
-            margin-right: 10px;
+        /* Buttons Container */
+        .command-buttons-group {
+            display: flex;
+            flex-wrap: wrap; /* Allows buttons to wrap if space is tight */
+            gap: 8px;
+            margin-top: 15px;
         }
-        .command-button {
-            background-color: #007bff;
-        }
+        
+        /* General Button Styling */
         button { 
             padding: 10px 15px; 
-            margin-top: 15px; 
             color: white; 
             border: none; 
             border-radius: 5px; 
             cursor: pointer; 
             transition: background-color 0.3s;
         }
+        
+        /* Connection Buttons */
+        .connect-buttons button { background-color: #28a745; margin-right: 10px; }
         .connect-buttons button:hover { background-color: #1e7e34; }
-        .command-button:hover { background-color: #0056b3; }
+        .disconnect-button { background-color: #dc3545 !important; }
+
+        /* Command Buttons (TELL, UNTELL, ASK) */
+        .execute-button { background-color: #007bff; }
+        .execute-button:hover { background-color: #0056b3; }
+        
+        /* Utility Buttons (CLEAR, LIST) */
+        .utility-button { background-color: #6c757d; }
+        .utility-button:hover { background-color: #5a6268; }
 
         /* Output Window */
         #output { 
@@ -123,7 +133,7 @@
 </head>
 <body>
 
-<h1>ConceptBase Web Client <img align ="right" src="https://conceptbase.sourceforge.net/conceptbase-cc-logo.gif" width="200" alt="ConceptBase Logo"></h1>
+<h1>ConceptBase Web Client <img align ="right" src="https://conceptbase.sourceforge.net/conceptbase-cc-logo.gif" alt="ConceptBase Logo"></h1>
     
     <div id="main-layout">
         
@@ -134,32 +144,26 @@
             
             <label for="cbPort">CB Port:</label>
             <input type="text" id="cbPort" value="4001">
- 
-<!--           
-            <div style="font-size: small; color: #555; margin-top: 10px;">
-                <p>Tool ID: CBWebClient</p>
-                <p>User: cbwebclientuser</p>
-            </div>
--->
 
             <div class="connect-buttons">
                 <button onclick="connectCB()">🔗 Connect / enrollMe</button>
-                <button onclick="disconnectCB()" style="background-color: #dc3545;">🚫 disconnect</button>
+                <button onclick="disconnectCB()" class="disconnect-button">🚫 disconnect</button>
             </div>
         </div>
         
         <div id="right-content">
             
             <div class="section">
-                <label for="commandType">Command:</label>
-                <select id="commandType">
-                    <option value="tell">TELL</option>
-                    <option value="untell">UNTELL</option>
-                    <option value="ask">ASK</option>
-                </select>
                 <label for="commandData">Frames/Query (e.g., Person in Class with attribute name: String end):</label>
-                <textarea id="commandData" rows="8" placeholder="Enter frames here..."></textarea>
-                <button onclick="executeCommand()" class="command-button">🚀 Execute Command</button>
+                <textarea id="commandData" rows="20" placeholder="Enter frames here..."></textarea>
+                
+                <div class="command-buttons-group">
+                    <button onclick="executeCommand('tell')" class="execute-button">TELL</button>
+                    <button onclick="executeCommand('untell')" class="execute-button">UNTELL</button>
+                    <button onclick="executeCommand('ask')" class="execute-button">ASK</button>
+                    <button onclick="clearFrames()" class="utility-button">CLEAR</button>
+                    <button onclick="listModules()" class="utility-button">LIST</button>
+                </div>
             </div>
             
             <div class="section" style="flex-grow: 1; padding: 0;">
@@ -174,25 +178,31 @@
     <script>
         const MIDDLEWARE_URL = 'http://localhost:8080/api/cb';
         const output = document.getElementById('output');
+        const commandDataElement = document.getElementById('commandData');
         
         // Fixed connection parameters
         const FIXED_TOOL_ID = "CBWebClient";
         const FIXED_USER = "cbwebclientuser";
 
-        async function sendToMiddleware(command, data = {}) {
+        /**
+         * Sends a command payload to the Java Middleware.
+         * @param {string} command - The ConceptBase command (e.g., 'tell', 'ask', 'enrollMe').
+         * @param {string} dataString - The frame or query data to send.
+         */
+        async function sendToMiddleware(command, dataString = "") {
             output.textContent = `Sending command: ${command}...`;
             try {
                 const cbHost = document.getElementById('cbHost').value;
                 const cbPort = document.getElementById('cbPort').value;
                 
-                // Build the payload using hardcoded Tool ID and User
+                // Build the payload 
                 const payload = {
                     command,
                     host: cbHost,
                     port: parseInt(cbPort, 10),
-                    tool: FIXED_TOOL_ID, // Fixed to "CBWebClient"
-                    user: FIXED_USER,   // Fixed to "cbwebclientuser"
-                    data: document.getElementById('commandData').value || data.data || ""
+                    tool: FIXED_TOOL_ID, 
+                    user: FIXED_USER,   
+                    data: dataString 
                 };
 
                 const response = await fetch(MIDDLEWARE_URL, {
@@ -212,11 +222,20 @@
                 output.textContent = 
                     `Status: ${json.status}\n` +
                     `Message:\n${json.message}`;
-
+                
+                return json; // Return the full JSON object for use in other functions
+                
             } catch (error) {
                 output.textContent = `🚨 Connection Error:\n${error.message}\n` +
                                      `Check if the Java Middleware server is running on ${MIDDLEWARE_URL}.`;
             }
+        }
+
+        // --- Core Command Functions (TELL, UNTELL, ASK) ---
+        function executeCommand(command) {
+            const dataString = commandDataElement.value;
+            // The Java middleware is now responsible for handling the \n to LF replacement.
+            sendToMiddleware(command, dataString);
         }
 
         function connectCB() {
@@ -226,11 +245,39 @@
         function disconnectCB() {
             sendToMiddleware('cancelMe');
         }
+        
+        // --- Utility Functions ---
 
-        function executeCommand() {
-            const command = document.getElementById('commandType').value;
-            sendToMiddleware(command);
+        /**
+         * Clears the Frames/Query textarea.
+         */
+        function clearFrames() {
+            commandDataElement.value = "";
+            output.textContent = "Frames/Query canvas cleared.";
         }
+        
+        /**
+         * Executes the 'listModule' query and puts the result into the Frames/Query canvas.
+         */
+        async function listModules() {
+            const listQuery = "listModule";
+            output.textContent = "Requesting module list...";
+            
+            // Send a command of type 'ask' with the query 'listModule'
+            const resultJson = await sendToMiddleware('ask', listQuery);
+            
+            if (resultJson && resultJson.status === 'OK') {
+                // Put the resulting message directly into the command canvas
+                commandDataElement.value = resultJson.message;
+                output.textContent = "Module list loaded into Frames/Query canvas.";
+            } else if (resultJson) {
+                // If it failed, the sendToMiddleware already populated the output with the error.
+                commandDataElement.value = "";
+            } else {
+                 output.textContent = "Failed to connect to middleware to retrieve module list.";
+            }
+        }
+
     </script>
 </body>
 </html>
