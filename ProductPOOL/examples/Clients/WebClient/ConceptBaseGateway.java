@@ -7,6 +7,8 @@
 * License: Creative Commons CC-BY 4.0
 *
 */
+
+
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -131,9 +133,10 @@ public class ConceptBaseGateway {
                 int port = (Integer) request.getOrDefault("port", 4001); // Default to 4001
                 String tool = (String) request.get("tool");
                 String user = (String) request.get("user");
-                String data = (String) request.get("data"); // Frames/Query
+                String rawdata = (String) request.get("data"); // Frames/Query
+                String data = rawdata.replace("\\n","\n");  // make sure that the LF character is used
 
-                System.out.println("Processing: " + command + " with data: " + data);
+                System.out.println("Processing " + command + " on:" + data);
 
                 switch (command) {
                     case "enrollMe":

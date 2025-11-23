@@ -1,7 +1,7 @@
 ConceptBase Web Client
 
 Manfred Jeusfeld
-2025-11-22
+2025-11-22 (2025-11-23)
 
 
 Most of the code was generated with the help of an LLM based on the source code of LocalCBClient.java
@@ -31,8 +31,7 @@ Start CB-WebClient.html
 
 Just open the HTML file in a browser on the same computer that runs the ConceptBaseGateway
 
-The CB-WebClient currently only supports frames in one line. Multiple lines have the newline replaced by \n,
-which is not understood by the ConceptBase server.
+
 
 
 
