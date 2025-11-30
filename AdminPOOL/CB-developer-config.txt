@@ -114,8 +114,14 @@ For compiling the manuals with Texlive:
 
 
 
+Linux Mint 22 instructions (2025-11-20)
+=======================================
 
-
+  sudo apt install clang-14
+  sudo apt install libstdc++-14-dev
+  sudo apt-get install libreadline-dev
+  
+  sudo ln -s /lib/x86_64-linux-gnu/libreadline.so.8 /lib/x86_64-linux-gnu/libreadline.so.5
 
 
 Installing SWI-Prolog
