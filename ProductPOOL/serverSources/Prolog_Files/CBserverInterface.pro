@@ -302,6 +302,14 @@ produceAtom(_list,_atom) :-
 {                                                                }
 { ************************************************************** }
 
+{* TELL/UNETLL on empty args always succeeds *}
+ipcinterface(_r,_s,_OP,_args,ok,yes) :-
+  (_OP=TELL; _OP=UNTELL),
+  replaceCString(_args,_newargs),
+  _newargs = [''],
+  !.
+
+
 ipcinterface(_r,_s,TELL,[_frames , _module ],_c,_ret) :-
   thisToolId(_r),
   knownTool(_s,_,_user,_,_),
