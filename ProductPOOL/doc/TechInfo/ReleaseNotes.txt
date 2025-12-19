@@ -211,13 +211,19 @@ and provides further performance boosts for the CBserver.
    was always 1px wide. This is now corrected.
    https://gitlab.com/mjeu/conceptbasecc/-/issues/82 
 
-85-27 Telling/untelling an empty Telos editor does not cause an error anymore
+85-27 CBGraph has more options to save the image of a diagram 
+   You can now chose whether you want to export the image of the whole diagram or the visible part of the
+   diagram canvas.This may be useful if only a part of the diagram shall be exported.
+   https://gitlab.com/mjeu/conceptbasecc/-/issues/83 
+
+
+85-28 Telling/untelling an empty Telos editor does not cause an error anymore
 
    The CBserver used to report an parsing error when the argument of TELL/UNTELL were empty strings.
    This is now solved.
    https://gitlab.com/mjeu/conceptbasecc/-/issues/84 
 
-85-28 CBGraph now offers -savesvg similar to -savesvg
+85-29 CBGraph now offers -savesvg similar to -savesvg
 
    The CBGraph command line option -savesvg now will cause the current diagram to be saved as
    SVG file in the same directory were the GEL file is stored. The new option works analogous to
