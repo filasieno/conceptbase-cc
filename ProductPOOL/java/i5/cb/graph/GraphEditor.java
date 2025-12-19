@@ -1050,9 +1050,9 @@ public class GraphEditor
         CBEditor cbEditor = (CBEditor) this;
 
         // issue #56: save the image of the diagram desktop as PNG file if option -savepng was used with CBGraph
-        if (cbEditor.getSavePngMode()) {
-           savePngFile();
-           cbEditor.setSavePngMode(false);
+        if (cbEditor.getSaveDiagramMode() != null) {
+           saveDiagramFile(cbEditor.getSaveDiagramMode());  // argument can be "png" or "svg"
+           cbEditor.setSaveDiagramMode(null);
         }
 
         if (cbEditor.getWorkbench()==null){
@@ -1227,19 +1227,19 @@ public class GraphEditor
     }
 
 
-    /* savePngFile is called on close() of the GraphEditor if the flag -savepng was used to start CBGraph */
+    /* saveDiagramFile is called on close() of the GraphEditor if the flag -savepng or -savesvg were used to start CBGraph */
 
-    public void savePngFile() {
+    public void saveDiagramFile(String filetype) {
        DiagramDesktop dd = null;
-       String pngFilename = null;
+       String diagramFilename = null;
        if (this.getActiveGraphInternalFrame() != null) {
           dd = this.getActiveGraphInternalFrame().getDiagramDesktop();
-          pngFilename = this.getActiveGraphInternalFrame().getGelfile().replaceAll(".gel",".png");
+          diagramFilename = this.getActiveGraphInternalFrame().getGelfile().replaceAll(".gel","."+filetype);
        }
        if (dd == null)
          return;
-       File pngFile = new File(pngFilename);
-       dd.saveScreenShot("png",pngFile,true);  // by default we save the diagram, not the canvas
+       File diagramFile = new File(diagramFilename);
+       dd.saveScreenShot(filetype,diagramFile,true);  // by default we save the diagram, not the canvas
     }
 
 

@@ -81,7 +81,7 @@ public class CBEditor extends GraphEditor {
     private boolean m_CommandLineOptionsPresent = false;
     private boolean m_demoMode = false;
     private boolean m_resyncMode = false;
-    private boolean m_savePngMode = false;
+    private String m_saveDiagramMode = null;
     private boolean m_revalidateMode = false;
 
     public StringArray gelFilenames = null;
@@ -342,7 +342,10 @@ public class CBEditor extends GraphEditor {
             this.setResyncMode(true);
          }
          else if (cmdargs[i].equals("-savepng")) {   // issue #56: savepng mode 
-            this.setSavePngMode(true);
+            this.setSaveDiagramMode("png");
+         }
+         else if (cmdargs[i].equals("-savesvg")) {   // issue #85: savesvg mode 
+            this.setSaveDiagramMode("svg");
          }
          else if (cmdargs[i].equals("-revalidate")) {   // issue #56: revalidate mode 
             this.setRevalidateMode(true);
@@ -829,12 +832,12 @@ public class CBEditor extends GraphEditor {
       return m_resyncMode;
     }
 
-    public void setSavePngMode(boolean value) {
-      m_savePngMode = value;
+    public void setSaveDiagramMode(String value) {
+      m_saveDiagramMode = value;
     }
 
-    public boolean getSavePngMode() {
-      return m_savePngMode;
+    public String getSaveDiagramMode() {
+      return m_saveDiagramMode;
     }
 
     public void setRevalidateMode(boolean value) {
@@ -938,9 +941,9 @@ public class CBEditor extends GraphEditor {
         CBConfiguration.storeConfig();
 
         // issue #56
-        if (getSavePngMode()) {
-           super.savePngFile();
-           setSavePngMode(false);
+        if (getSaveDiagramMode() != null) {
+           super.saveDiagramFile(getSaveDiagramMode());
+           setSaveDiagramMode(null);
         }
 
 
