@@ -1,7 +1,7 @@
 /*
 The ConceptBase.cc Copyright
 
-Copyright 1987-2025 The ConceptBase Team. All rights reserved.
+Copyright 1987-2026 The ConceptBase Team. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
 provided that the following conditions are met:
@@ -188,7 +188,7 @@ public class CBEditor extends GraphEditor {
         if (args.length > 0)
           if (args[0].equals("-v") || args[0].equals("-version")) {
                   System.out.println("CBGraph " + CBGRAPH_VERSION + " (Java " + JAVA_VERSION + "), " + CBGRAPH_DATE );
-                  System.out.println("Copyright 1987-2025 by The ConceptBase Team. All rights reserved.");
+                  System.out.println("Copyright 1987-2026 by The ConceptBase Team. All rights reserved.");
                   System.out.println("Original software by Tobias Schoeneberg, Tobias Latzke and others.");
                   System.out.println("This is free software. See http://conceptbase.cc for details.");
                   System.out.println("No warranty, not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.");

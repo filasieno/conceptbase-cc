@@ -605,7 +605,7 @@ writeLicense :-
 nl,
 write('The ConceptBase.cc Copyright'),nl,
 nl,
-write('Copyright 1987-2025 The ConceptBase Team. All rights reserved.'),nl,
+write('Copyright 1987-2026 The ConceptBase Team. All rights reserved.'),nl,
 nl,
 write('Redistribution and use in source and binary forms, with or without modification, are permitted'),nl,
 write('provided that the following conditions are met:'),nl,
