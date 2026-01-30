@@ -1589,87 +1589,89 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
     public void setZoom(float z) {
 
-          this.getGraphInternalFrame().setStatusString("Zooming to factor " + z + " ..."); 
+        this.getGraphInternalFrame().setStatusString("Zooming to factor " + z + " ..."); 
 
-          float oldZ = getZoom();
-          if (Math.abs(oldZ-z) < 0.01F)
-             return;  // zoom did not change, nothing to do
+        float oldZ = getZoom();
+        if (Math.abs(oldZ - z) < 0.01F)
+            return; // zoom did not change, nothing to do
 
-          zoomer.setFactor(z);
-          JViewport viewport =((JScrollPane)(this.getGraphInternalFrame().getContentPane())).getViewport();
+        // 1. Capture the scaling ratio
+        float f = z / oldZ;
 
-          Dimension max = new Dimension(0,0);
-          Vector v = this.getDiagramNodes();
+        zoomer.setFactor(z);
+        JViewport viewport = ((JScrollPane)(this.getGraphInternalFrame().getContentPane())).getViewport();
 
-          for (int ii = 0; ii < v.size(); ii++) {
-              DiagramNode DN = (DiagramNode) (v.elementAt(ii));
-              zoomer.zoom(DN);
-              DN.resizeComponents();  // ticket #216: adapt size of the inner components of DN
-              // System.out.println(DN + "\n");
-              Rectangle b=DN.getBounds();
-              if(b.x+b.width>max.width)
-              	max.width=b.x+b.width;
-              if(b.y+b.height>max.height)
-              	max.height=b.y+b.height;
-          }
+        Dimension max = new Dimension(0, 0);
+        Vector v = this.getDiagramNodes();
 
-          Vector ve = this.getDiagramEdges(false);
-          for(int i =0; i<ve.size();i++){
-          	DiagramEdge edge = (DiagramEdge)(ve.elementAt(i));
-          	zoomer.zoom(edge);
-          }
+        for (int ii = 0; ii < v.size(); ii++) {
+            DiagramNode DN = (DiagramNode) (v.elementAt(ii));
+            zoomer.zoom(DN);
+            DN.resizeComponents(); // ticket #216
+            Rectangle b = DN.getBounds();
+            if (b.x + b.width > max.width)
+                max.width = b.x + b.width;
+            if (b.y + b.height > max.height)
+                max.height = b.y + b.height;
+        }
 
+        Vector ve = this.getDiagramEdges(false);
+        for (int i = 0; i < ve.size(); i++) {
+            DiagramEdge edge = (DiagramEdge) (ve.elementAt(i));
+            zoomer.zoom(edge);
+        }
 
-          Rectangle vr = zoomer.getZoomedViewportRect(viewport);
-          boolean anyNodeContained = false;
-          for(int i =0;i<v.size();i++){
-          	DiagramNode DN = (DiagramNode) (v.elementAt(i));
-          	if(vr.contains(DN.getCenter()))
-          	{
-          		anyNodeContained = true;
-          		break;
-          	}
-          	if(!anyNodeContained&&i==v.size()-1){
-          		vr.x = DN.getLocation().x;
-          		vr.y = DN.getLocation().y;
-          	}
+        // Capture current view rect and scale its coordinates
+        Rectangle vr = viewport.getViewRect();
+        vr.x = (int)(vr.x * f);
+        vr.y = (int)(vr.y * f);
 
-          }
-          if(anyNodeContained)
-          {
-          	if(vr.x+vr.width>max.width)
-              	max.width= vr.x+vr.width;
-              if(vr.y+vr.height>max.height)
-              	max.height= vr.y+vr.height;
-          }
-          if(max.height<1500)
-          	max.height=1500;
-          if(max.width<1500)
-          	max.width=1500;
+        boolean anyNodeContained = false;
+        for (int i = 0; i < v.size(); i++) {
+            DiagramNode DN = (DiagramNode) (v.elementAt(i));
+            if (vr.contains(DN.getCenter())) {
+                anyNodeContained = true;
+                break;
+            }
+            if (!anyNodeContained && i == v.size() - 1) {
+                vr.x = DN.getLocation().x;
+                vr.y = DN.getLocation().y;
+            }
+        }
 
-          this.setPreferredSize(max);
+        if (anyNodeContained) {
+            if (vr.x + vr.width > max.width)
+                max.width = vr.x + vr.width;
+            if (vr.y + vr.height > max.height)
+                max.height = vr.y + vr.height;
+        }
+    
+        if (max.height < 1500) max.height = 1500;
+        if (max.width < 1500) max.width = 1500;
 
-          // resize graphInternalFrame only when this DiagramDesktop has a background image
-          // that needs to adjust to the zoom factor
-          if (backgroundImage != null && Math.abs(z-oldZ) > 0.01F) {
-             float f = z/oldZ;
-             int gifwidth = (int)(f * graphInternalFrame.getWidth());
-             int gifheight = (int)(f * graphInternalFrame.getHeight());
-             graphInternalFrame.setSize(new Dimension(gifwidth,gifheight));
-          }
+        this.setPreferredSize(max);
 
-          // the edge strokes of zoomed edges are misplaced from their edge heads; needs to be corrected
-          // consequence of the changes of ticket #340
-          if (Math.abs(z-1.0F) > 0.001F || Math.abs(z-oldZ) > 0.01F) 
+        if (backgroundImage != null && Math.abs(z - oldZ) > 0.01F) {
+            int gifwidth = (int)(f * graphInternalFrame.getWidth());
+            int gifheight = (int)(f * graphInternalFrame.getHeight());
+            graphInternalFrame.setSize(new Dimension(gifwidth, gifheight));
+        }
+
+        if (Math.abs(z - 1.0F) > 0.001F || Math.abs(z - oldZ) > 0.01F) 
             this.redrawEdges();
 
+        this.setEdited(true);
 
-          this.setEdited(true);
-          //this.revalidate();
-          this.repaint();
-          ((JScrollPane)(this.getGraphInternalFrame().getContentPane())).validate();
-          viewport.setViewPosition(new Point(vr.x,vr.y));
+        // 2. IMPORTANT SEQUENCE: 
+        // First, validate the scrollpane so it knows the desktop has a new PreferredSize (max)
+        ((JScrollPane)(this.getGraphInternalFrame().getContentPane())).validate();
+    
+        // Second, set the scaled position
+        viewport.setViewPosition(new Point(vr.x, vr.y));
+    
+        this.repaint();
     }
+
 
 
     public void adjustContentPaneSize(){
