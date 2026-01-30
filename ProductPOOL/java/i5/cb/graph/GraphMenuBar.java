@@ -317,40 +317,45 @@ public class GraphMenuBar
 
         // Add menu items here and use GECommand as action listener
 
-		JMenuItem jmiViewZoom0 = new JMenuItem("400%");
-		jmiViewZoom0.addActionListener(
+		JMenuItem jmiViewZoom400 = new JMenuItem("400%");
+		jmiViewZoom400.addActionListener(
 			new GECommand(geMain, GECommand.M_VIEW_ZOOMX));
-		gmViewMenu.add(jmiViewZoom0);
+		gmViewMenu.add(jmiViewZoom400);
 
-		JMenuItem jmiViewZoom1 = new JMenuItem("200%");
-		jmiViewZoom1.addActionListener(
+		JMenuItem jmiViewZoom200 = new JMenuItem("200%");
+		jmiViewZoom200.addActionListener(
 			new GECommand(geMain, GECommand.M_VIEW_ZOOMX));
-		gmViewMenu.add(jmiViewZoom1);
+		gmViewMenu.add(jmiViewZoom200);
 
-		JMenuItem jmiViewZoom1a = new JMenuItem("125%");
-		jmiViewZoom1a.addActionListener(
+		JMenuItem jmiViewZoom150 = new JMenuItem("150%");
+		jmiViewZoom150.addActionListener(
 			new GECommand(geMain, GECommand.M_VIEW_ZOOMX));
-		gmViewMenu.add(jmiViewZoom1a);
+		gmViewMenu.add(jmiViewZoom150);
 
-		JMenuItem jmiViewZoom2 = new JMenuItem("100%");
-		jmiViewZoom2.addActionListener(
+		JMenuItem jmiViewZoom125 = new JMenuItem("125%");
+		jmiViewZoom125.addActionListener(
 			new GECommand(geMain, GECommand.M_VIEW_ZOOMX));
-		gmViewMenu.add(jmiViewZoom2);
+		gmViewMenu.add(jmiViewZoom125);
 
-		JMenuItem jmiViewZoom3 = new JMenuItem("75%");
-		jmiViewZoom3.addActionListener(
+		JMenuItem jmiViewZoom100 = new JMenuItem("100%");
+		jmiViewZoom100.addActionListener(
 			new GECommand(geMain, GECommand.M_VIEW_ZOOMX));
-		gmViewMenu.add(jmiViewZoom3);
+		gmViewMenu.add(jmiViewZoom100);
 
-		JMenuItem jmiViewZoom4 = new JMenuItem("50%");
-		jmiViewZoom4.addActionListener(
+		JMenuItem jmiViewZoom75 = new JMenuItem("75%");
+		jmiViewZoom75.addActionListener(
 			new GECommand(geMain, GECommand.M_VIEW_ZOOMX));
-		gmViewMenu.add(jmiViewZoom4);
+		gmViewMenu.add(jmiViewZoom75);
 
-		JMenuItem jmiViewZoom5 = new JMenuItem("25%");
-		jmiViewZoom5.addActionListener(
+		JMenuItem jmiViewZoom50 = new JMenuItem("50%");
+		jmiViewZoom50.addActionListener(
 			new GECommand(geMain, GECommand.M_VIEW_ZOOMX));
-		gmViewMenu.add(jmiViewZoom5);
+		gmViewMenu.add(jmiViewZoom50);
+
+		JMenuItem jmiViewZoom25 = new JMenuItem("25%");
+		jmiViewZoom25.addActionListener(
+			new GECommand(geMain, GECommand.M_VIEW_ZOOMX));
+		gmViewMenu.add(jmiViewZoom25);
 
         add(gmViewMenu);
     }
