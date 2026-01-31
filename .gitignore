@@ -30,6 +30,9 @@ ProductPOOL/linux*/serverSources/EXPORT/CBserver
 ProductPOOL/linux*/serverSources/objects.SWI/CBserver
 ProductPOOL/linux*/**/*.a
 ProductPOOL/linux*/**/*.o
+**/objects/*
+**/objects.SWI/*
+**/EXPORT/*.a
 *.html
 *.pl
 *search-index.zip
