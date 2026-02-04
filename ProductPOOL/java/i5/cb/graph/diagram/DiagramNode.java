@@ -631,10 +631,16 @@ public class DiagramNode
     final public void resizeComponents() {
        if (JAVA_VERSION <= 1.601101) 
          return;
+       // 1. Get current zoom factor safely
+       float zoom = 1.0F;
+       if (getDiagramDesktop() != null && getDiagramDesktop().getZoomer() != null) {
+        zoom = (float)getDiagramDesktop().getZoomer().getFactor();
+       }
        Dimension compSize; 
        Point compLoc;
        if (isSmallComponentVisible()) {
          m_dSmallComponentSize = this.getSize();
+         // m_dSmallComponentSize = new Dimension((int)(this.getWidth() / zoom), (int)(this.getHeight() / zoom));
          if (hasSquareDot()) {
            compSize = this.getMinimumSize();
          }
