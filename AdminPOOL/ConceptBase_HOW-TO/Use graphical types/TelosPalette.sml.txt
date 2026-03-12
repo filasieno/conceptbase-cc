@@ -1,0 +1,308 @@
+{*
+# This file is governed by the Creative Commons license
+#   Attribution-NonCommercial 4.0 Unported
+#   http://creativecommons.org/licenses/by-nc/4.0/
+#   http://creativecommons.org/licenses/by-nc/4.0/legalcode
+#
+# Extended licenses, in particular commercial licenses, can be obtained from the
+# author of the source code.
+# Any re-distribution as source code must acknowledge the original author of this file.
+
+#
+# File: TelosPalette.sml.txt
+# Author: Manfred Jeusfeld, manfred.jeusfeld@acm.org
+# Date: 2021-05-20 (2021-05-28)
+#----------------------------------------------------------------
+# A more black-and-white graphical palette that is closer the UML style.
+# TelosPalette can be specialized to
+#
+# Requires ConceptBase 8.1. Is already included in ConceptBase 8.2!
+*}
+
+
+XBridgePalette in Class,JavaGraphicalPalette with  
+  contains,defaultIndividual
+    xx1 : DefaultIndividualGT
+  contains,defaultLink
+    xx2 : DefaultLinkGT
+  contains,implicitIsA
+    xx3 : ImplicitIsAGT
+  contains,implicitInstanceOf
+    xx4 : ImplicitInstanceOfGT
+  contains,implicitAttribute
+    xx5 : ImplicitAttributeGT
+  contains
+    xx6 : DefaultIsAGT;
+    xx7 : DefaultInstanceOfGT;
+    xx8 : DefaultAttributeGT;
+    xx9 : MetametaGT;
+    xx10 : SimpleClassGT;
+    xx11 : MetaClassGT;
+    xx12 : ClassGT;
+    xx13 : QueryClassGT
+  rule
+    inheritGTs: $ forall gt/JavaGraphicalType superpal,pal/JavaGraphicalPalette
+                      (superpal isA XBridgePalette) and
+                      (pal isA superpal) and (pal <> XBridgePalette) and
+                      (superpal contains gt)
+                  ==> (pal contains gt) $;
+    inheritDef1: $ forall gt/JavaGraphicalType superpal,pal/JavaGraphicalPalette
+                      (superpal isA XBridgePalette) and
+                      (pal isA superpal) and (pal <> XBridgePalette) and
+                      (superpal defaultIndividual gt)
+                  ==> (pal defaultIndividual gt) $;
+    inheritDef2: $ forall gt/JavaGraphicalType superpal,pal/JavaGraphicalPalette
+                      (superpal isA XBridgePalette) and
+                      (pal isA superpal) and (pal <> XBridgePalette) and
+                      (superpal defaultLink gt)
+                  ==> (pal defaultLink gt) $;
+    inheritDef3: $ forall gt/JavaGraphicalType superpal,pal/JavaGraphicalPalette
+                      (superpal isA XBridgePalette) and
+                      (pal isA superpal) and (pal <> XBridgePalette) and
+                      (superpal implicitIsA gt)
+                  ==> (pal implicitIsA gt) $;
+    inheritDef4: $ forall gt/JavaGraphicalType superpal,pal/JavaGraphicalPalette
+                      (superpal isA XBridgePalette) and
+                      (pal isA superpal) and (pal <> XBridgePalette) and
+                      (superpal implicitInstanceOf gt)
+                  ==> (pal implicitInstanceOf gt) $;
+    inheritDef5: $ forall gt/JavaGraphicalType superpal,pal/JavaGraphicalPalette
+                      (superpal isA XBridgePalette) and
+                      (pal isA superpal) and (pal <> XBridgePalette) and
+                      (superpal implicitAttribute gt)
+                  ==> (pal implicitAttribute gt) $
+end 
+
+
+
+TelosPalette in Class,JavaGraphicalPalette isA XBridgePalette with  
+  contains,defaultIndividual
+    tp1 : INDIVIDUAL_TP_GT
+  contains,defaultLink
+    tp2 : ATTR_TP_GT
+  contains,implicitIsA
+    tp3 : ISADEDUCED_TP_GT
+  contains,implicitInstanceOf
+    tp4 : INSTOFDEDUCED_TP_GT
+  contains,implicitAttribute
+    tp5 : ATTRDEDUCED_TP_GT
+  contains
+    tp6 : CLASS_TP_GT;
+    tp7 : QUERYCLASS_TP_GT;
+    tp8 : INSTOF_TP_GT;
+    tp9: ISA_TP_GT;
+    tp10: STRING_TP_GT;
+    tp11: VALUE_TP_GT;
+    tp12: ASSERTION_TP_GT
+end 
+
+
+
+INSTOF_TP_GT in JavaGraphicalType,Class with 
+  attribute,property
+    bgcolor : "0,180,0";
+    textcolor : "0,0,0";
+    edgecolor : "0,180,0";
+    edgewidth : "2";
+    edgeheadshape: "Caret";
+    edgestyle : "ldashed";
+    label : ""
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 6
+  rule
+     gtrule1: $ forall a/InstanceOf (a graphtype INSTOF_TP_GT) $
+end 
+
+INSTOFDEDUCED_TP_GT in JavaGraphicalType,Class with 
+  attribute,property
+    bgcolor : "0,180,0";
+    textcolor : "0,0,0";
+    edgecolor : "0,180,0";
+    edgewidth : "1";
+    edgeheadshape: "Caret";
+    edgestyle : "dashed";
+    label : ""
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 7
+end  
+
+ISA_TP_GT in JavaGraphicalType,Class with 
+  attribute,property
+    bgcolor : "0,150,255";
+    textcolor : "0,0,0";
+    edgecolor : "0,50,255";
+    edgeheadcolor : "255,255,255";
+    edgeheadshape : "Arrow";
+    edgewidth : "2";
+    label : ""
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 6
+  rule
+     gtrule1: $ forall a/IsA (a graphtype ISA_TP_GT) $
+end 
+
+ISADEDUCED_TP_GT in JavaGraphicalType,Class with 
+  attribute,property
+    bgcolor : "0,150,255";
+    textcolor : "0,0,0";
+    edgecolor : "0,50,255";
+    edgewidth : "1";
+    edgestyle : "dashed";
+    label : "";
+    edgeheadcolor : "255,255,255";
+    edgeheadshape: "Arrow"
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 7
+end  
+
+
+ATTR_TP_GT in Class,JavaGraphicalType with  
+  property
+    textcolor : "0,0,0";
+    edgecolor : "0,0,0";
+    edgewidth : "2";
+    fontsize: "10";
+    bgcolor : "255,255,255,240"  {* white, slighlty transparent *}
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBLink"
+  priority
+    p : 5
+  rule
+     gtrule1: $ forall x/Proposition!attribute (x graphtype ATTR_TP_GT) $
+end 
+
+ATTRDEDUCED_TP_GT in JavaGraphicalType with  
+  property
+    textcolor : "0,0,0";
+    edgecolor : "0,0,0";
+    edgewidth : "2";
+    edgestyle : "dashed";
+    fontsize: "10";
+    bgcolor : "255,255,255,240"  {* white, slighlty transparent *}
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBLink"
+  priority
+    p : 7
+end 
+
+
+INDIVIDUAL_TP_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "255,255,255"; 
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "Rect";
+        size: "resizable";
+        linewidth : "1"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 5
+rule
+     gtrule1: $ forall x/Individual (x graphtype INDIVIDUAL_TP_GT) $
+end
+
+
+CLASS_TP_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "250,250,250"; 
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "Rect";
+        size: "resizable";
+        linewidth : "1"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 6
+rule
+     gtrule1: $ forall x/Class (x graphtype CLASS_TP_GT) $
+end
+
+STRING_TP_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "250,250,250"; 
+	textcolor : "0,0,0";
+	linecolor : "100,100,100";
+	shape : "Rect";
+        fontstyle: "italic";
+        fontsize: "11";
+        size: "wrap";
+        labellength : "1000";
+        linewidth : "0.3"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 7
+rule
+     gtrule1: $ forall x/String (x graphtype STRING_TP_GT) $
+end
+
+VALUE_TP_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "250,250,250"; 
+	textcolor : "0,0,0";
+	linecolor : "100,100,100";
+	shape : "Rect";
+        fontstyle: "italic";
+        fontsize: "11";
+        linewidth : "0.3"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 7
+rule
+     gtrule1: $ forall x/Integer (x graphtype VALUE_TP_GT) $;
+     gtrule2: $ forall x/Real (x graphtype VALUE_TP_GT) $
+end
+
+ASSERTION_TP_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "250,250,250";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "Rect";
+        size: "wrap";
+        fontstyle: "italic";
+        fontsize: "11";
+        labellength : "1000";
+        linewidth : "1"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 8
+rule
+     gtrule1: $ forall x/MSFOLassertion (x graphtype ASSERTION_TP_GT) $
+end
+
+QUERYCLASS_TP_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "255,245,245"; 
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "Rect";
+        size: "resizable";
+        linewidth : "1";
+        fontstyle: "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 8
+rule
+     gtrule1: $ forall x/QueryClass (x graphtype QUERYCLASS_TP_GT) $
+end
+
+
+
+
+
+
+

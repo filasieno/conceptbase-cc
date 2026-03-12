@@ -1,0 +1,88 @@
+{
+*
+* File: nested2.sml
+* Author: Manfred Jeusfeld
+* Creation: 30-Jun-2004 (11-Jul-2008)
+* ----------------------------------------------------------------------
+* A variant of nested.sml which shows that complex query expressions
+* can also be used in formulas. Quite useful for cardinality checks!
+* Ask query EmployeeWith2RichCoworkers. It should return 'bill'.
+* The query EmployeeWithXRichCoworkers allows to retrieve employees
+* with a specfied number of rich co-workers.
+*
+* Requires ConceptBase 6.1 or later. The shorter query versions 
+* supported by ConceptBase 7.1 are included as comments. 
+}
+
+
+Employee in Class with
+  attribute
+    salary: Integer;
+    worksWith: Employee
+end
+
+GenericQueryClass EmployeewithSalaryAbove isA Employee with
+  parameter
+    minsal: Integer
+  constraint
+    c1: $ exists s/Integer (~this salary s) and (s >= ~minsal) $
+end
+
+GenericQueryClass RichCoworker isA EmployeewithSalaryAbove[1000/minsal] with
+  parameter
+    worker: Employee
+  constraint
+    c2: $ (~worker worksWith ~this) $
+end
+
+
+QueryClass EmployeeWith2RichCoworkers isA Employee with
+  constraint
+    c2: $ exists i/Integer (i in COUNT[RichCoworker[~this/worker]/class]) and (i = 2)$
+end
+
+{* shorter form in ConceptBase 7.1:
+QueryClass EmployeeWith2RichCoworkers isA Employee with
+  constraint
+    c2: $ (#RichCoworker[this] = 2)$
+end
+*}
+
+GenericQueryClass EmployeeWithXRichCoworkers isA Employee with
+  parameter,computed_attribute
+    no_coworkers: Integer
+  constraint
+    c2: $ (~no_coworkers in COUNT[RichCoworker[~this/worker]/class]) $
+end
+
+{* shorter form in ConceptBase 7.1:
+GenericQueryClass EmployeeWithXRichCoworkers isA Employee with
+  parameter,computed_attribute
+    no_coworkers: Integer
+  constraint
+    c2: $ (no_coworkers = #RichCoworker[~this]) $
+end
+*}
+
+
+mary in Employee with
+  salary s: 1100
+end
+
+joan in Employee with
+  salary s: 5100
+end
+
+
+bill in Employee with
+  salary s: 500
+  worksWith e1: mary;
+            e2: joan
+end
+
+john in Employee with
+  salary s: 800
+  worksWith e1: mary
+end
+  
+

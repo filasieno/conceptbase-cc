@@ -1,0 +1,117 @@
+{*
+This file is governed by the Creative Commons license
+   Attribution-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+{*
+* File: CascUntell.sml
+* Author: Manfred Jeusfeld
+* Created: 2011-11-11/M.Jeusfeld (2011-11-15/M.Jeusfeld)
+* ------------------------------------------------------
+* ECArules for cascading UNTELL
+* We recommend the CBserver option -s 1 when using the ECArules below.
+* This will prevent undesired deletions of system objects.
+*
+*}
+
+
+{* These rules will delete links to/from a deleted object *}
+{* Hence, instead of following all dependencies, these    *}
+{* rules will do most of the work.                        *}
+
+ECArule cascadeUntellInClass with
+  ecarule
+    r1: $ x/Individual c/Proposition
+         ON Untell (x in Individual)
+         IF In_s(x,c)
+         DO Untell (x in c)
+        $
+end
+
+ECArule cascadeUntellClassOf with
+  ecarule
+    r1: $ x/Individual c/Proposition
+         ON Untell (c in Individual)
+         IF In_s(x,c)
+         DO Untell (x in c)
+        $
+end
+
+ECArule cascadeUntellInAttributeCategory with
+  ecarule
+    r1: $ a/Attribute ac/Attribute
+         ON Untell (a in Attribute)
+         IF In_s(a,ac)
+         DO Untell (a in ac)
+        $
+end
+
+ECArule cascadeUntellAttributeCategoryOf with
+  ecarule
+    r1: $ a/Attribute ac/Attribute
+         ON Untell (ac in Attribute)
+         IF In_s(a,ac) 
+         DO Untell (a in ac)
+        $
+end
+
+ECArule cascadeUntellToAttr with
+  ecarule
+    r1: $ x/Individual a/Attribute
+         ON Untell (x in Individual)
+         IF To(a,x) and (a in Attribute)
+         DO Untell (a in Attribute)
+        $
+end
+
+ECArule cascadeUntellFromAttr with
+  ecarule
+    r1: $ x/Individual a/Attribute
+         ON Untell (x in Individual)
+         IF From(a,x) and (a in Attribute)
+         DO Untell (a in Attribute)
+        $
+end
+
+ECArule cascadeUntellHasSuper with
+  ecarule
+    r1: $ c/Individual sc/Individual
+         ON Untell (c in Individual)
+         IF Isa_e(c,sc)
+         DO Untell (c isA sc)
+        $
+end
+
+ECArule cascadeUntellHasSub with
+  ecarule
+    r1: $ c/Individual sc/Individual
+         ON Untell (sc in Individual)
+         IF Isa_e(c,sc)
+         DO Untell (c isA sc)
+        $
+end
+
+ECArule cascadeUntellHasSuperAC with
+  ecarule
+    r1: $ c/Attribute sc/Attribute
+         ON Untell (c in Attribute)
+         IF Isa_e(c,sc)
+         DO Untell (c isA sc)
+        $
+end
+
+ECArule cascadeUntellHasSubAC with
+  ecarule
+    r1: $ c/Attribute sc/Attribute
+         ON Untell (sc in Attribute)
+         IF Isa_e(c,sc)
+         DO Untell (c isA sc)
+        $
+end
+

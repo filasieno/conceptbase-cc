@@ -1,0 +1,100 @@
+# Test immutable attributes
+# Call like
+#    cbshell ticket309.cbs
+
+
+
+
+startServer -u nonpersistent -t low -port 4002 
+
+# the basic rule
+tell "
+Proposition with  
+  attribute
+    immutable : Proposition
+end 
+
+IMMUTABLERULE in ECArule with  
+  mode m: Deferred
+  ecarule
+    er : $  iac/Proposition!immutable ia/Attribute x/Proposition c/Class
+        ON Untell (ia in iac)
+        IF (iac in Proposition!immutable) and
+            (ia in iac) and not `(ia in iac) and From(ia,x)  and From(iac,c) and `(x in c)
+        DO reject
+        $
+end 
+"
+
+# the example at class level; both fspouse and mspouse are immutable
+tell "
+Person in Class  
+end 
+
+MalePerson in Class isA Person  
+end 
+
+FemalePerson in Class isA Person  
+end 
+
+Marriage in Class with  
+  immutable
+    mspouse : MalePerson;
+    fspouse : FemalePerson
+end 
+"
+
+
+# some persons and a marriage
+tell "
+bill in MalePerson  
+end 
+
+mary in FemalePerson  
+end 
+
+anne in FemalePerson  
+end 
+
+john in MalePerson  
+end 
+
+marriage1 in Marriage with  
+  fspouse
+    fs : mary
+  mspouse
+    ms : john
+end 
+"
+
+
+
+
+# untelling an immutable attribute is forbidden
+untell "marriage1 with
+  mspouse ms: john
+end"
+
+
+# updating an immutable attribute is forbidden as well
+retell "marriage1 with
+  mspouse ms: john
+end
+" "marriage1 with
+  mspouse ms: bill
+end
+"
+
+
+ask "get_object[marriage1/objname]" OBJNAMES  FRAME  Now
+# should be the original defintion of marriage1
+
+
+
+
+
+
+
+
+
+

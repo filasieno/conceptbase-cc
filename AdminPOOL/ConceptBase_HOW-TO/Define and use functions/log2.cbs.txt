@@ -1,0 +1,70 @@
+#
+# File: log2.cbs
+# Author: Manfred Jeusfeld
+# Creation: 2012-03-12 (2012-03-12)
+# ----------------------------------------------------------------------
+# Compute the log with basis 2 of an integer number recursively;
+# works also for large input numbers; returns empty answer if log2 is
+# undefined
+# Also defines log10 in a similar way.
+#
+
+
+#startServer -u nonpersistent -c off 
+startServer -u nonpersistent -t low
+
+
+
+tell "
+log2 in Function isA Integer with
+  parameter
+    n: Integer
+  constraint
+    con: $  (n=1) and (this=0) or
+            (n=2) and (this=1) or
+            (n>2) and (this=log2(IDIV(n,2))+1) 
+        $
+end
+
+
+log10 in Function isA Integer with
+  parameter
+    n: Integer
+  constraint
+    con: $  (n>=1) and (n < 10) and (this=0) or
+            (n=10) and (this=1) or
+            (n>2) and (this=log10(IDIV(n,10))+1) 
+        $
+end
+
+power in Function isA Integer with
+  parameter
+    a: Integer;
+    n: Integer
+  constraint
+    con: $  (n=0) and (this=1) or
+            (n=1) and (this=a) or
+            (n>1) and (this=a*power(a,n-1))
+        $
+end
+"
+
+
+ask "log2[10/n]" OBJNAMES  LABEL  Now
+
+ask "log2[16/n]" OBJNAMES  LABEL  Now
+
+ask "log2[1024/n]" OBJNAMES  LABEL  Now
+
+ask "log2[0/n]" OBJNAMES  LABEL  Now
+
+ask "log10[512/n]" OBJNAMES  LABEL  Now
+
+ask "log10[10000000000000000/n]" OBJNAMES  LABEL  Now
+
+ask "power(2,12)" OBJNAMES  LABEL  Now
+
+ask "log2(power(2,12))" OBJNAMES  LABEL  Now
+
+
+

@@ -1,0 +1,54 @@
+# This file is governed by the Creative Commons license
+#   Attribution-NonCommercial 4.0 Unported
+#   http://creativecommons.org/licenses/by-nc/4.0/
+#   http://creativecommons.org/licenses/by-nc/4.0/legalcode
+#
+# Extended licenses, in particular commercial licenses, can be obtained from the
+# author of the source code.
+# Any re-distribution as source code must acknowledge the original author of this file.
+
+# ticket404b.cbs
+# Test variant of DeepTelos
+# Author: Manfred Jeusfeld, 2017-11-16
+
+cbserver -t high
+
+tell "
+Proposition with
+  attribute
+    ISA: Proposition;  {* shall have same semantics as Telos-ISA *}
+    IN: Proposition    {* relates a power type to its meta class; not identical to Telos-IN *}
+end
+
+DeepTelosRules in Class with
+  rule
+    mrule1: $ forall m,x,c/Proposition (x in c) and (m IN c) and not (x isA m) ==> (x ISA m) $;
+    mrule2: $ forall x,c,d/Proposition (c ISA d) and (x in c)  ==> (x in d) $;
+    mrule3: $ forall c,d,m,n/Proposition (m IN c) and (n IN d) and (c ISA d)  ==> (m ISA n) $;
+    mrule4: $ forall m,mx,x,c/Proposition (m IN c) and (x isA mx) and (mx ISA m) and not (mx isA m)  ==> (x in c) $
+end
+"
+
+
+tell "
+C end
+M with IN IN: C end
+"
+
+tell "
+MX in C end
+"
+
+
+
+tell "
+X1 isA MX end
+X2 isA MX end
+X11 isA X1 end
+X12 isA X1 end
+"
+
+ask get_object[C/objname] OBJNAMES FRAME Now
+
+ask find_instances[C/class]
+

@@ -1,0 +1,290 @@
+{
+*
+* File: userdefinedshapes.sml.txt
+* Author: Manfred Jeusfeld
+* Creation: 20-Nov-2014 (21-Nov-2014/M.Jeusfeld)
+* ----------------------------------------------------------------------
+* 
+* Examples of user-defined graphical types for the ConceptBase graph editor
+*
+}
+
+{*
+This file is governed by the Creative Commons license 
+   Attribution 4.0 International (CC BY 4.0)
+   https://creativecommons.org/licenses/by/4.0/
+*}
+
+
+
+XPalette in Class,JavaGraphicalPalette with  
+  contains,defaultIndividual
+    xx1 : DefaultIndividualGT
+  contains,defaultLink
+    xx2 : DefaultLinkGT
+  contains,implicitIsA
+    xx3 : ImplicitIsAGT
+  contains,implicitInstanceOf
+    xx4 : ImplicitInstanceOfGT
+  contains,implicitAttribute
+    xx5 : ImplicitAttributeGT
+  contains
+    xx6 : DefaultIsAGT;
+    xx7 : DefaultInstanceOfGT;
+    xx8 : DefaultAttributeGT;
+    xx9 : MetametaGT;
+    xx10 : SimpleClassGT;
+    xx11 : MetaClassGT;
+    xx12 : ClassGT;
+    xx13 : QueryClassGT
+  rule
+    inheritGTs: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette contains gt)
+                  ==> (pal contains gt) $;
+    inheritDef1: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette defaultIndividual gt)
+                  ==> (pal defaultIndividual gt) $;
+    inheritDef2: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette defaultLink gt)
+                  ==> (pal defaultLink gt) $;
+    inheritDef3: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette implicitIsA gt)
+                  ==> (pal implicitIsA gt) $;
+    inheritDef4: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette implicitInstanceOf gt)
+                  ==> (pal implicitInstanceOf gt) $;
+    inheritDef5: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette implicitAttribute gt)
+                  ==> (pal implicitAttribute gt) $
+end 
+
+
+
+
+UserShapesPalette in JavaGraphicalPalette isA XPalette with
+  palproperty
+    longtitle: "User-Defined Graphical Types"
+  contains
+    ug01 : Parallelogram_GT;
+    ug02 : Trapezoid_GT;
+    ug03 : RectWithBump_GT;
+    ug04 : Folder_GT;
+    ug05 : RectWithNotch_GT;
+    ug06 : RectWithVLine_GT;
+    ug07 : RectWithSpikes_GT;
+    ug08 : SmileIcon_GT;
+    ug09 : SmileIconShape_GT;
+    ug10 : SmileIconShape2_GT
+end
+
+Shapes in Class with
+  rule
+   r1: $ forall gt/JavaGraphicalType sh/Shapes (UserShapesPalette contains gt)
+          and (not exists s/String :(gt property/size s):)
+         ==> (gt property/size "resizable") $;
+   r2: $ forall sh/Proposition gt/JavaGraphicalType
+          :(UserShapesPalette contains gt): and (sh graphtype gt) 
+          and (sh <> Shapes) ==> (sh in Shapes) $;
+   r3: $ forall gt/JavaGraphicalType sh/Shapes (UserShapesPalette contains gt)
+          and (not exists s/String :(gt property/font s):)
+         ==> (gt property/font "Arial") $;
+   r4: $ forall gt/JavaGraphicalType sh/Shapes (UserShapesPalette contains gt)
+          and (not exists s/String :(gt property/fontsize s):)
+         ==> (gt property/fontsize "10") $
+end
+
+
+
+
+Parallelogram with  
+  graphtype
+    gt : Parallelogram_GT
+end 
+Parallelogram_GT in JavaGraphicalType with  
+  property
+    bgcolor : "255,255,255";
+    textcolor : "0,0,0";
+    linecolor : "0,0,0";
+    shape : "PolygonShape; 2,25,23, 0,2;
+                           0, 0,10,10,0"
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBIndividual"
+  priority
+    pr : 22
+end 
+
+Trapezoid with  
+  graphtype
+    gt : Trapezoid_GT
+end 
+Trapezoid_GT in JavaGraphicalType with  
+  property
+    bgcolor : "255,255,255";
+    textcolor : "0,0,0";
+    linecolor : "0,0,0";
+    shape : "PolygonShape; 4,23,25, 0,4;
+                           0, 0,10,10,0"
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBIndividual"
+  priority
+    pr : 22
+end 
+
+
+RectWithBump with  
+  graphtype
+    gt : RectWithBump_GT
+end 
+RectWithBump_GT in JavaGraphicalType with  
+  property
+    bgcolor : "255,255,255";
+    textcolor : "0,0,0";
+    linecolor : "0,0,0";
+    shape : "PolygonShape; 0,15,15,18,18,25,25, 0,0;
+                           3, 3, 0, 0, 3, 3,10,10,3"
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBIndividual"
+  priority
+    pr : 22
+end 
+
+Folder with  
+  graphtype
+    gt : Folder_GT
+end 
+Folder_GT in JavaGraphicalType with  
+  property
+    bgcolor : "255,255,255";
+    textcolor : "0,0,0";
+    linecolor : "0,0,0";
+    shape : "PolygonShape;0,6,7,10,10,0,0;1,1,0,0,7,7,0"
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBIndividual"
+  priority
+    pr : 22
+end 
+
+
+RectWithNotch with  
+  graphtype
+    gt : RectWithNotch_GT
+end 
+RectWithNotch_GT in JavaGraphicalType with  
+  property
+    bgcolor : "255,255,255";
+    textcolor : "0,0,0";
+    linecolor : "0,0,0";
+    shape : "PolygonShape; 0,3, 3,4,25,25, 0,0;
+                           0,0, 9,0, 0,10,10,0"
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBIndividual"
+  priority
+    pr : 22
+end 
+
+
+RectWithVLine with  
+  graphtype
+    gt : RectWithVLine_GT
+end 
+RectWithVLine_GT in JavaGraphicalType with  
+  property
+    bgcolor : "255,255,255";
+    textcolor : "0,0,0";
+    linecolor : "0,0,0";
+    shape : "PolygonShape; 0,120,121,121,121,2500,2500,   0,0;
+                           0,  0,998,998,  0,   0,1000,1000,0"
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBIndividual"
+  priority
+    pr : 22
+end 
+
+
+RectWithSpikes with  
+  graphtype
+    gt : RectWithSpikes_GT
+end 
+RectWithSpikes_GT in JavaGraphicalType with  
+  property
+    bgcolor : "255,255,255";
+    textcolor : "0,0,0";
+    linecolor : "0,0,0";
+    align: "bottom";
+    shape : "PolygonShape;  0,15,16,50,17,17,160,162,165,163,163,250,250,  0, 0;
+                           40,40,14, 0,14,40, 40, 16,  0, 16, 40, 40,100,100,40"
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBIndividual"
+  priority
+    pr : 22
+end 
+
+
+SmileIcon with  
+  graphtype
+    gt : SmileIcon_GT
+end 
+SmileIcon_GT in JavaGraphicalType with
+property
+   textcolor : "0,0,0";
+   linecolor : "0,0,0";
+   size: "resizable";
+   image : "http://conceptbase.sourceforge.net/CBICONS/cbsmile.png"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 22
+end
+
+SmileIconShape with  
+  graphtype
+    gt : SmileIconShape_GT
+end 
+SmileIconShape_GT in JavaGraphicalType with
+property
+   textcolor : "0,0,0";
+   linecolor : "0,0,0";
+   size: "resizable";
+   bgcolor: "220,220,220";
+   shape : "i5.cb.graph.shapes.RoundRectangle";
+   image : "http://conceptbase.sourceforge.net/CBICONS/cbsmile.png"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 22
+end
+
+SmileIconShape2 with  
+  graphtype
+    gt : SmileIconShape2_GT
+end 
+SmileIconShape2_GT in JavaGraphicalType with
+property
+   textcolor : "0,0,0";
+   linecolor : "0,0,0";
+   size: "resizable";
+   bgcolor: "220,220,220";
+   shape : "i5.cb.graph.shapes.Banner";
+   textposition : "top";
+   align : "left";
+   image : "http://conceptbase.sourceforge.net/CBICONS/cbsmile.png"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 22
+end
+
+
+
+
+
+
+
+
+

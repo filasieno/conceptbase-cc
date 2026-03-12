@@ -1,0 +1,97 @@
+
+#
+# File: ticket335.cbs
+# Author: Manfred Jeusfeld
+# Created: 2014-01-30/M.Jeusfeld (2014-01-31/M.Jeusfeld)
+# ------------------------------------------------------
+# Test the cause of a crash on examples/QUERIES
+# When object names like abc are undefined then "derive expressions" like
+#   Q[abc/param] 
+# should lead to a semantic error. Due to a bug, it could however lead
+# to an infinite loop of do_processIfDeriveExpr in SelectExpressions.pro.
+#
+#
+# Start: cbshell ticket335.cbs
+#
+
+
+
+#connect localhost 4001
+cbserver -u nonpersistent
+
+tellModel $CB_HOME/examples/QUERIES/Employee_Classes
+
+
+tell "
+GenericQueryClass Well_off_SI_Manager5 isA Manager,UnionMember
+    with
+	retrieved_attribute, parameter
+		salary : HighSalary			
+	computed_attribute, parameter
+		head_of : Department
+	parameter
+	                u : Union
+	constraint
+		well_off_head_of_rule : $ (this union ~u)
+					and 
+					(~head_of head this) $
+end
+"
+# ==> should be accepted
+
+tell "
+QueryClass Derived_2_FromWell_off_SI_Manager5
+	isA Well_off_SI_Manager5[Research/head_of]
+end
+"
+# ==> should lead to an error message saying that Research is an unknown object name
+
+
+
+tellModel "$CB_HOME/examples/QUERIES/Employee_Instances"
+
+tell "Employee with attribute likes : Employee end
+Mary with likes ml : Eleonore end"
+
+tell "View EmpDept_likes_head isA Employee with
+retrieved_attribute,partof
+    dept : Department with
+        retrieved_attribute, partof
+            head : Manager with
+                constraint c : $ A(this,likes,this::dept::head) $
+        end
+    end
+end"
+
+ask "EmpDept_likes_head" OBJNAMES FRAME Now
+# ==> should return an answer object for Mary
+
+
+tell "
+View EmpDept_likes_head_salary isA Employee with
+  retrieved_attribute,partof
+    dept : Department with
+        retrieved_attribute, partof
+            head : Manager with
+                constraint c : $ A(this,likes,this::dept::head) $
+                retrieved_attribute, partof
+                   salary: Integer with
+                     constraint c1: $ (this::dept::head::salary > 15000) $
+                   end
+            end
+    end
+end"
+
+#ask "get_object[EmpDept_likes_head_salary/objname]" OBJNAMES  FRAME  Now
+#ask "get_object[SV_EmpDept_likes_head_salary_dept/objname]" OBJNAMES  FRAME  Now
+#ask "get_object[SV_SV_EmpDept_likes_head_salary_dept_head/objname]" OBJNAMES  FRAME  Now
+#ask "get_object[ SV_SV_SV_EmpDept_likes_head_salary_dept_head_salary/objname]" OBJNAMES  FRAME  Now
+
+
+ask "EmpDept_likes_head_salary" OBJNAMES FRAME Now
+# ==> should return an answer object for Mary that included a salary attribute
+
+stopServer
+
+
+

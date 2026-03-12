@@ -1,0 +1,187 @@
+# This file is governed by the Creative Commons license
+#   Attribution-NonCommercial 3.0 Unported
+#   http://creativecommons.org/licenses/by-nc/3.0/
+#   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+#
+# Extended licenses, in particular commercial licenses, can be obtained from the
+# author of the source code.
+# Any re-distribution as source code must acknowledge the original author of this file.
+
+#
+# File: ECA-Transactions.cbs
+# Author: Manfred Jeusfeld
+# Created: 2011-03-28/M.Jeusfeld (2011-03-28/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Start: CBshell -f ECA-Transactions.cbs | fgrep ECAaction
+#
+# Shows the capabilities of the tBegin/tEnd constructs to
+# control the execution order of ECA triggers.
+#
+# 
+# This script requires ConceptBase 7.3.11 or later.
+#
+
+startServer -u nonpersistent -port 4411 -t high 
+
+tell "
+
+Person with
+  attribute
+    visits: House;
+    enters: Room;
+    leaves: Room
+end
+
+House with
+  attribute
+     has: Room
+end
+
+Room with
+end
+
+"
+
+tell "
+peter in Person end
+mary in Person end
+anna in Person end
+
+HouseA in House with
+  has
+    r1: RoomA1;
+    r2: RoomA2
+end
+
+RoomA1 in Room 
+end
+
+RoomA2 in Room 
+end
+
+
+HouseB in House with
+  has
+    r1: RoomB1;
+    r2: RoomB2
+end
+
+RoomB1 in Room 
+end
+
+RoomB2 in Room 
+end
+
+"
+
+tell "
+
+ECArule onVisitHouseA with
+  mode m: Deferred
+  ecarule
+        er : $  p/Person
+        ON Tell (p visits HouseA) 
+        IF TRUE
+        DO tBegin,
+             Tell (p enters RoomA1),
+             Tell (p enters RoomA2),
+           tEnd
+        $
+end
+
+ECArule onVisitHouseB with
+  mode m: Deferred
+  ecarule
+        er : $  p/Person
+        ON Tell (p visits HouseB) 
+        IF TRUE
+        DO   Tell (p enters RoomB1),
+             Tell (p enters RoomB2)
+        $
+end
+
+
+ECArule afterEnter with
+  mode m: Deferred
+  ecarule
+        er : $  p/Person r/Room
+        ON Tell (p enters r) 
+        IF TRUE
+        DO Tell (p leaves r) 
+        $
+end
+
+"
+
+tell "
+peter with
+  visits v1: HouseA
+end
+
+mary with
+  visits v1: HouseA
+end
+
+anna with
+  visits v1: HouseA
+end
+
+peter with
+  visits v2: HouseB
+end
+
+mary with
+  visits v2: HouseB
+end
+
+anna with
+  visits v2: HouseB
+end
+"
+
+
+
+
+# The above tell command causes the following execution sequence:
+ 
+# ECAactionManager: onVisitHouseA --> DO Tell (peter enters RoomA1)
+# ECAactionManager: onVisitHouseA --> DO Tell (peter enters RoomA2)
+# ECAactionManager: afterEnter --> DO Tell (peter leaves RoomA1)
+# ECAactionManager: afterEnter --> DO Tell (peter leaves RoomA2)
+# ECAactionManager: onVisitHouseA --> DO Tell (mary enters RoomA1)
+# ECAactionManager: onVisitHouseA --> DO Tell (mary enters RoomA2)
+# ECAactionManager: afterEnter --> DO Tell (mary leaves RoomA1)
+# ECAactionManager: afterEnter --> DO Tell (mary leaves RoomA2)
+# ECAactionManager: onVisitHouseA --> DO Tell (anna enters RoomA1)
+# ECAactionManager: onVisitHouseA --> DO Tell (anna enters RoomA2)
+# ECAactionManager: afterEnter --> DO Tell (anna leaves RoomA1)
+# ECAactionManager: afterEnter --> DO Tell (anna leaves RoomA2)
+
+# ECAactionManager: onVisitHouseB --> DO Tell (peter enters RoomB1)
+# ECAactionManager: onVisitHouseB --> DO Tell (peter enters RoomB2)
+# ECAactionManager: onVisitHouseB --> DO Tell (mary enters RoomB1)
+# ECAactionManager: onVisitHouseB --> DO Tell (mary enters RoomB2)
+# ECAactionManager: onVisitHouseB --> DO Tell (anna enters RoomB1)
+# ECAactionManager: onVisitHouseB --> DO Tell (anna enters RoomB2)
+# ECAactionManager: afterEnter --> DO Tell (peter leaves RoomB1)
+# ECAactionManager: afterEnter --> DO Tell (peter leaves RoomB2)
+# ECAactionManager: afterEnter --> DO Tell (mary leaves RoomB1)
+# ECAactionManager: afterEnter --> DO Tell (mary leaves RoomB2)
+# ECAactionManager: afterEnter --> DO Tell (anna leaves RoomB1)
+# ECAactionManager: afterEnter --> DO Tell (anna leaves RoomB2)
+
+
+
+
+# So, the tBegin/tEnd forces the grouping of the triggers (peter enters *) and
+# (peter leaves *) for the initiating event (peter visits HouseA). Only when
+# all are processed, the next event (mary visits HouseA) is processed.
+
+# The second ECArule onVisitHouseB does not use the tBegin/tEnd. Hence,
+# the triggers for enters/leaves for peter and mary are intertwined.
+
+
+
+
+

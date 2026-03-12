@@ -1,0 +1,63 @@
+{*
+* File: TimeTrace.sml
+* Author: Manfred A. Jeusfeld, Tilburg University
+* Date: 11-May-2006 (8-May-2008/M.Jeusfeld)
+* --------------------------------------------------------
+* Produces a time trace of all objects created in the object base.
+* Any object in ConceptBase carries its 'transaction time', i.e. the
+* time when it was told and (if applicable) the time when it was 
+* untold.
+* The query class TimeTrace will output all transaction times at which 
+* objects were told. Each transaction time is accompanied by the list of objects
+* that were created at that time. Sounds complicated? Well, this is what
+* the Known predicate does!
+*
+* Note that ConceptBase regards transactions times to instances of
+* TransactionTime.
+*
+* (c) 2003-2008 by M. Jeusfeld. 
+* This model file is licensed under the CC-GNU GPL 
+* http://creativecommons.org/licenses/GPL/2.0/
+*
+* Requires ConceptBase 7.1 released April 2008 or later.
+* 
+*}
+
+
+TimeTrace in QueryClass isA TransactionTime with  
+  computed_attribute
+    obj : Proposition
+  constraint
+    con1 : $ Known(obj,this) $
+end 
+
+
+{* StartTimeOf returns the start time of a given object ~obj, i.e. *}
+{* the time when it was told to the object base.                   *}
+{* The object ~obj must be known in the object base. Note that you *}
+{* can set the rollback time back to some past time in order to    *}
+{* see also objects that have already been untold.                 *}
+
+
+StartTimeOf in GenericQueryClass isA TransactionTime with
+  parameter
+    obj: Proposition
+  constraint
+    con1: $ Known(obj,this) $
+end
+
+
+{* EndTimeOf returns the "tt(infinity)" if the object still exists.  *}
+{* If the object has been untold, EndTimeOf reports the time of      *}
+{* untelling. Note that you need to set the rollback time to a time  *}
+{* point at which the object ~obj still existed.                     *}
+
+EndTimeOf in GenericQueryClass isA TransactionTime with
+  parameter
+    obj: Proposition
+  constraint
+    con1: $ Terminated(obj,this) $
+end
+
+
+

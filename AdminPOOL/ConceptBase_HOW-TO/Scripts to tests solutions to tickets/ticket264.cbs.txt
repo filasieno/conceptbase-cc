@@ -1,0 +1,69 @@
+#
+# File: ticket264.cbs
+# Author: Manfred Jeusfeld
+# Created: 2010-10-07/M.Jeusfeld (2010-10-07/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Start: CBshell -f ticket264.cbs
+#
+
+startServer -u nonpersistent -p 4411 -t veryhigh
+tell "
+NodeOrLink with  
+  attribute
+    connectedTo : NodeOrLink
+end 
+
+Node isA NodeOrLink  
+end 
+
+NodeOrLink!connectedTo isA NodeOrLink  
+end 
+
+EntityType in Node  with
+end 
+
+
+ISA_Type in Node with  
+  connectedTo
+    super : EntityType
+  connectedTo
+    sub : EntityType
+end 
+
+EntityType in Class with  
+  attribute
+    superType : EntityType
+  rule
+    r1 : $ forall I/ISA_Type e1,e2/EntityType (I super e1) and (I sub e2) ==> (e2 superType e1) $;
+    r2 : $ forall e1,e2/EntityType x/VAR (x in e1) and (e1 superType e2) ==> (x in e2) $
+end 
+
+ISA_Type_disjoint in Node isA ISA_Type  
+end 
+
+
+"
+
+tell "
+ISA_Type_disjoint in Class with  
+  constraint
+    disjC : $ forall x/VAR ISAD/ISA_Type_disjoint e1,e2/EntityType (ISAD sub e1) and (ISAD sub e2) and (x in e1) and (x in e2)
+                     ==> (e1 = e2) $
+end 
+"
+
+#tell "
+#Organization in EntityType end
+#PublicOrganization in EntityType end
+#PrivateOrganization in EntityType end
+#ISA3 in ISA_Type_disjoint with
+#  super
+#    sup1 : Organization
+#  sub
+#    sub1 : PublicOrganization;
+#    sub2 : PrivateOrganization
+#end 
+#"
+
+

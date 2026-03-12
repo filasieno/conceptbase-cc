@@ -1,0 +1,238 @@
+
+
+
+startServer -u nonpersistent -t veryhigh
+tell "
+{*
+* File:	Assignment2.sml
+* Author:	Paul ligthart, p.j.h.ligthart@uvt.nl
+* 	  	Remco van Strien, r.a.m.vanstrien@uvt.nl
+* Date:   	13-Nov-2006
+*----------------------------------------------------------------
+*
+* The (3) answers of assignment 2 of Method Engineering 2006
+*
+*}
+
+
+{*** M3: NOTATION DEFINITION LEVEL ***}
+
+NodeOrLink with
+  attribute
+     connectedTo: NodeOrLink
+end
+
+Node isA NodeOrLink end
+NodeOrLink!connectedTo isA NodeOrLink end
+
+Model isA Node with
+  attribute
+    contains: NodeOrLink
+end
+
+
+{** M2: NOTATION LEVEL *** }
+
+ObjectType in Node end  
+EntityType in Node isA ObjectType end
+
+RelationshipType in Node isA ObjectType with
+  connectedTo
+     role: EntityType
+end
+
+ERDModel in Model with
+  contains
+    containsType: ObjectType
+end
+
+Set in Node, Class with
+  rule
+    r1: $ forall o1/OrgUnit o2/OrgUnit ((o2 haspredecessor o1) and (o1 in ~this)) ==>
+		  (o2 in ~this) $
+end
+
+OrgUnit in Node, Class with
+  rule
+    r1: $ forall o/OrgUnit (o haspredecessor o) $;
+	r2: $ forall o1/OrgUnit o2/OrgUnit (o1 generallink o2) ==> (o2 haspredecessor o1) $;
+	r3: $ forall o1/OrgUnit o2/OrgUnit o3/OrgUnit ((o3 haspredecessor o2) and (o2 haspredecessor o1)) ==> 
+		  (o3 haspredecessor o1) $
+		
+  connectedTo
+    haspredecessor: OrgUnit;
+	generallink: OrgUnit;
+    valueadding: OrgUnit;
+    infosupply: OrgUnit;
+    supervisory: OrgUnit
+end
+
+OrgUnit!valueadding isA OrgUnit!generallink end
+OrgUnit!infosupply isA OrgUnit!generallink end
+OrgUnit!supervisory isA OrgUnit!generallink end
+
+OrgUnit!infosupply with {* infosupply uses the ERD Model *}
+  connectedTo
+    type: ERDModel
+end
+
+OrgModel in Model with
+  contains
+    containsUnit: OrgUnit
+end
+
+
+{*** M1: MODEL LEVEL ***}
+
+{* GENERAL *}
+
+{* SET *}
+
+{SetUnit in QueryClass isA OrgUnit with  
+attribute,constraint
+    SetConstraint : $ exists o/OrgUnit ((~this haspredecessor o) and (o in SetUnit)) $
+end} 
+
+{* CHAIN *}
+
+FromChainUnit in GenericQueryClass isA OrgUnit with
+  parameter
+    unit: OrgUnit
+  constraint
+    c1: $ (~this valueadding ~unit) $
+end
+
+ToChainUnit in GenericQueryClass isA OrgUnit with
+  parameter
+    unit: OrgUnit
+  constraint
+    c1: $ (~unit valueadding ~this) $
+end
+
+ChainUnit in QueryClass isA OrgUnit with
+  constraint
+   ChainConstraint: $ (COUNT[FromChainUnit[~this/unit]/class] = 1) and (COUNT[ToChainUnit[~this/unit]/class] = 1) $
+end
+
+{* HUB *}
+
+FromHubUnit in GenericQueryClass isA OrgUnit with
+  parameter
+    unit: OrgUnit
+  constraint
+    c1: $ (~this generallink ~unit) $
+end
+
+ToHubUnit in GenericQueryClass isA OrgUnit with
+  parameter
+    unit: OrgUnit
+  constraint
+    c1: $ (~unit generallink ~this) $
+end
+
+HubUnit in QueryClass isA OrgUnit with
+  constraint
+    HubConstraint: $ ( ((COUNT[FromHubUnit[~this/unit]/class] >= 2) and 
+						(COUNT[ToHubUnit[~this/unit]/class] >= 1)  ) or 
+					   ((COUNT[FromHubUnit[~this/unit]/class] >= 1) and 
+						(COUNT[ToHubUnit[~this/unit]/class] >= 2)) ) $
+end
+
+{* WEB *}
+
+{With the example below (.Organigraph of a newspaper.), how can you program a web?}
+
+{*** M0: DATA LEVEL ***} { COPY UP TILL THIS POINT, THEN COPY THE REST OF THE TEXT FILE }
+
+OrgUnit1 in OrgUnit with {this is a HUB example}
+  generallink
+    link1: OrgUnit2;
+    link2: OrgUnit3
+end
+
+OrgUnit2 in OrgUnit end
+OrgUnit3 in OrgUnit end
+
+OrgUnit4 in OrgUnit with
+  generallink
+    link3: OrgUnit1
+end
+
+OrgUnit5 in OrgUnit with
+  generallink
+    link4: OrgUnit1
+end
+
+{* EXAMPLE OF PAPER .ORGANIGRAPH OF A NEWSPAPER. *}
+
+Set1 in Set end
+Set2 in Set end
+IsolatedSet in Set end
+
+Pietje in OrgUnit, Set2 with
+  valueadding
+    val1: Bertje
+end
+
+Bertje in OrgUnit with
+  valueadding
+    val2: Karel
+end
+
+Karel in OrgUnit end
+    
+
+Finance in OrgUnit, IsolatedSet end
+Purchasing in OrgUnit, IsolatedSet end
+HR in OrgUnit, IsolatedSet end
+Administration in OrgUnit end
+Promotion in OrgUnit end
+IT in OrgUnit end
+
+PreparationOfContent in OrgUnit, Set1 with
+  valueadding 
+    val1: PageMakeup
+end
+
+PageMakeup in OrgUnit with
+  valueadding 
+    val2: Printing
+end
+
+Printing in OrgUnit with
+  valueadding
+    val3: Distribution
+end
+
+Distribution in OrgUnit with
+  valueadding
+    val4: Society2
+end
+
+Society1 in OrgUnit, Set2 with 
+  generallink
+    link1: Society2;
+    link2: Society3
+end
+
+Society2 in OrgUnit with 
+  generallink
+    link3: Society1;
+    link4: Society3
+end
+
+Society3 in OrgUnit with
+  generallink
+    link5: Society1;
+    link6: Society2
+end
+
+News in OrgUnit end
+Advertising in OrgUnit end
+Letters in OrgUnit end
+Photos in OrgUnit end
+Comics in OrgUnit end"
+
+
+ask "HubUnit" OBJNAMES  FRAME  Now
+

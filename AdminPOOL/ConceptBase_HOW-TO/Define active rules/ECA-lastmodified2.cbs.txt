@@ -1,0 +1,88 @@
+# This file is governed by the Creative Commons license
+#   Attribution-NonCommercial 3.0 Unported
+#   http://creativecommons.org/licenses/by-nc/3.0/
+#   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+#
+# Extended licenses, in particular commercial licenses, can be obtained from the
+# author of the source code.
+# Any re-distribution as source code must acknowledge the original author of this file.
+
+#
+# File: ECA-lastmodified2.cbs
+# Author: Manfred Jeusfeld
+# Created: 2010-07-14/M.Jeusfeld (2010-07-14/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Start: CBshell -f ECA-lastmodified2.cbs
+# 
+# Shows a 'better' way to attach the lastMadified attribute than
+# ECA-lastmodified.cbs.
+#
+# This script requires ConceptBase 7.2 or later.
+#
+
+startServer -u nonpersistent -p 4411 -t high
+tell "
+Class Employee with
+attribute
+    salary : Integer;
+    createdOn : TransactionTime;
+    lastModified : String
+rule
+    createdOnRule : $ forall t/TransactionTime
+         Known(this,t) ==> (this createdOn t) $
+end
+
+EmpWithoutLastModified in QueryClass isA Employee with
+  constraint
+     noLM: $ not exists t/String (this lastModified t) $
+end
+"
+
+tell "
+
+ECArule LastModified_init with
+mode m: ImmediateDeferred
+ecarule
+        er : $ t/TransactionTime y/Employee
+               es/Employee!salary
+        ON Tell (es in Employee!salary)
+        IF `From(es,y) and
+           `(y in EmpWithoutLastModified) and
+           `Known(es,t)
+        DO Tell (y lastModified t)
+        $
+end
+
+ECArule LastModified_change with
+mode m: ImmediateDeferred
+ecarule
+        er : $ t1,t2/TransactionTime y/Employee i/Integer
+               es/Employee!salary lab/Label
+        ON Tell (es in Employee!salary)
+        IF `From(es,y) and 
+           `(y lastModified t1) and
+           `Known(es,t2)
+        DO Untell (y lastModified t1),
+           Tell (y lastModified t2)
+        $
+end
+"
+
+tell "
+Bill in Employee with
+  salary s1: 100
+end
+"
+
+tell "
+Bill in Employee with
+  salary s2: 200
+end
+"
+
+
+
+ask "get_object[Bill/objname]" OBJNAMES  FRAME  Now
+
+

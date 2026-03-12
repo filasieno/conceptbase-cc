@@ -1,0 +1,22 @@
+#
+# File: ticket268.cbs
+# Author: Manfred Jeusfeld
+# Created: 2010-10-25/M.Jeusfeld (2010-10-25/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Tests the call of a pre-defined query with a non-existing parameter
+# Start: CBshell -f ticket268.cbs
+#
+
+startServer -u nonpersistent -port 4411 -t high
+
+# DefaultJavaPalette is existing
+ask "find_classes[Class/objname]" OBJNAMES CBGraphEditorResult[DefaultJavaPalette/pal,Class/obj,InstanceOf/cat,src/objtype] Now
+
+# NewPalette is not existing: leads to a crash with the current ConceptBase 7.2.23
+ask "find_classes[Class/objname]" OBJNAMES CBGraphEditorResult[NewPalette/pal,Class/obj,InstanceOf/cat,src/objtype] Now
+
+# Another call with a not existing parameter
+ask "get_object[UnknownObj/objname]" OBJNAMES  FRAME  Now
+
+

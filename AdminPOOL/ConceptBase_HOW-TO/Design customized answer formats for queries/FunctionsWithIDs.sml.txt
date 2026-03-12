@@ -1,0 +1,17 @@
+
+QueryClass FunctionwithID isA Function end
+
+AnswerFormat FID_Format with
+   forQuery q: FunctionwithID
+   order o: ascending
+   orderBy ob: "this"
+   head h: 
+"Name   ID
+-------------------------------------------------
+"
+  pattern p:
+"{this}   {this.oid}
+"
+  tail t:
+"-- end of answer"
+end

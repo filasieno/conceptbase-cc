@@ -1,0 +1,62 @@
+# Test defaults
+# Call like
+#    cbshell ticket330.cbs
+
+
+
+
+startServer -u nonpersistent -t high 
+
+
+tell '
+Model with
+  attribute
+    contains: Element
+end
+
+Element with
+  attribute
+    property: String
+end
+
+E1 in Element with
+  property type: "T1"
+end
+
+E2 in Element end
+
+MyModel in Model with
+  contains
+    e1: E1;
+    e2: E2
+end
+'
+
+
+tell '
+MyModel in Class with
+  rule
+    default: $ forall e/Element (MyModel contains e) 
+               and (not exists s/String :(e property/type s): )
+               ==> (e property/type "default")
+             $
+end
+
+'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

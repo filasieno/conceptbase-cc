@@ -1,0 +1,37 @@
+#!/usr/bin/cbshell
+# Syntax: ask <port> <query>
+# Author: Manfred Jeusfeld 
+# Created: 2012-06-14
+# -----------------------------------------------------------------------
+# Ask <query> to the CBserver running on localhost and port number <port>
+#
+# Requires ConceptBase 7.4.02
+# The cbshell script shall be copied to /usr/bin in order to use this script
+# You need to start a CBserver on a certain port number, e.g. 4001, prior
+# to starting this script.
+#
+# Example:
+#   ask 4001 find_instances[Function/class]
+
+
+enrollMe localhost $1
+# the port number is supplied as parameter 1 of the script
+
+ask "$2" OBJNAMES  LABEL  Now
+showAnswer
+# if you do not want to see the error messages, then put the next line in comments
+getErrorMessages
+
+
+
+
+
+
+
+
+
+
+
+
+
+

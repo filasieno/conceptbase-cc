@@ -1,0 +1,57 @@
+{
+*
+* File: Win.sml
+* Author: Manfred Jeusfeld
+* Creation: 3-Apr-2002 (8-Apr-2002/MJf)
+* ----------------------------------------------------------------------
+* Translated to O-Telos from
+*  http://www.seas.smu.edu/~wchen/papers/stable.ps.gz
+*    Weidong Chen, David Scott Warren:
+*    Computation of Stable Models and its Integration with Logical Query Processing,
+*    TKDE 8(5), 742-757, 1996, page 743f
+*
+* For cyclic databases, the queries Win/Loose are incomplete or incorrect, resp.
+}
+
+
+Class Position with
+  attribute
+    moveTo: Position
+end
+
+QueryClass Win isA Position with
+  constraint
+    c: $ exists y/Position (~this moveTo y) and not (y in Win) $
+end
+
+{* complement of Win: works only correctly if data is acyclic, i.e. in *}
+{* dynamically stratified databases                                    *}
+QueryClass Loose isA Position with
+  constraint
+    c: $ not (~this in Win) $
+end 
+
+{* Example data from Chen/Warren paper                                                *}
+{* The query Win returns 'b' as solution which is correct because 'c' is not          *}
+{* a 'Win' position (has no moveTo). However, ConceptBase cannot derive that          *}
+{* the status of 'a' should be undecided (neither '(a in Win)' nor 'not (a in Win)'). *}
+{* As ConceptBase uses negation as failure and it cannot prove '(a in Win)',          *}
+{* it will assume 'not (a in Win)'. After all, the query is not stratified and we     *}
+{* only guarantee correct answers for stratified rules/queries.                       *}
+{* Note the cycle with the definition of position 'a'!                                *}
+
+
+Position a with
+  moveTo
+   p1: a;
+   p2: b
+end
+
+Position b with
+  moveTo
+    p1: c
+end
+
+Position c end
+
+

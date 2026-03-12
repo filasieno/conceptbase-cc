@@ -1,0 +1,171 @@
+{*
+* File 01-ERD-Language.sml
+* Author: Manfred Jeusfeld, jeusfeld@uvt.nl
+* Date: 7-Dec-2012 (7-Dec-2012)
+*----------------------------------------------------------------
+* This model file specifies the ERD notation, actually as complete as possible with
+* ConceptBase
+*
+* (c) 2008 by M. Jeusfeld. 
+* This model file is licensed under the terms of Attribution-Non-Commercial 2.0 Germany 
+*   http://creativecommons.org/licenses/by-nc/2.0/de/legalcode  (German)
+*   http://creativecommons.org/licenses/by-nc/2.0/legalcode     (generic)
+* A summary of your rights and obligations concerning this work is available from
+*   http://creativecommons.org/licenses/by-nc/2.0/de/deed.en_GB
+* Extended rights can be obtained via the author.
+*
+* Requires ConceptBase 7.4 or later.
+*
+*}
+
+
+{* some useful additions to system classes *}
+
+QueryClass isA MSFOLrule end  {* for close integration with IC test *}
+
+Class Concept with
+   attribute
+     singleDef: Concept;
+     necessaryDef: Concept
+  constraint
+     single_IC: $ forall AC/Concept!singleDef a,b,c/Proposition
+                 (a in AC) and (b in AC) and From(a,c) and From(b,c)  ==> (a == b) $;
+     necessary_IC: $ forall AC/Concept!necessaryDef C,D/Concept M/VAR c/Proposition
+                  P(AC,C,M,D) and (c in C) ==> exists a/Proposition (a in AC) and From(a,c) $;
+     notUserDefined_IC: $ forall ac/Proposition!deducedOnly not exists a/Attribute (a in ac) $;
+     disjoint_IC: $ forall pair/Proposition!disjointTo x,f,t/Proposition From(pair,f) and To(pair,t)
+                    and (x in f) ==> not (x in t) $
+end
+
+Individual Proposition with
+  attribute
+    deducedOnly: Proposition;  {* used to make sure that some attributes are only derived *}
+    disjointTo: Proposition    {* expresses that some classes (or attribute categories) do not share any instance *}
+end
+
+Proposition with
+  attribute
+    cardinalityTag: Proposition
+end
+
+
+
+
+
+
+{* -------------------------------------------------------------------------- *}
+{* Define the ERD notation:                                                   *}
+{*  entity types, relationship types, IsA types, cardinality tags, attributes *}
+{* -------------------------------------------------------------------------- *}
+
+Concept EntityType with
+  attribute
+    attr: Domain;
+    key: Domain;   {* some attributes are key attributes *}
+    superType: EntityType  {* only used for defining the semaantics of the IsaType *}
+end
+
+
+Concept RelationshipType with
+  attribute
+    role: EntityType;
+    "1..n": EntityType;
+    "2..n": EntityType;
+    "1..1": EntityType;
+    "0..1": EntityType;
+    "0..2": EntityType;
+    "0..n": EntityType;
+    "n..m": EntityType
+end
+
+
+
+RelationshipType!"1..n" in Proposition!cardinalityTag end
+RelationshipType!"2..n" in Proposition!cardinalityTag end
+RelationshipType!"1..1" in Proposition!cardinalityTag end
+RelationshipType!"0..1" in Proposition!cardinalityTag end
+RelationshipType!"0..2" in Proposition!cardinalityTag end
+RelationshipType!"0..n" in Proposition!cardinalityTag end
+RelationshipType!"n..m" in Proposition!cardinalityTag end
+
+{* This one is what Yourdan calls an associative object type *}
+Concept EntityRelationshipType in Class isA EntityType,RelationshipType
+end
+
+Concept IsaType in Class with
+  attribute 
+    sub: EntityType;
+    super: EntityType
+end
+
+
+Concept Domain with
+end
+
+
+Domain Date
+end
+
+Domain String
+end
+
+Domain Integer
+end
+
+Domain Real
+end
+
+
+
+
+{* the 'superType' attribute of EntityType is not used by the modeler. It's just derived *}
+{* by a rule to help define the semantics of the IsaType concept.                        *}
+EntityType with
+  deducedOnly
+    superType: EntityType
+end
+
+
+{* A specialization has exactly one super entity type and at least one sub entity type *}
+IsaType with
+  necessaryDef 
+    sub: EntityType
+  singleDef,necessaryDef 
+    super: EntityType
+end
+
+
+
+
+
+{* define ERDModel as container of ERD elements *}
+
+ERDElement end
+EntityType isA ERDElement end
+RelationshipType isA ERDElement end
+RelationshipType!role isA ERDElement end
+IsaType isA ERDElement end
+IsaType!sub isA ERDElement end
+IsaType!super isA ERDElement end
+Domain isA ERDElement end
+EntityType!attr isA ERDElement end
+
+ERDModel in Class with
+  attribute
+    contains: ERDElement
+  rule
+    r1: $ forall e/EntityType m/ERDModel a/EntityType!attr
+             (m contains e) and Ai(e,attr,a) ==> (m contains a) $;
+    r2: $ forall e/IsaType m/ERDModel a/IsaType!sub
+             (m contains e) and Ai(e,sub,a) ==> (m contains a) $;
+    r3: $ forall e/IsaType m/ERDModel a/IsaType!super
+             (m contains e) and Ai(e,super,a) ==> (m contains a) $;
+    r4: $ forall e/RelationshipType m/ERDModel a/RelationshipType!role
+             (m contains e) and Ai(e,role,a) ==> (m contains a) $
+end
+
+
+
+
+
+

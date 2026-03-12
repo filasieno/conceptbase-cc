@@ -1,0 +1,34 @@
+{*
+This file is governed by the Creative Commons license
+   Attribution-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+{
+*
+* File: ECA-DivByZero.sml
+* Author: Manfred Jeusfeld
+* Creation: 6-Jul-2010 (6-Jul-2010/M.Jeusfeld)
+* ----------------------------------------------------------------------
+*
+* Show how to create some extra error messages for forbidden query calls.
+*
+* Requires ConceptBase 7.2 released July 2010 or later.
+}
+
+
+ECArule NoDivByZero with
+  rejectMsg rm:
+   "You should know that you cannot divide by zero!"
+  ecarule
+    r1: $ x/Integer
+         ON Ask DIV[x/r1,0/r2]
+         IF TRUE
+         DO reject
+        $
+end

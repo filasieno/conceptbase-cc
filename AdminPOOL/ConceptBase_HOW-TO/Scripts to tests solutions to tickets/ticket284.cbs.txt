@@ -1,0 +1,106 @@
+#
+# File: ticket284.cbs
+# Author: Manfred Jeusfeld
+# Created: 2011-09-01/M.Jeusfeld (2011-09-05/M.Jeusfeld)
+# ------------------------------------------------------
+# Meta formulas compiled differently depending on TELL order
+# Start: CBshell -f ticket284.cbs
+#
+
+
+# Run 1: meta formula and binding instance in two separate transactions
+
+startServer -u nonpersistent -port 4411 -t high 
+
+# Transaction 1: tell the meta formulas
+tell "
+Proposition!attribute with
+  attribute
+    isTransitiveClosureOf: Proposition!attribute
+end
+
+
+MakeTransitiveSemantics1 in Class with
+  rule
+   transR1: $ forall x,y/VAR
+                     (exists A,B/Proposition!attribute C/Proposition MA,MB/VAR
+                      (B isTransitiveClosureOf A) and
+                      P(A,C,MA,C) and P(B,C,MB,C) and
+                     (x in C) and (y in C) and
+                     (x MA y) ) ==> (x MB y) $;
+   transR2: $ forall x,y/VAR
+                     (exists A,B/Proposition!attribute C/Proposition MA,MB/VAR z/VAR
+                      (B isTransitiveClosureOf A) and
+                      P(A,C,MA,C) and P(B,C,MB,C) and
+                     (x in C) and (y in C)  and (z in C) and
+                     (x MA z) and (z MB y) ) ==> (x MB y) $
+end
+"
+
+# Transaction 1: tell the meta formulas
+# this will trigger the generation of a derived formula from the above 
+# meta formula
+
+tell " 
+City in Class with 
+   attribute
+	con_to : City;
+    trans_con_to: City
+end
+
+City!trans_con_to with
+  isTransitiveClosureOf
+    attr1: City!con_to
+end
+"
+
+ask "get_object[City/objname]" OBJNAMES  FRAME  Now
+
+stopServer
+
+
+# Run 2: meta formula and binding instance in a single transaction
+
+
+startServer -u nonpersistent -port 4411 -t high 
+
+
+tell "
+Proposition!attribute with
+  attribute
+    isTransitiveClosureOf: Proposition!attribute
+end
+
+
+MakeTransitiveSemantics1 in Class with
+  rule
+   transR1: $ forall x,y/VAR
+                     (exists A,B/Proposition!attribute C/Proposition MA,MB/VAR
+                      (B isTransitiveClosureOf A) and
+                      P(A,C,MA,C) and P(B,C,MB,C) and
+                     (x in C) and (y in C) and
+                     (x MA y) ) ==> (x MB y) $;
+   transR2: $ forall x,y/VAR
+                     (exists A,B/Proposition!attribute C/Proposition MA,MB/VAR z/VAR
+                      (B isTransitiveClosureOf A) and
+                      P(A,C,MA,C) and P(B,C,MB,C) and
+                     (x in C) and (y in C)  and (z in C) and
+                     (x MA z) and (z MB y) ) ==> (x MB y) $
+end
+
+City in Class with 
+   attribute
+	con_to : City;
+    trans_con_to: City
+end
+
+City!trans_con_to with
+  isTransitiveClosureOf
+    attr1: City!con_to
+end
+"
+
+ask "get_object[City/objname]" OBJNAMES  FRAME  Now
+
+
+

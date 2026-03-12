@@ -1,0 +1,104 @@
+# This file is governed by the Creative Commons license
+#   Attribution-NonCommercial 4.0 Unported
+#   http://creativecommons.org/licenses/by-nc/4.0/
+#   http://creativecommons.org/licenses/by-nc/4.0/legalcode
+#
+# Extended licenses, in particular commercial licenses, can be obtained from the
+# author of the source code.
+# Any re-distribution as source code must acknowledge the original author of this file.
+
+#
+# File: deeptelos-products.cbs
+# Author: Manfred Jeusfeld, manfred.jeusfeld@acm.org
+# Date: 2016-03-03 (2016-04-14)
+#----------------------------------------------------------------
+# Formalization of singleton classes that may offer a simple form
+# of multi-level modeling. The use of bottom-up singletons for multi-level modeling
+# was inspired by Bernd Neumayr. Here we use top-down "most general instances" instead.
+
+cbserver -port 4411 -t low -new TICKETDB
+
+
+tellModel deeptelos.sml.txt
+
+
+
+# Multiton hierarchy for Product
+tell "
+ProductCategory with
+end
+
+ProductModel  with
+  IN c: ProductCategory
+end
+
+Product  with
+  IN c: ProductModel
+end
+
+CarModel in ProductCategory with
+end
+
+Car with
+  IN c: CarModel
+end
+"
+
+tell "
+
+ProductCategory with
+  attribute
+    categoryMgr: Person   {* 3-1 *}
+end
+
+ProductModel with
+  attribute
+    listPrice: Integer  {* 2-1 *}
+end
+
+CarModel with
+  categoryMgr c: peter {* 2-0 *}
+  attribute
+    numberOfDoors: Integer {* 2-1 *}
+end
+
+Car with
+   attribute
+     mileage: Integer;   {* 1-1 *}
+     owner: AdultPerson  {* 1-1 *}
+end
+
+Person end
+AdultPerson isA Person end
+
+peter in Person end
+
+PhoneModel in ProductCategory end
+
+
+Product with
+  attribute
+    owner: Person
+end
+
+"
+
+# product models
+tell "
+Porsche911 in CarModel with
+  numberOfDoors d: 2  {* 1-0 *}
+  listPrice p: 120000  {* 1-0 *}
+end
+
+GalaxyS3 in PhoneModel end
+"
+
+
+
+ask get_object[Porsche911/objname] OBJNAMES FRAME Now
+
+
+ask listModule
+
+
+

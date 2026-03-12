@@ -1,0 +1,130 @@
+# Test the correct operation ECA rules in presence of recursive complex query calls
+# Requires ConceptBase 7.4
+
+
+startServer -u nonpersistent -t low 
+
+
+# First tell the employee model with a couple of instances
+# The syntax PlainToronto is just legacy support and not important for this ticket
+
+tell "
+Node in Class with
+  attribute
+     linkTo: Node  {* attributes in ConceptBase are by default multi-valued *}
+  rule
+     transitivity: $ forall n1,n2,n3/Node :(n1 linkTo n2): and (n2 linkTo n3) ==> (n1 linkTo n3) $;
+     symmetry: $ forall n1,n2/Node :(n1 linkTo n2): ==> (n2 linkTo n1) $;
+     reflexivity: $ forall n/Node (n linkTo n) $
+end
+
+{* any node is a representative of the equivalence class of nodes connected to it *}
+Representative isA Node with
+end
+
+{* this query class is used in the ECArule to build the connected component of an *}
+{* unassigned node                                                                *}
+UnassignedNode in QueryClass isA Node with
+  constraint
+    notAssigned: $ not exists r/Representative (r linkTo this) $
+end
+
+ConnectedComponent in GenericQueryClass isA Node with
+  parameter
+    rep: Node
+  constraint
+    conn: $ (rep linkTo this) $
+end
+
+
+{* This ECArule computes representatives for all         *}
+{* connected components of the graph.                    *}
+{* It is both an ECArule and a QueryClass; by this trick *}
+{* we can just call the ECArule and let it call itself   *}
+
+computeRepresentatives in ECArule,QueryClass isA YesClass with
+  mode m: Deferred
+  ecarule
+        er : $ r/Node
+        ON Ask computeRepresentatives
+        IFNEW (r in selectfirst[UnassignedNode])
+        DO  Tell (r in Representative),
+            Raise computeRepresentatives
+        $
+end
+
+
+
+
+
+{* Data level*}
+
+
+N1 in Node with
+  linkTo
+    s1: N2
+end
+
+N2 in Node with
+  linkTo
+    s1: N3;
+    s2: N4
+end
+
+N3 in Node with
+  linkTo
+    s1: N5
+end
+
+N4 in Node with
+  linkTo
+    s1: N5
+end
+
+N5 in Node with
+  linkTo
+    s1: N2
+end
+
+M1 in Node with
+  linkTo
+    s1: M2
+end
+
+M2 in Node with
+ linkTo
+    s1: M3;
+    s2: M4
+end
+
+M3 in Node with
+  linkTo
+    s1: M5
+end
+
+M4 in Node with
+  linkTo
+    s1: M5
+end
+
+M5 in Node 
+end
+"
+
+
+
+ask "computeRepresentatives" OBJNAMES  LABEL  Now
+# this must terminate
+
+ask "find_instances[Representative/class]" OBJNAMES  LABEL  Now
+# must return N1,M1
+
+
+
+
+
+
+
+
+
+

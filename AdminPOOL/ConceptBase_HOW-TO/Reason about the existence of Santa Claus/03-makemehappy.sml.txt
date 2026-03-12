@@ -1,0 +1,12 @@
+{* this will make Manfred happy *}
+
+THE_SINTERKLAAS in Sinterklaas with 
+ sinterklaas_visit
+     toP3 : Manfred
+end 
+
+THE_SINTERKLAAS!toP3 with
+  withGift g1: WidescreenColorMobilePhone
+end
+
+WidescreenColorMobilePhone in Gift end 

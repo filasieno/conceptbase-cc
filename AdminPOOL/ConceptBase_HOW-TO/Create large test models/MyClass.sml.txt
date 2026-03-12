@@ -1,0 +1,80 @@
+{
+*
+* File: MyClass.sml
+* Author: Manfred Jeusfeld
+* Creation: 7-Jun-2005
+* ----------------------------------------------------------------------
+* Some example queries to be tested on generated Telos models.
+}
+
+
+Proposition!attribute with
+  attribute
+    isTransitiveClosureOf: Proposition!attribute
+end
+
+
+MakeTransitiveSemantics1 in Class with
+  rule
+   transR1: $ forall x,y/VAR
+                     (exists A,B/Proposition!attribute C/Proposition MA,MB/VAR
+                      (B isTransitiveClosureOf A) and
+                      P(A,C,MA,C) and P(B,C,MB,C) and
+                     (x in C) and (y in C) and
+                     (x MA y) ) ==> (x MB y) $;
+   transR2: $ forall x,y/VAR
+                     (exists A,B/Proposition!attribute C/Proposition MA,MB/VAR z/VAR
+                      (B isTransitiveClosureOf A) and
+                      P(A,C,MA,C) and P(B,C,MB,C) and
+                     (x in C) and (y in C)  and (z in C) and
+                     (x MA z) and (z MB y) ) ==> (x MB y) $
+end
+
+
+MyClass in Class with 
+   attribute
+	con : MyClass;
+        trans_con: MyClass
+end 
+
+
+MyClass!trans_con with
+  isTransitiveClosureOf
+    attr1: MyClass!con
+end
+
+QueryClass DeadEnd isA MyClass with
+  constraint
+     c1: $ (forall n/MyClass (~this con n)
+            ==> (n in DeadEnd)) $
+end
+
+QueryClass DeadStart isA MyClass with
+  constraint
+     c1: $ (forall n/MyClass (n con ~this)
+            ==> (n in DeadStart)) $
+end
+
+GenericQueryClass ReachableFrom isA MyClass with
+  parameter,computed_attribute
+    start: MyClass
+  constraint
+    c: $ (~start trans_con ~this) $
+end
+
+GenericQueryClass UnReachableFrom isA MyClass with
+  parameter,computed_attribute
+    start: MyClass
+  constraint
+    c: $ not (~start trans_con ~this) $
+end
+
+QueryClass GoodStart isA MyClass with 
+  attribute,constraint
+     c1 : $ forall c/MyClass (c in ReachableFrom[~this/start]) $
+end 
+
+
+
+
+

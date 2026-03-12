@@ -1,0 +1,154 @@
+# This file is governed by the Creative Commons license
+#   Attribution-NonCommercial 3.0 Unported
+#   http://creativecommons.org/licenses/by-nc/3.0/
+#   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+#
+# Extended licenses, in particular commercial licenses, can be obtained from the
+# author of the source code.
+# Any re-distribution as source code must acknowledge the original author of this file.
+
+#
+# File: ECA-Transactions4.cbs
+# Author: Manfred Jeusfeld
+# Created: 2011-05-02/M.Jeusfeld (2011-05-02/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Start: CBshell -f ECA-Transactions4.cbs | fgrep ECAaction
+#
+# Shows the capabilities of the TRANSACTIONAL tag of ECArules to
+# control the execution order of ECA triggers.
+#
+# This script requires ConceptBase 7.3.12 or later.
+#
+
+
+
+startServer -u nonpersistent -port 4411 -t high 
+
+# The visit paradigm simulates a situation where certain actions should
+# be executed before other actions.
+tell "
+Person with
+  attribute
+    visits: House;
+    enters: Room;
+    opensDoor: Room;
+    turnOnLight: Room;
+    turnOffLight: Room;
+    leaves: Room
+end
+
+House with
+  attribute
+     has: Room
+end
+
+Room with
+end
+"
+
+
+# The TRANSACTIONAL tag of onPerson_transactional will be processed when ConceptBase
+# processes the original event "Tell (p in Person)". Then, all events
+# that are caused by the reaction to "Tell (p in Person)" are
+# processed before the next original event. 
+
+ 
+tell "
+ECArule onPerson_transactional with
+  mode m: Deferred
+  ecarule
+        er : $  p/Person h/House
+        ON TRANSACTIONAL Tell (p in Person) 
+        IF (h in House)
+        DO Tell (p visits h)
+        $
+end
+
+ECArule onVisitHouse with
+  mode m: Deferred
+  ecarule
+        er : $  p/Person house/House room/Room
+        ON Tell (p visits house) 
+        IF (house has room)
+        DO  Tell (p enters room)
+        $
+end
+"
+
+
+# afterEnter1 and afterEnter2 are executed whenever (p enters r) is told
+# We use mode Immediate for afterEvent1 and Deferred for afterEvent2
+# You can play with other configurations
+tell "
+ECArule afterEnter1 with
+  mode m: Immediate
+  ecarule
+        er : $  p/Person r/Room
+        ON Tell (p enters r) 
+        IF TRUE
+        DO Tell (p opensDoor r)
+        $
+end
+
+ECArule afterEnter2 with
+  mode m: Deferred
+  ecarule
+        er : $  p/Person r/Room
+        ON Tell (p enters r) 
+        IF TRUE
+        DO Tell (p turnOnLight r),
+           Tell (p turnOffLight r),
+           Tell (p leaves r)
+        $
+end
+"
+
+# Example data: two houses with two rooms each
+# Peter and Mary are supposed to visit them and 
+# enter each room
+tell "
+
+
+HouseA in House with
+  has
+    r1: RoomA1;
+    r2: RoomA2
+end
+
+RoomA1 in Room 
+end
+
+RoomA2 in Room 
+end
+
+
+HouseB in House with
+  has
+    r1: RoomB1;
+    r2: RoomB2
+end
+
+RoomB1 in Room 
+end
+
+RoomB2 in Room 
+end
+"
+
+
+# This initiates the house visits
+tell "
+peter in Person end
+mary in Person end
+"
+
+# This produces two events:
+#   e1: Tell (peter in Person)
+#   e2: Tell (mary in Person)
+# Event e1 will cause a "transactional switch", which will basically delay the processing of e2
+# until all events caused indirectly by e1 are processed.
+# Hence, the actions relating to peter precede the actions relating to mary 
+
+
+

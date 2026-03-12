@@ -1,0 +1,62 @@
+{*
+This file is governed by the Creative Commons license
+   Attribution-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code. Any re-distribution as source code must acknowledge the
+original author of this file.
+*}
+
+
+{
+*
+* File: EmployeeCount.sml
+* Author: Manfred Jeusfeld
+* Creation: 6-Jan-2010 (24-Sep-2015)
+* ----------------------------------------------------------------------
+*
+* Simplified example for Counters with ECArules.
+* Note that a single transaction can tell several employees, updating the count attribute.
+* We thus have to evaluate (Employee attribute/count i) against the new database state,
+* indicated by the back-apostrophe "`" before the condition predicate.
+* The Retell action is a combination of Untell (deletion) and Tell (insertion).
+}
+
+
+
+Class Employee with
+  attribute
+    count: 0
+end
+
+
+ECArule EmployeeCounterRule_ins with
+mode m: Deferred
+ecarule
+        er : $  x/Employee i,i1/Integer
+        ON Tell (x in Employee)
+        IF `(Employee attribute/count i) and (i1 = i+1)
+        DO Retell (Employee attribute/count i1)
+        $
+end
+
+
+ECArule EmployeeCounterRule_del with
+mode m: Deferred
+ecarule
+        er : $  x/Employee i,i1/Integer
+        ON Untell (x in Employee)
+        IF `(Employee attribute/count i) and (i1 = i-1)
+        DO Retell (Employee attribute/count i1)
+        $
+end
+
+
+{* Tell/Untell employees like the follwing ones and display the Employee class
+ * to see the updated count attribute.
+
+mary in Employee end
+bill in Employee end 
+*}
+

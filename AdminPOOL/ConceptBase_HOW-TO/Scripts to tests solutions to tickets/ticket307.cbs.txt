@@ -1,0 +1,36 @@
+# Test CBshell command line parameters
+# Call like
+#    cbshell ticket307.cbs 4321 MyClass "john with attribute salary: 100 end"
+
+echo "About to start a CBserver on port $1"
+# the echo command is now supported by CBshell
+
+startServer -u nonpersistent -t low -port $1
+# the port number is supplied as parameter 1 of the script
+
+tell "
+$2 in Class end
+"
+# $2 is bound to MyClass if you use the example cbshell call in line 3
+
+ask "find_instances[$2/class]" OBJNAMES  LABEL  Now
+# another use of $2 , here in a query call
+
+tell "$3"
+# $3 is bound to the string starting with john
+
+ask "get_object[john/objname]" OBJNAMES  FRAME  Now
+# check wether john is actually told
+
+
+
+
+
+
+
+
+
+
+
+
+

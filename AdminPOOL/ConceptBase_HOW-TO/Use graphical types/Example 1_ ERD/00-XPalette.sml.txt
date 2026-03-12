@@ -1,0 +1,64 @@
+{
+*
+* File: 00-XPalette.sml
+* Author: Manfred Jeusfeld
+* Creation: 3-May-2013
+* ----------------------------------------------------------------------
+* 
+* Extensible graphical Palette; makes life easier in dealing with ConceptBase
+* graphical types
+* Define additional graphical types by definining a subclass of XPalette and
+* then add the new graphical types. XPalette will then make sure that 
+* required builtin graphical types are automatically added.
+}
+
+
+
+XPalette in Class,JavaGraphicalPalette with  
+  contains,defaultIndividual
+    xx1 : DefaultIndividualGT
+  contains,defaultLink
+    xx2 : DefaultLinkGT
+  contains,implicitIsA
+    xx3 : ImplicitIsAGT
+  contains,implicitInstanceOf
+    xx4 : ImplicitInstanceOfGT
+  contains,implicitAttribute
+    xx5 : ImplicitAttributeGT
+  contains
+    xx6 : DefaultIsAGT;
+    xx7 : DefaultInstanceOfGT;
+    xx8 : DefaultAttributeGT;
+    xx9 : MetametaGT;
+    xx10 : SimpleClassGT;
+    xx11 : MetaClassGT;
+    xx12 : ClassGT;
+    xx13 : QueryClassGT
+  rule
+    inheritGTs: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette contains gt)
+                  ==> (pal contains gt) $;
+    inheritDef1: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette defaultIndividual gt)
+                  ==> (pal defaultIndividual gt) $;
+    inheritDef2: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette defaultLink gt)
+                  ==> (pal defaultLink gt) $;
+    inheritDef3: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette implicitIsA gt)
+                  ==> (pal implicitIsA gt) $;
+    inheritDef4: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette implicitInstanceOf gt)
+                  ==> (pal implicitInstanceOf gt) $;
+    inheritDef5: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette implicitAttribute gt)
+                  ==> (pal implicitAttribute gt) $
+end 
+
+

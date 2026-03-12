@@ -1,0 +1,305 @@
+{
+*
+* File: Organigraph.sml
+* Author: Manfred Jeusfeld
+* Creation: 29-Jun-2004 (2-Dec-2012)
+* ----------------------------------------------------------------------
+* This is the O-Telos representation organigraphs
+* Some definitions like SetUnit2 are shorter realizations
+* using complex functional expressions supported by ConceptBase 6.2.
+* Since they are creating intermediate results of COUNT (#) as
+* objects, performance is significantly lower than for the
+* originals. Another reason is that the predicates with functional
+* expressions do not fully utilize the cache-based literal
+* evaluator of ConceptBase.
+*
+* We omit the tilde ('~') before parameter references and the class
+* variable 'this'. This simplified syntax is supported by ConceptBase
+* as of 25-Mar-2008.
+*
+* Requires ConceptBase 7.1 released 25-Mar-2008 or later.
+*
+}
+
+
+Class Unit with
+  attribute
+    pushes: Unit;
+    pushesTrans: Unit
+end
+
+
+{* Unit with a link to this unit *}
+ToUnit in GenericQueryClass isA Unit with
+  parameter
+    unit: Unit
+  constraint
+    c1: $ (unit pushes this) $
+end
+
+{* Unit with a link from this unit *}
+FromUnit in GenericQueryClass isA Unit with
+  parameter
+    unit: Unit
+  constraint
+    c1: $ (this pushes unit) $
+end
+
+SetUnit in QueryClass isA Unit with
+  constraint
+     c1: $ (#ToUnit[this] >= 2) and 
+           (#FromUnit[this] = 1) $
+end
+
+
+HubUnit in QueryClass isA Unit with
+  constraint
+     c1: $ (#ToUnit[this] >= 2) and 
+           (#FromUnit[this] >= 2) $
+end
+
+
+ChainUnit in QueryClass isA Unit with
+  constraint
+     c1: $ (#ToUnit[this] = 1) and 
+           (#FromUnit[this] = 1) $
+
+end
+
+ChainStartUnit in QueryClass isA Unit with
+  constraint
+     c1: $ not (this in ChainUnit) and
+           exists s/ChainUnit (this pushes s) $
+end
+
+ChainEndUnit in QueryClass isA Unit with
+  constraint
+     c1: $ not (this in ChainUnit) and
+           exists s/ChainUnit (s pushes this) $
+end
+
+
+{* o1 is a set *}
+
+o1 in Unit with 
+  pushes
+    u1: o2;
+    u2: o3;
+    u4: o4
+end
+
+o2 in Unit end
+o3 in Unit end
+o4 in Unit end
+
+
+{* o5 is a hub *}
+
+o5 in Unit with
+  pushes
+     u1: o6;
+     u2: o7;
+     u3: o8
+end
+
+o6 in Unit end
+o7 in Unit end
+o8 in Unit end
+
+o9 in Unit with 
+  pushes
+    u1: o5
+end
+
+o10 in Unit with 
+  pushes
+    u1: o5
+end
+
+
+{* start of a chain: *}
+o6 in Unit with
+  pushes
+    u1: o11
+end
+
+o11 in Unit with
+  pushes
+    u1: o12
+end
+
+o12 in Unit with
+  pushes
+    u1: o13
+end
+
+o13 in Unit with
+  pushes
+    u1: o1
+end
+
+
+{* graphical types *}
+
+Class Organigraph_Palette in JavaGraphicalPalette with
+contains,defaultIndividual
+	c1 : DefaultIndividualGT
+contains,defaultLink
+	c2 : DefaultLinkGT
+implicitIsA, contains
+    c3 : ImplicitIsAGT
+implicitInstanceOf, contains
+    c4 : ImplicitInstanceOfGT
+implicitAttribute, contains
+    c5 : ImplicitAttributeGT
+contains
+    c6: Unit_GT;
+    c7: Set_GT;
+    c9: Chain_GT;
+    c10: Hub_GT;
+    c12: ChainStart_GT;
+    c13: ChainEnd_GT;
+    c14: PushesLinkGT;
+    c19: DefaultAttributeGT;
+    c20: DefaultIsAGT;
+    c21: DefaultInstanceOfGT;
+    c22: QueryClassGT
+rule
+    rIsaGT : $ forall p/IsA (p graphtype DefaultIsAGT) $;
+    rInstGT : $ forall p/InstanceOf (p graphtype DefaultInstanceOfGT) $;
+    rAttrGT : $ forall p/Attribute (p graphtype DefaultAttributeGT) $;
+    rIndGT : $ forall p/Individual (p graphtype DefaultIndividualGT) $;
+    rQueryClass : $ forall c/QueryClass (c graphtype QueryClassGT) $
+end
+
+
+Unit_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "255,255,255";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Ellipse";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 20
+rule
+     gtrule: $ forall u/Unit (u graphtype Unit_GT) $
+
+end
+
+
+Set_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "250,250,100";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Ellipse";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 30
+rule
+     gtrule: $ forall u/SetUnit (u graphtype Set_GT) $
+
+end
+
+
+Hub_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "250,100,250";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Ellipse";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 31
+rule
+     gtrule: $ forall u/HubUnit (u graphtype Hub_GT) $
+
+end
+
+Chain_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "150,250,250";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Ellipse";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 32
+rule
+     gtrule: $ forall u/ChainUnit (u graphtype Chain_GT) $
+
+end
+
+ChainStart_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "100,200,200";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Ellipse";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 21
+rule
+     gtrule: $ forall u/ChainStartUnit (u graphtype ChainStart_GT) $
+
+end
+
+
+ChainEnd_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "100,200,150";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Ellipse";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 21
+rule
+     gtrule: $ forall u/ChainEndUnit (u graphtype ChainEnd_GT) $
+
+end
+
+
+
+PushesLinkGT in JavaGraphicalType,Class with 
+  attribute,property
+     textcolor : "0,0,0";
+     edgecolor : "120,120,120";
+     edgewidth : "2";
+     label : "";
+     bgcolor : "250,200,100"  {* bgcolor for the square dot on the edge *}
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 8
+  rule
+     gtrule1: $ forall u/Unit!pushes (u graphtype PushesLinkGT) $
+end 
+
+
+
+
+                       
+
+                       
+
+
+
+
+
+
+
+

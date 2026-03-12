@@ -1,0 +1,346 @@
+{
+* File: 01-PetriNets.sml
+* Author: Manfred Jeusfeld, Students of MethEng 2004 course
+* Created: 2-Nov-2004/M.Jeusfeld (1-Apr-2008/M.Jeusfeld)
+* ------------------------------------------------------
+* Notation for petri nets plus definition of enabled transition,
+* dead state, and next state.
+* Requires ConceptBase 7.1 (released April 2008 or later)!!
+* Defines TokenNr as a function to allow simpler definition of
+* EnabledTransition.
+*
+}
+
+
+{* ------------------------------------------------------------------ *}
+
+{* **** Notation Definition Level **** *}
+{* defines extensions to O-Telos to be *}
+{* more capable for defining notations *}
+{* ****      ---------------      **** *}
+
+
+Node with
+  attribute   
+    connectedTo: Node
+end
+
+Model isA Node with
+   attribute
+      contains: Node
+end
+
+
+{* Define single/necessary (adapted from ConceptBase user manual) *}
+
+Class with constraint, attribute
+  necConstraint:
+    $ forall p/Proposition!necessary c,d/Proposition x,m/VAR 
+      P(p,c,m,d) and In(x,c) ==> 
+         exists y/VAR  In(y,d) and A(x,m,y) $;
+  singleConstraint : 
+   $ forall p/Proposition!single c,d/Proposition x,m/ VAR 
+     In(p,Proposition!single) and P(p,c,m,d) and In(x,c)  ==> 
+        forall y1,y2/VAR 
+        In(y1,d) and In(y2,d) and A(x,m,y1) and A(x,m,y2) ==>  
+                 IDENTICAL(y1, y2) $
+end 
+
+{* The link 'isTransitiveClosureOf' shall be used to     *}
+{* declare some attribute B to be the transitive closure *}
+{* of some attribute A.                                  *}
+
+Proposition!attribute with
+  attribute
+    isTransitiveClosureOf: Proposition!attribute
+end
+
+
+MakeTransitiveSemantics1 in Class with
+  rule
+   transR1: $ forall x,y/VAR 
+                     (exists A,B/Proposition!attribute C/Proposition MA,MB/VAR
+                      (B isTransitiveClosureOf A) and
+                      P(A,C,MA,C) and P(B,C,MB,C) and 
+                     (x in C) and (y in C) and 
+                     (x MA y) ) ==> (x MB y) $;
+   transR2: $ forall x,y/VAR
+                     (exists A,B/Proposition!attribute C/Proposition MA,MB/VAR z/VAR 
+                      (B isTransitiveClosureOf A) and
+                      P(A,C,MA,C) and P(B,C,MB,C) and
+                     (x in C) and (y in C)  and (z in C) and 
+                     (x MA z) and (z MB y) ) ==> (x MB y) $
+end
+
+
+
+{* ------------------------------------------------------------------ *}
+
+{* ****       Notation Level      **** *}
+{* defines the Petri Net Notation      *}
+{* ****      ---------------      **** *}
+
+
+Place in Node with
+  connectedTo
+    sendsToken: Transition
+  attribute
+    tokenFill: Integer  {* needed to define states *}
+end
+
+Transition in Node with 
+  connectedTo
+     producesToken : Place
+end 
+
+
+{* A petri net consists of transitions and *}
+{* places, and implicitely their links.    *}
+
+Petrinet in Model with 
+  contains
+     containsTransition : Transition;
+     containsPlace : Place
+end 
+
+
+{* A petri net state is a configuration of tokens *}
+{* on places.                                     *}
+
+PetrinetState with 
+  attribute
+     placeFill : Place!tokenFill;
+     ofPetrinet: Petrinet
+end 
+
+
+{* compute the number of tokens in a place *}
+{* at a given state.                       *}
+
+TokenNr in Function isA Integer with
+  parameter
+    state: PetrinetState;
+    place: Place
+  constraint
+    c1: $ exists tf/Place!tokenFill
+             (state placeFill tf) and
+             From(tf,place) and To(tf,this) 
+        $
+end
+
+{* A transition is enabled if the number of Tokens *}
+{* at all its input places is greater than zero.   *}
+
+EnabledTransition in GenericQueryClass isA Transition with
+  parameter,computed_attribute
+    state: PetrinetState
+  constraint
+    c1: $ exists pn/Petrinet 
+             (state ofPetrinet pn) and
+             (pn containsTransition this) and
+             (forall pl/Place (pl sendsToken this) 
+                 ==> (TokenNr(pl,state) > 0)
+             )
+         $
+end
+
+
+{* A state is dead if no transition is enabled *}
+
+DeadState in QueryClass isA PetrinetState with
+  constraint
+     c1: $ exists pn/Petrinet (this ofPetrinet pn) and
+            ( forall tr/Transition (pn containsTransition tr)
+                  ==> not (tr in EnabledTransition[this/state])
+            )
+         $
+end
+
+
+{* InputLink is a link from a place to a transition *}
+
+InputLink in GenericQueryClass isA Place!sendsToken with
+  parameter
+     trans: Transition;
+     place: Place
+  constraint
+     c1: $ From(this,place) and To(this,trans) $
+end
+
+{* Output link as a  link from a transition to a place *}
+
+OutputLink in GenericQueryClass isA Transition!producesToken with
+  parameter
+     trans: Transition;
+     place: Place
+  constraint
+     c1: $ From(this,trans) and To(this,place) $
+end
+
+
+{* A next state from some old state is determined by *}
+{* executing a transition tr. It will compute the    *}
+{* new token numbers for any related place pl by     *}
+{*    new=old+plus-min                               *}
+{* where old is the old number of tokens, plus is    *}
+{* the number of ouput links from tr to the place pl,*}
+{* and min is the number of inputplinks from pl to   *}
+{* tr.                                               *}
+
+NextState in GenericQueryClass isA PetrinetState with
+  parameter,computed_attribute
+     oldstate: PetrinetState;
+     tr: Transition
+  constraint
+     c1: $ exists pn/Petrinet
+             (this ofPetrinet pn) and (pn containsTransition tr) and
+              forall pl/Place (pn containsPlace pl)
+              ==>
+              (TokenNr(pl,this) = TokenNr(pl,oldstate)+#OutputLink[pl,tr]-#InputLink[pl,tr])
+         $
+end
+
+{* Here we define the relation 'nextState' between two states *}
+
+PetrinetState in Class with
+  attribute
+    nextState: PetrinetState;
+    reachableState: PetrinetState
+  rule
+   r1: $ forall s1,s2/PetrinetState
+            (s2 in NextState[s1/oldstate]) ==> (s1 nextState s2) $
+end
+
+
+{* If we have an expandable state, then our list of states *}
+{* (=instances of PetrinetState) is not yet complete       *}
+
+ExpandableState in QueryClass isA PetrinetState with
+  computed_attribute
+    enabled_tr: Transition
+  constraint
+    c1: $
+         (enabled_tr in EnabledTransition[this/state]) and
+         ( not exists s/PetrinetState
+             (s in NextState[this/oldstate,enabled_tr/tr])
+         )
+        $
+end
+  
+
+{* here we define 'reachableState' to be the transitive *}
+{* closure of 'nextState'.                              *}
+
+PetrinetState!reachableState with
+  isTransitiveClosureOf
+    base: PetrinetState!nextState
+end
+
+
+
+{* ------------------------------------------------------------------ *}
+
+{* ****         Model Level       **** *}
+{* defines an example Petri Net        *}
+{* ****      ---------------      **** *}
+
+
+PN123 in Petrinet with 
+  containsTransition
+     t1 : trans1
+  containsPlace
+     p1 : place1;
+     p2 : place2;
+     p3 : place3
+end 
+
+trans1 in Transition with 
+  producesToken
+     pl1 : place2;
+     pl2 : place3
+end 
+
+{* the tokenFill attribute lists POSSIBLE fill states *}
+{* of places with tokens. Note that we can only deal  *}
+{* with finite numbers of fillers in ConceptBase.     *}
+
+place1 in Place with
+  sendsToken
+     t1: trans1
+  tokenFill
+     tf0: 0;
+     tf1: 1;
+     tf2: 2
+end
+
+
+place2 in Place with 
+  tokenFill
+     tf0: 0;
+     tf1: 1;
+     tf2: 2
+end
+
+place3 in Place with
+  sendsToken
+     t1: trans1
+  tokenFill
+     tf0: 0;
+     tf1: 1;
+     tf2: 2
+end
+
+
+{* ------------------------------------------------------------------ *}
+
+{* ****         Data Level        **** *}
+{* trace of some execution of the      *}
+{* petri net PN123                     *}
+{* ****      ---------------      **** *}
+
+{* just a few states listed here ... *}
+
+
+2_0_1 in PetrinetState with
+  ofPetrinet
+     pnet: PN123
+  placeFill
+     p1: place1!tf2;
+     p2: place2!tf0;
+     p3: place3!tf1
+end
+
+1_1_1 in PetrinetState with
+  ofPetrinet
+     pnet: PN123
+  placeFill
+     p1: place1!tf1;
+     p2: place2!tf1;
+     p3: place3!tf1
+end
+
+
+0_2_1 in PetrinetState with
+  ofPetrinet
+     pnet: PN123
+  placeFill
+     p1: place1!tf0;
+     p2: place2!tf2;
+     p3: place3!tf1
+end
+
+1_1_2 in PetrinetState with
+  ofPetrinet
+     pnet: PN123
+  placeFill
+     p1: place1!tf1;
+     p2: place2!tf1;
+     p3: place3!tf2
+end
+
+
+
+
+
+
+

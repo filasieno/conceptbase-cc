@@ -1,0 +1,36 @@
+{* 
+* File: Russel.sml
+* Author: Manfred Jeusfeld, jeusfeld@uvt.nl
+* Date: 23-Oct-2002 (9-Jul-2007)
+*----------------------------------------------------------------
+*
+* This is just another representation of Russel's paradoxon.
+* 'Russel' is the set of all sets that do not contain themselves as elements.
+* So is 'Russel' containing itself or not? We include set 'W' is an
+* ordinary instance of 'Set'.
+* Further interesting reading is in
+*     http://www.utm.edu/research/iep/p/par-russ.htm
+*
+*}
+
+
+Set in Class end 
+
+QueryClass Russel isA Set with  
+  constraint
+     c: $ not (~this in ~this) $
+end
+
+QueryClass nonRussel isA Set with
+  constraint
+    c: $ not (~this in Russel) $
+end
+
+
+{* Both Russel and nonRussel are regarded as sets here which are *}
+{* potentially instance of themselves                            *}
+
+Russel in Set end
+nonRussel in Set end
+
+W in Set end  {* this one is an 'ordinary' set that does not contain itself *}

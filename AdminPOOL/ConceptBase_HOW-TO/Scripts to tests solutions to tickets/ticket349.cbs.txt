@@ -1,0 +1,105 @@
+# Test optimization of equality predicates EQ/NE
+# Call like
+#    cbshell ticket349.cbs
+
+
+
+
+startServer -u nonpersistent -t high 
+
+
+tell "
+OBJECT with
+  attribute
+    link: OBJECT;   
+    linkT: OBJECT; 
+    linkDR: OBJECT; 
+    ISA: OBJECT
+end
+
+OBJECT!link with
+  attribute
+    sourcelevel: Integer;
+    targetlevel: Integer;
+    label: ALABEL
+end
+
+ALABEL with
+  attribute
+    SUBL: ALABEL 
+end
+
+OBJECT!linkDR isA OBJECT!link end
+"
+
+
+tell "
+TopLinkCandidate in QueryClass,MSFOLrule isA OBJECT!linkDR with
+  constraint
+     ctlc: $ exists x,y/OBJECT a/ALABEL From(this,x) and To(this,y) and (this label a) and
+             not (exists m/OBJECT!link c,d/OBJECT
+                    (m label a) and From(m,c) and To(m,d) and 
+                    ( (x ISA c) or (y ISA d) )
+                 )
+           $
+end
+
+
+TopLink in QueryClass isA OBJECT!linkT end
+
+
+TopLinkRule in Class with
+  rule
+    toprule: $ forall mtop/TopLinkCandidate s,t/Integer a/ALABEL
+                (mtop label a) and (mtop sourcelevel s) and (mtop targetlevel t) and
+                (not exists m/TopLinkCandidate i,j/Integer
+                   (m <> mtop) and
+                   (m label a) and (m sourcelevel i) and (m targetlevel j) and
+                   ((i > s) or (j > t))
+                )
+                ==> (mtop in OBJECT!linkT) $
+end
+"
+
+
+tell "
+enrolledIn in ALABEL end
+
+Student in OBJECT with
+  linkDR m1: Course
+end
+
+Student!m1 with
+  sourcelevel s: 1
+  targetlevel t: 1
+  label l: enrolledIn
+end
+
+Course in OBJECT end
+
+
+GraduateStudent in OBJECT with
+  ISA c1: Student
+  linkDR m1: GraduateCourse
+end
+
+GraduateStudent!m1 with
+  sourcelevel s: 1
+  targetlevel t: 1
+  label l: enrolledIn
+end
+
+
+GraduateCourse in OBJECT with
+  ISA c1: Course
+end
+"
+
+
+ask TopLinkCandidate
+# should return Student!m1
+
+ask TopLink
+# should return Student!m1
+
+

@@ -1,0 +1,42 @@
+{
+*
+* File: EvenOdd.sml
+* Author: Manfred Jeusfeld
+* Creation: 11-Sep-2002 (18-Dec-2008/M.Jeusfeld)
+* ----------------------------------------------------------------------
+* This is another the O-Telos representation of the 'even' example of LOLA
+* at http://daisy.fmi.uni-passau.de/lola/
+* Call the two queries Even and Odd to see whether they are working
+* as expected. Note that some integers are pre-defined in ConceptBase.
+* Hence, you might want to display the instances of Integer before
+* call one of the two queries.
+*
+* Requires ConceptBase 7.1 released December 2008
+}
+
+{* We use Int instead Integer because the '+' function in the queries below *}
+{* generates new instances of Integer on the fly. Thus, using Integer as    *}
+{* range would force the queries Even and Odd into infinite loops.          *}
+{* Int is limited to the range [0,99].                                     *}
+
+Int in Class isA Integer with
+  rule
+    axiom1: $ (0 in Int) $;
+    axiom2: $ forall n/Int n1/Integer (n1 = n+1) and (n < 100)
+                 ==> (n1 in Int) $
+end
+
+Individual Odd end  {* this needs to be defined in advance to 'Even' *}
+
+QueryClass Even isA Int with
+  constraint
+    c: $ (this = 0) or (exists y/Odd (this =y+1)) $
+end
+
+QueryClass Odd isA Int with
+  constraint
+    c: $ exists y/Even (this =y+1)  $
+end
+
+
+

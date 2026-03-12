@@ -1,0 +1,65 @@
+{
+* File: Primes.sml
+* Author: Manfred Jeusfeld
+* Created: 6-Feb-2007/M.Jeusfeld (18-Apr-2008/M.Jeusfeld)
+* ------------------------------------------------------
+* 
+* This example is defining prime numbers.
+* It is not a typical query of ConceptBase and included here just 
+* to show how to deal with numbers in ConceptBase. Indeed,
+* ConceptBase is not intended to be an efficient system for
+* computing prime numbers. Still, the example shows how to use
+* arithmetic expressions. It also shows that ConceptBase can
+* create objects "on the fly" when evaluating arithmetic expressions.
+* Specifically, the expression n+1 in peano2 is creating a new
+* integer number n+1 which is defined to be a new instance of NatruralNumber.
+* This feature is beyond the realm of standard deductive databases. 
+* In general, it can lead to infinite computation, so we need to impose an
+* upper bound to n1.
+*
+}
+
+
+{* Definition of natural numbers with the Peano axioms.           *}
+{* Upper bound has to be imposed to avoid an infinite computation *}
+
+NaturalNumber in Class isA Integer with
+  rule
+    peano1: $ (1 in NaturalNumber) $;
+    peano2: $ forall n/NaturalNumber n1/Integer (n1 = n+1) and (n1 < 100)
+                 ==> (n1 in NaturalNumber) $
+end
+
+
+{* The arithmetic comparison below stands for
+        n*(~this//n)=~this
+   where // is integer division.
+   The query class below is pretty much the standard definition for prime numbers.
+   It works fine in ConceptBase but is quite slow since it adopts a brute force approach.
+*}
+
+PrimeNumber in QueryClass isA NaturalNumber with
+  constraint
+     cprime: $ (this > 1) and 
+               (forall n/NaturalNumber (n < this) and (n*IDIV(this,n) = this) ==>
+                 (n=1)) $
+end
+
+
+{* The query IsPrime is useful to test whether a given number is in fact a prime *}
+
+IsPrime in GenericQueryClass isA Boolean with
+  parameter
+    number: NaturalNumber
+  constraint
+    isprime: $ ((number > 0) and (number in PrimeNumber) and (this = TRUE) ) or
+               (not (number in PrimeNumber) and (this = FALSE) ) $
+end
+
+AnswerFormat NumberOrdering with
+  order o: ascending
+  forQuery fq: PrimeNumber
+  orderBy ob: "this"
+  pattern pt: "{this}, "
+end
+

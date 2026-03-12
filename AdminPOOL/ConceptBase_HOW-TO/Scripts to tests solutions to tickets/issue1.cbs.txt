@@ -1,0 +1,74 @@
+#
+# File: issue1.cbs
+# Author: Manfred Jeusfeld
+# Created: 2019-05-31/M.Jeusfeld (2019-05-31/M.Jeusfeld)
+# ------------------------------------------------------
+# Test JSON output format for frames
+#
+
+# cbserver -t low
+connect
+
+mkdir M1
+cd M1
+
+ask get_object[QueryClass/objname] OBJNAMES JSONIC Now
+
+tell '
+Pilot in Class end
+Employee in Class with
+  attribute
+    salary: Integer;
+    name: String
+end
+'
+
+tell '
+bill in Pilot,Employee with
+  salary
+    salary: 100
+  name
+     name: "Bill"
+  attribute
+     age: 20
+end
+Manager isA Employee end
+
+Employees in QueryClass isA Employee with
+  retrieved_attribute
+    name: String;
+    salary: Integer
+end
+'
+
+tell '
+mary in Pilot,Employee with
+  salary
+    salary: 101
+  name
+     name: "Mary"
+  attribute
+     age: 20
+end
+
+jane in Pilot,Employee with
+  salary
+    salary: 102
+  name
+     name: "Jane"
+  attribute
+     age: 20
+end
+'
+
+ask get_object[bill/objname] OBJNAMES JSONIC Now
+ask get_object[bill/objname] OBJNAMES FRAME Now
+
+ask get_object[Manager/objname] OBJNAMES JSONIC Now
+
+ask listModule[M1/module] OBJNAMES FRAME Now
+ask listModule[M1/module] OBJNAMES JSONIC Now
+
+ask Employees OBJNAMES JSONIC Now
+
+

@@ -1,0 +1,30 @@
+/* 
+* File: currentContext.swi.lpi
+* Author: Manfred Jeusfeld (jeusfeld@uvt.nl)
+* Creation: 18-Sep-2007 (16-Sep-2008)
+* -----------------------------------------------------------
+* This file is a plug-in for the ConceptBase server
+* to determine the context of thecurrent active transaction.
+* 
+* The code below conforms to SWI-Prolog. It uses a some internal
+* ConceptBase functions. 
+* You have to copy this file into the database directory where it shall
+* be used.
+*
+*/
+
+compute_currentUser(_u) :-
+   'CBserverInterface':active_user(_u),
+   cbserver:makeId(_uname,_u),
+   !.
+
+tell: 'currentUser in Function isA CB_User end'.
+
+
+compute_currentModule(_m) :-
+   'GlobalPredicates':'M_SearchSpace'(_mod),
+   cbserver:makeId(_mod,_m),
+   !.
+
+tell: 'currentModule in Function isA Module end'.
+

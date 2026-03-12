@@ -1,0 +1,58 @@
+#
+# File: fibfast.cbs
+# Author: Manfred Jeusfeld
+# Creation: 9-Jul-2018 (10-Jul-2018)
+# ----------------------------------------------------------------------
+# Compute the Fibonacci numbers (see also http://en.wikipedia.org/wiki/Fibonacci_number)
+# Uses the 'fast doubling' method of https://www.nayuki.io/page/fast-fibonacci-algorithms
+#
+# The complexity of fibfast(n) is O(log(n)). Note that the Datalog engine of ConceptBase computes
+# intermediate results only once. A second call fetches the result from a cache. The access to
+# that cache is hash-based. Hence, the real time complexity of this implementation may be a bit
+# worse than O(log(n)).
+
+# connect to a CBserver
+connect
+
+
+tell "
+
+Even in QueryClass isA Integer with
+  constraint
+    iseven: $ (this = 2*IDIV(this,2)) $
+end
+
+Odd in QueryClass isA Integer with
+  constraint
+    isodd: $ (this = 2*IDIV(this,2)+1) $
+end
+
+fibfast in Function isA Integer with  
+  parameter
+    n : Integer
+  constraint
+    cfib : $ (n=0) and (this=0) or
+            (n=1) and (this=1) or
+            (n=2) and (this=1) or
+            (n>2) and (n in Even) and (this=fibfast(IDIV(n,2)) * ( 2 * fibfast(IDIV(n,2)+1) - fibfast(IDIV(n,2)) )) or 
+            (n>2) and (n in Odd) and (this=fibfast(IDIV(n,2)+1)*fibfast(IDIV(n,2)+1) + fibfast(IDIV(n,2))*fibfast(IDIV(n,2)) )
+        $
+end 
+
+
+"
+
+# fibfast[10/n] should return 55
+ask fibfast(10)
+echo -n "fibfast(10)="
+showAnswer
+
+ask fibfast(100)
+echo -n "fibfast(100)="
+showAnswer
+
+ask fibfast(1000)
+echo -n "fibfast(1000)="
+showAnswer
+
+

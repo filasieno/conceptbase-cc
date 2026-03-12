@@ -1,0 +1,50 @@
+#
+# File: ackermann.cbs
+# Author: Manfred Jeusfeld
+# Creation: 7-Mar-2008 (29-May-2016)
+# ----------------------------------------------------------------------
+# Compute the Ackermann function (see also http://en.wikipedia.org/wiki/Ackermann_function)
+# This script requires ConceptBase 7.8 released after 28-Mar-2016
+
+
+cbserver  -u nonpersistent -t no
+
+
+tell "
+a in Function isA Integer with
+  parameter
+    m: Integer;
+    n: Integer
+  constraint
+    cack: $ (m=0) and (this=n+1) or
+            (m>0) and (n=0) and (this=a(m-1,1)) or
+            (m>0) and (n>0) and (this=a(m-1,a(m,n-1)) ) 
+        $
+end
+"
+
+# a(2,0)=3
+ask a(2,0)
+echo -n "a(2,0)="
+showAnswer
+
+
+# a(2,1)=5
+ask a(2,1)
+echo -n "a(2,1)="
+showAnswer
+
+# a(2,2)=7
+ask a(2,2)
+echo -n "a(2,2)="
+showAnswer
+
+
+# a(3,3)=61
+ask a(3,3)
+echo -n "a(3,3)="
+showAnswer
+
+
+# Note that a[4/m,4/m] is a number greater than all atoms in the universe and is intractable to compute
+

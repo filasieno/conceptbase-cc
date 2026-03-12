@@ -1,0 +1,139 @@
+{ 
+*
+* File: M3.sml
+* Author: Manfred Jeusfeld
+* Creation: 08-Feb-2010 (16-Mar-2010/M.Jeusfeld)
+* ----------------------------------------------------------------------
+* A standard M3 level for meta-modeling
+*
+* Copyright (C) 2010 by Manfred Jeusfeld
+* This model file is licensed under the terms of
+*   Attribution-NonCommercial 3.0 (Germany)
+*   http://creativecommons.org/licenses/by-nc/3.0/de/legalcode
+*   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+* Extended licenses can be obtained from the author.
+*
+}
+
+Proposition with
+  attribute
+    disjointTo: Proposition;   {* expresses that some classes (or attribute categories) do not share any instance *}
+    reflexive:  Proposition;  {* any object is related to itself       *}
+    transitive: Proposition;  {* relation is closed under transitivity *}
+    symmetric: Proposition;   {* if x rel y then also y rel x          *}
+    asymmetric: Proposition   {* if x rel y then not y rel x     *}
+end
+
+
+{* A_e(x,m,y) is like (x m y) except that it only considers explicit  *}
+{* attributions between x,y. This yields much faster executable code. *}
+
+MetaConstraints in Class with
+  constraint
+
+   disjoint_IC: $ forall pair/Proposition!disjointTo x,f,t/Proposition From(pair,f) and To(pair,t)
+                    and (x in f) ==> not (x in t) $;
+
+   asym_IC: $ forall AC/Proposition!asymmetric C/Proposition x,y/VAR M/VAR
+                     P(AC,C,M,C) and (x in C) and (y in C) and
+                     (x M y)  ==> not (y M x) $
+  rule
+   trans_R: $ forall x,z,y,M/VAR 
+                     AC/Proposition!transitive C/Proposition
+                     P(AC,C,M,C) and (x in C) and (y in C) and (z in C) and
+                     A_e(x,M,y) and (y M z) ==> (x M z) $;
+   refl_R: $ forall x,M/VAR 
+                    AC/Proposition!reflexive C/Proposition
+                    P(AC,C,M,C) and (x in C)
+                      ==> (x M x) $;
+   symm_R: $ forall x,y,M/VAR 
+                    AC/Proposition!symmetric C/Proposition
+                    P(AC,C,M,C) and (x in C) and (y in C) and
+                    A_e(x,M,y)  ==> (y M x) $
+end
+
+
+{* Define a hint for the asym_IC constraint. This will be used by ConceptBase       *}
+{* to generate a customized error message in case of a violation of the constraint. *}
+ 
+MetaConstraints!asym_IC with
+  comment
+    hint: "The {M} relation of {C} is declared asymmetric. Hence, if (x {M} y) holds, then (y {M} x) may not hold."
+end
+
+
+
+MetaConstraints in Class with
+   constraint
+      singleConstraint :
+          $ forall c,d/Proposition p/Proposition!single x,m/VAR
+              P(p,c,m,d) and (x in c) ==>
+                (
+                  forall a1,a2/VAR
+                    (a1 in p) and (a2 in p) and Ai(x,m,a1) and Ai(x,m,a2) ==>
+                   (a1=a2)
+                ) $;
+      necConstraint:
+          $ forall c,d/Proposition p/Proposition!necessary x,m/VAR
+            P(p,c,m,d) and (x in c) ==>
+             exists y/VAR (y in d) and (x m y) $
+end
+
+
+MetaConstraints!singleConstraint with
+ comment
+   hint:
+"The attribute {m} of {c} is single-valued. Any instance of {c} may have at most one attribute of category {m}!"
+end
+
+
+MetaConstraints!necConstraint with
+ comment
+   hint:
+"The attribute {m} of {c} is defined necessary. Any instance of {c} must have at least one instance of {d} for the attribute {m}!"
+end
+
+
+Proposition!attribute with
+  attribute
+    isTransitiveClosureOf: Proposition!attribute
+end
+
+MetaConstraints in Class with
+  rule
+   transR1: $ forall x,y,MA,MB/VAR 
+                     A,B/Proposition!attribute C/Proposition
+
+                     (B isTransitiveClosureOf A) and
+                     P(A,C,MA,C) and P(B,C,MB,C) and 
+                     (x in C) and (y in C) and 
+                     (x MA y) ==> (x MB y) $;
+
+   transR2: $ forall x,y,z,MA,MB/VAR
+                     A,B/Proposition!attribute C/Proposition
+
+                     (B isTransitiveClosureOf A) and
+                     P(A,C,MA,C) and P(B,C,MB,C) and
+                     (x in C) and (y in C)  and (z in C) and 
+                     (x MA z) and (z MB y) ==> (x MB y) $
+end
+
+
+
+{* ** M3 ** *}
+
+{* M3: our standard M3 constructs *}
+NodeOrLink with
+  attribute
+    connectedTo: NodeOrLink
+end 
+Node isA NodeOrLink end
+NodeOrLink!connectedTo isA NodeOrLink end
+
+
+Model isA Node with
+   attribute
+      contains: NodeOrLink
+end
+
+

@@ -1,0 +1,118 @@
+{
+*
+* File: Meta-In.sml
+* Author: Manfred Jeusfeld
+* Creation: 2-Nov-2001 (27-Jun-2007)
+* ----------------------------------------------------------------------
+* 
+* This Telos model shows that we can define 'meta formulas' that actually define
+* what a metaclass is: a class whose instances have themselves instances
+*
+* This example is included for historical reasons. The macro literals
+* (x [in] mc) and (x [m] y) provided by ConceptBase 7.01 are more
+* convenient to express meta class semantics.
+*
+}
+
+
+{* first: define an attribute category to relate token objects to their metaclasses *}
+
+Token with
+  attribute
+     inMeta: MetaClass   {* shall mimic the (x [in] mc) predicate *}
+end
+
+
+{* The rule that derives the solutions for the new 'inMeta' construct *}
+{* This rule is a meta formula: both (x in sc) and (sc in mc) are     *}
+{* meta predicates since their second argument is a variable.         *}
+{* Note that we utilize the builtin classes MetaClass, SimpleClass,   *}
+{* and Token.                                                         *}
+{* Otherwise, the meta formula compiler of ConceptBase would not have *}
+{* specific ranges for the partial evaluation of (sc in mc) and       *}
+{* (x in sc).                                                         *}
+
+
+Class MetaClass with
+  rule
+    rim1: $ forall x/Token mc/MetaClass (exists sc/SimpleClass (x in sc) and (sc in mc))
+              ==> (x inMeta mc) $
+end
+
+
+{* ********************************** *}
+{* Application of the [in] predicate: *}
+{* ********************************** *}
+
+{* meta classes (notation level) }
+
+EntityType in MetaClass isA SimpleClass with
+  attribute
+    ent_attr: Domain
+end
+
+Domain in MetaClass isA SimpleClass end
+
+
+{* simple classes (model level) *}
+
+Integer in Domain isA Token end
+String in Domain isA Token end
+
+Person in EntityType with
+  ent_attr
+    salary: Integer;
+    name: String
+end
+
+{* tokens (data level) *}
+
+10000 in Integer end
+15000 in Integer end
+20000 in Integer end
+"Maria Theresia" in String end
+"William Alexander" in String end
+"Anne Arbor" in String end
+
+
+mary in Token,Person with
+  salary s: 20000
+  name n: "Maria Theresia"
+end
+
+bill in Token,Person with
+  salary s: 15000
+  name n: "William Alexander"
+end
+
+anne in Token,Person with
+  salary s: 10000
+  name n: "Anne Arbor"
+end
+
+
+
+
+
+{* a query that shows that our solution works *}
+
+GenericQueryClass ShowMetaClasses isA MetaClass with
+  parameter,computed_attribute
+    obj: Token
+  constraint
+    c1: $ (~obj inMeta ~this) $
+end
+
+{* This query defines what an entity actually is ... *}
+
+Entity in QueryClass isA Token with
+  constraint
+     c1: $ (~this inMeta EntityType) $
+end
+
+{* This query dfines what a value actually is ... *}
+
+Value in QueryClass isA Token with
+  constraint
+     c1: $ (~this inMeta Domain) $
+end

@@ -1,0 +1,154 @@
+{
+* File: PetriNetSimu-Ask.sml
+* Author: Manfred Jeusfeld
+* Created: 18-May-2006/M.Jeusfeld (6-Nov-2014/M.Jeusfeld)
+* ------------------------------------------------------
+* 
+* This variant allows to trigger enabled transitions by just calling
+* the query FireTransition.
+* 
+* This requires ConceptBase 7.7 released Nov 2014 or later!
+}
+
+
+{*
+This file is governed by the Creative Commons license
+   Attribution-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+
+Place with
+  attribute
+   sendsToken: Transition;
+   marks: Integer {* defines markings *}
+end
+
+Transition with
+  attribute
+    producesToken : Place
+end
+
+M in Function isA Integer with
+  parameter p: Place
+  constraint c1: $ (p marks this) $
+end
+
+Input in GenericQueryClass isA Place with
+  parameter t: Transition
+  constraint ci: $ (this sendsToken t) $
+end
+
+
+{* A transition is enabled if the number of Tokens *}
+{* at all its input places is greater than zero.   *}
+
+Enabled in QueryClass isA Transition with
+  constraint c: $ forall p/Input[this] (M(p) > 0) $
+end
+
+
+{* A connected place is a place that is linked to a given transition *}
+{* either by sending a token to it or receiving a token from it.     *}
+{* A connected place is affected by firing a transition.             *}
+
+ConnectedPlace in GenericQueryClass isA Place with
+  parameter trans: Transition
+  constraint c: $ (this sendsToken trans) or (trans producesToken this) $
+end
+
+inFlow in GenericQueryClass isA Transition!producesToken with
+  parameter place: Place; trans: Transition
+  constraint c1: $ From(this,trans) and To(this,place) $
+end
+
+outFlow in GenericQueryClass isA Place!sendsToken with
+  parameter place: Place; trans: Transition
+  constraint c1: $ From(this,place) and To(this,trans) $
+end
+
+{* Net effect of a transition t on a place p = incidence matrix.   *}
+{* = number of links from t to p minus number of links from p to t *}
+IM in Function isA Integer with
+  parameter p: Place; t: Transition
+  constraint c1: $ (this = #inFlow[p,t] - #outFlow[p,t]) $
+end
+
+
+fireTransition in GenericQueryClass isA YesClass with
+ parameter
+    transition: Enabled
+ constraint
+    c1: $ (this=yes) $
+end
+
+{* This active rules encodes the semantics of firing a transition. *}
+{* When firing a transition tr, the IF part of the ECArule         *}
+{* determines for any connected place pl the new token fill.       *}
+{* The DO part will then update the token fill of the place pl     *}
+{* accordingly. The IF part will be evaluated for all connected    *}
+{* places.                                                         *}
+{* Note that the net effect can be negative or zero or positive.   *}
+{* The IFNEW clause indicates that the condition is                *}
+{* evaluated against the newest database state, in contrast to     *}
+{* being evaluated against the database state immediately before   *}
+{* the current transaction. This allow to model multiple           *}
+{* of UpdateConnectedPlaces in the same TELL transaction.          *}
+
+ECArule UpdateConnectedPlaces with
+  mode m: Deferred
+  ecarule
+    er : $ t/Transition p/Place m/Integer
+           ON Ask fireTransition[t]
+           IFNEW (t in Enabled) and (p in ConnectedPlace[t]) and
+           (m = M(p)+IM(p,t))
+           DO Retell (p marks m) $
+end
+
+
+
+{* this fires all enabled transitions, one after the other; some can become non-enabled *}
+{* by a preceding firing;                                                               *}
+ECArule fire in QueryClass isA YesClass with
+  mode m: Deferred
+  ecarule
+    er : $ t/Transition p/Place m/Integer
+           ON Ask fire
+           IFNEW (t in Enabled) 
+           DO Raise fireTransition[t]  $
+end
+
+
+
+{* This query reports the current state of a petri net. *}
+
+ReportState in QueryClass isA Place with
+  retrieved_attribute
+    marks: Integer
+end
+
+AnswerFormat StateFormat with
+   forQuery q: ReportState
+   order o: ascending
+   orderBy ob: "this"
+   head h: 
+"Place   #Tokens
+-----------------
+"
+  pattern p:
+"{this}   {this.marks}
+"
+  tail t:
+"-----------------
+"
+end
+
+
+
+
+

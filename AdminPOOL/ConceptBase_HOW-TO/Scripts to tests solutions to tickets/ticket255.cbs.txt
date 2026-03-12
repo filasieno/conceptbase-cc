@@ -1,0 +1,128 @@
+#
+#
+# File: ticket255.cbs
+# Author: Lingzhe Liu
+# Created: 2010-06-09/Lingzhe Liu (2010-06-09/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Start: CBshell -f ticket255.cbs
+#
+## This file is for reporting a bug: 
+# showing that a deactivated ECArule can never be activated again.
+# 
+# This script requires ConceptBase 7.2 or later.
+#
+
+startServer -u nonpersistent -port 4411 -t veryhigh
+tell "
+
+Account with
+  attribute
+    balance: Integer
+end
+
+Transfer with
+  attribute
+    fromaccount: Account;
+    toaccount: Account;
+    amount: Integer
+end 
+
+{* NOTE, transferRule active FALSE *}
+
+ECArule transferRule with
+  mode m: Deferred
+  active a: FALSE 
+  rejectMsg rm:
+   \"Account balance insufficient\"
+  ecarule
+        er : $  acc1,acc2/Account tr/Transfer m,b1,b2,nb1,nb2/Integer
+        ON Tell (tr amount m) 
+        IF `(tr fromaccount acc1) and
+           `(tr toaccount acc2) and
+           `(acc1 balance b1) and
+           `(acc2 balance b2) and
+           (nb1 = b1 - m) and
+           (nb2 = b2 + m) and
+           (nb1 >= 0)
+        DO Retell (acc1 balance nb1) ,
+           Retell (acc2 balance nb2) 
+        ELSE
+           reject
+        $
+end
+
+
+{* the 2nd rule deduces a tax of 10 percent from both accounts participating in the transfer *}
+
+ECArule taxRule with
+  mode m: Deferred
+  priority_after r1: transferRule
+  rejectMsg rm:
+   \"Account balance insufficient\"
+  ecarule
+        er : $  acc1,acc2/Account tr/Transfer m,b1,b2,nb1,nb2/Integer
+        ON Tell (tr amount m) 
+        IF `(tr fromaccount acc1) and
+           `(tr toaccount acc2) and
+           `(acc1 balance b1) and
+           `(acc2 balance b2) and
+            (b1 >= 0) and (b2 >= 0) and
+           (nb1 = b1 - IDIV(b1,10) ) and
+           (nb2 = b2 - IDIV(b2,10) ) 
+        DO Retell (acc1 balance nb1) ,
+           Retell (acc2 balance nb2) 
+        ELSE
+           reject
+        $
+end
+"
+
+# trying to activate the ECArule here
+
+#retell "
+#transferRule with
+#  active a: FALSE 
+#end  
+#"
+
+untell "
+transferRule with
+  active a: FALSE 
+end  
+"
+
+tell "
+transferRule with
+  active a: TRUE 
+end  
+"
+
+
+tell "
+PetersAccount in Account with
+  balance b: 500
+end 
+
+MarysAccount in Account with
+  balance b: 100
+end
+"
+
+tell "
+transfer1 in Transfer with
+   fromaccount a1: PetersAccount
+   toaccount a2: MarysAccount
+   amount m: 250
+end
+"
+
+# transfer1 did not trigger transferRule even that (transferRule active TRUE)
+# 250 has NOT been transferred
+# tax is deduced from 500 instead of (500-250)
+# at the end, PetersAccount has 450 instead of 225
+
+
+ask "get_object[PetersAccount/objname]" OBJNAMES  FRAME  Now
+ask "get_object[MarysAccount/objname]" OBJNAMES  FRAME  Now
+

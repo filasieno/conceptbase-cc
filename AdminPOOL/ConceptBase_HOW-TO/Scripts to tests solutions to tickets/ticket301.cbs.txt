@@ -1,0 +1,94 @@
+
+#
+# File: ticket301.cbs
+# Author: Manfred Jeusfeld
+# Created: 2012-01-06/M.Jeusfeld (2012-01-16/M.Jeusfeld)
+# ------------------------------------------------------
+# Extended prune mechanism for generated formulas
+#
+# Start: CBshell -f ticket301.cbs
+#
+
+
+
+startServer -u nonpersistent -t high
+
+
+# ********************************************************
+# *** CASE 1: one transaction & with inequality check ****
+# ********************************************************
+
+tell "
+Deliverable in Class with
+rule dr1: $ forall D/Deliverable d/VAR 
+                   (d in D) and (D <> DeliverableInstance) ==> (d in DeliverableInstance) $
+end
+
+DeliverableInstance in Deliverable end
+
+"
+
+
+tell "
+D1 in Deliverable end
+"
+
+ask "get_object[DeliverableInstance/objname]" OBJNAMES  FRAME  Now
+
+# DeliverableInstance should only have a formula generated from dr1 for D=D1, not for D=DeliverableInstance
+
+
+
+
+
+# ***********************************************************
+# *** CASE 2: one transaction & without inequality check ****
+# ***********************************************************
+
+tell "
+Activity in Class with
+  rule
+     ar1: $ forall A/Activity a/VAR  (a in A) ==> (a in ActivityInstance) $
+end
+
+ActivityInstance in Activity end
+"
+
+tell "
+A1 in Activity end
+"
+
+ask "get_object[ActivityInstance/objname]" OBJNAMES  FRAME  Now
+
+# ActivityInstance has two formulas generated from ar1 for A=A1 and for A=ActivityInstance
+
+
+
+
+# ************************************************************
+# *** CASE 3: two transactions & without inequality check ****
+# ************************************************************
+
+tell "
+MyActivityInstance end
+
+MyActivity in Class with
+  rule
+     ar1: $ forall A/MyActivity a/VAR  (a in A) ==> (a in MyActivityInstance) $
+end
+"
+
+
+tell "
+M1 in MyActivity end
+MyActivityInstance in MyActivity end
+"
+
+ask "get_object[MyActivityInstance/objname]" OBJNAMES  FRAME  Now
+
+# MyActivityInstance has only one formulas generated from ar1 for A=M1, not for A=MyActivityInstance
+# This shows that the meta formula compile is still somewhat sensitive to the splitting of facts
+# told over different transactions. 
+
+
+

@@ -1,0 +1,115 @@
+{*
+This file is governed by the Creative Commons license
+   Attribution-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+
+
+{*
+* File SaveModel.sml
+* Author: Manfred Jeusfeld, jeusfeld@uvt.nl
+* Date: 13-Dec-2004 (2-Oct-2007)
+*----------------------------------------------------------------
+* Note, the option 'Use Query Result Window' must be disabled
+* in CBiva to use SaveModel from within CBiva! The reason is that
+* the resulting frames do not necessarily have the same structure.
+* Comfort edition: provide a 'model' object that lists all
+* the classes to be dumped.
+* Example on how to use SaveModel:
+*
+* 1) Tell a container object that lists all classes to be dumped
+*        MyModelClasses with
+*          attribute
+*            c1: EntityType;
+*            c2: RelationshipType
+*            c3: RelationshipType!role
+*        end
+*
+* 2) Ask SaveModel[MyModelClasses/model]
+* ==> all instances of the three classes will be dumped and can then
+* be saved.
+*
+* 3) Remove by hand generated attributes :
+*   applyRuleIf*, applyConstraintIf*, *generated
+*
+*}
+
+NotToSave in QueryClass isA Proposition with 
+  constraint
+    cnts: $ 
+            (~this in MSFOLassertion) or (~this in BDMRuleCheck) or
+            (~this in BDMConstraintCheck) or
+            ( not (~this in Individual) and
+                 (forall x/Proposition ((~this attribute x) ==> (x in NotToSave)) 
+                                       and not Isa_e(~this,x)
+                 )
+            )
+          $
+end
+
+
+SaveModel in GenericQueryClass isA Proposition with 
+  attribute,parameter
+     model : Proposition
+  computed_attribute
+     memberclass: Proposition
+  attribute,constraint
+     r : $ UNIFIES(~this,~model) and 
+               ( (~model attribute ~memberclass) or
+                 UNIFIES(~model,~memberclass)
+               ) $
+end 
+
+
+
+SaveTelosFrames in GenericQueryClass isA Proposition with 
+  attribute,parameter
+     class : Proposition
+  attribute,constraint
+     r : $ (~this in ~class) and not (~this in NotToSave) $ 
+end 
+
+
+AnswerFormat FrameSaveOuterLayout with
+  forQuery fq: SaveModel
+  head h: "\{* 
+"
+  pattern pt:
+"* Telos frames for model {this}
+*\}
+
+\{* Definition of the classes to be dumped *\}
+{Foreach(({this.memberclass}),(a),{ASKquery(get_object[{a}/objname],FRAME)})}
+
+
+\{* Advance definition of all instances (without attribute listing) *\}
+
+{Foreach(({this.memberclass}),(a),{ASKquery(SaveTelosFrames[{a}/class],FrameSaveOnlyObject)})} 
+
+
+\{* Instances with all their properties *\}
+
+{Foreach(({this.memberclass}),(a),{ASKquery(SaveTelosFrames[{a}/class],FrameSaveComplete)})} 
+
+"
+  tail t: "\{* ======== end ========= *\}"
+end
+
+
+AnswerFormat FrameSaveComplete with
+  pattern pt:"\{* {this.oid}: *\}
+{ASKquery(get_object[{this}/objname],FRAME)} "
+end
+
+AnswerFormat FrameSaveOnlyObject with
+  pattern pt:"{this} end
+"
+end
+
+

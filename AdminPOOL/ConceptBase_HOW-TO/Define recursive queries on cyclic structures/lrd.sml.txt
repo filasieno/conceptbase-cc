@@ -1,0 +1,49 @@
+{
+*
+* File: lrd.sml
+* Author: Manfred Jeusfeld
+* Creation: 31-Aug-2005 (31-Aug-2005/MJf)
+* ----------------------------------------------------------------------
+* Translated to O-Telos from
+*  http://xsb.sourceforge.net/manual1/node65.html#ex:lrd
+*    The XSB System Version 2.7.1 Volume 1: Programmer's Manual
+*
+* ConceptBase would derive that s in lrd but also finds a lot
+* of stratification errors.
+}
+
+{* original XSB source code is
+lrd_p:- lrd_q,tnot(lrd_r),tnot(lrd_s).
+lrd_q:- lrd_r,tnot(lrd_p).
+lrd_r:- lrd_p,tnot(lrd_q).
+lrd_s:- tnot(lrd_p),tnot(lrd_q),tnot(lrd_r).
+*}
+
+
+{*
+To translate to O-Telos, we simulate the 0-arity predicate lrd_p by (p in lrd)
+(analogously for q,r,s). To do so, we need to declare p,q,r,s as objects
+*}
+
+p end  
+
+q end
+
+r end
+
+s end
+
+
+{* The class lrd contains the O-Telos translations of the four XSB clauses *}
+
+lrd in Class with
+  rule
+    r1: $ (q in lrd) and not (r in lrd) and not (s in lrd) ==> (p in lrd) $;
+    r2: $ (r in lrd) and not (p in lrd) ==> (q in lrd) $;
+    r3: $ (p in lrd) and not (q in lrd) ==> (r in lrd) $;
+    r4: $ not (p in lrd) and not (q in lrd) and not (r in lrd) ==> (s in lrd) $
+end
+
+
+{* Test the rules by displaying the instances of lrd! *}
+

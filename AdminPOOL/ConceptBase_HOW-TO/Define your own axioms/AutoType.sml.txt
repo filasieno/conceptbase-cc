@@ -1,0 +1,58 @@
+{*
+This file is governed by the Creative Commons license
+   Attribution-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+{
+*
+* File: AutoType.sml
+* Author: Manfred Jeusfeld
+* Creation: 2011-09-05 (2011-09-08)
+* ----------------------------------------------------------------------
+* Automatically classify attribute values in the right target class.
+* Requires ConceptBase 7.3.18 released 2011-09-08
+*
+}
+
+
+
+
+Proposition with
+  attribute
+    autotype: Proposition
+end
+AutoTypeClass in Class with
+  rule
+    autotype: $ forall a,x,y/VAR C,D/Proposition A/Proposition!autotype
+                    (x in C) and From(a,x) and To(a,y) and (a in A) and From(A,C) and To(A,D) ==> (y in D) $
+end
+
+Department end
+
+{* the attribute department is 'autotyped', i.e. any attribute value will be automatically *}
+{* instantiated to Department                                                              *} 
+Employee in Class with
+  autotype
+    department: Department
+end
+
+
+
+{* This example shows the effect; note that we still need to declare Marketing as individual object 
+
+bill in Employee with
+  department
+    d1: Marketing
+end
+
+Marketing end
+
+*}
+
+

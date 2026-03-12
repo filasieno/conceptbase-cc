@@ -1,0 +1,118 @@
+#
+# File: ticket241.cbs
+# Author: Manfred Jeusfeld
+# Creation: 26-Feb-2010 (26-Feb-2010)
+# ----------------------------------------------------------------------
+#
+# Wrong compilation of queries with OR
+#
+
+startServer -u nonpersistent -t low
+
+
+tell "
+C with
+  attribute
+    att1: D1;
+    att2: D2
+end
+
+D1 end
+D2 end
+
+c1 in C with
+  att1
+    a1: A1;
+    a2: A2;
+    a3: A3
+  att2
+    a4: A4
+end
+
+A1 in D1 end
+A2 in D1 end
+A3 in D1 end
+A4 in D2 end
+
+
+c2 in C with
+  att1
+    a1: B1;
+    a2: B2
+  att2
+    a3: B3;
+    a4: B4
+end
+
+B1 in D1 end
+B2 in D1 end
+B3 in D2 end
+B4 in D2 end
+
+
+c3 in C with
+  att1
+    a1: B1;
+    a2: B2
+end
+
+
+
+"
+
+tell "
+
+GenericQueryClass GQ1 isA C with
+  parameter
+    p: C
+  computed_attribute
+    ca1: D1;
+    ca2: D2
+  constraint
+     con1: $ (this=p) and
+             ((this att1 ca1) or (this att2 ca2)) $
+end
+
+GenericQueryClass GQ2 isA C with
+  parameter
+    p: C
+  computed_attribute
+    ca1: D1;
+    ca2: D2
+  constraint
+     con1: $ (this=p) and
+             (this att1 ca1) and (this att2 ca2) $
+end
+
+GenericQueryClass GQ3 isA C with
+  parameter
+    p: C
+  computed_attribute
+    ca1: D1;
+    ca2: D2
+  constraint
+     con1: $ (this=p) and
+             ((this att1 ca1) and (this att2 ca2) or
+              ((this att1 ca1) and not exists a2/D2 (this att2 a2)) or
+              ((this att2 ca2) and not exists a1/D1 (this att1 a1))
+             ) $
+end
+
+"
+
+ask "GQ1[c1/p]" OBJNAMES  FRAME  Now
+ask "GQ2[c1/p]" OBJNAMES  FRAME  Now
+
+
+ask "GQ1[c2/p]" OBJNAMES  FRAME  Now
+ask "GQ2[c2/p]" OBJNAMES  FRAME  Now
+
+
+ask "GQ1" OBJNAMES  FRAME  Now
+ask "GQ2" OBJNAMES  FRAME  Now
+ask "GQ3" OBJNAMES  FRAME  Now
+
+
+
+
+

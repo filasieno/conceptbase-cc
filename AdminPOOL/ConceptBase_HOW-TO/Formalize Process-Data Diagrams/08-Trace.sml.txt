@@ -1,0 +1,123 @@
+{ 
+*
+* File: Trace.sml
+* Author: Manfred Jeusfeld
+* Creation: 24-Mar-2011 (6-Jul-2011/M.Jeusfeld)
+* ----------------------------------------------------------------------
+* Simple Traceability model for PDDs (M3-M1)
+*
+* Copyright (C) 2011 by Manfred Jeusfeld
+* This model file is licensed under the terms of
+*   Attribution-NonCommercial 3.0 (Germany)
+*   http://creativecommons.org/licenses/by-nc/3.0/de/legalcode
+*   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+* Extended licenses can be obtained from the author.
+*
+* This model is self-contained, i.e. it does not specifically refer to the PDD
+* notation. So, you can re-use it in simular situations.
+*
+}
+
+
+Deliverable in Class with
+rule dr1: $ forall D/Deliverable d/VAR
+               (d in D) ==> (d in DeliverableInstance) $
+end
+DeliverableInstance in Deliverable end
+
+Activity in Class with
+  attribute
+     retrieves: Deliverable;   {* input deliverable(s) *}
+     produces: Deliverable     {* output deliverables(s) *}
+  rule
+     ar1: $ forall A/Activity a/VAR (a in A) ==> (a in ActivityInstance) $
+end
+
+ActivityInstance in Activity end
+
+
+{* the article formulas are not yet supported by ConceptBase
+DeliverableInstance in Class with
+attribute
+  depOnDirectly: DeliverableInstance;
+  depOn: DeliverableInstance
+rule
+   depRule1: $ forall d1,d2/DeliverableInstance a/ActivityInstance
+                (a [retrieves] d1) and (a [produces] d2) ==> (d2 depOnDirectly d1) $;
+   depRule2: $ forall d1,d2,d3/DeliverableInstance
+                (d1 depOnDirectly d2) and (d2 depOn d3) ==> (d1 depOn d3) $
+end
+*}
+
+
+
+{* but the alternative specification of dependency using  *}
+{* query classes works just nicely                        *}
+
+DirectDepDeliverable in GenericQueryClass isA DeliverableInstance with
+  parameter
+    del: DeliverableInstance
+  constraint
+     dd: $ exists a/ActivityInstance (a [retrieves] del) and (a [produces] this) $
+end
+
+DepDeliverable in GenericQueryClass isA DeliverableInstance with
+  parameter,computed_attribute
+    del: DeliverableInstance
+  constraint
+     dd: $ (this in DirectDepDeliverable[del]) or
+           (exists d/DeliverableInstance  (d in DirectDepDeliverable[del]) and (this in DepDeliverable[d])) $
+end
+
+
+DeliverableInstance in Class with
+attribute
+  depOn: DeliverableInstance
+rule
+   depRule: $ forall d1,d2/DeliverableInstance (d2 in DepDeliverable[d1]) ==> (d2 depOn d1)  $
+end
+
+
+
+{* test example 
+
+** M1 (a PDD model): 
+
+B1 in Activity with
+  retrieves r1: D1
+  produces p1: D2
+end
+
+B2 in Activity with
+  retrieves r1: D2
+  produces p1: D3
+end
+
+
+D1 in Deliverable end
+D2 in Deliverable end
+D3 in Deliverable end
+
+
+
+** M0 (a trace of executing that PDD model): 
+
+b1 in B1 with
+  r1 del1: d1
+  p1 del2: d2
+end
+
+b2 in B2 with
+  r1 del1: d2
+  p1 del2: d3;
+     del3: d3a
+end
+
+d1 in D1 end
+d2 in D2 end
+d3 in D3 end
+d3a in D3 end
+
+** ==> (d2 depOn d1), (d3 depOn d1), (d3 depOn d2), (d3a depOn d1), (d3a depOn d2)
+
+*}

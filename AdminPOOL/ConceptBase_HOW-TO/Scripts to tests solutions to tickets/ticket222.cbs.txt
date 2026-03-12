@@ -1,0 +1,51 @@
+#
+# File: ticket222.cbs
+# Author: Manfred Jeusfeld
+# Creation: 20-Jul-2009 (30-Jul-2009)
+# ----------------------------------------------------------------------
+#
+# Check acceptance of special characters
+#
+
+startServer -u nonpersistent -t veryhigh
+
+
+tell "
+Mä in Class with end
+Nuñes in Mä with
+  comment
+    niña: \"@!&@!&äüé\"
+end
+Nunes end
+"
+
+tell "
+Xyz in Class with
+  constraint
+    c1: $ forall x/Xyz (x attribute Nunes) $
+end
+"
+
+
+tell "
+Abc in Class with
+  constraint
+    c1: $ forall x/Abc (x attribute Nuñes) $
+end
+"
+
+tell "
+VW in Class with
+  constraint
+    c1: $ forall x/VW (x attribute Mä) $
+end
+"
+
+tell " 
+vw in VW end
+"
+
+
+
+
+

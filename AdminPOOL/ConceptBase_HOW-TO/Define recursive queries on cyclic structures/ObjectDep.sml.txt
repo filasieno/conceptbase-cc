@@ -1,0 +1,46 @@
+{* by Christoph Quix: runs correctly with CB 6.12 (25-May-2004) but 
+ * not with earlier versions;
+   step 1: ask ObjectsWithTransDep
+   step 2: ask Test1
+*}
+
+
+Class Object with
+attribute
+    dep : Object
+end
+
+O1 in Object end
+
+O2 in Object with dep d1 : O1 end
+O3 in Object with dep d1 : O2 end
+O4 in Object with dep d1 : O3 end
+O5 in Object with dep d1 : O4 end
+O6 in Object with dep d1 : O5 end
+O7 in Object with dep d1 : O6 end
+O8 in Object with dep d1 : O7 end
+O9 in Object with dep d1 : O8 end
+
+
+QueryClass Test1 isA Object with
+    constraint
+        c: $ (this == O1) or (exists o/Test1 (this dep o)) $
+	end
+
+	Object with
+	attribute
+	    transDep : Object
+	    rule
+	        r1 : $ forall o1,o2/Object (o1 dep o2) ==> (o1 transDep o2) $;
+		r2 : $ forall o1,o2/Object 
+                           (exists o3/Object 
+                               (o1 dep o3) and (o3 transDep o2))
+                         ==> (o1 transDep o2) $
+end
+
+QueryClass ObjectsWithTransDep isA Object with
+   retrieved_attribute
+	transDep : Object
+   constraint
+	c : $ (this == O1) $
+end 

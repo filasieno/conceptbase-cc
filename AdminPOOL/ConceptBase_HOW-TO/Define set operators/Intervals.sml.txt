@@ -1,0 +1,65 @@
+{
+*
+* File: Intervals.sml
+* Author: Manfred Jeusfeld
+* Creation: 28-Nov-2005 (14-Oct-2008)
+* ----------------------------------------------------------------------
+* This shows how to define and use intervals on integers numbers.
+* Note that membership of a value like 900 to Interval[1/a,1000/b] is
+* only checked when the salary of bill is told to the system.
+*
+* Requires ConceptBase 7.1.4 released 14-Oct-2008 or later.
+*  
+}
+
+
+GenericQueryClass Interval isA Integer with
+  parameter
+     a: Integer;   
+     b: Integer
+  constraint
+    c1: $ (~a <= ~this) and (~this <= ~b) $
+end
+
+{* Note that Integer stands for all stored instances of the class Integer. *}
+{* This is always a finite subset of all integer numbers.                  *}
+
+
+1 in Integer end
+10 in Integer end
+1000 in Integer end
+
+Interval[1/a,10/b] in QueryCall end
+Interval[1/a,1000/b] in QueryCall end
+
+
+Employee in Class with
+  attribute
+    salary: Interval[1/a,1000/b]
+end
+
+{* this should be equivalent to
+
+Employee in Class with
+  attribute
+    salary: Integer
+  constraint
+    cs: $ forall e/Employee s/Integer (e salary s) ==> ( (1 <= s) and (s <= 1000) ) $
+end
+
+with the exception that the interval-version is not re-checked when its
+extension changes.
+
+*}
+
+
+
+bill in Employee with
+  salary s: 900
+end
+
+{* this one fails:
+mary in Employee with
+  salary s: 1100
+end
+*}

@@ -1,0 +1,135 @@
+
+#
+# File: ticket300.cbs
+# Author: Manfred Jeusfeld
+# Created: 2011-12-06/M.Jeusfeld (2011-12-06/M.Jeusfeld)
+# ------------------------------------------------------
+# Some checks on access rights
+#
+# Start: CBshell -f ticket300.cbs
+#
+
+
+
+startServer -u nonpersistent -t low -s 2
+
+tell "
+Mjeusfeld in Module end
+Mjonny in Module end
+
+CB_User jeusfeld with
+  homeModule h: Mjeusfeld
+end
+
+CB_User jonny with 
+  homeModule h: Mjonny
+end
+
+bunnyoHome end
+
+{* We only allows read operations in the oHome module *} 
+GenericQueryClass CB_PermittedoHome isA CB_User with
+  parameter
+    user: CB_User;
+    res: Resource;
+    op: CB_Operation
+  constraint
+    cperm: $
+              (~op in CB_ReadOperation) and 
+              UNIFIES(~user,~this) 
+           $
+end
+"
+
+setModule Mjeusfeld
+
+
+tell "
+CB_Group with  {* groups of users can have some rights *}
+  attribute
+    groupMember: CB_User;
+    permitted_read: Resource;
+    permitted_write: Resource;
+    owner_resource: Resource
+end
+
+CB_User isA CB_Group end  {* a CB user forms a one-person group *}
+
+CB_Group in Class with
+  rule
+   rr1: $ forall p/Resource u/CB_User (u owner_resource p) ==> (u permitted_write p) $;
+   rr2: $ forall p/Resource u/CB_User (u permitted_write p) ==> (u permitted_read p) $;
+   rr3: $ forall u/CB_User (u groupMember u) $;  {* users are member of their one-person group *}
+   rr4: $ forall u/CB_User p/Resource
+                ( exists g/CB_Group (g groupMember u) and (g owner_resource p) ) ==> (u owner_resource p) $;
+   rr5: $ forall u/CB_User p/Resource
+                ( exists g/CB_Group (g groupMember u) and (g permitted_write p) ) ==> (u permitted_write p) $;
+   rr6: $ forall u/CB_User p/Resource
+                ( exists g/CB_Group (g groupMember u) and (g permitted_read p) ) ==> (u permitted_read p) $
+end
+
+
+CB_User jeusfeld with
+  owner_resource r1: Mjeusfeld
+end
+
+{* this user may read but others not *}
+CB_User jonny with
+  permitted_read r1: Mjeusfeld
+end
+
+
+
+{*
+ a user is permitted to operation op on the resource res when that resource is not actually
+ owned  by someone else or when he has proper rights
+ Query returns user as answer if permitted, else nil 
+*}
+
+GenericQueryClass CB_Permitted isA CB_User with
+  parameter
+    user: CB_User;
+    res: Resource;
+    op: CB_Operation
+  constraint
+    cperm: $ (
+              ( not exists u/CB_User (u owner_resource ~res) and not (u == ~user) ) or
+              ( (~op in CB_ReadOperation) and (~user permitted_read ~res) ) or
+              ( (~op in CB_WriteOperation) and (~user permitted_write ~res) )
+             )
+              and UNIFIES(~user,~this) $
+end
+"
+
+setModule Mjonny
+
+tell "
+GenericQueryClass CB_Permitted isA CB_User with
+  parameter
+    user: CB_User;
+    res: Module;
+    op: CB_Operation
+  constraint
+    cperm: $ (
+              ( (~op in CB_WriteOperation) and (~user homeModule ~res) ) or
+              ( (~op in CB_ReadOperation) and (~user in CB_User) )
+             )
+              and UNIFIES(~user,~this) $
+end
+"
+
+
+# this should be rejected
+tell "bunnyMjonny end "
+
+setModule oHome
+
+# this should be rejected as well
+untell "bunnyoHome end"
+
+# and this as well
+setModule System
+tell "bunnySystem end "
+
+
+

@@ -1,0 +1,85 @@
+{*
+This file is governed by the Creative Commons license
+   Attribution-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+{ 
+*
+* File: SERVICE-MAPRULES.sml
+* Author: Jeewanie Jayasinghe Arachchig, Hans Weigand, Manfred Jeusfeld
+* Creation: 24-Mar-2010 (31-Mar-2010/M.Jeusfeld)
+* ----------------------------------------------------------------------
+*
+* Mapping rules ServiceDiagram --> ERD
+*
+* Copyright (C) 2010 by Jeewanie Jayasinghe Arachchig, Hans Weigand, Manfred Jeusfeld
+*
+}
+
+
+EconomicResourceType with
+  connectedTo
+     storedAs: EntityType
+end
+
+EconomicResourceType!stockflow with
+  connectedTo
+     storedAs: ObjectType
+end
+
+
+R1_ServiceType_WithEntityType in QueryClass isA ServiceType with
+  constraint
+     r1: $ exists et/EntityType (this storedAs et) $
+end
+
+R2_IndividualizedResourceType_ServiceAllocation in QueryClass isA IndividualizedResourceType with
+  constraint
+     r2: $ forall S/ServiceType (this stockflow S) ==>
+             exists E1,E2/EntityType R/RelationshipType
+               (S storedAs E1) and (this storedAs E2) and (R role E1) and (R role E2) $
+end
+
+
+R3_SellServiceType in QueryClass isA SellServiceType with
+   constraint
+      r3: $ forall IR/IndividualizedResourceType (IR stockflow this) ==> 
+              exists R/RelationshipType (R role IR) and (R role this) $
+end
+
+
+{* mapping Money *}
+R21_MoneyType_WithNumberAttribute in QueryClass isA MoneyType with
+  constraint
+     r4: $ exists et/EntityType d/NumberDomain (this storedAs et) and (et entAttr d) $
+end
+
+{* relate sell exchange to money *}
+R22_SellServiceType in QueryClass isA SellServiceType with
+   constraint
+      r5: $ forall M/MoneyType (this stockflow M) ==>
+                 exists ME,SE/EntityType R/RelationshipType (M storedAs ME) and (this storedAs SE) and
+                  (R role ME) and (R role SE) $
+end
+
+R23_SellServiceMoneyFlow in QueryClass isA EconomicResourceType!stockflow with
+   constraint
+      r6: $ forall S/SellServiceType M/MoneyType ME/EntityType From(this,S) and To(this,M) and
+                   (M storedAs ME) ==>
+                    exists ME1,SE/EntityType R/RelationshipType_1_1 (this storedAs ME1) and
+                   (R role/account ME) and (R role/moneyflow ME1) $
+end
+
+
+
+
+
+
+
+

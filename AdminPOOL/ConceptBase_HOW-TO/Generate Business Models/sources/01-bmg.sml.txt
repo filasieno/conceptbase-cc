@@ -1,0 +1,45 @@
+{
+*
+* File: 01-bmg.sml.txt
+* Author: Manfred Jeusfeld
+* Creation: 28-Nov-2013 (11-Feb-2014/M.Jeusfeld)
+* ----------------------------------------------------------------------
+* 
+* Follows the canvas of A. Osterwalder, Y. Pigneur (2010): Business Model Generation. Wiley, 2010.
+}
+
+
+BMG_Object with
+  attribute
+    link: BMG_Object;      {* general link *}
+    flowTo: BMG_Object;    {* for product flows *}
+    paysTo: BMG_Object;    {* for money flows*}
+    causes: BMG_Object;    {* for causal links *}
+    influences: BMG_Object  {* for influences *}
+end
+
+BMG_Object!flowTo isA BMG_Object!link end
+BMG_Object!paysTo isA BMG_Object!link end
+BMG_Object!causes isA BMG_Object!link end
+BMG_Object!influences isA BMG_Object!link end
+
+
+Customer isA BMG_Object end
+
+Revenue isA BMG_Object end
+
+CustomerRelationship isA BMG_Object end
+
+Channel isA BMG_Object end
+
+ValueProposition isA BMG_Object end
+
+KeyActivity isA BMG_Object end
+
+KeyResource isA BMG_Object end
+
+Cost isA BMG_Object end
+
+KeyPartner isA BMG_Object end
+
+Balance isA BMG_Object end

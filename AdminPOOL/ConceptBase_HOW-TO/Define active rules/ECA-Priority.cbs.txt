@@ -1,0 +1,118 @@
+#
+# File: ECA-Priority.cbs
+# Author: Manfred Jeusfeld
+# Created: 2010-05-19/M.Jeusfeld (2011-05-18/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Start: CBshell -f ECA-Priority.cbs
+#
+# The script makes use of the priority declarations for ECArules.
+# TransferRule transfers a specified ammount from one account to
+# another. TaxRule deduces 10% from both accounts provides they are
+# both positive.
+# The order in which the two rules are executed determines the result.
+# You can replace the definition
+#   priority_before r1: taxRule
+# to
+#   priority_after r1: taxRule
+# to see the different effects.
+# We use here Deferred mode. You can also check the other modes but better
+# make sure that both rules have the same mode.
+#
+# If no priorities are specified, then the order on which the ECA rules
+# are defined determines the order in which they are selected.
+# 
+# This script requires ConceptBase 7.2 or later.
+#
+
+startServer -u nonpersistent -port 4411 -t high
+tell "
+
+Account with
+  attribute
+    balance: Integer
+end
+
+Transfer with
+  attribute
+    fromaccount: Account;
+    toaccount: Account;
+    amount: Integer
+end 
+
+
+
+{* this rule deduces a tax of 10 percent from both accounts participating in the transfer *}
+
+ECArule taxRule with
+  mode m: Deferred
+  rejectMsg rm:
+   \"Account balance insufficient for taxing\"
+  ecarule
+        er : $  acc1,acc2/Account tr/Transfer m,b1,b2,nb1,nb2/Integer
+        ON Tell (tr amount m) 
+        IF `(tr fromaccount acc1) and
+           `(tr toaccount acc2) and
+           `(acc1 balance b1) and
+           `(acc2 balance b2) and
+            (b1 >= 0) and (b2 >= 0) and
+           (nb1 = b1 - IDIV(b1,10) ) and
+           (nb2 = b2 - IDIV(b2,10) ) 
+        DO Retell (acc1 balance nb1) ,
+           Retell (acc2 balance nb2) 
+        ELSE
+           reject
+        $
+end
+
+{* this rule should be executed before taxRule *}
+
+ECArule transferRule with
+  mode m: Deferred
+  priority_before r1: taxRule
+  rejectMsg rm:
+   \"Account balance insufficient for transfer\"
+  ecarule
+        er : $  acc1,acc2/Account tr/Transfer m,b1,b2,nb1,nb2/Integer
+        ON Tell (tr amount m) 
+        IF `(tr fromaccount acc1) and
+           `(tr toaccount acc2) and
+           `(acc1 balance b1) and
+           `(acc2 balance b2) and
+           (nb1 = b1 - m) and
+           (nb2 = b2 + m) and
+           (nb1 >= 0)
+        DO Retell (acc1 balance nb1) ,
+           Retell (acc2 balance nb2) 
+        ELSE
+           reject
+        $
+end
+"
+
+
+tell "
+PetersAccount in Account with
+  balance b: 500
+end 
+
+MarysAccount in Account with
+  balance b: 100
+end
+"
+
+
+
+tell "
+transfer1 in Transfer with
+   fromaccount a1: PetersAccount
+   toaccount a2: MarysAccount
+   amount m: 250
+end
+"
+
+ask "get_object[PetersAccount/objname]" OBJNAMES  FRAME  Now
+ask "get_object[MarysAccount/objname]" OBJNAMES  FRAME  Now
+
+
+

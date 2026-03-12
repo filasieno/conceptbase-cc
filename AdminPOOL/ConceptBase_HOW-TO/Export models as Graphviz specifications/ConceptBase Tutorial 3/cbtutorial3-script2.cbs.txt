@@ -1,0 +1,39 @@
+# This file is governed by the Creative Commons license
+#   Attribution-NonCommercial 3.0 Unported
+#   http://creativecommons.org/licenses/by-nc/3.0/
+#   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+#
+# Extended licenses, in particular commercial licenses, can be obtained from the
+# author of the source code.
+# Any re-distribution as source code must acknowledge the original author of this file.
+
+#
+# File: cbtutorial3-script2.cbs
+# Author: Manfred Jeusfeld
+# Created: 2013-04-25/M.Jeusfeld (2013-04-26/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Commands of the ConceptBase Tutorial 3
+# We assume that you executed cbtutorial3-script1.cbs before.
+# It creates a database PETRINETS.
+#
+# Start: cbshell cbtutorial3-script2.cbs
+# 
+# If you have GraphViz instaalled on your computer, you can pipe the
+# answer directly into a suitable GraphViz layout program, e.g.
+#
+# cbshell cbtutorial3-script2.cbs | neato -Tpng > pn1.png
+#
+# The petri net model is then in the PNG graphics file pn1.png
+#
+
+
+cbserver -t no -db PETRINETS
+
+ask ShowPN[TrafficLights/pn] OBJNAMES GraphVizPN
+showAnswer
+
+
+
+
+

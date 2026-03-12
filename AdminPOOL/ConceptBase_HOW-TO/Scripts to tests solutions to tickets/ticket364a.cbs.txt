@@ -1,0 +1,8 @@
+
+cbserver -u nonpersistent
+
+ask bulk[find_instances,Integer,String] OBJNAMES FRAME Now
+
+ask bulk[find_object,Class] OBJNAMES CBGraphEditorResult[DefaultJavaPalette/pal] Now
+
+

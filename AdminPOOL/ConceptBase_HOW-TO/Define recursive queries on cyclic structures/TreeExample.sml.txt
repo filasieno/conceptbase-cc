@@ -1,0 +1,48 @@
+{
+*
+* File: TreeExample.sml
+* Author: Manfred Jeusfeld
+* Creation: 6-Feb-2002
+* ----------------------------------------------------------------------
+* 
+* This file shows the use of a recursive query that analyzes
+* a cyclic graph, namely returning all nodes which are roots of
+* a tree.
+* In the example, the tree nodes are N11 and N111.
+* Requires ConceptBase V6.2.1
+*
+}
+
+
+Class Node with
+  attribute
+    linkTo: Node
+end
+
+
+Node N1 with
+  linkTo
+    l1: N11;
+    l2: N12
+end
+
+Node N11 with
+  linkTo
+    l1: N111
+end
+
+Node N12 with
+  linkTo
+    l1: N1
+end
+
+Node N111 end
+
+
+
+QueryClass TreeNode isA Node with
+  constraint
+     c1: $ (forall n/Node (~this linkTo n)
+            ==> (n in TreeNode)) $
+end
+

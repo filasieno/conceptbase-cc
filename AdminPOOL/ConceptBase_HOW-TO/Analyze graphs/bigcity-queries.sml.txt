@@ -1,0 +1,53 @@
+{* 
+* File: bigcity-queries.sml.txt
+* Author: Manfred Jeusfeld
+* Date: 2021-05-07
+* License: CC-BY-SA 4.0
+*}
+
+
+CityWithConnection in QueryClass isA city with
+  constraint
+     qc1: $ exists c/city (this con_to c) $
+end
+
+
+CityWithoutConnection in QueryClass isA city with
+  constraint
+     qc1: $ not exists c/city (this con_to c) $
+end
+
+
+CityToHub in QueryClass isA city with
+  constraint
+     qc1: $ (this con_to london) and (this con_to paris) $
+end
+
+
+CityFromHub in QueryClass isA city with
+  constraint
+     qc1: $ (london con_to this) and (paris con_to this) $
+end
+
+HubCandidate in QueryClass isA CityToHub,CityFromHub
+end
+
+
+ReachableFromFrankfurt in QueryClass isA city with 
+  constraint
+    qc1 : $ (frankfurt trans_con_to ~this) $
+end 
+
+
+ReachableFrom in GenericQueryClass isA city with 
+   computed_attribute,parameter
+    start : city
+  constraint
+    c : $ (~start trans_con_to ~this) $
+end 
+
+DeadEndCity in QueryClass isA city with 
+   constraint
+    c1 : $ (forall n/city (~this con_to n)
+            ==> (n in DeadEndCity)) $
+end

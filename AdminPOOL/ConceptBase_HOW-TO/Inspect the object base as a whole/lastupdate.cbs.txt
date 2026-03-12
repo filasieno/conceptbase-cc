@@ -1,0 +1,61 @@
+#
+# File: lastupdate.cbs
+# Author: Manfred Jeusfeld
+# Creation: 4-Mar-2021 (4-Mar-2021)
+# -----------------------------------
+# Use a deductive rule to compute the time of the last attribute/relationship update of an object
+# (c) 2021 by M. Jeusfeld. 
+# This CBShell script file is licensed under CC-BY 4.0
+# https://creativecommons.org/licenses/by/4.0/
+#
+# Run: cbshell -v lastupdate.cbs
+
+
+startServer -u nonpersistent 
+
+tell "
+Proposition with
+  attribute
+    lastupdate: TransactionTime;
+    updatetime: TransactionTime
+end
+"
+
+tell "
+firstUpdateTime in Function isA TransactionTime with
+  required,parameter
+     object: Proposition
+  constraint
+     mintime: $ (this = MIN_Attribute(Proposition!updatetime,object)) $
+end
+
+lastUpdateTime in Function isA TransactionTime with
+  required,parameter
+     object: Proposition
+  constraint
+     maxtime: $ (this = MAX_Attribute(Proposition!updatetime,object)) $
+end
+
+allUpdateTimes in GenericQueryClass isA TransactionTime with
+  parameter
+     object: Proposition
+  constraint
+     alltimes: $ (object updatetime this) $
+end
+"
+
+
+tell "
+UpdateTimeRules in Class with
+  rule
+   anyupdaterule: $ forall o/Proposition a/Attribute n/Label y/Proposition tt/TransactionTime Pa(a,o,n,y) and Known(a,tt) ==> (o updatetime tt) $;
+   lastupdaterule: $ forall o/Proposition tt/TransactionTime (tt = lastUpdateTime(o)) ==> (o lastupdate tt) $ 
+end
+"
+
+# We use here 'Proposition' as test object since it is defined/updated by several transactions
+ask "allUpdateTimes[Proposition/object]" OBJNAMES LABEL Now
+ask "firstUpdateTime[Proposition/object]" OBJNAMES LABEL Now
+ask "lastUpdateTime[Proposition/object]" OBJNAMES LABEL Now
+
+

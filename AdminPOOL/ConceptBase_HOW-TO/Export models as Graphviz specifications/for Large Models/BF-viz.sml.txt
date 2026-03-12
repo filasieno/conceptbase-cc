@@ -1,0 +1,137 @@
+{*
+* File BF-viz.sml
+* Author: Manfred Jeusfeld, jeusfeld@uvt.nl
+* Date: 18-Jun-2008 (18-Jun-2008)
+*----------------------------------------------------------------
+* This file specifies the BigFlights notation and provides and
+* export filter for graphviz.
+* Steps:
+*  1- Load this model into ConceptBase
+*  2- Load the example model BigFlights.sml into ConceptBase
+*  3- Ask the query ShowBF[bf/model]
+*  4- Copy/paste the answer to a file graphviz-input.dot
+*  5- Call GraphViz, e.g. by
+*       neato -Tpng graphviz-input.dot > graphviz-output.png
+* Use the manual pages of dot or neato to learn more about options of GraphViz.
+* GraphViz is available from 
+*   http://graphviz.org/
+*
+* Requires ConceptBase 7.1 released 17-Jun-2008 or later.
+*
+*}
+
+Individual city in Class with
+   attribute
+        con_to : city
+end
+
+
+Element end
+city isA Element end
+city!con_to isA Element end
+
+Connection in GenericQueryClass isA city!con_to with 
+  parameter
+    c1: city; c2: city
+  constraint
+    cstr: $ From(this,c1) and To(this,c2) $
+end
+
+
+BFModel end
+
+bf in BFModel end
+
+
+BFModel in Class with
+  attribute
+    contains: Element
+  rule
+    r1: $ forall c/city (bf contains c) $;
+    r2: $ forall c,d/city con/selectfirst[Connection[c,d]] (bf contains con) $
+{*  r2: $ forall c/city!con_to (bf contains c) $ *}
+end
+
+
+{* We define at meta meta class level some language constructs to express constraints at *}
+{* the model level. That means: we constrain the set of allowed ER diagrams (=syntax     *}
+{* constraints). All formulas are meta-level formulas.                                   *}
+
+
+
+
+
+
+GraphVizType end
+
+Ellipsenode in GraphVizType,Class with
+  rule
+    r1: $ forall n/city (n in Ellipsenode) $
+end
+Link in GraphVizType,Class with
+  rule
+    r1: $ forall l/city!con_to (l in Link) $
+end
+
+
+GenericQueryClass FromNode isA Individual with
+  parameter
+     lnk: Attribute
+  constraint
+     cfn: $ From(lnk,this) $
+end
+
+GenericQueryClass ToNode isA Individual with
+  parameter
+     lnk: Attribute
+  constraint
+     cfn: $ To(lnk,this) $
+end
+
+
+
+GenericQueryClass ShowBF isA BFModel with
+  parameter,required
+     bf : BFModel
+  constraint
+     c1: $ (bf = this) $
+end
+
+GenericQueryClass ShowElement isA BFModel with
+  required,parameter
+     bf: BFModel;
+     type: GraphVizType
+  computed_attribute
+     elem: Element
+ constraint
+     c1: $ (bf = this) and
+           (this contains elem) and
+           (elem in type) $
+end
+
+
+
+
+GraphVizErd in AnswerFormat with
+  forQuery q: ShowBF
+  head h: "digraph BF \{"
+  pattern p:
+"
+{ASKquery(ShowElement[{this}/bf,Ellipsenode/type],ELLIPSENODE_FORMAT)}
+{ASKquery(ShowElement[{this}/bf,Link/type],LINK_FORMAT)}
+label=\"Flights Model {this}\\\nCreated by {user} at {transactiontime}\"
+fontsize=12;
+"
+  tail t: "\}"
+end
+
+ELLIPSENODE_FORMAT in AnswerFormat with
+pattern p: "node [shape=ellipse]; {Foreach( ({this.elem}), (m), {m};)}"
+end
+
+LINK_FORMAT in AnswerFormat with
+pattern p: "{Foreach( ({this.elem}),(l),{ASKquery(FromNode[{l}/lnk],LABEL)}->{ASKquery(ToNode[{l}/lnk],LABEL)} [len=1.20];\\n)}"
+end
+
+
+

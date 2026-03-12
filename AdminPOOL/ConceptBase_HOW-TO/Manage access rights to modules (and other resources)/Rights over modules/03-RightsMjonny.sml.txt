@@ -1,0 +1,25 @@
+{*
+ * File: RightsMjonny.sml
+ * Author: M. Jeusfeld (24-Feb-2004) 
+ * -----------------------------------------------------------------
+ * to be told to module oHome-Mjonny after having loaded RightsOverModules.sml
+*}
+
+
+{*
+Very simple: if a user has has ~res as home module then she can perform write operations.
+If she is just a CB_User then she can do read operations.
+*}
+
+GenericQueryClass CB_Permitted isA CB_User with
+  parameter
+    user: CB_User;
+    res: Module;
+    op: CB_Operation
+  constraint
+    cperm: $ (
+              ( (~op in CB_WriteOperation) and (~user homeModule ~res) ) or
+              ( (~op in CB_ReadOperation) and (~user in CB_User) )
+             )
+              and UNIFIES(~user,~this) $
+end

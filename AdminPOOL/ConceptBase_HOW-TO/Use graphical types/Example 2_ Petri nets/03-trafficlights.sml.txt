@@ -1,0 +1,125 @@
+{* -------------------------------------------------- *}
+
+{* Petri net for traffic lights. Taken from slides of *}
+{* Wil van der Aalst.                                 *}
+
+red1 in Place with
+  sendsToken
+    t1: rg1
+  marks
+    tf: 1
+end
+
+yellow1 in Place with
+  sendsToken
+    t1: yr1
+  marks
+    tf: 0
+end
+
+green1 in Place with
+  sendsToken
+    t1: gy1
+  marks
+    tf: 0
+end
+
+safe1 in Place with
+  sendsToken
+    t1: rg1
+  marks
+    tf: 1
+end
+
+yr1 in Transition with
+  producesToken
+    p1: red1;
+    p2: safe2
+end
+
+rg1 in Transition with
+  producesToken
+    p1: green1
+end
+
+gy1 in Transition with
+  producesToken
+    p1: yellow1
+end
+
+
+
+red2 in Place with
+  sendsToken
+    t1: rg2
+  marks
+    tf: 1
+end
+
+yellow2 in Place with
+  sendsToken
+    t1: yr2
+  marks
+    tf: 0
+end
+
+green2 in Place with
+  sendsToken
+    t1: gy2
+  marks
+    tf: 0
+end
+
+safe2 in Place with
+  sendsToken
+    t1: rg2
+  marks
+    tf: 0
+end
+
+yr2 in Transition with
+  producesToken
+    p1: red2;
+    p2: safe1
+end
+
+rg2 in Transition with
+  producesToken
+    p1: green2
+end
+
+gy2 in Transition with
+  producesToken
+    p1: yellow2
+end
+
+
+
+
+{* -------------------------------------------------------- *}
+
+{* You can fire a specified transition by telling instances of
+   FireTransition. You can either tell the individual firings
+   one by one or several consecutive firings in the same 
+   TELL transaction. You can even tell all of them in a single
+   TELL transaction.
+
+fire1 in FireTransition with
+  transition t1: rg1
+end
+
+fire2 in FireTransition with
+  transition t1: gy1
+end
+
+fire3 in FireTransition with
+  transition t1: yr1
+end
+
+fire4 in FireTransition with
+  transition t1: rg2
+end
+
+
+*}
+

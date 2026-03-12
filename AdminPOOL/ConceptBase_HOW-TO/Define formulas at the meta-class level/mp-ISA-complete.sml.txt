@@ -1,0 +1,140 @@
+{*
+This file is governed by the Creative Commons license
+   Attribution-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+
+
+{*
+* File mp-ISA-complete.sml
+* Author: Manfred Jeusfeld
+* Date: 15-Dec-2010 (22-Dec-2010)
+*----------------------------------------------------------------
+* A solution to a meta formula probleme formulated by Michael Petit
+* "Specify that in complete ISA hierarchies all instances of the
+*  superclass must also be instance of at least one subclass."
+*
+*}
+
+
+CLASS in Class end   {* for the classes of interest *}
+
+Proposition with
+   attribute
+     inSubRel: CLASS
+end
+
+{* a generic ISA construct without constraints on the instances *}
+
+ISA in Class with
+  single,necessary
+     super: CLASS
+  necessary
+     sub: CLASS
+  {* intermediary rule to handle the existential quantification of the meta variable SUBC *}
+  {* in constraint complete_decomposition                                                 *}
+  rule
+      derive_inSubRel: $ forall x/Proposition spec/ISA SUBC/CLASS
+                          (spec sub SUBC) and (x in SUBC) ==> (x inSubRel SUBC) $
+end
+
+
+
+{* this one provides the completeness constraint *}
+ISA_complete in Class isA ISA with
+  constraint
+     {* original version 
+     complete_decomposition: $ forall x/VAR SC/CLASS spec/ISA_complete 
+                                    (spec super SC) and (x in SC) ==>
+                                exists SUBC/CLASS (spec sub SUBC) and (x in SUBC) $
+     *}
+
+     {* working version *}
+     complete_decomposition: $ forall x/VAR SC/CLASS spec/ISA_complete 
+                                    (spec super SC) and (x in SC) ==>
+                                exists SUBC/CLASS (spec sub SUBC) and (x inSubRel SUBC) $
+end
+
+
+
+{* we also provide ISA_disjoint; it has no exists-quantification *}
+ISA_disjoint in Class isA ISA with
+  constraint
+     disjoint_decomposition: $ forall spec/ISA_disjoint SUBC1,SUBC2/CLASS x/VAR
+                                    (spec sub SUBC1) and (spec sub SUBC2) and (SUBC1 <> SUBC2) and
+                                    (x in SUBC1) ==> not (x in SUBC2) $
+end
+
+
+{* then, ISA_disjoint_complete is just both *}
+
+ISA_disjoint_complete in Class isA ISA_disjoint,ISA_complete end
+
+
+{* Example for ISA_complete *}
+
+Person in CLASS end
+
+Male in CLASS end
+
+Female in CLASS end
+
+ISA1 in ISA_complete with
+  super super1: Person
+  sub sub1: Female; sub2: Male
+end
+
+{* this causes a violation
+mary in Person end
+*}
+
+
+{* Example for ISA_disjoint *}
+
+SubatomicParticle in CLASS end
+
+ElementaryParticle in CLASS end
+
+ComposedParticle in CLASS end
+
+ISA2 in ISA_disjoint with
+  super super1: SubatomicParticle
+  sub sub1: ElementaryParticle;
+      sub2: ComposedParticle
+end
+
+Electron in ElementaryParticle end
+
+{* this causes a violation
+Electron in ComposedParticle end
+*}
+
+
+{* Example for ISA_disjoint_complete *}
+
+Employee in CLASS end
+
+MonthlyPaidEmployee in CLASS end
+
+HourlyPaidEmployee in CLASS end
+
+ISA3 in ISA_disjoint_complete with
+  super super1: Employee
+  sub sub1: MonthlyPaidEmployee; sub2: HourlyPaidEmployee
+end
+
+{* this causes a violation of disjointness
+bill in MonthlyPaidEmployee, HourlyPaidEmployee end
+*}
+
+{* this causes a violation ofc ompleteness
+jane in Employee end
+*}
+
+

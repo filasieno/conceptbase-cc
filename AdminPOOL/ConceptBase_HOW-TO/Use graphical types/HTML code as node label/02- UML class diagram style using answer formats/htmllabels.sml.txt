@@ -1,0 +1,135 @@
+{*
+# This file is governed by the Creative Commons license
+#   Attribution-NonCommercial 4.0 Unported
+#   http://creativecommons.org/licenses/by-nc/4.0/
+#   http://creativecommons.org/licenses/by-nc/4.0/legalcode
+# Extended licenses, in particular commercial licenses, can be obtained from the
+# author of the source code.
+# Any re-distribution as source code must acknowledge the original author of this file.
+#
+#
+# File: htmllabels.sml.txt
+# Author: Manfred Jeusfeld
+# Created: 2022-07-17/M.Jeusfeld (2022-07-20/M.Jeusfeld)
+# ------------------------------------------------------
+# Test resultOf function in combination with graphical types setting the label of an object to the result of a query
+# with an answer format. 
+#
+# Load this source into CBIva and then display the classes line Person, Employee, Project, Company in CBGraph
+# 
+*}
+
+
+{*
+# BuiltinClass contains Integer, Real, String as instances. We use it here to distinguisih attributes
+# from relations. 
+# ClassWithAttributes attaches the proper attributes to an instance of ProperClass, e.g. Person.
+*}
+
+
+ProperClass in QueryClass isA Individual with
+  constraint
+     c1: $ (this in Class) and not (this in QueryClass) and exists a/Attribute n/Label b/BuiltinClass Pa(a,this,n,b) $
+end
+
+NakedClass in QueryClass isA Individual with
+  constraint
+     c1: $ (this in Class) and not (this in QueryClass) and not exists a/Attribute n/Label b/BuiltinClass Pa(a,this,n,b) $
+end
+
+
+ClassWithAttributes in GenericQueryClass isA ProperClass with
+   parameter,computed_attribute
+     class: ProperClass
+   computed_attribute
+     attrs: Attribute
+   constraint
+     c3: $ exists n/Label b/BuiltinClass Pa(~attrs,this,n,b) and (this = ~class) $
+end
+
+
+{*
+# The answer format takes the result of the query ClassWithAttributes and formats it as (pseudo) HTML code where square
+# brackets are used unstead < and >. Note that we only support the mini HTML offered by Java Swing. So, the most
+# basic HTML mark-ups are supported such as <hr>. Consult the Java Swing documentation for more
+# details
+*}
+
+AnswerFormat ClassFormat with
+   forQuery q: ClassWithAttributes
+   order o: ascending
+   orderBy ob: "this"
+   pattern p: "[b]{this}[/b][hr][/hr]{Foreach( ({this.attrs}),(p), {Label({p})}: {To({p})}[br][/br] )}"
+end
+
+
+{*
+# The rule computed the HTML label via the resultOf 2nd order function and attaches it to the object
+# c as gpropert/label. 
+# We use the graphical type FATCLASS_GT to set labellength to a sufficient value (here "500")
+# and size to "wrap", as required for HTML labels in CBGraph.
+*}
+
+
+LabelRules in Class with
+  rule
+    lr1: $ forall c/ProperClass lab/Label (lab = resultOf(ClassWithAttributes,c,ClassFormat)) ==> (c gproperty/label lab) $
+end 
+
+
+FATCLASS_GT in Class,JavaGraphicalType with 
+   property
+    bgcolor : "255,255,255";
+    textcolor : "0,0,0";
+    linecolor : "0,0,0";
+    shape : "i5.cb.graph.shapes.Rect";
+    size : "wrap";
+    labellength: "500";
+    linewidth : "2"
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBIndividual"
+  priority
+    pr : 25
+  rule
+    gtrule1 : $ forall x/ProperClass (x graphtype FATCLASS_GT) $;
+    gtrule2 : $ forall x/NakedClass (x graphtype FATCLASS_GT) $
+end 
+
+TelosPalette with 
+  contains 
+    tpe1: FATCLASS_GT
+end
+
+
+{*
+# Example classes to be rendered by FATCLASS_GT. Note thar Company only has a relation "runs", no proper
+# attribute. It is an instace of NakedClass and will be displayed with "Company" as label.
+*}
+
+
+Class Person with 
+  attribute
+    name: String;
+    age: Integer;
+    knows: Person
+end
+
+Class Employee isA Person with 
+  attribute
+    empno: String;
+    workson: Project
+end
+
+Class Project with
+  attribute
+    projno: String;
+    budget: Integer
+end
+
+Class Company with
+  attribute
+    runs: Project
+end
+
+
+

@@ -1,0 +1,224 @@
+{*
+This file is governed by the Creative Commons license
+   Attribution-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+{ 
+*
+* File: SERVICE-M2.sml
+* Author: Jeewanie Jayasinghe Arachchig, Hans Weigand, Manfred Jeusfeld
+* Creation: 06-Mar-2010 (25-Mar-2010/M.Jeusfeld)
+* ----------------------------------------------------------------------
+* M2 level for the SERVICE meta model
+*
+* Copyright (C) 2010 by Jeewanie Jayasinghe Arachchig, Hans Weigand, Manfred Jeusfeld
+
+*
+}
+
+{* ** M2 ** *}
+
+EconomicResourceType in Concept with
+  connectedTo
+     stockflow: EconomicResourceType;
+     flowToService: ServiceType;  
+     flowToSingleService: ServiceType;
+     flowToMultiService: ServiceType
+end
+
+
+
+ServiceType in Concept isA EconomicResourceType with
+  connectedTo
+     coordinate: ServiceType;
+     flowToResource: EconomicResourceType;
+     enhance: ServiceType;
+     partOf: ServiceType
+end
+
+
+PhysicalResourceType in Concept isA EconomicResourceType end
+
+IndividualizedResourceType in Concept isA PhysicalResourceType end
+NonIndividualizedResourceType in Concept isA PhysicalResourceType end  {* for example Money *}
+
+MoneyType in Concept isA NonIndividualizedResourceType end
+
+ProperEconomicResourceType in QueryClass isA EconomicResourceType with
+  constraint 
+     unused: $ not (this in ServiceType) $
+end
+
+GoodsType in QueryClass isA EconomicResourceType with
+end
+
+IntentionalResourceType in Concept isA EconomicResourceType end
+
+
+
+  
+
+EconomicResourceType!flowToService isA EconomicResourceType!stockflow end
+ServiceType!flowToResource isA EconomicResourceType!stockflow end
+EconomicResourceType!flowToSingleService isA EconomicResourceType!flowToService end
+EconomicResourceType!flowToMultiService isA EconomicResourceType!flowToService end
+
+
+{* FlowServiceTypes are those service types that have at least one input and one output flow *}
+{* This is used to distinguish exchange & conversion services from enhancing & coordinating  *}
+{* services.                                                                                 *}
+
+FlowServiceType in QueryClass isA ServiceType with
+   constraint
+     hasInOut: $ exists r1,r2/EconomicResourceType (this stockflow r1) and (r2 stockflow this) $
+end
+
+
+{* a sell service is a flow service that generates money from goods (all non-money resources) *}
+
+SellServiceType in QueryClass isA FlowServiceType with
+   constraint
+     isSell: $ (forall rout/EconomicResourceType (this stockflow rout) ==> (rout in MoneyType) ) and
+               (forall rin/EconomicResourceType (rin stockflow this) ==> (rin in GoodsType) )
+             $
+end
+
+{* a buy service is a flow service that uses money to obtain goods  *}
+
+BuyServiceType in QueryClass isA FlowServiceType with
+   constraint
+     exchange: $ (forall rout/EconomicResourceType (this stockflow rout) ==> (rout in GoodsType) ) and
+               (forall rin/EconomicResourceType (rin stockflow this) ==> (rin in MoneyType) )
+               $
+end
+
+
+{* an exchange service is a buy or a sell service *}
+
+ExchangeServiceType in QueryClass isA FlowServiceType with
+   constraint
+     isexchange: $ (this in SellServiceType) or (this in BuyServiceType) $
+end
+
+{* a conversion service is a flow service where all inputs and outputs are goods (not money) *}
+
+ConversionServiceType in QueryClass isA FlowServiceType with
+   constraint
+     allconversion: $ forall r/EconomicResourceType (this flowToResource r) or (r flowToService this) ==> (r in GoodsType) $
+end
+
+
+{* a coordination service is simply a service that coordinates another service *}
+
+CoordinationServiceType in QueryClass isA ServiceType with
+   constraint
+     csupp: $ exists s/ServiceType (this coordinate s) $
+end
+
+{* an enhancing service is a service that enhances another service *}
+
+EnhancingServiceType in QueryClass isA ServiceType with
+   constraint
+     csupp: $ exists s/ServiceType (this enhance s) $
+end
+
+{* the rest is called an "other" service *}
+
+OtherServiceType in QueryClass isA ServiceType with
+   constraint
+     csupp: $ not (this in CoordinationServiceType) and not (this in EnhancingServiceType) and
+              not (this in ConversionServiceType) and not (this in ExchangeServiceType) $
+end
+
+
+{* atomic services do not have part services *}
+
+AtomicServiceType in QueryClass isA ServiceType with
+  constraint 
+     isAtomic: $ not exists s/ServiceType (s partOf this) $
+end
+
+
+ServiceModelElement in NodeOrLink end
+
+EconomicResourceType isA ServiceModelElement end
+EconomicResourceType!stockflow isA ServiceModelElement end
+ServiceType!coordinate isA ServiceModelElement end
+ServiceType!enhance isA ServiceModelElement end
+ServiceType!partOf isA ServiceModelElement end
+
+ServiceDiagram in Model,Class with   {* synonym for ComplexActivity *}
+  contains
+     elem: ServiceModelElement
+  rule
+     addflow: $ forall a/EconomicResourceType sd/ServiceDiagram link/EconomicResourceType!stockflow
+                        (sd elem a) and From(link,a) ==> (sd elem link) $;
+     addsupport: $ forall a/CoordinationServiceType sd/ServiceDiagram link/ServiceType!coordinate
+                        (sd elem a) and From(link,a) ==> (sd elem link) $;
+     addenhances: $ forall a/EnhancingServiceType sd/ServiceDiagram link/ServiceType!enhance
+                        (sd elem a) and From(link,a) ==> (sd elem link) $;
+     addpartof: $ forall a/EnhancingServiceType sd/ServiceDiagram link/ServiceType!partOf
+                        (sd elem a) and From(link,a) ==> (sd elem link) $
+end
+
+
+
+
+{* some derived constructs *}
+
+{* resource not used for any service and not refilled *}
+UnusedEconomicResourceType in QueryClass isA ProperEconomicResourceType with
+  constraint 
+     unused: $ not exists st/ServiceType (this flowToService st) or (st flowToResource this) $
+end
+
+{* resource used but not refilled *}
+EconomicResourceTypeNotRefilled in QueryClass isA ProperEconomicResourceType with
+  constraint 
+     unused: $ (exists st1/ServiceType (this flowToService st1)) and 
+               (not exists st2/ServiceType (st2 flowToResource this)) $
+end
+
+{* resource used only refilled but not used  *}
+EconomicResourceTypeOnlyRefilled in QueryClass isA ProperEconomicResourceType with
+  constraint 
+     unused: $ (not exists st1/ServiceType (this flowToService st1)) and 
+               (exists st2/ServiceType (st2 flowToResource this)) $
+end
+
+
+{* Atomic service types are either 
+     - enhancing
+     - coordinating
+     - exchanging money for goods (or vice versa)
+     - converting (goods to goods)
+   So, this query returns the malformed atomic service types.
+*}
+
+UnclassifiableAtomicServiceType in QueryClass isA AtomicServiceType with
+  constraint
+     noclass: $ not (this in CoordinationServiceType) and
+                not (this in EnhancingServiceType) and
+                not (this in ConversionServiceType) and
+                not (this in ExchangeServiceType) 
+               $
+end
+
+
+
+
+
+
+
+
+
+
+
+
+

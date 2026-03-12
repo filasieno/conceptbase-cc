@@ -1,0 +1,141 @@
+# This script tests the listCurrentModule query that can be added as
+# CBserver plug-in. The file listmodule.swi.lpi has to be in the
+# directory $CB_HOME/lib/system to run this script.
+# This script requires ConceptBase 7.2.02 released in September 2009.
+
+startServer -u nonpersistent -t no
+tell "M1 in Module end"
+
+tell "
+AdditionalConstraints in Class with
+   constraint
+      singleConstraint :
+          $ forall c,d/Proposition p/Proposition!single x,m/VAR
+              P(p,c,m,d) and (x in c) ==>
+                (
+                  forall a1,a2/VAR
+                    (a1 in p) and (a2 in p) and Ai(x,m,a1) and Ai(x,m,a2) ==>
+                   (a1=a2)
+                ) $;
+      necConstraint:
+          $ forall c,d/Proposition p/Proposition!necessary x,m/VAR
+            P(p,c,m,d) and (x in c) ==>
+             exists y/VAR (y in d) and (x m y) $
+end
+
+AdditionalConstraints!singleConstraint with
+ comment
+   hint:
+\"The attribute {m} of {c} is single-valued. Any instance of {c} may have at most one attribute of category {m}!\"
+end
+
+
+AdditionalConstraints!necConstraint with
+ comment
+   hint:
+\"The attribute {m} of {c} is defined necessary. Any instance of {c} must have at least one instance of {d} for the attribute {m}!\"
+end
+"
+
+setModule M1
+result OK "M0"
+
+# Module M0 gets a general constraint on attribute typing. It is a variant
+# of O-Telos axiom 14. We have to use 'attributeclass' instead of 'attribute'
+# to avoid interference.
+
+tell "
+TheBarber in Man end
+Class Man  with
+  attribute
+    shaves: Man
+  rule
+   r1: $ forall m/Man not (m shaves m) ==> (TheBarber shaves m) $
+end
+"
+
+tell "
+jon in Man with
+  shaves him: jon
+end
+
+pete in Man end
+
+
+QueryClass ShavedByBarber isA Man with
+  constraint
+    c1: $ (TheBarber shaves ~this) $
+end
+"
+
+
+tell "
+Man with
+    comment
+      com1: \"This is all\"
+end
+"
+
+
+tell "
+TheBarber with
+    attribute
+      a1: 1
+end
+TheBarber!a1 with
+  comment
+    com2: \"Another comment\"
+end
+"
+
+tell "
+TheBarber!a1!com2 with
+  attribute
+    relatedto: jon!him
+end
+ClassGT1 in JavaGraphicalType end 
+"
+
+tell "
+ClassGT1 in JavaGraphicalType with  
+  property
+    bgcolor : \"0,206,210\";
+    textcolor : \"0,0,0\";
+    linecolor : \"0,0,0\";
+    shape : \"i5.cb.graph.shapes.Rect\"
+  priority
+    p : 5
+  implementedBy,comment
+    implBy : \"i5.cb.graph.cbeditor.CBIndividual\"
+end 
+
+ECAruleA in Class with  
+ single,necessary
+    ecarule : ECAassertion
+ attribute
+    priority_after : ECAruleA;
+    priority_before : ECAruleA
+ single
+    mode : ECAmode;
+    active : Boolean;
+    depth : Integer
+ attribute
+    rejectMsg : String
+  constraint
+    ecarule1_single : $ forall r/ECAruleA e1,e2/ECAassertion
+		(r ecarule e1) and (r ecarule e2) ==> (e1 == e2) $;
+    eca1_necessary : $ forall r/ECAruleA exists e/ECAassertion
+		(r ecarule e) $;
+    mode1_single : $ forall r/ECAruleA m1,m2/ECAmode
+		(r mode m1) and (r mode m2) ==> (m1 == m2) $;
+    active1_single : $ forall r/ECAruleA a1,a2/Boolean
+		(r active a1) and (r active a2) ==> (a1 == a2) $;
+    depth1_single : $ forall r/ECAruleA i,j/Integer
+		(r depth i) and (r depth j) ==> (i == j) $
+end 
+"
+
+
+
+ask "listCurrentModule" OBJNAMES  FRAME  Now
+showAnswer

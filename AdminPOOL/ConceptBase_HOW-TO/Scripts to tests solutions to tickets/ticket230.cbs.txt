@@ -1,0 +1,94 @@
+#
+# File: ticket230.cbs
+# Author: Manfred Jeusfeld
+# Creation: 18-Nov-2009 (20-Nov-2009)
+# ----------------------------------------------------------------------
+#
+# Check partial generator
+#
+
+startServer -u nonpersistent -t low 
+
+
+tell "
+NodeOrLink with  
+  attribute
+    connectedTo : NodeOrLink
+end 
+
+Node isA NodeOrLink  
+end 
+
+NodeOrLink!connectedTo isA NodeOrLink  
+end 
+
+String in Node end
+Integer in Node end
+
+Construct in Node with
+  connectedTo
+    rel: Construct;
+    atts: String;
+    atti: Integer
+end
+
+cc1 in Construct with
+  rel  rel1:cc2
+  atts rel2: \"hello\"
+  atti rel3: 25
+end
+
+cc2 in Construct end
+"
+
+# no negated predicate
+tell "
+ModelElement in Class with  
+  attribute
+    linkto : ModelElement
+  rule
+    me1 : $ forall x/VAR (x [in] NodeOrLink) ==> (x in ModelElement) $
+end 
+"
+
+
+#The answer to this query includes all known strings; quite a lot since ConceptBase has them predefined
+ask "find_instances[ModelElement/class]" OBJNAMES LABEL Now
+
+
+
+# one negated predicate
+tell "
+ModelElement1 in Class with  
+  attribute
+    linkto : ModelElement1
+  rule
+    me2 : $ forall x/VAR (x [in] NodeOrLink) and not (x in String) ==> (x in ModelElement1) $
+end 
+"
+
+
+#The answer to this query excludes strings but includes all known integers
+ask "find_instances[ModelElement1/class]" OBJNAMES LABEL Now
+
+
+
+# several negated predicates
+tell "
+ModelElement2 in Class with  
+  attribute
+    linkto : ModelElement2
+  rule
+    me3 : $ forall x/VAR (x [in] NodeOrLink) and not (x in String) and  not (x in Integer) ==> (x in ModelElement2) $
+end 
+"
+
+#The answer to this query excludes strings and integers
+ask "find_instances[ModelElement2/class]" OBJNAMES LABEL Now
+
+
+
+
+
+
+

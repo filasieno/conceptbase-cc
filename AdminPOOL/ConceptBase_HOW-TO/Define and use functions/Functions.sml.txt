@@ -1,0 +1,92 @@
+{
+*
+* File: Functions.sml
+* Author: Manfred Jeusfeld
+* Creation: 28-Sep-2005 (22-May-2014)
+* ----------------------------------------------------------------------
+* Example on user-defined functions
+* Requires ConceptBase 7.1 released after 31-Mar-2008.
+* Look in particular at the definition of the function ProjectNr.
+* It is a user-defined function that can be used directly in
+* other queries.
+* You also find some of the example of the user manual included here.
+*
+}
+
+
+Employee in Class with
+  attribute
+    salary: Real;
+    worksfor: Project
+end
+
+Project in Class end
+
+
+{* this is a user-defined function that determines the number of *}
+{* projects of an employee                                       *}
+
+ProjectNr in Function isA Integer with
+  parameter
+    emp: Employee
+  constraint
+     ccount: $ (this = COUNT_Attribute(Employee!worksfor,emp)) $
+end
+
+{* this query uses the function defined above                    *}
+EmployeeWithMostProjects in QueryClass isA Employee with
+  constraint
+    cmost: $ forall e/Employee not (this = e) ==>
+               (ProjectNr(e) < ProjectNr(this)) $
+end
+  
+
+
+{* some instances *}
+
+bill in Employee end  {* no properties at all *}
+
+mary in Employee with
+  salary s1: 500.0
+end
+
+jane in Employee with
+  salary s1: 800.0; s2: 9500.0
+end
+
+kuno in Employee with
+  salary s1: 50.0; s2: 80.0; s3: 3000.0
+  worksfor p1: Proj1; p2: Proj2
+end
+
+yet in Employee with
+  worksfor p1: Proj1; p2: Proj2; p3: Proj3
+end
+
+Proj1 in Project end
+Proj2 in Project end
+Proj3 in Project end
+
+
+{* from ConceptBase User Manual, section 'Computation by Functions' *}
+
+Function PercentageOfQueryClasses isA Real with
+constraint
+    c: $ (this = 100 * #QueryClass / #Class) $
+end
+
+
+{* generalization of the above query;
+     PercentageOf(QueryClass) = PercentageOfQueryClasses
+*}
+
+PercentageOf in Function isA Real with  
+  parameter
+    class : Proposition
+  constraint
+    c : $ (this = 100 * #class / #Class) $
+end 
+
+
+
+

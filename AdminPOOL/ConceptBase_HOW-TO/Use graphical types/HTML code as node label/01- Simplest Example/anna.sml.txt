@@ -1,0 +1,8 @@
+anna with
+  gproperty label: "[center]Anna[/center][hr][/hr]
+    Anna Catharina III Regina de Abessinia della Cruz"
+  gproperty labellength: 200
+  gproperty size: "wrap"
+end
+
+

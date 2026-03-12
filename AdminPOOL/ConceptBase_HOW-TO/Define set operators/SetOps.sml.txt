@@ -1,0 +1,98 @@
+{
+*
+* File: SetOps2.sml
+* Author: Manfred Jeusfeld
+* Creation: 26-Apr-2002 (7-Apr-2008/M.Jeusfeld)
+* ----------------------------------------------------------------------
+*
+* Extension of SetOps.sml where arguments of the generic set
+* operations can themselves be parameterized queries.
+* Requires ConceptBase 7.1 released 6-Apr-2008 or later!
+*
+* Example query calls (use Ask Objname):
+*    Intersec[EmpMinSal[800/minsal]/X,EmpMaxSal[1400/maxsal]/Y]
+*    Union[Intersec[EmpMinSal[800/minsal]/X,EmpMaxSal[1400/maxsal]/Y]/X,Manager/Y]
+*
+* Note that the generic queries Intersec, Union and Difference require
+* their parameters to be instances of class. This is OK for the parameters
+* like EmpMinSal[800/minsal since their core class EmpMinSal is an instance
+* of Class. 
+*
+}
+
+
+Class Employee with 
+  attribute
+    salary: Integer
+end
+
+Class Manager isA Employee end
+
+Employee bill with
+  salary s: 500
+end
+Employee mary with
+  salary s: 1000
+end
+Employee charly with
+  salary s: 1500
+end
+
+lisa in Manager end
+
+
+GenericQueryClass EmpMinSal isA Employee with
+  parameter
+    minsal: Integer
+  constraint
+    c1: $ exists s/Integer (this salary s) and (s >= minsal) $
+end
+
+GenericQueryClass EmpMaxSal isA Employee with
+  parameter
+    maxsal: Integer
+  constraint
+    c1: $ exists s/Integer (this salary s) and (s =< maxsal) $
+end
+
+
+
+GenericQueryClass Intersec isA Individual with
+ parameter
+   X: Class; Y: Class
+ constraint
+   c: $ (this in X) and (this in Y) $
+end
+
+GenericQueryClass Union isA Individual with
+ parameter
+   X: Class; Y: Class
+ constraint
+   c: $ (this in X) or (this in Y) $
+end
+
+GenericQueryClass Difference isA Individual with        
+ parameter
+   X: Class; Y: Class
+ constraint
+   c: $ (this in X) and not (this in Y) $
+end
+
+
+{* Example to count number of instances of a nested query call:
+   Note that the user interface CBiva requires the full syntax for
+   "Ask Query Call" rather than the shortcut. Shortcuts are
+   currently only supported in logical formulas.
+
+COUNT[Union[Intersec[EmpMinSal[800/minsal]/X,EmpMaxSal[1400/maxsal]/Y]/X,Manager/Y]/class]
+
+*}
+
+
+{* Same expression but now using the shortcut syntax *}
+Function CountSet1 isA Integer with
+  constraint
+    c1: $ (this = #Union[Intersec[EmpMinSal[800],EmpMaxSal[1400]],Manager]) $
+end
+
+

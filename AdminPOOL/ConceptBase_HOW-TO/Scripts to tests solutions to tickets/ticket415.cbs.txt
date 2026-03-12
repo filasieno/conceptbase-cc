@@ -1,0 +1,88 @@
+#
+#
+# File: ticket415.cbs
+# Author: Manfred Jeusfeld
+# Created: 2018-05-29/M.Jeusfeld (2018-05-29/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Start: cbshell ticket415.cbs
+#
+# Check wether listModule produces correct code for instances of View
+
+
+cbserver -t low 
+
+mkdir M1
+cd M1
+
+
+tell "
+
+Component in Class with
+  attribute 
+    property: String
+end
+
+c1 in Component with
+  property p1: \"abc\"
+end
+c2 in Component with
+  property p1: \"abcd\"; p2: \"alpha\"
+end
+"
+
+tell "
+ShowComponent in View isA Component with  
+  inherited_attribute
+    property : String
+  computed_attribute
+    type : Proposition
+  constraint
+    c11 : $ In_s(this,~type) $
+end 
+
+"
+
+tell "
+ShowComponentQ in QueryClass isA Component with  
+  retrieved_attribute
+    property : String
+  computed_attribute
+    type : Proposition
+  constraint
+    c11 : $ In_s(this,~type) and In_s(this,~type) $
+end 
+"
+
+
+ask get_object[ShowComponentQ!property/objname] OBJNAMES FRAME Now
+
+
+ask get_object[ShowComponent!property/objname] OBJNAMES FRAME Now
+
+
+
+
+ask listModule
+# should have a single frame for ShowComponent
+
+
+
+
+untell "
+ShowComponentQ in QueryClass isA Component with  
+  retrieved_attribute
+    property : String
+  computed_attribute
+    type : Proposition
+  constraint,attribute
+    c11 : $ In_s(this,~type) and In_s(this,~type) $
+end 
+"
+ask listModule
+# should not leave anyting from ShowComponentQ (also not $ In_s(this,~type) $)
+
+
+
+
+

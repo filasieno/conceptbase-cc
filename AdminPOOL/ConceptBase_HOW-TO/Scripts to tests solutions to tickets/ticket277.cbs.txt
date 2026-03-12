@@ -1,0 +1,52 @@
+#
+# File: ticket277.cbs
+# Author: Manfred Jeusfeld
+# Created: 2011-03-17/M.Jeusfeld (2011-03-17/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Test that query classes cannot have explicit instances
+# Start: CBshell -f ticket277.cbs
+#
+
+
+startServer -u nonpersistent -port 4411 -t high 
+
+# This still fine
+tell "
+C in Class  end 
+QC in QueryClass isA C end 
+x1 in C end
+"
+
+# This TELL must be rejected since QC is a query class
+tell " 
+x2 in QC end
+"
+
+# to be uased in subsequent ECArule
+tell "x3 end"
+
+
+# ECArule that could tell an explicit instance to query class QC
+tell " 
+ECArule TellViaECA with
+  mode m: Deferred
+  ecarule
+    r1: $ 
+         ON Ask find_instances[Boolean/class]
+         IF TRUE
+         DO Tell (x3 in QC)
+        $
+end"
+
+
+# trigger the ECArule
+ask "find_instances[Boolean/class]" OBJNAMES  FRAME  Now
+#---> It should lead to an error message
+
+
+ask "find_instances[C/class]" OBJNAMES  FRAME  Now
+
+
+
+

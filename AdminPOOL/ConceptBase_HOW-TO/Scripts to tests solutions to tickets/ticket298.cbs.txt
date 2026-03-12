@@ -1,0 +1,66 @@
+
+#
+# File: ticket298.cbs
+# Author: Manfred Jeusfeld
+# Created: 2011-12-06/M.Jeusfeld (2011-12-06/M.Jeusfeld)
+# ------------------------------------------------------
+# Test the Retell action on (x m/n y)
+#
+# Start: CBshell -f ticket298.cbs
+#
+
+
+
+startServer -u nonpersistent -t high 
+
+tell "
+Class Employee with
+  attribute
+    count: 0
+end
+
+
+ECArule EmployeeCounterRule with
+ecarule
+        er : $  x/Employee i,i1/Integer
+        ON Tell (x in Employee)
+        IFNEW (Employee attribute/count i) and (i1 = i+1)
+        DO Retell (Employee attribute/count i1)
+        $
+end
+
+
+ECArule EmployeeCounterRule_del with
+ecarule
+        er : $  x/Employee i,i1/Integer
+        ON Untell (x in Employee)
+        IFNEW (Employee attribute/count i) and (i1 = i-1)
+        DO Retell (Employee attribute/count i1)
+        $
+end
+"
+
+# two new employees
+tell "
+mary in Employee end
+bill in Employee end 
+"
+
+
+
+
+
+ask "get_object[Employee/objname]" OBJNAMES  FRAME  Now
+# should display that Employee has attribute count=2
+
+
+# two new employees
+untell "
+bill in Employee end 
+"
+
+ask "get_object[Employee/objname]" OBJNAMES  FRAME  Now
+# should display that Employee has attribute count=1
+
+
+

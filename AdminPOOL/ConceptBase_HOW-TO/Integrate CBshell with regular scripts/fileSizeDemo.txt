@@ -1,0 +1,58 @@
+#!/bin/sh
+# Syntax: fileSizeDemo
+# Author: Manfred Jeusfeld 
+# Created: 2012-07-12
+# -----------------------------------------------------------------------
+# script for extracting filenames and their sizes and telling them to 
+# a ConceptBase server operating on the database FILEDB. The database is a directory.
+#
+# This file is governed by the Creative Commons license
+#   Attribution-NonCommercial 3.0 Unported
+#   http://creativecommons.org/licenses/by-nc/3.0/
+#   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+#
+# Extended licenses, in particular commercial licenses, can be obtained from the
+# author of the source code.
+# Any re-distribution as source code must acknowledge the original author of this file.
+
+
+
+# start a ConceptBase server at port 4001 on the database FILEDB (created as directory)
+startcb 4001 FILEDB 
+sleep 1  # need to wait a bit to make sure that the CBserver is up and running
+
+
+# declare class File in ConceptBase (running on port 4001)
+tell 4001 "File in Class with attribute size: Integer end"
+
+# define a query class that returns all known file sizes
+tell 4001 "FileSize in QueryClass isA Integer with constraint c: $ exists f/File (f size this) $ end "
+
+
+# This will loop for all files in the current directory and tells them to ConceptBase
+# Note that ${file} in ${frame} is enclosed in single quotes. These are handled
+# by the CBshell script tell. File names can have special characters like blanks.
+# Hence we need to make sure that the syntax for object definition on ConceptBase is followed.
+# The CBshell script tell has the -q option set. This will make sure that the single quotes
+# in its arguments are replaced correctly.
+for file in *
+do
+  if [ -f ${file} ] 
+    then
+     fsize=$( stat -c %s ${file})
+     frame="'${file}' in File with size s: ${fsize} end"
+     tell 4001 "${frame}"
+    fi
+done
+
+
+# ask a simple query to report all file sizes as stored in ConceptBase
+echo  Result is `ask 4001 FileSize` 
+
+
+# stop the CBserver running at port 4001
+stopcb 4001
+
+
+# dump the database content; see result in FILEDB/System-oHome.sml
+dumpcb FILEDB

@@ -1,0 +1,117 @@
+#
+# File: AePredicate.cbs
+# Author: Manfred Jeusfeld
+# Creation: 9-Dec-2008 (9-Dec-2008)
+# ----------------------------------------------------------------------
+# This file demonstrate some of the capabilities of the A_e predicate (explicit attribution).
+#
+# Requires ConceptBase 7.1 released Deecember 2008
+#
+
+startServer -u nonpersistent 
+
+# Test 1: demonstrate inheritance of attribute categories
+# The bonus attribute of Manager is declared as a specialization of
+# the salary attribute of Employee. Hence, any bonus is also regarded as a salary.
+tell "
+ Employee with
+     attribute
+       salary: Integer
+  end
+  Manager isA Employee with
+     attribute
+        bonus: Integer
+  end
+  Manager!bonus isA Employee!salary end
+"
+
+# Some test data
+tell "
+john in Employee with
+  salary sal1: 500
+end
+mary in Manager with
+  bonus bon1: 10000
+end
+"
+
+# employees with high salary; EmployeeWithHighSal1 uses the A predicate; 
+# EmployeeWithHighSal2 uses the A_e predicate; in this case they return the same answer
+tell "
+EmployeeWithHighSal1 in QueryClass isA Employee with
+   constraint
+      c1: $ exists s/Integer (this salary s) and (s > 1000) $
+end
+EmployeeWithHighSal2 in QueryClass isA Employee with
+   constraint
+      c1: $ exists s/Integer A_e(this,salary,s) and (s > 1000) $
+end
+"
+
+
+
+# Query for Test 1
+ask "EmployeeWithHighSal1" OBJNAMES  FRAME  Now
+ask "EmployeeWithHighSal2" OBJNAMES  FRAME  Now
+
+
+
+# Test 2: demonstrate deduction of attribute categories
+# The attribute itself is explicit but its attribute category is derived
+# In this case, The A_e predicate still finds the solutions
+
+tell "
+Country end
+NL in Country end
+UK in Country end
+Taxpayer in Class with
+     attribute
+       income: Integer;
+       premium: Integer;
+       country: Country
+     rule
+       premrule: $ forall t/Taxpayer prem/Taxpayer!premium 
+                      (t country NL) and Ai(t,premium,prem)
+                    ==> (prem in Taxpayer!income) $
+end  
+"
+
+tell "
+marijke in Taxpayer with
+  income sal: 50000
+  premium pr: 3000
+  country ctr: NL
+end
+jeff in Taxpayer with
+  income sal: 20000
+  premium pr: 7000
+  country ctr: UK
+end
+"
+
+tell "
+TaxpayerWithIncome in QueryClass isA Taxpayer with
+  computed_attribute
+     allincome: Integer
+  constraint
+     c1: $ A_e(this,income,allincome) $
+end
+"
+
+ask "TaxpayerWithIncome" OBJNAMES  FRAME  Now
+
+tell "
+TaxpayerWithTotalIncome in QueryClass isA Taxpayer with
+  computed_attribute
+     totalincome: Integer
+  constraint
+     c1: $ (totalincome=SUM_Attribute(Taxpayer!income,this)) $
+end
+"
+
+ask "TaxpayerWithTotalIncome" OBJNAMES  FRAME  Now
+
+
+
+
+

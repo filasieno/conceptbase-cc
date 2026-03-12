@@ -1,0 +1,40 @@
+#!/bin/sh
+# Syntax: printfiles4cbshell
+# Author: Manfred Jeusfeld 
+# Created: 2012-07-13
+# -----------------------------------------------------------------------
+# script for extracting filenames and their sizes from the current 
+# directory and converting them into CBshell commands to store this info
+# in ConceptBase
+# The tell lines will put the filename into escaped double quotes
+# since it may contain special characters
+#   tell "\"myfile.txt\" ..."
+# Usage:
+#   printfiles4cbshell | cbshell -p
+# The example expects that a CBserver is running on localhost,
+# port number 4001, and that this CBserver is preloaded with the
+# definition s of FileModel.sml
+#
+# This file is governed by the Creative Commons license
+#   Attribution-NonCommercial 3.0 Unported
+#   http://creativecommons.org/licenses/by-nc/3.0/
+#   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+#
+# Extended licenses, in particular commercial licenses, can be obtained from the
+# author of the source code.
+# Any re-distribution as source code must acknowledge the original author of this file.
+
+echo "enrollMe localhost 4001" 
+
+for file in *
+do
+  if [ -f ${file} ] 
+    then
+     fsize=$( stat -c %s ${file})
+     frame="'${file}' in File with size s: ${fsize} end"
+     echo tell \"\\\"${file}\\\" in File with size s: ${fsize} end\"
+    fi
+done
+
+
+

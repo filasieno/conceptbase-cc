@@ -1,0 +1,57 @@
+Faculty willi
+end
+
+Faculty mary
+end
+
+Faculty kurt
+end
+
+Faculty charles
+end
+
+Faculty petra
+end
+
+University RWTH
+end
+
+University HKUST
+end
+
+
+employs emp1 with
+  employee
+    who: willi
+  employer
+    where: RWTH
+end
+
+
+employs emp2 with
+  employee
+    who: mary
+  employer
+    where: RWTH
+end
+
+employs emp3 with
+  employee
+    who: kurt
+  employer
+    where: RWTH
+end
+
+employs emp4 with
+  employee
+    who: charles
+  employer
+    where: RWTH
+end
+
+employs emp5 with
+  employee
+    who: petra
+  employer
+    where: HKUST
+end

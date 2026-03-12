@@ -1,0 +1,55 @@
+{*
+This file is governed by the Creative Commons license
+   Attribution-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+
+
+{*
+* File exists-metaformula.sml
+* Author: Manfred Jeusfeld
+* Date: 17-Dec-2010 (17-Dec-2010)
+*----------------------------------------------------------------
+* Another example on how to use an intermediary deductive rule
+* to allow the partial evaluation of a metaformula with metavariables
+* under existential quantification.
+* Here, METACLASS is a very special metaclass: It requires that it has at
+* least one instance (like MyClass) that itself has an instance (like foo).
+* This has hardly a real application. It just shows that metaformulas can
+* also handle these tricky existential cases via an intermediary deductive
+* rule.
+*
+*}
+
+
+Proposition with
+  attribute
+    inViaMC: METACLASS
+end
+
+METACLASS in Class with
+  constraint
+    {* intended formulation 
+    exists_in_in: $ exists x/Proposition C/METACLASS (x in C) $ *}
+    {* working formulation *}
+    exists_in_in: $ exists x/Proposition C/METACLASS (x inViaMC C) $
+  rule
+    intermediary_rule: $ forall x/Proposition C/METACLASS (x in C) ==> (x inViaMC C) $
+end
+
+
+
+{* the required instances: *}
+
+MyClass in METACLASS end
+
+foo in MyClass end
+
+{* UNTELL foo in MyClass to see the constraint working *}
+

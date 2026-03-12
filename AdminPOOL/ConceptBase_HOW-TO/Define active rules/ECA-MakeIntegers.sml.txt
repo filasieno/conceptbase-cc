@@ -1,0 +1,36 @@
+{
+* File: ECA-MakeIntegers.sml
+* Author: Manfred Jeusfeld
+* Created: 9-Nov-2005/M.Jeusfeld (2-Apr-2008/M.Jeusfeld)
+* ------------------------------------------------------
+* This ECA rules generates more and more instances
+* of MyInteger. You have to take care avoiding 
+* infinite loops by carefully desiging the ECA rules.
+* If for example the condition would be (n > 0) then,
+* the ECA rule would loop forever.
+*
+* Requires ConceptBase 7.1 released April 2008 or later.
+*
+}
+
+
+MyInteger isA Integer end
+
+ECArule MakeNewInteger with
+  mode m: Deferred
+  ecarule
+        er : $  n,n1/Integer
+        ON Tell (n in MyInteger)
+        IF (n < 500) and (n1=n+1)
+        DO Tell (n1 in MyInteger)
+        $
+end
+
+
+
+{* You can fire the ECA rule by telling an object like
+
+1 in MyInteger end
+
+*}
+

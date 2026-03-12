@@ -1,0 +1,125 @@
+{*
+* File GeneratedHint.sml
+* Author: Manfred Jeusfeld, jeusfeld@uvt.nl
+* Date: 5-Apr-2005 (8-Apr-2005)
+*----------------------------------------------------------------
+*
+* Meta-level constraints are a useful feature of ConceptBase.
+* They can be augmented by so-called hints which are presented
+* to the user in case of an integrity violation. Since the meta-level
+* constraint is compiled to simple constraints, it is nice
+* to present the hints in the context of the usage. For example, the
+* marriedTo attribute is defined to be symmetric. When a violation occurs,
+* the hint defined for the symmetric meta formula is specialized by the
+* substitutions C=Person and M=marriedTo. 
+*
+* (c) 2005 by M. Jeusfeld. Do not use without proper reference
+* to the author!
+*
+*}
+
+
+{* Part 1: Definition of the generic concepts symmetric, irreflexive and single 
+   These definitions are independent from the modeling domain and can be re-used
+   whereever you want
+*}
+
+Proposition with
+  attribute
+    symmetric: Proposition;
+    irreflexive: Proposition
+    {* single:Proposition is already predefined in ConceptBase *}    
+end
+
+RelationSemantics in Class with
+  constraint
+    symm_IC: $ forall AC/Proposition!symmetric C/Proposition x,y/VAR M/VAR
+                     P(AC,C,M,C) and (x in C) and (y in C) and
+                     (x M y)  ==> (y M x) $;
+    irrfl_IC: $ forall AC/Proposition!irreflexive C/Proposition x/VAR M/VAR
+                     P(AC,C,M,C) and (x in C) ==>  not (x M x) $;
+    singleConstraint :
+        $ forall p/Proposition!single c,d/Proposition x,m/ VAR
+             P(p,c,m,d) and In(x,c)  ==>
+                forall y1,y2/VAR
+                  In(y1,d) and In(y2,d) and A(x,m,y1) and A(x,m,y2) ==>
+                 IDENTICAL(y1, y2) $
+end
+
+RelationSemantics!symm_IC with
+ comment
+   hint: "The relation {M} of {C} must be symmetric, i.e. (x {M} y) implies (y {M} x)."
+end
+
+RelationSemantics!irrfl_IC with
+ comment
+   hint: "No instance of {C} may stand in {M} relation to itself!"
+end
+
+RelationSemantics!singleConstraint with
+ comment
+   hint: "The attribute {m} of {c} is declared single-valued, i.e. any instance of {c} may stand in relation {m} to at most one instance of {d}."
+end
+
+
+{* Part 2: this example defines marriedTo to be symmetric, irreflexive and single-valued.
+   It shows how simple models become when one can utilize the generic concepts:
+   
+Person with
+  attribute,symmetric,irreflexive,single
+   marriedTo: Person
+end
+
+*}
+
+
+
+
+{* Part 3: some data to trigger constraint violation *}
+
+{* this is a violator for symmetry:
+
+adam in Person with
+  marriedTo m1: eve
+end
+
+eve in Person end
+
+*}
+
+{* this is a violator for irreflexivity:
+
+adonis in Person with
+  marriedTo m1: adonis
+end
+
+*}
+
+
+{* this is a violator for single-valuedness:
+
+henry in Person with
+  marriedTo
+    m1: elizabeth;
+    m2: anne;
+    m3: mary
+end
+
+elizabeth in Person with
+  marriedTo
+    m1: henry
+end
+
+anne in Person with
+  marriedTo
+    m1: henry
+end
+
+mary in Person with
+  marriedTo
+    m1: henry
+end
+*}
+
+
+

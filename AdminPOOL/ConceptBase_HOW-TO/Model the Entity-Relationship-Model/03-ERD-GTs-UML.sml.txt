@@ -1,0 +1,430 @@
+
+{
+*
+* File: 3_ERD_GTs.sml
+* Author: Manfred Jeusfeld
+* Creation: 15-Jun-2004 (21-Mar-2014/M. Jeusfeld)
+* ----------------------------------------------------------------------
+* 
+* graphical types for the ERD Model; designed for Java-based Graph Editor of ConceptBase 7.6
+}
+
+XPalette in Class,JavaGraphicalPalette with  
+  contains,defaultIndividual
+    xx1 : DefaultIndividualGT
+  contains,defaultLink
+    xx2 : DefaultLinkGT
+  contains,implicitIsA
+    xx3 : ImplicitIsAGT
+  contains,implicitInstanceOf
+    xx4 : ImplicitInstanceOfGT
+  contains,implicitAttribute
+    xx5 : ImplicitAttributeGT
+  contains
+    xx6 : DefaultIsAGT;
+    xx7 : DefaultInstanceOfGT;
+    xx8 : DefaultAttributeGT;
+    xx9 : MetametaGT;
+    xx10 : SimpleClassGT;
+    xx11 : MetaClassGT;
+    xx12 : ClassGT;
+    xx13 : QueryClassGT
+  rule
+    inheritGTs: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette contains gt)
+                  ==> (pal contains gt) $;
+    inheritDef1: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette defaultIndividual gt)
+                  ==> (pal defaultIndividual gt) $;
+    inheritDef2: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette defaultLink gt)
+                  ==> (pal defaultLink gt) $;
+    inheritDef3: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette implicitIsA gt)
+                  ==> (pal implicitIsA gt) $;
+    inheritDef4: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette implicitInstanceOf gt)
+                  ==> (pal implicitInstanceOf gt) $;
+    inheritDef5: $ forall gt/JavaGraphicalType pal/JavaGraphicalPalette
+                      (pal isA XPalette) and
+                      (DefaultJavaPalette implicitAttribute gt)
+                  ==> (pal implicitAttribute gt) $
+end 
+
+
+
+
+Class ERD_Palette in JavaGraphicalPalette isA XPalette with
+palproperty
+	{* indicates 4 abstraction levels *}
+	bgimage: "http://conceptbase.sourceforge.net/CBICONS/bgimages/levels4.png"; 
+	longtitle: "ERD Model"
+contains
+    c6: MetaEntityType_GT;
+    c7: MetaRelationshipType_GT;
+    c8: MetaDomain_GT;
+    c9: EntityType_GT;
+    c10: RelationshipType_GT;
+    c11: Domain_GT;
+    c12: Entity_GT;
+    c13: Relationship_GT;
+    c14: Domainvalue_GT;
+    c15: MetaIsaType_GT;
+    c16: IsaType_GT;
+    c17: Isa_GT;
+    c18: MetaAttr_GT;
+    c23: MetaEntityRelationshipType_GT;
+    c24: EntityRelationshipType_GT;
+    c25: EntityRelationship_GT;
+    c26: LabelledLink_GT
+end
+
+Class UML_Palette in JavaGraphicalPalette isA XPalette with
+palproperty
+    {* indicates 4 abstraction levels *}
+    bgimage: "http://conceptbase.sourceforge.net/CBICONS/bgimages/levels4.png"; 
+    longtitle: "ERD/UML Model"
+contains
+    c1: WhiteRect_GT;
+    c26: LabelledLink_GT
+end
+
+
+
+
+EntityType with
+  graphtype
+    gte: MetaEntityType_GT
+end
+
+
+RelationshipType with
+  graphtype
+    gtr: MetaRelationshipType_GT
+end
+
+IsaType with
+  graphtype
+    gt: MetaIsaType_GT
+end
+
+EntityRelationshipType with
+  graphtype
+    gter: MetaEntityRelationshipType_GT
+end
+
+
+Domain with
+  graphtype
+    gt: MetaDomain_GT
+end
+
+
+
+ 
+MetaEntityType_GT in JavaGraphicalType with
+property
+	bgcolor : "255,255,255";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Rect"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 22
+end
+
+
+Class MetaRelationshipType_GT in JavaGraphicalType with
+property
+      bgcolor : "255,255,255";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Diamond";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 35
+end
+
+
+Class MetaEntityRelationshipType_GT in JavaGraphicalType with
+property
+      bgcolor : "255,255,255";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Octagon";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 38
+end
+
+
+
+Class MetaIsaType_GT in JavaGraphicalType with
+property
+      bgcolor : "255,255,255";
+	textcolor : "0,0,0";
+	linecolor : "200,200,0";
+      linewidth: "3";
+	shape : "i5.cb.graph.shapes.Diamond";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 36
+end
+
+
+
+MetaDomain_GT  in JavaGraphicalType with
+property
+	bgcolor : "255,255,255";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Ellipse"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 24
+end
+
+
+MetaAttr_GT  in JavaGraphicalType with 
+  attribute,property
+     textcolor : "0,0,0";
+     edgecolor : "200,0,200";
+     edgewidth : "2"
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+end 
+
+
+
+EntityType_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "255,255,155";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Rect";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 20
+rule
+     gtrule: $ forall E/EntityType (E graphtype EntityType_GT) $
+
+end
+
+
+Class RelationshipType_GT in JavaGraphicalType with
+property
+      bgcolor : "255,255,155";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Diamond";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 34
+rule
+   gtrule: $ forall R/RelationshipType (R graphtype RelationshipType_GT) $
+end
+
+
+Class EntityRelationshipType_GT in JavaGraphicalType with
+property
+      bgcolor : "255,255,155";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Octagon";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 40
+rule
+   gtrule: $ forall R/EntityRelationshipType (R graphtype EntityRelationshipType_GT) $
+end
+
+
+ 
+Class IsaType_GT in JavaGraphicalType with
+property
+      bgcolor : "255,255,155";
+	textcolor : "0,0,0";
+	linecolor : "200,200,0";
+      linewidth: "3";
+	shape : "i5.cb.graph.shapes.Diamond";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 30
+rule
+    gtrule: $ forall R/IsaType (R graphtype IsaType_GT) $
+end
+
+ 
+
+Class Domain_GT  in JavaGraphicalType with
+property
+	bgcolor : "230,230,230";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Ellipse"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 22
+rule
+   gtrule: $ forall D/Domain (D graphtype Domain_GT) $
+end
+
+
+Entity_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "50,50,50";
+	textcolor : "230,230,230";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Rect";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 18
+rule
+   gtrule: $ forall e/VAR (exists E/EntityType (e in E)) ==> (e graphtype Entity_GT) $
+end
+
+
+Class Relationship_GT in JavaGraphicalType with
+property
+      bgcolor : "50,50,50";
+	textcolor : "230,230,230";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Diamond";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 28
+rule
+    trule: $ forall r/VAR (exists R/RelationshipType (r in R)) ==> (r graphtype Relationship_GT) $
+end
+
+Class EntityRelationship_GT in JavaGraphicalType with
+property
+      bgcolor : "50,50,50";
+	textcolor : "230,230,230";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Octagon";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 41
+rule
+    trule: $ forall r/VAR (exists R/EntityRelationshipType (r in R)) ==> (r graphtype EntityRelationship_GT) $
+end
+
+
+
+Class Isa_GT in JavaGraphicalType with
+property
+      bgcolor : "50,50,50";
+	textcolor : "230,230,100";
+	linecolor : "200,200,0";
+      linewidth: "3";
+	shape : "i5.cb.graph.shapes.Diamond";
+	fontstyle : "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 25
+rule
+     gtrule: $ forall r/VAR (exists R/IsaType (r in R)) ==> (r graphtype Isa_GT) $
+end
+
+
+
+
+Class Domainvalue_GT in JavaGraphicalType with
+property
+	bgcolor : "100,100,100";
+	textcolor : "255,250,250";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Ellipse"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 14
+rule
+   gtrule: $ forall d/VAR (exists D/Domain (d in D)) ==> (d graphtype Domainvalue_GT) $
+end
+
+
+{* all attributes get this graphical type *}
+{* the filler for bgcolor makes sure that attribute labels are painted with bgcolor as background *}
+LabelledLink_GT in JavaGraphicalType,Class with 
+  attribute,property
+     textcolor : "0,0,0";
+     edgecolor : "50,50,50";
+     edgewidth : "2";
+     bgcolor : "255,255,237"  {* this is also the bgcolor of the bgimage of this palette *}
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 21
+end 
+
+
+
+DefaultAttributeGT with
+  property
+     bgcolor : "255,255,237"  {* this is also the bgcolor of the bgimage of this palette *}
+end
+
+{* for UMLish representation *}
+WhiteRect_GT in Class,JavaGraphicalType with
+property
+    bgcolor : "255,255,255";
+    textcolor : "0,0,0";
+    linecolor : "0,0,0";
+    shape : "i5.cb.graph.shapes.Rect";
+    size : "resizable";
+    align: "top"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 30
+rule
+   gtrule1: $ forall d/VAR (exists D/Domain (d in D)) ==> (d graphtype WhiteRect_GT) $;
+   gtrule2: $ forall r/VAR (exists R/EntityRelationshipType (r in R)) ==> (r graphtype WhiteRect_GT) $;
+   gtrule3: $ forall r/VAR (exists R/RelationshipType (r in R)) ==> (r graphtype WhiteRect_GT) $;
+   gtrule4: $ forall D/Domain (D graphtype WhiteRect_GT) $;
+   gtrule5: $ forall D/EntityType (D graphtype WhiteRect_GT) $;
+   gtrule6: $ forall D/RelationshipType (D graphtype WhiteRect_GT) $;
+   gtrule7: $ (EntityType graphtype WhiteRect_GT) $;
+   gtrule8: $ (RelationshipType graphtype WhiteRect_GT) $;
+   gtrule9: $ (Domain graphtype WhiteRect_GT) $;
+   gtrule10: $ (EntityRelationshipType graphtype WhiteRect_GT) $;
+   gtrule11: $ forall e/VAR (exists E/EntityType (e in E)) ==> (e graphtype WhiteRect_GT) $;
+   gtrule12: $ (Concept graphtype WhiteRect_GT) $
+end
+
+
+
+
+
+

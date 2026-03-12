@@ -1,0 +1,91 @@
+startServer -u nonpersistent -c transient
+
+tell "
+Class Employee with 
+  attribute
+    salary: Integer;
+    name: String
+end
+
+Class Manager isA Employee end
+"
+
+tell "
+Employee bill with
+  salary s: 500
+  name n: \"William\"
+end
+Employee mary with
+  salary s: 1000
+  name n: \"Mariah\"
+end
+Employee charly with
+  salary s: 1500
+  name n: \"Charles S.\"
+end
+
+lisa in Manager with
+  name n: \"Mariah\"
+end
+"
+
+
+tell "
+GenericQueryClass EmpMinSal isA Employee with
+  parameter
+    minsal: Integer
+  constraint
+    c1: $ exists s/Integer (this salary s) and (s >= minsal) $
+end
+
+GenericQueryClass EmpMaxSal isA Employee with
+  parameter
+    maxsal: Integer
+  constraint
+    c1: $ exists s/Integer (this salary s) and (s =< maxsal) $
+end
+
+GenericQueryClass EmpByName isA Employee with
+  parameter
+    whatname: String
+  constraint
+    c1: $ (this name whatname) $
+end
+"
+
+
+tell "
+GenericQueryClass Intersec isA Individual with
+ parameter
+   X: Class; Y: Class
+ constraint
+   c: $ (this in X) and (this in Y) $
+end
+
+GenericQueryClass Union isA Individual with
+ parameter
+   X: Class; Y: Class
+ constraint
+   c: $ (this in X) or (this in Y) $
+end
+
+GenericQueryClass Difference isA Individual with        
+ parameter
+   X: Class; Y: Class
+ constraint
+   c: $ (this in X) and not (this in Y) $
+end
+"
+
+ask "EmpMinSal[800/minsal]" OBJNAMES LABEL Now
+ask "EmpMaxSal[1400/maxsal]" OBJNAMES LABEL Now
+
+#tell "800 in Integer end"
+#tell "1400 in Integer end"
+
+ask "Intersec[EmpMinSal[800/minsal]/X,EmpMaxSal[1400/maxsal]/Y]" OBJNAMES LABEL Now
+ask "Intersec[EmpMinSal[800/minsal]/X,EmpByName[\"Marih\"/whatname]/Y]" OBJNAMES LABEL Now
+
+ask "COUNT[Union[Intersec[EmpMinSal[800/minsal]/X,EmpMaxSal[1400/maxsal]/Y]/X,Manager/Y]/class]"  OBJNAMES FRAME Now
+
+

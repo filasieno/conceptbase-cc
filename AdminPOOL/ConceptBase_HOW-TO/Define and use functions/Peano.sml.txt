@@ -1,0 +1,26 @@
+{
+* File: Peano.sml
+* Author: Manfred Jeusfeld
+* Created: 9-Nov-2005/M.Jeusfeld (21-Apr-2008/M.Jeusfeld)
+* ------------------------------------------------------
+* 
+* This example is strictly the definition of natural numbers with
+* the Peano axioms. Beware! If you ask ConceptBase to display all
+* instances of NaturalNumber, then it will loop forever. The
+* reason is that there are infinitely many natural numbers and that
+* the arithmetic operator '+' actually creates new instances like n1.
+*
+* This model reuires ConceptBase 7.1 released April 2008 or later.
+*
+}
+
+
+NaturalNumber in Class isA Integer with
+  rule
+    axiom1: $ (1 in NaturalNumber) $;
+    axiom2: $ forall n/NaturalNumber n1/Integer (n1 = n+1)
+                 ==> (n1 in NaturalNumber) $
+end
+
+
+

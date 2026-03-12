@@ -1,0 +1,60 @@
+
+{
+*
+* File: 4_ERD_Semantics.sml
+* Author: Manfred Jeusfeld
+* Creation: 6-Dec-1996 (13-Mar-2002)
+* ----------------------------------------------------------------------
+* 
+}
+
+
+{
+* The following four constraints define the semantics of the
+* cardinality categories 'max_1' (at most 1 filler), 'max_2' (at most
+* 2 fillers), 'min_1' (at least 1 filler) and 'min_2' (at least two
+* fillers). Note that all constraints range over object attributes a1,a2 etc.
+* at the data level.
+}
+
+Class RelationshipType with
+  constraint
+    ic_max1: $ forall A/RelationshipType!max_1 a1,a2,r/Proposition
+                   (a1 in A) and From(a1,r) and
+                   (a2 in A) and From(a2,r)
+                ==> (a1 == a2) $;
+    ic_max2: $ forall A/RelationshipType!max_2 a1,a2,a3,r/Proposition
+                   (a1 in A) and From(a1,r) and
+                   (a2 in A) and From(a2,r) and
+                   (a3 in A) and From(a3,r)
+                ==> (a1 == a2) or (a1 == a3) or (a2 == a3) $;
+    ic_min1: $ forall A/RelationshipType!min_1 R/RelationshipType r/Proposition
+                From(A,R) and (r in R) 
+               ==> exists a1/Proposition (a1 in A) and From(a1,r) $;
+    ic_min2: $ forall A/RelationshipType!min_2 R/RelationshipType r/Proposition
+                From(A,R) and (r in R) 
+               ==> (exists a1,a2/Proposition (a1 in A) and From(a1,r) and
+                                             (a2 in A) and From(a2,r) and
+                                             not (a1 == a2) ) $
+end
+
+
+{
+* The semantics of the 'Isa' relationship type is declared as 
+* inheritance of entity type membership. The first rule derives a
+* predicate (E1 superType E2), the scond uses this predicate to 
+* derive membership to the super entity type.
+* Again note that the variable 'e' stands for an instance of
+* some entity type like 'Employee'. Thus, these two user-defined
+* rules actually define the semantics of 'Isa'!
+}
+
+IsaType with
+  rule
+    makeBinaryRel: $ forall E1,E2/EntityType
+                   (exists I/IsaType (I sub E1) and (I super E2) ) ==> (E1 superType E2) $;
+    membershipRule: $ forall e/VAR E/EntityType
+                       (exists D/EntityType (e in D) and (D superType E)) ==> (e in E) $
+end
+
+

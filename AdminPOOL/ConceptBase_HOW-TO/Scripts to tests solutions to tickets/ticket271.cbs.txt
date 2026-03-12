@@ -1,0 +1,84 @@
+#
+# File: ticket271.cbs
+# Author: Manfred Jeusfeld
+# Created: 2010-12-16/M.Jeusfeld (2010-12-16/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Example reported by Michael Petit
+# Start: CBshell -f ticket271.cbs
+#
+
+
+# if you set -rl off, then the labels are all system-generated with a
+# unique id, so there is no chance for the bug to occur
+# if you set -rl on (default), rthen the system tries hard to find a 
+# readable formula label (hopefully without clashes)
+
+# startServer -u nonpersistent -port 4411 -t high -rl off
+startServer -u nonpersistent -port 4411 -t high 
+
+tell "
+Proposition!attribute with
+  attribute
+    isInverseOf: Proposition!attribute
+end
+
+InverseSemantics in Class with
+  rule
+   invRule: $ forall x,y,MA,MB/VAR 
+                   A,B/Proposition!attribute 
+                   C,D/Proposition
+                   (B isInverseOf A) and
+                   P(A,C,MA,D) and P(B,D,MB,C) and 
+                   (x in C) and (y in D) and 
+                   (x MA y) ==> (y MB x) $
+end
+"
+
+tell " 
+Proposition A with
+attribute
+	a_to_b: B
+
+end
+
+Proposition B with
+attribute
+	b_to_a: A
+end
+
+Proposition C isA B with
+attribute
+	c_to_d: D
+end
+
+Proposition D with
+attribute
+	d_to_c: C
+end
+"
+
+
+# here: the generated formula for C gets the same generated label as the one for B
+# This has lead with the old ConceptBase to a violation of an ISA axiom, since (C isA B) is true
+tell "
+Attribute B!b_to_a with
+isInverseOf
+	io: A!a_to_b
+
+end
+
+Attribute C!c_to_d with
+isInverseOf
+	io: D!d_to_c
+
+end
+"
+
+ask "get_object[B/objname]" OBJNAMES  FRAME  Now
+ask "get_object[C/objname]" OBJNAMES  FRAME  Now
+
+
+
+
+

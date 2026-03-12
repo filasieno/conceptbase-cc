@@ -1,0 +1,408 @@
+{ 
+*
+* File: PDD-WEM-Lib.sml
+* Author: Manfred Jeusfeld
+* Creation: 01-Feb-2010 (17-Feb-2011/M.Jeusfeld)
+* ----------------------------------------------------------------------
+* Applying the PDD constructs to define a part of the Web Engineering Method (WEM).
+* Excerpted from slides of Inge van de Weerd
+*
+* Copyright (C) 2010 by Manfred Jeusfeld
+* This model file is licensed under the terms of
+*   Attribution-NonCommercial 3.0 (Germany)
+*   http://creativecommons.org/licenses/by-nc/3.0/de/legalcode
+*   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+* Extended licenses can be obtained from the author.
+*
+}
+
+
+
+{* M1 (Production side): *}
+
+{*
+* These are actual examples of method fragments for some method. We use the GX Web Manager case study here;
+  We only model the "Complex Definition Phase" here.
+*}
+
+
+
+
+
+DescribeBackground in Activity with
+  next
+    step3: ListFeatures
+  produces
+    product1: BACKGROUND
+end
+
+ListFeatures in Activity with
+  next
+    step4: ListAssumptions
+  produces
+    product1: FEATURELIST
+end
+
+ListAssumptions in Activity with
+  next
+    step5: DescribeGoals
+  produces
+    product1: ASSUMPTION
+end
+
+DescribeGoals in Activity with
+  next
+    step6: DescribeScope
+  produces
+    product1: GOAL
+end
+
+DescribeScope in Activity with
+  produces
+    product1: SCOPE
+end
+
+
+GoalSetting in Phase with
+  activity
+    a1: DescribeBackground;
+    a2: ListFeatures;
+    a3: ListAssumptions;
+    a4: DescribeGoals;
+    a5: DescribeScope
+  preferredDeliverable
+    del: GOALSETTING
+end
+
+
+DefineImportantTerms in Activity with
+  next
+    step7: IdentifyRelations
+  produces
+    product1: TERM
+end
+
+IdentifyRelations in Activity with
+  next
+    step8: DrawClassDiagram
+  produces
+    product1: RELATION
+end
+
+DrawClassDiagram in Activity with
+  produces
+    product1: CLASSDIAGRAM
+end
+
+DomainModeling in Phase with
+  activity
+    a1: DefineImportantTerms;
+    a2: IdentifyRelations;
+    a3: DrawClassDiagram
+  preferredDeliverable
+    del: DOMAINMODEL
+end
+
+
+
+ParBranch1 in ParallelBranch with
+  branch
+    step11: DescribeActors;
+    step12: ExtractUseCases
+end
+
+DescribeActors in Activity with
+  next
+    step13: ParJoin1
+  produces
+    product1: ACTOR
+end
+
+ExtractUseCases in Activity with
+  next
+    step14: ParJoin1
+  produces
+    product1: USECASE
+end
+
+ParJoin1 in ParallelJoin with
+  next
+    step15: DrawUseCaseModel
+end
+
+DrawUseCaseModel in Activity with
+  next
+    step16: DescribeStandardUseCases
+  produces
+    product1: USECASEMODEL
+end
+
+DescribeStandardUseCases in Activity with
+  next
+    step17: DescribeCustomUseCases
+  produces
+    product1: DESCRIPTION
+end
+
+
+DescribeCustomUseCases in Activity with
+  produces
+    product1: USECASEDESCRIPTION
+end
+
+
+
+UseCaseModeling in Phase with
+  activity
+    a2: ParBranch1;
+    a3: DescribeActors;
+    a4: ExtractUseCases;
+    a5: ParJoin1;
+    a6: DrawUseCaseModel;
+    a7: DescribeStandardUseCases;
+    a8: DescribeCustomUseCases
+  preferredDeliverable
+    del: USECASEMODEL
+end
+
+
+DescribeNavigation in Activity with
+  next
+    step18: DescribeUserInterface
+  produces
+    product1: NAVIGATION
+end
+
+DescribeUserInterface in Activity with
+  next
+    step19: DescribeApplicationImplicationsUseCases
+  produces
+    product1: USERINTERFACE
+end
+
+DescribeApplicationImplicationsUseCases in Activity with
+  next
+    step20: DescribeInterfacesOtherSystems
+  produces
+    product1: APPLICATIONIMPLICATIONS
+end
+
+DescribeInterfacesOtherSystems in Activity with
+  next
+    step21: DescribeMigrationIssues
+  produces
+    product1: INTERFACE
+end
+
+DescribeMigrationIssues in Activity with
+  produces
+    product1: MIGRATIONISSUE
+end
+
+
+ApplicationModeling in Phase with
+  activity
+    a1: DescribeNavigation;
+    a2: DescribeUserInterface;
+    a3: DescribeApplicationImplicationsUseCases;
+    a4: DescribeInterfacesOtherSystems;
+    a5: DescribeMigrationIssues
+  preferredDeliverable
+    del: APPLICATIONMODEL
+end
+
+
+AdditionalRequirementsDescription in Activity with
+  produces
+    product1: ADDITIONALREQUIREMENT
+end
+
+
+RequirementsValidation in Activity with
+  produces
+    product1: REQUIREMENTSREVIEWREPORT
+end
+
+ExtensiveRequirementsElicitation in Phase with
+end
+
+
+UML_WEB_ENGINEERING in PDDLibrary with
+  activity
+    a1: ExtensiveRequirementsElicitation;
+    a2: ApplicationModeling;
+    a3: AdditionalRequirementsDescription
+end
+
+GX_METHOD in PDDLibrary with
+   activity
+     a1: GoalSetting;
+     a2: DomainModeling;
+     a3: RequirementsValidation
+end
+
+UNIFIED_PROCESS in PDDLibrary with
+   activity
+     a1: UseCaseModeling
+end
+
+
+
+{* M2: Deliverable types *}
+
+
+
+RequirementsDocument in DocumentDeliverable with
+  contains,single
+    part1: GOALSETTING;
+    part2: DOMAINMODEL;
+    part3: USECASEMODEL;
+    part4: APPLICATIONMODEL;
+    part5: ADDITIONALREQUIREMENT
+end
+
+
+GOALSETTING  in ModelDeliverable with
+  contains,single
+    part1: BACKGROUND;
+    part2: FEATURELIST
+  contains
+    part3: ASSUMPTION;
+    part4: GOAL
+  contains,single
+    part5: SCOPE
+end
+    
+BACKGROUND in StandardConcept end
+FEATURELIST in StandardConcept end
+ASSUMPTION in StandardConcept end
+GOAL in StandardConcept end
+SCOPE in StandardConcept end
+
+
+DOMAINMODEL in ModelDeliverable with
+  contains
+    part1: TERM
+  contains,single
+    part2: CLASSDIAGRAM
+end
+
+TERM in StandardConcept with
+  connectedTo
+    hasRelation: RELATION
+end
+
+RELATION in StandardConcept end
+
+
+CLASSDIAGRAM in ModelDeliverable with
+{*
+  contains
+   classes: UmlClass;
+   associations: Association;
+   specialization: UmlIsA 
+*}
+end
+
+
+UmlClass in StandardConcept with
+  connectedTo
+    stateVariable: UmlDomain;
+    operation: UmlOperation
+end
+
+UmlDomain in StandardConcept end
+
+{* some predefined names *}
+UmlString in UmlDomain end
+UmlInteger in UmlDomain end
+UmlReal in UmlDomain end
+
+
+UmlOperation in StandardConcept end
+
+Association in StandardConcept with
+  connectedTo
+     assocLink: UmlClass
+end
+
+
+Association!assocLink with
+  attribute
+     card: Cardinality
+end
+
+
+Cardinality in Node end
+
+{* we support here just three cardinalities *}
+"1..1" in Cardinality end
+"0..1" in Cardinality end
+"1..*" in Cardinality end
+
+AssociationClass in StandardConcept isA Association,UmlClass end  {* much like EntRelType ! *}
+
+PartOfAssoc in StandardConcept isA Association with
+  connectedTo,single,necessary   {* this forces PartOfAssoc to be a binary link type *}
+    superOrdinate: UmlClass;
+    subOrdinate: UmlClass
+end
+
+PartOfAssoc!superOrdinate isA Association!assocLink end
+PartOfAssoc!subOrdinate isA Association!assocLink end
+
+UmlIsA in StandardConcept with
+  connectedTo,single,necessary    {* exactly one supertype *}
+    supertype: UmlClass
+  connectedTo,necessary           {* at least one subtype *}
+    subtype: UmlClass
+end
+
+
+UmlIsA_complete in StandardConcept isA UmlIsA end   {* just a variant of UmlIsA *}
+
+
+USECASEMODEL in ModelDeliverable with
+  contains
+     actor: ACTOR;
+     useCase: USECASE
+end
+
+ACTOR in StandardConcept end
+
+USECASE in StandardConcept with
+  connectedTo
+    shortdescr: DESCRIPTION;
+    longdescr: USECASEDESCRIPTION
+end
+
+DESCRIPTION in StandardConcept end
+
+USECASEDESCRIPTION in OpenConcept end
+
+APPLICATIONMODEL in ModelDeliverable with
+  contains,single
+    navigation: NAVIGATION;
+    userInterface: USERINTERFACE
+  contains
+    applicationImplications: APPLICATIONIMPLICATIONS;
+    interface: INTERFACE;
+    migrationIssue: MIGRATIONISSUE 
+end
+
+NAVIGATION in ClosedConcept end
+USERINTERFACE in ClosedConcept end
+APPLICATIONIMPLICATIONS in ClosedConcept end
+INTERFACE in ClosedConcept end
+MIGRATIONISSUE in ClosedConcept end
+
+
+ADDITIONALREQUIREMENT in ClosedConcept with
+end
+
+
+REQUIREMENTSREVIEWREPORT in ClosedConcept with
+end
+
+
+

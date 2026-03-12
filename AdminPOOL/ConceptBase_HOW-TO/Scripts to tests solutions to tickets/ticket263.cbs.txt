@@ -1,0 +1,544 @@
+#
+# File: ticket263.cbs
+# Author: Manfred Jeusfeld
+# Created: 2010-10-27/M.Jeusfeld (2010-10-27/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Tests the deleteBuffer/disposeBuffer crash
+# Start: CBshell -f ticket263.cbs
+#
+
+
+startServer -port 4004 -u nonpersistent -t low
+
+
+
+tell "
+
+Proposition with
+  attribute
+    disjointTo: Proposition;   {* expresses that some classes (or attribute categories) do not share any instance *}
+    reflexive:  Proposition;  {* any object is related to itself       *}
+    transitive: Proposition;  {* relation is closed under transitivity *}
+    symmetric: Proposition;   {* if x rel y then also y rel x          *}
+    asymmetric: Proposition   {* if x rel y then not y rel x     *}
+end
+
+
+
+
+
+{* ** M3 ** *}
+
+{* M3: our standard M3 constructs *}
+NodeOrLink with
+  attribute
+    connectedTo: NodeOrLink
+end 
+Node isA NodeOrLink end
+NodeOrLink!connectedTo isA NodeOrLink end
+
+
+Model isA Node with
+   attribute
+      contains: NodeOrLink
+end
+
+"
+
+tell "
+{* M3: Deliverable diagrams; this is M3 level since instances are at M2 level *}
+
+Deliverable isA NodeOrLink end   {* that for anything an activity can require as input *}
+
+Concept isA Deliverable end
+
+StandardConcept isA Concept end
+
+OpenConcept isA Concept,Model with
+  attribute
+     contains: Deliverable    {* so this a a special kind of a model *}
+end
+
+ClosedConcept isA Concept,Model end  {* actually we should demand that is has no model elements *}
+
+DocumentDeliverable isA OpenConcept end
+ModelDeliverable isA OpenConcept end
+
+
+
+
+{* == M2 == *}
+
+
+{* M2 (Production side): Activity diagrams much like in UML *}
+
+{*
+* This is for the production side; we call this M2 level but it is referring to 
+* Deliverable, which is a M3 construct; see slides of lect09 at
+*        http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d2616329/
+* for a discussion of this phenomenon. 
+*
+*}
+
+ActivityNode in Node with
+  connectedTo
+     next: ActivityNode
+end
+
+ActivityDiagram in Model,Class isA Activity with   {* synonym for ComplexActivity *}
+  contains
+     activity: ActivityNode;
+     control: ActivityNode!next
+  reflexive,attribute
+     subactivity: ActivityNode
+  rule
+     addcontrol: $ forall a/ActivityNode ad/ActivityDiagram link/ActivityNode!next
+                        (ad activity a) and From(link,a) ==> (ad control link) $;
+     t1: $ forall ad/ActivityDiagram a/ActivityNode (ad activity a) ==> (ad subactivity a) $;
+     t2: $ forall ad1,ad2/ActivityDiagram a/ActivityNode (ad1 activity ad2) and (ad2 subactivity a) ==> (ad1 subactivity a) $
+end
+
+
+
+Phase in Model isA ActivityDiagram end   {* this is a useful construct for distinguishing phases of a method *}
+PDD in Model isA Phase end               {* this is for a full PDD=method *}
+PDDLibrary in Model isA PDD end          {* this is for fragment libraries *}
+
+Agent in Node end
+
+Activity in Node isA ActivityNode with
+  attribute
+     produces: Deliverable;
+     performer: Agent
+end
+
+StartPoint in Node isA ActivityNode end
+EndPoint in Node isA ActivityNode end
+
+ParallelBranch in Node isA Activity with
+  connectedTo
+     branch: ActivityNode
+end
+
+ParallelBranch!branch isA ActivityNode!next end
+
+ParallelJoin in Node isA Activity with
+end
+
+DecisionPoint in Node isA Activity with
+  connectedTo
+    choice: ActivityNode
+end
+
+DecisionPoint!choice isA ActivityNode!next end
+
+DecisionJoin in Node isA Activity with
+end
+
+
+{* some derived constructs *}
+
+ClosedActivityDiagram in QueryClass isA ActivityDiagram with
+  constraint
+    isClosed: $ not exists a/ActivityNode (this activity a) $
+end
+
+ClosedActivity in QueryClass isA ActivityNode with
+  constraint
+    isClosed: $ (this in ActivityDiagram) ==> (this in ClosedActivityDiagram) $
+end
+
+ComplexActivity in QueryClass isA ActivityDiagram with
+  constraint
+    isClosed: $ exists a/ActivityNode (this activity a) $
+end
+
+
+{* StartNode returns the first activity node of an activity diagram *}
+
+StartNode in GenericQueryClass isA ActivityNode with
+   parameter,computed_attribute
+      diagram: ActivityNode
+   constraint
+      isStart: $ ((diagram in ActivityDiagram) and Adot(ActivityDiagram!activity,diagram,this) and not exists a/ActivityNode Adot(ActivityDiagram!activity,diagram,a) and (a \= this) and :(a next this):) or
+                 (not (diagram in ComplexActivity)) and (this=diagram) $
+end
+
+
+{* EndNode returns the last activity node of an activity diagram *}
+
+EndNode in GenericQueryClass isA ActivityNode with
+   parameter,computed_attribute
+      diagram: ActivityNode
+   constraint
+      isEnd: $ ((diagram in ActivityDiagram) and Adot(ActivityDiagram!activity,diagram,this) and not exists a/ActivityNode Adot(ActivityDiagram!activity,diagram,a) and (a \= this) and :(this next a):) or 
+               (not (diagram in ComplexActivity)) and (this=diagram) $
+end
+
+"
+
+tell "
+Class PDD_Palette in JavaGraphicalPalette with
+contains,defaultIndividual
+	c1 : DefaultIndividualGT
+contains,defaultLink
+	c2 : DefaultLinkGT
+implicitIsA, contains
+    c3 : ImplicitIsAGT
+implicitInstanceOf, contains
+    c4 : ImplicitInstanceOfGT
+implicitAttribute, contains
+    c5 : ImplicitAttributeGT
+contains
+    c7: SimpleActivity_GT;
+    c8: ActivityDiagram_GT;
+    c10: ParSplit_GT;
+    c11: ParJoin_GT;
+    c23: NextLink_GT;
+    c24: ChoiceLink_GT;
+    c25: Choice_GT;
+    c26: Start_GT;
+    c27: End_GT;
+    c28: StandardC_GT;
+    c29: OpenC_GT;
+    c30: ClosedC_GT;
+    c31: ProducesLink_GT;
+    c32: PartOfLink_GT;
+    d1: DefaultAttributeGT;
+    d2: DefaultIsAGT;
+    d3: DefaultInstanceOfGT;
+    d4: QueryClassGT
+rule
+    rIsaGT : $ forall p/IsA (p graphtype DefaultIsAGT) $;
+    rInstGT : $ forall p/InstanceOf (p graphtype DefaultInstanceOfGT) $;
+    rAttrGT : $ forall p/Attribute (p graphtype DefaultAttributeGT) $;
+    rIndGT : $ forall p/Individual (p graphtype DefaultIndividualGT) $;
+    rQueryClass : $ forall c/QueryClass (c graphtype QueryClassGT) $
+end
+
+
+
+
+SimpleActivity_GT in Class,JavaGraphicalType with
+property
+	bgcolor : \"230,230,120\";   {*  *}
+	textcolor : \"0,0,0\";
+      linecolor : \"100,100,100\";
+	shape : \"i5.cb.graph.shapes.RoundRectangle\";
+	fontstyle : \"italic\";
+      linewidth : \"1\"
+implementedBy
+	implBy : \"i5.cb.graph.cbeditor.CBIndividual\"
+priority
+    pr : 22
+rule
+     gtrule: $ forall x/Activity In_e(x,Activity) ==> (x graphtype SimpleActivity_GT) $
+end
+
+Activity with
+  graphtype
+     thisgt1: SimpleActivity_GT
+end
+
+ActivityDiagram_GT in Class,JavaGraphicalType with
+property
+	bgcolor : \"200,200,100\";   {* green = enabled *}
+	textcolor : \"0,0,0\";
+      linecolor : \"100,100,100\";
+	shape : \"i5.cb.graph.shapes.RoundRectangle\";
+	fontstyle : \"bold,italic\";
+      linewidth : \"2\"
+implementedBy
+	implBy : \"i5.cb.graph.cbeditor.CBIndividual\"
+priority
+    pr : 23
+rule
+     gtrule: $ forall x/ActivityDiagram (x graphtype ActivityDiagram_GT) $
+end    
+
+ActivityDiagram with
+  graphtype
+     thisgt2: ActivityDiagram_GT
+end     
+                  
+ParSplit_GT in Class,JavaGraphicalType with
+property
+	bgcolor : \"0,0,0\";  {* light grey for places without tokens *}
+	textcolor : \"0,0,0\";
+	linecolor : \"0,0,0\";
+        label :\"     \";
+	shape : \"i5.cb.graph.shapes.Rect\";
+        linewidth : \"1\"
+implementedBy
+	implBy : \"i5.cb.graph.cbeditor.CBIndividual\"
+priority
+    pr : 27
+rule
+     gtrule: $ forall x/ParallelBranch (x graphtype ParSplit_GT) $
+end
+
+ParJoin_GT in Class,JavaGraphicalType with
+property
+	bgcolor : \"0,0,0\";  {* light grey for places without tokens *}
+	textcolor : \"0,0,0\";
+	linecolor : \"0,0,0\";
+        label : \"      \";
+	shape : \"i5.cb.graph.shapes.Rect\";
+        linewidth : \"1\"
+implementedBy
+	implBy : \"i5.cb.graph.cbeditor.CBIndividual\"
+priority
+    pr : 28
+rule
+     gtrule: $ forall x/ParallelJoin (x graphtype ParJoin_GT) $
+end
+
+
+Choice_GT in Class,JavaGraphicalType with
+property
+	bgcolor : \"255,255,255\"; 
+	textcolor : \"0,0,0\";
+	linecolor : \"0,0,0\";
+        label : \"   \";
+	shape : \"i5.cb.graph.shapes.Diamond\";
+        linewidth : \"2\"
+implementedBy
+	implBy : \"i5.cb.graph.cbeditor.CBIndividual\"
+priority
+    pr : 29
+rule
+     gtrule: $ forall x/DecisionPoint (x graphtype Choice_GT) $
+end
+
+Start_GT in Class,JavaGraphicalType with
+property
+	bgcolor : \"50,50,50\"; 
+	textcolor : \"150,150,150\";
+	linecolor : \"0,0,0\";
+        label : \" o \";
+	shape : \"i5.cb.graph.shapes.Ellipse\";
+        linewidth : \"2\"
+implementedBy
+	implBy : \"i5.cb.graph.cbeditor.CBIndividual\"
+priority
+    pr : 29
+rule
+     gtrule: $ forall x/StartPoint (x graphtype Start_GT) $
+end
+
+
+End_GT in Class,JavaGraphicalType with
+property
+	bgcolor : \"50,50,50\"; 
+	textcolor : \"150,150,150\";
+	linecolor : \"0,0,0\";
+        label : \" x \";
+	shape : \"i5.cb.graph.shapes.Ellipse\";
+        linewidth : \"2\"
+implementedBy
+	implBy : \"i5.cb.graph.cbeditor.CBIndividual\"
+priority
+    pr : 29
+rule
+     gtrule: $ forall x/EndPoint (x graphtype End_GT) $
+end
+
+
+StandardC_GT in Class,JavaGraphicalType with
+property
+	bgcolor : \"255,255,255\"; 
+	textcolor : \"0,0,0\";
+	linecolor : \"0,0,0\";
+	shape : \"i5.cb.graph.shapes.Rect\";
+        linewidth : \"1\"
+implementedBy
+	implBy : \"i5.cb.graph.cbeditor.CBIndividual\"
+priority
+    pr : 20
+rule
+     gtrule: $ forall x/Concept (x graphtype StandardC_GT) $
+end
+
+Concept with
+  graphtype
+     thisgt1: StandardC_GT
+end
+
+
+OpenC_GT in Class,JavaGraphicalType with
+property
+	bgcolor : \"255,255,255\"; 
+	textcolor : \"0,0,0\";
+	linecolor : \"150,150,150\";
+	shape : \"i5.cb.graph.shapes.Rect\";
+        linewidth : \"3\"
+implementedBy
+	implBy : \"i5.cb.graph.cbeditor.CBIndividual\"
+priority
+    pr : 22
+rule
+     gtrule: $ forall x/OpenConcept (x graphtype OpenC_GT) $
+end
+
+OpenConcept with
+  graphtype
+     thisgt2: OpenC_GT
+end
+
+
+ClosedC_GT in Class,JavaGraphicalType with
+property
+	bgcolor : \"255,255,255\"; 
+	textcolor : \"0,0,0\";
+	linecolor : \"0,0,0\";
+	shape : \"i5.cb.graph.shapes.Rect\";
+        linewidth : \"3\"
+implementedBy
+	implBy : \"i5.cb.graph.cbeditor.CBIndividual\"
+priority
+    pr : 24
+rule
+     gtrule: $ forall x/ClosedConcept (x graphtype ClosedC_GT) $
+end
+
+ClosedConcept with
+  graphtype
+     thisgt3: ClosedC_GT
+end
+
+
+
+NextLink_GT in JavaGraphicalType,Class with 
+  attribute,property
+     textcolor : \"0,0,0\";
+     edgecolor : \"100,100,100\";
+     edgewidth : \"2\";
+     label : \"\"
+  attribute,implementedBy
+     implBy : \"i5.cb.graph.cbeditor.CBLink\"
+  attribute,priority
+     p : 20
+  rule
+     gtrule: $ forall a/ActivityNode!next (a graphtype NextLink_GT) $
+end   
+
+ChoiceLink_GT in JavaGraphicalType,Class with 
+  attribute,property
+     textcolor : \"0,0,0\";
+     edgecolor : \"100,100,100\";
+     edgewidth : \"2\";
+     bgcolor : \"255,150,150\"
+  attribute,implementedBy
+     implBy : \"i5.cb.graph.cbeditor.CBLink\"
+  attribute,priority
+     p : 21
+  rule
+     gtrule: $ forall a/DecisionPoint!choice (a graphtype ChoiceLink_GT) $
+end  
+
+ProducesLink_GT in JavaGraphicalType,Class with 
+  attribute,property
+     textcolor : \"0,0,0\";
+     edgecolor : \"50,50,180\";
+     edgewidth : \"2\";
+     edgestyle : \"dashdotted\";
+     label : \"\"
+  attribute,implementedBy
+     implBy : \"i5.cb.graph.cbeditor.CBLink\"
+  attribute,priority
+     p : 22
+  rule
+     gtrule: $ forall a/Activity!produces (a graphtype ProducesLink_GT) $
+end  
+
+PartOfLink_GT in JavaGraphicalType,Class with 
+  attribute,property
+     textcolor : \"0,0,0\";
+     edgecolor : \"40,180,40\";
+     edgewidth : \"2\";
+     edgestyle : \"dotted\";
+     label : \"\"
+  attribute,implementedBy
+     implBy : \"i5.cb.graph.cbeditor.CBLink\"
+  attribute,priority
+     p : 23
+  rule
+     gtrule1: $ forall a/ActivityDiagram!activity (a graphtype PartOfLink_GT) $;
+     gtrule2: $ forall a/OpenConcept!contains (a graphtype PartOfLink_GT) $
+end  
+
+"
+
+
+
+tell "
+P1 in Phase with
+  activity
+    a: A1
+end
+
+P2 in Phase with
+   activity
+     a1: A2_start;
+     a2: A2
+end
+
+A1 in Activity with
+  next
+     n: A2
+end
+
+A2_start in Activity with
+  next
+    n: A2
+end
+
+A2 in Activity with
+end
+"
+
+tell "
+P1 in Phase with
+  activity
+    a: A1
+end
+
+P2 in Phase with
+   activity
+     a: A2
+end
+
+A1 in Activity with
+  produces
+     del: D1
+end
+
+A2 in Activity with
+  produces
+     del: D2
+end
+
+
+M1 in ModelDeliverable with
+  contains
+     p1: D1;
+     p2: D2
+end
+
+D1 in Deliverable end
+D2 in Deliverable end
+"
+
+# This call creates no problem
+ask "get_object[P1/objname]"OBJNAMES FRAME Now
+
+# This call used to cause a crash (double disposal of allocated memory or segmentation violation)
+ask "find_classes[P1/objname]" OBJNAMES CBGraphEditorResult[PDD_Palette/pal,P1/obj,InstanceOf/cat,src/objtype] Now
+
+
+
+
+
+
+

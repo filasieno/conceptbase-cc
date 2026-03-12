@@ -1,0 +1,50 @@
+#
+# File: ticket388.cbs
+# Author: Manfred Jeusfeld
+# Created: 2017-01-25/M.Jeusfeld (2017-02-01/M.Jeusfeld)
+# ------------------------------------------------------
+# The stratification violation detection may miss certain cases
+# here: a variant of ticket388.cbs
+#
+
+cbserver  -t low
+
+tell "
+p end
+q end
+m end
+
+
+Class P end
+Class M end
+Class Q end
+
+
+
+Class P with 
+  rule
+    r1: $ (m in M) ==> (p in P) $
+end
+
+Class M with
+  rule
+    r1: $ not (q in Q) ==> (m in M) $
+end
+
+Class Q with 
+  rule
+    r1: $ (p in P) ==> (q in Q) $
+end
+
+
+
+
+"
+
+# non-stratified query call that is reduced to a call In(x,P) 
+ask P
+why
+# should return stratification violation since In(x,P) depends indirectly on 'not In(p,P)'
+
+
+
