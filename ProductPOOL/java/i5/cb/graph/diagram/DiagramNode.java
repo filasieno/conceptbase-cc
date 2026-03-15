@@ -678,6 +678,17 @@ public class DiagramNode
          this.getLayeredPane().setSize(m_dSmallComponentSize);
          this.getContentPane().setSize(compSize);
          this.getContentPane().setBounds(compLoc.x,compLoc.y,compSize.width,compSize.height);
+// --- TRACE LOG START ---
+        // This will expose if m_dSmallComponentSize is polluted with zoomed pixels
+        // or if compSize (the label) is failing to scale.
+//        System.out.println();
+//        System.out.println("--- Dimensions of " + this.getLabel() + " ---");
+//        System.out.print("Zoom Factor: " + zoom);
+//        System.out.println("m_dSmallComponentSize: " + m_dSmallComponentSize.width + "x" + m_dSmallComponentSize.height);
+//        System.out.println("contentPane: " + this.getContentPane().getSize().width + "x" + this.getContentPane().getSize().height);
+//        System.out.println(", compLoc: ("+ compLoc.x+","+compLoc.y+")");
+// --- TRACE LOG END ---
+
        } else {  // big component is visible
          m_dComponentSize = this.getSize();
          compSize = new Dimension(m_dComponentSize.width-10,m_dComponentSize.height-10);
