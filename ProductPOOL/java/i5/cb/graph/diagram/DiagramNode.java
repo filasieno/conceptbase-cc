@@ -636,23 +636,23 @@ public class DiagramNode
        if (getDiagramDesktop() != null && getDiagramDesktop().getZoomer() != null) {
         zoom = (float)getDiagramDesktop().getZoomer().getFactor();
        }
-       Dimension compSize; 
-       Point compLoc;
+       Dimension contentPaneSize; 
+       Point contentPaneLoc;
        if (isSmallComponentVisible()) {
          m_dSmallComponentSize = this.getSize();
          // m_dSmallComponentSize = new Dimension((int)(this.getWidth() / zoom), (int)(this.getHeight() / zoom));
          if (hasSquareDot()) {
-           compSize = this.getMinimumSize();
+           contentPaneSize = this.getMinimumSize();
          }
          else {
-           compSize = m_dSmallComponentSize;
+           contentPaneSize = m_dSmallComponentSize;
            Dimension minCompSize = getContentPane().getMinimumSize();
            Dimension prefCompSize = getContentPane().getPreferredSize();
            // the contentPane may actually be too big for the DiagramNode; then the DiagramNode is enlarged
            // if the required enlargement is only small
-           if (compSize.width - minCompSize.width < 4 &&
-               minCompSize.width - compSize.width < 12) {
-              compSize = minCompSize;
+           if (contentPaneSize.width - minCompSize.width < 4 &&
+               minCompSize.width - contentPaneSize.width < 12) {
+              contentPaneSize = minCompSize;
               m_dSmallComponentSize = new Dimension(minCompSize.width+4, m_dSmallComponentSize.height);
               this.setSize(m_dSmallComponentSize);
              // the content pane may be smaller than the diagram node itself
@@ -660,44 +660,44 @@ public class DiagramNode
                       prefCompSize.width < m_dSmallComponentSize.width &&
                       prefCompSize.height <= m_dSmallComponentSize.height &&
                       prefCompSize.width > 0) {
-              compSize = prefCompSize;
+              contentPaneSize = prefCompSize;
            }
          }
-         // place the small component (DiagramLabel) inside m_dSmallComponentSize
+         // place the small component's content pane (a DiagramLabel) inside m_dSmallComponentSize
          // depending on its "align" property
-         compLoc = new Point((m_dSmallComponentSize.width - compSize.width)/2,
-                             (m_dSmallComponentSize.height -compSize.height)/2);
+         contentPaneLoc = new Point((m_dSmallComponentSize.width - contentPaneSize.width)/2,
+                             (m_dSmallComponentSize.height -contentPaneSize.height)/2);
 
          if (m_userObject != null && m_userObject instanceof CBUserObject)
-            compLoc = ((CBUserObject)m_userObject).getAlignedLocation(m_dSmallComponentSize,compSize);
+            contentPaneLoc = ((CBUserObject)m_userObject).getAlignedLocation(m_dSmallComponentSize,contentPaneSize);
          this.getRootPane().setSize(m_dSmallComponentSize);
          if (hasSquareDot()) {
-            this.getGlassPane().setSize(compSize);
-            this.getGlassPane().setBounds(compLoc.x,compLoc.y,compSize.width,compSize.height);
+            this.getGlassPane().setSize(contentPaneSize);
+            this.getGlassPane().setBounds(contentPaneLoc.x,contentPaneLoc.y,contentPaneSize.width,contentPaneSize.height);
          }
          this.getLayeredPane().setSize(m_dSmallComponentSize);
-         this.getContentPane().setSize(compSize);
-         this.getContentPane().setBounds(compLoc.x,compLoc.y,compSize.width,compSize.height);
+         this.getContentPane().setSize(contentPaneSize);
+         this.getContentPane().setBounds(contentPaneLoc.x,contentPaneLoc.y,contentPaneSize.width,contentPaneSize.height);
 // --- TRACE LOG START ---
         // This will expose if m_dSmallComponentSize is polluted with zoomed pixels
-        // or if compSize (the label) is failing to scale.
+        // or if contentPaneSize (the label) is failing to scale.
 //        System.out.println();
 //        System.out.print(this.getLabel() + ": ");
 //        System.out.print(zoom);
-//        System.out.print(" -- comp: " + m_dSmallComponentSize.width + "x" + m_dSmallComponentSize.height);
-//        System.out.print(" -- content: " + this.getContentPane().getSize().width + "x" + this.getContentPane().getSize().height);
-//        System.out.println(", ("+ compLoc.x+","+compLoc.y+")");
+//        System.out.print(" -- m_dSmallComponentSize: " + m_dSmallComponentSize.width + "x" + m_dSmallComponentSize.height);
+//        System.out.print(" -- contentPane: " + this.getContentPane().getSize().width + "x" + this.getContentPane().getSize().height);
+//        System.out.println(", ("+ contentPaneLoc.x+","+contentPaneLoc.y+")");
 // --- TRACE LOG END ---
 
        } else {  // big component is visible
          m_dComponentSize = this.getSize();
-         compSize = new Dimension(m_dComponentSize.width-10,m_dComponentSize.height-10);
+         contentPaneSize = new Dimension(m_dComponentSize.width-10,m_dComponentSize.height-10);
          this.getRootPane().setSize(m_dComponentSize);
          this.getLayeredPane().setSize(m_dComponentSize);
-         this.getContentPane().setSize(compSize);
-         compLoc = new Point((m_dComponentSize.width - compSize.width)/2,
-                             (m_dComponentSize.height -compSize.height)/2);
-         this.getContentPane().setBounds(compLoc.x,compLoc.y,compSize.width,compSize.height);
+         this.getContentPane().setSize(contentPaneSize);
+         contentPaneLoc = new Point((m_dComponentSize.width - contentPaneSize.width)/2,
+                             (m_dComponentSize.height -contentPaneSize.height)/2);
+         this.getContentPane().setBounds(contentPaneLoc.x,contentPaneLoc.y,contentPaneSize.width,contentPaneSize.height);
          this.getContentPane().revalidate();
          this.pack();
          this.revalidate();
