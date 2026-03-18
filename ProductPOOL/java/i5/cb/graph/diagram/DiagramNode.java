@@ -678,16 +678,7 @@ public class DiagramNode
          this.getLayeredPane().setSize(m_dSmallComponentSize);
          this.getContentPane().setSize(contentPaneSize);
          this.getContentPane().setBounds(contentPaneLoc.x,contentPaneLoc.y,contentPaneSize.width,contentPaneSize.height);
-// --- TRACE LOG START ---
-        // This will expose if m_dSmallComponentSize is polluted with zoomed pixels
-        // or if contentPaneSize (the label) is failing to scale.
-//        System.out.println();
-//        System.out.print(this.getLabel() + ": ");
-//        System.out.print(zoom);
-//        System.out.print(" -- m_dSmallComponentSize: " + m_dSmallComponentSize.width + "x" + m_dSmallComponentSize.height);
-//        System.out.print(" -- contentPane: " + this.getContentPane().getSize().width + "x" + this.getContentPane().getSize().height);
-//        System.out.println(", ("+ contentPaneLoc.x+","+contentPaneLoc.y+")");
-// --- TRACE LOG END ---
+         // this.watchZoomSkips(zoom,m_dSmallComponentSize,contentPaneSize,contentPaneLoc);
 
        } else {  // big component is visible
          m_dComponentSize = this.getSize();
@@ -703,6 +694,27 @@ public class DiagramNode
          this.revalidate();
        }
     }
+
+
+
+     /**
+     * CBZoomer resets the dimensions of a DiagramNode from a local copy it maintains. This is not updated when the user
+     * changes the node's size manually. We thus need to watch the dimennsion of the smallcomponent size (the node itself),
+     * the zoom factor, the content pane size (the Diagram label), and its location relative to the small component.
+     * see also issue #79
+     *
+     */
+
+    private void watchZoomSkips(float new_zoom, 
+                               Dimension new_smallcompsize, Dimension new_contentPaneSize, Point new_contentPaneLoc)  {
+
+        System.out.print(new_zoom);
+        System.out.print(" -- new_smallcompsize: " + new_smallcompsize.width + "x" + new_smallcompsize.height);
+        System.out.print(" -- contentPane: " + new_contentPaneSize.width + "x" + new_contentPaneSize.height);
+        System.out.println(", ("+ new_contentPaneLoc.x+","+new_contentPaneLoc.y+")");
+
+    }
+
 
 
     /**
