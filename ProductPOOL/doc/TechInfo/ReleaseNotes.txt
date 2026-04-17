@@ -6,7 +6,7 @@
               University of Skovde, Sweden
 
 
-                      2025-12-19
+                      2026-04-17
 
 
 ConceptBase.cc is a multi-user deductive object manager mainly developed by
@@ -229,6 +229,14 @@ and provides further performance boosts for the CBserver.
    SVG file in the same directory were the GEL file is stored. The new option works analogous to
    the -savepng option of CBGraph.
    https://gitlab.com/mjeu/conceptbasecc/-/issues/85 
+
+85-30 Prevent corruption of graph files in CBGraph by module changes
+
+   CBGraph saves modules sources together with the graph layout in so-called GEL files. The inclusion
+   of module sources fails however, if the user previously has changed the module. CBGraph now prevents
+   saving hraph files when the module was changed.
+   https://gitlab.com/mjeu/conceptbasecc/-/issues/86 
+
 
 
 
