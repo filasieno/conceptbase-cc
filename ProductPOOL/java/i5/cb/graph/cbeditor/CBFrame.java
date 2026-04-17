@@ -110,6 +110,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
     StringArray moduleSources=null;  // can hold the module sources read from a GEL file
     int nrInvalidNodes=0; 
     boolean m_localserver=false;  // true if the CBserver was started specifically for a graph file
+    String m_gelFileModulePath;   // as stored in a graph file
 
 
     /** Constructor for the CBFrame object
@@ -545,6 +546,15 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
         catch (Exception e) {
         }
     }
+
+    public void setGelfileModulePath(String mpath){
+        m_gelFileModulePath = mpath;
+    }
+
+    public String getGelfileModulePath(){
+        return m_gelFileModulePath;
+    }
+
 
 
     /** sets the CBFrame to the configuration of the new view extracted from a GEL file
@@ -1619,7 +1629,13 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
      * some objects are no longer valid or some graph types have to be re-assigned
      */
 
+
     public void loadGraphicalPalette(String newGraphPal) {
+       loadGraphicalPalette(newGraphPal,true);
+    }
+
+
+    public void loadGraphicalPalette(String newGraphPal, boolean tovalidate) {
         if (!isConnected()) {
             showNotConnected();
             return;
@@ -1637,10 +1653,34 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
             // revert those changes here
             this.setSize(frameSize);
             m_graphEditor.setSize(geSize);
-            validateNodes();
+            if (tovalidate)
+               validateNodes();
         }
     }
     
+
+     /**
+     * Reloads the current graphical palette ehen a new graph file has neen loaded. 
+     * This is a dirty trick to cope with issue #80 (Previously hidden links not expandable in CBGraph after save)
+     * Does not work because it causes null pointer exceptions.
+     */
+
+    public void reloadGraphicalPalette() {
+        if (!isConnected() || getGraphicalPalette() == null ) {
+            showNotConnected();
+            return;
+        }
+
+        String currentPalette = m_sPalette;
+        // we use XBridgePalette as a detour to make sure that thisPalette is fully reloaded
+        System.out.println("loading XBridgePalette");
+        try {Thread.sleep(1000); } catch (InterruptedException e) {Thread.currentThread().interrupt(); }
+        loadGraphicalPalette("XBridgePalette",false);  // validation must be disabled to prevent two parallel threads
+        System.out.println("loading "+currentPalette);
+        try {Thread.sleep(1000); } catch (InterruptedException e) {Thread.currentThread().interrupt(); }
+        loadGraphicalPalette(currentPalette,false);
+    }
+
 
 
     /**

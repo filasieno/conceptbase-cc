@@ -1265,7 +1265,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         for (int i = 0; i < nSize; i++) {
 
             currentUserObject = graphInternalFrame.loadUserObject(in);
-            // System.out.println("Loading object number"+i);
+            // System.out.println("Loading object number "+i);
             currentBounds = (Rectangle) in.readObject();
             boolean frozen = getFreezeStatus(currentBounds);
             unfreezeRectangle(currentBounds);
@@ -1291,6 +1291,8 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
                     .get(sEdgeNodeOnE), (DiagramNode) htHandleToNode
                     .get(sEdgeSource), (DiagramNode) htHandleToNode
                     .get(sEdgeDest), newDiagClass);
+
+            // System.out.println("Loading edge number "+i);
 
             vNewEdges.add(currentEdge);
         }
@@ -1330,10 +1332,12 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
             cbf.setLongTitle(cTitle);
             cbf.setGraphicalPalette(cPalette);
             cbf.setContext(cModule);
+            cbf.setGelfileModulePath(cModule);
             // need to check whether CBFrame is connected to a CBserver
             cbf.reconnectView(cHost,cPort,cModule);
-            if (!cPalette.equals(CBConstants.DEFAULT_PALETTE))
+            if (!cPalette.equals(CBConstants.DEFAULT_PALETTE)) {
               cbf.refreshUserObjects(getDiagramNodes());  // user objects may need refreshed CBTree's depending on cPalette
+            }
           } else {
             java.util.logging.Logger.getLogger("global").warning("No CBEditor-CBFrame found; cannot connect to "+cHost+":"+cPort+"/"+cModule);
           }

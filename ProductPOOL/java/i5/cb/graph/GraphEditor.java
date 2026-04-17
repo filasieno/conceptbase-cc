@@ -565,6 +565,18 @@ public class GraphEditor
                 JOptionPane.ERROR_MESSAGE);
         } else {
 
+            if (gif instanceof CBFrame) {
+              CBFrame cbf = (CBFrame) gif;
+              String gelmodulepath = cbf.getGelfileModulePath();
+              String currentmodulepath = cbf.getContext();
+              if (gelmodulepath != null && currentmodulepath != null && !currentmodulepath.startsWith(gelmodulepath) ) {
+                 JOptionPane.showMessageDialog(this,
+                   "Current module "+currentmodulepath+" of the graph does not include the original path of the graph file "+gelmodulepath,
+                   "Error", JOptionPane.ERROR_MESSAGE);
+                 return;  // i.e. do not save
+              }
+            }
+
             // -- a dialog is created to choose a file
             GELFileChooser dialog;
             if (this instanceof CBEditor && gif instanceof CBFrame) {
@@ -639,6 +651,19 @@ public class GraphEditor
             }
 
          try {
+
+            if (gif instanceof CBFrame) {
+              CBFrame cbf = (CBFrame) gif;
+              String gelmodulepath = cbf.getGelfileModulePath();
+              String currentmodulepath = cbf.getContext();
+              if (gelmodulepath != null && currentmodulepath != null && !currentmodulepath.startsWith(gelmodulepath) ) {
+                 JOptionPane.showMessageDialog(this,
+                   "Current module "+currentmodulepath+" of the graph does not include the original path of the graph file "+gelmodulepath,
+                   "Error", JOptionPane.ERROR_MESSAGE);
+                 return;  // i.e. do not save
+              }
+            }
+
             FileOutputStream FOStream = new FileOutputStream(saveFile);
 
             ObjectOutputStream out = new ObjectOutputStream(FOStream);
@@ -649,7 +674,7 @@ public class GraphEditor
             out.writeObject(this.getSize());  // size of graph editor
             out.writeObject(gif.getSize());   // size of internal frame
             out.writeObject(gif.getDiagramDesktop().getSize()); // size of diagram desktop
-            gif.getDiagramDesktop().save(out);
+            gif.getDiagramDesktop().save(out);  // this does most of the work
             gif.getDiagramDesktop().setEdited(false);
             FOStream.close(); 
             gif.setStatusString("Saved graph to "+saveFile.getName());
@@ -830,7 +855,14 @@ public class GraphEditor
             }
             frame.setGelfile(loadFile.getAbsolutePath());
 
-            //getActiveGraphInternalFrame().validateNodes();
+            // for issue #80: make sure that previously hiiden links are expandable
+            // does not work; causes null pointer exception
+            //if (frame instanceof CBFrame) {
+            //   CBFrame cbframe = (CBFrame) frame;
+            //   cbframe.reloadGraphicalPalette();
+            //}
+
+            // getActiveGraphInternalFrame().validateNodes();
         }
     }
 

@@ -236,6 +236,17 @@ public class AbstractZoomer implements Zoomer {
 		SizeHashtableEntry size = new SizeHashtableEntry(c.getBounds(),c.getFont());
 		componentSizes.put(c,size);		
 	}
+
+
+        /**
+         * Updates the size for a specific component. Issue #79 
+         */
+        public void updateComponentSize(Component c, Dimension newdim) {
+            SizeHashtableEntry entry = (SizeHashtableEntry)componentSizes.get(c);
+            if (entry != null) {
+                entry.size = new Dimension(newdim.height, newdim.width);
+            }
+        }
 	
 	protected ImageHashtableEntry getComponentOriginalImage(Component c){
 		if(imageTable == null)

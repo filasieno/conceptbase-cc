@@ -668,8 +668,13 @@ public class DiagramNode
          contentPaneLoc = new Point((m_dSmallComponentSize.width - contentPaneSize.width)/2,
                              (m_dSmallComponentSize.height -contentPaneSize.height)/2);
 
+
          if (m_userObject != null && m_userObject instanceof CBUserObject)
             contentPaneLoc = ((CBUserObject)m_userObject).getAlignedLocation(m_dSmallComponentSize,contentPaneSize);
+
+         //this.watchZoomSkips(zoom,m_dSmallComponentSize,contentPaneSize,contentPaneLoc);
+         // this.setSize(m_dSmallComponentSize);
+
          this.getRootPane().setSize(m_dSmallComponentSize);
          if (hasSquareDot()) {
             this.getGlassPane().setSize(contentPaneSize);
@@ -678,7 +683,6 @@ public class DiagramNode
          this.getLayeredPane().setSize(m_dSmallComponentSize);
          this.getContentPane().setSize(contentPaneSize);
          this.getContentPane().setBounds(contentPaneLoc.x,contentPaneLoc.y,contentPaneSize.width,contentPaneSize.height);
-         // this.watchZoomSkips(zoom,m_dSmallComponentSize,contentPaneSize,contentPaneLoc);
 
        } else {  // big component is visible
          m_dComponentSize = this.getSize();
@@ -705,14 +709,68 @@ public class DiagramNode
      *
      */
 
-    private void watchZoomSkips(float new_zoom, 
-                               Dimension new_smallcompsize, Dimension new_contentPaneSize, Point new_contentPaneLoc)  {
+    float old_zoom; 
+    Dimension old_smallcompsize;
+    Dimension old_contentPaneSize;
+    Point old_contentPaneLoc;
 
-        System.out.print(new_zoom);
+    private void watchZoomSkips(float new_zoom, 
+                                Dimension new_smallcompsize,
+                                Dimension new_contentPaneSize,
+                                Point new_contentPaneLoc)  {
+
+        if (old_smallcompsize != null) {
+           System.out.print("A: " + old_zoom);
+           System.out.print(" -- old_smallcompsize: " + old_smallcompsize.width + "x" + old_smallcompsize.height);
+           System.out.print(" -- contentPane: " + old_contentPaneSize.width + "x" + old_contentPaneSize.height);
+           System.out.println(", ("+ old_contentPaneLoc.x+","+old_contentPaneLoc.y+")");
+        }
+
+        System.out.print("B: " + new_zoom);
         System.out.print(" -- new_smallcompsize: " + new_smallcompsize.width + "x" + new_smallcompsize.height);
         System.out.print(" -- contentPane: " + new_contentPaneSize.width + "x" + new_contentPaneSize.height);
         System.out.println(", ("+ new_contentPaneLoc.x+","+new_contentPaneLoc.y+")");
 
+        if (Math.abs(old_zoom-new_zoom) < 0.01F && Math.abs(new_zoom-1.0F) <= 0.001F &&
+                     new_contentPaneLoc.x + new_contentPaneLoc.y == 0  ) {
+            System.out.println("Reset to old size");
+            new_smallcompsize = old_smallcompsize;
+            new_contentPaneSize = old_contentPaneSize;
+            new_contentPaneLoc = old_contentPaneLoc;
+        } else if (old_smallcompsize != null && old_contentPaneSize != null && 
+            old_contentPaneLoc != null && Math.abs(old_zoom-new_zoom) > 0.01F && old_zoom > 0.01) {
+            System.out.println("Need to adjust node dimensions!");
+            float factor = new_zoom / old_zoom;
+
+            if (new_smallcompsize == new_contentPaneSize) {
+               new_contentPaneSize = (Dimension) new_contentPaneSize.clone();
+            }
+System.out.print("old_smallcompsize.width=" + old_smallcompsize.width + ", factor="+factor);
+            new_smallcompsize.width = Math.round(old_smallcompsize.width * factor);
+System.out.println(" -- new_smallcompsize.width=" + new_smallcompsize.width);
+            new_smallcompsize.height = Math.round(old_smallcompsize.height * factor);
+
+            new_contentPaneSize.width = Math.round(old_contentPaneSize.width * factor);
+            new_contentPaneSize.height = Math.round(old_contentPaneSize.height * factor);
+            new_contentPaneLoc.x = Math.round(old_contentPaneLoc.x * factor);
+            new_contentPaneLoc.y = Math.round(old_contentPaneLoc.y*factor);
+            System.out.print("C: " + new_zoom);
+            System.out.print(" -- new_smallcompsize: " + new_smallcompsize.width + "x" + new_smallcompsize.height);
+            System.out.print(" -- contentPane: " + new_contentPaneSize.width + "x" + new_contentPaneSize.height);
+            System.out.println(", ("+ new_contentPaneLoc.x+","+new_contentPaneLoc.y+")");
+
+            // if we are back to 100% zoom, then we update the node size in the hashtable of the zoomer.
+            if (Math.abs(new_zoom-1.0F) <= 0.001F) {
+                System.out.println("Update node size in CBZoomer");
+                getDiagramDesktop().getZoomer().updateComponentSize(this,new_smallcompsize);
+            }
+
+        }
+
+        old_zoom = new_zoom;
+        old_smallcompsize = (Dimension) new_smallcompsize.clone();
+        old_contentPaneSize = (Dimension) new_contentPaneSize.clone();
+        old_contentPaneLoc = (Point) new_contentPaneLoc.clone();
     }
 
 
