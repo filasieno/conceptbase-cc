@@ -658,9 +658,11 @@ public class GraphEditor
               String currentmodulepath = cbf.getContext();
               if (gelmodulepath != null && currentmodulepath != null && !currentmodulepath.startsWith(gelmodulepath) ) {
                  JOptionPane.showMessageDialog(this,
-                   "Current module "+currentmodulepath+" of the graph does not include the original path of the graph file "+gelmodulepath,
+                   "Current module "+currentmodulepath+" of the graph does not include the original path of the graph file "+
+                   gelmodulepath+". Will use "+gelmodulepath+" for saving the graph.",
                    "Error", JOptionPane.ERROR_MESSAGE);
-                 return;  // i.e. do not save
+                 cbf.setModule(gelmodulepath);
+                 cbf.setContext(gelmodulepath); // this makes sure that gif.getDiagramDesktop().save(out) uses a currect module path
               }
             }
 
