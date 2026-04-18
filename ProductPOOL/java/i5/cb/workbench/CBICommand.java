@@ -442,9 +442,10 @@ public class CBICommand extends MouseAdapter implements ActionListener, WindowLi
          * File|Connect
          */
         case iCONNECT: {
-            if(CBclient.getConnectDialog() != null)
+            if(CBclient.getConnectDialog() != null) {
+                CBclient.getConnectDialog().adaptLocation();
                 CBclient.getConnectDialog().setVisible(true);
-            else {
+            } else {
                 ConnectDialog cd=new ConnectDialog(CBI);
                 cd.setVisible(true);
             }

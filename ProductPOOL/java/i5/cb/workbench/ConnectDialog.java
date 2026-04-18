@@ -221,5 +221,12 @@ public class ConnectDialog extends JDialog {
 
         CBI.getCBClient().setConnectDialog(this); // Parent ist ein TelosEditor!
     }
+
+    // to align the ConnectDialog to its CBIva window
+    public void adaptLocation() {
+        if (CBI != null ) {
+          this.setLocation(CBI.getLocation().x+38,CBI.getLocation().y+38);
+        }
+    }
 }
 
