@@ -652,35 +652,47 @@ public class GraphEditor
 
          try {
 
+            boolean continueWithSave = true;
             if (gif instanceof CBFrame) {
               CBFrame cbf = (CBFrame) gif;
               String gelmodulepath = cbf.getGelfileModulePath();
               String currentmodulepath = cbf.getContext();
-              if (gelmodulepath != null && currentmodulepath != null && !currentmodulepath.startsWith(gelmodulepath) ) {
-                 JOptionPane.showMessageDialog(this,
-                   "Current module "+currentmodulepath+" of the graph does not include the original path of the graph file "+
-                   gelmodulepath+". Will use "+gelmodulepath+" for saving the graph.",
-                   "Error", JOptionPane.ERROR_MESSAGE);
-                 cbf.setModule(gelmodulepath);
-                 cbf.setContext(gelmodulepath); // this makes sure that gif.getDiagramDesktop().save(out) uses a currect module path
+              if (gelmodulepath != null && currentmodulepath != null &&
+                  !currentmodulepath.startsWith(gelmodulepath) ) {
+                 int response =JOptionPane.showConfirmDialog(this,
+                                  "Current module "+currentmodulepath+
+                                  " of the graph does not include the original path of the graph file "+
+                                   gelmodulepath+". Will use "+gelmodulepath+" for saving the graph. Use the original path?",
+                                  "Use consistent module path",
+                                  JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                 if (response == JOptionPane.OK_OPTION) {
+                   cbf.setModule(gelmodulepath);
+                   cbf.setContext(gelmodulepath); // this makes sure that gif.getDiagramDesktop().save(out) uses a currect module path
+                 } else {
+                   continueWithSave = false;  // the module path is not safe
+                 }
               }
             }
 
-            FileOutputStream FOStream = new FileOutputStream(saveFile);
+            if (continueWithSave) {
+              FileOutputStream FOStream = new FileOutputStream(saveFile);
 
-            ObjectOutputStream out = new ObjectOutputStream(FOStream);
-            gif.setStatusString("Saving graph file ...");
+              ObjectOutputStream out = new ObjectOutputStream(FOStream);
+              gif.setStatusString("Saving graph file ...");
 
-            // -- save title and DiagramDesktop
-            out.writeObject(gif.getTitle());
-            out.writeObject(this.getSize());  // size of graph editor
-            out.writeObject(gif.getSize());   // size of internal frame
-            out.writeObject(gif.getDiagramDesktop().getSize()); // size of diagram desktop
-            gif.getDiagramDesktop().save(out);  // this does most of the work
-            gif.getDiagramDesktop().setEdited(false);
-            FOStream.close(); 
-            gif.setStatusString("Saved graph to "+saveFile.getName());
-            gif.setGelfile(saveFile.getAbsolutePath());
+              // -- save title and DiagramDesktop
+              out.writeObject(gif.getTitle());
+              out.writeObject(this.getSize());  // size of graph editor
+              out.writeObject(gif.getSize());   // size of internal frame
+              out.writeObject(gif.getDiagramDesktop().getSize()); // size of diagram desktop
+              gif.getDiagramDesktop().save(out);  // this does most of the work
+                gif.getDiagramDesktop().setEdited(false);
+              FOStream.close(); 
+              gif.setStatusString("Saved graph to "+saveFile.getName());
+              gif.setGelfile(saveFile.getAbsolutePath());
+            } else {
+              gif.setStatusString("Graph file not saved because of wrong module path");
+            }
          } catch (IOException e) {
             Logger.getLogger("global").warning(e.getMessage());
          }

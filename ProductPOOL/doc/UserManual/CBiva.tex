@@ -797,9 +797,12 @@ of the current module in its Telos editor window.
 \item[Save:] Save the current graph into a file. The current
 nodes, their location and the links will be saved into a file which
 can be reloaded later. The graphical types will also be saved into the file. 
-By default, the file will get the extension ``gel'' (Graph Editor Layout).
+The file will get the extension ``gel'' (Graph Editor Layout).
 A checkbox lets to select whether you want to save the module sources
-into the graph file. It overrides the '+/-rw' options of the cbgraph command.
+into the graph file. It overrides the '+/-rw' options of the cbgraph command\footnote{%
+If the original module path came from a graph file, then ConceptBase will check whether
+the current module path of CBGraph contains the original module path. If not,
+you cannot save the graph file since it would be corrupted otherwise.}.
 
 \item[Load:] Load a graph that has been saved with the previous menu
 item. Existing nodes and links in the current window will be erased.

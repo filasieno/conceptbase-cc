@@ -117,7 +117,7 @@ public class ConnectDialog extends JDialog {
     *  @see i5.cb.workbench.TECommand
     */
     public ConnectDialog(CBIva CBI) {
-        super(CBI, "Connect", true);
+        super(CBI, "Connect to CBserver", true);
 
         this.CBI = CBI;
 
@@ -214,7 +214,8 @@ public class ConnectDialog extends JDialog {
         p.add(b);
         this.getContentPane().add(BorderLayout.SOUTH, p);
 
-        this.setLocation(380,300);
+        // connect dialog should be close to CBIva window 
+        this.setLocation(CBI.getLocation().x+38,CBI.getLocation().y+38);  
 
         this.pack();
 
