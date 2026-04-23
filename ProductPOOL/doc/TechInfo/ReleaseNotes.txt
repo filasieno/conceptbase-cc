@@ -6,7 +6,7 @@
               University of Skovde, Sweden
 
 
-                      2026-04-17
+                      2026-04-23
 
 
 ConceptBase.cc is a multi-user deductive object manager mainly developed by
@@ -236,6 +236,14 @@ and provides further performance boosts for the CBserver.
    of module sources fails however, if the user previously has changed the module. CBGraph now prevents
    saving hraph files when the module was changed.
    https://gitlab.com/mjeu/conceptbasecc/-/issues/86 
+
+85-31 CBGraph deletes whole object when deleting an attribute only
+
+   CBGraph allows to right-click an attribute and then select "Delete object from database". If the
+   source object only had this single attribute, then the source object itself is also deleted. This
+   unintended side effect is now prevented.
+   https://gitlab.com/mjeu/conceptbasecc/-/issues/87 
+
 
 
 
