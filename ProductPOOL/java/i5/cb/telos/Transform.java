@@ -523,19 +523,19 @@ public class Transform
               result="Individual "+to.getLabel()+" end\n";
               break;
           case TelosObject.INSTANTIATION:
-              result=to.getSource()+" in "+to.getDestination()+" end\n";
+              result=to.getSource()+"->"+to.getDestination()+" end\n";
               if(bRecursive)
                   result=toFrameString(to.getSource(),true) + toFrameString(to.getDestination(),true) + result;
               break;
           case TelosObject.SPECIALIZATION:
-              result=to.getSource()+" isA "+to.getDestination()+" end\n";
+              result=to.getSource()+"=>"+to.getDestination()+" end\n";
               if(bRecursive)
                   result=toFrameString(to.getSource(),true) + toFrameString(to.getDestination(),true) + result;
               break;
           case TelosObject.ATTRIBUTE:
-              result=to.getSource().toString() + " with attribute " + to.getLabel() + " : " + to.getDestination().toString() + " end\n";
+              result = to.getSource().toString() + "!" + to.getLabel() + " end\n";
               if(bRecursive)
-                  result=toFrameString(to.getSource(),true) + toFrameString(to.getDestination(),true) + result;
+                  result=toFrameString(to.getSource(),true) + "!" + to.getLabel() + " end\n";;
               break;
           default:
               result=null;
