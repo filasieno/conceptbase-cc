@@ -520,22 +520,22 @@ public class Transform
          String result;
          switch( to.getSystemClass() ) {
           case TelosObject.INDIVIDUAL:
-              result="Individual "+to.getLabel()+" end\n";
+              result=to.getLabel()+" in Individual end\n";
               break;
           case TelosObject.INSTANTIATION:
-              result=to.getSource()+"->"+to.getDestination()+" end\n";
+              result=to.getSource()+"->"+to.getDestination()+" in InstanceOf end\n";
               if(bRecursive)
-                  result=toFrameString(to.getSource(),true) + toFrameString(to.getDestination(),true) + result;
+                  result=toFrameString(to.getSource(),true)+"->"+toFrameString(to.getDestination(),true)+" in InstanceOf end\n";;
               break;
           case TelosObject.SPECIALIZATION:
-              result=to.getSource()+"=>"+to.getDestination()+" end\n";
+              result=to.getSource()+"=>"+to.getDestination()+" in IsA end\n";
               if(bRecursive)
-                  result=toFrameString(to.getSource(),true) + toFrameString(to.getDestination(),true) + result;
+                  result=toFrameString(to.getSource(),true)+"=>"+toFrameString(to.getDestination(),true)+" in IsA end\n";;
               break;
           case TelosObject.ATTRIBUTE:
-              result = to.getSource().toString() + "!" + to.getLabel() + " end\n";
+              result = to.getSource().toString()+"!"+to.getLabel()+" in Attribute end\n";
               if(bRecursive)
-                  result=toFrameString(to.getSource(),true) + "!" + to.getLabel() + " end\n";;
+                  result=toFrameString(to.getSource(),true)+"!"+to.getLabel()+" in Attribute end\n";;
               break;
           default:
               result=null;
