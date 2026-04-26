@@ -523,19 +523,28 @@ public class Transform
               result=to.getLabel()+" in Individual end\n";
               break;
           case TelosObject.INSTANTIATION:
-              result=to.getSource()+"->"+to.getDestination()+" in InstanceOf end\n";
-              if(bRecursive)
-                  result=toFrameString(to.getSource(),true)+"->"+toFrameString(to.getDestination(),true)+" in InstanceOf end\n";;
+              if(bRecursive) {// Tell
+                 result=to.getSource()+" in "+to.getDestination()+" end\n";
+                 result=toFrameString(to.getSource(),true) + toFrameString(to.getDestination(),true) + result;
+              } else { // Untell
+                 result=to.getSource()+"->"+to.getDestination()+" in InstanceOf end\n";
+              }
               break;
           case TelosObject.SPECIALIZATION:
-              result=to.getSource()+"=>"+to.getDestination()+" in IsA end\n";
-              if(bRecursive)
-                  result=toFrameString(to.getSource(),true)+"=>"+toFrameString(to.getDestination(),true)+" in IsA end\n";;
+              if(bRecursive) {// Tell
+                 result=to.getSource()+" isA "+to.getDestination()+" end\n";
+                 result=toFrameString(to.getSource(),true) + toFrameString(to.getDestination(),true) + result;
+              } else { // Untell
+                 result=to.getSource()+"=>"+to.getDestination()+" in InstanceOf end\n";
+              }
               break;
           case TelosObject.ATTRIBUTE:
-              result = to.getSource().toString()+"!"+to.getLabel()+" in Attribute end\n";
-              if(bRecursive)
-                  result=toFrameString(to.getSource(),true)+"!"+to.getLabel()+" in Attribute end\n";;
+              if(bRecursive) {// Tell
+                 result=to.getSource().toString() + " with attribute " + to.getLabel() + " : " + to.getDestination().toString() + " end\n";
+                 result=toFrameString(to.getSource(),true) + toFrameString(to.getDestination(),true) + result;
+              } else { // Untell
+                 result = to.getSource().toString()+"!"+to.getLabel()+" in Attribute end\n";
+              }
               break;
           default:
               result=null;

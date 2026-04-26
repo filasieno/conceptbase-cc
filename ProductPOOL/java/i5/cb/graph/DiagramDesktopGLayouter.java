@@ -140,6 +140,7 @@ public class DiagramDesktopGLayouter {
      *            The DiagramEdge to be added
      */
     public void addEdge(DiagramEdge edge) {
+System.out.println("AAA DiagramDesktopGLayouter: addEdge");
         DiagramNode src = edge.getSource().getNode();
         DiagramNode des = edge.getDestination().getNode();
 

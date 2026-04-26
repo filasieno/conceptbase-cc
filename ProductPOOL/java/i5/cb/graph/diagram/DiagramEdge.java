@@ -408,6 +408,7 @@ public class DiagramEdge
      * @param edge the edge we are source or destination of.
      */
     final public void addEdge(DiagramEdge edge) {
+System.out.println("AAA DiagramEdge: addEdge");
         this.m_dnNodeOnEdge.addEdge(edge);
     }
 
