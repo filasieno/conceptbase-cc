@@ -899,10 +899,12 @@ abstract public class CBUserObject {
         return new CBPopup( getDiagramNode() );
     }
 
+
     public void addEdge(CBUserObject newEdge){
 System.out.println("AAA CBUserObject: addEdge");
         m_edges.add(newEdge);
     }
+
 
 
 /*

@@ -1397,6 +1397,7 @@ public class CBFrame extends GraphInternalFrame implements java.beans.PropertyCh
         DiagramNode currentDiagNode;
         while(itNodes.hasNext()){
             currentDiagNode= (DiagramNode)itNodes.next();
+System.out.println("AAA DiagramNode: addNodesToAdd " + currentDiagNode.toString());
             if(!m_DiagHashObjectsToAdd.contains(currentDiagNode) ){
                 addObjectToAdd(currentDiagNode.getDiagramClass().getHashtableEntry((CBUserObject)currentDiagNode.getUserObject()));
             }

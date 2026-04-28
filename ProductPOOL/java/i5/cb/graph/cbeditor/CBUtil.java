@@ -212,6 +212,7 @@ public class CBUtil extends GEUtil {
 
         assert(uos.size() > 0);
 
+System.out.println("AAA CBUtil: createAndAddNewDiagramObjects2");
         Iterator itUO = uos.iterator();
                 CBDiagramClass cbDClass = (CBDiagramClass) cbFrame.getDiagramClass();
 
@@ -236,11 +237,11 @@ public class CBUtil extends GEUtil {
 
             //Now we create the edges between the new Node and the parentnode and add the to the vector
             if (currentUO instanceof CBIndividual) {
-                vDiagEdges.addAll(
-                    createNewDiagramEdges(newDNode, parentNode, cbFrame, false));
+System.out.println("AAA CBUtil: createAndAddNewDiagramObjects2 vDiagEdges.addAll");
+                vDiagEdges.addAll(createNewDiagramEdges(newDNode, parentNode, cbFrame, false));
             } else {
-                vDiagEdgesWithEdgeAsEndpoint.addAll(
-                    createNewDiagramEdges(newDNode, parentNode, cbFrame, false));
+System.out.println("AAA CBUtil: createAndAddNewDiagramObjects2 vDiagEdgesWithEdgeAsEndpoint.addAll");
+                vDiagEdgesWithEdgeAsEndpoint.addAll(createNewDiagramEdges(newDNode, parentNode, cbFrame, false));
             }
 
         } //while
@@ -252,6 +253,7 @@ public class CBUtil extends GEUtil {
         }
 
         //This adds the diagramEdges as well as all the nodes
+System.out.println("AAA CBUtil: createAndAddNewDiagramObjects2 cbFrame.getDiagramDesktop().addDiagramEdges");
         cbFrame.getDiagramDesktop().addDiagramEdges(
             vDiagEdges,
             parentNode,
@@ -270,6 +272,7 @@ public class CBUtil extends GEUtil {
         DiagramNode newSourceNode, newDestNode;
         CBUserObject newSourceUO, newDestUO;
         while (it.hasNext()) {
+System.out.println("AAA CBUtil: createAndAddNewDiagramObjects2 while loop 2");
             currentEdge = (DiagramEdge) it.next();
 
             nodeAtEndOfCurrentEdge = currentEdge.getPeer(parentNode).getNode();
@@ -348,13 +351,15 @@ public class CBUtil extends GEUtil {
 
     private static Vector createNewDiagramEdges(DiagramObject initialDObject,DiagramObject newDObject,CBFrame cbFrame,boolean bBothDirections) {
 
+System.out.println("AAA CBUtil: createNewDiagramEdges start");
         assert(initialDObject != null);
         assert(newDObject != null);
         assert(cbFrame != null);
-
+System.out.println("AAA CBUtil: createNewDiagramEdges step1");
         CBUserObject initialUO = (CBUserObject) initialDObject.getUserObject();
         CBDiagramClass dc = (CBDiagramClass) initialDObject.getDiagramClass();
         HashSet links = initialUO.getEdges();
+System.out.println("AAA CBUtil: createNewDiagramEdges links.size=" + links.size());
 
         //initialUO.getObi().getLinks(initialUO.getTelosObject(), newUO.getTelosObject() );
         Vector vEdges = new Vector();
@@ -367,6 +372,7 @@ public class CBUtil extends GEUtil {
         DiagramEdge newDEdge;
         DiagramNode newDNode;
         while (itLinks.hasNext()) {
+System.out.println("AAA CBUtil: createNewDiagramEdges while loop");
             linkObject = (CBUserObject) itLinks.next();
             //It might happen that enLinks contains Individuals, so we check it first
             if (linkObject.getTelosObject() instanceof TelosLink) {
