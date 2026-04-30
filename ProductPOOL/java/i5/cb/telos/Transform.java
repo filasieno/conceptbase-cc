@@ -535,7 +535,7 @@ public class Transform
                  result=to.getSource()+" isA "+to.getDestination()+" end\n";
                  result=toFrameString(to.getSource(),true) + toFrameString(to.getDestination(),true) + result;
               } else { // Untell
-                 result=to.getSource()+"=>"+to.getDestination()+" in InstanceOf end\n";
+                 result=to.getSource()+"=>"+to.getDestination()+" in IsA end\n";
               }
               break;
           case TelosObject.ATTRIBUTE:
