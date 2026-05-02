@@ -1448,7 +1448,7 @@ select the {\tt Manager} object.
 The displayed graph is now expanded (figure \ref{fig:graph_empl}).
 
 
-\cbfigure{graph_empl}{0.9\textwidth}{The resulting graph after expanding the node {\tt Employee} with subclasses}
+\cbfigure{graph_empl}{0.3\textwidth}{The resulting graph after expanding the node {\tt Employee} with subclasses}
 
 Now we expand the node {\tt Manager}, a subclass of {\tt Employee}, by choosing the
 menu item {\bf Instances} from the popup menu for Manager. We select the menu item
@@ -1596,7 +1596,8 @@ The new instantiation link will be added to the graph.
 
 Now, we are satisfied with our changes and want to commit them in the server. So far, the
 changes have been stored in an internal buffer of CBGraph and have not been
-sent to the server. We click on the ``Commit'' button in the upper right corner.
+sent to the server. Note that the ``Commit'' button in the upper right corner gets a green color if there are changes in the
+graph to be commited. We click on the ``Commit'' button.
 CBGraph generates now Telos frames for the added objects and sends them
 to the server. If we did not make an error, all changes should be consistent
 and accepted by the server. This is shown by the appearing message box ``Changes committed''.
