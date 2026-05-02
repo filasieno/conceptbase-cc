@@ -228,8 +228,8 @@ public class CreateObjectDialog
             gbc.insets = new Insets(10, 0, 3, 30);
             gbl.setConstraints(jbCancel, gbc);
             getContentPane().add(jbCancel);
-            setPreferredSize(new Dimension(250, 150));
-            setSize(250, 150);
+            setPreferredSize(new Dimension(280, 150));
+            setSize(280, 150);
 
         }
         if (iType == TelosObject.INSTANTIATION
@@ -285,8 +285,8 @@ public class CreateObjectDialog
             gbc.insets = new Insets(10, 0, 3, 30);
             gbl.setConstraints(jbCancel, gbc);
             getContentPane().add(jbCancel);
-            setPreferredSize(new Dimension(220, 180));
-            setSize(220, 180);
+            setPreferredSize(new Dimension(250, 180));
+            setSize(250, 180);
         }
         cbFrame.getDiagramDesktop().addPropertyChangeListener("selected", this);
         handleSelectedNodes(cbFrame.getDiagramDesktop().getSelectedNodes());
