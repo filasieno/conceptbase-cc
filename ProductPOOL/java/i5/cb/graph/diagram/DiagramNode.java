@@ -276,6 +276,14 @@ public class DiagramNode
     }
 
 
+   public boolean shallBeResizable() {
+     if (this.getUserObject() != null && this.getUserObject() instanceof CBUserObject) {
+       CBUserObject u = (CBUserObject)this.getUserObject();
+       return u.isResizable();
+     } else
+       return false;
+   }
+
     public String getLabel() {
       return this.getUserObject().toString();
     }

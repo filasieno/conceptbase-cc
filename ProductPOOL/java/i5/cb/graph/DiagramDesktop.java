@@ -1601,6 +1601,9 @@ System.out.println("AAA DesgramDesktop: addEdge");
         if (Math.abs(oldZ - z) < 0.01F)
             return; // zoom did not change, nothing to do
 
+        // Determine if we are at 100% zoom
+        boolean isOriginalScale = Math.abs(z - 1.0F) < 0.001F;
+
         // 1. Capture the scaling ratio
         float f = z / oldZ;
 
@@ -1612,6 +1615,12 @@ System.out.println("AAA DesgramDesktop: addEdge");
 
         for (int ii = 0; ii < v.size(); ii++) {
             DiagramNode DN = (DiagramNode) (v.elementAt(ii));
+
+            // set resisable only at 100% zoom and of the DN was meant to be resizable
+            if (DN.shallBeResizable()) {
+               DN.setResizable(isOriginalScale);
+            }
+
             zoomer.zoom(DN);
             DN.resizeComponents(); // ticket #216
             Rectangle b = DN.getBounds();
