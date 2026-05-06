@@ -6,7 +6,7 @@
               University of Skovde, Sweden
 
 
-                      2026-04-23
+                      2026-05-06
 
 
 ConceptBase.cc is a multi-user deductive object manager mainly developed by
@@ -201,8 +201,11 @@ and provides further performance boosts for the CBserver.
 85-25 Zoom function of CBGraph now also works for zoom factors greater than 100%
 
    Parts of diagram labels were cut off when a diagram was zoomed in. This is now corrected.
-   To avoid fint size issues when chaning the graphical palette, the zoom factor is reset to 100%
-   before chaning the palette.
+   To avoid fint size issues when changing the graphical palette, the zoom factor is reset to 100%
+   before changing the palette.
+   When the zoom factor of a diagram is greater than 100%, then parts of the diagram node labels were cut off, 
+   e.g. "Empl..." instead "Employee" when resizing the diagram node. We now disable resizing at zoom factors
+   diffrent from 100%. This prevents the problem.
    https://gitlab.com/mjeu/conceptbasecc/-/issues/79   
 
 85-26 Edgeheads displayed correctly in CBGraph when zoomed in 
@@ -243,6 +246,7 @@ and provides further performance boosts for the CBserver.
    source object only had this single attribute, then the source object itself is also deleted. This
    unintended side effect is now prevented.
    https://gitlab.com/mjeu/conceptbasecc/-/issues/87 
+
 
 
 
