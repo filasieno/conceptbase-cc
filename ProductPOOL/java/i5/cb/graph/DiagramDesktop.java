@@ -1616,7 +1616,7 @@ System.out.println("AAA DesgramDesktop: addEdge");
         for (int ii = 0; ii < v.size(); ii++) {
             DiagramNode DN = (DiagramNode) (v.elementAt(ii));
 
-            // set resisable only at 100% zoom and of the DN was meant to be resizable
+            // set resizable only at 100% zoom and of the DN was meant to be resizable; prevents issue #79
             if (DN.shallBeResizable()) {
                DN.setResizable(isOriginalScale);
             }
