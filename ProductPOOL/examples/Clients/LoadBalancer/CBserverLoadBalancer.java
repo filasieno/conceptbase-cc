@@ -1,4 +1,29 @@
 /*
+* File: CBserverLoadBalancer.java 
+*
+* Author: Manfred Jeusfeld (with help from LLM)
+* Date: 2026-05-06 (2026-05-06)
+* --------------------------------------------------------------
+* License: Creative Commons CC-BY 4.0
+*
+* THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+* INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+* PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
+* LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+* (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+* OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+* CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+* OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*
+*/
+
+
+/*
+ This is a Reverse Proxy Load Balancer for the ConceptBase server. It pretends to ConceptBase
+ clients to be a ConceptBase server. But in fact it forwards their requests to a pool of ConceptBase servers
+ on localhost. When I client gracefully exits, the corresponding slot becomes free again, assuming that the
+ ConceptBase server restarts itself on the same port.
+
  To start: java CBserverLoadBalancer <shutdownKey> <balancerPort> <poolStart> <poolEnd>
  To shutdown: echo "SHUTDOWN_BALANCER <shutdownKey>" | nc localhost <balancerPort>
 */
@@ -9,7 +34,6 @@ import java.util.*;
 import java.util.concurrent.*;
 
 public class CBserverLoadBalancer {
-    // Configuration Defaults
     private static String shutdownKey = "admin_secret"; 
     private static int balancerPort = 4001;
     private static int poolStart = 4002;
@@ -21,158 +45,132 @@ public class CBserverLoadBalancer {
     private static final ExecutorService sessionPool = Executors.newCachedThreadPool();
 
     public static void main(String[] args) {
-        // 1. Parse Arguments: <key> <port> <start> <end>
         try {
             if (args.length >= 1) shutdownKey = args[0];
             if (args.length >= 2) balancerPort = Integer.parseInt(args[1]);
             if (args.length >= 3) poolStart = Integer.parseInt(args[2]);
             if (args.length >= 4) poolEnd = Integer.parseInt(args[3]);
         } catch (NumberFormatException e) {
-            System.err.println("Invalid numeric arguments. Using defaults for ports.");
+            System.err.println("Invalid numeric arguments. Using defaults.");
         }
 
-        // 2. Initialize Backend Pool
         for (int i = poolStart; i <= poolEnd; i++) {
-            FREE_SERVERS.add(i);
+            FREE_SERVERS.offer(i);
         }
-
-        // 3. Graceful Shutdown Hook[cite: 3]
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> shutdownGracefully()));
 
         try {
             serverSocket = new ServerSocket(balancerPort);
-            System.out.println("Balancer active on port: " + balancerPort);
-            System.out.println("Shutdown Key: " + shutdownKey);
-            System.out.println("Managing servers: " + poolStart + "-" + poolEnd);
+            serverSocket.setSoTimeout(5000); 
+            System.out.println("[STARTED] Balancer on port " + balancerPort);
 
             while (isRunning) {
                 try {
-                    // Unique socket per client ensures session distinction[cite: 3]
                     Socket clientSocket = serverSocket.accept();
-                    sessionPool.execute(new SessionHandler(clientSocket));
-                } catch (SocketException e) {
-                    if (!isRunning) break;
+                    sessionPool.execute(new ClientHandler(clientSocket));
+                } catch (SocketTimeoutException e) {
+                    // Check isRunning status
                 }
             }
         } catch (IOException e) {
-            if (isRunning) System.err.println("Server error: " + e.getMessage());
+            if (isRunning) System.err.println("Server Error: " + e.getMessage());
+        } finally {
+            shutdownGracefully();
         }
     }
 
-    static class SessionHandler implements Runnable {
+    private static class ClientHandler implements Runnable {
         private final Socket clientSocket;
-        private final String clientID;
         private Integer assignedPort = null;
+        private String clientID = "Unknown";
 
-        public SessionHandler(Socket socket) {
+        public ClientHandler(Socket socket) {
             this.clientSocket = socket;
-            this.clientID = socket.getRemoteSocketAddress().toString();
         }
 
         @Override
         public void run() {
             try {
-                InputStream in = clientSocket.getInputStream();
-                // PushbackInputStream peeks at the start of the stream[cite: 2]
-                PushbackInputStream pushbackIn = new PushbackInputStream(in, 4096);
+                InputStream clientIn = clientSocket.getInputStream();
+                OutputStream clientOut = clientSocket.getOutputStream();
+
+                // Initial read to check for shutdown or identity
+                byte[] initialBuffer = new byte[4096];
+                int bytesRead = clientIn.read(initialBuffer);
+                if (bytesRead == -1) return;
+
+                String firstMsg = new String(initialBuffer, 0, bytesRead);
                 
-                byte[] buffer = new byte[1024];
-                int bytesRead = pushbackIn.read(buffer);
-                
-                if (bytesRead != -1) {
-                    String initialData = new String(buffer, 0, bytesRead).trim();
-                    
-                    // Route based on the command type[cite: 2]
-                    if (initialData.startsWith("ENROLL_ME")) {
-                        handleEnrollment(pushbackIn, buffer, bytesRead);
-                    } 
-                    else if (initialData.equals("SHUTDOWN_BALANCER " + shutdownKey)) {
-                        handleRemoteShutdown();
-                    }
-                    else {
-                        sendError("Invalid Protocol or Incorrect Key.");
-                    }
+                // Check Shutdown
+                if (firstMsg.startsWith("SHUTDOWN_BALANCER") && firstMsg.contains(shutdownKey)) {
+                    System.out.println("[SHUTDOWN] Valid key received.");
+                    isRunning = false;
+                    return;
                 }
-            } catch (IOException e) {
-                System.err.println("Session Error [" + clientID + "]: " + e.getMessage());
+
+                // Acquire Backend Port
+                assignedPort = FREE_SERVERS.poll(10, TimeUnit.SECONDS);
+                if (assignedPort == null) {
+                    System.err.println("[REJECT] No backend servers available.");
+                    return;
+                }
+
+                try (Socket backendSocket = new Socket("localhost", assignedPort)) {
+                    backendSocket.setTcpNoDelay(true);
+                    clientSocket.setTcpNoDelay(true);
+                    
+                    OutputStream backendOut = backendSocket.getOutputStream();
+                    InputStream backendIn = backendSocket.getInputStream();
+
+                    // Forward the first message we already pulled from the stream
+                    backendOut.write(initialBuffer, 0, bytesRead);
+                    backendOut.flush();
+
+                    // Start Bidirectional Proxying
+                    Thread t1 = new Thread(() -> proxy(clientIn, backendOut, "C->B"));
+                    Thread t2 = new Thread(() -> proxy(backendIn, clientOut, "B->C"));
+                    
+                    t1.start();
+                    t2.start();
+
+                    // Wait for both directions to finish
+                    t1.join();
+                    t2.join();
+                } 
+            } catch (Exception e) {
+                System.err.println("[ERROR] Session interrupted: " + e.getMessage());
             } finally {
                 cleanup();
             }
         }
 
-        private void handleEnrollment(PushbackInputStream pushbackIn, byte[] buffer, int len) throws IOException {
-            assignedPort = FREE_SERVERS.poll();
-            if (assignedPort == null) {
-                sendError("No free CBservers available.");
-                return;
-            }
-
-            System.out.println("[CONNECT] " + clientID + " -> Port " + assignedPort);
-            pushbackIn.unread(buffer, 0, len); // Restore stream for the backend server[cite: 2, 3]
-            
-            try (Socket backendSocket = new Socket("localhost", assignedPort)) {
-                // Bi-directional proxying of raw ConceptBase bytes[cite: 3]
-                Thread c2s = new Thread(() -> bridge(pushbackIn, clientSocket, backendSocket, true));
-                Thread s2c = new Thread(() -> bridge(backendSocket.getInputStream(), backendSocket, clientSocket, false));
-                c2s.start(); s2c.start();
-                c2s.join(); s2c.join();
-            } catch (Exception e) {
-                System.err.println("Backend Connection Failed: " + e.getMessage());
-            }
-        }
-
-        private void handleRemoteShutdown() throws IOException {
-            System.out.println("[ADMIN] Authorized shutdown from " + clientID);
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            out.println("ACK: Shutting down.");
-            clientSocket.close();
-            System.exit(0); // Triggers the Shutdown Hook[cite: 3]
-        }
-
-        private void bridge(InputStream in, Socket src, Socket dest, boolean isClientSource) {
-            try (OutputStream out = dest.getOutputStream()) {
+        private void proxy(InputStream in, OutputStream out, String direction) {
+            try {
                 byte[] buffer = new byte[8192];
                 int read;
                 while ((read = in.read(buffer)) != -1) {
-                    if (isClientSource) {
-                        String chunk = new String(buffer, 0, read);
-                        // Monitor for session end[cite: 1, 2]
-                        if (chunk.contains("CANCEL_ME")) {
-                            System.out.println("[CANCEL] Session closing for " + clientID);
-                        }
-                    }
                     out.write(buffer, 0, read);
                     out.flush();
                 }
-            } catch (IOException ignored) {}
+            } catch (IOException e) {
+                // Connection likely closed by one end
+            }
         }
 
         private void cleanup() {
             if (assignedPort != null) {
-                FREE_SERVERS.offer(assignedPort); // Release port back to availability pool[cite: 3]
+                FREE_SERVERS.offer(assignedPort);
                 System.out.println("[RELEASE] Port " + assignedPort + " returned to pool.");
                 assignedPort = null;
             }
             try { clientSocket.close(); } catch (IOException ignored) {}
         }
-
-        private void sendError(String msg) throws IOException {
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            out.println("ERROR: " + msg);
-            clientSocket.close();
-        }
     }
 
     private static void shutdownGracefully() {
         isRunning = false;
-        System.out.println("\n[SHUTDOWN] Starting cleanup...");
         try {
             if (serverSocket != null) serverSocket.close();
-            sessionPool.shutdown();
-            if (!sessionPool.awaitTermination(30, TimeUnit.SECONDS)) {
-                sessionPool.shutdownNow();
-            }
-            System.out.println("[SHUTDOWN] Exited cleanly.");
+            sessionPool.shutdownNow();
         } catch (Exception e) {
             System.err.println("Shutdown error: " + e.getMessage());
         }
