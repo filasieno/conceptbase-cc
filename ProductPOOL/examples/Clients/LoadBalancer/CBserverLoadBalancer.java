@@ -124,6 +124,8 @@ public class CBserverLoadBalancer {
                     // Forward the first message we already pulled from the stream
                     backendOut.write(initialBuffer, 0, bytesRead);
                     backendOut.flush();
+                    System.err.print("[INITIAL_MESSAGE] ");
+                    System.err.write(initialBuffer, 0, bytesRead);
 
                     // Start Bidirectional Proxying
                     Thread t1 = new Thread(() -> proxy(clientIn, backendOut, "C->B"));
@@ -150,6 +152,7 @@ public class CBserverLoadBalancer {
                 while ((read = in.read(buffer)) != -1) {
                     out.write(buffer, 0, read);
                     out.flush();
+                    System.err.write(buffer, 0, read);
                 }
             } catch (IOException e) {
                 // Connection likely closed by one end
