@@ -33,10 +33,10 @@ More, see: https://conceptbase.sourceforge.net/userManual85/cbm007.html#sec%3Apu
 java CBserverLoadBalancer mysecret123 4001 5001 5004
 
 mysecret123: example of a secret key to shut down the load balancer. 
-4001: the port to which the load balancer listens for ConceptBase clients connects. This is also the deafult port
+4001: the port to which the load balancer listens for ConceptBase clients connects. This is also the default port
       number of a ConceptBase server
-5001: The first pool server
-5004: The last pool server
+5001: Port number of the first pool server
+5004: Port number of the last pool server
 
 
 (3) Connections and restarts
@@ -47,7 +47,7 @@ do not see any difference with the behavior of a normal CBserver.
 
 The first message of a client is an ENROLL_ME message. The load balancer will then assign one of the pool
 servers to that client and pass the request to the pool server and return its answers back to the client.
-The last message of a client is normally a CANCEL_ME message. This will also be passwed to the connected pool server,
+The last message of a client is normally a CANCEL_ME message. This will also be passed to the connected pool server,
 causing it to shutdown and restart (option -r). The pool server is then set to be available again by the
 load balancer.
 
@@ -73,7 +73,7 @@ This is CBShell, the command line interface to ConceptBase.cc
 Successfully connected to server
 [localhost:5001]>stop
 
-It is a good idea not to make the portnumbers of the pool servers visiable outside localhost.
+It is a good idea not to make the portnumbers of the pool servers visible outside localhost.
 
 
 
