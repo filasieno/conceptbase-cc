@@ -7,12 +7,12 @@
 # Release:     %R%
 #
 # -----------------------------------------
-# Makefile fuer $CB_POOL/examples/Clients
+# Makefile fuer $CB_POOL/examples/Clients/LoadBalancer
 #
 #
 
 # Wurzel des Pool-Verzeichnis relativ zum aktuellen Verzeichnis
-POOL_ROOT=../..
+POOL_ROOT=../../..
 
 # Namen der Makefiles 
 CONFIG_MK=$(word 1,$(wildcard $(POOL_ROOT)/config.mk $(POOL_ROOT)/src/config.mk))
@@ -26,16 +26,20 @@ include $(CONFIG_MK)
 # Lokale Variablen
 #---------------------------------------
 # Alle SubDirectories
-SubDirs=C++Client PrologClient TclClient LogClient JavaClient C_Client WebClient LoadBalancer
+SubDirs=
 
 # Aktuelles Verzeichnis relativ zur POOL-Wurzel (endet mit /)
-CurrDir=examples/Clients/
+CurrDir=examples/Clients/LoadBalancer/
 
 # Die Sourcen
 MK_SOURCES=Makefile
 
+EXPORTFILES=CBserverLoadBalancer.java \
+	README.txt
+
+
 # Kurze Beschreibung der Komponente
-INFO_TXT=Verzeichnis fuer alle Beispiel-Clients
+INFO_TXT=Directory of the ConceptBase Load Balancer
 
 #---------------------------------------
 # Lokale Regeln
