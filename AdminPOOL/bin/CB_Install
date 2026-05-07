@@ -46,6 +46,7 @@ PRODUCT_DIRS="include \
 	examples/Clients/C++Client \
 	examples/Clients/JavaClient \
 	examples/Clients/WebClient \
+	examples/Clients/LoadBalancer \
 	examples/Clients/C_Client \
 	examples/FLIGHT \
 	examples/QUERIES \
@@ -98,6 +99,7 @@ NORMAL_EXPORT="doc/UserManual \
 	examples/Clients/C++Client \
 	examples/Clients/C_Client \
 	examples/Clients/WebClient \
+	examples/Clients/LoadBalancer \
 	examples/libtelos \
 	examples/ECArules \
 	examples/FLIGHT \
@@ -223,6 +225,8 @@ cp $CB_POOL/examples/Clients/JavaClient/*.java $CB_PRODUCT/examples/Clients/Java
 cp $CB_POOL/examples/Clients/JavaClient/README $CB_PRODUCT/examples/Clients/JavaClient
 
 cp $CB_POOL/examples/Clients/WebClient/*.* $CB_PRODUCT/examples/Clients/WebClient
+cp $CB_POOL/examples/Clients/LoadBalancer/*.java $CB_PRODUCT/examples/Clients/LoadBalancer
+cp $CB_POOL/examples/Clients/LoadBalancer/*.txt $CB_PRODUCT/examples/Clients/LoadBalancer
 
 cp $CB_POOL/examples/Clients/SWI-CLIENT/*.pl $CB_PRODUCT/examples/Clients/SWI-CLIENT
 cp $CB_POOL/examples/Clients/SWI-CLIENT/*.txt $CB_PRODUCT/examples/Clients/SWI-CLIENT
