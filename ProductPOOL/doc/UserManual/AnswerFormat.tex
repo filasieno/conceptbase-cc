@@ -8,7 +8,7 @@ and one for returning a list of object frames. These two formats can
 be extended by user-defined answer formats.
 
 
-Examples for answer formats are available from the GitLab,
+Examples for answer formats are available from GitLab,
 see \url{https://gitlab.com/mjeu/conceptbasecc/-/tree/master/AdminPOOL/ConceptBase_HOW-TO/Design%20customized%20answer%20formats%20for%20queries}.
 
 To understand ConceptBase answer formats, we first look at
@@ -493,7 +493,7 @@ Note that the argument {\tt expr} can be another pattern such as \verb+{this}+. 
 \verb+{Oid({this})}+ is equivalent to \verb+{this.oid}+. However, the {\tt Oid} pattern is
 also applicable to patterns not including \verb+{this}+.
 
-Examples are available from the GitLab, see \url{https://gitlab.com/mjeu/conceptbasecc/-/tree/master/AdminPOOL/ConceptBase_HOW-TO/Export%20models%20as%20Graphviz%20specifications}.
+Examples are available from GitLab, see \url{https://gitlab.com/mjeu/conceptbasecc/-/tree/master/AdminPOOL/ConceptBase_HOW-TO/Export%20models%20as%20Graphviz%20specifications}.
 
 The above set of patterns can be extended by user-defined functions via LPI plugins.
 In principle, any routine that can be called from
@@ -618,7 +618,7 @@ The predicate \verb+{ISFIRSTFRAME()}+ is true, when ConceptBase starts with proc
 answer frames. It is false, when the first frame has been processed. The predicate \verb+{ISlASTFRAME()}+
 is true when ConceptBase starts with processing the last answer frame for a given query. Otherwise,
 it is false.
-An example for conditional expressions is provided in the GitLab, see
+An example for conditional expressions is provided in GitLab, see
 file "csv.sml" in \url{https://gitlab.com/mjeu/conceptbasecc/-/tree/master/AdminPOOL/ConceptBase_HOW-TO/Design%20customized%20answer%20formats%20for%20queries}.
 In most cases, the {\tt IFTHENELSE} construct can be avoided by a more elegant query class
 formulation.
