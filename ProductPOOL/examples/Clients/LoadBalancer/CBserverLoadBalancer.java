@@ -28,11 +28,19 @@
  To shutdown: echo "SHUTDOWN_BALANCER <shutdownKey>" | nc localhost <balancerPort>
 */
 
+
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.regex.*;
 
+/**
+ * Stateful Reverse Proxy Load Balancer for ConceptBase.
+ * Routes clients with the same username to the same backend server instance.
+ * Handles fragmented initial handshakes by buffering until the protocol message is complete.
+ */
 public class CBserverLoadBalancer {
     private static String shutdownKey = "admin_secret"; 
     private static int balancerPort = 4001;
@@ -43,6 +51,11 @@ public class CBserverLoadBalancer {
     private static ServerSocket serverSocket;
     private static final BlockingQueue<Integer> FREE_SERVERS = new LinkedBlockingQueue<>();
     private static final ExecutorService sessionPool = Executors.newCachedThreadPool();
+
+    // Mapping of Username -> Assigned Port
+    private static final Map<String, Integer> USER_TO_PORT = new ConcurrentHashMap<>();
+    // Mapping of Port -> Active Connection Count
+    private static final Map<Integer, Integer> PORT_REF_COUNT = new ConcurrentHashMap<>();
 
     public static void main(String[] args) {
         try {
@@ -61,7 +74,7 @@ public class CBserverLoadBalancer {
         try {
             serverSocket = new ServerSocket(balancerPort);
             serverSocket.setSoTimeout(5000); 
-            System.out.println("[STARTED] Balancer on port " + balancerPort);
+            System.out.println("[STARTED] Stateful CBserverLoadBalancer on port " + balancerPort);
 
             while (isRunning) {
                 try {
@@ -81,7 +94,7 @@ public class CBserverLoadBalancer {
     private static class ClientHandler implements Runnable {
         private final Socket clientSocket;
         private Integer assignedPort = null;
-        private String clientID = "Unknown";
+        private String detectedUser = null;
 
         public ClientHandler(Socket socket) {
             this.clientSocket = socket;
@@ -90,82 +103,130 @@ public class CBserverLoadBalancer {
         @Override
         public void run() {
             try {
+                clientSocket.setTcpNoDelay(true);
                 InputStream clientIn = clientSocket.getInputStream();
                 OutputStream clientOut = clientSocket.getOutputStream();
 
-                // Initial read to check for shutdown or identity
-                byte[] initialBuffer = new byte[4096];
-                int bytesRead = clientIn.read(initialBuffer);
-                if (bytesRead == -1) return;
+                // 1. Buffer the handshake to prevent truncation
+                ByteArrayOutputStream handshakeCollector = new ByteArrayOutputStream();
+                byte[] readBuffer = new byte[8192];
+                int bytesRead;
 
-                String firstMsg = new String(initialBuffer, 0, bytesRead);
-                
-                // Check Shutdown
-                if (firstMsg.startsWith("SHUTDOWN_BALANCER") && firstMsg.contains(shutdownKey)) {
-                    System.out.println("[SHUTDOWN] Valid key received.");
-                    isRunning = false;
-                    return;
+                while (true) {
+                    bytesRead = clientIn.read(readBuffer);
+                    if (bytesRead == -1) return;
+                    handshakeCollector.write(readBuffer, 0, bytesRead);
+                    
+                    byte[] currentBytes = handshakeCollector.toByteArray();
+                    int offset = (currentBytes[0] == 'X') ? 5 : 0;
+                    String currentMsg = new String(currentBytes, offset, Math.max(0, currentBytes.length - offset));
+
+                    // Check for administrative shutdown immediately
+                    if (currentMsg.trim().startsWith("SHUTDOWN_BALANCER " + shutdownKey)) {
+                        System.err.println("[ADMIN] Shutdown triggered.");
+                        isRunning = false;
+                        return;
+                    }
+
+                    // ConceptBase protocol message ends with "])."
+                    if (currentMsg.contains("ENROLL_ME") && currentMsg.contains("]).")) {
+                        detectedUser = extractUsername(currentMsg);
+                        break; 
+                    }
+                    
+                    // Safety: if it's not an ENROLL_ME or too large, proceed
+                    if (handshakeCollector.size() > 4096 || !currentMsg.contains("ipcmessage")) break;
                 }
 
-                // Acquire Backend Port
-                assignedPort = FREE_SERVERS.poll(10, TimeUnit.SECONDS);
+                byte[] fullHandshake = handshakeCollector.toByteArray();
+                int finalOffset = (fullHandshake[0] == 'X') ? 5 : 0;
+                String finalMsgStr = new String(fullHandshake, finalOffset, Math.max(0, fullHandshake.length - finalOffset));
+                System.err.println("[INITIAL_MESSAGE] " + finalMsgStr.trim());
+
+                // 2. Atomic Sticky Port Assignment
+                synchronized (USER_TO_PORT) {
+                    if (detectedUser != null && USER_TO_PORT.containsKey(detectedUser)) {
+                        assignedPort = USER_TO_PORT.get(detectedUser);
+                        int count = PORT_REF_COUNT.getOrDefault(assignedPort, 0) + 1;
+                        PORT_REF_COUNT.put(assignedPort, count);
+                        System.err.println("[STICKY] User " + detectedUser + " -> Port " + assignedPort + " (Active: " + count + ")");
+                    } else {
+                        assignedPort = FREE_SERVERS.poll(10, TimeUnit.SECONDS);
+                        if (assignedPort != null) {
+                            if (detectedUser != null) {
+                                USER_TO_PORT.put(detectedUser, assignedPort);
+                            }
+                            PORT_REF_COUNT.put(assignedPort, 1);
+                            System.err.println("[ASSIGN] User " + (detectedUser != null ? detectedUser : "Guest") + " -> Port " + assignedPort);
+                        }
+                    }
+                }
+
                 if (assignedPort == null) {
-                    System.err.println("[REJECT] No backend servers available.");
+                    new PrintWriter(clientOut, true).println("ERROR: No backends available.");
                     return;
                 }
 
-                try (Socket backendSocket = new Socket("localhost", assignedPort)) {
+                // 3. Bidirectional Proxy
+                try (Socket backendSocket = new Socket("127.0.0.1", assignedPort)) {
                     backendSocket.setTcpNoDelay(true);
-                    clientSocket.setTcpNoDelay(true);
-                    
-                    OutputStream backendOut = backendSocket.getOutputStream();
                     InputStream backendIn = backendSocket.getInputStream();
+                    OutputStream backendOut = backendSocket.getOutputStream();
 
-                    // Forward the first message we already pulled from the stream
-                    backendOut.write(initialBuffer, 0, bytesRead);
+                    Thread b2c = new Thread(() -> proxy(backendIn, clientOut));
+                    b2c.start();
+
+                    backendOut.write(fullHandshake);
                     backendOut.flush();
-                    System.err.print("[INITIAL_MESSAGE] ");
-                    System.err.write(initialBuffer, 0, bytesRead);
 
-                    // Start Bidirectional Proxying
-                    Thread t1 = new Thread(() -> proxy(clientIn, backendOut, "C->B"));
-                    Thread t2 = new Thread(() -> proxy(backendIn, clientOut, "B->C"));
-                    
-                    t1.start();
-                    t2.start();
-
-                    // Wait for both directions to finish
-                    t1.join();
-                    t2.join();
+                    proxy(clientIn, backendOut);
+                    b2c.join();
                 } 
             } catch (Exception e) {
-                System.err.println("[ERROR] Session interrupted: " + e.getMessage());
+                // Connection closed
             } finally {
                 cleanup();
             }
         }
 
-        private void proxy(InputStream in, OutputStream out, String direction) {
+        private String extractUsername(String msg) {
+            Pattern p = Pattern.compile("\\[\\s*\"[^\"]*\"\\s*,\\s*\"([^\"]+)\"\\s*\\]");
+            Matcher m = p.matcher(msg);
+            return m.find() ? m.group(1) : null;
+        }
+
+        private void proxy(InputStream in, OutputStream out) {
             try {
-                byte[] buffer = new byte[8192];
+                byte[] buffer = new byte[16384];
                 int read;
                 while ((read = in.read(buffer)) != -1) {
                     out.write(buffer, 0, read);
                     out.flush();
                     System.err.write(buffer, 0, read);
                 }
-            } catch (IOException e) {
-                // Connection likely closed by one end
-            }
+            } catch (IOException ignored) { }
         }
 
         private void cleanup() {
             if (assignedPort != null) {
-                FREE_SERVERS.offer(assignedPort);
-                System.out.println("[RELEASE] Port " + assignedPort + " returned to pool.");
+                synchronized (USER_TO_PORT) {
+                    Integer count = PORT_REF_COUNT.get(assignedPort);
+                    if (count != null) {
+                        count--;
+                        if (count <= 0) {
+                            PORT_REF_COUNT.remove(assignedPort);
+                            if (detectedUser != null) USER_TO_PORT.remove(detectedUser);
+                            FREE_SERVERS.offer(assignedPort);
+                            System.err.println("\n[RELEASE] Port " + assignedPort + " clients dropped to 0. Returned to pool.");
+                        } else {
+                            PORT_REF_COUNT.put(assignedPort, count);
+                            System.err.println("\n[INFO] Port " + assignedPort + " active clients: " + count);
+                        }
+                    }
+                }
                 assignedPort = null;
             }
-            try { clientSocket.close(); } catch (IOException ignored) {}
+            try { clientSocket.close(); } catch (IOException ignored) { }
         }
     }
 
@@ -174,8 +235,8 @@ public class CBserverLoadBalancer {
         try {
             if (serverSocket != null) serverSocket.close();
             sessionPool.shutdownNow();
-        } catch (Exception e) {
-            System.err.println("Shutdown error: " + e.getMessage());
-        }
+        } catch (Exception e) { }
     }
 }
+
+
