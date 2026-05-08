@@ -1191,6 +1191,10 @@ object label by ConceptBase. Useful when calling CBShell scripts within regular 
 that pass parameters with special characters to the CBShell scripts.
 See also section \ref{sec:shellintegration}.
 
+\item[-un username] configures CBShell to use "username" instead the username as assigned by the 
+operating system to connect to a ConceptBase server. Only required in special circumstances, e.g.
+when your own username shall not be disclosed.
+
 \item[params] At most nine user-defined positional parameters can be supplied. The are bound
 to the CBShell variables \$1 to \$9. The CBShell variable \$0 is bound to the name of the scriptfile.
 

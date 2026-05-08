@@ -83,6 +83,8 @@ public class CBShell {
     private static char defaultArgDelimiter='"';  // default argument delimiter
     private static char argDelimiter;             // for enclosing arguments that have blanks; either " or '
 
+    private String cblientUsername = null;   // can be set by -un command line parameter
+
     /**
      * Starts a new shell, without Server.
      */
@@ -112,6 +114,14 @@ public class CBShell {
                       cbs.scriptFile=args[i];
                   else {
                       System.out.println("Missing scriptFile for option '-f'");
+                      System.exit(1);
+                  }
+              } else if (args[i].equals("-un")) {
+                  i++;
+                  if (i<args.length)
+                      cbs.cblientUsername=args[i];
+                  else {
+                      System.out.println("Missing username for '-u'");
                       System.exit(1);
                   }
               }
@@ -410,7 +420,7 @@ public class CBShell {
           // Wait additionally 0.2 second to make sure that server is up and running
           Thread.sleep(200);
           //connect to server
-          cbClient=new CBclient("localhost", Integer.parseInt(port), "CBshell", null);
+          cbClient=new CBclient("localhost", Integer.parseInt(port), "CBshell", cblientUsername);
           cbClient.setTimeOut(36000000); // ten hours timeout
           isConnected=true;
           bServerStarted=true;
@@ -538,8 +548,9 @@ public class CBShell {
             if (currentCommand.length >= 3)
                port=currentCommand[2];
             try {
-                //connect to running server; null is used to indicate that username is determined by cbClient
-                cbClient=new CBclient(hostname, Integer.parseInt(port), "CBshell", null);
+                // connect to running server
+                // if cblientUsername is null then username is determined by cbClient (default)
+                cbClient=new CBclient(hostname, Integer.parseInt(port), "CBshell", cblientUsername);
                 cbClient.setTimeOut(36000000); // ten hours timeout
                 isConnected=true;
                 if (scriptFile==null && bDisplayPrompt)
