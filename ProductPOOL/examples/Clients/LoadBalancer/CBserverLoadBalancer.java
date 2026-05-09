@@ -2,7 +2,7 @@
 * File: CBserverLoadBalancer.java 
 *
 * Author: Manfred Jeusfeld (with help from LLM)
-* Date: 2026-05-06 (2026-05-06)
+* Date: 2026-05-06 (2026-05-09)
 * --------------------------------------------------------------
 * License: Creative Commons CC-BY 4.0
 *
@@ -29,7 +29,6 @@
 */
 
 
-
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -38,8 +37,7 @@ import java.util.regex.*;
 
 /**
  * Stateful Reverse Proxy Load Balancer for ConceptBase.
- * Routes clients with the same username to the same backend server instance.
- * Handles fragmented initial handshakes by buffering until the protocol message is complete.
+ * Enhanced with patient handshake collection and transient PingClient handling.
  */
 public class CBserverLoadBalancer {
     private static String shutdownKey = "admin_secret"; 
@@ -52,9 +50,7 @@ public class CBserverLoadBalancer {
     private static final BlockingQueue<Integer> FREE_SERVERS = new LinkedBlockingQueue<>();
     private static final ExecutorService sessionPool = Executors.newCachedThreadPool();
 
-    // Mapping of Username -> Assigned Port
     private static final Map<String, Integer> USER_TO_PORT = new ConcurrentHashMap<>();
-    // Mapping of Port -> Active Connection Count
     private static final Map<Integer, Integer> PORT_REF_COUNT = new ConcurrentHashMap<>();
 
     public static void main(String[] args) {
@@ -81,7 +77,7 @@ public class CBserverLoadBalancer {
                     Socket clientSocket = serverSocket.accept();
                     sessionPool.execute(new ClientHandler(clientSocket));
                 } catch (SocketTimeoutException e) {
-                    // Check isRunning status
+                    // Periodic check of isRunning status
                 }
             }
         } catch (IOException e) {
@@ -95,6 +91,7 @@ public class CBserverLoadBalancer {
         private final Socket clientSocket;
         private Integer assignedPort = null;
         private String detectedUser = null;
+        private boolean isPingOnly = false;
 
         public ClientHandler(Socket socket) {
             this.clientSocket = socket;
@@ -104,12 +101,13 @@ public class CBserverLoadBalancer {
         public void run() {
             try {
                 clientSocket.setTcpNoDelay(true);
+                clientSocket.setKeepAlive(true);  // for not loosing messages or only receiving partial messages
                 InputStream clientIn = clientSocket.getInputStream();
                 OutputStream clientOut = clientSocket.getOutputStream();
 
-                // 1. Buffer the handshake to prevent truncation
+                // 1. Patient Handshake Collection
                 ByteArrayOutputStream handshakeCollector = new ByteArrayOutputStream();
-                byte[] readBuffer = new byte[8192];
+                byte[] readBuffer = new byte[16384];
                 int bytesRead;
 
                 while (true) {
@@ -119,31 +117,37 @@ public class CBserverLoadBalancer {
                     
                     byte[] currentBytes = handshakeCollector.toByteArray();
                     int offset = (currentBytes[0] == 'X') ? 5 : 0;
-                    String currentMsg = new String(currentBytes, offset, Math.max(0, currentBytes.length - offset));
+                    if (currentBytes.length <= offset) continue;
 
-                    // Check for administrative shutdown immediately
+                    String currentMsg = new String(currentBytes, offset, currentBytes.length - offset);
+
                     if (currentMsg.trim().startsWith("SHUTDOWN_BALANCER " + shutdownKey)) {
                         System.err.println("[ADMIN] Shutdown triggered.");
                         isRunning = false;
                         return;
                     }
 
-                    // ConceptBase protocol message ends with "])."
+                    // Only break when we see the protocol terminator to ensure full extraction
                     if (currentMsg.contains("ENROLL_ME") && currentMsg.contains("]).")) {
                         detectedUser = extractUsername(currentMsg);
+                        if (currentMsg.contains("\"PingClient\"")) {
+                            isPingOnly = true;
+                        }
                         break; 
                     }
                     
-                    // Safety: if it's not an ENROLL_ME or too large, proceed
-                    if (handshakeCollector.size() > 4096 || !currentMsg.contains("ipcmessage")) break;
+                    // Safety limit to prevent memory issues from malformed clients
+                    if (handshakeCollector.size() > 8192) break;
                 }
 
                 byte[] fullHandshake = handshakeCollector.toByteArray();
+                
+                // Tracing the initial message; should be an ENROLL_ME message
                 int finalOffset = (fullHandshake[0] == 'X') ? 5 : 0;
                 String finalMsgStr = new String(fullHandshake, finalOffset, Math.max(0, fullHandshake.length - finalOffset));
                 System.err.println("[INITIAL_MESSAGE] " + finalMsgStr.trim());
 
-                // 2. Atomic Sticky Port Assignment
+                // 2. Atomic Port Assignment
                 synchronized (USER_TO_PORT) {
                     if (detectedUser != null && USER_TO_PORT.containsKey(detectedUser)) {
                         assignedPort = USER_TO_PORT.get(detectedUser);
@@ -153,11 +157,14 @@ public class CBserverLoadBalancer {
                     } else {
                         assignedPort = FREE_SERVERS.poll(10, TimeUnit.SECONDS);
                         if (assignedPort != null) {
-                            if (detectedUser != null) {
-                                USER_TO_PORT.put(detectedUser, assignedPort);
-                            }
                             PORT_REF_COUNT.put(assignedPort, 1);
-                            System.err.println("[ASSIGN] User " + (detectedUser != null ? detectedUser : "Guest") + " -> Port " + assignedPort);
+                            // Skip sticky mapping for pings or unknown users
+                            if (detectedUser != null && !isPingOnly) {
+                                USER_TO_PORT.put(detectedUser, assignedPort);
+                                System.err.println("[ASSIGN] User " + detectedUser + " -> Port " + assignedPort);
+                            } else {
+                                System.err.println("[TEMP] Ping/Guest -> Port " + assignedPort);
+                            }
                         }
                     }
                 }
@@ -167,7 +174,7 @@ public class CBserverLoadBalancer {
                     return;
                 }
 
-                // 3. Bidirectional Proxy
+                // 3. Proxying
                 try (Socket backendSocket = new Socket("127.0.0.1", assignedPort)) {
                     backendSocket.setTcpNoDelay(true);
                     InputStream backendIn = backendSocket.getInputStream();
@@ -202,7 +209,6 @@ public class CBserverLoadBalancer {
                 while ((read = in.read(buffer)) != -1) {
                     out.write(buffer, 0, read);
                     out.flush();
-                    System.err.write(buffer, 0, read);
                 }
             } catch (IOException ignored) { }
         }
@@ -215,12 +221,14 @@ public class CBserverLoadBalancer {
                         count--;
                         if (count <= 0) {
                             PORT_REF_COUNT.remove(assignedPort);
-                            if (detectedUser != null) USER_TO_PORT.remove(detectedUser);
+                            // Only remove sticky mapping if this specific port was the one mapped
+                            if (detectedUser != null && assignedPort.equals(USER_TO_PORT.get(detectedUser))) {
+                                USER_TO_PORT.remove(detectedUser);
+                            }
                             FREE_SERVERS.offer(assignedPort);
-                            System.err.println("\n[RELEASE] Port " + assignedPort + " clients dropped to 0. Returned to pool.");
+                            System.err.println("\n[RELEASE] Port " + assignedPort + " returned to pool.");
                         } else {
                             PORT_REF_COUNT.put(assignedPort, count);
-                            System.err.println("\n[INFO] Port " + assignedPort + " active clients: " + count);
                         }
                     }
                 }
@@ -238,5 +246,3 @@ public class CBserverLoadBalancer {
         } catch (Exception e) { }
     }
 }
-
-
