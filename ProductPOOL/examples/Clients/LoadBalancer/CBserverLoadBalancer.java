@@ -226,9 +226,10 @@ public class CBserverLoadBalancer {
                                 USER_TO_PORT.remove(detectedUser);
                             }
                             FREE_SERVERS.offer(assignedPort);
-                            System.err.println("\n[RELEASE] Port " + assignedPort + " returned to pool.");
+                            System.err.println("[RELEASE] Port " + assignedPort + " returned to pool.");
                         } else {
                             PORT_REF_COUNT.put(assignedPort, count);
+                            System.err.println("[RELEASE] Port " + assignedPort + " active clients: " + count);
                         }
                     }
                 }
