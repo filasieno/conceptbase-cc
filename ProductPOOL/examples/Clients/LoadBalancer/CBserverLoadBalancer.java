@@ -58,21 +58,30 @@ public class CBserverLoadBalancer {
     private static int balancerPort = 4001;
     private static int poolStart = 4002;
     private static int poolEnd = 4010;
-    private static String configFilePath = null;
-    private static boolean isFixed = false;
+    private static String configFilePath = null;  // stores USER_TO_PORT mapping
+    private static boolean isFixed = false;       // will keep USER_TO_PORT mapping permanent
     
-    private static volatile boolean isRunning = true;
+    private static volatile boolean isRunning = true;  // load balancer is running
     private static volatile boolean savedOnShutdown = false; 
     private static ServerSocket serverSocket;
     private static final BlockingQueue<Integer> FREE_SERVERS = new LinkedBlockingQueue<>();
     private static final ExecutorService sessionPool = Executors.newCachedThreadPool();
     private static final ScheduledExecutorService persistenceScheduler = Executors.newSingleThreadScheduledExecutor();
 
-    private static final Map<String, Integer> USER_TO_PORT = new ConcurrentHashMap<>();
-    private static final Map<Integer, Integer> PORT_REF_COUNT = new ConcurrentHashMap<>();
+    // stores username:portnr pairs
+    private static final Map<String, Integer> USER_TO_PORT = new ConcurrentHashMap<>();    
+
+    // count how many clients are served by the same port
+    private static final Map<Integer, Integer> PORT_REF_COUNT = new ConcurrentHashMap<>(); 
+
+
 
     public static void main(String[] args) {
+
         List<String> remainingArgs = new ArrayList<>();
+
+
+        // scan for -c and -fix command line parameters
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("-c") && i + 1 < args.length) {
                 configFilePath = args[++i];
@@ -83,6 +92,8 @@ public class CBserverLoadBalancer {
             }
         }
 
+        // rest is for finding the shutdown key, the portnr of the load balancer and the 
+        // interval of pool server port numbers
         try {
             if (remainingArgs.size() >= 1) shutdownKey = remainingArgs.get(0);
             if (remainingArgs.size() >= 2) balancerPort = Integer.parseInt(remainingArgs.get(1));
@@ -145,6 +156,12 @@ public class CBserverLoadBalancer {
         }
     }
 
+
+    /**
+    loadUserPortMapping(List<Integer> initialPool)
+    - read the user to port mapping from the file specified in the -c command line parameter
+    */
+
     private static void loadUserPortMapping(List<Integer> initialPool) {
         File file = new File(configFilePath);
         if (!file.exists()) {
@@ -176,6 +193,12 @@ public class CBserverLoadBalancer {
         }
     }
 
+
+    /**
+    saveUserPortMapping()
+    - saves the user to port mapping to the file specified in the -c command line parameter
+    - this can then be loaded at the next start-up of the load balancer
+    */
     private static synchronized void saveUserPortMapping() {
         if (configFilePath == null || USER_TO_PORT.isEmpty()) return;
         System.err.println("[SAVE] Persisting " + USER_TO_PORT.size() + " mappings...");
@@ -189,6 +212,27 @@ public class CBserverLoadBalancer {
             System.err.println("[SAVE-ERROR] " + e.getMessage());
         }
     }
+
+
+    // last operations of main()
+    private static synchronized void shutdownGracefully() {
+        if (savedOnShutdown) return; 
+        isRunning = false;
+        persistenceScheduler.shutdownNow(); 
+        saveUserPortMapping(); 
+        savedOnShutdown = true;
+        try {
+            if (serverSocket != null) serverSocket.close();
+            sessionPool.shutdownNow();
+        } catch (Exception e) { }
+    }
+
+
+    /**
+    * ClientHandler
+    * Internal class to provide the run() for reading new incoming ENROLL_MEs of clients and then spawing the proxy thread 
+    * for the new client
+    */
 
     private static class ClientHandler implements Runnable {
         private final Socket clientSocket;
@@ -268,11 +312,11 @@ public class CBserverLoadBalancer {
                 try (Socket backend = new Socket("127.0.0.1", assignedPort)) {
                     final InputStream bIn = backend.getInputStream();
                     final OutputStream bOut = backend.getOutputStream();
-                    Thread b2c = new Thread(() -> proxy(bIn, clientOut));
+                    Thread b2c = new Thread(() -> proxy(bIn, clientOut));  // stream answers from back pool server to client
                     b2c.start();
                     bOut.write(collector.toByteArray());
                     bOut.flush();
-                    proxy(clientIn, bOut);
+                    proxy(clientIn, bOut); // stream messages from client to back pool server
                     b2c.join();
                 }
             } catch (Exception e) {
@@ -282,11 +326,13 @@ public class CBserverLoadBalancer {
             }
         }
 
+        // overkill pattern matcher for a user name
         private String extractUsername(String msg) {
             Matcher m = Pattern.compile("\\[\\s*\"[^\"]*\"\\s*,\\s*\"([^\"]+)\"\\s*\\]").matcher(msg);
             return m.find() ? m.group(1) : null;
         }
 
+        // keep reading messages from input stream and passing it to output steam
         private void proxy(InputStream in, OutputStream out) {
             try {
                 byte[] b = new byte[8192];
@@ -295,6 +341,7 @@ public class CBserverLoadBalancer {
             } catch (IOException e) {}
         }
 
+        // last operations before stopping the ClientHandler
         private void cleanup() {
             if (assignedPort != null) {
                 synchronized (USER_TO_PORT) {
@@ -316,17 +363,8 @@ public class CBserverLoadBalancer {
             }
             try { clientSocket.close(); } catch (IOException e) {}
         }
-    }
+    }  // end ClientHandler
 
-    private static synchronized void shutdownGracefully() {
-        if (savedOnShutdown) return; 
-        isRunning = false;
-        persistenceScheduler.shutdownNow(); 
-        saveUserPortMapping(); 
-        savedOnShutdown = true;
-        try {
-            if (serverSocket != null) serverSocket.close();
-            sessionPool.shutdownNow();
-        } catch (Exception e) { }
-    }
+
+
 }
