@@ -2,7 +2,7 @@
 * File: CBserverLoadBalancer.java 
 *
 * Author: Manfred Jeusfeld (with help from LLM)
-* Date: 2026-05-06 (2026-05-09)
+* Date: 2026-05-06 (2026-05-10)
 * --------------------------------------------------------------
 * License: Creative Commons CC-BY 4.0
 *
@@ -17,7 +17,6 @@
 *
 */
 
-
 /*
  This is a Reverse Proxy Load Balancer for the ConceptBase server. It pretends to ConceptBase
  clients to be a ConceptBase server. But in fact it forwards their requests to a pool of ConceptBase servers
@@ -26,7 +25,23 @@
 
  To start: java CBserverLoadBalancer <shutdownKey> <balancerPort> <poolStart> <poolEnd>
  To shutdown: echo "SHUTDOWN_BALANCER <shutdownKey>" | nc localhost <balancerPort>
+
+ With user port mapping: java CBserverLoadBalancer <shutdownKey> <balancerPort> <poolStart> <poolEnd> -c <filename>
+ Example: java CBserverLoadBalancer stop319 4001 5001 5002 -c up1.txt
+    
 */
+
+
+/* Edits:
+* 2026-05-10: add a -c command line paramter to memorize, which users were
+*             assigned to which port in previous session. The user-port mapping is
+*             save every 60 seconds if -c is used; at the next start of the load
+*             balancer, the mappings are initialized from the file and users get
+*             assigned the same pool server. This allows to have different databases
+*             at different ports for diffrent users and always assign them to the
+*             right database.
+*/
+
 
 
 import java.io.*;
@@ -35,50 +50,82 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.*;
 
-/**
- * Stateful Reverse Proxy Load Balancer for ConceptBase.
- * Enhanced with patient handshake collection and transient PingClient handling.
- */
 public class CBserverLoadBalancer {
     private static String shutdownKey = "admin_secret"; 
     private static int balancerPort = 4001;
     private static int poolStart = 4002;
     private static int poolEnd = 4010;
+    private static String configFilePath = null;
     
     private static volatile boolean isRunning = true;
+    private static volatile boolean savedOnShutdown = false; 
     private static ServerSocket serverSocket;
     private static final BlockingQueue<Integer> FREE_SERVERS = new LinkedBlockingQueue<>();
     private static final ExecutorService sessionPool = Executors.newCachedThreadPool();
+    private static final ScheduledExecutorService persistenceScheduler = Executors.newSingleThreadScheduledExecutor();
 
     private static final Map<String, Integer> USER_TO_PORT = new ConcurrentHashMap<>();
     private static final Map<Integer, Integer> PORT_REF_COUNT = new ConcurrentHashMap<>();
 
     public static void main(String[] args) {
-        try {
-            if (args.length >= 1) shutdownKey = args[0];
-            if (args.length >= 2) balancerPort = Integer.parseInt(args[1]);
-            if (args.length >= 3) poolStart = Integer.parseInt(args[2]);
-            if (args.length >= 4) poolEnd = Integer.parseInt(args[3]);
-        } catch (NumberFormatException e) {
-            System.err.println("Invalid numeric arguments. Using defaults.");
+        List<String> remainingArgs = new ArrayList<>();
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equals("-c") && i + 1 < args.length) {
+                configFilePath = args[++i];
+            } else {
+                remainingArgs.add(args[i]);
+            }
         }
 
-        for (int i = poolStart; i <= poolEnd; i++) {
-            FREE_SERVERS.offer(i);
+        try {
+            if (remainingArgs.size() >= 1) shutdownKey = remainingArgs.get(0);
+            if (remainingArgs.size() >= 2) balancerPort = Integer.parseInt(remainingArgs.get(1));
+            if (remainingArgs.size() >= 3) poolStart = Integer.parseInt(remainingArgs.get(2));
+            if (remainingArgs.size() >= 4) poolEnd = Integer.parseInt(remainingArgs.get(3));
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid numeric arguments.");
         }
+
+        // 1. Initialize the complete pool of ports
+        List<Integer> initialPool = new ArrayList<>();
+        for (int i = poolStart; i <= poolEnd; i++) {
+            initialPool.add(i);
+        }
+
+        // 2. Load mappings and REMOVE those ports from the initial pool
+        if (configFilePath != null) {
+            loadUserPortMapping(initialPool);
+            persistenceScheduler.scheduleAtFixedRate(CBserverLoadBalancer::saveUserPortMapping, 60, 60, TimeUnit.SECONDS);
+        }
+
+        // 3. Put ONLY the remaining (truly unassigned) ports into the FREE_SERVERS queue
+        for (Integer p : initialPool) {
+            FREE_SERVERS.offer(p);
+        }
+        
+        // 4. Ports that ARE in USER_TO_PORT but have no active connections must also be available
+        // We add them to FREE_SERVERS so they can be reclaimed by the sticky user or used by others if needed.
+        for (Integer mappedPort : USER_TO_PORT.values()) {
+            if (!FREE_SERVERS.contains(mappedPort)) {
+                FREE_SERVERS.offer(mappedPort);
+            }
+        }
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.err.println("\n[SHUTDOWN] Signal caught.");
+            shutdownGracefully();
+        }));
 
         try {
             serverSocket = new ServerSocket(balancerPort);
-            serverSocket.setSoTimeout(5000); 
-            System.out.println("[STARTED] Stateful CBserverLoadBalancer on port " + balancerPort);
+            serverSocket.setSoTimeout(2000); 
+            System.out.println("[STARTED] LoadBalancer on port " + balancerPort);
 
             while (isRunning) {
                 try {
                     Socket clientSocket = serverSocket.accept();
                     sessionPool.execute(new ClientHandler(clientSocket));
-                } catch (SocketTimeoutException e) {
-                    // Periodic check of isRunning status
-                }
+                } catch (SocketTimeoutException e) { }
             }
         } catch (IOException e) {
             if (isRunning) System.err.println("Server Error: " + e.getMessage());
@@ -87,160 +134,171 @@ public class CBserverLoadBalancer {
         }
     }
 
+    private static void loadUserPortMapping(List<Integer> initialPool) {
+        File file = new File(configFilePath);
+        if (!file.exists()) {
+            System.err.println("[LOAD] No persistence file found at " + configFilePath);
+            return;
+        }
+        System.err.println("[LOAD] Reading mappings from " + configFilePath + "...");
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            int count = 0;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(":", 2);
+                if (parts.length == 2) {
+                    try {
+                        String user = parts[0];
+                        int port = Integer.parseInt(parts[1]);
+                        if (port >= poolStart && port <= poolEnd) {
+                            USER_TO_PORT.put(user, port);
+                            initialPool.remove(Integer.valueOf(port));
+                            System.err.println("   [RESTORED] User: " + user + " -> Port: " + port);
+                            count++;
+                        }
+                    } catch (NumberFormatException e) { }
+                }
+            }
+            System.err.println("[LOAD-SUCCESS] Loaded " + count + " persistent associations.");
+        } catch (IOException e) {
+            System.err.println("[LOAD-ERROR] " + e.getMessage());
+        }
+    }
+
+    private static synchronized void saveUserPortMapping() {
+        if (configFilePath == null || USER_TO_PORT.isEmpty()) return;
+        System.err.println("[SAVE] Persisting " + USER_TO_PORT.size() + " mappings...");
+        try (PrintWriter writer = new PrintWriter(new FileWriter(configFilePath, false))) {
+            for (Map.Entry<String, Integer> entry : USER_TO_PORT.entrySet()) {
+                writer.println(entry.getKey() + ":" + entry.getValue());
+            }
+            writer.flush();
+            System.err.println("[SAVE-SUCCESS] File " + configFilePath + " updated.");
+        } catch (IOException e) {
+            System.err.println("[SAVE-ERROR] " + e.getMessage());
+        }
+    }
+
     private static class ClientHandler implements Runnable {
         private final Socket clientSocket;
         private Integer assignedPort = null;
         private String detectedUser = null;
-        private boolean isPingOnly = false;
 
-        public ClientHandler(Socket socket) {
-            this.clientSocket = socket;
-        }
+        public ClientHandler(Socket socket) { this.clientSocket = socket; }
 
         @Override
         public void run() {
             try {
-                clientSocket.setTcpNoDelay(true);
-                clientSocket.setKeepAlive(true);  // for not loosing messages or only receiving partial messages
                 InputStream clientIn = clientSocket.getInputStream();
                 OutputStream clientOut = clientSocket.getOutputStream();
-
-                // 1. Patient Handshake Collection
-                ByteArrayOutputStream handshakeCollector = new ByteArrayOutputStream();
-                byte[] readBuffer = new byte[16384];
-                int bytesRead;
+                ByteArrayOutputStream collector = new ByteArrayOutputStream();
+                byte[] buffer = new byte[4096];
+                int n;
 
                 while (true) {
-                    bytesRead = clientIn.read(readBuffer);
-                    if (bytesRead == -1) return;
-                    handshakeCollector.write(readBuffer, 0, bytesRead);
-                    
-                    byte[] currentBytes = handshakeCollector.toByteArray();
-                    int offset = (currentBytes[0] == 'X') ? 5 : 0;
-                    if (currentBytes.length <= offset) continue;
+                    n = clientIn.read(buffer);
+                    if (n == -1) return;
+                    collector.write(buffer, 0, n);
+                    String msg = collector.toString();
 
-                    String currentMsg = new String(currentBytes, offset, currentBytes.length - offset);
-
-                    if (currentMsg.trim().startsWith("SHUTDOWN_BALANCER " + shutdownKey)) {
-                        System.err.println("[ADMIN] Shutdown triggered.");
+                    if (msg.contains("SHUTDOWN_BALANCER " + shutdownKey)) {
                         isRunning = false;
+                        shutdownGracefully();
+                        System.exit(0);
                         return;
                     }
-
-                    // Only break when we see the protocol terminator to ensure full extraction
-                    if (currentMsg.contains("ENROLL_ME") && currentMsg.contains("]).")) {
-                        detectedUser = extractUsername(currentMsg);
-                        if (currentMsg.contains("\"PingClient\"")) {
-                            isPingOnly = true;
-                        }
-                        break; 
+                    if (msg.contains("ENROLL_ME") && msg.contains("]).")) {
+                        detectedUser = extractUsername(msg);
+                        break;
                     }
-                    
-                    // Safety limit to prevent memory issues from malformed clients
-                    if (handshakeCollector.size() > 8192) break;
+                    if (collector.size() > 8192) break;
                 }
 
-                byte[] fullHandshake = handshakeCollector.toByteArray();
-                
-                // Tracing the initial message; should be an ENROLL_ME message
-                int finalOffset = (fullHandshake[0] == 'X') ? 5 : 0;
-                String finalMsgStr = new String(fullHandshake, finalOffset, Math.max(0, fullHandshake.length - finalOffset));
-                System.err.println("[INITIAL_MESSAGE] " + finalMsgStr.trim());
-
-                // 2. Atomic Port Assignment
                 synchronized (USER_TO_PORT) {
                     if (detectedUser != null && USER_TO_PORT.containsKey(detectedUser)) {
-                        assignedPort = USER_TO_PORT.get(detectedUser);
-                        int count = PORT_REF_COUNT.getOrDefault(assignedPort, 0) + 1;
-                        PORT_REF_COUNT.put(assignedPort, count);
-                        System.err.println("[STICKY] User " + detectedUser + " -> Port " + assignedPort + " (Active: " + count + ")");
-                    } else {
-                        assignedPort = FREE_SERVERS.poll(10, TimeUnit.SECONDS);
+                        int pref = USER_TO_PORT.get(detectedUser);
+                        // Check if the sticky port is currently available in the free pool
+                        if (FREE_SERVERS.remove(pref)) {
+                            assignedPort = pref;
+                            PORT_REF_COUNT.put(assignedPort, 1);
+                            System.err.println("[MATCH] Sticky port " + assignedPort + " reclaimed for " + detectedUser);
+                        } else if (PORT_REF_COUNT.containsKey(pref)) {
+                            // Port is busy, but we join the existing session
+                            assignedPort = pref;
+                            PORT_REF_COUNT.put(assignedPort, PORT_REF_COUNT.get(assignedPort) + 1);
+                            System.err.println("[SHARED] Sticky port " + assignedPort + " shared for " + detectedUser);
+                        }
+                    }
+                    
+                    if (assignedPort == null) {
+                        assignedPort = FREE_SERVERS.poll(2, TimeUnit.SECONDS);
                         if (assignedPort != null) {
                             PORT_REF_COUNT.put(assignedPort, 1);
-                            // Skip sticky mapping for pings or unknown users
-                            if (detectedUser != null && !isPingOnly) {
+                            if (detectedUser != null) {
                                 USER_TO_PORT.put(detectedUser, assignedPort);
-                                System.err.println("[ASSIGN] User " + detectedUser + " -> Port " + assignedPort);
-                            } else {
-                                System.err.println("[TEMP] Ping/Guest -> Port " + assignedPort);
+                                System.err.println("[NEW-ASSIGN] User " + detectedUser + " -> Port " + assignedPort);
                             }
+                        } else {
+                            System.err.println("[CRITICAL] No ports available in pool for " + detectedUser);
                         }
                     }
                 }
 
-                if (assignedPort == null) {
-                    new PrintWriter(clientOut, true).println("ERROR: No backends available.");
-                    return;
-                }
+                if (assignedPort == null) return;
 
-                // 3. Proxying
-                try (Socket backendSocket = new Socket("127.0.0.1", assignedPort)) {
-                    backendSocket.setTcpNoDelay(true);
-                    InputStream backendIn = backendSocket.getInputStream();
-                    OutputStream backendOut = backendSocket.getOutputStream();
-
-                    Thread b2c = new Thread(() -> proxy(backendIn, clientOut));
+                try (Socket backend = new Socket("127.0.0.1", assignedPort)) {
+                    final InputStream bIn = backend.getInputStream();
+                    final OutputStream bOut = backend.getOutputStream();
+                    Thread b2c = new Thread(() -> proxy(bIn, clientOut));
                     b2c.start();
-
-                    backendOut.write(fullHandshake);
-                    backendOut.flush();
-
-                    proxy(clientIn, backendOut);
+                    bOut.write(collector.toByteArray());
+                    bOut.flush();
+                    proxy(clientIn, bOut);
                     b2c.join();
-                } 
+                }
             } catch (Exception e) {
-                // Connection closed
+                System.err.println("[HANDLER-ERROR] " + e.getMessage());
             } finally {
                 cleanup();
             }
         }
 
         private String extractUsername(String msg) {
-            Pattern p = Pattern.compile("\\[\\s*\"[^\"]*\"\\s*,\\s*\"([^\"]+)\"\\s*\\]");
-            Matcher m = p.matcher(msg);
+            Matcher m = Pattern.compile("\\[\\s*\"[^\"]*\"\\s*,\\s*\"([^\"]+)\"\\s*\\]").matcher(msg);
             return m.find() ? m.group(1) : null;
         }
 
         private void proxy(InputStream in, OutputStream out) {
             try {
-                byte[] buffer = new byte[16384];
-                int read;
-                while ((read = in.read(buffer)) != -1) {
-                    out.write(buffer, 0, read);
-                    out.flush();
-                }
-            } catch (IOException ignored) { }
+                byte[] b = new byte[8192];
+                int r;
+                while ((r = in.read(b)) != -1) { out.write(b, 0, r); out.flush(); }
+            } catch (IOException e) {}
         }
 
         private void cleanup() {
             if (assignedPort != null) {
                 synchronized (USER_TO_PORT) {
-                    Integer count = PORT_REF_COUNT.get(assignedPort);
-                    if (count != null) {
-                        count--;
-                        if (count <= 0) {
-                            PORT_REF_COUNT.remove(assignedPort);
-                            // Only remove sticky mapping if this specific port was the one mapped
-                            if (detectedUser != null && assignedPort.equals(USER_TO_PORT.get(detectedUser))) {
-                                USER_TO_PORT.remove(detectedUser);
-                            }
-                            FREE_SERVERS.offer(assignedPort);
-                            System.err.println("[RELEASE] Port " + assignedPort + " returned to pool.");
-                        } else {
-                            PORT_REF_COUNT.put(assignedPort, count);
-                            System.err.println("[RELEASE] Port " + assignedPort + " active clients: " + count);
-                        }
+                    int count = PORT_REF_COUNT.getOrDefault(assignedPort, 1) - 1;
+                    if (count <= 0) {
+                        PORT_REF_COUNT.remove(assignedPort);
+                        FREE_SERVERS.offer(assignedPort);
+                        System.err.println("[RELEASE] Port " + assignedPort + " returned to free pool.");
+                    } else {
+                        PORT_REF_COUNT.put(assignedPort, count);
                     }
                 }
-                assignedPort = null;
             }
-            try { clientSocket.close(); } catch (IOException ignored) { }
+            try { clientSocket.close(); } catch (IOException e) {}
         }
     }
 
-    private static void shutdownGracefully() {
+    private static synchronized void shutdownGracefully() {
+        if (savedOnShutdown) return; 
         isRunning = false;
+        persistenceScheduler.shutdownNow(); 
+        saveUserPortMapping(); 
+        savedOnShutdown = true;
         try {
             if (serverSocket != null) serverSocket.close();
             sessionPool.shutdownNow();

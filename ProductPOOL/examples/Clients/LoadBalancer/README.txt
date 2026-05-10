@@ -1,6 +1,6 @@
 README.txt: CBserverLoadBalancer
 
-Manfred Jeusfeld, 2026-05-07
+Manfred Jeusfeld, 2026-05-07 (2026-05-10)
 
 
 CBserverLoadBalancer is a Reverse Proxy Load Balancer for the ConceptBase server. It pretends to ConceptBase
@@ -10,6 +10,11 @@ ConceptBase server restarts itself on the same port.
 
 Compile with Java 11 or later:
 javac CBserverLoadBalancer.java
+
+
+A. Simple use
+=============
+
 
 (1) To start the load balancer, first start a pool of CBservers with consecute port numbers, e.g.
 
@@ -74,6 +79,47 @@ Successfully connected to server
 [localhost:5001]>stop
 
 It is a good idea not to make the portnumbers of the pool servers visible outside localhost.
+
+
+
+-----------------------------
+
+B. Advanced use
+===============
+
+In this scenerio, we want that users get their dedicated databases, i.e. when they connect the first time
+to the load balancer via a client such as CVIva, then the assigned pool server is memorized in a file and
+that assignment will be re-used wben the load balancer is re-started. Hence, if the database of the pool
+CBserver is persistent and all programs are restarted, the user still gets assigned the correct database.
+
+(1) Start a pool of CBservers with consecute port numbers and dedicated databases in persistent mode
+
+(cbserver -port 5001 -r 0 -u persistent -d MDB5001 &> log5001.txt) &
+(cbserver -port 5002 -r 0 -u persistent -d MDB5002 &> log5002.txt) &
+(cbserver -port 5003 -r 0 -u persistent -d MDB5003 &> log5003.txt) &
+(cbserver -port 5004 -r 0 -u persistent -d MDB5004 &> log5004.txt) &
+
+
+(2) To start the load balancer with user-port mapping file
+
+java CBserverLoadBalancer mysecret123 4001 5001 5004 -c up1.txt
+
+
+A typical user-port maiing file looks like
+
+freddie1@computer1:5001
+mary.kal@computer2:5002
+anne.rol@computer1:5003
+sharon.h@computer2:5004
+
+
+The file is updated every 60 seconds. If a user logs out. the mapping may be updated with the next
+user who claims the pool server. 
+
+
+
+
+
 
 
 
