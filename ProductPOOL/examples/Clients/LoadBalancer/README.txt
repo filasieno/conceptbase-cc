@@ -116,6 +116,15 @@ sharon.h@computer2:5004
 The file is updated every 60 seconds. If a user logs out. the mapping may be updated with the next
 user who claims the pool server. 
 
+If you use in addition the command line paramter -fix, the the assigment of ports to users is
+sticky. Even if the user logs out, the port can only be assigned to clients of the same user.
+
+java CBserverLoadBalancer mysecret123 4001 5001 5004 -c up1.txt -fix
+
+This is needed if you want to make sure that a given user always gets assigned to the same pool server
+that provides a dedicated ConceptBase database for that user.
+
+
 
 
 

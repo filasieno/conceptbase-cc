@@ -34,12 +34,15 @@
 
 /* Edits:
 * 2026-05-10: add a -c command line paramter to memorize, which users were
-*             assigned to which port in previous session. The user-port mapping is
-*             save every 60 seconds if -c is used; at the next start of the load
-*             balancer, the mappings are initialized from the file and users get
-*             assigned the same pool server. This allows to have different databases
-*             at different ports for diffrent users and always assign them to the
-*             right database.
+* assigned to which port in previous session. The user-port mapping is
+* save every 60 seconds if -c is used; at the next start of the load
+* balancer, the mappings are initialized from the file and users get
+* assigned the same pool server. This allows to have different databases
+* at different ports for diffrent users and always assign them to the
+* right database.
+* 2026-05-10: add a -fix command line parameter to make the user-port assignment
+* exclusive. Once a port is assigned to a user, it is never returned
+* to the free pool for other users, even if the user is currently offline.
 */
 
 
@@ -56,6 +59,7 @@ public class CBserverLoadBalancer {
     private static int poolStart = 4002;
     private static int poolEnd = 4010;
     private static String configFilePath = null;
+    private static boolean isFixed = false;
     
     private static volatile boolean isRunning = true;
     private static volatile boolean savedOnShutdown = false; 
@@ -72,6 +76,8 @@ public class CBserverLoadBalancer {
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("-c") && i + 1 < args.length) {
                 configFilePath = args[++i];
+            } else if (args[i].equals("-fix")) {
+                isFixed = true;
             } else {
                 remainingArgs.add(args[i]);
             }
@@ -103,12 +109,17 @@ public class CBserverLoadBalancer {
             FREE_SERVERS.offer(p);
         }
         
-        // 4. Ports that ARE in USER_TO_PORT but have no active connections must also be available
-        // We add them to FREE_SERVERS so they can be reclaimed by the sticky user or used by others if needed.
-        for (Integer mappedPort : USER_TO_PORT.values()) {
-            if (!FREE_SERVERS.contains(mappedPort)) {
-                FREE_SERVERS.offer(mappedPort);
+        // 4. In default mode, ports that ARE in USER_TO_PORT but have no active connections 
+        // must also be available in the pool.
+        // If -fix is active, we skip this to ensure the port remains exclusive to the user.
+        if (!isFixed) {
+            for (Integer mappedPort : USER_TO_PORT.values()) {
+                if (!FREE_SERVERS.contains(mappedPort)) {
+                    FREE_SERVERS.offer(mappedPort);
+                }
             }
+        } else {
+            System.err.println("[INIT] Fixed mode enabled: Mapped ports are reserved exclusively.");
         }
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -217,16 +228,24 @@ public class CBserverLoadBalancer {
                 synchronized (USER_TO_PORT) {
                     if (detectedUser != null && USER_TO_PORT.containsKey(detectedUser)) {
                         int pref = USER_TO_PORT.get(detectedUser);
-                        // Check if the sticky port is currently available in the free pool
-                        if (FREE_SERVERS.remove(pref)) {
+                        
+                        if (isFixed) {
+                            // Fixed Mode: Reclaim the port directly. It is never in FREE_SERVERS.
                             assignedPort = pref;
-                            PORT_REF_COUNT.put(assignedPort, 1);
-                            System.err.println("[MATCH] Sticky port " + assignedPort + " reclaimed for " + detectedUser);
-                        } else if (PORT_REF_COUNT.containsKey(pref)) {
-                            // Port is busy, but we join the existing session
-                            assignedPort = pref;
-                            PORT_REF_COUNT.put(assignedPort, PORT_REF_COUNT.get(assignedPort) + 1);
-                            System.err.println("[SHARED] Sticky port " + assignedPort + " shared for " + detectedUser);
+                            PORT_REF_COUNT.put(assignedPort, PORT_REF_COUNT.getOrDefault(assignedPort, 0) + 1);
+                            System.err.println("[FIXED-MATCH] User " + detectedUser + " using reserved Port " + assignedPort);
+                        } else {
+                            // Default Mode: Check if the sticky port is currently available in the free pool
+                            if (FREE_SERVERS.remove(pref)) {
+                                assignedPort = pref;
+                                PORT_REF_COUNT.put(assignedPort, 1);
+                                System.err.println("[MATCH] Sticky port " + assignedPort + " reclaimed for " + detectedUser);
+                            } else if (PORT_REF_COUNT.containsKey(pref)) {
+                                // Port is busy, but we join the existing session
+                                assignedPort = pref;
+                                PORT_REF_COUNT.put(assignedPort, PORT_REF_COUNT.get(assignedPort) + 1);
+                                System.err.println("[SHARED] Sticky port " + assignedPort + " shared for " + detectedUser);
+                            }
                         }
                     }
                     
@@ -282,8 +301,14 @@ public class CBserverLoadBalancer {
                     int count = PORT_REF_COUNT.getOrDefault(assignedPort, 1) - 1;
                     if (count <= 0) {
                         PORT_REF_COUNT.remove(assignedPort);
-                        FREE_SERVERS.offer(assignedPort);
-                        System.err.println("[RELEASE] Port " + assignedPort + " returned to free pool.");
+                        
+                        // If -fix is active and the port belongs to a user, do not return to pool.
+                        if (isFixed && detectedUser != null) {
+                            System.err.println("[RELEASE] Port " + assignedPort + " is now idle but remains reserved for " + detectedUser);
+                        } else {
+                            FREE_SERVERS.offer(assignedPort);
+                            System.err.println("[RELEASE] Port " + assignedPort + " returned to free pool.");
+                        }
                     } else {
                         PORT_REF_COUNT.put(assignedPort, count);
                     }
