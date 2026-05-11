@@ -10,7 +10,8 @@ on localhost. When a client gracefully exits, the corresponding slot becomes fre
 ConceptBase server restarts itself on the same port.
 
 Compile with Java 11 or later:
-```
+```bash
+
 javac CBserverLoadBalancer.java
 ```
 
@@ -40,7 +41,8 @@ More, see: https://conceptbase.sourceforge.net/userManual85/cbm007.html#sec%3Apu
 
 ### (2) To start the load balancer, enter a command like
 
-```java
+```bash
+
 java CBserverLoadBalancer mysecret123 4001 5001 5004
 ```
 
@@ -69,7 +71,8 @@ clients, i.e. they assume that there is a CBserver running on port 4001. Instead
 The first client of u1 is mapped by the load balancer to the pool cbsrver1 on port 5001. Messages of cbiva1
 are received by the load balancer and passed unchanged to cbserver1. The answers go back the reverse direction.
 
-```text
+```
+
 [u1@cbiva1]   <-----> (4001) [loadbalancer]  <-----> (5001) [cbserver1]
 [u2@cbiva2]   <-----> (4001) [loadbalancer]  <-----> (5002) [cbserver2]
 [u1@cbgraph1] <-----> (4001) [loadbalancer]  <-----> (5001) [cbserver1]
@@ -96,6 +99,7 @@ model for the cbserver. The next new client can then re-use the cbserver, e.g. c
 On localhost, you can stop it with the command
 
 ```bash
+
 echo "SHUTDOWN_BALANCER mysecret123" | nc localhost 4001
 ```
 
@@ -141,14 +145,14 @@ CBserver is persistent and all programs are restarted, the user still gets assig
 
 ### (2) To start the load balancer with user-port mapping file
 
-```java
+```bash
 java CBserverLoadBalancer mysecret123 4001 5001 5004 -c up1.txt
 ```
 
 
 A typical user-port maiing file looks like
 
-```text
+``
 freddie1@computer1:5001
 mary.kal@computer2:5002
 anne.rol@computer1:5003
@@ -162,7 +166,8 @@ user who claims the pool server.
 If you use in addition the command line paramter -fix, the the assigment of ports to users is
 sticky. Even if the user logs out, the port can only be assigned to clients of the same user.
 
-```java
+```bash
+
 java CBserverLoadBalancer mysecret123 4001 5001 5004 -c up1.txt -fix
 ```
 
