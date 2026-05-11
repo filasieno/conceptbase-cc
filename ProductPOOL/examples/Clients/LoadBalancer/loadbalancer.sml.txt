@@ -1,0 +1,200 @@
+{
+* Module: loadbalancer.sml.txt
+* ---------------------------------------------------------
+* Just for visualizing the architecture
+*
+}
+
+
+{---} { 2026-05-11,04:35:44.866 }
+
+DataType  end 
+
+Value  end 
+
+Integer in DataType isA Value  end 
+
+String in DataType isA Value  end 
+
+Real in DataType isA Value  end 
+
+Boolean in DataType isA Value  end 
+
+ValueOrDataType in QueryClass isA Individual with 
+   constraint
+    c1d : $ (this in Value) or (this in DataType) $
+end 
+
+ProperIndividual in QueryClass,MSFOLrule isA Individual with 
+   constraint
+    c1a : $ not (this in QueryClass) and not (this in MSFOLassertion) and exists a/Attribute y/ValueOrDataType From(a,this) and To(a,y) $
+end 
+
+IndividualAttribute in QueryClass,MSFOLrule isA Proposition!attribute with 
+   constraint
+    c2a : $ exists o/Individual t/DataType From(this,o) and To(this,t) $
+end 
+
+IndividualWithAttributes in GenericQueryClass isA ProperIndividual with 
+   parameter,computed_attribute
+    class : ProperIndividual
+  computed_attribute
+    attrs : Proposition!attribute
+  constraint
+    c3 : $ exists n/Label b/ValueOrDataType Pa(~attrs,this,n,b) and (this = ~class) $
+end 
+
+{---} { 2026-05-11,04:35:44.987 }
+
+IndividualFormat in AnswerFormat with 
+   forQuery
+    q : IndividualWithAttributes
+  order
+    o : ascending
+  orderBy
+    ob : "this"
+  pattern
+    p : "[b]{UQ({this})}[/b][hr][/hr]{Foreach( ({this.attrs}),(p), {LabelAC({p})}: {UQ({To({p})})}[br][/br] )}"
+end 
+
+LabelRules in Class with 
+   rule
+    lr1 : $ forall x/ProperIndividual lab/Label (lab = resultOf(IndividualWithAttributes,x,IndividualFormat)) ==> (x gproperty/label lab) $;
+    lr2 : $ forall x/ProperIndividual lab/Label (x gproperty/size "wrap") $;
+    lr3 : $ forall x/ProperIndividual lab/Label (x gproperty/labellength 800) $
+end 
+
+INSTOF_UML_GT in Class,JavaGraphicalType with 
+   implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBLink"
+  priority
+    p : 6
+  rule
+    gtrule : $ forall a/InstanceOf (a graphtype INSTOF_UML_GT) $
+  property
+    bgcolor : "255,0,0";
+    textcolor : "0,0,0";
+    edgecolor : "0,0,0";
+    edgewidth : "1";
+    edgeheadshape : "Caret";
+    edgestyle : "ldashed";
+    label : ""
+end 
+
+INSTOFDEDUCED_UML_GT in Class,JavaGraphicalType with 
+   implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBLink"
+  priority
+    p : 7
+  property
+    bgcolor : "255,0,0";
+    textcolor : "0,0,0";
+    edgecolor : "120,120,120";
+    edgewidth : "1";
+    edgeheadshape : "Caret";
+    edgestyle : "ldashed";
+    label : ""
+end 
+
+ISA_UML_GT in Class,JavaGraphicalType with 
+   property
+    bgcolor : "255,0,0";
+    textcolor : "0,0,0";
+    edgecolor : "0,0,0";
+    edgeheadcolor : "255,255,255";
+    edgeheadshape : "Arrow";
+    edgewidth : "1";
+    label : ""
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBLink"
+  priority
+    p : 8
+  rule
+    gtrule : $ forall a/IsA (a graphtype ISA_UML_GT) $
+end 
+
+ISADEDUCED_GT in Class,JavaGraphicalType with 
+   property
+    bgcolor : "255,0,0";
+    textcolor : "0,0,0";
+    edgecolor : "120,120,120";
+    edgewidth : "1";
+    label : "";
+    edgeheadcolor : "255,255,255";
+    edgeheadshape : "Arrow"
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBLink"
+  priority
+    p : 8
+end 
+
+UmlishPalette in Class,JavaGraphicalPalette isA TelosPalette with 
+   contains,implicitInstanceOf
+    mdp1 : INSTOFDEDUCED_UML_GT
+  contains
+    mdp2 : INSTOF_UML_GT;
+    mdp3 : ISA_UML_GT
+  contains,implicitIsA
+    mdp4 : ISADEDUCED_GT
+end 
+
+{---}
+
+cbiva1 with
+  attribute
+    user: "mary1"
+end
+
+cbiva2 with
+  attribute
+    user: "billA"
+end
+
+
+cbgraph1 with
+  attribute
+    user: "mary1"
+end
+
+loadbalancer with
+   attribute
+     port: 4001
+end
+
+cbserver1 with
+  attribute
+    port: 5001
+end
+
+cbserver2 with
+  attribute
+    port: 5002
+end
+
+
+cbiva1 with
+  attribute
+    stream_4001: loadbalancer
+end
+
+cbiva2 with
+  attribute
+    stream_4001: loadbalancer
+end
+
+cbgraph1 with
+  attribute
+    stream_4001: loadbalancer
+end
+
+
+loadbalancer with
+  attribute
+    mary1_5001: cbserver1;
+    billA_5002: cbserver2
+end
+
+
+
+{ -/- }
+
