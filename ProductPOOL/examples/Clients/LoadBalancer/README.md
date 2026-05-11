@@ -10,7 +10,8 @@ on localhost. When a client gracefully exits, the corresponding slot becomes fre
 ConceptBase server restarts itself on the same port.
 
 Compile with Java 11 or later:
-```javac CBserverLoadBalancer.java
+```
+javac CBserverLoadBalancer.java
 ```
 
 
@@ -20,7 +21,8 @@ Compile with Java 11 or later:
 
 ### (1) To start the load balancer, first start a pool of CBservers with consecute port numbers, e.g.
 
-```(cbserver -port 5001 -r 0 -a $USER -g public -ia 1 -u nonpersistent -d MDB &> log5001.txt) &
+```
+(cbserver -port 5001 -r 0 -a $USER -g public -ia 1 -u nonpersistent -d MDB &> log5001.txt) &
 (cbserver -port 5002 -r 0 -a $USER -g public -ia 1 -u nonpersistent -d MDB &> log5002.txt) &
 (cbserver -port 5003 -r 0 -a $USER -g public -ia 1 -u nonpersistent -d MDB &> log5003.txt) &
 (cbserver -port 5004 -r 0 -a $USER -g public -ia 1 -u nonpersistent -d MDB &> log5004.txt) &
@@ -66,7 +68,8 @@ clients, i.e. they assume that there is a CBserver running on port 4001. Instead
 The first client of u1 is mapped by the load balancer to the pool cbsrver1 on port 5001. Messages of cbiva1
 are received by the load balancer and passed unchanged to cbserver1. The answers go back the reverse direction.
 
-```[u1@cbiva1]   <-----> (4001) [loadbalancer]  <-----> (5001) [cbserver1]
+```
+[u1@cbiva1]   <-----> (4001) [loadbalancer]  <-----> (5001) [cbserver1]
 [u2@cbiva2]   <-----> (4001) [loadbalancer]  <-----> (5002) [cbserver2]
 [u1@cbgraph1] <-----> (4001) [loadbalancer]  <-----> (5001) [cbserver1]
 ```
@@ -91,7 +94,8 @@ model for the cbserver. The next new client can then re-use the cbserver, e.g. c
 
 On localhost, you can stop it with the command
 
-```echo "SHUTDOWN_BALANCER mysecret123" | nc localhost 4001
+```
+echo "SHUTDOWN_BALANCER mysecret123" | nc localhost 4001
 ```
 
 You can also shut it down remotely if you know the secret key.
@@ -103,7 +107,8 @@ You can also shut it down remotely if you know the secret key.
 The pool servers are not shut down automatically when you shutdown the load balancer. 
 You need to use cbshell on localhost to shut them down. For example:
 
-```cbshell
+```
+cbshell
 This is CBShell, the command line interface to ConceptBase.cc
 [offline]>connect localhost 5001
 Successfully connected to server
@@ -125,7 +130,8 @@ CBserver is persistent and all programs are restarted, the user still gets assig
 
 ### (1) Start a pool of CBservers with consecute port numbers and dedicated databases in persistent mode
 
-```(cbserver -port 5001 -r 0 -u persistent -d MDB5001 &> log5001.txt) &
+```
+(cbserver -port 5001 -r 0 -u persistent -d MDB5001 &> log5001.txt) &
 (cbserver -port 5002 -r 0 -u persistent -d MDB5002 &> log5002.txt) &
 (cbserver -port 5003 -r 0 -u persistent -d MDB5003 &> log5003.txt) &
 (cbserver -port 5004 -r 0 -u persistent -d MDB5004 &> log5004.txt) &
@@ -140,7 +146,8 @@ CBserver is persistent and all programs are restarted, the user still gets assig
 
 A typical user-port maiing file looks like
 
-```freddie1@computer1:5001
+```
+freddie1@computer1:5001
 mary.kal@computer2:5002
 anne.rol@computer1:5003
 sharon.h@computer2:5004
@@ -153,7 +160,8 @@ user who claims the pool server.
 If you use in addition the command line paramter -fix, the the assigment of ports to users is
 sticky. Even if the user logs out, the port can only be assigned to clients of the same user.
 
-```java CBserverLoadBalancer mysecret123 4001 5001 5004 -c up1.txt -fix
+```
+java CBserverLoadBalancer mysecret123 4001 5001 5004 -c up1.txt -fix
 ```
 
 This is needed if you want to make sure that a given user always gets assigned to the same pool server
