@@ -113,6 +113,7 @@ The pool servers are not shut down automatically when you shutdown the load bala
 You need to use cbshell on localhost to shut them down. For example:
 
 ```bash
+
 cbshell
 This is CBShell, the command line interface to ConceptBase.cc
 [offline]>connect localhost 5001
