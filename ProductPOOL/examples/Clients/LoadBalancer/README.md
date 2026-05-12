@@ -50,6 +50,9 @@ The example below shows two different users u1 and u2 who connect via port 400. 
     [u1@cbgraph1] <-----> (4001) [loadbalancer]  <-----> (5001) [cbserver1]
 
 
+
+![Load Balancer architecture](https://gitlab.com/mjeu/conceptbasecc/-/raw/master/ProductPOOL/examples/Clients/LoadBalancer/loadbalancer.svg)
+
 The second client cbiva2 is for a different user u2. It gets another cbserver2 assigned on port 5002.
 Finally, the cbgraph1 client is again by user u1. It gets cbserver1 assigned. All clients of the same
 user are passed to the same CBserver.
@@ -124,6 +127,7 @@ sticky. Even if the user logs out, the port can only be assigned to clients of t
 
 This is needed if you want to make sure that a given user always gets assigned to the same pool server
 that provides a dedicated ConceptBase database for that user.
+
 
 
 
