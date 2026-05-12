@@ -43,7 +43,7 @@ The first message of a client is an ENROLL_ME message. The load balancer will th
 servers to that client and pass the request to the pool server and return its answers back to the client.
 The last message of a client is normally a CANCEL_ME message. This will also be passed to the connected pool server, causing it to shutdown and restart (option -r). The pool server is then set to be available again by the load balancer.
 
-The example below shows two different users u1 and u2 who connect via port 400. The use the protocol of ConceptBase clients, i.e. they assume that there is a CBserver running on port 4001. Instead, it is the load balancer.  The first client of mary1` is mapped by the load balancer to the pool cbsrver1 on port 5001. Messages of cbiva1 are received by the load balancer and passed unchanged to cbserver1. The answers go back the reverse direction.
+The example below shows two different users `mary1` and `billA` who connect via port 4001. The use the protocol of ConceptBase clients, i.e. they assume that there is a CBserver running on port 4001. Instead, it is the load balancer.  The first client of `mary1` is mapped by the load balancer to the pool cbsrver1 on port 5001. Messages of cbiva1 are received by the load balancer and passed unchanged to cbserver1. The answers go back the reverse direction.
 
     [mary1@cbiva1]   <-----> (4001) [loadbalancer]  <-----> (5001) [cbserver1]
     [billA@cbiva2]   <-----> (4001) [loadbalancer]  <-----> (5002) [cbserver2]
@@ -53,8 +53,8 @@ The example below shows two different users u1 and u2 who connect via port 400. 
 
 ![Load Balancer architecture](https://gitlab.com/mjeu/conceptbasecc/-/raw/master/ProductPOOL/examples/Clients/LoadBalancer/loadbalancer.svg)
 
-The second client cbiva2 is for a different user `billA. It gets another cbserver2 assigned on port 5002.
-Finally, the cbgraph1 client is again by user `mary1. It gets cbserver1 assigned. All clients of the same
+The second client cbiva2 is for a different user `billA`. It gets another cbserver2 assigned on port 5002.
+Finally, the cbgraph1 client is again by user `mary1`. It gets cbserver1 assigned. All clients of the same
 user are passed to the same CBserver.
 
 The loadbalancer sniffs into the first packet received by a new client. It is supposed to be an ENROLL_ME (=login message). It contains aming users the username. If the server is started with the `-r` option, then the last client connected to that cbserver will trigger
