@@ -45,9 +45,9 @@ The last message of a client is normally a CANCEL_ME message. This will also be 
 
 The example below shows two different users u1 and u2 who connect via port 400. The use the protocol of ConceptBase clients, i.e. they assume that there is a CBserver running on port 4001. Instead, it is the load balancer.  The first client of u1 is mapped by the load balancer to the pool cbsrver1 on port 5001. Messages of cbiva1 are received by the load balancer and passed unchanged to cbserver1. The answers go back the reverse direction.
 
-    [u1@cbiva1]   <-----> (4001) [loadbalancer]  <-----> (5001) [cbserver1]
-    [u2@cbiva2]   <-----> (4001) [loadbalancer]  <-----> (5002) [cbserver2]
-    [u1@cbgraph1] <-----> (4001) [loadbalancer]  <-----> (5001) [cbserver1]
+    [mary1@cbiva1]   <-----> (4001) [loadbalancer]  <-----> (5001) [cbserver1]
+    [billA@cbiva2]   <-----> (4001) [loadbalancer]  <-----> (5002) [cbserver2]
+    [mary1@cbgraph1] <-----> (4001) [loadbalancer]  <-----> (5001) [cbserver1]
 
 
 
