@@ -129,13 +129,15 @@ that provides a dedicated ConceptBase database for that user. You can also pre-c
 
 ## C. A Rust implementation
 
-The load balancer is also ported to Rust, see CBserverLoadBalancer.rs. It should behave the same or very simular to CBserverLoadBalancer.java. To compile the Rust version use
+The load balancer is also ported to Rust, see CBserverLoadBalancer.rs. It should behave the same or very similar to CBserverLoadBalancer.java. To compile the Rust version use
 
     rustc -O  CBserverLoadBalancer.rs -o CBserverLoadBalancer
 
 Tu run it, use for example
 
     ./CBserverLoadBalancer stop 4001 5001 5002
+
+We used the Rust compiler rustc 1.95.0.
 
 
 ## D. Known issues
