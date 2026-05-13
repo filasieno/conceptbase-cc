@@ -1,4 +1,4 @@
-# README.md: CBserverLoadBalancer for Multi-User Setupups of ConceptBase
+# README.md: CBserverLoadBalancer for Multi-User Installations of ConceptBase
 
 Manfred Jeusfeld, 2026-05-07 (2026-05-13)
 
@@ -20,7 +20,7 @@ i.e. parts of the database. The disadvantage of this set-up is that
 The load balancer addresses this short-comings of the two-tier client/server architecture of ConceptBase by providing a three-tier
 architecture.
 
-### (0) Compilation
+### Compilation
 
 Compile with Java 11 or later:
 
