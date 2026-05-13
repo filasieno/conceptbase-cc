@@ -127,9 +127,20 @@ This is needed if you want to make sure that a given user always gets assigned t
 that provides a dedicated ConceptBase database for that user. You can also pre-configure the user-port mapping file before starting the load balancer. It shall then use this assignment to link user clients to the dedicated CBservers.
 
 
-## C. Know issues
+## C. A Rust implementation
 
-- There are rare cases when a message is lost, either between clients and the load balance or the load balancer and the pool servers. It seems that this only happens for initial messages.
+The load balancer is also posrted to Rust, see CBserverLoadBalancer.rs. It should behave the same or very simular to CBserverLoadBalancer.java. To compile the Rust version use
+
+    rustc -O  CBserverLoadBalancer.rs -o CBserverLoadBalancer
+
+Tu run it, use for example
+
+    ./CBserverLoadBalancer stop 4001 5001 5002
+
+
+## D. Know issues
+
+- There are rare cases when a message is lost, either between clients and the load balancer or the load balancer and the pool servers. It seems that this only happens for initial messages.
 
 - The load balancer does not start or restart a pool server. This has to be done by separate bash scrips or terminal commands.
 

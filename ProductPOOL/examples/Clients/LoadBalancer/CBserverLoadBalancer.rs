@@ -62,21 +62,38 @@ fn main() -> io::Result<()> {
 }
 
 fn handle_client(mut client_stream: TcpStream, state: Arc<Mutex<BalancerState>>) {
-    let mut buffer = vec![0u8; 4096];
-    let n = match client_stream.read(&mut buffer) {
-        Ok(read_bytes) if read_bytes > 0 => read_bytes,
-        _ => return,
-    };
+    // 1. Read the 5-byte header: 'X' + 4-byte length
+    let mut header = [0u8; 5];
+    if client_stream.read_exact(&mut header).is_err() { return; }
 
-    // RAW BYTE EXTRACTION - No UTF-8 assumptions until the final string
-    let user = extract_username_bytes(&buffer[..n]);
+    if header[0] != b'X' {
+        eprintln!("[ERROR] Invalid protocol: Expected 'X', got '{}'", header[0] as char);
+        return;
+    }
+
+    // 2. Parse big-endian length from bytes 1-4
+    let body_len = u32::from_be_bytes([header[1], header[2], header[3], header[4]]) as usize;
+    
+    // 3. Read the exact number of bytes specified by the header
+    let mut body = vec![0u8; body_len];
+    if client_stream.read_exact(&mut body).is_err() { return; }
+
+    // DEBUG: Show exact message structure
+    let full_msg_text = String::from_utf8_lossy(&body);
+    eprintln!("[DEBUG] Header Length: {} bytes", body_len);
+    eprintln!("[DEBUG] Body: {}", full_msg_text);
+
+    // 4. Extract username from the verified body
+    let user = extract_username_from_body(&body);
     let port_opt = get_port_for_user(&user, Arc::clone(&state));
 
     if let Some(port) = port_opt {
         eprintln!("[TRACE] Assignment: User '{}' -> Port {}", user, port);
         
         if let Ok(mut server_stream) = TcpStream::connect(format!("127.0.0.1:{}", port)) {
-            let _ = server_stream.write_all(&buffer[..n]);
+            // Forward header and body
+            let _ = server_stream.write_all(&header);
+            let _ = server_stream.write_all(&body);
             
             let mut s2c = server_stream.try_clone().unwrap();
             let mut c2s = client_stream.try_clone().unwrap();
@@ -98,52 +115,42 @@ fn handle_client(mut client_stream: TcpStream, state: Arc<Mutex<BalancerState>>)
     }
 }
 
-fn extract_username_bytes(buffer: &[u8]) -> String {
-    let enroll_pattern = b"ENROLL_ME";
-    
-    // Find "ENROLL_ME" index
-    let enroll_idx = match buffer.windows(enroll_pattern.len()).position(|w| w == enroll_pattern) {
+fn extract_username_from_body(body: &[u8]) -> String {
+    let pattern = b"ENROLL_ME";
+    let enroll_pos = match body.windows(pattern.len()).position(|w| w == pattern) {
         Some(idx) => idx,
         None => return "".to_string(),
     };
 
-    // Find the '[' after ENROLL_ME
-    let tail = &buffer[enroll_idx..];
+    let tail = &body[enroll_pos..];
     let array_start = match tail.iter().position(|&b| b == b'[') {
         Some(idx) => idx,
         None => return "".to_string(),
     };
 
-    // Collect all data between quotes within the array
-    let array_content = &tail[array_start + 1..];
-    let mut string_blobs = Vec::new();
-    let mut current_blob = Vec::new();
-    let mut inside_quotes = false;
+    let mut string_list = Vec::new();
+    let mut current_str = Vec::new();
+    let mut in_quotes = false;
 
-    for &b in array_content {
-        if b == b'"' {
-            if inside_quotes {
-                string_blobs.push(current_blob.clone());
-                current_blob.clear();
-                inside_quotes = false;
-                // If we found the 2nd string blob, stop immediately
-                if string_blobs.len() == 2 { break; }
-            } else {
-                inside_quotes = true;
+    for &b in &tail[array_start + 1..] {
+        match b {
+            b'"' => {
+                if in_quotes {
+                    string_list.push(String::from_utf8_lossy(&current_str).into_owned());
+                    current_str.clear();
+                    in_quotes = false;
+                    // We want the 2nd string in the array
+                    if string_list.len() == 2 {
+                        return string_list[1].chars()
+                            .filter(|&c| ! " ,()".contains(c))
+                            .collect();
+                    }
+                } else { in_quotes = true; }
             }
-        } else if inside_quotes {
-            current_blob.push(b);
-        } else if b == b']' {
-            break;
+            b']' if !in_quotes => break,
+            _ if in_quotes => current_str.push(b),
+            _ => {}
         }
-    }
-
-    if string_blobs.len() >= 2 {
-        // Convert only the username portion to a String and clean it
-        let raw_user = String::from_utf8_lossy(&string_blobs[1]);
-        return raw_user.chars()
-            .filter(|&ch| ! " ,()".contains(ch))
-            .collect();
     }
     "".to_string()
 }
