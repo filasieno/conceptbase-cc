@@ -1,16 +1,30 @@
-# README.md: CBserverLoadBalancer
+# README.md: CBserverLoadBalancer for Multi-User Setupups of ConceptBase
 
 Manfred Jeusfeld, 2026-05-07 (2026-05-13)
 
 
 CBserverLoadBalancer is a Reverse Proxy Load Balancer for the ConceptBase server. It pretends to ConceptBase clients to be a ConceptBase server. But in fact it forwards their requests to a ConceptBase server from a pool of such servers on localhost. When a client gracefully exits, the corresponding slot becomes free again. The assignment can be controlled by a number of parameters.
 
-Compile with Java 11 or later:
 
-    javac CBserverLoadBalancer.java
+![Client/server architecture](https://gitlab.com/mjeu/conceptbasecc/-/raw/master/ProductPOOL/examples/Clients/LoadBalancer/justcbserver.svg)
+
+The above architecture shows how a single ConceptBase server (CBserver) has connections from multiple clients from multiple users.
+In this case the users will work on the same database, even though they may be assigned to different so-called home modules,
+i.e. parts of the database. The disadvantage of this set-up is that 
+- transactions of one user influence the other users
+- a long transaction of one user blocks the transactions of the other users until completed
 
 
 ## A. Simple use
+
+The load balancer addresses this short-comings of the two-tier client/server architecture of ConceptBase by providing a three-tier
+architecture.
+
+### (0) Compilation
+
+Compile with Java 11 or later:
+
+    javac CBserverLoadBalancer.java
 
 
 ### (1) To start the load balancer, first start a pool of CBservers with consecutive port numbers, e.g.

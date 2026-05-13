@@ -20,6 +20,8 @@ Real in DataType isA Value  end
 
 Boolean in DataType isA Value  end 
 
+ExceptIndividual end
+
 ValueOrDataType in QueryClass isA Individual with 
    constraint
     c1d : $ (this in Value) or (this in DataType) $
@@ -27,7 +29,8 @@ end
 
 ProperIndividual in QueryClass,MSFOLrule isA Individual with 
    constraint
-    c1a : $ not (this in QueryClass) and not (this in MSFOLassertion) and exists a/Attribute y/ValueOrDataType From(a,this) and To(a,y) $
+    c1a : $ not (this in QueryClass) and not (this in MSFOLassertion) and not (this in ExceptIndividual) and
+            exists a/Attribute y/ValueOrDataType From(a,this) and To(a,y) $
 end 
 
 IndividualAttribute in QueryClass,MSFOLrule isA Proposition!attribute with 
@@ -199,6 +202,14 @@ loadbalancer with
     mary1_5001: cbserver1;
     billA_5002: cbserver2
 end
+
+"cbserver.acme.org" in ExceptIndividual with
+  gproperty 
+    align: "topleft";
+    bgcolor: "240,240,240";
+    nodelevel: "-101"
+end
+
 
 
 
