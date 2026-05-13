@@ -1,3 +1,40 @@
+//
+// File: CBserverLoadBalancer.rs 
+//
+// Author: Manfred Jeusfeld (with help from LLM)
+// Date: 2026-05-06 (2026-05-13)
+// --------------------------------------------------------------
+// License: Creative Commons CC-BY 4.0
+//
+// THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+// INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+// PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+// (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+// OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+// OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+//
+
+//
+// This is a Reverse Proxy Load Balancer for the ConceptBase server. It pretends to ConceptBase
+// clients to be a ConceptBase server. But in fact it forwards their requests to a pool of ConceptBase servers
+// on localhost. When I client gracefully exits, the corresponding slot becomes free again, assuming that the
+// ConceptBase server restarts itself on the same port.
+//
+// To compile: rustc -O  CBserverLoadBalancer.rs -o CBserverLoadBalancer
+// To start: ./CBserverLoadBalancer <shutdownKey> <balancerPort> <poolStart> <poolEnd>
+// To shutdown: echo "SHUTDOWN_BALANCER <shutdownKey>" | nc localhost <balancerPort>
+//
+// With user port mapping: ./CBserverLoadBalancer <shutdownKey> <balancerPort> <poolStart> <poolEnd> -c <filename>
+// Example: ./CBserverLoadBalancer stop319 4001 5001 5002 -c up1.txt
+//    
+// This Rust program was tarnslated from CBserverLoadBalancer.java
+//
+
+
+
 use std::collections::HashMap;
 use std::env;
 use std::fs::File;
