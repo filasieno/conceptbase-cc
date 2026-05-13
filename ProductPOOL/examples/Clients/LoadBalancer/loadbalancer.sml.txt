@@ -142,49 +142,55 @@ end
 
 cbiva1 with
   attribute
-    user: "mary1"
+    user: "mary1";
+    host: "acme-linux"
 end
 
 cbiva2 with
   attribute
-    user: "billA"
+    user: "billA";
+    host: "factor-mac"
 end
 
 
 cbgraph1 with
   attribute
-    user: "mary1"
+    user: "mary1";
+    host: "acme-linux"
 end
 
 loadbalancer with
    attribute
-     port: 4001
+     port: 4001;
+     host: "cbserver.acme.org"
 end
 
 cbserver1 with
   attribute
-    port: 5001
+    port: 5001;
+    host: "localhost"
 end
 
 cbserver2 with
   attribute
-    port: 5002
+    port: 5002;
+    host: "localhost"
 end
 
 
 cbiva1 with
   attribute
-    stream_4001: loadbalancer
+    connect_4001: loadbalancer
 end
 
 cbiva2 with
   attribute
-    stream_4001: loadbalancer
+    connect_4001: loadbalancer
 end
 
 cbgraph1 with
   attribute
-    stream_4001: loadbalancer
+    connect_4001: loadbalancer
 end
 
 
