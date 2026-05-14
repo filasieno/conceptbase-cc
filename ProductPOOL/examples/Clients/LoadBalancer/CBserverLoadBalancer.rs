@@ -118,7 +118,8 @@ fn handle_client(mut client_stream: TcpStream, state: Arc<Mutex<BalancerState>>)
     // DEBUG: Show exact message structure
     let full_msg_text = String::from_utf8_lossy(&body);
     eprintln!("[DEBUG] Header Length: {} bytes", body_len);
-    eprintln!("[DEBUG] Body: {}", full_msg_text);
+    eprintln!("[DEBUG] Body: {}", full_msg_text.trim_end());
+
 
     // 4. Extract username from the verified body
     let user = extract_username_from_body(&body);
@@ -153,44 +154,15 @@ fn handle_client(mut client_stream: TcpStream, state: Arc<Mutex<BalancerState>>)
 }
 
 fn extract_username_from_body(body: &[u8]) -> String {
-    let pattern = b"ENROLL_ME";
-    let enroll_pos = match body.windows(pattern.len()).position(|w| w == pattern) {
-        Some(idx) => idx,
-        None => return "".to_string(),
-    };
-
-    let tail = &body[enroll_pos..];
-    let array_start = match tail.iter().position(|&b| b == b'[') {
-        Some(idx) => idx,
-        None => return "".to_string(),
-    };
-
-    let mut string_list = Vec::new();
-    let mut current_str = Vec::new();
-    let mut in_quotes = false;
-
-    for &b in &tail[array_start + 1..] {
-        match b {
-            b'"' => {
-                if in_quotes {
-                    string_list.push(String::from_utf8_lossy(&current_str).into_owned());
-                    current_str.clear();
-                    in_quotes = false;
-                    // We want the 2nd string in the array
-                    if string_list.len() == 2 {
-                        return string_list[1].chars()
-                            .filter(|&c| ! " ,()".contains(c))
-                            .collect();
-                    }
-                } else { in_quotes = true; }
-            }
-            b']' if !in_quotes => break,
-            _ if in_quotes => current_str.push(b),
-            _ => {}
-        }
-    }
-    "".to_string()
+    let msg = String::from_utf8_lossy(body);
+    
+    // extract the user name from a message like 
+    //     ipcmessage("","",ENROLL_ME,["CBIva","maryA@acme-linux"]).
+    
+    msg.split('"').nth(5).unwrap_or("").replace(|c| " ,()[]".contains(c), "")
 }
+
+
 
 fn get_port_for_user(user: &str, state: Arc<Mutex<BalancerState>>) -> Option<i32> {
     let mut s = state.lock().unwrap();
