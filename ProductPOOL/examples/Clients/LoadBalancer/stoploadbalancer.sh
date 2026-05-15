@@ -1,6 +1,6 @@
 #! /bin/bash 
 # Shutdown a loadbalancer on localhost:4001 gracefully
-# Note that the scret word must be the same as in startloadbalancer.sh
+# Note that the secret word must be the same as in startloadbalancer.sh
 #
 # Does not work with the Rust version yet; you need to use kill there
 

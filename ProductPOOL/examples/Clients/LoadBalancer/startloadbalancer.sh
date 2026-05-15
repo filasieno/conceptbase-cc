@@ -10,5 +10,5 @@
 # (java CBserverLoadBalancer stop456 4001 5001 5002 &> log_loadbalancer4001.log) &
 
 # Compiled Rust version (preferred)
-(CBserverLoadBalancer stop 4001 5001 5002 &> log_loadbalancer4001.log) &
+(CBserverLoadBalancer stop456 4001 5001 5002 &> log_loadbalancer4001.log) &
 
