@@ -373,7 +373,7 @@ public class DiagramNode
 
 
     final public void addEdge(DiagramEdge de) {
-System.out.println("AAA DiagramNode: addEdge");
+// System.out.println("AAA DiagramNode: addEdge");
         if (de != null) {
             m_vEdges.add(de);
         }

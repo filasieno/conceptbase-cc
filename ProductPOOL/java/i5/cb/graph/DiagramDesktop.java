@@ -317,7 +317,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
     public void addDiagramEdge(DiagramEdge edgeToAdd, DiagramNode parent,
             int iPos) {
 
-System.out.println("AAA DiagramDesktop: addDiagramEdge");
+// System.out.println("AAA DiagramDesktop: addDiagramEdge");
         Vector tmp = new Vector();
         tmp.add(edgeToAdd);
         addDiagramEdges(tmp, parent, iPos, false);
@@ -629,7 +629,7 @@ System.out.println("AAA DiagramDesktop: addDiagramEdge");
         // add the new node into the abstract graph
         if (node.isOnEdge()) {
            // m_layout.addEdge(node.getDiagramEdge());
-System.out.println("AAA DesgramDesktop: addEdge");
+// System.out.println("AAA DesgramDesktop: addEdge");
             m_gLayout.addEdge(node.getDiagramEdge());
         } else {
             //m_layout.addNode(node);

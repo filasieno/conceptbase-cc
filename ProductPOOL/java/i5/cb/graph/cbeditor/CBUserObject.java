@@ -901,7 +901,7 @@ abstract public class CBUserObject {
 
 
     public void addEdge(CBUserObject newEdge){
-System.out.println("AAA CBUserObject: addEdge");
+// System.out.println("AAA CBUserObject: addEdge");
         m_edges.add(newEdge);
     }
 
