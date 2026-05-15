@@ -1,39 +1,11 @@
-//
-// File: CBserverLoadBalancer.rs 
-//
-// Author: Manfred Jeusfeld (with help from LLM)
-// Date: 2026-05-06 (2026-05-13)
-// --------------------------------------------------------------
-// License: Creative Commons CC-BY 4.0
-//
-// THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
-// INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-// PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
-// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-// (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
-// OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
-// OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-//
-
-//
-// This is a Reverse Proxy Load Balancer for the ConceptBase server. It pretends to ConceptBase
-// clients to be a ConceptBase server. But in fact it forwards their requests to a pool of ConceptBase servers
-// on localhost. When I client gracefully exits, the corresponding slot becomes free again, assuming that the
-// ConceptBase server restarts itself on the same port.
-//
-// To compile: rustc -O  CBserverLoadBalancer.rs -o CBserverLoadBalancer
-// To start: ./CBserverLoadBalancer <shutdownKey> <balancerPort> <poolStart> <poolEnd>
-// To shutdown: echo "SHUTDOWN_BALANCER <shutdownKey>" | nc localhost <balancerPort>
-//
-// With user port mapping: ./CBserverLoadBalancer <shutdownKey> <balancerPort> <poolStart> <poolEnd> -c <filename>
-// Example: ./CBserverLoadBalancer stop319 4001 5001 5002 -c up1.txt
-//    
-// This Rust program was tarnslated from CBserverLoadBalancer.java
-//
-
-
+/*
+ * File: CBserverLoadBalancer.rs 
+ *
+ * Author: Manfred Jeusfeld (with help from LLM)
+ * Date: 2026-05-15
+ * --------------------------------------------------------------
+ * License: Creative Commons CC-BY 4.0
+ */
 
 use std::collections::HashMap;
 use std::env;
@@ -54,10 +26,11 @@ struct BalancerState {
 fn main() -> io::Result<()> {
     let args: Vec<String> = env::args().collect();
     if args.len() < 5 {
-        eprintln!("Usage: {} <key> <port> <start> <end> [-c file] [-fix]", args[0]);
+        eprintln!("Usage: {} <shutdownKey> <balancerPort> <poolStart> <poolEnd> [-c file] [-fix]", args[0]);
         return Ok(());
     }
 
+    let shutdown_key = args[1].clone();
     let balancer_port = args[2].parse::<u16>().unwrap_or(4001);
     let pool_start = args[3].parse::<i32>().unwrap_or(5001);
     let pool_end = args[4].parse::<i32>().unwrap_or(5002);
@@ -92,13 +65,14 @@ fn main() -> io::Result<()> {
     for stream in listener.incoming() {
         if let Ok(s) = stream {
             let state_ref = Arc::clone(&state);
-            thread::spawn(move || handle_client(s, state_ref));
+            let key_ref = shutdown_key.clone();
+            thread::spawn(move || handle_client(s, state_ref, key_ref));
         }
     }
     Ok(())
 }
 
-fn handle_client(mut client_stream: TcpStream, state: Arc<Mutex<BalancerState>>) {
+fn handle_client(mut client_stream: TcpStream, state: Arc<Mutex<BalancerState>>, shutdown_key: String) {
     // 1. Read the 5-byte header: 'X' + 4-byte length
     let mut header = [0u8; 5];
     if client_stream.read_exact(&mut header).is_err() { return; }
@@ -115,11 +89,19 @@ fn handle_client(mut client_stream: TcpStream, state: Arc<Mutex<BalancerState>>)
     let mut body = vec![0u8; body_len];
     if client_stream.read_exact(&mut body).is_err() { return; }
 
-    // DEBUG: Show exact message structure
     let full_msg_text = String::from_utf8_lossy(&body);
+
+    // --- ADMINISTRATIVE SHUTDOWN ---
+    if full_msg_text.contains(&format!("SHUTDOWN_BALANCER {}", shutdown_key)) {
+        eprintln!("[SHUTDOWN] Shutdown command received. Closing balancer.");
+        let s = state.lock().unwrap();
+        save_mapping_locked(&s); 
+        std::process::exit(0);
+    }
+
+    // DEBUG: Show exact message structure without trailing newlines
     eprintln!("[DEBUG] Header Length: {} bytes", body_len);
     eprintln!("[DEBUG] Body: {}", full_msg_text.trim_end());
-
 
     // 4. Extract username from the verified body
     let user = extract_username_from_body(&body);
@@ -129,23 +111,26 @@ fn handle_client(mut client_stream: TcpStream, state: Arc<Mutex<BalancerState>>)
         eprintln!("[TRACE] Assignment: User '{}' -> Port {}", user, port);
         
         if let Ok(mut server_stream) = TcpStream::connect(format!("127.0.0.1:{}", port)) {
-            // Forward header and body
+            // Forward original header and body to the backend server
             let _ = server_stream.write_all(&header);
             let _ = server_stream.write_all(&body);
             
             let mut s2c = server_stream.try_clone().unwrap();
             let mut c2s = client_stream.try_clone().unwrap();
             
+            // Bidirectional proxying
             let t1 = thread::spawn(move || { let _ = io::copy(&mut s2c, &mut client_stream); });
             let _ = io::copy(&mut c2s, &mut server_stream);
             let _ = t1.join();
         }
 
+        // Cleanup after session ends
         let mut s = state.lock().unwrap();
         let count = s.port_ref_count.entry(port).or_insert(0);
         if *count > 0 { *count -= 1; }
         if *count <= 0 {
             *count = 0;
+            // Only release port if not in -fix mode or if no user was detected
             if !s.is_fixed || user.is_empty() {
                 if !s.free_servers.contains(&port) { s.free_servers.push(port); }
             }
@@ -155,14 +140,10 @@ fn handle_client(mut client_stream: TcpStream, state: Arc<Mutex<BalancerState>>)
 
 fn extract_username_from_body(body: &[u8]) -> String {
     let msg = String::from_utf8_lossy(body);
-    
-    // extract the user name from a message like 
-    //     ipcmessage("","",ENROLL_ME,["CBIva","maryA@acme-linux"]).
-    
-    msg.split('"').nth(5).unwrap_or("").replace(|c| " ,()[]".contains(c), "")
+    // Uses the concise .nth(7) to target the second string in the array:
+    // ["CBIva", "username@host"]
+    msg.split('"').nth(7).unwrap_or("").replace(|c| " ,()[]".contains(c), "")
 }
-
-
 
 fn get_port_for_user(user: &str, state: Arc<Mutex<BalancerState>>) -> Option<i32> {
     let mut s = state.lock().unwrap();

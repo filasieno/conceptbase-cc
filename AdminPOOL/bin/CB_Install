@@ -229,6 +229,7 @@ cp $CB_POOL/examples/Clients/LoadBalancer/*.java $CB_PRODUCT/examples/Clients/Lo
 cp $CB_POOL/examples/Clients/LoadBalancer/*.rs $CB_PRODUCT/examples/Clients/LoadBalancer
 cp $CB_POOL/examples/Clients/LoadBalancer/*.sh $CB_PRODUCT/examples/Clients/LoadBalancer
 cp $CB_POOL/examples/Clients/LoadBalancer/*.txt $CB_PRODUCT/examples/Clients/LoadBalancer
+cp $CB_POOL/examples/Clients/LoadBalancer/*.cbs $CB_PRODUCT/examples/Clients/LoadBalancer
 cp $CB_POOL/examples/Clients/LoadBalancer/README.md $CB_PRODUCT/examples/Clients/LoadBalancer
 # also copy the binary of the Rust version
 cp $CB_POOL/examples/Clients/LoadBalancer/CBserverLoadBalancer $CB_PRODUCT/examples/Clients/LoadBalancer

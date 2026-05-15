@@ -1,0 +1,7 @@
+# CBShell script to stop a ConceptBase server on localhost at a given portnumber
+# Call: cbshell stopserver.cbs <portnumber>
+# Example: cbshell stopserver.cbs 5001
+
+connect localhost $1
+stopServer
+
