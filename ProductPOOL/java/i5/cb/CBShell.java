@@ -396,6 +396,7 @@ public class CBShell {
       return sCB_HOME;
     }
 
+
     // start a CBserver with the provided command and port number
     public void startconnectCbServer(String[] cmdarray, String port) {
       try {
@@ -411,11 +412,15 @@ public class CBShell {
           //wait until server start is completed
           long curTime=System.currentTimeMillis();
           while(!serverThread.isReady() &&
-                (System.currentTimeMillis() - curTime) < 100000) {
+                (System.currentTimeMillis() - curTime) < 6000) {
               if (scriptFile==null)
                   System.err.print(".");
-              Thread.sleep(300);
+              Thread.sleep(1000);
               Thread.yield();
+          }
+          if (!serverThread.isReady()) {
+             System.out.println("\nUnable to start ConceptBase Server; port " + port + " possibly claimed by another process");
+             System.exit(1);
           }
           // Wait additionally 0.2 second to make sure that server is up and running
           Thread.sleep(200);
@@ -424,8 +429,9 @@ public class CBShell {
           cbClient.setTimeOut(36000000); // ten hours timeout
           isConnected=true;
           bServerStarted=true;
-          if (scriptFile==null && bDisplayPrompt)
+          if (scriptFile==null && bDisplayPrompt) {
               System.out.println("Successfully started and connected to CBserver");
+          }
        }
       catch(Exception e) {
           System.out.println("Unable to start ConceptBase Server");
@@ -562,6 +568,8 @@ public class CBShell {
                     System.getProperty("os.name").indexOf("Linux") >= 0) {   
                   String[] cmdarray=new String[1];
                   cmdarray[0] = getCbHome() + "/cbserver";
+                  System.err.println("Error: Could not connect to " + hostname + ":" + port + ", exiting ...");
+                  System.exit(1);
                   startconnectCbServer(cmdarray,port); // start the CBserver with the collected cmdarray on port  
                 }    
             }
