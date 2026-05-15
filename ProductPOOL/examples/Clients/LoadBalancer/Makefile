@@ -35,7 +35,9 @@ CurrDir=examples/Clients/LoadBalancer/
 MK_SOURCES=Makefile
 
 EXPORTFILES=CBserverLoadBalancer.java \
-	README.txt
+        CBserverLoadBalancer \
+	README.md
+        
 
 
 # Kurze Beschreibung der Komponente
