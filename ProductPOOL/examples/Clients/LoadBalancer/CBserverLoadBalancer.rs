@@ -76,6 +76,17 @@ fn main() -> io::Result<()> {
         } else { i += 1; }
     }
 
+    // Cleaned up STARTED message
+    eprintln!(
+        "[STARTED] Rust Balancer on port {} (Key: {}, Pool: {}-{}, config file: {}, Fixed: {})",
+        balancer_port, 
+        shutdown_key, 
+        pool_start, 
+        pool_end, 
+        config_file.as_deref().unwrap_or("none"), 
+        is_fixed
+    );
+
     let state = Arc::new(Mutex::new(BalancerState {
         free_servers: (pool_start..=pool_end).collect(),
         user_to_port: HashMap::new(),
@@ -87,7 +98,6 @@ fn main() -> io::Result<()> {
     load_mapping(Arc::clone(&state));
 
     let listener = TcpListener::bind(format!("0.0.0.0:{}", balancer_port))?;
-    eprintln!("[STARTED] Rust Balancer on port {}", balancer_port);
 
     for stream in listener.incoming() {
         if let Ok(s) = stream {
@@ -100,37 +110,23 @@ fn main() -> io::Result<()> {
 }
 
 fn handle_client(mut client_stream: TcpStream, state: Arc<Mutex<BalancerState>>, shutdown_key: String) {
-    // 1. Read the 5-byte header: 'X' + 4-byte length
     let mut header = [0u8; 5];
     if client_stream.read_exact(&mut header).is_err() { return; }
+    if header[0] != b'X' { return; }
 
-    if header[0] != b'X' {
-        eprintln!("[ERROR] Invalid protocol: Expected 'X', got '{}'", header[0] as char);
-        return;
-    }
-
-    // 2. Parse big-endian length from bytes 1-4
     let body_len = u32::from_be_bytes([header[1], header[2], header[3], header[4]]) as usize;
-    
-    // 3. Read the exact number of bytes specified by the header
     let mut body = vec![0u8; body_len];
     if client_stream.read_exact(&mut body).is_err() { return; }
 
     let full_msg_text = String::from_utf8_lossy(&body);
 
-    // --- ADMINISTRATIVE SHUTDOWN ---
     if full_msg_text.contains(&format!("SHUTDOWN_BALANCER {}", shutdown_key)) {
-        eprintln!("[SHUTDOWN] Shutdown command received. Closing balancer.");
+        eprintln!("[SHUTDOWN] Shutdown command received.");
         let s = state.lock().unwrap();
         save_mapping_locked(&s); 
         std::process::exit(0);
     }
 
-    // DEBUG: Show exact message structure without trailing newlines
-    eprintln!("[DEBUG] Header Length: {} bytes", body_len);
-    eprintln!("[DEBUG] Body: {}", full_msg_text.trim_end());
-
-    // 4. Extract username from the verified body
     let user = extract_username_from_body(&body);
     let port_opt = get_port_for_user(&user, Arc::clone(&state));
 
@@ -138,28 +134,26 @@ fn handle_client(mut client_stream: TcpStream, state: Arc<Mutex<BalancerState>>,
         eprintln!("[TRACE] Assignment: User '{}' -> Port {}", user, port);
         
         if let Ok(mut server_stream) = TcpStream::connect(format!("127.0.0.1:{}", port)) {
-            // Forward original header and body to the backend server
             let _ = server_stream.write_all(&header);
             let _ = server_stream.write_all(&body);
             
             let mut s2c = server_stream.try_clone().unwrap();
             let mut c2s = client_stream.try_clone().unwrap();
             
-            // Bidirectional proxying
             let t1 = thread::spawn(move || { let _ = io::copy(&mut s2c, &mut client_stream); });
             let _ = io::copy(&mut c2s, &mut server_stream);
             let _ = t1.join();
         }
 
-        // Cleanup after session ends
         let mut s = state.lock().unwrap();
         let count = s.port_ref_count.entry(port).or_insert(0);
         if *count > 0 { *count -= 1; }
         if *count <= 0 {
             *count = 0;
-            // Only release port if not in -fix mode or if no user was detected
             if !s.is_fixed || user.is_empty() {
-                if !s.free_servers.contains(&port) { s.free_servers.push(port); }
+                if !s.free_servers.contains(&port) { 
+                    s.free_servers.push(port); 
+                }
             }
         }
     }
@@ -167,22 +161,21 @@ fn handle_client(mut client_stream: TcpStream, state: Arc<Mutex<BalancerState>>,
 
 fn extract_username_from_body(body: &[u8]) -> String {
     let msg = String::from_utf8_lossy(body);
-    // Uses the concise .nth(7) to target the second string in the array:
-    // ["CBIva", "username@host"]
     msg.split('"').nth(7).unwrap_or("").replace(|c| " ,()[]".contains(c), "")
 }
 
 fn get_port_for_user(user: &str, state: Arc<Mutex<BalancerState>>) -> Option<i32> {
     let mut s = state.lock().unwrap();
+    
     if !user.is_empty() {
         if let Some(&port) = s.user_to_port.get(user) {
-            let is_idle = s.port_ref_count.get(&port).map_or(true, |&c| c == 0);
-            if is_idle { s.free_servers.retain(|&x| x != port); }
+            s.free_servers.retain(|&x| x != port);
             let count = s.port_ref_count.entry(port).or_insert(0);
             *count += 1;
             return Some(port);
         }
     }
+
     if !s.free_servers.is_empty() {
         let port = s.free_servers.remove(0);
         if !user.is_empty() {
@@ -192,13 +185,31 @@ fn get_port_for_user(user: &str, state: Arc<Mutex<BalancerState>>) -> Option<i32
         s.port_ref_count.insert(port, 1);
         return Some(port);
     }
+
+    if !s.is_fixed && !s.port_ref_count.is_empty() {
+        if let Some((&port, &min_load)) = s.port_ref_count.iter().min_by_key(|&(_, count)| count) {
+            eprintln!("[OVERFLOW] Sharing Port {} (Current load: {})", port, min_load);
+            let count = s.port_ref_count.get_mut(&port).unwrap();
+            *count += 1;
+            
+            if !user.is_empty() {
+                s.user_to_port.insert(user.to_string(), port);
+                save_mapping_locked(&s);
+            }
+            return Some(port);
+        }
+    }
+
+    eprintln!("[DENIED] Pool exhausted. No port for '{}' (Fixed: {})", user, s.is_fixed);
     None
 }
 
 fn save_mapping_locked(s: &BalancerState) {
     if let Some(ref path) = s.config_file {
         if let Ok(mut f) = File::create(path) {
-            for (u, p) in &s.user_to_port { let _ = writeln!(f, "{}:{}", u, p); }
+            for (u, p) in &s.user_to_port { 
+                let _ = writeln!(f, "{}:{}", u, p); 
+            }
         }
     }
 }
@@ -211,6 +222,7 @@ fn load_mapping(state: Arc<Mutex<BalancerState>>) {
                 let parts: Vec<&str> = line.split(':').collect();
                 if parts.len() == 2 {
                     if let Ok(port) = parts[1].parse::<i32>() {
+                        eprintln!("[LOAD] Mapping: {} -> {}", parts[0], port);
                         s.user_to_port.insert(parts[0].to_string(), port);
                         s.free_servers.retain(|&x| x != port);
                     }
