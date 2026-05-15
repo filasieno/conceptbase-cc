@@ -568,8 +568,7 @@ public class CBShell {
                     System.getProperty("os.name").indexOf("Linux") >= 0) {   
                   String[] cmdarray=new String[1];
                   cmdarray[0] = getCbHome() + "/cbserver";
-                  System.err.println("Error: Could not connect to " + hostname + ":" + port + ", exiting ...");
-                  System.exit(1);
+                  System.out.println("Starting cbserver on the fly ...");
                   startconnectCbServer(cmdarray,port); // start the CBserver with the collected cmdarray on port  
                 }    
             }
