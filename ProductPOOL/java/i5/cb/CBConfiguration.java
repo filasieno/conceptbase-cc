@@ -89,6 +89,8 @@ public class CBConfiguration {
 
     private final static String KEY_OPTION_SHOWLINKCATEGORY="ShowLinkCategory";
 
+    private final static String KEY_OPTION_GUARDMODULEPATH="GuardModulePath";
+
     public final static String VALUE_TREE = "tree";
     public final static String VALUE_FRAME = "frame";
     public final static String VALUE_NONE = "none";
@@ -161,6 +163,8 @@ public class CBConfiguration {
             m_Properties.setProperty(KEY_OPTION_LOADLAYOUTPATH,userHome);
         if(!m_Properties.containsKey(KEY_OPTION_SHOWLINKCATEGORY))
             m_Properties.setProperty(KEY_OPTION_SHOWLINKCATEGORY,"Proposition");
+        if(!m_Properties.containsKey(KEY_OPTION_GUARDMODULEPATH))
+            m_Properties.setProperty(KEY_OPTION_GUARDMODULEPATH,VALUE_TRUE);
         if(!m_Properties.containsKey(KEY_OPTION_POPUP_DELAY))
             m_Properties.setProperty(KEY_OPTION_POPUP_DELAY,"0");
         if(!m_Properties.containsKey(KEY_OPTION_POPUP_BLOCKS))
@@ -847,6 +851,19 @@ public class CBConfiguration {
     public static String getShowLinkCategory() {
         return m_Properties.getProperty(KEY_OPTION_SHOWLINKCATEGORY);
     }
+
+    // controls guarding the module path when saving a graph file, issue #86
+    public static void setGuardModulePath(boolean needguard) {
+         if (needguard)
+             m_Properties.setProperty(KEY_OPTION_GUARDMODULEPATH,VALUE_TRUE);
+         else
+             m_Properties.setProperty(KEY_OPTION_GUARDMODULEPATH,VALUE_FALSE);
+    }
+
+    public static boolean needGuardModulePath() {
+        return m_Properties.getProperty(KEY_OPTION_GUARDMODULEPATH).equals(VALUE_TRUE);
+    }
+
 
     public static int getPopupMenuDelay() {
         return Integer.parseInt(m_Properties.getProperty(KEY_OPTION_POPUP_DELAY));

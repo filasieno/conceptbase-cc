@@ -569,7 +569,7 @@ public class GraphEditor
               CBFrame cbf = (CBFrame) gif;
               String gelmodulepath = cbf.getGelfileModulePath();
               String currentmodulepath = cbf.getContext();
-              if (gelmodulepath != null && currentmodulepath != null && !currentmodulepath.startsWith(gelmodulepath) ) {
+              if (CBConfiguration.needGuardModulePath() && gelmodulepath != null && currentmodulepath != null && !currentmodulepath.startsWith(gelmodulepath) ) {
                  JOptionPane.showMessageDialog(this,
                    "Current module "+currentmodulepath+" of the graph does not include the original path of the graph file "+gelmodulepath,
                    "Error", JOptionPane.ERROR_MESSAGE);
@@ -657,7 +657,7 @@ public class GraphEditor
               CBFrame cbf = (CBFrame) gif;
               String gelmodulepath = cbf.getGelfileModulePath();
               String currentmodulepath = cbf.getContext();
-              if (gelmodulepath != null && currentmodulepath != null &&
+              if (CBConfiguration.needGuardModulePath() && gelmodulepath != null && currentmodulepath != null &&
                   !currentmodulepath.startsWith(gelmodulepath) ) {
                  int response =JOptionPane.showConfirmDialog(this,
                                   "Current module "+currentmodulepath+
