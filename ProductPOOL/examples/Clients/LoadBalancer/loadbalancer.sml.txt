@@ -162,6 +162,12 @@ cbgraph1 with
     host: "acme-linux"
 end
 
+cbshell1 with
+  attribute
+    user: "anne3";
+    host: "nim-win"
+end
+
 loadbalancer with
    attribute
      port: 4001;
@@ -196,11 +202,17 @@ cbgraph1 with
     connect_4001: loadbalancer
 end
 
+cbshell1 with
+  attribute
+    connect_4001: loadbalancer
+end
+
 
 loadbalancer with
   attribute
     mary1_5001: cbserver1;
-    billA_5002: cbserver2
+    billA_5002: cbserver2;
+    anne3_5001: cbserver1
 end
 
 "cbserver.acme.org" in ExceptIndividual with

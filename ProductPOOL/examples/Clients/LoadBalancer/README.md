@@ -1,6 +1,6 @@
 # README.md: CBserverLoadBalancer for Multi-User Installations of ConceptBase
 
-Manfred Jeusfeld, 2026-05-07 (2026-05-14)
+Manfred Jeusfeld, 2026-05-07 (2026-05-16)
 
 
 CBserverLoadBalancer is a Reverse Proxy Load Balancer for the ConceptBase server (CBserver). It pretends to ConceptBase clients to be a ConceptBase server. But in fact it forwards their requests to a ConceptBase server from a pool of such servers on localhost. When a client gracefully exits, the corresponding slot becomes free again. The assignment can be controlled by a number of parameters.
@@ -32,36 +32,55 @@ The architecture below shows how a single ConceptBase server has connections fro
 ![Client/server architecture](https://gitlab.com/mjeu/conceptbasecc/-/raw/master/ProductPOOL/examples/Clients/LoadBalancer/justcbserver.svg)
 
 
+## B. Compile the CBserverLoadBalancer
+
+The load balancer is implemented in Rust from CBserverLoadBalancer.rs. To compile the Rust version use the command
+
+    rustc -O  CBserverLoadBalancer.rs -o CBserverLoadBalancer
+
+We used the Rust compiler rustc 1.95.0 but older versions such as 1.75 should also work.
+
+There is also a Java variant CBserverLoadBalancer.java which can be compiled with
+
+    javac CBserverLoadBalancer.java
+
+However, we no longer maintain this variant.
 
 
-## B. Simple use of CBserverLoadBalancer
+
+## C. Simple use of CBserverLoadBalancer
 
 The load balancer addresses the short-comings of the client/server architecture of ConceptBase by a three-tier architecture. A pool of worker CBservers is started on the host with local port numbers. User clients however do not directly connect to one of the pool servers but via CBserverLoadBalancer, which is serving the port number `cbserver.acme.org:4001`. The domain name here is just for illustration purposes. The firewalls must be configured to expose the port number 4001 to user computers.
 
-### Compile with Java 11 or later:
-
-    javac CBserverLoadBalancer.java
 
 
 ### (1) To start the load balancer, first start a pool of CBservers with consecutive port numbers, e.g.
 
-    (cbserver -port 5001 -r 1 -a $USER -g public -ia 1 -u nonpersistent -d MDB &> log5001.txt) &
-    (cbserver -port 5002 -r 1 -a $USER -g public -ia 1 -u nonpersistent -d MDB &> log5002.txt) &
-    (cbserver -port 5003 -r 1 -a $USER -g public -ia 1 -u nonpersistent -d MDB &> log5003.txt) &
-    (cbserver -port 5004 -r 1 -a $USER -g public -ia 1 -u nonpersistent -d MDB &> log5004.txt) &
+    (cbserver -port 5001 -r 1 -g public -ia 1 -u nonpersistent -d MDB &> log5001.txt) &
+    (cbserver -port 5002 -r 1 -g public -ia 1 -u nonpersistent -d MDB &> log5002.txt) &
 
-We assume that the commands are issued on the host computer `cbserver.acme.org`. The load balancer would however also work on `localhost`. Note that the `$USER` refers to the user logged in on `cbserver.acme.org`.
+These commands should be placed in the bash script
+
+    startpoolservers.sh
+
+You can edit this script to adapt it to your needs. We assume that the commands are issued on the host computer `cbserver.acme.org`. The load balancer would however also work on `localhost`. The database `MDB` is used in `nonpersistent` mode, i.e.
+each pool server is initialized with the database MDB from the file system but then holds it in main memory only. 
+The option `-g public` assigns separate workspaces (called modules) to different users assigned to the same pool server.
+More options are discussed in section D below.
+
 
 
 
 ### (2) To start the load balancer, enter a command like
 
-    java CBserverLoadBalancer mysecret123 4001 5001 5004
+    ./CBserverLoadBalancer mysecret123 4001 5001 5002
 
  1. mysecret123: example of a secret key to shut down the load balancer.
  2. 4001: the port to which the load balancer listens for ConceptBase clients connects. This is also the default port number of a ConceptBase server 
  3. 5001: Port number of the first pool server
- 4. 5004: Port number of the last pool server
+ 4. 5002: Port number of the last pool server
+
+In this simple example, we only use two pool servers. 
 
 ### (3) Connections and restarts
 
@@ -76,6 +95,11 @@ The example below shows two different users `mary1` and `billA` who connect to a
     [mary1@cbiva1]   <-----> (cbserver.acme.org:4001) [loadbalancer]  <-----> (localhost:5001) [cbserver1]
     [billA@cbiva2]   <-----> (cbserver.acme.org:4001) [loadbalancer]  <-----> (localhost:5002) [cbserver2]
     [mary1@cbgraph1] <-----> (cbserver.acme.org:4001) [loadbalancer]  <-----> (localhost:5001) [cbserver1]
+    [anne3@cbshell1] <-----> (cbserver.acme.org:4001) [loadbalancer]  <-----> (localhost:5001) [cbserver1]
+
+The fourth line is for the third distinct user `anne3`. Since we only have two pool servers, the client of this user share the pool
+server with an existing user, here `mary1`. This is the default behaviour. See section D for more options on
+controlling which pool server is assigned to which user.
 
 
 
@@ -91,29 +115,28 @@ a fresh restart of the CBserver. If the CBserver shall serve a new user, it make
 
 ### (4) Shutting down the load balancer
 
-After logging in on the host of the CBserverLoadBalancer, you can stop it with the command
+After logging in on the host of the CBserverLoadBalancer, you can stop it with the bash script
 
-    echo "SHUTDOWN_BALANCER mysecret123" | nc localhost 4001
+    ./stoploadbalancer.sh
 
-You can also shut it down remotely if you know the secret key and replace localhost by `cbserver.acme.org`.
+Make sure that is stops the same ppol servers that were started by startpoolservers.sh.
+
 
 
 
 ### (5) Stopping the pool servers
 
 The pool servers are not shut down automatically when you shutdown the load balancer. 
-You need to use `cbshell` on `cbserver.acme.org` to shut them down. For example:
+You need to use the bash script 
 
-    % cbshell
-    [offline]>connect localhost 5001
-    [localhost:5001]>stop
+    ./stoppoolservers.sh
 
 It is a good idea not to make the portnumbers of the pool servers visible outside `cbserver.acme.org`.
 
 
 
 
-## C. Advanced use of CBserverLoadBalancer
+## D. Advanced use of CBserverLoadBalancer
 
 In this scenario, we want that users get their dedicated databases, i.e. when they connect the first time
 to the load balancer via a client such as CBIva, then the assigned pool server is memorized in a file and
@@ -132,7 +155,7 @@ Note that each CBserver has its own database here and it is started in persisten
 
 ### (2) Start the load balancer with user-port mapping file
 
-    java CBserverLoadBalancer mysecret123 4001 5001 5004 -c userportmap.txt
+    ./CBserverLoadBalancer mysecret123 4001 5001 5004 -c userportmap.txt
 
 
 A typical user-port mapping file looks like
@@ -145,30 +168,22 @@ A typical user-port mapping file looks like
 
 The file is updated every 60 seconds. If a user logs out, the mapping may be updated with the next user who claims the pool server. 
 
-If you additionally use the co
-mmand line parameter `-fix`, then the assignment of ports to users is
+
+### (3) Fixed pool servers per user
+
+If you additionally use the command line parameter `-fix`, then the assignment of ports to users is
 sticky. Even if the user logs out, the port can only be assigned to clients of the same user.
 
-    java CBserverLoadBalancer mysecret123 4001 5001 5004 -c userportmap.txt -fix
+    ./CBserverLoadBalancer mysecret123 4001 5001 5004 -c userportmap.cfg -fix
 
 This is needed if you want to make sure that a given user always gets assigned to the same pool server
 that provides a dedicated ConceptBase database for that user. You can also pre-configure the user-port mapping file before starting the load balancer. It shall then use this assignment to link user clients to the dedicated CBservers.
 
 
-## C. A Rust implementation
-
-The load balancer is also ported to Rust, see CBserverLoadBalancer.rs. It should behave the same or very similar to CBserverLoadBalancer.java. To compile the Rust version use
-
-    rustc -O  CBserverLoadBalancer.rs -o CBserverLoadBalancer
-
-Tu run it, use for example
-
-    ./CBserverLoadBalancer mysecret123 4001 5001 5004
-
-We used the Rust compiler rustc 1.95.0.
 
 
-## D. Known issues
+
+## E. Known issues
 
 - There are rare cases when a message is lost, either between clients and the load balancer or the load balancer and the pool servers. It seems that this only happens for initial messages.
 
