@@ -80,7 +80,9 @@ More options are discussed in section D below.
  3. 5001: Port number of the first pool server
  4. 5002: Port number of the last pool server
 
-In this simple example, we only use two pool servers. 
+In this simple example, we only use two pool servers. You can also edit and the utilize the bash script
+
+    ./startloadbalancer.sh
 
 ### (3) Connections and restarts
 
