@@ -1382,7 +1382,10 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
              this.backgroundImage = ImageIO.read(in);
           }
 
-
+          // issue #86: the stored gelfilepath may have been from a session with a public CBserver
+          // in such cases, the module path needs to be corrected by the module path valid just after loading the
+          // GEL file.
+          cbf.setGelfileModulePath(cbf.getContext());
 
           this.setZoom(newzoomfactor);
           this.repaint();
