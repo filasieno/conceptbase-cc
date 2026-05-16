@@ -155,7 +155,7 @@ Note that each CBserver has its own database here and it is started in persisten
 
 ### (2) Start the load balancer with user-port mapping file
 
-    ./CBserverLoadBalancer mysecret123 4001 5001 5004 -c userportmap.txt
+    ./CBserverLoadBalancer mysecret123 4001 5001 5004 -c userportmap.cfg
 
 
 A typical user-port mapping file looks like
