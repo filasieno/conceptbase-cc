@@ -237,7 +237,7 @@ and provides further performance boosts for the CBserver.
 
    CBGraph saves modules sources together with the graph layout in so-called GEL files. The inclusion
    of module sources fails however, if the user previously has changed the module. CBGraph now prevents
-   saving hraph files when the module was changed.
+   saving hraph files when the module was changed. You can congtrol this feature by the option "GuardModulePath".
    https://gitlab.com/mjeu/conceptbasecc/-/issues/86 
 
 85-31 CBGraph deletes whole object when deleting an attribute only

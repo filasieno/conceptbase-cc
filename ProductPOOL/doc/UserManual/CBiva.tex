@@ -1691,6 +1691,9 @@ Default is \verb+false+.
 \item[NodeLevelAware:] Enables or disables the special behavior of nodes with negative level in CBGraph. See also
 section \ref{sec:nodelevel}. Default is "true".
 \item[ShowLinkCategory:] Allows to limit the default type of links expanded when using the tool bar button "Show links between marked objects".
+\item[GuardModulePath:] If set to "true" (default), then you cannot save the graph file if you change the module to s supermodule or
+a sibling module of the original module path stored in the graph file. This prevents accidental inconsistencies of the stored module sources
+and the displayed nodes and links of the graph. Experienced users can set this option to "false" for beining able to force saving the graph.
 \end{description}
 \end{itemize}
 
