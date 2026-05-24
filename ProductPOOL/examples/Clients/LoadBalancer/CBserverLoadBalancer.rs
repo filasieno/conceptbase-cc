@@ -41,6 +41,7 @@ use std::io::{self, BufRead, BufReader, Read, Write};
 use std::net::{TcpListener, TcpStream};
 use std::sync::{Arc, Mutex};
 use std::thread;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 struct BalancerState {
     free_servers: Vec<i32>,
@@ -48,6 +49,54 @@ struct BalancerState {
     port_ref_count: HashMap<i32, i32>,
     config_file: Option<String>,
     is_fixed: bool,
+}
+
+// Helper function to format precise UTC timestamps: YYYY-MM-DD,HH:MM:SS.mmm
+fn get_utc_timestamp() -> String {
+    let now = SystemTime::now();
+    let duration = now.duration_since(UNIX_EPOCH).unwrap_or_default();
+    let total_secs = duration.as_secs();
+    let millis = duration.subsec_millis();
+
+    let seconds_in_day = 86400;
+    let mut days = (total_secs / seconds_in_day) as i32;
+    let mut remaining_secs = (total_secs % seconds_in_day) as i32;
+
+    let hour = remaining_secs / 3600;
+    remaining_secs %= 3600;
+    let minute = remaining_secs / 60;
+    let second = remaining_secs % 60;
+
+    let mut year = 1970;
+    loop {
+        let is_leap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+        let days_in_year = if is_leap { 366 } else { 365 };
+        if days >= days_in_year {
+            days -= days_in_year;
+            year += 1;
+        } else {
+            break;
+        }
+    }
+
+    let is_leap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    let mut month_days = vec![31, if is_leap { 29 } else { 28 }, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    
+    let mut month = 1;
+    for days_in_month in month_days.drain(..) {
+        if days >= days_in_month {
+            days -= days_in_month;
+            month += 1;
+        } else {
+            break;
+        }
+    }
+    let day = days + 1;
+
+    format!(
+        "{:04}-{:02}-{:02},{:02}:{:02}:{:02}.{:03}",
+        year, month, day, hour, minute, second, millis
+    )
 }
 
 fn main() -> io::Result<()> {
@@ -78,7 +127,8 @@ fn main() -> io::Result<()> {
 
     // Cleaned up STARTED message
     eprintln!(
-        "[STARTED] Rust Balancer on port {} (Key: {}, Pool: {}-{}, config file: {}, Fixed: {})",
+        "{} STARTED Rust Balancer on port {} (Key: {}, Pool: {}-{}, config file: {}, Fixed: {})",
+        get_utc_timestamp(),
         balancer_port, 
         shutdown_key, 
         pool_start, 
@@ -121,7 +171,7 @@ fn handle_client(mut client_stream: TcpStream, state: Arc<Mutex<BalancerState>>,
     let full_msg_text = String::from_utf8_lossy(&body);
 
     if full_msg_text.contains(&format!("SHUTDOWN_BALANCER {}", shutdown_key)) {
-        eprintln!("[SHUTDOWN] Shutdown command received.");
+        eprintln!("{} SHUTDOWN Shutdown command received.", get_utc_timestamp());
         let s = state.lock().unwrap();
         save_mapping_locked(&s); 
         std::process::exit(0);
@@ -131,7 +181,7 @@ fn handle_client(mut client_stream: TcpStream, state: Arc<Mutex<BalancerState>>,
     let port_opt = get_port_for_user(&user, Arc::clone(&state));
 
     if let Some(port) = port_opt {
-        eprintln!("[TRACE] Assignment: User '{}' -> Port {}", user, port);
+        eprintln!("{} TRACE Assignment: User '{}' -> Port {}", get_utc_timestamp(), user, port);
         
         if let Ok(mut server_stream) = TcpStream::connect(format!("127.0.0.1:{}", port)) {
             let _ = server_stream.write_all(&header);
@@ -144,6 +194,9 @@ fn handle_client(mut client_stream: TcpStream, state: Arc<Mutex<BalancerState>>,
             let _ = io::copy(&mut c2s, &mut server_stream);
             let _ = t1.join();
         }
+
+        // Trace message when the session ends or connection drops
+        eprintln!("{} TRACE Disconnect: User '{}' closed connection on Port {}", get_utc_timestamp(), user, port);
 
         let mut s = state.lock().unwrap();
         let count = s.port_ref_count.entry(port).or_insert(0);
@@ -188,7 +241,7 @@ fn get_port_for_user(user: &str, state: Arc<Mutex<BalancerState>>) -> Option<i32
 
     if !s.is_fixed && !s.port_ref_count.is_empty() {
         if let Some((&port, &min_load)) = s.port_ref_count.iter().min_by_key(|&(_, count)| count) {
-            eprintln!("[OVERFLOW] Sharing Port {} (Current load: {})", port, min_load);
+            eprintln!("{} OVERFLOW Sharing Port {} (Current load: {})", get_utc_timestamp(), port, min_load);
             let count = s.port_ref_count.get_mut(&port).unwrap();
             *count += 1;
             
@@ -200,7 +253,7 @@ fn get_port_for_user(user: &str, state: Arc<Mutex<BalancerState>>) -> Option<i32
         }
     }
 
-    eprintln!("[DENIED] Pool exhausted. No port for '{}' (Fixed: {})", user, s.is_fixed);
+    eprintln!("{} DENIED Pool exhausted. No port for '{}' (Fixed: {})", get_utc_timestamp(), user, s.is_fixed);
     None
 }
 
@@ -222,7 +275,7 @@ fn load_mapping(state: Arc<Mutex<BalancerState>>) {
                 let parts: Vec<&str> = line.split(':').collect();
                 if parts.len() == 2 {
                     if let Ok(port) = parts[1].parse::<i32>() {
-                        eprintln!("[LOAD] Mapping: {} -> {}", parts[0], port);
+                        eprintln!("{} LOAD Mapping: {} -> {}", get_utc_timestamp(), parts[0], port);
                         s.user_to_port.insert(parts[0].to_string(), port);
                         s.free_servers.retain(|&x| x != port);
                     }
