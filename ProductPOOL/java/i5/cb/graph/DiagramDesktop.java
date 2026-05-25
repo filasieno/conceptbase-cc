@@ -626,6 +626,13 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
         //zoom the node added
         zoomer.zoom(node);
 
+        // proper nodes resizable only at zoom 100%
+        float z = zoomer.getFactor();
+        boolean isOriginalScale = Math.abs(z - 1.0F) < 0.001F;
+        if (node.shallBeResizable()) {
+           node.setResizable(isOriginalScale && !node.isOnEdge());
+        }
+
         // add the new node into the abstract graph
         if (node.isOnEdge()) {
            // m_layout.addEdge(node.getDiagramEdge());
@@ -1621,7 +1628,7 @@ public class DiagramDesktop extends javax.swing.JDesktopPane implements
 
             // set resizable only at 100% zoom and of the DN was meant to be resizable; prevents issue #79
             if (DN.shallBeResizable()) {
-               DN.setResizable(isOriginalScale);
+               DN.setResizable(isOriginalScale && !DN.isOnEdge());
             }
 
             zoomer.zoom(DN);
