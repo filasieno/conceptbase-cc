@@ -5,8 +5,8 @@
 # We start here just 2 pool servers, each with its own log file. Add more as needed.
 # The restart delay is set to 20 seconds to mitigate denial of service
 
-(cbserver -port 5001 -r 20 -a $USER -g public -u nonpersistent -t minimal &> log5001.log) &
-(cbserver -port 5002 -r 20 -a $USER -g public -u nonpersistent -t minimal &> log5002.log) &
+(cbserver -port 5001 -r 20 -a $USER -g public -u nonpersistent -t minimal &>> log5001.log) &
+(cbserver -port 5002 -r 20 -a $USER -g public -u nonpersistent -t minimal &>> log5002.log) &
 
 
 

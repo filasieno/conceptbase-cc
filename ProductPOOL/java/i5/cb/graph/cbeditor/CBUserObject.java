@@ -365,6 +365,7 @@ abstract public class CBUserObject {
 
     public void setEdges(HashSet edges) {
         m_edges=edges;
+ System.out.println("AAA CBUserObject: setEdges of "+this.toString()+" "+edges.toString());
         //java.util.logging.Logger.getLogger("global").fine(this.toString()+edges.toString());
     }
 
@@ -901,7 +902,7 @@ abstract public class CBUserObject {
 
 
     public void addEdge(CBUserObject newEdge){
-// System.out.println("AAA CBUserObject: addEdge");
+ System.out.println("AAA CBUserObject: addEdge"+newEdge.toString());
         m_edges.add(newEdge);
     }
 
