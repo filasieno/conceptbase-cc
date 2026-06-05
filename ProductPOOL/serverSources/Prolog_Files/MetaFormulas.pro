@@ -586,7 +586,7 @@ SystemGenerated([_id|_ids]) :-
 	WriteTrace(veryhigh,MetaFormulas,['Warning: ', _id,' is system generated label']), !.
 
 SystemGenerated([_id|_ids]) :-
-	pc_atomconcat(_nrAtom,generated,_id),
+	pc_atomconcat(_nrAtom,'_generated',_id),
 	pc_inttoatom(_nr,_nrAtom),
 	WriteTrace(veryhigh,MetaFormulas,['Warning: ', _id,' is system generated label']), !.
 
