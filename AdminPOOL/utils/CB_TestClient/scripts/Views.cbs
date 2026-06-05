@@ -1,4 +1,4 @@
-startServer -d Views -U verbatim
+startServer -u nonpersistent -U verbatim
 tellModel "$CB_HOME/examples/QUERIES/Employee_Classes"
 result OK "yes"
 tellModel "$CB_HOME/examples/QUERIES/Employee_Instances"

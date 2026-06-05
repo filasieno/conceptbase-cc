@@ -426,11 +426,11 @@ is_property(_xID, P(_id,_xID,_l,_y)) :-
   \+ labelIsGenerated(_l,_y).   {* the property is not generated/compiled, e.g. generated rule triggers *}
 
 
-{* All generated attributes (should) get a label '*generated' in ConceptBase *}
+{* All generated attributes (should) get a label '*_generated' in ConceptBase *}
 {* Those attributes should not be shown with get_object.                     *}
 labelIsGenerated(_lab,_y) :-
   atom(_lab),
-  pc_atomconcat(_prefix,'generated',_lab),
+  pc_atomconcat(_prefix,'_generated',_lab),
   \+ InAssertionClass(_y).
 
 InAssertionClass(_a) :-

@@ -387,7 +387,7 @@ do_store_generatedAssertion(_subst,_gf,_class,_mode,_rfID,_assId,_) :-
 	name2idF2P(_className,_classID),
 	prove_edb_literal(In_e(_assId,_classID)),
 	retrieve_temp_ins(P(_,_,_label,_assId)),
-	pc_atomconcat(_genIDPart1,'generated',_label),
+	pc_atomconcat(_genIDPart1,'_generated',_label),
         !,
         storeIsAToMetaformula(_assId, _rfID),
 	!.
@@ -400,7 +400,7 @@ do_store_generatedAssertion(_subst,_gf,_class,_mode,_rfID,_assId,_) :-
  	name2idF2P(_className,_classID),
  	prove_edb_literal(In_e(_assId,_classID)),
  	retrieve_proposition(P(_,_,_label,_assId)),
- 	pc_atomconcat(_genIDPart1,'generated',_label),
+ 	pc_atomconcat(_genIDPart1,'_generated',_label),
         !,
         storeIsAToMetaformula(_assId, _rfID),
  	!.
@@ -487,7 +487,7 @@ createAssertionLabel(_class,_proposedLabel,_newLabel) :-
 {* otherwise: only a system-generated unique label *}
 createAssertionLabel(_class,_proposedLabel,_newLabel) :-
 	uniqueAtom(_formulaID),
-        pc_atomconcat(_formulaID,'generated',_newLabel),
+        pc_atomconcat(_formulaID,'_generated',_newLabel),
 	!.
 
 candidateSuffixLabel('').  {* first one has no numbering *}

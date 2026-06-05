@@ -1259,7 +1259,7 @@ ElimQuant(_var,_rangeF,_rangeF).
 
 assign_Component(_comp) :-
   newIdentifier(_idNew),
-  pc_atomconcat(_idNew,'generated',_comp).  {* mark the label with the word 'generated' *}
+  pc_atomconcat(_idNew,'_generated',_comp).  {* mark the label with the word '_generated' *}
 
 
 

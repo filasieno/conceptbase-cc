@@ -1352,7 +1352,7 @@ toBeDropped(P(_x,_x,_ttlabel,_x)) :-
   
 labelGenerated(_lab,_y) :-
   atom(_lab),
-  pc_atomconcat(_prefix,'generated',_lab),
+  pc_atomconcat(_prefix,'_generated',_lab),
   !.
 
 extractModulePropositions(_mod,_allprops) :-
