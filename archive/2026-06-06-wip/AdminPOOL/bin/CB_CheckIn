@@ -1,5 +1,0 @@
-#!/bin/sh
-CVSROOT=:local:/home/cbase/CVS
-export CVSROOT
-
-CB_Make commit CVSFILE=$1 INCLUDE_RULES_MK=1

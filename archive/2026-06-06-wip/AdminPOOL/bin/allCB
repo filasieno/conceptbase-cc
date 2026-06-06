@@ -1,8 +1,0 @@
-#!/bin/sh
-# compile, export and publish CB
-
-compileCB
-exportCB
-sleep 1
-publishCB
-
