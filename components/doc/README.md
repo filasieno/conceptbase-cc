@@ -16,13 +16,28 @@ from the archive and removed; do not reintroduce `.tex` under `components/`.
 Each manual has a `main.typ` that `#include`s `title.typ` and chapter files. Chapter figures
 live in that manual's `assets/` directory (paths from chapters use `../assets/...`).
 
+## Layout (static exports)
+
+| Path | Node |
+|------|------|
+| `tech-info/` | `doc-tech-info` — installation guide, release notes |
+| `developer/` | `doc-developer` — internal developer reference |
+| `external-licenses/` | `doc-external-licenses` — third-party license texts |
+| `howto-manual.typ` | `doc-howto-manual` — assembled HOW-TO book (per-tutorial `page.typ` under `../howtos/`) |
+
+Re-sync static files from the git archive snapshot: `./scripts/sync-static-docs.sh`
+
 ## Build
 
 ```bash
-nix build .#doc-user-manual .#doc-prog-manual .#doc-tutorial
+nix build .#docs
+# or individual outputs:
+nix build .#doc-user-manual .#doc-prog-manual .#doc-tutorial .#doc-howto-manual
+nix build .#doc-tech-info .#doc-developer .#doc-external-licenses
 ```
 
-Outputs: `$out/share/doc/<name>.pdf` and `$out/share/doc/<name>.html`.
+Typst manuals: `$out/share/doc/<name>.pdf` and `$out/share/doc/<name>.html`.  
+Static exports: `$out/share/doc/<subdir>/`.
 
 Local iteration (from this directory):
 

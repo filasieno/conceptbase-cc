@@ -486,7 +486,7 @@ window. \
 Define an integrity constraint stating that no employee is allowed to
 earn more money than any of her/his bosses. (The constraint should work
 on each individual salary, not on the sum). \
-In the subdirectory RULES+CONSTRAINTS of the example directory there is
+In the subdirectory RULES-AND-CONSTRAINTS of the example directory there is
 a more extensive example concerning deductive rules and integrity
 constraints. It should be used in addition to this section of the
 tutorial.*
@@ -592,7 +592,7 @@ Stop the ConceptBase server and the user interface.*
 
 This last step completes the tutorial. We hope that it provided a first
 impression on _ConceptBase_ and _Telos_. Refer to the other
-examples, especially to RULES+CONSTRAINTS and QUERIES and of course to
+examples, especially to RULES-AND-CONSTRAINTS and QUERIES and of course to
 the user manual to learn more about the features of ConceptBase. There
 is also a more advanced tutorial available on metamodeling.
 

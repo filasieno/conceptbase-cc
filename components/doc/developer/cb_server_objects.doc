@@ -1,0 +1,63 @@
+
+Tcl command: cb_talk [ options ]
+Type: object
+C++ class: cb_talk
+Description: This is the CBserver object.
+
+    Options:
+	-answerformat <the format of the answer from ask> (default FRAME)
+
+	-errorhandler <the Tcl command that is called if an error occurs> (default )
+
+	-rollback <the rollback time for the query of an ask command> (default Now)
+
+	-answerformat <> (default the format of the answer from ask)
+
+	-errorhandler <> (default the Tcl command that is called if an error occurs)
+
+	-rollback <> (default the rollback time for the query of an ask command)
+
+
+    Methods:
+	connect connect_CB(Tcl_Interp* interp, int argc, char** argv)
+                Connects server, usage: <object> connect port host client\n                [user]
+	disconnect disconnect_CB(Tcl_Interp* interp)
+                Disconnects server
+	getErrorMsg getErrorMsg(Tcl_Interp* interp)
+                delivers an internal errormessage
+	tell tell_CB(Tcl_Interp* interp, char* telos)
+                tells some telos-frames to the CBserver
+	untell untell_CB(Tcl_Interp* interp, char* telos)
+                untells some telos-frames to the CBserver
+	ask ask_CB(Tcl_Interp* interp, int argc, char** argv)
+                asks the CBserver, usage: <object> ask answerVar query\n                [format]
+	send_message send_message_CB(Tcl_Interp* interp, char* method, char* date)
+                sends a message to the CBserver (hardcore), usage: <object>\n                send_message <method> <date>
+	lastCompletion lastCompletion(Tcl_Interp* interp)
+                returns the  last completion value of connect, tell, ask,\n                ...
+	lastPort lastPort(Tcl_Interp* interp)
+                returns the last port of a connect-call
+	lastHostname lastHostname(Tcl_Interp* interp)
+                returns the last hostname of a connect-call
+	lastClientname lastClientname(Tcl_Interp* interp)
+                returns the last clientname of a connect-call
+	lastUsername lastUsername(Tcl_Interp* interp)
+                returns the last username of a connect-call
+	lastAnswerobject lastAnswerobject(Tcl_Interp* interp)
+                returns the last answer, which was stored to an answervariable\n                by the ask command
+	lastAnswer lastAnswer(Tcl_Interp* interp)
+                returns the last answer of ask
+	lastAnswerformat lastAnswerformat(Tcl_Interp* interp)
+                returns the last used answerformat
+	lastQuery lastQuery(Tcl_Interp* interp)
+                returns the last used query
+	lastErrormessage lastErrormessage(Tcl_Interp* interp)
+                returns the last errormessage
+	lastAnswertime lastAnswertime(Tcl_Interp* interp)
+                returns the time of last response time 
+	sessionAnswertime sessionAnswertime(Tcl_Interp* interp)
+                returns the summary response time 
+	resetAnswer resetAnswer(Tcl_Interp* interp, char* newAnswer)
+                resets the intern value of lastAnswer, note that this function\n                is only for the purpose of errorhandling
+	resetAnswerobject resetAnswerobject(Tcl_Interp* interp, char* newAnswerobject)
+                resets the intern value of lastAnswerobject, note that this\n                function is only for the purpose of errorhandling
