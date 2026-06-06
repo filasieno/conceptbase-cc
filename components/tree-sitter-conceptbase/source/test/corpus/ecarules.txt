@@ -25,7 +25,8 @@ DO Tell(In(n1,MyInteger)) $
         event: (eca_event
           op: (event_op)
           literal: (literal
-            functor: (functor)
+            predicate: (label
+              (identifier))
             (literal_arg_list
               (literal_arg
                 (object_name
@@ -57,7 +58,8 @@ DO Tell(In(n1,MyInteger)) $
           (action
             op: (action_op)
             literal: (literal
-              functor: (functor)
+              predicate: (label
+                (identifier))
               (literal_arg_list
                 (literal_arg
                   (object_name

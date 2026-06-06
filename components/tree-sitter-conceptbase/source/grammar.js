@@ -51,6 +51,7 @@ module.exports = grammar({
     [$.object_name],
     [$.literal, $.fun_expr],
     [$.object_name, $.derive_exp],
+    [$.end_spec],
   ],
 
   rules: {
@@ -89,7 +90,16 @@ module.exports = grammar({
         )
       ),
 
-    end_spec: ($) => choice("end", "END", "endmit", "ENDMIT"),
+    // endspec --> END | ENDMIT objectname  (te_parser.y).
+    // In PlainToronto mode `end` lexes to ENDMIT, so a trailing closing name
+    // (conventionally the object's own name) is allowed; make it optional.
+    end_spec: ($) =>
+      choice(
+        prec.dynamic(1, seq($._end_kw, field("name", $.object_name))),
+        $._end_kw
+      ),
+
+    _end_kw: ($) => choice("end", "END", "endmit", "ENDMIT"),
 
     class_list: ($) => sep1($.object_name, ","),
 
@@ -167,8 +177,11 @@ module.exports = grammar({
 
     string_label: ($) => token(seq('"', /([^"\\]|\\.)*/, '"')),
 
+    // LABEL (spec): any run of characters except .|'"$:;!^->=,()[]{}/ and
+    // whitespace. We keep a letter/underscore start, but allow extra spec-legal
+    // label characters (& % ?) inside, e.g. `onlyConceptRelationship&Attrib_name`.
     identifier: ($) =>
-      /[A-Za-z_\u00C0-\u024F\u00B9\u00B2\u00B3][A-Za-z0-9_\u00C0-\u024F\u00B9\u00B2\u00B3]*/,
+      /[A-Za-z_\u00C0-\u024F\u00B9\u00B2\u00B3][A-Za-z0-9_\u00C0-\u024F\u00B9\u00B2\u00B3&%?]*/,
 
     number: ($) => choice($.integer, $.real),
 
@@ -235,7 +248,9 @@ module.exports = grammar({
 
     literal: ($) =>
       choice(
-        seq(field("functor", $.functor), "(", optional($.literal_arg_list), ")"),
+        // Predicate / functor application. Functors (A, Ai, AL, In, Isa, P, …)
+        // are not reserved: they are ordinary labels here, so they remain usable
+        // as variable names and labels elsewhere (e.g. `forall A,B/VAR`).
         seq(field("predicate", $.label), "(", optional($.literal_arg_list), ")"),
         seq("(", $.literal_arg, $.infix_symbol, $.literal_arg, ")"),
         seq(
@@ -269,7 +284,8 @@ module.exports = grammar({
       ),
 
     literal_arg_list: ($) => sep1($.literal_arg, ","),
-    literal_arg: ($) => choice($.object_name, $.derive_exp, $.implicit_var),
+    literal_arg: ($) =>
+      choice($.object_name, $.derive_exp, $.implicit_var, $.count_exp),
 
     implicit_var: ($) => seq("~", $.identifier),
 
@@ -278,29 +294,6 @@ module.exports = grammar({
 
     comp_symbol: ($) =>
       choice("<", ">", "<=", ">=", "=", "<>", "==", "\\="),
-
-    functor: ($) =>
-      choice(
-        "From",
-        "To",
-        "A",
-        "Ai",
-        "AL",
-        "In",
-        "Isa",
-        "Label",
-        "P",
-        "LT",
-        "GT",
-        "LE",
-        "GE",
-        "EQ",
-        "NE",
-        "IDENTICAL",
-        "UNIFIES",
-        "Known",
-        "Terminated"
-      ),
 
     boolean: ($) => choice("TRUE", "FALSE", "true", "false"),
 
@@ -317,7 +310,10 @@ module.exports = grammar({
       ),
 
     ar_factor: ($) =>
-      choice(seq("(", $.ar_expr, ")"), $.object_name, $.fun_expr),
+      choice(seq("(", $.ar_expr, ")"), $.count_exp, $.object_name, $.fun_expr),
+
+    // COUNT shortcut: `#<litarg>` (parseAss.dcg countExpr --> '#' litarg).
+    count_exp: ($) => seq("#", $.literal_arg),
 
     fun_expr: ($) =>
       choice(

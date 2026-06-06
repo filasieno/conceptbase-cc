@@ -1,103 +1,135 @@
-# tree-sitter-conceptbase — Telos / CBL / ECArule grammar → shared + static libs, WASM, headers.
+# tree-sitter-conceptbase — Telos / CBL / ECArule grammar.
+#
+# Returns an attrset:
+#   library   — shared grammar build (libs, headers, test_parse; no corpus CTest)
+#   languages — per-surface-language CMake derivations (filtered corpus + optional test_parse)
+#   aggregate — meta derivation depending on library + all language checks
 {
   lib,
   stdenv,
+  cmake,
+  ninja,
+  pkg-config,
   tree-sitter,
   nodejs,
-  pkg-config,
-  iconv,
-  python3,
   componentSrc,
+  runCommandLocal,
 }:
 
-stdenv.mkDerivation {
-  pname = "tree-sitter-conceptbase";
+let
   version = "0.1.0";
-  src = componentSrc;
 
-  nativeBuildInputs = [ tree-sitter nodejs pkg-config ];
-  buildInputs = [ tree-sitter iconv python3 ];
-  doCheck = true;
-  dontConfigure = true;
-
-  buildPhase = ''
-    runHook preBuild
-    export HOME="$TMPDIR"
-    export XDG_CACHE_HOME="$TMPDIR/.cache"
-    export CC="${stdenv.cc.targetPrefix}cc"
-    export AR="${stdenv.cc.targetPrefix}ar"
-    export TREE_SITTER_INCLUDE="-I${tree-sitter}/include"
-    export TREE_SITTER_LIB="-L${tree-sitter}/lib -ltree-sitter -Wl,-rpath,${tree-sitter}/lib"
-    # WASM needs wasi-sdk download; enable outside sandbox or when network is allowed.
-    export BUILD_WASM=''${BUILD_WASM:-0}
-    bash scripts/build.sh
-    runHook postBuild
-  '';
-
-  installPhase = ''
-    runHook preInstall
-    mkdir -p "$out/lib/pkgconfig" "$out/include" "$out/share/tree-sitter-conceptbase"
-    cp -f target/lib/libtree-sitter-conceptbase.so "$out/lib/"
-    cp -f target/lib/libtree-sitter-conceptbase.a "$out/lib/"
-    ln -sfn libtree-sitter-conceptbase.so "$out/lib/libtree-sitter-conceptbase.so.0.1"
-    if [[ -f target/lib/tree-sitter-conceptbase.wasm ]]; then
-      cp -f target/lib/tree-sitter-conceptbase.wasm "$out/lib/"
-    fi
-    cp -f target/include/tree-sitter-conceptbase.h "$out/include/"
-    cp -f target/include/conceptbase_parser.h "$out/include/"
-    cp -f target/include/conceptbase_parser.hpp "$out/include/"
-    cp -f target/lib/pkgconfig/tree-sitter-conceptbase.pc "$out/lib/pkgconfig/"
-    cp -r source/grammar.js source/tree-sitter.json source/queries docs \
-      "$out/share/tree-sitter-conceptbase/"
-    cp -r target/generated "$out/share/tree-sitter-conceptbase/"
-    runHook postInstall
-  '';
+  cmakeCommon = [
+    "-GNinja"
+    "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+    "-DCMAKE_INSTALL_LIBDIR=lib"
+    "-DCMAKE_INSTALL_INCLUDEDIR=include"
+    "-DBUILD_WASM=OFF"
+  ];
 
   checkPhase = ''
     runHook preCheck
-    export HOME="$TMPDIR"
-    export XDG_CACHE_HOME="$TMPDIR/.cache"
-
-    # Artifacts
-    test -f target/lib/libtree-sitter-conceptbase.so
-    test -f target/lib/libtree-sitter-conceptbase.a
-    test -f target/include/conceptbase_parser.h
-    test -f target/include/conceptbase_parser.hpp
-    test -f target/generated/parser.c
-    file target/lib/libtree-sitter-conceptbase.so | grep -q 'ELF .*shared object'
-    file target/lib/libtree-sitter-conceptbase.a | grep -q 'current ar archive'
-
-    # Generated grammar symbols
-    grep -q 'tree_sitter_conceptbase' target/generated/parser.c
-    grep -q 'assertion_embedding' target/generated/parser.c
-    grep -q 'telos_object' target/generated/parser.c
-    grep -q 'ecarule' target/generated/parser.c
-    test "$(wc -l < target/generated/parser.c)" -ge 1000
-
-    # Corpus tests (UTF-8)
-    (
-      cd source
-      tree-sitter test
-    )
-
-    # Encoding smoke (UTF-8 + UTF-16LE via CLI; UTF-16BE via C API)
-    export TREE_SITTER_INCLUDE="-I${tree-sitter}/include"
-    export TREE_SITTER_LIB="-L${tree-sitter}/lib -ltree-sitter -Wl,-rpath,${tree-sitter}/lib"
-    bash scripts/run-c-test.sh
-    bash scripts/test-encoding.sh
-
-    # Documented frame smoke (UTF-8 files)
-    if [[ -f /tmp/frames.txt ]]; then
-      bash scripts/test-frames.sh
-    fi
-
+    export HOME="$TMPDIR/ts-home"
+    export XDG_CACHE_HOME="$HOME/.cache"
+    mkdir -p "$HOME/.cache"
+    export CTEST_PARALLEL_LEVEL=1
+    cmake --build . --target test
     runHook postCheck
   '';
 
-  meta = with lib; {
-    description = "Tree-sitter grammar for ConceptBase — shared/static libs, WASM, UTF-8/UTF-16 API";
+  # Shared library build (install tree used for documentation; corpus tests are per-language).
+  library = stdenv.mkDerivation {
+    pname = "tree-sitter-conceptbase";
+    inherit version;
+    src = componentSrc;
+
+    nativeBuildInputs = [ cmake ninja pkg-config tree-sitter nodejs ];
+    buildInputs = [ tree-sitter ];
+    doCheck = false;
+
+    cmakeFlags = cmakeCommon ++ [
+      "-DBUILD_TESTING=ON"
+      "-DTS_CORPORA=skip"
+      "-DTS_RUN_PARSE_TEST=ON"
+    ];
+  };
+
+  languageDefs = {
+    telos = {
+      description = "Telos frames";
+      corpora = [
+        "telos"
+        "documentation-frames"
+      ];
+    };
+    assertions = {
+      description = "CBL assertions, rules, and snippets";
+      corpora = [
+        "assertions"
+        "documentation-assertions"
+        "documentation-snippets"
+      ];
+    };
+    ecarules = {
+      description = "ECArule active rules";
+      corpora = [ "ecarules" ];
+    };
+    examples = {
+      description = "Examples corpus (.sml)";
+      corpora = [ "examples-corpus" ];
+    };
+    encoding = {
+      description = "UTF-8 / UTF-16 encoding (corpus + C API)";
+      corpora = [ "encoding" ];
+      runParseTest = true;
+    };
+  };
+
+  mkLanguageDerivation =
+    name: cfg:
+    stdenv.mkDerivation {
+      pname = "tree-sitter-conceptbase-${name}";
+      inherit version;
+      src = componentSrc;
+
+      nativeBuildInputs = [ cmake ninja pkg-config tree-sitter nodejs ];
+      buildInputs = [ tree-sitter ];
+      doCheck = true;
+      inherit checkPhase;
+
+      cmakeFlags = cmakeCommon ++ [
+        "-DBUILD_TESTING=ON"
+        "-DTS_CORPORA=${lib.concatStringsSep ";" cfg.corpora}"
+      ] ++ lib.optionals (!(cfg.runParseTest or false)) [
+        "-DTS_RUN_PARSE_TEST=OFF"
+      ];
+    };
+
+  languages = lib.mapAttrs mkLanguageDerivation languageDefs;
+
+  aggregate = runCommandLocal "tree-sitter-conceptbase"
+    {
+      nativeBuildInputs = lib.attrValues languages;
+      buildInputs = [ library ];
+    }
+    ''
+      mkdir -p "$out"
+      cat > "$out/manifest" <<EOF
+library=${library}
+${lib.concatStringsSep "\n" (
+        lib.mapAttrsToList (n: d: "${n}=${d}") languages
+      )}
+EOF
+    '';
+
+in
+{
+  inherit version library languages aggregate;
+
+  meta = {
+    description = "Tree-sitter grammar for ConceptBase Telos, CBL, and ECArules";
     homepage = "https://gitlab.com/mjeu/conceptbasecc";
-    platforms = platforms.linux;
-    license = licenses.bsd2;
+    platforms = lib.platforms.linux;
+    license = lib.licenses.bsd2;
   };
 }

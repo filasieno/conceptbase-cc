@@ -6,15 +6,15 @@ input (LE and BE).
 
 ## Artifacts
 
-| Output | Path | Use |
-|--------|------|-----|
-| Shared library | `target/lib/libtree-sitter-conceptbase.so` | Runtime / dynamic linking |
-| Static library | `target/lib/libtree-sitter-conceptbase.a` | LSP / embed without `.so` dep on grammar |
-| WebAssembly | `target/lib/tree-sitter-conceptbase.wasm` | WASM tree-sitter backend |
-| C header | `target/include/tree-sitter-conceptbase.h` | `tree_sitter_conceptbase()` language symbol |
-| C API | `target/include/conceptbase_parser.h` | UTF-8 / UTF-16LE / UTF-16BE parse helpers |
-| C++ API | `target/include/conceptbase_parser.hpp` | RAII `Parser` / `Tree`, `std::u16string_view` |
-| pkg-config | `target/lib/pkgconfig/tree-sitter-conceptbase.pc` | `-ltree-sitter-conceptbase -ltree-sitter` |
+| Output | Install path | Use |
+|--------|--------------|-----|
+| Shared library | `lib/libtree-sitter-conceptbase.so` | Runtime / dynamic linking |
+| Static library | `lib/libtree-sitter-conceptbase.a` | LSP / embed without `.so` dep on grammar |
+| WebAssembly | `lib/tree-sitter-conceptbase.wasm` | Optional (`-DBUILD_WASM=ON`) |
+| C header | `include/tree-sitter-conceptbase.h` | `tree_sitter_conceptbase()` language symbol |
+| C API | `include/conceptbase_parser.h` | UTF-8 / UTF-16LE / UTF-16BE parse helpers |
+| C++ API | `include/conceptbase_parser.hpp` | RAII `Parser` / `Tree`, `std::u16string_view` |
+| pkg-config | `lib/pkgconfig/tree-sitter-conceptbase.pc` | `-ltree-sitter-conceptbase -ltree-sitter` |
 
 Tree-sitter generates **one** parser (`parser.c`). Encoding is selected at parse
 time via `TSInputEncoding` / `conceptbase_parse()` — not separate generated grammars.
@@ -22,29 +22,17 @@ time via `TSInputEncoding` / `conceptbase_parse()` — not separate generated gr
 ## Layout
 
 ```
+CMakeLists.txt
+cmake/tree-sitter-conceptbase.pc.in
 source/
   grammar.js
   tree-sitter.json
-  tree-sitter-conceptbase.h   # language symbol
-  conceptbase_parser.h        # C parse API (UTF-8 / UTF-16)
-  conceptbase_parser.c
-  conceptbase_parser.hpp      # C++ LSP helpers
+  tree-sitter-conceptbase.h
+  conceptbase_parser.{h,c,hpp}
   queries/
-  test/corpus/                # tree-sitter corpus (hand-written + generated)
-
-scripts/
-  build.sh                    # .so + .a + wasm + headers
-  generate-doc-corpus.py      # extract frames/CB from components/doc + examples
-  test-all.sh                 # corpus + encoding + frames + C test
-  test-encoding.sh
-  test-frames.sh
-  run-c-test.sh
-
+  test/corpus/
 tests/
-  test_parse.c                # C encoding unit test
-  samples/                    # UTF-8/16 sample files (generated)
-
-target/                       # gitignored build output
+  test_parse.c
 docs/
   SPECIFICATION.md
 ```
@@ -59,24 +47,40 @@ Primary EBNF: `components/doc/user-manual/chapters/SyntaxDef.typ`.
 
 ### Nix (recommended)
 
+One shared library derivation plus per-language checks (`nix/tree-sitter-conceptbase.nix`):
+
+| Check | Surface language |
+|-------|------------------|
+| `tree-sitter-conceptbase-lib` | Shared `.so` / `.a` + headers |
+| `tree-sitter-conceptbase-telos` | Telos frames |
+| `tree-sitter-conceptbase-assertions` | CBL assertions / rules |
+| `tree-sitter-conceptbase-ecarules` | ECArules |
+| `tree-sitter-conceptbase-examples` | Examples `.sml` corpus |
+| `tree-sitter-conceptbase-encoding` | UTF-8 / UTF-16 corpus + C API |
+| `tree-sitter-conceptbase` | Aggregate (all of the above) |
+
 ```bash
-nix build .#checks.x86_64-linux.tree-sitter-conceptbase
+nix build .#checks.x86_64-linux.tree-sitter-conceptbase -L
+nix build .#checks.x86_64-linux.tree-sitter-conceptbase-telos -L
 ```
 
-Install paths under `$out`:
+### CMake (local)
 
-- `$out/lib/libtree-sitter-conceptbase.{so,a,wasm}`
-- `$out/include/{tree-sitter-conceptbase.h,conceptbase_parser.h,conceptbase_parser.hpp}`
-- `$out/lib/pkgconfig/tree-sitter-conceptbase.pc`
-
-### Bash script
+From `nix develop` (provides `cmake`, `ninja`, `tree-sitter`, `node`):
 
 ```bash
 cd components/tree-sitter-conceptbase
-./scripts/build.sh
+cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo
+cmake --build build
+ctest --test-dir build --output-on-failure
 ```
 
-Requires `tree-sitter`, `node`, `cc`, `ar`.
+Optional WASM module (needs network-capable tree-sitter wasm backend):
+
+```bash
+cmake -B build -G Ninja -DBUILD_WASM=ON
+cmake --build build --target tree-sitter-conceptbase-wasm
+```
 
 ## C usage (UTF-8)
 
@@ -111,41 +115,20 @@ TSNode root = tree.root_node();
 
 ## Tests
 
-```bash
-./scripts/build.sh
-./scripts/test-all.sh
-```
+CMake / CTest runs:
 
-Regenerate documentation corpus from `components/doc/**/*.typ` and all
-`components/examples/src/**/*.sml`:
+1. **`corpus`** — `tree-sitter test` on `source/test/corpus/` (~285+ cases)
+2. **`test_parse`** — links static `.a`, verifies UTF-8 / UTF-16LE / UTF-16BE via C API
 
-```bash
-python3 scripts/generate-doc-corpus.py
-cd source && tree-sitter generate && tree-sitter test -u
-```
+Corpus files under `source/test/corpus/` are committed. Regenerate documentation
+corpus manually when manuals or examples change (extract Telos/CBL from
+`components/doc/` and `components/examples/`, then update expected trees with
+`tree-sitter test -u` in `source/`).
 
-`REGENERATE_DOC_CORPUS=1 ./scripts/test-all.sh` runs the generator first.
-Expected CST trees are preserved when test bodies are unchanged.
-
-Generated corpus files:
-
-| File | Content |
-|------|---------|
-| `documentation-frames.txt` | All Telos frames (`… in … end`) from manuals |
-| `documentation-assertions.txt` | CBL `$…$`, ECArules, inline/escaped embeddings |
-| `documentation-snippets.txt` | `{$set …}` directives and other CB fenced blocks |
-| `examples-corpus.txt` | Every example `.sml` file |
-| `documentation-parse-failures.txt` | Smoke-parse failures (grammar debt manifest) |
-
-Or corpus only:
-
-```bash
-cd source && tree-sitter generate && tree-sitter test
-```
-
-Test layers:
-
-1. **Corpus** — hand-written + generated doc/examples (~285+ cases)
-2. **Encoding smoke** — UTF-8/UTF-16LE via CLI; UTF-16BE via `tests/test_parse.c`
-3. **Frame smoke** — optional `/tmp/frames.txt` harness
-4. **C unit test** — links static `.a`, verifies all three encodings
+| Corpus file | Content |
+|-------------|---------|
+| `documentation-frames.txt` | Telos frames from manuals |
+| `documentation-assertions.txt` | CBL `$…$`, ECArules, embeddings |
+| `documentation-snippets.txt` | `{$set …}` and other CB blocks |
+| `examples-corpus.txt` | Parseable example `.sml` files |
+| `documentation-parse-failures.txt` | Excluded items + reason |

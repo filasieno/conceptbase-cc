@@ -33,11 +33,11 @@
   "noop" "reject"
 ] @function
 
-[
-  "From" "To" "A" "Ai" "AL" "In" "Isa" "Label" "P"
-  "LT" "GT" "LE" "GE" "EQ" "NE" "IDENTICAL" "UNIFIES"
-  "Known" "Terminated"
-] @function.builtin
+; Builtin functors (From, To, A, Ai, AL, In, Isa, P, …) are ordinary labels,
+; so they are not reserved nodes; highlight them as builtin predicates by name.
+((label) @function.builtin
+  (#match? @function.builtin
+   "^(From|To|A|Ai|AL|In|Isa|Label|P|LT|GT|LE|GE|EQ|NE|IDENTICAL|UNIFIES|Known|Terminated)$"))
 
 (assertion_embedding "$" @punctuation.special
                       "$" @punctuation.special)

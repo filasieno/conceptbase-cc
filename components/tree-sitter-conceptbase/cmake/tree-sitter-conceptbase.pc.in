@@ -1,0 +1,10 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
+includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
+
+Name: tree-sitter-conceptbase
+Description: Tree-sitter grammar for ConceptBase (UTF-8 / UTF-16LE / UTF-16BE)
+Version: @PROJECT_VERSION@
+Libs: -L${libdir} -ltree-sitter-conceptbase -ltree-sitter
+Cflags: -I${includedir}

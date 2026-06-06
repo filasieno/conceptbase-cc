@@ -1,0 +1,5 @@
+Mitarbeiter in EntityType with
+  attribute
+    name : "Müller";
+    city : "Köln"
+end

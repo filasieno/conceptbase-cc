@@ -96,10 +96,23 @@
         swi-prolog = pkgs.swi-prolog;
       };
 
-      tree-sitter-conceptbase = pkgs.callPackage "${nixLib}/tree-sitter-conceptbase.nix" {
+      tree-sitter-conceptbase-pkgs = pkgs.callPackage "${nixLib}/tree-sitter-conceptbase.nix" {
         stdenv = llvmStdenv;
         componentSrc = componentSrc "tree-sitter-conceptbase";
-        inherit (pkgs) tree-sitter nodejs pkg-config;
+        inherit (pkgs) tree-sitter nodejs pkg-config runCommandLocal;
+      };
+
+      tree-sitter-conceptbase-lib = tree-sitter-conceptbase-pkgs.library;
+      tree-sitter-conceptbase-telos = tree-sitter-conceptbase-pkgs.languages.telos;
+      tree-sitter-conceptbase-assertions = tree-sitter-conceptbase-pkgs.languages.assertions;
+      tree-sitter-conceptbase-ecarules = tree-sitter-conceptbase-pkgs.languages.ecarules;
+      tree-sitter-conceptbase-examples = tree-sitter-conceptbase-pkgs.languages.examples;
+      tree-sitter-conceptbase-encoding = tree-sitter-conceptbase-pkgs.languages.encoding;
+      tree-sitter-conceptbase = tree-sitter-conceptbase-pkgs.aggregate;
+
+      mmkit = pkgs.callPackage "${nixLib}/mmkit.nix" {
+        componentSrc = componentSrc "mmkit";
+        inherit (pkgs) vsce nodejs;
       };
 
       java-deps = pkgs.callPackage "${nixLib}/java-deps.nix" { };
@@ -240,6 +253,7 @@
           cb-workbench
           cb-shell
           cb-graph
+          mmkit
           ;
         default = conceptbase;
       };
@@ -255,6 +269,8 @@
           bison
           flex
           swi-prolog
+          tree-sitter
+          nodejs
           maven
           jdk25
           plantuml
@@ -282,6 +298,13 @@
           server-repl
           grammar-compiler
           tree-sitter-conceptbase
+          tree-sitter-conceptbase-lib
+          tree-sitter-conceptbase-telos
+          tree-sitter-conceptbase-assertions
+          tree-sitter-conceptbase-ecarules
+          tree-sitter-conceptbase-examples
+          tree-sitter-conceptbase-encoding
+          mmkit
           module-preprocessor
           server-engine
           system-data

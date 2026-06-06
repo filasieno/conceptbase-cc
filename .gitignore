@@ -1,10 +1,12 @@
 # Nix build symlinks
 result*
+result.*
 .direnv
 # CMake (per-component build dirs)
 components/*/build/
 
-# Maven build output
+# Build outputs (Maven, Cargo, tree-sitter, etc.)
+target/
 components/java/**/target/
 compile_commands.json
 
