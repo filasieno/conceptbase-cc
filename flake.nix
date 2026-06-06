@@ -222,7 +222,7 @@
         llvmPackages = pkgs.llvmPackages_latest;
         coreutils = pkgs.coreutils;
         findutils = pkgs.findutils;
-        inherit cbserver libcbc libcbcview examples-corpus;
+        inherit cbserver cb-shell libcbc libcbcview examples-corpus;
       };
 
       no-ant = pkgs.callPackage "${nixLib}/no-ant.nix" {
@@ -244,6 +244,93 @@
         };
       };
 
+      howtosRoot = builtins.path {
+        path = ./components/howtos;
+        name = "howtos-root";
+        filter = _path: _type: true;
+      };
+
+      howtoManualSrc = builtins.path {
+        path = ./components;
+        name = "howto-manual-src";
+        filter = path: type:
+          let
+            root = toString ./components;
+            rel = pkgs.lib.removePrefix (root + "/") (toString path);
+          in
+            rel == "howto-manual.typ"
+            || (type == "directory" && (rel == "howtos" || builtins.match "howtos/[^/]+" rel != null))
+            || builtins.match "howtos/[^/]+/page\\.typ" rel != null;
+      };
+
+      howtoChecks = import "${nixLib}/howtos/default.nix" {
+        stdenv = llvmStdenv;
+        inherit cbserver howtosRoot;
+        cbshell = cb-shell;
+        inherit (pkgs)
+          lib
+          coreutils
+          bash
+          gnugrep
+          gnused
+          findutils
+          gawk
+          ;
+      };
+
+      howtos = import "${nixLib}/howtos/howto-manual.nix" {
+        stdenv = llvmStdenv;
+        manualSrc = howtoManualSrc;
+        inherit (pkgs) typst;
+      };
+
+      docSrc = componentSrc "doc";
+
+      doc-user-manual = pkgs.callPackage "${nixLib}/doc-user-manual.nix" {
+        stdenv = pkgs.stdenvNoCC;
+        componentSrc = docSrc;
+        inherit (pkgs) typst;
+      };
+
+      doc-prog-manual = pkgs.callPackage "${nixLib}/doc-prog-manual.nix" {
+        stdenv = pkgs.stdenvNoCC;
+        componentSrc = docSrc;
+        inherit (pkgs) typst;
+      };
+
+      doc-tutorial = pkgs.callPackage "${nixLib}/doc-tutorial.nix" {
+        stdenv = pkgs.stdenvNoCC;
+        componentSrc = docSrc;
+        inherit (pkgs) typst;
+      };
+
+      doc-tech-info = pkgs.callPackage "${nixLib}/doc-tech-info.nix" {
+        stdenv = pkgs.stdenvNoCC;
+        componentSrc = docSrc;
+      };
+
+      doc-developer = pkgs.callPackage "${nixLib}/doc-developer.nix" {
+        stdenv = pkgs.stdenvNoCC;
+        componentSrc = docSrc;
+      };
+
+      doc-external-licenses = pkgs.callPackage "${nixLib}/doc-external-licenses.nix" {
+        stdenv = pkgs.stdenvNoCC;
+        componentSrc = docSrc;
+      };
+
+      docs = pkgs.callPackage "${nixLib}/docs.nix" {
+        inherit
+          doc-user-manual
+          doc-prog-manual
+          doc-tutorial
+          doc-tech-info
+          doc-developer
+          doc-external-licenses
+          ;
+        howto-manual = howtos.howto-manual;
+      };
+
     in
     {
       packages.${system} = {
@@ -254,6 +341,7 @@
           cb-shell
           cb-graph
           mmkit
+          docs
           ;
         default = conceptbase;
       };
@@ -318,8 +406,15 @@
           examples-corpus
           integration-tests
           conceptbase
+          doc-user-manual
+          doc-prog-manual
+          doc-tutorial
+          doc-tech-info
+          doc-developer
+          doc-external-licenses
+          docs
           ;
-      };
+      } // howtoChecks // howtos;
 
       formatter.${system} = pkgs.nixpkgs-fmt;
     };

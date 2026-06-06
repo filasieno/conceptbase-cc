@@ -29,6 +29,11 @@ stdenv.mkDerivation {
     test -s src/startCBserver.swi.pl
     test "$(find src -name '*.swi.pl' | wc -l)" -ge 100
     grep -q ":- module(" src/startCBserver.swi.pl
+    if grep -rP '[äöüßÄÖÜ]' src --include='*.swi.pl' >/dev/null 2>&1; then
+      echo "server-engine: German umlauts found in kernel sources"
+      grep -rP '[äöüßÄÖÜ]' src --include='*.swi.pl' | head -20
+      exit 1
+    fi
     runHook postCheck
   '';
 

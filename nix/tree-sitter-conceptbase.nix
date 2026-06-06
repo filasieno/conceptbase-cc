@@ -45,13 +45,30 @@ let
 
     nativeBuildInputs = [ cmake ninja pkg-config tree-sitter nodejs ];
     buildInputs = [ tree-sitter ];
-    doCheck = false;
+    doCheck = true;
 
     cmakeFlags = cmakeCommon ++ [
       "-DBUILD_TESTING=ON"
       "-DTS_CORPORA=skip"
       "-DTS_RUN_PARSE_TEST=ON"
     ];
+
+    checkPhase = ''
+      runHook preCheck
+      log=$(mktemp)
+      if ! (cd source && tree-sitter generate >"$log" 2>&1); then
+        echo "tree-sitter generate failed:"
+        cat "$log"
+        exit 1
+      fi
+      if grep -E 'Error|Unresolved rule' "$log"; then
+        echo "tree-sitter generate reported errors:"
+        cat "$log"
+        exit 1
+      fi
+      test -s source/src/parser.c
+      runHook postCheck
+    '';
   };
 
   languageDefs = {

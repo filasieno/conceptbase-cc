@@ -25,11 +25,10 @@ kernel modules, and Maven reactors stay internal.
 | `cb-workbench` | Desktop Workbench | `cbiva` |
 | `cb-shell` | Terminal client | `cbshell` |
 | `cb-graph` | Graph editor | `cbgraph` |
+| `docs` | All manuals + static doc exports | PDF/HTML under `share/doc/` |
 
-`nix flake show .#packages` must list **only** these five (plus `default`).
-
-Documentation (`doc-*`) is built separately while Typst migration is in progress — not exposed
-as flake packages yet.
+`nix flake show .#packages` lists these six application/doc bundles (plus `default` = `conceptbase`).
+`mmkit` is an optional editor extension package.
 
 ### Internal derivations (representative)
 
@@ -54,6 +53,7 @@ as flake packages yet.
 | `./scripts/sync-server-engine.sh` | `components/server-engine/` |
 | `./scripts/sync-system-data.sh` | `components/system-data/` |
 | `./scripts/sync-examples.sh` | `components/examples/` |
+| `./scripts/sync-static-docs.sh` | `components/doc/{tech-info,developer,external-licenses}/` |
 
 Re-run after archive reference updates; then `git add` new files before `nix build`.
 

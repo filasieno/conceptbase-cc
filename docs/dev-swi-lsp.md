@@ -24,7 +24,7 @@ Init: `~/.config/swi-prolog/init.pl` adds `app_config(lib)` to the library searc
 ./scripts/verify-swi-lsp.sh
 ```
 
-Or open any `.pro` file under `archive/2026-06-06-wip/` and check:
+Or open any `.swi.pl` file under `components/server-engine/src/` and check:
 
 - Outline view lists predicates
 - Hover shows predicate docs (where xref finds them)

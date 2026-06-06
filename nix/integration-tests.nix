@@ -1,4 +1,4 @@
-# integration-tests — C/C++ client smoke tests against a live cbserver.
+# integration-tests — C/C++, Java shell client smoke tests against a live cbserver.
 {
   lib,
   runCommandLocal,
@@ -6,6 +6,7 @@
   coreutils,
   findutils,
   cbserver,
+  cb-shell,
   libcbc,
   libcbcview,
   examples-corpus,
@@ -13,12 +14,12 @@
 
 let
   cTestSrc = "${examples-corpus}/share/examples/Clients/C_Client/testlib.c";
-  cxxTestSrc = "${examples-corpus}/share/examples/Clients/C++Client/testlib.cc";
+  cxxTestSrc = "${examples-corpus}/share/examples/Clients/Cpp-Client/testlib.cc";
 in
 runCommandLocal "integration-tests"
   {
     nativeBuildInputs = [ llvmPackages.clang ];
-    buildInputs = [ libcbc libcbcview cbserver coreutils findutils ];
+    buildInputs = [ libcbc libcbcview cbserver cb-shell coreutils findutils ];
   }
   ''
     mkdir -p build out/bin
@@ -90,6 +91,18 @@ runCommandLocal "integration-tests"
     out/bin/testlib-cpp | tee /tmp/testlib-cpp.log
     if ! grep -q "connected, client name:" /tmp/testlib-cpp.log; then
       echo "integration-tests: testlib-cpp failed; server log:"
+      tail -30 "$server_log" || true
+      exit 1
+    fi
+
+    ${cb-shell}/bin/cbshell <<'EOF' | tee /tmp/testlib-java.log
+connect 127.0.0.1 4001
+tell "Class B end Class A end b in B end"
+ask get_object[A/objname]
+exit
+EOF
+    if ! grep -qE 'connected|yes|objname|B' /tmp/testlib-java.log; then
+      echo "integration-tests: cbshell tell/ask failed; server log:"
       tail -30 "$server_log" || true
       exit 1
     fi
