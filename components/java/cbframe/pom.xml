@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.conceptbase</groupId>
+    <artifactId>cb-parent</artifactId>
+    <version>8.5</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>cbframe</artifactId>
+  <packaging>jar</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.conceptbase</groupId>
+      <artifactId>cbcommon</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.conceptbase.legacy</groupId>
+      <artifactId>grappa</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>javacc-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>javacc-telos</id>
+            <goals>
+              <goal>javacc</goal>
+            </goals>
+            <configuration>
+              <sourceDirectory>${project.basedir}/src/main/javacc</sourceDirectory>
+              <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+              <includes>
+                <include>Telos.jj</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

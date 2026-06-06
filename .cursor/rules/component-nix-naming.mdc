@@ -1,0 +1,35 @@
+---
+description: Component directory name must match Nix derivation name (pname)
+alwaysApply: true
+---
+
+# Component ↔ Nix derivation naming
+
+Every greenfield component under `components/<name>/` must use the **same** `<name>` as its
+Nix derivation `pname` and flake package (`.#<name>`).
+
+| Scope | Pattern | Example |
+|-------|---------|---------|
+| Component dir | `components/<name>/` | `components/libcbgeneral/` |
+| Nix file | `nix/<name>.nix` | `nix/libcbgeneral.nix` |
+| Flake package | `packages.<system>.<name>` | `nix build .#libcbgeneral` |
+| `pname` | `<name>` | `pname = "libcbgeneral"` |
+
+## libcb C/C++ libraries
+
+Use `libcb<short>` (no hyphens): `libcbgeneral`, `libcbipc`, `libcbc`, …
+
+## Build helpers
+
+Shared build inputs are components too: `components/buildcbutils/` → `nix/buildcbutils.nix` →
+`.#buildcbutils`.
+
+## Exceptions (no `components/` tree)
+
+Allowed without a matching directory:
+
+- `libcb-server-libs`, `libcb-clibs` — `symlinkJoin` aggregates in `flake.nix`
+
+Do **not** add new derivations whose `pname` diverges from `components/<pname>/`.
+Do **not** add check-only wrapper derivations — put `doCheck` / `checkPhase` on the component
+derivation; point `checks.*` at those same packages.

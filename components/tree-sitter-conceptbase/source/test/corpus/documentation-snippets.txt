@@ -1,0 +1,1078 @@
+==================
+doc-cb: user-manual/chapters/BuiltinQueries.typ:block:3
+==================
+
+compute_selectfirst(_res,_class,_c1) :-
+        nonvar(_class),                              
+        cbserver:ask([In(_res,_class)]),             
+        !.
+
+  tell: 'selectfirst in Function isA Proposition with
+  parameter class: Proposition end'.
+
+---
+
+(source_file)
+
+==================
+doc-cb: user-manual/chapters/CBserver.typ:block:38
+==================
+
+tell '
+   Peter with 
+      comment about: "This is a Telos string"
+   end
+   '
+
+---
+
+(source_file)
+
+==================
+doc-cb: user-manual/chapters/DatalogQuery.typ:block:1
+==================
+
+Class DatalogQueryClass isA GenericQueryClass with
+attribute
+   code : String
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-cb: user-manual/chapters/DatalogQuery.typ:block:2
+==================
+
+Class DatalogRule with
+attribute
+  concernedClass : Proposition;
+  code : String
+end
+
+Class DatalogInRule isA DatalogRule
+end
+
+Class DatalogAttrRule isA DatalogRule
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec)))
+
+==================
+doc-cb: user-manual/chapters/DatalogQuery.typ:block:4
+==================
+
+Class HighSalary2 isA Integer
+end
+
+DatalogInRule HighSalaryRule2 with
+concernedClass
+   cc: HighSalary2
+code
+   c: "In('~this','Integer'),GE('~this',60000)"
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label)))))))
+    (end_spec)))
+
+==================
+doc-cb: user-manual/chapters/DatalogQuery.typ:block:5
+==================
+
+DatalogAttrRule MetabossRule with
+concernedClass
+     cc : Employee!boss
+code
+    r1 : "vars([m]),var('~src'),var('~dst'),In(m,'Manager'),
+          A(m,boss,'~dst'),A('~src',boss,m)";
+    r2 : "vars([m]),ground('~src'),
+          A('~src',boss,m),A(m,boss,'~dst')";
+    r3 : "vars([m]),ground('~dst'),var('~src'),
+          A(m,boss,'~dst'),A('~src',boss,m)"
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (object_name
+                (label
+                  (identifier)))
+              (selector1)
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label)))))))
+    (end_spec)))
+
+==================
+doc-cb: user-manual/chapters/ECArules.typ:block:1
+==================
+
+Class ECArule with
+attribute
+    ecarule : ECAassertion;
+    priority_after: ECArule;
+    priority_before : ECArule;
+    mode : ECAmode;
+    active : Boolean;
+    depth : Integer;
+    rejectMsg : String
+constraint
+
+end
+
+---
+
+(source_file)
+
+==================
+doc-cb: user-manual/chapters/GraphicalTypes.typ:block:5
+==================
+
+Class JavaGraphicalPalette isA GraphicalPalette with
+  attribute
+     defaultIndividual : JavaGraphicalType;
+     defaultLink : JavaGraphicalType;
+     implicitIsA : JavaGraphicalType;
+     implicitInstanceOf : JavaGraphicalType;
+     implicitAttribute : JavaGraphicalType;
+     palproperty : String
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-cb: user-manual/chapters/GraphicalTypes.typ:block:11
+==================
+
+GenericQueryClass playMove isA Position with
+  parameter
+    arg1: CB_User;
+    arg2: Move
+  ...
+end
+
+---
+
+(source_file)
+
+==================
+doc-cb: user-manual/chapters/GraphicalTypes.typ:block:36
+==================
+
+JavaGraphicalType with 
+      attribute
+       forOutgoing : Proposition!attribute;
+       forIncoming : Proposition!attribute
+   end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (object_name
+                (label
+                  (identifier)))
+              (selector1)
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (object_name
+                (label
+                  (identifier)))
+              (selector1)
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-cb: user-manual/chapters/Language.typ:block:7
+==================
+
+(mary!earns->Employee!salary) with
+  comment
+    com1: "This is a comment to an instantiation between attributes"
+end
+
+(mary!earns->Employee!salary)!com1 with
+  comment
+   com2: "This is a comment to the the previous comment attribute"
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (object_name
+        (object_name
+          (object_name
+            (label
+              (identifier)))
+          (selector1)
+          (label
+            (identifier)))
+        (selector2)
+        (object_name
+          (object_name
+            (label
+              (identifier)))
+          (selector1)
+          (label
+            (identifier)))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label)))))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (object_name
+        (object_name
+          (object_name
+            (object_name
+              (label
+                (identifier)))
+            (selector1)
+            (label
+              (identifier)))
+          (selector2)
+          (object_name
+            (object_name
+              (label
+                (identifier)))
+            (selector1)
+            (label
+              (identifier)))))
+      (selector1)
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label)))))))
+    (end_spec)))
+
+==================
+doc-cb: user-manual/chapters/Language.typ:block:16
+==================
+
+(Employee in Class)
+(Employee attribute/name String)
+(Employee single/name String)
+(Employee attribute/aliasname String)
+(Employee attribute String)
+(Employee single String)
+
+---
+
+(source_file)
+
+==================
+doc-cb: user-manual/chapters/Language.typ:block:38
+==================
+
+Employee!SalaryBound with
+ comment
+   hint: "An employee may not earn more than her/his manager!"
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (object_name
+        (label
+          (identifier)))
+      (selector1)
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label)))))))
+    (end_spec)))
+
+==================
+doc-cb: user-manual/chapters/Language.typ:block:58
+==================
+
+110000 in Integer end
+QueryClass FavoriteDepartment isA Department with
+     retrieved_attribute
+         head: What_SI_Manager[110000/salary]
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (number
+          (integer))))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))
+              (bindings
+                (binding_list
+                  (single_binding
+                    (object_name
+                      (label
+                        (number
+                          (integer))))
+                    (label
+                      (identifier))))))))))
+    (end_spec)))
+
+==================
+doc-cb: user-manual/chapters/Language.typ:block:60
+==================
+
+QueryClass isA MSFOLrule end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec)))
+
+==================
+doc-cb: user-manual/chapters/Language.typ:block:65
+==================
+
+QueryClass EmployeeWith2RichCoworkers isA Employee with
+  constraint
+    c2: $ (COUNT[RichCoworker[this/worker]/class] = 2) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (literal
+                    (ar_expr
+                      (ar_term
+                        (ar_factor
+                          (object_name
+                            (label
+                              (identifier))
+                            (bindings
+                              (binding_list
+                                (single_binding
+                                  (object_name
+                                    (label
+                                      (identifier))
+                                    (bindings
+                                      (binding_list
+                                        (single_binding
+                                          (object_name
+                                            (label
+                                              (identifier)))
+                                          (label
+                                            (identifier))))))
+                                  (label
+                                    (identifier)))))))))
+                    (comp_symbol)
+                    (ar_expr
+                      (ar_term
+                        (ar_factor
+                          (object_name
+                            (label
+                              (number
+                                (integer)))))))))))))))
+    (end_spec)))
+
+==================
+doc-cb: user-manual/chapters/Language.typ:block:66
+==================
+
+QueryClass EmployeeWithMoreRichCoworkersThanWilli isA Employee with
+  constraint
+    c2: $ (COUNT[RichCoworker[this/worker]/class] >
+           COUNT[RichCoworker[Willi/worker]/class]) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (literal
+                    (ar_expr
+                      (ar_term
+                        (ar_factor
+                          (object_name
+                            (label
+                              (identifier))
+                            (bindings
+                              (binding_list
+                                (single_binding
+                                  (object_name
+                                    (label
+                                      (identifier))
+                                    (bindings
+                                      (binding_list
+                                        (single_binding
+                                          (object_name
+                                            (label
+                                              (identifier)))
+                                          (label
+                                            (identifier))))))
+                                  (label
+                                    (identifier)))))))))
+                    (comp_symbol)
+                    (ar_expr
+                      (ar_term
+                        (ar_factor
+                          (object_name
+                            (label
+                              (identifier))
+                            (bindings
+                              (binding_list
+                                (single_binding
+                                  (object_name
+                                    (label
+                                      (identifier))
+                                    (bindings
+                                      (binding_list
+                                        (single_binding
+                                          (object_name
+                                            (label
+                                              (identifier)))
+                                          (label
+                                            (identifier))))))
+                                  (label
+                                    (identifier)))))))))))))))))
+    (end_spec)))
+
+==================
+doc-cb: user-manual/chapters/Language.typ:block:67
+==================
+
+QueryClass EmployeeWithMoreRichCoworkersThanWilli isA Employee with
+  constraint
+    c2: $ (COUNT(RichCoworker[this]) > COUNT(RichCoworker[Willi])) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (literal
+                    (literal_arg
+                      (derive_exp
+                        (fun_expr
+                          (label
+                            (identifier))
+                          (literal_arg_list
+                            (literal_arg
+                              (derive_exp
+                                (label
+                                  (identifier))
+                                (literal_arg_list
+                                  (literal_arg
+                                    (object_name
+                                      (label
+                                        (identifier)))))))))))
+                    (infix_symbol
+                      (comp_symbol))
+                    (literal_arg
+                      (derive_exp
+                        (fun_expr
+                          (label
+                            (identifier))
+                          (literal_arg_list
+                            (literal_arg
+                              (derive_exp
+                                (label
+                                  (identifier))
+                                (literal_arg_list
+                                  (literal_arg
+                                    (object_name
+                                      (label
+                                        (identifier)))))))))))))))))))
+    (end_spec)))
+
+==================
+doc-cb: user-manual/chapters/Language.typ:block:68
+==================
+
+QueryClass EmployeeWithMoreRichCoworkersThanWilli isA Employee with
+  constraint
+    c2: $ (#RichCoworker[this] > #RichCoworker[Willi]) $
+end
+
+---
+
+(source_file)
+
+==================
+doc-cb: user-manual/chapters/Language.typ:block:72
+==================
+
+COUNT[Class/class] in QueryCall end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier))
+      (bindings
+        (binding_list
+          (single_binding
+            (object_name
+              (label
+                (identifier)))
+            (label
+              (identifier))))))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec)))
+
+==================
+doc-cb: user-manual/chapters/Language.typ:block:73
+==================
+
+Class View isA GenericQueryClass with
+attribute
+    inherited_attribute : Proposition;
+    partof : SubView
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-cb: user-manual/chapters/Moduleserver.typ:block:7
+==================
+
+Master with
+   exports
+      e1 : Employee;
+      e2 : Employee!name
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (object_name
+                (label
+                  (identifier)))
+              (selector1)
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-cb: user-manual/chapters/Moduleserver.typ:block:19
+==================
+
+Resource with end  
+Module isA Resource end  
+CB_Operation end   
+CB_ReadOperation isA CB_Operation end  
+CB_WriteOperation isA CB_Operation end
+TELL in CB_WriteOperation end
+ASK in CB_ReadOperation end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec)))

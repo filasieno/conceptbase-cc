@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.conceptbase</groupId>
+    <artifactId>conceptbase-java-parent</artifactId>
+    <version>8.5</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>conceptbase-java-workbench</artifactId>
+  <packaging>jar</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.conceptbase</groupId>
+      <artifactId>conceptbase-java-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.conceptbase</groupId>
+      <artifactId>conceptbase-java-telos</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.conceptbase</groupId>
+      <artifactId>conceptbase-java-graph</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.conceptbase.legacy</groupId>
+      <artifactId>jgl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.formdev</groupId>
+      <artifactId>flatlaf</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <sourceDirectory>${project.basedir}/../../i5/cb/workbench</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>${project.basedir}/../../i5/cb/workbench/gif</directory>
+        <targetPath>i5/cb/workbench/gif</targetPath>
+      </resource>
+    </resources>
+  </build>
+</project>

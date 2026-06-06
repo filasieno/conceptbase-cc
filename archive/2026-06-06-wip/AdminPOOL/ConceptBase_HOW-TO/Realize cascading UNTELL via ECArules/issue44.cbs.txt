@@ -1,0 +1,303 @@
+#
+# This file is governed by the Creative Commons license
+#   attributeion-NonCommercial 4.0 International
+#   http://creativecommons.org/licenses/by-nc/4.0/
+#   http://creativecommons.org/licenses/by-nc/4.0/legalcode
+#
+# Extended licenses, in particular commercial licenses, can be obtained from the
+# author of the source code.
+# Any re-distribution as source code must acknowledge the original author of this file.
+#
+#
+# File: issue44.cbs
+# Author: Manfred Jeusfeld
+# Created: 2022-05-04/M.Jeusfeld (2022-05-09/M.Jeusfeld)
+# ------------------------------------------------------
+# Check ECA rules that allow to overwrite attribute values via a simple TELL
+# The examples after the ECA rules show tha capabilities and limitations.
+# In particular, you may no change/overwrite an attribute several times in the same
+# TELL transaction.
+#
+
+cbserver -t low -c keep
+
+
+
+
+tell '
+
+{* *********************************************************************
+   The cascade rules are react to UNTELL operations. They allow a
+   transaction to only untell certain definitions. Attached attributes,
+   instantiations and specializations are then  removed by the
+   cascadeUntell* rules
+   *********************************************************************
+*}
+
+ECArule cascadeUntellInClass with
+  ecarule
+    r1: $ x/Individual c/Proposition
+         ON Untell (x in Individual)
+         IF In_s(x,c)
+         DO Untell (x in c)
+        $
+end
+
+ECArule cascadeUntellClassOf with
+  ecarule
+    r1: $ x/Individual c/Proposition
+         ON Untell (c in Individual)
+         IF In_s(x,c)
+         DO Untell (x in c)
+        $
+end
+
+ECArule cascadeUntellInattributeeCategory with
+  ecarule
+    r1: $ a/attributee ac/attributee
+         ON Untell (a in attributee)
+         IF In_s(a,ac)
+         DO Untell (a in ac)
+        $
+end
+
+ECArule cascadeUntellattributeeCategoryOf with
+  ecarule
+    r1: $ a/attributee ac/attributee
+         ON Untell (ac in attributee)
+         IF In_s(a,ac) 
+         DO Untell (a in ac)
+        $
+end
+
+ECArule cascadeUntellToAttr with
+  ecarule
+    r1: $ x/Individual a/attributee
+         ON Untell (x in Individual)
+         IF To(a,x) and (a in attributee)
+         DO Untell (a in attributee)
+        $
+end
+
+ECArule cascadeUntellFromAttr with
+  ecarule
+    r1: $ x/Individual a/attributee
+         ON Untell (x in Individual)
+         IF From(a,x) and (a in attributee)
+         DO Untell (a in attributee)
+        $
+end
+
+ECArule cascadeUntellHasSuper with
+  ecarule
+    r1: $ c/Individual sc/Individual
+         ON Untell (c in Individual)
+         IF Isa_e(c,sc)
+         DO Untell (c isA sc)
+        $
+end
+
+ECArule cascadeUntellHasSub with
+  ecarule
+    r1: $ c/Individual sc/Individual
+         ON Untell (sc in Individual)
+         IF Isa_e(c,sc)
+         DO Untell (c isA sc)
+        $
+end
+
+ECArule cascadeUntellHasSuperAC with
+  ecarule
+    r1: $ c/attributee sc/attributee
+         ON Untell (c in attributee)
+         IF Isa_e(c,sc)
+         DO Untell (c isA sc)
+        $
+end
+
+ECArule cascadeUntellHasSubAC with
+  ecarule
+    r1: $ c/attributee sc/attributee
+         ON Untell (sc in attributee)
+         IF Isa_e(c,sc)
+         DO Untell (c isA sc)
+        $
+end
+
+
+
+{* *********************************************************************
+   The overwrite rules are react to TELL operations. If a new attribute
+   is told that has the same label as an old attribute of object x, then
+   the old attribute is removed (UNTELL) by the ECArules. The first
+   removed the instantiation of the old attribute to any attribute 
+   category ac. The second removed the attribute itself.
+   *********************************************************************
+*}
+
+
+{* this rule removes the attribute categories of an attribute "a" that needs to be removed 
+   because a new attribute "a1" is told that has the same label *}
+ECArule overwriteattributee1 with
+  ecarule
+    r1: $ a,a1,ac/attributee x,y,y1/Proposition n/Label 
+         ON Tell (a1 in attributee)
+         IF `P(a1,x,n,y1) and P(a,x,n,y) and In_s(a,ac)
+         DO Untell (a in ac)
+        $
+end
+
+{* the second rule removed the attribute a itself *}
+ECArule overwriteattributee2 with
+  ecarule
+    r1: $ a,a1/attributee ac/attributee x,y,y1/Proposition n/Label 
+         ON Tell (a1 in attributee)
+         IF `P(a1,x,n,y1) and P(a,x,n,y)
+         DO Untell (a in attributee)
+        $
+end
+'
+
+
+
+
+# Some tests for the new overwrite ECArules
+
+
+# Step 1: Define some simple class Person
+
+tell '
+Person in Class with
+  attribute
+    name: String;
+    age: Integer
+end
+'
+
+
+# Step 2: Define in instance bill in Person. The attributes of bill
+# have no attribute categories.
+
+tell '
+bill in Person with 
+  attribute billsname : "Bill"
+  attribute billsage : 22
+end 
+'
+
+# The ask operation should return bill as just defined previously
+ask "get_object[bill/objname]" OBJNAMES FRAME  Now
+
+
+
+# Step 2: Define a new age of bill. Note that ConceptBase will
+# recognise that the attribute billsname has not changed. So, no 
+# attribute is generated for billsname. But the attribute
+# billsage has a new value. It will added to the new attributes
+# of the transaction. Here, only ECArule overwriteattributee2
+# will be tribbered to remove the existing attribute billsage=22.
+
+tell '
+bill in Person with 
+  attribute billsname : "Bill"
+  attribute billsage : 23
+end 
+'
+
+# The result should show that billsage=23
+ask "get_object[bill/objname]" OBJNAMES FRAME  Now
+
+
+
+
+# Step 3: Define a new person mary who uses the attribute categories name and age
+# from Person
+
+tell '
+mary in Person with 
+  name marysname : "Mary"
+  age marysage : 32
+end 
+'
+# Should show up as defined
+ask "get_object[mary/objname]" OBJNAMES FRAME  Now
+
+
+
+# Step 4: Now let us overwrite the age of mary. Note again that the name is not changed
+# and will not lead to any new attribute in the database. The new maryage=33 attribute
+# has an attribute category "age" like the old attribte had. So, we need to not only
+# remove the ild attribute but also its instantiation to Person!age.
+
+tell '
+mary in Person with 
+  name marysname : "Mary"
+  age marysage : 33
+end 
+'
+
+# This should that marysage=33
+ask "get_object[mary/objname]" OBJNAMES FRAME  Now
+
+
+
+
+# Step 5: let's check whether the new overwrite ECA rules work well with constraints 
+
+tell '
+Employee in Class isA Person with
+  attribute
+    salary: Integer
+  constraint
+    salconstr: $ forall e/Employee s/Integer (e salary s) ==> (s < 10000) $
+end
+'
+
+# Step 6: initial salary of mary set to 1000
+
+tell '
+mary in Employee with 
+  salary earns: 1000
+end 
+'
+
+# Step 7: first salary raise should be accepted
+tell '
+mary in Employee with 
+  salary earns: 2000
+end 
+'
+
+# the salary is now 2000 
+ask "get_object[mary/objname]" OBJNAMES FRAME  Now
+
+
+# Step 8: second salary raise 
+# This TELL operation fails because salconstr is violated
+tell '
+mary in Employee with 
+  salary earns: 15000
+end 
+'
+
+# the salary stays at the previous value 2000 
+ask "get_object[mary/objname]" OBJNAMES FRAME  Now
+
+
+
+# Step 9: The current ECArules do not support to overwrite an attribute
+#  multiple times in the same transaction 
+
+tell '
+mary in Employee with 
+  salary earns: 2100
+end
+
+mary in Employee with 
+  salary earns: 2200
+end  
+'
+
+ask "get_object[mary/objname]" OBJNAMES FRAME  Now
+
+

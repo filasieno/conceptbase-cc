@@ -1,0 +1,219 @@
+{ 
+*
+* File: PDD-Analysis.sml
+* Author: Manfred Jeusfeld
+* Creation: 12-Feb-2010 (04-Apr-2011/M.Jeusfeld)
+* ----------------------------------------------------------------------
+* Some functionality to analyze PDDs:
+*
+*   - Cross-writing of deliverables
+*   - Unstructured GoTos
+*   - duplicate start/end nodes of activity diagrams
+*
+* Copyright (C) 2010 by Manfred Jeusfeld
+* This model file is licensed under the terms of
+*   attributeion-NonCommercial 3.0 (Germany)
+*   http://creativecommons.org/licenses/by-nc/3.0/de/legalcode
+*   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+* Extended licenses can be obtained from the author.
+*
+}
+
+
+
+
+
+{* Cross-writing of deliverables
+
+   There is a Deliberable that is written into by activities
+   that belong to different phases
+
+*}
+
+
+CrossWrittenDeliverable in QueryClass isA ModelDeliverable with
+    computed_attribute
+       crosswriter: Activity
+    constraint
+      crossCond: $ exists phase1,phase2/Phase d1,d2/Deliverable writer/Activity
+                      (phase1 \= phase2) and
+                      (phase1 activity writer) and (phase2 activity crosswriter) and
+                      (writer produces d1) and (crosswriter produces d2) and
+                      (this contains d1) and (this contains d2) $
+end
+
+
+{* Testdata
+
+P1 in Phase with
+  activity
+    a: A1
+end
+
+P2 in Phase with
+   activity
+     a: A2
+end
+
+A1 in Activity with
+  produces
+     del: D1
+end
+
+A2 in Activity with
+  produces
+     del: D2
+end
+
+
+M1 in ModelDeliverable with
+  contains
+     p1: D1;
+     p2: D2
+end
+
+D1 in Deliverable end
+D2 in Deliverable end
+
+*}
+
+
+
+
+{* extend graphical palette to display cross-written deliverables in redish *}
+Class PDD_Palette in JavaGraphicalPalette with
+contains
+   cwd1: CrossDeliverable
+end
+
+
+
+CrossDeliverable in Class,JavaGraphicalType with
+property
+	bgcolor : "255,200,200"; 
+	textcolor : "0,0,0";
+	linecolor : "150,150,150";
+	shape : "i5.cb.graph.shapes.Rect";
+        linewidth : "3"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 32
+rule
+     gtrule: $ forall x/CrossWrittenDeliverable (x graphtype CrossDeliverable) $
+graphtype
+     thisgt: CrossDeliverable
+end
+
+
+
+
+
+
+
+{* GoToActivity
+
+   An activity A1 belongs to a phase P1 and jumps to an activity A2 that belongs to another
+   phase P2 , but A2 is not the StartNode of P2.
+
+*}
+
+
+GoToActivity in QueryClass isA Activity with
+    computed_attribute
+       target: Activity
+    constraint
+      gotoCond: $ exists pdd/PDD phase1,phase2/Phase 
+                      (pdd activity phase1 ) and (pdd activity phase2) and
+                      (phase1 \= phase2) and (phase1 activity this) and
+                      :(this next target): and (phase2 activity target) and
+                      not (target in StartNode[phase2]) $
+end
+
+
+
+
+
+{* DuplicateStartNode/DuplicateEndNode
+
+   An activity diagram must have a unique start and a unique end node
+
+*}
+
+DuplicateStartNode in QueryClass isA ActivityNode with
+   computed_attribute
+      diag: ActivityDiagram;
+      duplicate: ActivityNode
+   constraint
+      isDup: $ (duplicate in StartNode[diag]) and (this in StartNode[diag]) and 
+               (duplicate \= this) and not (diag in PDDLibrary) $
+end
+
+DuplicateEndNode in QueryClass isA ActivityNode with
+   computed_attribute
+      diag: ActivityDiagram;
+      duplicate: ActivityNode
+   constraint
+      isDup: $ (duplicate in EndNode[diag]) and (this in EndNode[diag]) and
+               (duplicate \= this) and not (diag in PDDLibrary)$
+end
+
+
+
+
+{* sample data
+
+P1 in Phase with
+  activity
+    a: A1
+end
+
+P2 in Phase with
+   activity
+     a1: A2_start;
+     a2: A2
+end
+
+A1 in Activity with
+  next
+     n: A2
+end
+
+A2_start in Activity with
+  next
+    n: A2
+end
+
+A2 in Activity with
+end
+
+*}
+
+
+Class PDD_Palette in JavaGraphicalPalette with
+contains
+   gta1: ProblemActivity
+end
+
+
+
+ProblemActivity in Class,JavaGraphicalType with
+property
+	bgcolor : "255,150,80";   {* more redish *}
+	textcolor : "0,0,0";
+        linecolor : "100,100,100";
+	shape : "i5.cb.graph.shapes.RoundRectangle";
+	fontstyle : "italic";
+        linewidth : "1"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 32
+rule
+     gtrule1: $ forall x/GoToActivity (x graphtype ProblemActivity) $; 
+     gtrule2: $ forall x/DuplicateStartNode (x graphtype ProblemActivity) $;
+     gtrule3: $ forall x/DuplicateEndNode (x graphtype ProblemActivity) $
+graphtype
+     thisgt: ProblemActivity
+end
+

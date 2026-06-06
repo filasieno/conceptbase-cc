@@ -1,0 +1,172 @@
+{ 
+*
+* File: PDD.sml
+* Author: Manfred Jeusfeld
+* Creation: 08-Feb-2010 (17-Feb-2011/M.Jeusfeld)
+* ----------------------------------------------------------------------
+* A simple representation of Process-Deliverable-Diagrams (PDD)
+* as used by Inge van de Weerd.
+*
+* Copyright (C) 2010 by Manfred Jeusfeld
+* This model file is licensed under the terms of
+*   attributeion-NonCommercial 3.0 (Germany)
+*   http://creativecommons.org/licenses/by-nc/3.0/de/legalcode
+*   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+* Extended licenses can be obtained from the author.
+*
+}
+
+
+
+{* M3: Deliverable diagrams; this is M3 level since instances are at M2 level *}
+
+
+{* By making Deliverable both a subclass and instance of ProductElem *}
+{* we can use Deliverable on the one hand as M3 level construct for  *}
+{* the product side, and at the same time we can connected to it     *}
+{* via the usual connectedTo link from Activity (M2 level of         *}
+{* production side. Technically, we do not need to do so. We can     *}
+{* just use 'attribute' instead of connectedTo when linking          *}
+{* Activity to Deliverable. It is just a bit nicer and we can use    *}
+{* existing machinery for NodeOrLink (like the ModElem stuff) to     *}
+{* analyze PDDs as models.                                           *}
+
+ProcessElem isA NodeOrLink end
+ProductElem isA NodeOrLink end
+
+Deliverable in ProductElem isA ProductElem end   {* that for anything an activity can require as input *}
+
+Concept isA Deliverable end
+
+StandardConcept isA Concept end
+
+OpenConcept isA Concept,Model with
+  attribute
+     contains: Deliverable    {* so this a a special kind of a model *}
+end
+
+ClosedConcept isA Concept,Model end  {* actually we should demand that is has no model elements *}
+
+DocumentDeliverable isA OpenConcept end
+ModelDeliverable isA OpenConcept end
+
+
+
+
+{* == M2 == *}
+
+
+{* M2 (Production side): Activity diagrams much like in UML *}
+
+{*
+* This is for the production side; we call this M2 level but it is referring to 
+* Deliverable, which is a M3 construct; see slides of lect09 at
+*        http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d2616329/
+* for a discussion of this phenomenon. 
+*
+*}
+
+ActivityNode in Node,ProcessElem with
+  connectedTo
+     next: ActivityNode
+end
+
+ActivityDiagram in Model,ProcessElem,Class isA Activity with   {* synonym for ComplexActivity *}
+  contains
+     activity: ActivityNode;
+     control: ActivityNode!next
+  reflexive,attribute
+     subactivity: ActivityNode
+  rule
+     addcontrol: $ forall a/ActivityNode ad/ActivityDiagram link/ActivityNode!next
+                        (ad activity a) and From(link,a) ==> (ad control link) $;
+     t1: $ forall ad/ActivityDiagram a/ActivityNode (ad activity a) ==> (ad subactivity a) $;
+     t2: $ forall ad1,ad2/ActivityDiagram a/ActivityNode (ad1 activity ad2) and (ad2 subactivity a) ==> (ad1 subactivity a) $
+end
+
+
+
+Phase in Model isA ActivityDiagram with  {* this is a useful construct for distinguishing phases of a method *}
+  connectedTo
+     preferredDeliverable: Deliverable    {* for specifying the deliverable part linked to a phase in a PDD *}
+end
+
+PDD in Model isA Phase end               {* this is for a full PDD=method *}
+PDDLibrary in Model isA PDD end          {* this is for fragment libraries *}
+
+Agent in ProcessElem end
+
+Activity in ProcessElem isA ActivityNode with
+  connectedTo
+     produces: Deliverable;
+     performer: Agent
+end
+
+StartPoint in ProcessElem isA ActivityNode end
+EndPoint in ProcessElem isA ActivityNode end
+
+ParallelBranch in ProcessElem isA Activity with
+  connectedTo
+     branch: ActivityNode
+end
+
+ParallelBranch!branch isA ActivityNode!next end
+
+ParallelJoin in ProcessElem isA Activity with
+end
+
+DecisionPoint in ProcessElem isA Activity with
+  connectedTo
+    choice: ActivityNode
+end
+
+DecisionPoint!choice isA ActivityNode!next end
+
+DecisionJoin in ProcessElem isA Activity with
+end
+
+
+{* some derived constructs *}
+
+ClosedActivityDiagram in QueryClass isA ActivityDiagram with
+  constraint
+    isClosed: $ not exists a/ActivityNode (this activity a) $
+end
+
+ClosedActivity in QueryClass isA ActivityNode with
+  constraint
+    isClosed: $ (this in ActivityDiagram) ==> (this in ClosedActivityDiagram) $
+end
+
+ComplexActivity in QueryClass isA ActivityDiagram with
+  constraint
+    isClosed: $ exists a/ActivityNode (this activity a) $
+end
+
+
+{* StartNode returns the first activity node of an activity diagram *}
+
+StartNode in GenericQueryClass isA ActivityNode with
+   parameter,computed_attribute
+      diagram: ActivityNode
+   constraint
+      isStart: $ ((diagram in ActivityDiagram) and Adot(ActivityDiagram!activity,diagram,this) and not exists a/ActivityNode Adot(ActivityDiagram!activity,diagram,a) and (a \= this) and :(a next this):) or
+                 (not (diagram in ComplexActivity)) and (this=diagram) $
+end
+
+
+{* EndNode returns the last activity node of an activity diagram *}
+
+EndNode in GenericQueryClass isA ActivityNode with
+   parameter,computed_attribute
+      diagram: ActivityNode
+   constraint
+      isEnd: $ ((diagram in ActivityDiagram) and Adot(ActivityDiagram!activity,diagram,this) and not exists a/ActivityNode Adot(ActivityDiagram!activity,diagram,a) and (a \= this) and :(this next a):) or 
+               (not (diagram in ComplexActivity)) and (this=diagram) $
+end
+
+
+
+
+
+

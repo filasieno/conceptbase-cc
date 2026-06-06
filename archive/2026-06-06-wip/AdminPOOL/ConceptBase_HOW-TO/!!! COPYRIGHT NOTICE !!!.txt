@@ -1,0 +1,17 @@
+HOW-TO COPYRIGHT NOTICE version 19-Jul-2012
+
+Any documentation and source code (i.e. any file) in the HOW-TO section is owned by its respective author. If you use a file either in the source code of
+your software or in some publication, please include a proper reference to the
+author of the file.
+
+The use of the HOW-TO section is by default free of charge for members
+of the CB-Forum when it is used for non-commercial purposes.
+
+By default, source code including model files are licensed under the terms of
+   attributeion-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+Extended licenses can be obtained from the respective authors of the source code.
+
+Manfred Jeusfeld, Tilburg, 9-Jul-2008
+jeusfeld@uvt.nl

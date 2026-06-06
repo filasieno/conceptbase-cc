@@ -1,0 +1,174 @@
+%{
+/*
+*
+* File:        IpcParser.l
+* version:     1.4
+* Creation:    Aug-1994 Christoph Radig (RWTH)
+* Last change: 22 Mar 1995,  Christoph Quix (RWTH)
+* Release:     1
+* ----------------------------------------------------------- */
+/* Description:
+ * lex file for ipcmessage parse
+ *
+ * Changes:
+ * 21-Mar-1995/CQ: IpcStrings are handled directly by a C function
+ *     read_string eingelesen. FLEX ist bei grossen Strings zu langsam.
+ *
+*/
+
+#include <string.h>
+
+#ifdef _WIN32
+#include <io.h>
+#endif
+
+#include "IpcParser.h"
+#include "IpcParser.tab.h"
+#include "IpcString.h"
+
+#ifdef _WIN32
+extern "C" {
+   char* __cdecl strdup(const char*);
+}
+#endif
+
+/* Forward */
+char* IpcParser_readString();
+
+/* Global variables: */
+static char* IpcInputBuffer;  /* [0..IpcInputBufferSize-1] */
+static unsigned IpcInputBufferSize;
+static unsigned IpcInputBufferCount;
+
+void initIpcInputBuffer( char *buf, unsigned bufSize )
+{
+	IpcInputBuffer = buf;
+	IpcInputBufferSize = bufSize;
+	IpcInputBufferCount = 0;
+}
+
+/* input may not be redefined when using flex! */
+#undef YY_INPUT
+#define YY_INPUT( buf, result, max_size )  \
+	{  \
+		if( IpcInputBufferCount >= IpcInputBufferSize )  \
+			result = YY_NULL;  \
+		else {  \
+			*buf = IpcInputBuffer[IpcInputBufferCount++];  \
+			result = 1;  \
+		}  \
+	}
+
+/*
+#undef unput
+#define unput(c)	{ printf("unput!\n"); yyunput( c, yytext_ptr ); }
+*/
+
+
+/* #define DEBUG */
+#ifdef DEBUG
+	#ifndef _stdio_h
+	#include <stdio.h>
+	#endif
+	#define ECHO1(a1)      printf(a1)
+	#define ECHO2(a1,a2)   printf(a1,a2)
+#else
+    #define ECHO1(a1)
+	#define ECHO2(a1,a2)
+#endif
+
+%}
+
+Letter			[a-zA-Z]
+Digit			[0-9]
+Alphanum		{Letter}|{Digit}
+IpcID			{Letter}({Alphanum}|\_)*
+String			\"([^\\\"]|\\\\|\\\")*\"
+EmptyAtom		\'\'
+
+%%
+
+ipcmessage		{ ECHO2("%s",yytext); return IPCMESSAGE; }
+
+
+TELL		|
+UNTELL			{ ECHO2("%s",yytext); Ipclval.s = strdup(yytext); return ME_FRAMES; }
+
+"CANCEL_ME"		|
+"GET_MODULE_CONTEXT"	|
+"GET_MODULE_PATH"	|
+"REPORT_CLIENTS"	{ ECHO2("%s",yytext); Ipclval.s = strdup(yytext); return ME_NOARGS; }
+
+"SET_MODULE_CONTEXT" { ECHO2("%s",yytext); Ipclval.s = strdup(yytext); return ME_1STRING; }
+
+"ENROLL_ME"	|
+"NOTIFICATION_REQUEST" { ECHO2("%s",yytext); Ipclval.s = strdup(yytext); return ME_2STRINGS; }
+
+"TELL_MODEL" |
+"RETELL"		{ ECHO2("%s",yytext); Ipclval.s = strdup(yytext); return ME_STRINGLIST; }
+
+"NEXT_MESSAGE"	|
+"STOP_SERVER"		{ ECHO2("%s",yytext); Ipclval.s = strdup(yytext); return ME_OPTIPCID; }
+
+ASK			{ ECHO2("%s",yytext); Ipclval.s = strdup(yytext); return ME_ASK; }
+
+"HYPO_ASK"		{ ECHO2("%s",yytext); Ipclval.s = strdup(yytext); return ME_HYPO_ASK; }
+
+FRAMES			{ ECHO2("%s",yytext); return FRAMES; }
+
+OBJNAMES		{ ECHO2("%s",yytext); return OBJNAMES; }
+
+"LPI_CALL"		{ ECHO2("%s",yytext); Ipclval.s = strdup(yytext); return LPI_CALL; }
+
+[\"]            { ECHO2("%s",yytext); Ipclval.s = IpcParser_readString(); return STRING; }
+
+{IpcID}			{ ECHO2("%s",yytext); Ipclval.s = strdup(yytext); return IPCID; }
+
+[(),._\[\]]		{ ECHO2("%s",yytext); Ipclval.s = strdup(yytext); return *yytext; }
+
+[ \t\n]
+
+%%
+/*
+* [ \t\n]
+* {String}		{ ECHO2("%s",yytext); Ipclval.s = decodeIpcString( yytext ); return STRING;}
+* */
+
+int yywrap()
+{
+	return 1;
+}
+
+char* IpcParser_readString()  {
+
+	char *s1,*s;
+
+	s=(char*) malloc(sizeof(char)*IpcInputBufferSize);
+	s1=s;
+
+	while(IpcInputBuffer[IpcInputBufferCount])  {
+		if (IpcInputBuffer[IpcInputBufferCount]=='\\')  {
+#ifdef DEBUG
+			putc('\\',stdout);
+#endif
+			IpcInputBufferCount++;
+		}
+		else  {
+			if (IpcInputBuffer[IpcInputBufferCount]=='\"')  {
+#ifdef DEBUG
+				putc('\"',stdout);
+#endif
+				IpcInputBufferCount++;
+				break;
+			}
+		}
+		*s=IpcInputBuffer[IpcInputBufferCount++];
+#ifdef DEBUG
+		putc(*s,stdout);
+#endif
+		s++;
+	}
+	*s='\0';
+
+	return s1;
+}

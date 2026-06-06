@@ -1,0 +1,32 @@
+package att.grappa.util;
+
+import java.util.Enumeration;
+import java.util.Iterator;
+
+/**
+ * Presents an Iterator as an Enumeration.
+ *
+ * @param <E> the type of data in the Iterator/Enumeration
+ * @version $Id: 3b2ed5ca695479ed856acbb29c6887c5e7d58737 $
+ */
+public class IteratorEnumeration<E> implements Enumeration<E>
+{
+    private final Iterator<E> iterator;
+
+    public IteratorEnumeration(Iterator<E> iterator)
+    {
+        this.iterator = iterator;
+    }
+
+    @Override
+    public boolean hasMoreElements()
+    {
+        return this.iterator.hasNext();
+    }
+
+    @Override
+    public E nextElement()
+    {
+        return this.iterator.next();
+    }
+}

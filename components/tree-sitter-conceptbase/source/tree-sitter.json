@@ -1,0 +1,19 @@
+{
+  "grammars": [
+    {
+      "name": "conceptbase",
+      "camelcase": "Conceptbase",
+      "scope": "source.conceptbase",
+      "path": "."
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "BSD-2-Clause",
+    "description": "Tree-sitter grammar for ConceptBase Telos model sources and CBL assertions"
+  },
+  "bindings": {
+    "c": true,
+    "wasm": true
+  }
+}

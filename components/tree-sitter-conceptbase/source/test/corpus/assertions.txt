@@ -1,0 +1,261 @@
+==================
+MSFOL constraint
+==================
+
+$ forall e/Employee exists n/String (e name n) $
+
+---
+
+(source_file
+  (assertion_embedding
+    body: (assertion
+      (formula
+        (kw_forall)
+        binds: (variable_bind_list
+          (variable_bind
+            vars: (var_list
+              (identifier))
+            type: (object_name
+              (label
+                (identifier)))))
+        body: (formula
+          (kw_exists)
+          binds: (variable_bind_list
+            (variable_bind
+              vars: (var_list
+                (identifier))
+              type: (object_name
+                (label
+                  (identifier)))))
+          body: (formula
+            (literal
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier))))
+              (infix_symbol
+                (label
+                  (identifier)))
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier)))))))))))
+
+==================
+Deductive rule with implication
+==================
+
+$ forall e/Employee m/Manager (e dept d) and (d head m) ==> (e boss m) $
+
+---
+
+(source_file
+  (assertion_embedding
+    body: (assertion
+      (formula
+        (kw_forall)
+        binds: (variable_bind_list
+          (variable_bind
+            vars: (var_list
+              (identifier))
+            type: (object_name
+              (label
+                (identifier))))
+          (variable_bind
+            vars: (var_list
+              (identifier))
+            type: (object_name
+              (label
+                (identifier)))))
+        body: (formula
+          (formula
+            (formula
+              (literal
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))
+                (infix_symbol
+                  (label
+                    (identifier)))
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))))
+            (kw_and)
+            (formula
+              (literal
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))
+                (infix_symbol
+                  (label
+                    (identifier)))
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier)))))))
+          (formula
+            (literal
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier))))
+              (infix_symbol
+                (label
+                  (identifier)))
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier)))))))))))
+
+==================
+Connective precedence: and binds tighter than or
+==================
+
+$ (a m b) and (c m d) or (e m f) $
+
+---
+
+(source_file
+  (assertion_embedding
+    (assertion
+      (formula
+        (formula
+          (formula
+            (literal
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier))))
+              (infix_symbol
+                (label
+                  (identifier)))
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier))))))
+          (kw_and)
+          (formula
+            (literal
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier))))
+              (infix_symbol
+                (label
+                  (identifier)))
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier)))))))
+        (kw_or)
+        (formula
+          (literal
+            (literal_arg
+              (object_name
+                (label
+                  (identifier))))
+            (infix_symbol
+              (label
+                (identifier)))
+            (literal_arg
+              (object_name
+                (label
+                  (identifier))))))))))
+
+==================
+Connective precedence: not binds tighter than and
+==================
+
+$ not (a m b) and (c m d) $
+
+---
+
+(source_file
+  (assertion_embedding
+    (assertion
+      (formula
+        (formula
+          (kw_not)
+          (formula
+            (literal
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier))))
+              (infix_symbol
+                (label
+                  (identifier)))
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier)))))))
+        (kw_and)
+        (formula
+          (literal
+            (literal_arg
+              (object_name
+                (label
+                  (identifier))))
+            (infix_symbol
+              (label
+                (identifier)))
+            (literal_arg
+              (object_name
+                (label
+                  (identifier))))))))))
+
+==================
+Connective precedence: impl binds tighter than equiv
+==================
+
+$ (a m b) ==> (c m d) <==> (e m f) $
+
+---
+
+(source_file
+  (assertion_embedding
+    (assertion
+      (formula
+        (formula
+          (formula
+            (literal
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier))))
+              (infix_symbol
+                (label
+                  (identifier)))
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier))))))
+          (formula
+            (literal
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier))))
+              (infix_symbol
+                (label
+                  (identifier)))
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier)))))))
+        (formula
+          (literal
+            (literal_arg
+              (object_name
+                (label
+                  (identifier))))
+            (infix_symbol
+              (label
+                (identifier)))
+            (literal_arg
+              (object_name
+                (label
+                  (identifier))))))))))

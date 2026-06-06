@@ -1,0 +1,41 @@
+[
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1396,
+    "end_line": 1396,
+    "lines": [
+      {
+        "line": 1396,
+        "original": "\t\t/* vollstaendigen Regel:                                       */",
+        "translated": "\t\t/* complete rule:                                       */"
+      }
+    ],
+    "id": "S00018"
+  },
+  {
+    "file": "components/server-engine/src/BDMIntegrityChecker.swi.pl",
+    "start_line": 408,
+    "end_line": 408,
+    "lines": [
+      {
+        "line": 408,
+        "original": "/* Praedikaten nun permanent stored are. */",
+        "translated": "/* Predicates must now be stored permanently. */"
+      }
+    ],
+    "id": "S00038"
+  },
+  {
+    "file": "components/server-engine/src/QO_preproc.swi.pl",
+    "start_line": 812,
+    "end_line": 812,
+    "lines": [
+      {
+        "line": 812,
+        "original": "/* Vorbehandlung der an den Anfrageoptimierer uebergebenen\t      */",
+        "translated": "/* Preprocessing of the passed to the query optimizer\t      */"
+      }
+    ],
+    "id": "S00058"
+  }
+]

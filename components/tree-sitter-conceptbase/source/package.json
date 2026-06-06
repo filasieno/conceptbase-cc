@@ -1,0 +1,23 @@
+{
+  "name": "tree-sitter-conceptbase",
+  "version": "0.1.0",
+  "description": "Tree-sitter grammar for ConceptBase Telos frames, CBL assertions, and ECArules",
+  "license": "BSD-2-Clause",
+  "main": "bindings/node",
+  "keywords": [
+    "tree-sitter",
+    "conceptbase",
+    "telos",
+    "cbl"
+  ],
+  "tree-sitter": [
+    {
+      "scope": "source.conceptbase",
+      "file-types": [
+        "sml",
+        "cb"
+      ],
+      "highlights": "queries/highlights.scm"
+    }
+  ]
+}

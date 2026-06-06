@@ -1,0 +1,134 @@
+==================
+Unicode string label in property
+==================
+
+Employee in EntityType with
+  attribute
+    name : "José";
+    city : "São Paulo"
+end
+
+---
+
+(source_file
+  (telos_object
+    name: (object_name
+      (label
+        (identifier)))
+    in: (kw_in)
+    in: (class_list
+      (object_name
+        (label
+          (identifier))))
+    with: (kw_with)
+    with: (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            name: (label
+              (identifier))
+            value: (object_name
+              (label
+                (string_label))))
+          (property
+            name: (label
+              (identifier))
+            value: (object_name
+              (label
+                (string_label)))))))
+    end: (end_spec)))
+
+==================
+Unicode identifier (Latin-1 supplement)
+==================
+
+Employee in EntityType with
+  attribute
+    naïveté : Integer
+end
+
+---
+
+(source_file
+  (telos_object
+    name: (object_name
+      (label
+        (identifier)))
+    in: (kw_in)
+    in: (class_list
+      (object_name
+        (label
+          (identifier))))
+    with: (kw_with)
+    with: (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            name: (label
+              (identifier))
+            value: (object_name
+              (label
+                (identifier)))))))
+    end: (end_spec)))
+
+==================
+Assertion with unicode string literal argument
+==================
+
+$ forall x/Person (x name "José") $
+
+---
+
+(source_file
+  (assertion_embedding
+    body: (assertion
+      (formula
+        (kw_forall)
+        binds: (variable_bind_list
+          (variable_bind
+            vars: (var_list
+              (identifier))
+            type: (object_name
+              (label
+                (identifier)))))
+        body: (formula
+          (literal
+            (literal_arg
+              (object_name
+                (label
+                  (identifier))))
+            (infix_symbol
+              (label
+                (identifier)))
+            (literal_arg
+              (object_name
+                (label
+                  (string_label))))))))))
+
+==================
+Telos comment with unicode (lexer token, not parsed as structure)
+==================
+
+{ Comment: naïveté and José }
+Employee in EntityType end
+
+---
+
+(source_file
+  (comment)
+  (telos_object
+    name: (object_name
+      (label
+        (identifier)))
+    in: (kw_in)
+    in: (class_list
+      (object_name
+        (label
+          (identifier))))
+    end: (end_spec)))

@@ -1,30 +1,39 @@
-# ConceptBaseCC
+# ConceptBase.cc
 
-Software development for the ConceptBase.cc metamodeling system
+Greenfield redesign of [ConceptBase.cc](https://gitlab.com/mjeu/conceptbasecc).
 
----
-ConceptBase.cc is a multi-user deductive database system with an object-oriented data
-model and unlimited classification levels that makes it a powerful tool for metamodeling
-and engineering of customized modeling languages.
-The system is accompanied by a highly configurable graphical user interface that
-builds upon the logic-based features of the ConceptBase.cc server. 
+## Quick start
 
-Development started in 1987 at the University of Passau, then moved on to
-RWTH Aachen (both Germany), and now to University of Skövde (Sweden).
+```bash
+nix build                  # full product (server + workbench + examples)
+nix run .#cbserver &       # start server
+nix run .#cb-workbench     # desktop UI
+nix flake check
+```
 
-If you want to use this repository, then just clone it and check the file 
-   AdminPOOL/CB-developer-config.txt
-for instructions. For development, you need a Linux environment,
-preferably Ubuntu 16.04. The configuration is a bit cumbersome because
-ConceptBase uses a lot of different compilers. You will need in particular
-SWI-Prolog 6.6.6 (not later!).
+Packaging rules and commands: **[CONTRIBUTING.md](CONTRIBUTING.md)**
 
-You may also download the sources from
-  https://sourceforge.net/projects/conceptbase/files/Sources/
-  (File CBPOOL.zip)
+## Archive
 
-The sources were maintained till 2019 in a CVS repository at RWTH Aachen. 
-CVS Timeline: http://www-i5.informatik.rwth-aachen.de/cgi-bin/cvstrac/cvstrac.cgi/cbase/timeline?d=5000&e=2019-May-31&c=2&px=&s=1&dt=1&x=1&m=1
+Prior work lives under `archive/2026-06-06-wip/` (read-only reference).  
+Migration status: **[docs/archive-migration.md](docs/archive-migration.md)**
 
-Manfred Jeusfeld, 2019-05-26 (2023-03-30)
+## Build graph
 
+**[deliverable-nodes.md](deliverable-nodes.md)** — 43 nodes, topological dependencies.
+
+Flake exposes **five user-facing packages** only: `conceptbase`, `cbserver`, `cb-workbench`,
+`cb-shell`, `cb-graph`.
+
+## Prolog editing (LSP)
+
+See **[docs/dev-swi-lsp.md](docs/dev-swi-lsp.md)**.
+
+```bash
+./scripts/verify-swi-lsp.sh
+```
+
+## Documentation (in progress)
+
+Typst sources under `components/doc/`. Not exposed as flake packages until migration completes.
+See `components/doc/README.md`.

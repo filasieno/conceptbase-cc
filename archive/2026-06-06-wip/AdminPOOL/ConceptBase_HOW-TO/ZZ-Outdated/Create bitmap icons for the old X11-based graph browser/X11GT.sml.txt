@@ -1,0 +1,633 @@
+{* Definitions to be used by the old X11 graph browser. *}
+{* Load these when you want to use the old graphbrowser *}
+{* with a ConceptBase server 5.2.5 or later             *}
+
+
+Class GraphicalType
+end
+
+Proposition with
+  attribute
+    graphtype : GraphicalType
+end
+
+Class GraphicalPalette with
+  attribute
+    contains : GraphicalType;
+    default : GraphicalType
+end
+
+
+{ ---- Class X11_Color and its instances; not complete yet ---- }
+
+Class X11_Color
+end
+
+black            in X11_Color end
+white            in X11_Color end
+red              in X11_Color end
+blue             in X11_Color end
+sienna           in X11_Color end
+firebrick        in X11_Color end
+brown            in X11_Color end
+naroon           in X11_Color end
+magenta          in X11_Color end
+purple           in X11_Color end
+green            in X11_Color end
+pink             in X11_Color end
+
+LightSeaGreen    in X11_Color end
+aquamarine       in X11_Color end
+RoyalBlue        in X11_Color end
+SkyBlue          in X11_Color end
+DarkTurquoise    in X11_Color end
+SlateGrey        in X11_Color end
+DodgerBlue       in X11_Color end
+LightGray        in X11_Color end
+MediumSeaGreen   in X11_Color end
+
+{ ---- Class ATK_Fonts ---- }
+
+Class ATK_Fonts 
+end
+
+andy8   in ATK_Fonts end
+andy8b  in ATK_Fonts end
+andy8bi in ATK_Fonts end
+andy8i  in ATK_Fonts end
+
+andy10   in ATK_Fonts end
+andy10b  in ATK_Fonts end
+andy10bi in ATK_Fonts end
+andy10i  in ATK_Fonts end
+
+andy12   in ATK_Fonts end
+andy12b  in ATK_Fonts end
+andy12bi in ATK_Fonts end
+andy12i  in ATK_Fonts end
+
+andy16   in ATK_Fonts end
+andy16b  in ATK_Fonts end
+andy16bi in ATK_Fonts end
+andy16i  in ATK_Fonts end
+
+andy22   in ATK_Fonts end
+andy22b  in ATK_Fonts end
+andy22bi in ATK_Fonts end
+andy22i  in ATK_Fonts end
+
+andysans8   in ATK_Fonts end
+andysans8b  in ATK_Fonts end
+andysans8bi in ATK_Fonts end
+andysans8i  in ATK_Fonts end
+
+andysans10   in ATK_Fonts end
+andysans10b  in ATK_Fonts end
+andysans10bi in ATK_Fonts end
+andysans10i  in ATK_Fonts end
+andysans10f  in ATK_Fonts end
+
+andysans12   in ATK_Fonts end
+andysans12b  in ATK_Fonts end
+andysans12bi in ATK_Fonts end
+andysans12i  in ATK_Fonts end
+
+andysans16   in ATK_Fonts end
+andysans16b  in ATK_Fonts end
+andysans16bi in ATK_Fonts end
+andysans16i  in ATK_Fonts end
+
+andysans22   in ATK_Fonts end
+andysans22b  in ATK_Fonts end
+andysans22bi in ATK_Fonts end
+andysans22i  in ATK_Fonts end
+
+{ ---- Class ATK_TextAlign ---- }
+
+Class ATK_TextAlign
+end
+
+Center in ATK_TextAlign end
+Left   in ATK_TextAlign end
+Right  in ATK_TextAlign end
+
+{ ---- Class ATK_LineCap ---- }
+
+Class ATK_LineCap
+end
+
+0 in ATK_LineCap end
+1 in ATK_LineCap end
+2 in ATK_LineCap end
+3 in ATK_LineCap end
+4 in ATK_LineCap end
+
+{ ---- Die verschiedenen Shapes ---- }
+
+Class ATK_ShapeStyle
+end
+
+Class rectnode     in ATK_ShapeStyle end
+Class ovalnode     in ATK_ShapeStyle end
+Class diamondnode  in ATK_ShapeStyle end
+Class bubblenode   in ATK_ShapeStyle end
+Class pixmapnode   in ATK_ShapeStyle end
+Class iconnode     in ATK_ShapeStyle end
+Class trianglenode in ATK_ShapeStyle end
+Class lineedge     in ATK_ShapeStyle end
+Class erlineedge   in ATK_ShapeStyle end
+
+{ ---- Classes for the various shapes ---- }
+
+Class ATK_Shape isA GraphicalType with
+  attribute
+    TextColor       : X11_Color;
+    TextAlign       : ATK_TextAlign;
+    LineColor       : X11_Color;
+    LineWidth       : Integer;
+    FontDesc        : ATK_Fonts
+end
+
+Class ATK_Node isA ATK_Shape with
+  attribute
+    BackgroundColor : X11_Color;
+    Fill            : Boolean
+end
+
+Class ATK_Edge isA ATK_Shape with
+  attribute 
+    LineCap1        : ATK_LineCap; {Art des Kantenanfangs}
+    LineCap2        : ATK_LineCap  {Art des Kantenendes}
+end
+
+{------------------ N O D E S -------------------}
+
+Class ATK_Rectnode isA ATK_Node with
+  attribute
+    WithShape : ATK_ShapeStyle
+end
+
+Class ATK_Ovalnode isA ATK_Node with
+  attribute
+    WithShape : ATK_ShapeStyle
+end
+
+Class ATK_Diamondnode isA ATK_Node with
+  attribute
+    WithShape : ATK_ShapeStyle
+end
+
+Class ATK_Bubblenode isA ATK_Node with
+  attribute
+    WithShape : ATK_ShapeStyle
+end
+
+Class ATK_Pixmapnode isA ATK_Node with
+  attribute
+    WithShape  : ATK_ShapeStyle;
+    PixmapFile : String
+end
+
+Class ATK_Iconnode isA ATK_Node with
+  attribute
+    WithShape  : ATK_ShapeStyle;
+    PixmapFile : String
+end
+
+Class ATK_Trianglenode isA ATK_Node with
+  attribute
+    WithShape : ATK_ShapeStyle
+end
+
+{------------------ E D G E S -------------------}
+
+Class ATK_Lineedge isA ATK_Edge with
+  attribute
+    WithShape : ATK_ShapeStyle
+end
+
+Class ATK_ERLineedge isA ATK_Edge with
+  attribute
+    WithShape : ATK_ShapeStyle
+end
+
+
+
+
+
+{ ---- Class X11GraphBrowserPalette and its contents ---- }
+
+Class X11GraphBrowserPalette in GraphicalPalette with
+  contains
+    c1 : TokenGtype;
+    c2 : MetametaGtype;
+    c3 : SimpleGtype;
+    c4 : MetaGtype;
+    c5 : ClassGtype;
+    c6 : InGtype;
+    c7 : IsAGtype;
+    c8 : AGtype
+  default
+    d  : PropositionGtype
+end
+
+
+{ ---- Die Standard grafischen Typen des Graphbrowsers ---- }
+
+Class PropositionGtype in ATK_Rectnode with
+  WithShape
+    shape   : rectnode
+  TextColor 
+    tcolor  : black
+  TextAlign 
+    talign  : Center
+  LineColor 
+    lcolor  : black
+  LineWidth 
+    lwidth  : 1
+  FontDesc 
+    font    : andysans10
+  BackgroundColor 
+    bgcolor : LightGray
+  Fill    
+    fill    : TRUE
+end
+
+Class TokenGtype in ATK_Rectnode with
+  rule
+    gtrule  : $forall t/Token  (t graphtype TokenGtype)$
+  WithShape
+    shape   : rectnode
+  TextColor 
+    tcolor  : black
+  TextAlign 
+    talign  : Center
+  LineColor 
+    lcolor  : DarkTurquoise
+  LineWidth 
+    lwidth  : 1
+  FontDesc 
+    font    : andysans10f
+  BackgroundColor 
+    bgcolor : LightSeaGreen
+  Fill    
+    fill    : TRUE
+end
+
+Class MetametaGtype in ATK_Ovalnode with
+  rule
+    gtrule  : $forall t/MetametaClass  (t graphtype MetametaGtype)$
+  WithShape
+    shape   : ovalnode
+  TextColor 
+    tcolor  : black
+  TextAlign 
+    talign  : Center
+  LineColor 
+    lcolor  : LightSeaGreen
+  LineWidth 
+    lwidth  : 1
+  FontDesc 
+    font    : andysans10b
+  BackgroundColor 
+    bgcolor : aquamarine
+  Fill    
+    fill    : TRUE
+end
+
+Class SimpleGtype in ATK_Ovalnode with
+  rule
+
+    gtrule  : $forall t/SimpleClass  (t graphtype SimpleGtype)$
+  WithShape
+    shape   : ovalnode
+  TextColor 
+    tcolor  : black
+  TextAlign 
+    talign  : Center
+  LineColor 
+    lcolor  : red
+  LineWidth 
+    lwidth  : 1
+  FontDesc 
+    font    : andysans10b
+  BackgroundColor 
+    bgcolor : pink
+  Fill    
+    fill    : TRUE
+end
+
+Class MetaGtype in ATK_Ovalnode with
+  rule
+    gtrule  : $forall t/MetaClass  (t graphtype MetaGtype)$
+  WithShape
+    shape   : ovalnode
+  TextColor 
+    tcolor  : black
+  TextAlign 
+    talign  : Center
+  LineColor 
+    lcolor  : RoyalBlue
+  LineWidth 
+    lwidth  : 1
+  FontDesc 
+    font    : andysans10b
+  BackgroundColor 
+    bgcolor : SkyBlue
+  Fill    
+    fill    : TRUE
+end
+
+Class ClassGtype in ATK_Rectnode with
+  rule
+    gtrule  : $forall c/Class ( not (c in Token) and not (c in SimpleClass) and 
+not (c in MetaClass) and not (c in MetametaClass)  ) ==> (c graphtype ClassGtype)$
+  WithShape
+    shape   : rectnode
+  TextColor 
+    tcolor  : black
+  TextAlign 
+    talign  : Center
+  LineColor 
+    lcolor  : black
+  LineWidth 
+    lwidth  : 1
+  FontDesc 
+    font    : andysans10
+  BackgroundColor 
+    bgcolor : DarkTurquoise
+  Fill    
+    fill    : TRUE
+end
+
+Class InGtype in ATK_Lineedge with
+  rule
+    gtrule  : $forall e/InstanceOf  (e graphtype InGtype)$
+  WithShape
+    shape   : lineedge
+  TextColor
+    tcolor  : black
+  LineColor 
+    lcolor  : SlateGrey
+  LineWidth 
+    lwidth  : 1
+  FontDesc 
+    font    : andysans8
+  LineCap1
+    lcap1   : 2
+  LineCap2
+    lcap2   : 4
+end
+  
+Class IsAGtype in ATK_Lineedge with
+  rule
+    gtrule  : $forall e/IsA  (e graphtype IsAGtype)$
+  WithShape
+    shape   : lineedge
+  TextColor
+    tcolor  : black
+  LineColor 
+    lcolor  : DodgerBlue
+  LineWidth 
+    lwidth  : 3
+  FontDesc 
+    font    : andysans8
+  LineCap1
+    lcap1   : 2
+  LineCap2
+    lcap2   : 4
+end
+  
+Class AGtype in ATK_Lineedge with
+  rule
+   gtrule   : $forall e/attributee  (e graphtype AGtype)$
+  WithShape
+    shape   : lineedge
+  TextColor
+    tcolor  : black
+  LineColor 
+    lcolor  : MediumSeaGreen
+  LineWidth 
+    lwidth  : 1
+  FontDesc 
+    font    : andysans8
+  LineCap1
+    lcap1   : 2
+  LineCap2
+    lcap2   : 4
+end
+  
+
+
+
+
+
+
+
+{
+*------------------------------
+* Mono-GB Palette  
+*
+* LB Thu Dec 21 15:05:34 MET 1995
+*------------------------------
+} TokenGtype_mono in Class,ATK_Rectnode with 
+  rule
+     gtrule : $forall t/Token  (t graphtype TokenGtype_mono)$
+  WithShape
+     shape : rectnode
+  TextColor
+     tcolor : black
+  TextAlign
+     talign : Center
+  LineColor
+     lcolor : black
+  LineWidth
+     lwidth : 1
+  FontDesc
+     font : andysans10f
+  Fill
+     fill : FALSE
+  BackgroundColor
+     bgcolor : white
+end 
+
+ MetametaGtype_mono in Class,ATK_Ovalnode with 
+  rule
+     gtrule : $forall t/MetametaClass  (t graphtype MetametaGtype_mono)$
+  WithShape
+     shape : ovalnode
+  TextColor
+     tcolor : black
+  TextAlign
+     talign : Center
+  LineColor
+     lcolor : black
+  LineWidth
+     lwidth : 1
+  FontDesc
+     font : andysans10b
+  BackgroundColor
+     bgcolor : white
+  Fill
+     fill : FALSE
+end 
+
+ SimpleGtype_mono in Class,ATK_Ovalnode with 
+  rule
+     gtrule : $forall t/SimpleClass  (t graphtype SimpleGtype_mono)$
+  WithShape
+     shape : ovalnode
+  TextColor
+     tcolor : black
+  TextAlign
+     talign : Center
+  LineColor
+     lcolor : black
+  LineWidth
+     lwidth : 1
+  FontDesc
+     font : andysans10b
+  BackgroundColor
+     bgcolor : white
+  Fill
+     fill : FALSE
+end 
+
+ MetaGtype_mono in Class,ATK_Ovalnode with 
+  rule
+     gtrule : $forall t/MetaClass (t graphtype MetaGtype_mono)$
+  WithShape
+     shape : ovalnode
+  TextColor
+     tcolor : black
+  TextAlign
+     talign : Center
+  LineColor
+     lcolor : black
+  LineWidth
+     lwidth : 1
+  FontDesc
+     font : andysans10b
+  BackgroundColor
+     bgcolor : white
+  Fill
+     fill : FALSE
+end 
+
+ ClassGtype_mono in Class,ATK_Rectnode with 
+  rule
+     gtrule : $forall c/Class ( not (c in Token) and not (c in SimpleClass) and 
+not (c in MetaClass) and not (c in MetametaClass)  ) ==> (c graphtype ClassGtype_mono)$
+  WithShape
+     shape : rectnode
+  TextColor
+     tcolor : black
+  TextAlign
+     talign : Center
+  LineColor
+     lcolor : black
+  LineWidth
+     lwidth : 1
+  FontDesc
+     font : andysans10
+  BackgroundColor
+     bgcolor : white
+  Fill
+     fill : FALSE
+end 
+
+ InGtype_mono in Class,ATK_Lineedge with 
+  rule
+     gtrule : $forall e/InstanceOf  (e graphtype InGtype_mono)$
+  WithShape
+     shape : lineedge
+  TextColor
+     tcolor : black
+  LineColor
+     lcolor : black
+  LineWidth
+     lwidth : 1
+  FontDesc
+     font : andysans8
+  LineCap1
+     lcap1 : 2
+  LineCap2
+     lcap2 : 4
+end 
+
+ IsAGtype_mono in Class,ATK_Lineedge with 
+  rule
+     gtrule : $forall e/IsA  (e graphtype IsAGtype_mono)$
+  WithShape
+     shape : lineedge
+  TextColor
+     tcolor : black
+  LineColor
+     lcolor : black
+  LineWidth
+     lwidth : 3
+  FontDesc
+     font : andysans8
+  LineCap1
+     lcap1 : 2
+  LineCap2
+     lcap2 : 4
+end 
+
+AGtype_mono in Class,ATK_Lineedge with 
+  rule
+     gtrule : $forall e/attributee  (e graphtype AGtype_mono)$
+  WithShape
+     shape : lineedge
+  TextColor
+     tcolor : black
+  LineColor
+     lcolor : black
+  LineWidth
+     lwidth : 1
+  FontDesc
+     font : andysans8
+  LineCap1
+     lcap1 : 2
+  LineCap2
+     lcap2 : 4
+end 
+
+PropositionGtype_mono in Class,ATK_Rectnode with 
+  WithShape
+     shape : rectnode
+  TextColor
+     tcolor : black
+  TextAlign
+     talign : Center
+  LineColor
+     lcolor : black
+  LineWidth
+     lwidth : 1
+  FontDesc
+     font : andysans10
+  BackgroundColor
+     bgcolor : white
+  Fill
+     fill : FALSE
+end 
+
+
+X11GraphBrowserPalette_mono in Class,GraphicalPalette with 
+  contains
+     cm1 : TokenGtype_mono;
+     cm2 : MetametaGtype_mono;
+     cm3 : SimpleGtype_mono;
+     cm4 : MetaGtype_mono;
+     cm5 : ClassGtype_mono;
+     cm6 : InGtype_mono;
+     cm7 : IsAGtype_mono;
+     cm8 : AGtype_mono
+ default
+     dm1 : PropositionGtype_mono
+end 
+
+
+
+
+

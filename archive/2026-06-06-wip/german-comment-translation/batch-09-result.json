@@ -1,0 +1,54 @@
+[
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 366,
+    "end_line": 366,
+    "lines": [
+      {
+        "line": 366,
+        "original": "/* _rangeform : the formula of the integrity constraint that is processed w.r.t. the literal  */",
+        "translated": "/* _rangeform : the formula of the integrity constraint that is processed w.r.t. the literal  */"
+      }
+    ],
+    "id": "S00010"
+  },
+  {
+    "file": "components/server-engine/src/BDMEvaluation.swi.pl",
+    "start_line": 791,
+    "end_line": 791,
+    "lines": [
+      {
+        "line": 791,
+        "original": "/* Folgerungsliteral, wobei _InsDelOnConcl angibt, ob sie eingefuegt   */",
+        "translated": "/* inference literal, where _InsDelOnConcl indicates whether they are inserted   */"
+      }
+    ],
+    "id": "S00030"
+  },
+  {
+    "file": "components/server-engine/src/MetaSimplifier.swi.pl",
+    "start_line": 274,
+    "end_line": 274,
+    "lines": [
+      {
+        "line": 274,
+        "original": "\tErst durch das Folgerungsliteral is c eine Metavariable.",
+        "translated": "\tOnly through the inference literal is c a metavariable."
+      }
+    ],
+    "id": "S00050"
+  },
+  {
+    "file": "components/server-engine/src/cfixpoint.swi.pl",
+    "start_line": 392,
+    "end_line": 392,
+    "lines": [
+      {
+        "line": 392,
+        "original": "\t/* waehle eine beliebige, relevante Regel",
+        "translated": "\t/* choose any relevant rule"
+      }
+    ],
+    "id": "S00070"
+  }
+]

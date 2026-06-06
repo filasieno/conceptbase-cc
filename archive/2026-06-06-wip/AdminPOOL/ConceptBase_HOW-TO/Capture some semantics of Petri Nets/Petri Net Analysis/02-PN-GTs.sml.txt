@@ -1,0 +1,77 @@
+{
+*
+* File: PN-GTs.sml
+* Author: Manfred Jeusfeld
+* Creation: 4-Nov-2004 (4-Nov-2004)
+* ----------------------------------------------------------------------
+* Graphical types for Petri nets
+*
+}
+
+
+
+Class Petrinet_Palette in JavaGraphicalPalette with
+contains,defaultIndividual
+	c1 : DefaultIndividualGT
+contains,defaultLink
+	c2 : DefaultLinkGT
+implicitIsA, contains
+    c3 : ImplicitIsAGT
+implicitInstanceOf, contains
+    c4 : ImplicitInstanceOfGT
+implicitattributee, contains
+    c5 : ImplicitattributeeGT
+contains
+    c7: Transition_GT;
+    c10: Place_GT;
+    c19: DefaultattributeeGT;
+    c20: DefaultIsAGT;
+    c21: DefaultInstanceOfGT;
+    c22: QueryClassGT
+rule
+    rIsaGT : $ forall p/IsA (p graphtype DefaultIsAGT) $;
+    rInstGT : $ forall p/InstanceOf (p graphtype DefaultInstanceOfGT) $;
+    rAttrGT : $ forall p/attributee (p graphtype DefaultattributeeGT) $;
+    rIndGT : $ forall p/Individual (p graphtype DefaultIndividualGT) $;
+    rQueryClass : $ forall c/QueryClass (c graphtype QueryClassGT) $
+end
+
+
+
+
+Transition_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "255,150,150";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Rect";
+	fontstyle : "italic";
+      edgewidth : "3"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 22
+rule
+     gtrule: $ forall x/Transition (x graphtype Transition_GT) $
+end
+
+                  
+                  
+Place_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "255,150,150";
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Ellipse";
+	fontstyle : "italic";
+      linewidth : "3"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 27
+rule
+     gtrule: $ forall x/Place (x graphtype Place_GT) $
+
+end
+
+                        

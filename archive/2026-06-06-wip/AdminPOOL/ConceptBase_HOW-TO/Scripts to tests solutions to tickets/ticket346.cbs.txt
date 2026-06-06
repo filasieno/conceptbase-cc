@@ -1,0 +1,869 @@
+#
+# File: ticket346.cbs
+# Author: Manfred Jeusfeld
+# Created: 2014-03-28/M.Jeusfeld (2014-03-28/M.Jeusfeld)
+# ------------------------------------------------------
+# Endless loop when telling a submodule
+#
+# Start: cbshell ticket346.cbs
+#
+
+cbserver -t high
+
+
+# these sources are created by listModule and contain definitions that were
+# originally told in several transactions
+tell ' 
+{*
+* module path: System-oHome
+* -------------------------------------------------------
+* Time: 2014-03-28 11:24:33 (UTC) 
+* listd for: jeusfeld@myon
+* CBserver version: 7.6.14 (2014-03-28) 
+*
+*}
+
+jeusfeld in CB_User  
+end 
+
+RelationSemantics in Class with  
+  constraint
+    singleConstraint : $ forall c,d/Proposition p/Proposition!single x,m/VAR
+              P(p,c,m,d) and (x in c) ==>
+                (
+                  forall a1,a2/VAR
+                    (a1 in p) and (a2 in p) and Ai(x,m,a1) and Ai(x,m,a2) ==>
+                   (a1=a2)
+                ) $;
+    necConstraint : $ forall c,d/Proposition p/Proposition!necessary x,m/VAR
+            P(p,c,m,d) and (x in c) ==>
+             exists y/VAR (y in d) and (x m y) $
+end 
+
+OBJECT with  
+  attribute
+    link : OBJECT;
+    linkDR : OBJECT;
+    linkD : OBJECT;
+    linkR : OBJECT;
+    predD : OBJECT;
+    predR : OBJECT;
+    IN : OBJECT;
+    SPEC : OBJECT;
+    ISIN : OBJECT;
+    MEMBER : OBJECT;
+    ISA : OBJECT;
+    ORTHO : OBJECT;
+    SPEC_t : OBJECT;
+    MEMBER_t : OBJECT;
+    ISA_t : OBJECT;
+    IN_t : OBJECT;
+    SPEC_rt : OBJECT;
+    MEMBER_rt : OBJECT;
+    ISA_rt : OBJECT;
+    IN_rt : OBJECT
+end 
+
+OBJECT!linkD isA OBJECT!link  
+end 
+
+OBJECT!linkR isA OBJECT!link  
+end 
+
+OBJECT!linkDR isA OBJECT!link  
+end 
+
+OBJECT!linkDR isA OBJECT!predR  
+end 
+
+OBJECT!linkR isA OBJECT!predR  
+end 
+
+OBJECT!linkDR isA OBJECT!predD  
+end 
+
+OBJECT!linkD isA OBJECT!predD  
+end 
+
+AbstractnessConstraints in Class with  
+  constraint
+    ac1 : $ forall x,y/OBJECT (x link y) ==> (x linkD y) or (x linkR y) or (x linkDR y) $;
+    ac2 : $ forall x,y/OBJECT (x predR y) ==> (x linkR y) or (x linkDR y) $;
+    ac3 : $ forall x,y/OBJECT (x predD y) ==> (x linkD y) or (x linkDR y) $
+end 
+
+ClosureRules in Class with  
+  rule
+    c1 : $ forall x,y/OBJECT (x SPEC y) ==> (x SPEC_t y) $;
+    c2 : $ forall x,y/OBJECT (x MEMBER y) ==> (x MEMBER_t y) $;
+    c3 : $ forall x,y/OBJECT (x ISA y) ==> (x ISA_t y) $;
+    c4 : $ forall x,y/OBJECT (x IN y) ==> (x IN_t y) $;
+    t1 : $ forall x,y,z/OBJECT (x SPEC z) and (z SPEC_t y) ==> (x SPEC_t y) $;
+    t2 : $ forall x,y,z/OBJECT (x MEMBER z) and (z MEMBER_t y) ==> (x MEMBER_t y) $;
+    t3 : $ forall x,y,z/OBJECT (x ISA z) and (z ISA_t y) ==> (x ISA_t y) $;
+    t4 : $ forall x,y,z/OBJECT (x IN z) and (z IN_t y) ==> (x IN_t y) $;
+    rt1 : $ forall x,y/OBJECT (x SPEC_t y) ==> (x SPEC_rt y) $;
+    rt2 : $ forall x,y/OBJECT (x MEMBER_t y) ==> (x MEMBER_rt y) $;
+    rt3 : $ forall x,y/OBJECT (x ISA_t y) ==> (x ISA_rt y) $;
+    rt4 : $ forall x,y/OBJECT (x IN_t y) ==> (x IN_rt y) $;
+    r1 : $ forall x/OBJECT (x SPEC_rt x) $;
+    r2 : $ forall x/OBJECT (x MEMBER_rt x) $;
+    r3 : $ forall x/OBJECT (x ISA_rt x) $;
+    r4 : $ forall x/OBJECT (x IN_rt x) $
+end 
+
+OBJECT!link with  
+  attribute
+    sourcelevel : Integer
+end 
+
+OBJECT!link with  
+  attribute
+    targetlevel : Integer
+end 
+
+ALABEL  
+end 
+
+OBJECT!link with  
+  attribute
+    label : ALABEL
+end 
+
+DerivedPredicateDefinitions in Class with  
+  rule
+    MEMBER_rule : $ forall x,c,s,d/OBJECT (x SPEC_rt s) and (s IN d) and (d SPEC_rt c) ==> (x MEMBER c) $;
+    ISA_rule : $ forall x,y/OBJECT (x SPEC y) or (x IN y)  ==> (x ISA y) $;
+    ORTHO_rule : $ forall x,y/OBJECT not (x SPEC_rt y) and not (y SPEC_rt x) ==> (x ORTHO y) $
+end 
+
+CONCRETE in QueryClass,MSFOLrule isA OBJECT with  
+  constraint
+    isConcrete : $ not exists y/OBJECT (y SPEC this) $
+end 
+
+NMEMBER in Function isA Integer with  
+  parameter
+    p1_x : OBJECT;
+    p2_c : OBJECT
+  constraint
+    nmember_rule : $ ((this=0) and (p1_x SPEC_rt p2_c)) or
+          (exists d/OBJECT (d MEMBER p2_c) and (this = NMEMBER(p1_x,d) + 1)
+          )
+        $
+end 
+
+Functional  
+end 
+
+Injective  
+end 
+
+Total  
+end 
+
+Surjective  
+end 
+
+ARstar in GenericQueryClass isA YesClass with  
+  parameter,computed_attribute
+    a1_x : OBJECT;
+    a2_i : Integer;
+    a3_a : ALABEL;
+    a4_j : Integer;
+    a5_y : OBJECT
+  constraint
+    c1 : $ 
+            (exists m1/OBJECT!link From(m1,a1_x) and (m1 sourcelevel a2_i) and (m1 label a3_a) and (m1 targetlevel a4_j) and To(m1,a5_y)
+            ) or
+            (exists s/OBJECT (a1_x SPEC s) and (yes in ARstar[s,a2_i,a3_a,a4_j,a5_y]) and 
+              not exists y1/OBJECT (yes in ARstar[a1_x,a2_i,a3_a,a4_j,y1])
+            )
+          $
+end 
+
+ADstar in GenericQueryClass isA YesClass with  
+  parameter,computed_attribute
+    a1_x : OBJECT;
+    a2_i : Integer;
+    a3_a : ALABEL;
+    a4_j : Integer;
+    a5_y : OBJECT
+  constraint
+    c1 : $ 
+            (exists m1/OBJECT!link From(m1,a1_x) and (m1 sourcelevel a2_i) and (m1 label a3_a) and (m1 targetlevel a4_j) and To(m1,a5_y)
+            ) or
+            (exists t/OBJECT (a5_y SPEC t) and (yes in ADstar[a1_x,a2_i,a3_a,a4_j,t]) and 
+              not exists x1/OBJECT (yes in ARstar[x1,a2_i,a3_a,a4_j,a5_y])
+            )
+          $
+end 
+
+Astar in GenericQueryClass isA YesClass with  
+  parameter,computed_attribute
+    a1_x : OBJECT;
+    a2_i : Integer;
+    a3_a : ALABEL;
+    a4_j : Integer;
+    a5_y : OBJECT
+  constraint
+    c1 : $ 
+            (yes in ARstar[a1_x,a2_i,a3_a,a4_j,a5_y]) or
+            (yes in ADstar[a1_x,a2_i,a3_a,a4_j,a5_y])
+          $
+end 
+
+OBJECT!link!sourcelevel in Single  
+end 
+
+OBJECT!link!sourcelevel in Necessary  
+end 
+
+OBJECT!link!targetlevel in Single  
+end 
+
+OBJECT!link!targetlevel in Necessary  
+end 
+
+OBJECT!link!label in Necessary  
+end 
+
+DDI_SyntacticRestrictions in Class with  
+  constraint
+    a12 : $ forall x,c/OBJECT (x ISA_t c) ==> (x \= c) $;
+    a22 : $ forall x,c/OBJECT (x IN c) ==> (c in CONCRETE) $;
+    a13 : $ forall x,c,d/OBJECT (x IN c) and (x IN d) ==> (c = d) $;
+    a23 : $ forall x,s,z/OBJECT (x SPEC s) and (x SPEC z) ==> (s = z) $;
+    a24 : $ forall x,y/OBJECT (x SPEC y) ==> not exists c/OBJECT (x IN c) $;
+    a14 : $ forall x,s,y,t/OBJECT m1,m2/OBJECT!link a/ALABEL
+             Ai(x,link,m1) and To(m1,y) and (m1 label a) and 
+             Ai(s,link,m2) and To(m2,t) and (m2 label a)   
+          ==>
+           exists c,d/OBJECT m/OBJECT!link
+             Ai(c,linkDR,m) and To(m,d) and (m label a) and
+             (x ISA_rt c) and (s ISA_rt c) and (y ISA_rt d) and (t ISA_rt d)
+         $;
+    a15 : $ forall x,s,y,t/OBJECT m1,m2/OBJECT!link j,l/Integer a/ALABEL
+             Ai(x,link,m1) and To(m1,y) and (m1 label a) and (m1 targetlevel j) and
+             Ai(s,link,m2) and To(m2,t) and (m2 label a) and (m2 targetlevel l) and
+             (x ISA_t s)
+          ==>
+           (j <= l) 
+         $;
+    a16 : $ forall x,s,y,t/OBJECT m1,m2/OBJECT!link i,k/Integer a/ALABEL
+             Ai(x,link,m1) and To(m1,y) and (m1 label a) and (m1 sourcelevel i) and
+             Ai(s,link,m2) and To(m2,t) and (m2 label a) and (m2 sourcelevel k) and
+             (y ISA_t t)
+          ==>
+           (i <= k) 
+         $;
+    a26 : $ forall x,y,t/OBJECT a/ALABEL i,j/Integer m1,m2/OBJECT!link
+             Ai(x,predR,m1) and To(m1,y) and (m1 label a) and (m1 sourcelevel i) and (m1 targetlevel j) and
+             Ai(x,predR,m2) and To(m2,t) and (m2 label a) and (m2 sourcelevel i) and (m2 targetlevel j) 
+           ==> 
+              not (y SPEC_t t)
+           $;
+    a27 : $ forall x,y,s/OBJECT a/ALABEL i,j/Integer m1,m2/OBJECT!link
+             Ai(x,predD,m1) and To(m1,y) and (m1 label a) and (m1 sourcelevel i) and (m1 targetlevel j) and
+             Ai(s,predD,m2) and To(m2,y) and (m2 label a) and (m2 sourcelevel i) and (m2 targetlevel j) 
+           ==> 
+              not (x SPEC_t s)
+           $
+end 
+
+DDI_SpecializationAndInstantiation in Class with  
+  constraint
+    a28 : $ forall x,y,c,d/OBJECT a/ALABEL i,j,k,l,n/Integer mx,mc/OBJECT!link
+             Ai(x,link,mx) and To(mx,y) and (mx label a) and (mx sourcelevel i) and (mx targetlevel j) and
+             Ai(c,link,mc) and To(mc,d) and (mc label a) and (mc sourcelevel k) and (mc targetlevel l) and
+             (n = NMEMBER(x,c)) ==> (n = k - i) $;
+    a29 : $ forall x,y,c,d/OBJECT a/ALABEL i,j,k,l,n/Integer mx,mc/OBJECT!link
+             Ai(x,link,mx) and To(mx,y) and (mx label a) and (mx sourcelevel i) and (mx targetlevel j) and
+             Ai(c,link,mc) and To(mc,d) and (mc label a) and (mc sourcelevel k) and (mc targetlevel l) and
+             (n = NMEMBER(y,d)) ==> (n = l - j) $;
+    a30 : $ forall x,y,c,d1/OBJECT a/ALABEL i,j,k,l/Integer mx,m1/OBJECT!link
+             Ai(x,link,mx) and To(mx,y) and (mx label a) and (mx sourcelevel i) and (mx targetlevel j) and
+             Ai(c,predR,m1) and To(m1,d1) and (m1 label a) and (m1 sourcelevel k) and (m1 targetlevel l) and
+             (j <= l) and (x ISA_rt c) ==> 
+           exists d2/OBJECT m2/OBJECT!link
+              Ai(c,predR,m2) and To(m2,d2) and (m2 label a) and (m2 sourcelevel k) and (m2 targetlevel l) and
+              (y ISA_rt d2)
+           $;
+    a31 : $ forall x,y,c1,d/OBJECT a/ALABEL i,j,k,l/Integer mx,m1/OBJECT!link
+             Ai(x,link,mx) and To(mx,y) and (mx label a) and (mx sourcelevel i) and (mx targetlevel j) and
+             Ai(c1,predD,m1) and To(m1,d) and (m1 label a) and (m1 sourcelevel k) and (m1 targetlevel l) and
+             (i <= k) and (y ISA_rt d) ==> 
+           exists c2/OBJECT m2/OBJECT!link
+              Ai(c2,predD,m2) and To(m2,d) and (m2 label a) and (m2 sourcelevel k) and (m2 targetlevel l) and
+              (x ISA_rt c2)
+           $;
+    a25 : $ forall x,s,y,t/OBJECT m1,m2/OBJECT!link a/ALABEL
+             Ai(x,link,m1) and To(m1,y) and (m1 label a) and
+             Ai(s,link,m2) and To(m2,t) and (m2 label a) and
+             (x SPEC_t s)
+          ==>
+            not (t SPEC_t y)
+         $
+end 
+
+OBJECT in Class  
+end 
+
+iLevels in GenericQueryClass isA Integer with  
+  parameter,computed_attribute
+    o : OBJECT
+end 
+
+mLevels in GenericQueryClass isA Integer with  
+  parameter,computed_attribute
+    o : OBJECT
+  constraint
+    c1 : $
+         ( exists a/OBJECT!link From(a,o) and (a sourcelevel this) )
+         or 
+         ( exists b/OBJECT!link To(b,o) and (b targetlevel this) )
+        $
+end 
+
+minLevel in Function isA Integer with  
+  parameter,computed_attribute
+    o : OBJECT
+  constraint
+    c1 : $
+         ( not (exists o1/OBJECT ml1/Integer (o1 MEMBER o) and (ml1 in mLevels[o]) ) and (this = 0)
+         ) or
+
+         ( (not exists o2/OBJECT (o2 MEMBER o)) and exists ml2/Integer (ml2 in mLevels[o]) ) and
+           (this = MAX(mLevels[o])
+         ) or
+
+         ( exists o3/OBJECT (o3 MEMBER o) and (this = MAX(iLevels[o])+1)
+         )        
+        $
+end 
+
+maxLevel in Function isA Integer with  
+  parameter,computed_attribute
+    o : OBJECT
+  constraint
+    c1 : $
+         ( not (exists o1/OBJECT (o MEMBER o1) ) and (this = minLevel(o))
+         ) or
+         ( exists c/OBJECT n/Integer (o IN c) and (n = maxLevel(c)) and (this = n-1)
+         )
+        $
+end 
+
+level in Function isA Integer with  
+  parameter,computed_attribute
+    o : OBJECT
+  constraint
+    c1 : $
+          (exists n1,n2/Integer (n1=minLevel(o)) and (n2=maxLevel(o)) and (n2 > n1) and (this = n2))
+          or (this = minLevel(o))
+        $
+end 
+
+iLevels with  
+  constraint
+    c1 : $
+         exists x/OBJECT (x MEMBER o) and (this = minLevel(x))
+        $
+end 
+
+InViaA in GenericQueryClass isA OBJECT with  
+  parameter,computed_attribute
+    x : OBJECT
+  constraint
+    cq : $ 
+          exists y,d/OBJECT a/ALABEL s,t,e,f/Integer mx,mc/OBJECT!link
+            Ai(x,link,mx) and To(mx,y) and (mx label a) and (mx sourcelevel s) and (mx targetlevel t) and
+            Ai(this,link,mc) and To(mc,d) and (mc label a) and (mc sourcelevel e) and (mc targetlevel f) and
+            (s = e-1)
+        $
+end 
+
+ValuesOf in GenericQueryClass isA OBJECT with  
+  parameter,computed_attribute
+    a : ALABEL;
+    x : OBJECT
+  constraint
+    cq : $ 
+          exists s,t/Integer mx/OBJECT!link
+            Ai(x,link,mx) and To(mx,this) and (mx label a) 
+        $
+end 
+
+SubjectsOf in GenericQueryClass isA OBJECT with  
+  parameter,computed_attribute
+    a : ALABEL;
+    y : OBJECT
+  constraint
+    cq : $ 
+          exists mx/OBJECT!link
+            Ai(this,link,mx) and To(mx,y) and (mx label a)  
+        $
+end 
+
+GroundValuesOf in GenericQueryClass isA OBJECT with  
+  parameter,computed_attribute
+    a : ALABEL;
+    x : OBJECT
+  constraint
+    cq : $ 
+          exists s,t/Integer mx/OBJECT!link
+            Ai(x,link,mx) and To(mx,this) and (mx label a) and (mx targetlevel 0)
+        $
+end 
+
+GroundSubjectsOf in GenericQueryClass isA OBJECT with  
+  parameter,computed_attribute
+    a : ALABEL;
+    y : OBJECT
+  constraint
+    cq : $ 
+          exists mx/OBJECT!link
+            Ai(this,link,mx) and To(mx,y) and (mx label a) and (mx sourcelevel 0)
+        $
+end 
+
+SharedValuesOf in GenericQueryClass isA OBJECT with  
+  parameter,computed_attribute
+    a : ALABEL;
+    x : OBJECT;
+    s : Integer;
+    t : Integer
+  constraint
+    cq : $ (
+            exists x1/OBJECT mx1/OBJECT!link (x SPEC_rt x1)  and Ai(x1,link,mx1) and 
+                   To(mx1,this) and (mx1 label a) and (mx1 sourcelevel s) and (mx1 targetlevel t)
+          ) or
+          ( exists x2/OBJECT mx2/OBJECT!link s2/Integer (x MEMBER x2) and Ai(x2,link,mx2) and
+                   To(mx2,this) and (mx2 label a) and (mx2 sourcelevel s2) and (mx2 targetlevel t) and
+                   (s = s2-1) and (s >= 0)
+          )
+        $
+end 
+
+GeneralSharedValuesOf in GenericQueryClass isA OBJECT with  
+  parameter,computed_attribute
+    a : ALABEL;
+    x : OBJECT;
+    s : Integer;
+    t : Integer
+  constraint
+    cq : $ (
+            exists x1/OBJECT mx1/OBJECT!link (x SPEC_rt x1)  and Ai(x1,link,mx1) and 
+                   To(mx1,this) and (mx1 label a) and (mx1 sourcelevel s) and (mx1 targetlevel t)
+          ) or
+          ( exists x2/OBJECT mx2/OBJECT!link n,s2/Integer Ai(x2,link,mx2) and
+                   To(mx2,this) and (mx2 label a) and (mx2 sourcelevel s2) and (mx2 targetlevel t) and
+                   (s = s2-NMEMBER(x,x2)) and (s >= 0)
+          )
+        $
+end 
+
+ReportClasses in QueryClass isA YesClass with  
+  computed_attribute
+    objects : OBJECT
+  constraint
+    c1 : $ (objects in OBJECT) $
+end 
+
+ClassReport in AnswerFormat with  
+  pattern
+    p : "Class report
+{Foreach( ({this.objects}), (o), {o}: {ASKquery(InViaA[{o}/x],LABEL)}\\n)} 
+"
+end 
+
+GeneralSharedValues in QueryClass isA YesClass with  
+  computed_attribute
+    xx : OBJECT;
+    aa : ALABEL
+end 
+
+SharedValuesReport in AnswerFormat with  
+  pattern
+    p : "Ground derived facts
+{Foreach(({this.aa}),(lab),{Foreach(({this.xx}),(o),{ASKquery(GeneralSharedValuesOf[{o}/x,{lab}/a,0/t],SingleSVReport)})})}"
+end 
+
+SingleSVReport in AnswerFormat with  
+  pattern
+    p : "A*({this.x},{this.s},{this.a},{this.t},{this})\\n"
+end 
+
+ObjectWithLevels in QueryClass isA OBJECT with  
+  computed_attribute
+    lev : Integer;
+    mlev : Integer
+  constraint
+    c1 : $ (lev=level(this)) and (mlev in mLevels[this]) $
+end 
+
+LevelReport in AnswerFormat with  
+  head
+    h : "Level report\\n"
+  pattern
+    p : "{this} has level {this.lev} and mlevels {this.mlev}\\n"
+end 
+
+ObjectWithUnequalLinksLevels in QueryClass isA OBJECT with  
+  computed_attribute
+    linklev : Integer
+  constraint
+    c1 : $ exists m/OBJECT!link
+            (From(m,this) and (m targetlevel linklev) and (linklev <> level(this)) or
+             To(m,this) and (m sourcelevel linklev) and (linklev <> level(this))
+            ) 
+        $
+end 
+
+LinkLevelReport in AnswerFormat with  
+  head
+    h : "Linklevel report\\n"
+  pattern
+    p : "{this} has unequal link levels {this.linklev} \\n"
+end 
+
+Link_0 in QueryClass isA OBJECT!link with  
+  retrieved_attribute
+    label : ALABEL;
+    sourcelevel : Integer;
+    targetlevel : Integer
+  constraint
+    c1 : $ exists n/Integer (this sourcelevel n) and (this targetlevel n) $
+end 
+
+Link_1S in QueryClass isA OBJECT!link with  
+  retrieved_attribute
+    label : ALABEL;
+    sourcelevel : Integer;
+    targetlevel : Integer
+  constraint
+    c1 : $ exists s,t/Integer (this sourcelevel s) and (this targetlevel t) and (t = 1) and (s > t) $
+end 
+
+Link_NS in QueryClass isA OBJECT!link with  
+  retrieved_attribute
+    label : ALABEL;
+    sourcelevel : Integer;
+    targetlevel : Integer
+  constraint
+    c1 : $ exists s,t/Integer (this sourcelevel s) and (this targetlevel t) and (t <> 1) and (s > t) $
+end 
+
+Link_S in QueryClass isA OBJECT!link with  
+  retrieved_attribute
+    label : ALABEL;
+    sourcelevel : Integer;
+    targetlevel : Integer
+  constraint
+    c1 : $ exists s,t/Integer (this sourcelevel s) and (this targetlevel t) and (s > t) $
+end 
+
+Link_1V in QueryClass isA OBJECT!link with  
+  retrieved_attribute
+    label : ALABEL;
+    sourcelevel : Integer;
+    targetlevel : Integer
+  constraint
+    c1 : $ exists s,t/Integer (this sourcelevel s) and (this targetlevel t) and (s = 1) and (s < t) $
+end 
+
+Link_NV in QueryClass isA OBJECT!link with  
+  retrieved_attribute
+    label : ALABEL;
+    sourcelevel : Integer;
+    targetlevel : Integer
+  constraint
+    c1 : $ exists s,t/Integer (this sourcelevel s) and (this targetlevel t) and (s <> 1) and (s < t) $
+end 
+
+Link_V in QueryClass isA OBJECT!link with  
+  retrieved_attribute
+    label : ALABEL;
+    sourcelevel : Integer;
+    targetlevel : Integer
+  constraint
+    c1 : $ exists s,t/Integer (this sourcelevel s) and (this targetlevel t) and (s < t) $
+end 
+
+LinkFormatV in AnswerFormat with  
+  head
+    h : "Value-DI links (s<t)\\n"
+  pattern
+    p : "{From({this})} --{this.label}({this.sourcelevel},{this.targetlevel})--> {To({this})}\\n"
+end 
+
+LinkFormatS in AnswerFormat with  
+  head
+    h : "Subject-DI links (s>t)\\n"
+  pattern
+    p : "{From({this})} --{this.label}({this.sourcelevel},{this.targetlevel})--> {To({this})}\\n"
+end 
+
+LinkFormat0 in AnswerFormat with  
+  head
+    h : "Regular links (s=t)\\n"
+  pattern
+    p : "{From({this})} --{this.label}({this.sourcelevel},{this.targetlevel})--> {To({this})}\\n"
+end 
+
+LhsOBJECT in QueryClass isA OBJECT with  
+  constraint
+    c1 : $ exists o/OBJECT (this linkDR o) or
+          exists c/LhsOBJECT (this ISA_t c) or
+          exists x/LhsOBJECT (x ISA_t this) $
+end 
+
+RhsOBJECT in QueryClass isA OBJECT with  
+  constraint
+    c1 : $ not (this in LhsOBJECT) $
+end 
+
+TopInLevelObject in QueryClass isA OBJECT with  
+  constraint
+    ctop : $ not exists super/OBJECT (this SPEC super) $
+end 
+
+M0_Object in QueryClass isA TopInLevelObject with  
+  constraint
+    c1 : $ (level(this) = 0) $
+end 
+
+M1_Object in QueryClass isA TopInLevelObject with  
+  constraint
+    c1 : $ (level(this) = 1) $
+end 
+
+M2_Object in QueryClass isA TopInLevelObject with  
+  constraint
+    c1 : $ (level(this) = 2) $
+end 
+
+M3_Object in QueryClass isA TopInLevelObject with  
+  constraint
+    c1 : $ (level(this) = 3) $
+end 
+
+M4_Object in QueryClass isA TopInLevelObject with  
+  constraint
+    c1 : $ (level(this) = 4) $
+end 
+
+M5_Object in QueryClass isA TopInLevelObject with  
+  constraint
+    c1 : $ (level(this) = 4) $
+end 
+
+ListFormat in AnswerFormat with  
+  order
+    o : ascending
+  orderBy
+    ob : "this"
+  pattern
+    p : "{this} "
+end 
+
+ShowDDI in QueryClass isA YesClass  
+end 
+
+DDIGV_FORMAT in AnswerFormat with  
+  forQuery
+    q : ShowDDI
+  fileType
+    ft : "dot"
+  pattern
+    p : "# This is the DDI diagram for {currentmodule}
+# Graphviz code generated by {user} using ConceptBase {cb_version} at {transactiontime} 
+# Process this file by Graphviz, e.g. 
+#    dot -Tpng -o thisfile.png thisfile.dot
+
+digraph {currentmodule} \{
+
+{ASKquery(LhsOBJECT,LHSBOXNODE_FORMAT)}
+{ASKquery(ShowSPEClinks[LhsOBJECT/class],SPECLINK_FORMAT)}
+
+{ASKquery(RhsOBJECT,RHSBOXNODE_FORMAT)}
+{ASKquery(ShowSPEClinks[RhsOBJECT/class],SPECLINK_FORMAT)}
+
+{ASKquery(ShowINlinks[OBJECT/class],INLINK_FORMAT)}
+
+{ASKquery(ShowLinkAs,LINKA_FORMAT)}
+{ASKquery(ShowLinkRs,LINKR_FORMAT)}
+{ASKquery(ShowLinkDs,LINKD_FORMAT)}
+
+\{rank=same; {ASKquery(M0_Object,ListFormat)}\}
+\{rank=same; {ASKquery(M1_Object,ListFormat)}\}
+\{rank=same; {ASKquery(M2_Object,ListFormat)}\}
+\{rank=same; {ASKquery(M3_Object,ListFormat)}\}
+\{rank=same; {ASKquery(M4_Object,ListFormat)}\}
+\{rank=same; {ASKquery(M5_Object,ListFormat)}\}
+
+overlap=false;
+rankdir=BT;
+remincross=true;
+fontsize=12;
+nodesep=0.4;
+fontname=Helvetica;
+splines=false;
+label=\"{ASKquery(CaptionQuery,CAPTION_FORMAT)}\";
+\}
+"
+end 
+
+Show in GenericQueryClass isA OBJECT with  
+  parameter
+    class : Proposition
+  constraint
+    c1 : $ (this in class) $
+end 
+
+ShowLinkAs in QueryClass isA OBJECT!linkDR with  
+  retrieved_attribute
+    sourcelevel : Integer;
+    targetlevel : Integer;
+    label : ALABEL
+end 
+
+ShowLinkRs in QueryClass isA OBJECT!linkR with  
+  retrieved_attribute
+    sourcelevel : Integer;
+    targetlevel : Integer;
+    label : ALABEL
+end 
+
+ShowLinkDs in QueryClass isA OBJECT!linkD with  
+  retrieved_attribute
+    sourcelevel : Integer;
+    targetlevel : Integer;
+    label : ALABEL
+end 
+
+ShowINlinks in GenericQueryClass isA OBJECT!IN with  
+  parameter
+    class : Proposition
+  constraint
+    c1 : $ exists o/OBJECT From(this,o) and (o in class) $
+end 
+
+ShowSPEClinks in GenericQueryClass isA OBJECT!SPEC with  
+  parameter
+    class : Proposition
+  constraint
+    c1 : $ exists o/OBJECT From(this,o) and (o in class) $
+end 
+
+LHSBOXNODE_FORMAT in AnswerFormat with  
+  pattern
+    p : "node [shape=box,style=filled,fillcolor=cyan]; {this};\\n"
+end 
+
+RHSBOXNODE_FORMAT in AnswerFormat with  
+  pattern
+    p : "node [shape=box,style=filled,fillcolor=lightcyan]; {this};\\n"
+end 
+
+LINKA_FORMAT in AnswerFormat with  
+  pattern
+    p : "{From({this})}->{To({this})} [fontsize=10,dir=both,arrowhead=odot,arrowtail=odot,constraint=false,color=black,label=\"{this.label}({this.sourcelevel},{this.targetlevel})\"];\\n"
+end 
+
+LINKR_FORMAT in AnswerFormat with  
+  pattern
+    p : "{From({this})}->{To({this})} [fontsize=10,dir=both,arrowhead=vee,arrowtail=odot,style=dashed,constraint=false,color=red,label=\"{this.label}({this.sourcelevel},{this.targetlevel})\"];\\n"
+end 
+
+LINKD_FORMAT in AnswerFormat with  
+  pattern
+    p : "{From({this})}->{To({this})} [fontsize=10,dir=both,arrowhead=odot,arrowtail=vee,style=dashed,constraint=false,color=blue,label=\"{this.label}({this.sourcelevel},{this.targetlevel})\"];\\n"
+end 
+
+INLINK_FORMAT in AnswerFormat with  
+  pattern
+    p : "{From({this})}->{To({this})} [style=dotted,color=black,len=1.21,label=\"\",arrowhead=vee];\\n"
+end 
+
+SPECLINK_FORMAT in AnswerFormat with  
+  pattern
+    p : "{From({this})}->{To({this})} [color=blue,penwidth=4,len=1.0,label=\"\",arrowhead=empty,arrowsize=1.6];\\n"
+end 
+
+CaptionQuery in QueryClass isA YesClass with  
+  computed_attribute
+    c0 : Integer;
+    cS : Integer;
+    cV : Integer
+  constraint
+    c1 : $ (c0=#Link_0) and (cS=#Link_S) and (cV=#Link_V) $
+end 
+
+CAPTION_FORMAT in AnswerFormat with  
+  pattern
+    p : "{currentmodule} : {this.c0}-{this.cS}-{this.cV}"
+end 
+
+Module with  
+  rule
+    rsameModelType : $ forall m/Module (m \= oHome) ==> (m saveView ShowDDI) $
+end 
+
+
+'
+
+
+
+
+
+# this transaction then if into an infinite loop
+tell '
+cpu in ALABEL end
+designer in ALABEL end
+owner in ALABEL end
+serialNr in ALABEL end
+
+MobilePhone in OBJECT with
+  linkDR m1: Person
+  linkDR m2: Person
+  linkDR m3: Number
+  linkDR m4: Processor
+end
+
+MobilePhone!m1 with
+  sourcelevel s: 1
+  targetlevel t: 1
+  label l: designer
+end
+
+MobilePhone!m2 with
+  sourcelevel s: 2
+  targetlevel t: 1
+  label l: owner
+end
+
+MobilePhone!m3 with
+  sourcelevel s: 2
+  targetlevel t: 1
+  label l: serialNr
+end
+
+MobilePhone!m4 with
+  sourcelevel s: 2
+  targetlevel t: 2
+  label l: cpu
+end
+
+
+
+Processor in OBJECT
+end
+
+Number in OBJECT
+end
+
+Person in OBJECT
+end
+
+'

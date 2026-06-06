@@ -1,0 +1,54 @@
+[
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 303,
+    "end_line": 303,
+    "lines": [
+      {
+        "line": 303,
+        "original": "\t/* Und compilieren der gefundenen Formeln:",
+        "translated": "\t/* And compile the found formulas:"
+      }
+    ],
+    "id": "S00009"
+  },
+  {
+    "file": "components/server-engine/src/BDMEvaluation.swi.pl",
+    "start_line": 736,
+    "end_line": 736,
+    "lines": [
+      {
+        "line": 736,
+        "original": "\t\t/* Auswerten der betroffenen Integritaetsbedingungen mit jedem */",
+        "translated": "\t\t/* Evaluate the affected integrity constraints with each */"
+      }
+    ],
+    "id": "S00029"
+  },
+  {
+    "file": "components/server-engine/src/MetaSimplifier.swi.pl",
+    "start_line": 68,
+    "end_line": 68,
+    "lines": [
+      {
+        "line": 68,
+        "original": "*  3. Waehle eine Folge von Literalen aus [L1,..,Ln]",
+        "translated": "*  3. Choose a sequence of literals from [L1,..,Ln]"
+      }
+    ],
+    "id": "S00049"
+  },
+  {
+    "file": "components/server-engine/src/ViewCompiler.swi.pl",
+    "start_line": 505,
+    "end_line": 505,
+    "lines": [
+      {
+        "line": 505,
+        "original": "/*\t  zusaetzlichen generierten VMRegeln noch seperate \t    */",
+        "translated": "/*\t  additional generated VM rules still need separate \t    */"
+      }
+    ],
+    "id": "S00069"
+  }
+]

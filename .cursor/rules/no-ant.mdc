@@ -1,0 +1,25 @@
+---
+description: No Apache Ant — Java builds use Maven only
+alwaysApply: true
+---
+
+# No Apache Ant — ever
+
+Do **not** introduce or recommend Apache Ant for ConceptBase.cc greenfield builds:
+
+- **Build files**: `build.xml`, `*.ant.xml`
+- **Maven plugins**: `maven-antrun-plugin`, `antrun` executions
+- **Nix inputs**: `pkgs.ant`, `apacheAnt`
+- **Java imports**: `org.apache.tools.ant.*`
+
+## Use instead
+
+| Need | Prefer |
+|------|--------|
+| Java libraries (JGL, Grappa, cb*) | Maven modules under `components/java/`, `components/jgl/`, `components/grappa/` |
+| Legacy parent POM | `components/legacy/pom.xml` |
+| Full client reactor | `cd components/java && mvn install` |
+| Nix Java build | `java-reactor`, `jgl`, `grappa` derivations in `flake.nix` |
+
+Archive snapshots under `archive/` are read-only references for sync scripts — never restore Ant
+builds into `components/`. The `no-ant` flake check enforces this.

@@ -1,0 +1,471 @@
+[
+  {
+    "id": "S00001",
+    "file": "components/java/cbapi/src/main/java/i5/cb/api/CBConnection.java",
+    "start_line": 48,
+    "end_line": 48,
+    "lines": [
+      {
+        "line": 48,
+        "original": "/// arguments in einem eigenen Fenster angezeigt are (die Frames",
+        "translated": "/// arguments are displayed in a separate window (the Frames"
+      }
+    ]
+  },
+  {
+    "id": "S00021",
+    "file": "components/libcbcos/src/QUERY.h",
+    "start_line": 101,
+    "end_line": 101,
+    "lines": [
+      {
+        "line": 101,
+        "original": "          @return 1, when still ein Ergenbis gefunden was, 0 sonst",
+        "translated": "          @return 1 when a result was still found, 0 otherwise"
+      }
+    ]
+  },
+  {
+    "id": "S00041",
+    "file": "components/libcbcos/src/SYMID.h",
+    "start_line": 70,
+    "end_line": 70,
+    "lines": [
+      {
+        "line": 70,
+        "original": "        /// Quersumme der Character von name (schnellere ueberpruefung)",
+        "translated": "        /// checksum of the characters of name (faster verification)"
+      }
+    ]
+  },
+  {
+    "id": "S00061",
+    "file": "components/libcbcos/src/SYMTBL.h",
+    "start_line": 156,
+    "end_line": 156,
+    "lines": [
+      {
+        "line": 156,
+        "original": "        /// liefert einen Zeiger auf die TOID-Menge der TOID's, die den angegebenen SYMID benutzen",
+        "translated": "        /// returns a pointer to the TOID set of TOIDs that use the given SYMID"
+      }
+    ]
+  },
+  {
+    "id": "S00081",
+    "file": "components/libcbcos/src/TDB.h",
+    "start_line": 661,
+    "end_line": 661,
+    "lines": [
+      {
+        "line": 661,
+        "original": "        /// liefert die tmp3-Menge",
+        "translated": "        /// returns the tmp3 set"
+      }
+    ]
+  },
+  {
+    "id": "S00101",
+    "file": "components/server-engine/src/AToAdot.swi.pl",
+    "start_line": 54,
+    "end_line": 54,
+    "lines": [
+      {
+        "line": 54,
+        "original": "* eine Formel eine Metaformel, d.h. enthaelt sie Klassenvariablen, so kann",
+        "translated": "* if a formula is a metaformula, i.e. it contains class variables, then"
+      }
+    ]
+  },
+  {
+    "id": "S00121",
+    "file": "components/server-engine/src/AnswerTransform.swi.pl",
+    "start_line": 1183,
+    "end_line": 1183,
+    "lines": [
+      {
+        "line": 1183,
+        "original": "3) normale predicate: EQUAL()... z.B. liefert [TRUE] zurueck.",
+        "translated": "3) normal predicates: EQUAL()... e.g. returns [TRUE]."
+      }
+    ]
+  },
+  {
+    "id": "S00141",
+    "file": "components/server-engine/src/AssertionTransformer.swi.pl",
+    "start_line": 58,
+    "end_line": 58,
+    "lines": [
+      {
+        "line": 58,
+        "original": "* Metaformel-Aenderungen (10.1.96):",
+        "translated": "* metaformula changes (10.1.96):"
+      }
+    ]
+  },
+  {
+    "id": "S00161",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 105,
+    "end_line": 105,
+    "lines": [
+      {
+        "line": 105,
+        "original": "* Metaformel-Aenderung(10.1.96)",
+        "translated": "* metaformula change (10.1.96)"
+      }
+    ]
+  },
+  {
+    "id": "S00181",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 479,
+    "end_line": 481,
+    "lines": [
+      {
+        "line": 479,
+        "original": "/* _lit         : bzgl. dem die Ic vereinfacht are shall (i), */",
+        "translated": "/* _lit         : with respect to which the IC is to be simplified (i), */"
+      },
+      {
+        "line": 480,
+        "original": "/* _vars        : variables der Formel, vgl ExamIcLiterals (i), */",
+        "translated": "/* _vars        : variables of the formula, cf. ExamIcLiterals (i), */"
+      },
+      {
+        "line": 481,
+        "original": "/* _simplifiedrangeform : die vereinfachte Integritaetsbedingung (o),         */",
+        "translated": "/* _simplifiedrangeform : the simplified integrity constraint (o),         */"
+      }
+    ]
+  },
+  {
+    "id": "S00201",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 890,
+    "end_line": 890,
+    "lines": [
+      {
+        "line": 890,
+        "original": "/* einen speziellen Verweis auf eine vereinfachte Form this Regel bekommen, */",
+        "translated": "/* get a special reference to a simplified form of this rule, */"
+      }
+    ]
+  },
+  {
+    "id": "S00221",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1311,
+    "end_line": 1312,
+    "lines": [
+      {
+        "line": 1311,
+        "original": "/* _IcId      : der Identifikator des Objekts, das die vollstaendige Integri-  */",
+        "translated": "/* _IcId      : the identifier of the object representing the complete integri-  */"
+      },
+      {
+        "line": 1312,
+        "original": "/*              taetsbedingung darstellt (also Instanz von BDMConstraint) (i), */",
+        "translated": "/*              ty constraint (i.e. instance of BDMConstraint) (i), */"
+      }
+    ]
+  },
+  {
+    "id": "S00241",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1484,
+    "end_line": 1484,
+    "lines": [
+      {
+        "line": 1484,
+        "original": "\t\t/* 2. Abspeichern des BDMPraedikats: */",
+        "translated": "\t\t/* 2. store the BDMPraedikat: */"
+      }
+    ]
+  },
+  {
+    "id": "S00261",
+    "file": "components/server-engine/src/BDMEvaluation.swi.pl",
+    "start_line": 269,
+    "end_line": 270,
+    "lines": [
+      {
+        "line": 269,
+        "original": "/* neuer case for MetaFormel:",
+        "translated": "/* new case for MetaFormel:"
+      },
+      {
+        "line": 270,
+        "original": "ist eine Formel eine MetaFormel, so haengen an ihr keine Trigger",
+        "translated": "if a formula is a MetaFormel, no triggers are attached to it"
+      }
+    ]
+  },
+  {
+    "id": "S00281",
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 180,
+    "end_line": 180,
+    "lines": [
+      {
+        "line": 180,
+        "original": "                /* 2. Verarbeiten der einzelnen vereinfachten Instanzen this */",
+        "translated": "                /* 2. process the individual simplified instances of this */"
+      }
+    ]
+  },
+  {
+    "id": "S00301",
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 377,
+    "end_line": 377,
+    "lines": [
+      {
+        "line": 377,
+        "original": "/* ziertere Bedingung. VisitSimpRules behandelt einfach alle Loesungen wie     */",
+        "translated": "/* stricter condition. VisitSimpRules simply treats all solutions as     */"
+      }
+    ]
+  },
+  {
+    "id": "S00321",
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 682,
+    "end_line": 682,
+    "lines": [
+      {
+        "line": 682,
+        "original": "/* untelled die objects and loescht das BDMPraedikat for a complete */",
+        "translated": "/* untells the objects and deletes the BDMPraedikat for a complete */"
+      }
+    ]
+  },
+  {
+    "id": "S00341",
+    "file": "components/server-engine/src/BDMIntegrityChecker.swi.pl",
+    "start_line": 253,
+    "end_line": 254,
+    "lines": [
+      {
+        "line": 253,
+        "original": "/* Wird eine Integritaetsbedingung aus dem System geloescht (UNTELL), so */",
+        "translated": "/* If an integrity constraint is deleted from the system (UNTELL), then */"
+      },
+      {
+        "line": 254,
+        "original": "/* must also all anderen daran haengenden objects (vereinfachte Instanzen */",
+        "translated": "/* all other objects attached to it (simplified instances */"
+      }
+    ]
+  },
+  {
+    "id": "S00361",
+    "file": "components/server-engine/src/BDMKBMS.swi.pl",
+    "start_line": 371,
+    "end_line": 371,
+    "lines": [
+      {
+        "line": 371,
+        "original": "/* Wird eine Transaktion abgelehnt, so must all durch sie temporary */",
+        "translated": "/* If a transaction is rejected, all objects temporarily created by it must */"
+      }
+    ]
+  },
+  {
+    "id": "S00381",
+    "file": "components/server-engine/src/BDMTransFormula.swi.pl",
+    "start_line": 130,
+    "end_line": 130,
+    "lines": [
+      {
+        "line": 130,
+        "original": "/*** I think the miniscope form in AssertionSimplifier should be */",
+        "translated": "/*** I think the miniscope form in AssertionSimplifier should be */"
+      }
+    ]
+  },
+  {
+    "id": "S00401",
+    "file": "components/server-engine/src/ECAruleManager.swi.pl",
+    "start_line": 54,
+    "end_line": 54,
+    "lines": [
+      {
+        "line": 54,
+        "original": "*\t\tFuehre die deferred ECA-Regeln aus/",
+        "translated": "*\t\tExecute the deferred ECA rules/"
+      }
+    ]
+  },
+  {
+    "id": "S00421",
+    "file": "components/server-engine/src/FragmentToHistoryPropositions.swi.pl",
+    "start_line": 683,
+    "end_line": 683,
+    "lines": [
+      {
+        "line": 683,
+        "original": "\t/* loeschen der Metaformel and the zugehoerigen Trigger */",
+        "translated": "\t/* delete the metaformula and the associated triggers */"
+      }
+    ]
+  },
+  {
+    "id": "S00441",
+    "file": "components/server-engine/src/Literals.swi.pl",
+    "start_line": 354,
+    "end_line": 354,
+    "lines": [
+      {
+        "line": 354,
+        "original": "  triggered rules. The cc is the \"concerned\" class of the the original",
+        "translated": "  triggered rules. The cc is the \"concerned\" class of the the original"
+      }
+    ]
+  },
+  {
+    "id": "S00461",
+    "file": "components/server-engine/src/MSFOLassertionSimplifier.swi.pl",
+    "start_line": 255,
+    "end_line": 255,
+    "lines": [
+      {
+        "line": 255,
+        "original": "/* um eine Metaformel handelt.\t\t\t\t   */",
+        "translated": "/* it is a metaformula.\t\t\t\t   */"
+      }
+    ]
+  },
+  {
+    "id": "S00481",
+    "file": "components/server-engine/src/MetaBindingPath.swi.pl",
+    "start_line": 63,
+    "end_line": 65,
+    "lines": [
+      {
+        "line": 63,
+        "original": "* Klassenvariablen: c and d",
+        "translated": "* class variables: c and d"
+      },
+      {
+        "line": 64,
+        "original": "* c and d must instantiiert are, so that sich eine vereinfachte",
+        "translated": "* c and d must be instantiated so that a simplified"
+      },
+      {
+        "line": 65,
+        "original": "* Formel ueberhaupt speichern laesst.",
+        "translated": "* formula can be stored at all."
+      }
+    ]
+  },
+  {
+    "id": "S00501",
+    "file": "components/server-engine/src/MetaSimplifier.swi.pl",
+    "start_line": 265,
+    "end_line": 266,
+    "lines": [
+      {
+        "line": 265,
+        "original": "\tteil dabei gefunden are, are used for das Folgerungsliteral",
+        "translated": "\tif found in the process, are used for the inference literal"
+      },
+      {
+        "line": 266,
+        "original": "\tnachgezogen. Trotzdem muss das Folgerungsliteral betrachtet",
+        "translated": "\tbe pulled along. Nevertheless the inference literal must be considered"
+      }
+    ]
+  },
+  {
+    "id": "S00521",
+    "file": "components/server-engine/src/PropositionsToFragment.swi.pl",
+    "start_line": 321,
+    "end_line": 321,
+    "lines": [
+      {
+        "line": 321,
+        "original": "/* (elements are propvals). Then it determines the attribute          */",
+        "translated": "/* (elements are propvals). Then it determines the attribute          */"
+      }
+    ]
+  },
+  {
+    "id": "S00541",
+    "file": "components/server-engine/src/QO_preproc.swi.pl",
+    "start_line": 376,
+    "end_line": 376,
+    "lines": [
+      {
+        "line": 376,
+        "original": "/* ob sie als concerned Class in Betracht kommen\t\t      */",
+        "translated": "/* whether they qualify as concerned Class\t\t      */"
+      }
+    ]
+  },
+  {
+    "id": "S00561",
+    "file": "components/server-engine/src/RangeformSimplifier.swi.pl",
+    "start_line": 231,
+    "end_line": 231,
+    "lines": [
+      {
+        "line": 231,
+        "original": "/* _f: Formel in rangeform                                            */",
+        "translated": "/* _f: formula in rangeform                                            */"
+      }
+    ]
+  },
+  {
+    "id": "S00581",
+    "file": "components/server-engine/src/SubQueryCompiler.swi.pl",
+    "start_line": 225,
+    "end_line": 225,
+    "lines": [
+      {
+        "line": 225,
+        "original": "/* when the Ableitungsausdruck tatsaechlich for an Subview steht */",
+        "translated": "/* when the derivation expression actually applies to a Subview */"
+      }
+    ]
+  },
+  {
+    "id": "S00601",
+    "file": "components/server-engine/src/ViewCompiler.swi.pl",
+    "start_line": 494,
+    "end_line": 494,
+    "lines": [
+      {
+        "line": 494,
+        "original": "/* Change: Hier are also ruleInfos bzgl die Regeln generated, */",
+        "translated": "/* Change: ruleInfos regarding the rules are also generated here, */"
+      }
+    ]
+  },
+  {
+    "id": "S00621",
+    "file": "components/server-engine/src/ViewToPropositions.swi.pl",
+    "start_line": 380,
+    "end_line": 380,
+    "lines": [
+      {
+        "line": 380,
+        "original": "/*  klasse. */",
+        "translated": "/*  class. */"
+      }
+    ]
+  },
+  {
+    "id": "S00641",
+    "file": "components/server-engine/src/startCBserver.swi.pl",
+    "start_line": 64,
+    "end_line": 64,
+    "lines": [
+      {
+        "line": 64,
+        "original": "* Metaformel Module and AToAdot are geladen",
+        "translated": "* Metaformel module and AToAdot are loaded"
+      }
+    ]
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "file": "components/libcbipc/src/IpcString.h",
+    "start_line": 61,
+    "end_line": 63,
+    "lines": [
+      {
+        "line": 61,
+        "original": "       Example: \"H\\\"a\\\\-gar\" becomes H\"a\\-gar."
+      },
+      {
+        "line": 62,
+        "original": "      The resulting string has to be freed by the caller."
+      },
+      {
+        "line": 63,
+        "original": "*/"
+      }
+    ],
+    "id": "S00002"
+  }
+]

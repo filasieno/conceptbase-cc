@@ -1,0 +1,14 @@
+#
+# File: extract-MyModel1.cbs
+# Author: Manfred Jeusfeld, 23-Feb-2011
+# Creative-Commons-License: attributeion-NonCommercial 3.0 Unported
+# ------------------------------------------------------------
+# Example for client side materialization of query results
+# Usage:  CBshell -f extract-MyModel1.cbs > MyModel1.dot
+#
+startServer -u nonpersistent -t no
+tellModel ERD-export
+ask "ShowERD[MyModel1/erd]" OBJNAMES FRAME Now
+showAnswer
+exit
+

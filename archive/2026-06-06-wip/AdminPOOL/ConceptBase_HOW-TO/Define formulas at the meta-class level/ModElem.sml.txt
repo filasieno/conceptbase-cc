@@ -1,0 +1,142 @@
+{*
+This file is governed by the Creative Commons license
+   attributeion-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+{ 
+*
+* File: ModElem.sml
+* Author: Manfred Jeusfeld
+* Creation: 13-Nov-2008 (22-Dec-2010/MJf)
+* ----------------------------------------------------------------------
+* This file allows to perfrom connectivity analysis for models at the M1 level
+* (according to the OMG MOF levels). It is important not to define the attribute linkto as
+* both symmetric and transitive. Instead, we only make linkto symmetric and then define
+* linkto_trans as the transitive closure of linkto. Doing this in one step would
+* be formally correct but creates very inefficient code.
+* Background: http://merkur.informatik.rwth-aachen.de/pub/bscw.cgi/d2616333/lect10.pdf
+}
+
+
+{* Very simple M3 level *}
+NodeOrLink with
+  attribute
+    connectedTo: NodeOrLink
+end 
+Node isA NodeOrLink end
+NodeOrLink!connectedTo isA NodeOrLink end
+
+
+
+{* It should be noted that we do not refer to any M2 concepts explicitely. *}
+{* Instead we quantify over it via the predicates (x [in] NodeOrLink) and  *}
+{* (link [in] NodeOrLink!connectedTo).                                     *}
+{* The predicate (x [in] mc)  can also be written as In2(x,mc) and is      *}
+{* equivalent to "exists c/VAR (x in c) and (c in mc)"                     *}
+
+ModelElement in Class with
+  attribute
+    linkto: ModelElement;
+    linkto_trans: ModelElement
+  rule
+    me1: $ forall x/VAR (x [in] NodeOrLink)  ==> (x in ModelElement) $;
+    me2: $ forall link/VAR (link [in] NodeOrLink!connectedTo) ==> (link in ModelElement!linkto) $;
+    me3: $ forall x/ModelElement link/ModelElement (link in ModelElement!linkto) and From(link,x) ==> (x linkto link) $;
+    symm: $ forall x,y/ModelElement (x linkto y) ==> (y linkto x)  $;
+    copy: $ forall x,y/ModelElement (x linkto y) ==> (x linkto_trans y) $;
+    trans: $ forall x,y,z/ModelElement (x linkto z) and (z linkto_trans y) ==> (x linkto_trans y) $
+end
+
+
+UnconnectedModelElement in GenericQueryClass isA ModelElement with  
+  required,parameter
+    start : ModelElement
+  constraint
+    uc : $ not (start linkto_trans this) $
+end 
+
+ConnectedModelElement in GenericQueryClass isA ModelElement with
+  required,parameter
+    start : ModelElement
+  constraint
+    uc : $ (start linkto_trans this) $
+end 
+
+
+{* example M2 level (just included to illustrate the functioning of ModelElement *}
+
+
+{*
+Individual ObjectType in Node isA DataType
+end
+
+Individual DataType in Node
+end
+
+
+EntityType in Node isA ObjectType with
+connectedTo,necessary
+    ent_attr : Domain
+connectedTo,single
+    key : Domain
+end
+
+Domain in Node
+end
+
+Integer in Domain end
+
+EntityType!key isA EntityType!ent_attr
+end
+
+RelationshipType in Node isA ObjectType with
+attribute,connectedTo,necessary
+    role : EntityType
+end
+
+RelationshipType!role in NodeOrLink!connectedTo,Necessary with
+attribute,connectedTo,single
+    cardinality : CardinalityTag
+end
+
+CardinalityTag in Node
+end
+*}
+
+
+{* example M1 level (just included to illustrate the functioning of ModelElement *}
+
+{*
+Course in EntityType with
+  key
+   coursenr: Integer
+end
+
+Student in EntityType  with
+  key
+   anr: Integer
+end
+
+enrollment in RelationshipType with
+role
+    toStud : Student;
+    toCourse : Course
+end
+
+Project in EntityType end
+*}
+
+{* test the function by query calls like    *}
+{*   UnconnectedModelElement[Student/start] *}
+{* The answer should be: Project.           *}
+
+
+
+
+

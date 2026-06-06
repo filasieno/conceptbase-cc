@@ -1,0 +1,82 @@
+/*
+The ConceptBase.cc Copyright
+
+Copyright 1987-2026 The ConceptBase Team. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted
+provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of
+      conditions and the following disclaimer.
+   2. Redistributions in binary form must reproduce the above copyright notice, this list of
+      conditions and the following disclaimer in the documentation and/or other materials
+      provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those of the authors
+and should not be interpreted as representing official policies, either expressed or implied,
+of the ConceptBase Team.
+
+
+The ConceptBase Team is represented by
+
+Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+
+
+This license is a FreeBSD-style copyright license.
+Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
+*/
+package i5.cb.graph.cbeditor.tests;
+
+import i5.cb.CBException;
+import i5.cb.api.CBclient;
+import i5.cb.telos.object.*;
+
+import java.util.Enumeration;
+
+class QueryTest{
+
+	static TelosObject m_to;
+
+	static ObjectBaseInterface m_obi;
+
+	static ITelosObjectSet m_tos;
+	
+	public static void main(String[] args){
+		m_tos = new TelosObjectSetSimpleImpl();
+		try{
+			m_obi = new ObjectBaseInterface(new CBclient("escher", 4051, "test", "test"));
+		}catch(CBException cbe){}
+		
+		m_to = m_obi.getIndividual("find_generalizations");
+		
+		java.util.logging.Logger.getLogger("global").fine("Retrieved TelosObject m_to: "+m_to);
+		
+		TelosObject to2 = m_obi.getIndividual("GenericQueryClass");
+		java.util.logging.Logger.getLogger("global").fine("Retrieved TelosObject to2: "+to2);
+
+		attributee param = m_obi.getattributee(to2, "parameter");
+		
+		m_tos = m_obi.getattributeesOfExplicitCategory(m_to, param);
+		
+		java.util.logging.Logger.getLogger("global").fine("Retrieved TelosObjectSet m_tos (attributes):");
+		
+		Enumeration enTos = m_tos.elements();
+		
+		while(enTos.hasMoreElements() ){
+			to2 = (TelosObject)enTos.nextElement();
+			
+			java.util.logging.Logger.getLogger("global").fine("\t"+(attributee)to2+" destination: "+ ((attributee)to2).getDestination());
+			//tos2 = to2.get
+		}
+		java.util.logging.Logger.getLogger("global").fine("End of the TelosObjectSet");
+	}
+}

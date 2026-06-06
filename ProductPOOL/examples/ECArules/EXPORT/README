@@ -1,8 +1,0 @@
-This directory contains some examples for ECArules.
-The SML files can be loaded separately or all together
-into the server. 
-
-If use the Counter example, you must copy the file
-Counter.lpi to your database directory before you
-start the application.
-

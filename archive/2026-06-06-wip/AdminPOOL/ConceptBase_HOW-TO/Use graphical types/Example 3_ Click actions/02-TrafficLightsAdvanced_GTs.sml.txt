@@ -1,0 +1,513 @@
+{
+* File: TrafficLightsAdvanced_GTs.sml
+* Author: Manfred Jeusfeld
+* Created: 30-Oct-2014/M.Jeusfeld (23-Nov-2015/M.Jeusfeld)
+* ------------------------------------------------------
+* Specific graphical types for displaying traffic lights
+* and a variant that allows direct firing of transitions.
+* 
+* This requires ConceptBase 7.7 released after October 2014!
+}
+
+{*
+This file is governed by the Creative Commons license
+   attributeion-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+ColoredLight isA Place end
+
+RedLight isA ColoredLight end
+YellowLight isA ColoredLight end
+GreenLight isA ColoredLight end
+
+TrafficLight with
+  attribute
+    contains: ColoredLight
+end
+
+
+
+
+
+{* graphical types that take care that the petri net is displayed *}
+{* in the usual notation in the graph editor of ConceptBase.      *}
+
+
+Class TrafficPalette in JavaGraphicalPalette with
+contains,defaultIndividual
+	c1 : DefaultIndividualGT
+contains,defaultLink
+	c2 : DefaultLinkGT
+implicitIsA, contains
+    c3 : ImplicitIsAGT
+implicitInstanceOf, contains
+    c4 : ImplicitInstanceOfGT
+implicitattributee, contains
+    c5 : ImplicitattributeeGT
+contains
+    c7: Transition_GT;
+    c8: Enabled_GT;
+    c10: Place0_GT;
+    c11: Place1_GT;
+    c12: Place2_GT;
+    c13: Place3_GT;
+    c14: PlaceN_GT;
+    c19: DefaultattributeeGT;
+    c20: DefaultIsAGT;
+    c21: DefaultInstanceOfGT;
+    c22: QueryClassGT;
+    c23: TokenPassageGT;
+    c24: marksGT;
+    c25: flowToEnabledGT;
+    c26: triggerFromEnabledGT;
+
+    d1: RedLightOff_GT;
+    d2: RedLightOn_GT;
+    d3: YellowLightOff_GT;
+    d4: YellowLightOn_GT;
+    d5: GreenLightOff_GT;
+    d6: GreenLightOn_GT;
+    d7: TrafficLight_GT
+end
+
+Class TrafficFirePalette in JavaGraphicalPalette with
+contains,defaultIndividual
+	c1 : DefaultIndividualGT
+contains,defaultLink
+	c2 : DefaultLinkGT
+implicitIsA, contains
+    c3 : ImplicitIsAGT
+implicitInstanceOf, contains
+    c4 : ImplicitInstanceOfGT
+implicitattributee, contains
+    c5 : ImplicitattributeeGT
+contains
+    c7: Transition_GT;
+    c8: EnabledFire_GT;
+    c10: Place0_GT;
+    c11: Place1_GT;
+    c12: Place2_GT;
+    c13: Place3_GT;
+    c14: PlaceN_GT;
+    c19: DefaultattributeeGT;
+    c20: DefaultIsAGT;
+    c21: DefaultInstanceOfGT;
+    c22: QueryClassGT;
+    c23: TokenPassageGT;
+    c24: marksGT;
+    c25: flowToEnabledGT;
+    c26: triggerFromEnabledGT;
+
+    d1: RedLightOff_GT;
+    d2: RedLightOn_GT;
+    d3: YellowLightOff_GT;
+    d4: YellowLightOn_GT;
+    d5: GreenLightOff_GT;
+    d6: GreenLightOn_GT;
+    d7: TrafficLight_GT;
+    d8: FireButton_GT
+end
+
+
+RedLightOff_GT in Class,JavaGraphicalType with
+property
+	textcolor : "0,0,0";
+        linecolor : "250,100,100";
+        linewidth: "2";
+        label: " ";
+	shape : "i5.cb.graph.shapes.Circle";
+        fontsize: "9";
+        size: "40x40";
+        bgcolor : "50,50,50";
+        align : "center"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 30
+rule
+     gtrule: $ forall x/RedLight n/Integer (x marks n) and (n = 0) ==>
+               (x graphtype RedLightOff_GT) $
+end
+
+
+RedLightOn_GT in Class,JavaGraphicalType with
+property
+	textcolor : "0,0,0";
+        linecolor : "50,50,50";
+        linewidth: "2";
+        label: " ";
+	shape : "i5.cb.graph.shapes.Circle";
+        fontsize: "9";
+        size: "40x40";
+        bgcolor : "250,100,100";
+        align : "center"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 30
+rule
+     gtrule: $ forall x/RedLight n/Integer (x marks n) and (n = 1) ==>
+               (x graphtype RedLightOn_GT) $
+end
+
+
+
+
+YellowLightOff_GT in Class,JavaGraphicalType with
+property
+	textcolor : "0,0,0";
+        linecolor : "250,250,150";
+        linewidth: "2";
+        label: " ";
+	shape : "i5.cb.graph.shapes.Circle";
+        fontsize: "9";
+        size: "40x40";
+        bgcolor : "50,50,50";
+        align : "center"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 30
+rule
+     gtrule: $ forall x/YellowLight n/Integer (x marks n) and (n = 0) ==>
+               (x graphtype YellowLightOff_GT) $
+end
+
+
+YellowLightOn_GT in Class,JavaGraphicalType with
+property
+	textcolor : "0,0,0";
+        linecolor : "50,50,50";
+        linewidth: "2";
+        label: " ";
+	shape : "i5.cb.graph.shapes.Circle";
+        fontsize: "9";
+        size: "40x40";
+        bgcolor : "250,250,150";
+        align : "center"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 30
+rule
+     gtrule: $ forall x/YellowLight n/Integer (x marks n) and (n = 1) ==>
+               (x graphtype YellowLightOn_GT) $
+end
+
+
+GreenLightOff_GT in Class,JavaGraphicalType with
+property
+	textcolor : "0,0,0";
+        linecolor : "100,250,100";
+        linewidth: "2";
+        label: " ";
+	shape : "i5.cb.graph.shapes.Circle";
+        fontsize: "9";
+        size: "40x40";
+        bgcolor : "50,50,50";
+        align : "center"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 30
+rule
+     gtrule: $ forall x/GreenLight n/Integer (x marks n) and (n = 0) ==>
+               (x graphtype GreenLightOff_GT) $
+end
+
+
+GreenLightOn_GT in Class,JavaGraphicalType with
+property
+	textcolor : "0,0,0";
+        linecolor : "50,50,50";
+        linewidth: "2";
+        label: " ";
+	shape : "i5.cb.graph.shapes.Circle";
+        fontsize: "9";
+        size: "40x40";
+        bgcolor : "100,250,100";
+        align : "center"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 30
+rule
+     gtrule: $ forall x/GreenLight n/Integer (x marks n) and (n = 1) ==>
+               (x graphtype GreenLightOn_GT) $
+end
+
+
+TrafficLight_GT in Class,JavaGraphicalType with
+property
+	textcolor : "255,255,255";
+        linecolor : "0,0,0";
+        linewidth: "3";
+        bgcolor : "60,60,60";
+	shape : "i5.cb.graph.shapes.RoundRectangle";
+        size: "resizable";
+        align : "bottom";
+        nodelevel: "-1"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 22
+rule
+     gtrule: $ forall x/TrafficLight (x graphtype TrafficLight_GT) $
+end
+
+
+
+
+
+Transition_GT in Class,JavaGraphicalType with
+property
+	textcolor : "0,0,0";
+        linecolor : "0,0,0";
+        linewidth: "1";
+        bgcolor : "255,255,255";
+	shape : "i5.cb.graph.shapes.Rect";
+        size: "resizable";
+        align : "center"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 22
+rule
+     gtrule: $ forall x/Transition (x graphtype Transition_GT) $
+end
+
+Enabled_GT in Class,JavaGraphicalType with
+property
+	textcolor : "0,0,0";
+        linecolor : "0,0,0";
+        linewidth: "1";
+        bgcolor : "125,255,125";
+	shape : "i5.cb.graph.shapes.Rect";
+        size: "resizable";
+        align : "center"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 23
+rule
+     gtrule: $ forall x/Enabled (x graphtype Enabled_GT) $
+end   
+
+EnabledFire_GT in Class,JavaGraphicalType with
+property
+        clickaction : "fireTransition";
+	textcolor : "0,0,0";
+        linecolor : "0,0,0";
+        linewidth: "1";
+        bgcolor : "125,255,125";
+	shape : "i5.cb.graph.shapes.Rect";
+        size: "resizable";
+        align : "center"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 23
+rule
+     gtrule: $ forall x/Enabled (x graphtype EnabledFire_GT) $
+end 
+
+
+FireButton_GT  in Class,JavaGraphicalType with
+property
+        clickaction : "fire/0";  {* to be called without parameters *}
+	textcolor : "255,50,50";
+        linecolor : "200,100,100";
+        label: "fire!";
+        linewidth: "3";
+        bgcolor : "125,255,125";
+	shape : "i5.cb.graph.shapes.Star";
+        size: "resizable";
+        align : "center"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 24
+end 
+
+firebutton with
+  graphtype gt: FireButton_GT
+end
+     
+
+               
+Place0_GT in Class,JavaGraphicalType with
+property
+	textcolor : "0,0,0";
+        linecolor : "0,0,0";
+        linewidth: "2";
+	shape : "i5.cb.graph.shapes.Circle";
+        fontsize: "9";
+        label: " ";
+        size: "10x10";
+        bgcolor : "255,255,255"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 27
+rule
+     gtrule: $ forall x/Place (x graphtype Place0_GT) $
+end
+
+Place1_GT in Class,JavaGraphicalType with
+property
+	textcolor : "0,0,0";
+        linecolor : "0,0,0";
+        linewidth: "2";
+	shape : "i5.cb.graph.shapes.Circle";
+        fontsize: "9";
+        label: " ";
+        size: "10x10";
+        bgcolor : "0,0,0"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 28
+rule
+     gtrule: $ forall x/Place n/Integer (x marks n) and (n = 1) ==>
+               (x graphtype Place1_GT) $
+end
+
+
+
+
+Place2_GT in Class,JavaGraphicalType with
+property
+	textcolor : "0,0,0";
+        linecolor : "0,0,0";
+        linewidth: "2";
+	shape : "i5.cb.graph.shapes.Circle";
+        fontsize: "9";
+        size: "40x40";
+        bgcolor : "255,255,255";
+        align : "center";
+        image: "http://conceptbase.sourceforge.net/CBICONS/tokens2.png";
+        textposition: "bottom"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 28
+rule
+     gtrule: $ forall x/Place n/Integer (x marks n) and (n = 2) ==>
+               (x graphtype Place2_GT) $
+end
+
+
+Place3_GT in Class,JavaGraphicalType with
+property
+	textcolor : "0,0,0";
+        linecolor : "0,0,0";
+        linewidth: "2";
+	shape : "i5.cb.graph.shapes.Circle";
+        fontsize: "9";
+        size: "40x40";
+        bgcolor : "255,255,255";
+        align : "center";
+        image: "http://conceptbase.sourceforge.net/CBICONS/tokens3.png";
+        textposition: "bottom"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 28
+rule
+     gtrule: $ forall x/Place n/Integer (x marks n) and (n = 3) ==>
+               (x graphtype Place3_GT) $
+end
+
+
+PlaceN_GT in Class,JavaGraphicalType with
+property
+	textcolor : "0,0,0";
+        linecolor : "0,0,0";
+        linewidth: "2";
+	shape : "i5.cb.graph.shapes.Circle";
+        fontsize: "9";
+        size: "40x40";
+        bgcolor : "255,255,255";
+        align : "center";
+        image: "http://conceptbase.sourceforge.net/CBICONS/tokensN.png";
+        textposition: "bottom"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 28
+rule
+     gtrule: $ forall x/Place n/Integer (x marks n) and (n > 3) ==>
+               (x graphtype PlaceN_GT) $
+end
+
+
+TokenPassageGT in JavaGraphicalType,Class with 
+  attribute,property
+     textcolor : "0,0,0";
+     edgecolor : "120,120,120";
+     edgewidth : "1";
+     label : "";
+     bgcolor : "220,120,120" 
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 3
+  rule
+     gtrule1: $ forall a/Place!sendsToken (a graphtype TokenPassageGT) $;
+     gtrule2: $ forall a/Transition!producesToken (a graphtype TokenPassageGT) $
+end   
+
+flowToEnabledGT in JavaGraphicalType,Class with 
+  attribute,property
+     textcolor : "0,0,0";
+     edgecolor : "120,190,120";
+     edgewidth : "2";
+     label : "";
+     bgcolor : "220,120,120" 
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 10
+  rule
+     gtrule1: $ forall a/Place!sendsToken t/Enabled To(a,t)  ==> (a graphtype flowToEnabledGT) $
+end  
+
+triggerFromEnabledGT in JavaGraphicalType,Class with 
+  attribute,property
+     textcolor : "0,0,0";
+     edgecolor : "190,120,120";
+     edgewidth : "2";
+     label : "";
+     bgcolor : "220,120,120" 
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 10
+  rule
+     gtrule1: $ forall a/Transition!producesToken t/Enabled From(a,t)  ==> (a graphtype triggerFromEnabledGT) $
+end 
+
+marksGT in JavaGraphicalType,Class with 
+  attribute,property
+     textcolor : "0,0,0";
+     linecolor : "210,210,210";
+     edgecolor : "210,210,210";
+     edgewidth : "3";
+     label : "";
+     bgcolor : "255,150,150"
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 3
+  rule
+     gtrule1: $ forall a/Place!marks (a graphtype marksGT) $
+end                       
+
+
+

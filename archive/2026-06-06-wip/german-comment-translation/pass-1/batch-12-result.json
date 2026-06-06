@@ -1,0 +1,448 @@
+[
+  {
+    "id": "S00013",
+    "file": "components/java/cbworkbench/src/main/java/i5/cb/workbench/CBICommand.java",
+    "start_line": 364,
+    "end_line": 364,
+    "lines": [
+      {
+        "line": 364,
+        "original": "     * teTelosEditor liefert eine Referenz auf die Instanz der class TelosEditor, der this",
+        "translated": "     * teTelosEditor returns a reference to the instance of the TelosEditor class that this"
+      }
+    ]
+  },
+  {
+    "id": "S00033",
+    "file": "components/libcbcos/src/QUERY.h",
+    "start_line": 142,
+    "end_line": 143,
+    "lines": [
+      {
+        "line": 142,
+        "original": "          Diese function is used um eine pseudo-L\\\"osung aufzubauen, when next 0 liefert.",
+        "translated": "          This function is used to build a pseudo-solution when next returns 0."
+      },
+      {
+        "line": 143,
+        "original": "          Dies is n\\\"otig, da sonst die Prolog-Schnittstelle einen error liefert.",
+        "translated": "          This is necessary because otherwise the Prolog interface returns an error."
+      }
+    ]
+  },
+  {
+    "id": "S00053",
+    "file": "components/libcbcos/src/SYMID.h",
+    "start_line": 162,
+    "end_line": 162,
+    "lines": [
+      {
+        "line": 162,
+        "original": "        ///liefert die quersumme von SYMBOL",
+        "translated": "        ///returns the checksum of SYMBOL"
+      }
+    ]
+  },
+  {
+    "id": "S00073",
+    "file": "components/libcbcos/src/TDB.h",
+    "start_line": 299,
+    "end_line": 299,
+    "lines": [
+      {
+        "line": 299,
+        "original": "          tmp3 nach tmp1 verschoben. Damit are implizit getellte objects zu explizit getellten",
+        "translated": "          moved from tmp3 to tmp1. In this way implicitly shared objects are converted to explicitly shared"
+      }
+    ]
+  },
+  {
+    "id": "S00093",
+    "file": "components/libcbgeneral/src/FileIO.c",
+    "start_line": 178,
+    "end_line": 178,
+    "lines": [
+      {
+        "line": 178,
+        "original": "\t\t/* Neue Loesung: Wenn wir EOF or 0 am Anfang lesen (kommt only beim Connect vor),",
+        "translated": "\t\t/* New solution: If we read EOF or 0 at the beginning (only happens on connect),"
+      }
+    ]
+  },
+  {
+    "id": "S00113",
+    "file": "components/server-engine/src/AnswerTransform.swi.pl",
+    "start_line": 971,
+    "end_line": 971,
+    "lines": [
+      {
+        "line": 971,
+        "original": "/* Parse(Pattern,Ausgabe) */",
+        "translated": "/* Parse(Pattern,Output) */"
+      }
+    ]
+  },
+  {
+    "id": "S00133",
+    "file": "components/server-engine/src/AssertionCompiler.swi.pl",
+    "start_line": 77,
+    "end_line": 77,
+    "lines": [
+      {
+        "line": 77,
+        "original": "* Ist die Formel eine Metaformel, so is used for sie selbst here kein Code",
+        "translated": "* If the formula is a meta-formula, no code is generated here for itself"
+      }
+    ]
+  },
+  {
+    "id": "S00153",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 61,
+    "end_line": 61,
+    "lines": [
+      {
+        "line": 61,
+        "original": "*       Wird in das System eine neue Integritaetsbedingung eingefuegt (TELL), so",
+        "translated": "*       When a new integrity constraint is added to the system (TELL),"
+      }
+    ]
+  },
+  {
+    "id": "S00173",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 288,
+    "end_line": 288,
+    "lines": [
+      {
+        "line": 288,
+        "original": "\t/* 2b. Bzgl. Loeschoperationen:",
+        "translated": "\t/* 2b. With respect to delete operations:"
+      }
+    ]
+  },
+  {
+    "id": "S00193",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 716,
+    "end_line": 716,
+    "lines": [
+      {
+        "line": 716,
+        "original": "/* are, ob Instanzen der durch das aktuelle literal der aktuellen Formel */",
+        "translated": "/* whether instances of the class affected by the current literal of the current formula */"
+      }
+    ]
+  },
+  {
+    "id": "S00213",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1123,
+    "end_line": 1125,
+    "lines": [
+      {
+        "line": 1123,
+        "original": "/* _rangeform : Die Formel, is performed bylaufen, (i) */",
+        "translated": "/* _rangeform : The formula to be executed in sequence, (i) */"
+      },
+      {
+        "line": 1124,
+        "original": "/* _Predicate : das auszufuehrende predicate for each einzelne literal der */",
+        "translated": "/* _Predicate : the predicate to be executed for each individual literal of the */"
+      },
+      {
+        "line": 1125,
+        "original": "/*              Formel. (i)                                                    */",
+        "translated": "/*              formula. (i)                                                    */"
+      }
+    ]
+  },
+  {
+    "id": "S00233",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1424,
+    "end_line": 1425,
+    "lines": [
+      {
+        "line": 1424,
+        "original": "/* generated die propvals and the BDMPraedikat for a spezialisierte Integri- */",
+        "translated": "/* generates the propvals and the BDM predicate for a specialized integri- */"
+      },
+      {
+        "line": 1425,
+        "original": "/* taetsbedingung.                                                             */",
+        "translated": "/* ty constraint.                                                              */"
+      }
+    ]
+  },
+  {
+    "id": "S00253",
+    "file": "components/server-engine/src/BDMEvaluation.swi.pl",
+    "start_line": 78,
+    "end_line": 78,
+    "lines": [
+      {
+        "line": 78,
+        "original": "* Metaformel Aenderung (10.1.96):",
+        "translated": "* Meta-formula change (10.1.96):"
+      }
+    ]
+  },
+  {
+    "id": "S00273",
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 69,
+    "end_line": 69,
+    "lines": [
+      {
+        "line": 69,
+        "original": "*       Wird im System eine Regel geloescht (UNTELL), so are initialized here all",
+        "translated": "*       When a rule is deleted from the system (UNTELL), all are initialized here"
+      }
+    ]
+  },
+  {
+    "id": "S00293",
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 318,
+    "end_line": 318,
+    "lines": [
+      {
+        "line": 318,
+        "original": "/* Eine certain vereinfachte Form der Regel is */",
+        "translated": "/* A certain simplified form of the rule is */"
+      }
+    ]
+  },
+  {
+    "id": "S00313",
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 495,
+    "end_line": 495,
+    "lines": [
+      {
+        "line": 495,
+        "original": "/* Die gefundene vereinfachte Regel zeigt NUR auf die zu untellende Ic:        */",
+        "translated": "/* The found simplified rule refers ONLY to the Ic to be untold:               */"
+      }
+    ]
+  },
+  {
+    "id": "S00333",
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 912,
+    "end_line": 913,
+    "lines": [
+      {
+        "line": 912,
+        "original": "                /* 1c. Das Objekts, das die vereinfachte Form der Regel        */",
+        "translated": "                /* 1c. The object representing the simplified form of the        */"
+      },
+      {
+        "line": 913,
+        "original": "                /*     darstellt:                                              */",
+        "translated": "                /*     rule:                                                     */"
+      }
+    ]
+  },
+  {
+    "id": "S00353",
+    "file": "components/server-engine/src/BDMKBMS.swi.pl",
+    "start_line": 74,
+    "end_line": 74,
+    "lines": [
+      {
+        "line": 74,
+        "original": "* Metaformel-Aenderungen(10.1.96):",
+        "translated": "* Meta-formula changes (10.1.96):"
+      }
+    ]
+  },
+  {
+    "id": "S00373",
+    "file": "components/server-engine/src/BDMLiteralDeps.swi.pl",
+    "start_line": 398,
+    "end_line": 398,
+    "lines": [
+      {
+        "line": 398,
+        "original": "/* Reason 1: the concerned class is an immutable attribute; such   */",
+        "translated": "/* Reason 1: the concerned class is an immutable attribute; such   */"
+      }
+    ]
+  },
+  {
+    "id": "S00393",
+    "file": "components/server-engine/src/Datalog2Algebra.swi.pl",
+    "start_line": 286,
+    "end_line": 286,
+    "lines": [
+      {
+        "line": 286,
+        "original": "/* kein passendes Argument in args2 gefunden */",
+        "translated": "/* no matching argument found in args2 */"
+      }
+    ]
+  },
+  {
+    "id": "S00413",
+    "file": "components/server-engine/src/FragmentToHistoryPropositions.swi.pl",
+    "start_line": 55,
+    "end_line": 56,
+    "lines": [
+      {
+        "line": 55,
+        "original": "* SMLfragment into a set of propvals and then to store them as",
+        "translated": "* SMLfragment into a set of propvals and then to store them as"
+      },
+      {
+        "line": 56,
+        "original": "* history propvals.",
+        "translated": "* history propvals."
+      }
+    ]
+  },
+  {
+    "id": "S00433",
+    "file": "components/server-engine/src/GlobalParameters.swi.pl",
+    "start_line": 226,
+    "end_line": 226,
+    "lines": [
+      {
+        "line": 226,
+        "original": "/* must be assignable to a unique concerned class.                         */",
+        "translated": "/* must be assignable to a unique concerned class.                         */"
+      }
+    ]
+  },
+  {
+    "id": "S00453",
+    "file": "components/server-engine/src/MSFOLassertionParserUtilities.swi.pl",
+    "start_line": 63,
+    "end_line": 63,
+    "lines": [
+      {
+        "line": 63,
+        "original": "* buildDottedLiteral/3, die jeweils in einem speziellen Modulkontext arbeiten",
+        "translated": "* buildDottedLiteral/3, each of which works in a special module context"
+      }
+    ]
+  },
+  {
+    "id": "S00473",
+    "file": "components/server-engine/src/MetaBDMEvaluation.swi.pl",
+    "start_line": 56,
+    "end_line": 56,
+    "lines": [
+      {
+        "line": 56,
+        "original": "* Wurde aus einer Metaformel eine vereinfachte Formel generated, so is",
+        "translated": "* If a simplified formula was generated from a meta-formula,"
+      }
+    ]
+  },
+  {
+    "id": "S00493",
+    "file": "components/server-engine/src/MetaRFormToAssText.swi.pl",
+    "start_line": 391,
+    "end_line": 391,
+    "lines": [
+      {
+        "line": 391,
+        "original": "/* not: Formel mit not(..) einschliessen */",
+        "translated": "/* not: include formula with not(..) */"
+      }
+    ]
+  },
+  {
+    "id": "S00513",
+    "file": "components/server-engine/src/ObjectProcessor.swi.pl",
+    "start_line": 847,
+    "end_line": 847,
+    "lines": [
+      {
+        "line": 847,
+        "original": "/* Die beiden folgenden Prozeduren speichern die ID's der aus dem aktuellen Modul durch ein UNTELL zu loeschenden */",
+        "translated": "/* The following two procedures store the IDs of those to be deleted from the current module by an UNTELL */"
+      }
+    ]
+  },
+  {
+    "id": "S00533",
+    "file": "components/server-engine/src/QO_costs.swi.pl",
+    "start_line": 288,
+    "end_line": 288,
+    "lines": [
+      {
+        "line": 288,
+        "original": "/* Hier die Berechnung der Literalcosten is wegen Vmrules um */",
+        "translated": "/* Here the calculation of literal costs has been extended because of Vmrules for */"
+      }
+    ]
+  },
+  {
+    "id": "S00553",
+    "file": "components/server-engine/src/QueryCompiler.swi.pl",
+    "start_line": 1320,
+    "end_line": 1320,
+    "lines": [
+      {
+        "line": 1320,
+        "original": "/* in der list _outvars zurueck. _inpat is the Belegung */",
+        "translated": "/* in the list _outvars. _inpat is the assignment */"
+      }
+    ]
+  },
+  {
+    "id": "S00573",
+    "file": "components/server-engine/src/SelectExpressions.swi.pl",
+    "start_line": 57,
+    "end_line": 57,
+    "lines": [
+      {
+        "line": 57,
+        "original": "*  The first point prepares the SML-Fragment to change it into propvals.",
+        "translated": "*  The first point prepares the SML-Fragment to change it into propvals."
+      }
+    ]
+  },
+  {
+    "id": "S00593",
+    "file": "components/server-engine/src/VarTabHandling.swi.pl",
+    "start_line": 82,
+    "end_line": 82,
+    "lines": [
+      {
+        "line": 82,
+        "original": "* Da kein adhoc-Verfahren gefunden was, is VarTabInsertRanges",
+        "translated": "* Since no ad-hoc procedure was found, VarTabInsertRanges"
+      }
+    ]
+  },
+  {
+    "id": "S00613",
+    "file": "components/server-engine/src/ViewEvaluator.swi.pl",
+    "start_line": 403,
+    "end_line": 403,
+    "lines": [
+      {
+        "line": 403,
+        "original": "/*   Nested eine Relation _rel ueber die Attribute _ns.      */",
+        "translated": "/*   Nests a relation _rel over the attributes _ns.          */"
+      }
+    ]
+  },
+  {
+    "id": "S00633",
+    "file": "components/server-engine/src/ViewToPropositions.swi.pl",
+    "start_line": 772,
+    "end_line": 772,
+    "lines": [
+      {
+        "line": 772,
+        "original": "/* case 3: Zeichen gefunden, das not zu einem Identifier gehoert => Abbruch */",
+        "translated": "/* case 3: character found that does not belong to an identifier => abort */"
+      }
+    ]
+  }
+]

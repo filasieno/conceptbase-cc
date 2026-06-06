@@ -1,0 +1,87 @@
+{*
+This file is governed by the Creative Commons license
+   attributeion-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+{
+* File: newton.sml
+* Author: Manfred Jeusfeld
+* Created: 1-Apr-2008/M.Jeusfeld (22-Nov-2010/M.Jeusfeld)
+* ------------------------------------------------------
+* 
+* Compute the square root of X by Newton's approximation.
+* Inspired by http://mitpress.mit.edu/sicp/chapter1/node9.html
+* ConceptBase uses floating point arithmetic with 12 digit precision,
+* hence result is less than 12 digits precise.
+*
+* This model requires ConceptBase 7.1 released after 1-Apr-2008
+*
+}
+
+{* Regard any integer as real *}
+Integer isA Real end
+
+{*
+ adiff(x,y) computes the diffrence |x-y| of two real numbers
+ avg(x,y) computes the average of x,y
+*}
+
+adiff in Function isA Real with
+  parameter
+   x: Real;
+   y: Real
+  constraint
+   cdiff: $ (x > y) and (this = x-y) or
+            (x =< y) and (this = y-x)
+          $
+end
+avg in Function isA Real with
+  parameter
+   x: Real;
+   y: Real
+  constraint
+   cavg: $ (this = (x+y)/2) $
+end
+
+
+{*
+ sqrt_iter(g,x) is the iterative function realizing Newton's approximation of
+ sqrt(x). The highest precision precision depends on the number of
+ digits supported for real numbers in ConceptBase (currently 12).
+ sqrt(x) just calls sqrt_iter with some arbitrary initial guess.
+*}
+
+sqrt_iter in Function isA Real with
+  parameter
+    g: Real;
+    x: Real
+  constraint
+    c1: $ (adiff(g*g,x) < 0.00000001)  and (this = g) or
+          (adiff(g*g,x) >= 0.00000001) and (this = sqrt_iter(avg(g,x/g),x))
+        $
+end
+
+newton_sqrt in Function isA Real with
+  parameter
+    x: Real
+  constraint
+    c1: $ (x >= 0) and (this = sqrt_iter(1.1,x)) $
+end
+
+{* Example calls:
+newton_sqrt[0.5/x]
+newton_sqrt[2/x]
+newton_sqrt[2.0/x]
+newton_sqrt[3/x]
+newton_sqrt[4/x]
+newton_sqrt[5/x]
+newton_sqrt[9/x]
+newton_sqrt[10000/x]
+*}
+

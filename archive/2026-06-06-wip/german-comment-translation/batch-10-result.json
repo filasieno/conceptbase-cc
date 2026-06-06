@@ -1,0 +1,59 @@
+[
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 723,
+    "end_line": 724,
+    "lines": [
+      {
+        "line": 723,
+        "original": "/* _RuleCondFormula   : die Bedingungsformel der aktuellen Regel, (i)          */",
+        "translated": "/* _RuleCondFormula   : the condition formula of the current rule, (i)       */"
+      },
+      {
+        "line": 724,
+        "original": "/* _RuleConcl         : das Folgerungsliteral der aktuellen Regel, (i)         */",
+        "translated": "/* _RuleConcl         : the conclusion literal of the current rule, (i)        */"
+      }
+    ],
+    "id": "S00011"
+  },
+  {
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 443,
+    "end_line": 443,
+    "lines": [
+      {
+        "line": 443,
+        "original": "      /*** _RuleId ist der Id der Textform der Regel                       */",
+        "translated": "      /*** _RuleId is the Id of the text form of the rule                       */"
+      }
+    ],
+    "id": "S00031"
+  },
+  {
+    "file": "components/server-engine/src/MetaSimplifier.swi.pl",
+    "start_line": 303,
+    "end_line": 303,
+    "lines": [
+      {
+        "line": 303,
+        "original": "\t   gebunden are can */",
+        "translated": "\t   cannot be bound */"
+      }
+    ],
+    "id": "S00051"
+  },
+  {
+    "file": "components/server-engine/src/cfixpoint.swi.pl",
+    "start_line": 679,
+    "end_line": 679,
+    "lines": [
+      {
+        "line": 679,
+        "original": "/* Waehle eine Regel, in deren Body ein Fakt or a Conditional Statement occurs, */",
+        "translated": "/* Select a rule in whose body a fact or a conditional statement occurs, */"
+      }
+    ],
+    "id": "S00071"
+  }
+]

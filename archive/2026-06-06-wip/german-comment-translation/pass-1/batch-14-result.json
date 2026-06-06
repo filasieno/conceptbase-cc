@@ -1,0 +1,468 @@
+[
+  {
+    "id": "S00015",
+    "file": "components/java/cbworkbench/src/main/java/i5/cb/workbench/CBICommand.java",
+    "start_line": 567,
+    "end_line": 567,
+    "lines": [
+      {
+        "line": 567,
+        "original": "            // angezeigt. F.r andere Betriebssysteme haben wir allerdings doch noch einen",
+        "translated": "            // displayed. For other operating systems, however, we still have a"
+      }
+    ]
+  },
+  {
+    "id": "S00035",
+    "file": "components/libcbcos/src/QUERY.h",
+    "start_line": 149,
+    "end_line": 150,
+    "lines": [
+      {
+        "line": 149,
+        "original": "          Diese function is used um eine pseudo-L\\\"osung aufzubauen, when next 0 liefert.",
+        "translated": "          This function is used to build a pseudo-solution when next returns 0."
+      },
+      {
+        "line": 150,
+        "original": "          Dies is n\\\"otig, da sonst die Prolog-Schnittstelle einen error liefert.",
+        "translated": "          This is necessary because otherwise the Prolog interface returns an error."
+      }
+    ]
+  },
+  {
+    "id": "S00055",
+    "file": "components/libcbcos/src/SYMTBL.h",
+    "start_line": 120,
+    "end_line": 120,
+    "lines": [
+      {
+        "line": 120,
+        "original": "          @param id Id des Symboltabelleneintrags (wie er im .telos-file steht)",
+        "translated": "          @param id Id of the symbol table entry (as it appears in the .telos file)"
+      }
+    ]
+  },
+  {
+    "id": "S00075",
+    "file": "components/libcbcos/src/TDB.h",
+    "start_line": 378,
+    "end_line": 378,
+    "lines": [
+      {
+        "line": 378,
+        "original": "          des Symboltabelleneintrags von oldname auf newname gesetzt. Achtung, ein",
+        "translated": "          of the symbol table entry from oldname to newname. Attention, a"
+      }
+    ]
+  },
+  {
+    "id": "S00095",
+    "file": "components/libcbgeneral/src/UnixFileSys.c",
+    "start_line": 42,
+    "end_line": 42,
+    "lines": [
+      {
+        "line": 42,
+        "original": "/*   nur als dummy-Funktionen deklariert (damit das Linken klappt)      */",
+        "translated": "/*   only declared as dummy functions (so that linking works)            */"
+      }
+    ]
+  },
+  {
+    "id": "S00115",
+    "file": "components/server-engine/src/AnswerTransform.swi.pl",
+    "start_line": 978,
+    "end_line": 979,
+    "lines": [
+      {
+        "line": 978,
+        "original": "/* ein predicates-aufruf wie [ASKquery()]...(Der in [] stehendem Inhalt is dann durch die Ausgabe von */",
+        "translated": "/* a predicate call like [ASKquery()]...(The content in [] is then replaced by the output of */"
+      },
+      {
+        "line": 979,
+        "original": "/* predicates-aufruf replaced( Die Ausgabe are meistens die letzte argument.)), or in Klamma can still */",
+        "translated": "/* predicate call (the output is usually the last argument.)), or in brackets can still */"
+      }
+    ]
+  },
+  {
+    "id": "S00135",
+    "file": "components/server-engine/src/AssertionCompiler.swi.pl",
+    "start_line": 245,
+    "end_line": 245,
+    "lines": [
+      {
+        "line": 245,
+        "original": "/*                Formel eine Metaformel ist               */",
+        "translated": "/*                formula is a meta formula               */"
+      }
+    ]
+  },
+  {
+    "id": "S00155",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 69,
+    "end_line": 70,
+    "lines": [
+      {
+        "line": 69,
+        "original": "*         - das Abspeichern der erstellten Formeln in internen Praedikaten,",
+        "translated": "*         - storing the created formulas in internal predicates,"
+      },
+      {
+        "line": 70,
+        "original": "*         - das Erstellen der structure entsprechend des Modells",
+        "translated": "*         - creating the structure according to the model"
+      }
+    ]
+  },
+  {
+    "id": "S00175",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 355,
+    "end_line": 358,
+    "lines": [
+      {
+        "line": 355,
+        "original": "/* Hier is now die Formel der Integritaetsbedingung bzgl. eines certain */",
+        "translated": "/* Here the integrity constraint formula with respect to a certain */"
+      },
+      {
+        "line": 356,
+        "original": "/* ihrer literals verarbeitet, d.h. */",
+        "translated": "/* of its literals is processed, i.e. */"
+      },
+      {
+        "line": 357,
+        "original": "/*\t1. Erkennen der affected class */",
+        "translated": "/*\t1. Recognizing the affected class */"
+      },
+      {
+        "line": 358,
+        "original": "/*\t2. Erstellen der vereinfachten Instanz der Integritaetsbedingung     */",
+        "translated": "/*\t2. Creating the simplified instance of the integrity constraint     */"
+      }
+    ]
+  },
+  {
+    "id": "S00195",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 722,
+    "end_line": 722,
+    "lines": [
+      {
+        "line": 722,
+        "original": "/*                      Regel, das nun verarbeitet are shall, (i) */",
+        "translated": "/*                      rule that is now to be processed, (i) */"
+      }
+    ]
+  },
+  {
+    "id": "S00215",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1191,
+    "end_line": 1191,
+    "lines": [
+      {
+        "line": 1191,
+        "original": "/* Die quantification der angegebenen variables is placed in der Formel geloescht. */",
+        "translated": "/* The quantification of the given variables is removed from the formula. */"
+      }
+    ]
+  },
+  {
+    "id": "S00235",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1431,
+    "end_line": 1433,
+    "lines": [
+      {
+        "line": 1431,
+        "original": "/* _IcId      : der Identifikator des Objekts, das die urspruengliche Integri- */",
+        "translated": "/* _IcId      : the identifier of the object representing the original integri- */"
+      },
+      {
+        "line": 1432,
+        "original": "/*              taetsbedingung (Instanz von MSFOLconstraint) darstellt (i),    */",
+        "translated": "/*              ty constraint (instance of MSFOLconstraint) (i),    */"
+      },
+      {
+        "line": 1433,
+        "original": "/* _Literal   : bzgl. dem die Ic zu _IcFormula vereinfacht was (i), */",
+        "translated": "/* _Literal   : with respect to which the Ic was simplified to _IcFormula (i), */"
+      }
+    ]
+  },
+  {
+    "id": "S00255",
+    "file": "components/server-engine/src/BDMEvaluation.swi.pl",
+    "start_line": 86,
+    "end_line": 86,
+    "lines": [
+      {
+        "line": 86,
+        "original": "* Modulkontext sichtbar ist.",
+        "translated": "* module context is visible."
+      }
+    ]
+  },
+  {
+    "id": "S00275",
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 112,
+    "end_line": 112,
+    "lines": [
+      {
+        "line": 112,
+        "original": "* Metaformel Aenderung (10.1.96)",
+        "translated": "* Meta formula change (10.1.96)"
+      }
+    ]
+  },
+  {
+    "id": "S00295",
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 323,
+    "end_line": 323,
+    "lines": [
+      {
+        "line": 323,
+        "original": "/* _RuleId    : der Identifikator des Objekts, das die Regel darstellt. (i)    */",
+        "translated": "/* _RuleId    : the identifier of the object representing the rule. (i)    */"
+      }
+    ]
+  },
+  {
+    "id": "S00315",
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 534,
+    "end_line": 535,
+    "lines": [
+      {
+        "line": 534,
+        "original": "/* Die gefundene vereinfachte Regel zeigt NUR auf die zu untellende            */",
+        "translated": "/* The found simplified rule points ONLY to the simplified rule to be untelled            */"
+      },
+      {
+        "line": 535,
+        "original": "/* vereinfachte Regel:                                                         */",
+        "translated": "/* simplified rule:                                                         */"
+      }
+    ]
+  },
+  {
+    "id": "S00335",
+    "file": "components/server-engine/src/BDMIntegrityChecker.swi.pl",
+    "start_line": 170,
+    "end_line": 170,
+    "lines": [
+      {
+        "line": 170,
+        "original": "/* Die Integritaetsbedingung in Form einer Zeichenkette is gescannt, */",
+        "translated": "/* The integrity constraint in the form of a string is scanned, */"
+      }
+    ]
+  },
+  {
+    "id": "S00355",
+    "file": "components/server-engine/src/BDMKBMS.swi.pl",
+    "start_line": 101,
+    "end_line": 101,
+    "lines": [
+      {
+        "line": 101,
+        "original": "*  zur Ueberpruefung, ob die zum Trigger gehoerige Constraint im aktuellen Modulkontext sichtbar ist.",
+        "translated": "*  for checking whether the constraint associated with the trigger is visible in the current module context."
+      }
+    ]
+  },
+  {
+    "id": "S00375",
+    "file": "components/server-engine/src/BDMLiteralDeps.swi.pl",
+    "start_line": 529,
+    "end_line": 529,
+    "lines": [
+      {
+        "line": 529,
+        "original": "/* (c) Else: _x is a constant, use it's classes to find concerned class */",
+        "translated": "/* (c) Else: _x is a constant, use its classes to find concerned class */"
+      }
+    ]
+  },
+  {
+    "id": "S00395",
+    "file": "components/server-engine/src/Datalog2Algebra.swi.pl",
+    "start_line": 551,
+    "end_line": 551,
+    "lines": [
+      {
+        "line": 551,
+        "original": "/*  Record-DB stores die Regeln die bisher gefunden were */",
+        "translated": "/*  Record-DB stores the rules that have been found so far */"
+      }
+    ]
+  },
+  {
+    "id": "S00415",
+    "file": "components/server-engine/src/FragmentToHistoryPropositions.swi.pl",
+    "start_line": 86,
+    "end_line": 87,
+    "lines": [
+      {
+        "line": 86,
+        "original": "*  loescht eine Metaformel,",
+        "translated": "*  deletes a meta formula,"
+      },
+      {
+        "line": 87,
+        "original": "*  all aus ihr generated Formel and all zu ihr",
+        "translated": "*  all formulas generated from it and all associated with it"
+      }
+    ]
+  },
+  {
+    "id": "S00435",
+    "file": "components/server-engine/src/LTcompiler.swi.pl",
+    "start_line": 142,
+    "end_line": 142,
+    "lines": [
+      {
+        "line": 142,
+        "original": "\t/* Bedingung ist in der Rangeform negiert",
+        "translated": "\t/* condition is negated in the range form"
+      }
+    ]
+  },
+  {
+    "id": "S00455",
+    "file": "components/server-engine/src/MSFOLassertionParserUtilities.swi.pl",
+    "start_line": 495,
+    "end_line": 495,
+    "lines": [
+      {
+        "line": 495,
+        "original": "/*  Metaformel - Aenderung:",
+        "translated": "/*  Meta formula - change:"
+      }
+    ]
+  },
+  {
+    "id": "S00475",
+    "file": "components/server-engine/src/MetaBDMEvaluation.swi.pl",
+    "start_line": 67,
+    "end_line": 67,
+    "lines": [
+      {
+        "line": 67,
+        "original": "* Klassenvariablen: c and d",
+        "translated": "* Class variables: c and d"
+      }
+    ]
+  },
+  {
+    "id": "S00495",
+    "file": "components/server-engine/src/MetaSimplifier.swi.pl",
+    "start_line": 57,
+    "end_line": 57,
+    "lines": [
+      {
+        "line": 57,
+        "original": "* Input: Metaformel f, d.h. Formel mit Klassenvariablen kv",
+        "translated": "* Input: Meta formula f, i.e. formula with class variables kv"
+      }
+    ]
+  },
+  {
+    "id": "S00515",
+    "file": "components/server-engine/src/ObjectTransformer.swi.pl",
+    "start_line": 162,
+    "end_line": 162,
+    "lines": [
+      {
+        "line": 162,
+        "original": "Metaformel Aenderung:",
+        "translated": "Meta formula change:"
+      }
+    ]
+  },
+  {
+    "id": "S00535",
+    "file": "components/server-engine/src/QO_costs.swi.pl",
+    "start_line": 360,
+    "end_line": 360,
+    "lines": [
+      {
+        "line": 360,
+        "original": "/* Das dreistellige Literal betrachtet die Faelle, in denen\t */",
+        "translated": "/* The ternary literal considers the cases in which\t */"
+      }
+    ]
+  },
+  {
+    "id": "S00555",
+    "file": "components/server-engine/src/RangeformSimplifier.swi.pl",
+    "start_line": 60,
+    "end_line": 60,
+    "lines": [
+      {
+        "line": 60,
+        "original": "* Diese Formel is ae Metaformel. Als vereinfachte Formel is",
+        "translated": "* This formula is a meta formula. As simplified formula is"
+      }
+    ]
+  },
+  {
+    "id": "S00575",
+    "file": "components/server-engine/src/SelectExpressions.swi.pl",
+    "start_line": 94,
+    "end_line": 94,
+    "lines": [
+      {
+        "line": 94,
+        "original": "\tZusaetzlich a ... was addede Select-Expression select(_name,'@',_module) introduced.",
+        "translated": "\tAdditionally a Select-Expression select(_name,'@',_module) was introduced."
+      }
+    ]
+  },
+  {
+    "id": "S00595",
+    "file": "components/server-engine/src/VarTabHandling.swi.pl",
+    "start_line": 227,
+    "end_line": 227,
+    "lines": [
+      {
+        "line": 227,
+        "original": "      In-literals gefunden are, die in die",
+        "translated": "      In-literals are found that are to be entered into the"
+      }
+    ]
+  },
+  {
+    "id": "S00615",
+    "file": "components/server-engine/src/ViewEvaluator.swi.pl",
+    "start_line": 409,
+    "end_line": 409,
+    "lines": [
+      {
+        "line": 409,
+        "original": "/*   Relation eingefuegt. Die Attribute ueber die genested   */",
+        "translated": "/*   relation inserted. The attributes over which nesting   */"
+      }
+    ]
+  },
+  {
+    "id": "S00635",
+    "file": "components/server-engine/src/cfixpoint.swi.pl",
+    "start_line": 120,
+    "end_line": 120,
+    "lines": [
+      {
+        "line": 120,
+        "original": "\t/* Phase 2: streiche stepwise die negierten literals der conditional statements. Koennen this all gestrichen are, hat man eine neues Fakt gefunden.",
+        "translated": "\t/* Phase 2: stepwise remove the negated literals of the conditional statements. If all of these can be removed, a new fact has been found."
+      }
+    ]
+  }
+]

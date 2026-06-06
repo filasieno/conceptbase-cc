@@ -1,0 +1,509 @@
+{
+*
+* This module contains the code for the execution of builtin queries
+*
+}
+*** ticket #256: this file is no longer needed! The functionality is now
+*** provided by the regular Prolog module SystemBuiltin.pro and by
+*** GlobalPredicates.pro
+*** 2010-06-22/M.Jeusfeld
+{ ***************************************************************************** }
+{                                                                               }
+{    get_object(_x):                                                            }
+{    gives the definition of _x as a frame                                      }
+{                                                                               }
+{ get_object with 4 parameters to derive implicit object relationships.         }
+{ The ded_get_object flag is first set to the parameter values and              }
+{ then restored to the default FALSE. 7-6-95/CQ                                }
+{                                                                               }
+{ ***************************************************************************** }
+process_get_object(_result,_substlist) :-
+    member$GeneralUtilities(substitute(_x,objname),_substlist),
+    member$GeneralUtilities(substitute(_dedin,dedIn),_substlist),
+    member$GeneralUtilities(substitute(_dedIsa,dedIsa),_substlist),
+    member$GeneralUtilities(substitute(_dedWith,dedWith),_substlist),
+	eval$SelectExpressions(_x, replaceSelectExpression, _objID),
+	name2id$GeneralUtilities(_objID,_),
+	update(ded_get_object$PropositionsToFragment(f(_dedIn,_dedIsa,_dedWith))),
+  	compose_storedObject$ObjectTransformer(_objID, _result),
+	update(ded_get_object$PropositionsToFragment(f(FALSE,FALSE,FALSE))),
+  	!.
+{ Normal case of get_object: only explicit relationships are considered. }
+{ ded_get_object flag is set to FALSE beforehand, because compose_storedObject }
+{ above may also fail, leaving the flags set to arbitrary values. 7-6-95/CQ }
+process_get_object(_result,[substitute(_x,objname)]) :-
+	eval$SelectExpressions(_x, replaceSelectExpression, _objID),
+	name2id$GeneralUtilities(_objID,_),
+	update(ded_get_object$PropositionsToFragment(f(FALSE,FALSE,FALSE))),
+  	compose_storedObject$ObjectTransformer(_objID, _result),
+  	!.
+process_get_object(_result,[substitute(_x,objname)]) :-
+	eval$SelectExpressions(_x, replaceSelectExpression, _objID),
+	report_error$ErrorMessages(PFNFE,get_object,[_objID]),!,fail.
+{ ***************************************************************************** }
+{                                                                               }
+{    get_object_star(_x):                                                       }
+{    gives the definition of the objects that match the wildcard expression _x  }
+{                                                                               }
+{ ***************************************************************************** }
+process_get_object_star(_result,[substitute(_x,objname)]) :-
+	findall(_composed,
+		(
+			star_name2id$GeneralUtilities(_x,_objID),
+			compose_storedObject$ObjectTransformer(_objID, _composed)
+		),
+	        _result),
+	!.
+{ ***************************************************************************** }
+{                                                                               }
+{    exists(_x): gives 'yes' if _x exists                                       }
+{                                                                               }
+{ ***************************************************************************** }
+process_exists(yes,[substitute(_x,objname)]) :-
+	eval$SelectExpressions(_x, replaceSelectExpression, _objid),
+	name2id$GeneralUtilities(_objid,_newobjid),
+	retrieve_proposition$PropositionProcessor(P(_newobjid,_,_,_)),
+	!.
+process_exists(no,[substitute(_x,objname)]).
+{ ***************************************************************************** }
+{                                                                               }
+{    rename(_newname,_oldname):  renames an object                              }
+{                                                                               }
+{ ***************************************************************************** }
+process_rename(yes,_substlist):-
+    member$GeneralUtilities(substitute(_a,newname),_substlist),
+    member$GeneralUtilities(substitute(_b,oldname),_substlist),
+	rename_object$BIM2C(_a,_b),
+	!.
+{ ***************************************************************************** }
+{                                                                               }
+{  changeAttributeValue(_attr,_newvalue):  sets destination of attr to newvalue }
+{                                                                               }
+{ ***************************************************************************** }
+process_changeAttributeValue(_res,_substlist) :-
+    member$GeneralUtilities(substitute(_a,attribute),_substlist),
+    member$GeneralUtilities(substitute(_o,newvalue),_substlist),
+    eval$SelectExpressions(_a, replaceSelectExpression, _aid),
+    eval$SelectExpressions(_o, replaceSelectExpression, _oid),
+    changeAttributeValue$BIM2C(_aid,_oid),
+    _res = yes,
+    !.
+{-------------}
+{  Functions  }
+{-------------}
+{**********************************************************************}
+{*  COUNT                                                             *}
+{*  counts the elements of a class (arg2)                             *}
+{**********************************************************************}
+compute_COUNT(_res,_class,_classid) :-
+	nonvar(_class),
+        _class =.. [_fun|_args],
+        varlist(_args,_vars),
+	save_setof$GeneralUtilities(_x,_vars^(prove_literal$Literals(In(_x,_class))),_xs),
+	length$GeneralUtilities(_xs,_ilen),
+	inttoatom(_ilen,_len),
+	create_if_builtin_object$FragmentToPropositions(_len,Integer),
+	name2id$GeneralUtilities(_len,_res).
+{**********************************************************************}
+{*  COUNT_Attribute                                                   *}
+{*  counts the attributes of an object of one specified attribute cat.*}
+{**********************************************************************}
+compute_COUNT_Attribute(_res,_attrcat,_propid,_oid,_propid) :-
+	ground(_attrcat),
+	ground(_oid),
+	prove_literal$Literals(P(_attrcat,_,_ml,_)),
+        save_setof$GeneralUtilities((_x,_l),prove_literal$Literals(Adot_label(_attrcat,_oid,_ml,_x,_l)),_xs),
+	length$GeneralUtilities(_xs,_ilen),
+	inttoatom(_ilen,_len),
+	create_if_builtin_object$FragmentToPropositions(_len,Integer),
+	name2id$GeneralUtilities(_len,_res).
+{**********************************************************************}
+{*  SUM                                                               *}
+{*  sums the instance of a class if they are numbers                  *}
+{**********************************************************************}
+compute_SUM(_res,_class,_classid) :-
+	nonvar(_class),
+	findall(_x,(prove_literal$Literals(In(_xid,_class)),
+				id2name$GeneralUtilities(_xid,_xatom),
+				pc_floattoatom$PrologCompatibility(_x,_xatom)),
+			_xs),
+	sumlist$QO_utils(_xs,_sum),
+	pc_floattoatom$PrologCompatibility(_sum,_sumatom),
+	create_if_builtin_object$FragmentToPropositions(_sumatom,Real),
+	name2id$GeneralUtilities(_sumatom,_res).
+{**********************************************************************}
+{*  SUM_Attribute                                                     *}
+{*  sums the attribute value of one object and attribute category     *}
+{**********************************************************************}
+compute_SUM_Attribute(_res,_attrcat,_,_class,_) :-
+	ground(_class),
+	ground(_attrcat),
+	prove_literal$Literals(P(_attrcat,_,_label,_)),
+	findall(_x,(prove_literal$Literals(Adot(_attrcat,_class,_label,_xid)),
+				id2name$GeneralUtilities(_xid,_xatom),
+				pc_floattoatom$PrologCompatibility(_x,_xatom)),
+			_xs),
+	sumlist$QO_utils(_xs,_sum),
+	pc_floattoatom$PrologCompatibility(_sum,_sumatom),
+	create_if_builtin_object$FragmentToPropositions(_sumatom,Real),
+	name2id$GeneralUtilities(_sumatom,_res).
+{**********************************************************************}
+{*  AVG                                                               *}
+{*  computes average of the instances of a class if they are numbers  *}
+{**********************************************************************}
+compute_AVG(_res,_class,_classid) :-
+	nonvar(_class),
+	findall(_x,(prove_literal$Literals(In(_xid,_class)),
+				id2name$GeneralUtilities(_xid,_xatom),
+				pc_floattoatom$PrologCompatibility(_x,_xatom)),
+			_xs),
+	sumlist$QO_utils(_xs,_sum),
+	length$GeneralUtilities(_xs,_ilen),
+	_ilen > 0,
+	_avg is _sum / _ilen,
+	pc_floattoatom$PrologCompatibility(_avg,_avgatom),
+	create_if_builtin_object$FragmentToPropositions(_avgatom,Real),
+	name2id$GeneralUtilities(_avgatom,_res).
+{**********************************************************************}
+{*  AVG_Attribute                                                     *}
+{*  computes the average of attr. value of an object and attr. categor*}
+{**********************************************************************}
+compute_AVG_Attribute(_res,_attrcat,_,_class,_) :-
+	ground(_class),
+	ground(_attrcat),
+	prove_literal$Literals(P(_attrcat,_,_label,_)),
+	findall(_x,(prove_literal$Literals(Adot(_attrcat,_class,_label,_xid)),
+				id2name$GeneralUtilities(_xid,_xatom),
+				pc_floattoatom$PrologCompatibility(_x,_xatom)),
+			_xs),
+	sumlist$QO_utils(_xs,_sum),
+	length$GeneralUtilities(_xs,_ilen),
+	_ilen > 0,
+	_avg is _sum / _ilen,
+	pc_floattoatom$PrologCompatibility(_avg,_avgatom),
+	create_if_builtin_object$FragmentToPropositions(_avgatom,Real),
+	name2id$GeneralUtilities(_avgatom,_res).
+{**********************************************************************}
+{*  MAX                                                               *}
+{*  returns the instance of the class with the highest value          *}
+{**********************************************************************}
+compute_MAX(_res,_class,_classid) :-
+	nonvar(_class),
+	findall(_xid,prove_literal$Literals(In(_xid,_class)),_xs),
+	find_max$GeneralUtilities(_xs,_res).
+{**********************************************************************}
+{*  MAX_Attribute                                                     *}
+{*  returns the maximum attr. value of an object and attr. category   *}
+{**********************************************************************}
+compute_MAX_Attribute(_res,_attrcat,_,_class,_) :-
+	ground(_class),
+	ground(_attrcat),
+	prove_literal$Literals(P(_attrcat,_,_label,_)),
+	findall(_xid,prove_literal$Literals(Adot(_attrcat,_class,_label,_xid)),_xs),
+	find_max$GeneralUtilities(_xs,_res).
+{**********************************************************************}
+{*  MIN                                                               *}
+{*  returns the instance of the class with the  lowest value          *}
+{**********************************************************************}
+compute_MIN(_res,_class,_classid) :-
+	nonvar(_class),
+	findall(_xid,prove_literal$Literals(In(_xid,_class)),_xs),
+	find_min$GeneralUtilities(_xs,_res).
+{**********************************************************************}
+{*  MIN_Attribute                                                     *}
+{*  returns the minimum attr. value of an object and attr. category   *}
+{**********************************************************************}
+compute_MIN_Attribute(_res,_attrcat,_,_class,_) :-
+	ground(_class),
+	ground(_attrcat),
+	prove_literal$Literals(P(_attrcat,_,_label,_)),
+	findall(_xid,prove_literal$Literals(Adot(_attrcat,_class,_label,_xid)),_xs),
+	find_min$GeneralUtilities(_xs,_res).
+{**********************************************************************}
+{*  PLUS                                                              *}
+{*  computes r1 + r2                                                  *}
+{**********************************************************************}
+compute_PLUS(_res,_r1expr,_,_r2expr,_) :-
+	evalFunctionArg$Literals(_r1expr,_r1id),  {* r1,r2 can be query calls ! *}
+	evalFunctionArg$Literals(_r2expr,_r2id),
+	ground(_r1id),
+	ground(_r2id),
+	id2name$GeneralUtilities(_r1id,_r1atom),
+	id2name$GeneralUtilities(_r2id,_r2atom),
+	pc_floattoatom$PrologCompatibility(_r1,_r1atom),
+	pc_floattoatom$PrologCompatibility(_r2,_r2atom),
+	_rres is _r1 + _r2,
+	pc_floattoatom$PrologCompatibility(_rres,_resatom),
+	create_if_builtin_object$FragmentToPropositions(_resatom,Real),
+	name2id$GeneralUtilities(_resatom,_res).
+{**********************************************************************}
+{*  IPLUS (INTEGER PLUS)                                              *}
+{*  computes r1 + r2                                                  *}
+{**********************************************************************}
+compute_IPLUS(_res,_r1expr,_,_r2expr,_) :-
+        evalFunctionArg$Literals(_r1expr,_r1id),  {* r1,r2 can be query calls ! *}
+        evalFunctionArg$Literals(_r2expr,_r2id),
+        ground(_r1id),
+        ground(_r2id),
+        id2name$GeneralUtilities(_r1id,_r1atom),
+        id2name$GeneralUtilities(_r2id,_r2atom),
+        inttoatom(_r1,_r1atom),
+        inttoatom(_r2,_r2atom),
+        _rres is _r1 + _r2,
+        inttoatom(_rres,_resatom),
+        create_if_builtin_object$FragmentToPropositions(_resatom,Integer),
+        name2id$GeneralUtilities(_resatom,_res).
+{**********************************************************************}
+{*  MINUS                                                             *}
+{*  computes r1 - r2                                                  *}
+{**********************************************************************}
+compute_MINUS(_res,_r1expr,_,_r2expr,_) :-
+	evalFunctionArg$Literals(_r1expr,_r1id),  {* r1,r2 can be query calls ! *}
+	evalFunctionArg$Literals(_r2expr,_r2id),
+	ground(_r1id),
+	ground(_r2id),
+	id2name$GeneralUtilities(_r1id,_r1atom),
+	id2name$GeneralUtilities(_r2id,_r2atom),
+	pc_floattoatom$PrologCompatibility(_r1,_r1atom),
+	pc_floattoatom$PrologCompatibility(_r2,_r2atom),
+	_rres is _r1 - _r2,
+	pc_floattoatom$PrologCompatibility(_rres,_resatom),
+	create_if_builtin_object$FragmentToPropositions(_resatom,Real),
+	name2id$GeneralUtilities(_resatom,_res).
+{**********************************************************************}
+{*  IMINUS (INTEGER MINUS)                                            *}
+{*  computes r1 - r2                                                  *}
+{**********************************************************************}
+compute_IMINUS(_res,_r1expr,_,_r2expr,_) :-
+        evalFunctionArg$Literals(_r1expr,_r1id),  {* r1,r2 can be query calls ! *}
+        evalFunctionArg$Literals(_r2expr,_r2id),
+        ground(_r1id),
+        ground(_r2id),
+        id2name$GeneralUtilities(_r1id,_r1atom),
+        id2name$GeneralUtilities(_r2id,_r2atom),
+        inttoatom(_r1,_r1atom),
+        inttoatom(_r2,_r2atom),
+        _rres is _r1 - _r2,
+        inttoatom(_rres,_resatom),
+        create_if_builtin_object$FragmentToPropositions(_resatom,Integer),
+        name2id$GeneralUtilities(_resatom,_res).
+{**********************************************************************}
+{*  MULT                                                              *}
+{*  computes r1 * r2                                                  *}
+{**********************************************************************}
+compute_MULT(_res,_r1expr,_,_r2expr,_) :-
+	evalFunctionArg$Literals(_r1expr,_r1id),  {* r1,r2 can be query calls ! *}
+	evalFunctionArg$Literals(_r2expr,_r2id),
+	ground(_r1id),
+	ground(_r2id),
+	id2name$GeneralUtilities(_r1id,_r1atom),
+	id2name$GeneralUtilities(_r2id,_r2atom),
+	pc_floattoatom$PrologCompatibility(_r1,_r1atom),
+	pc_floattoatom$PrologCompatibility(_r2,_r2atom),
+	_rres is _r1 * _r2,
+	pc_floattoatom$PrologCompatibility(_rres,_resatom),
+	create_if_builtin_object$FragmentToPropositions(_resatom,Real),
+	name2id$GeneralUtilities(_resatom,_res).
+{**********************************************************************}
+{*  IMULT (INTEGER MULT)                                              *}
+{*  computes r1 * r2                                                  *}
+{**********************************************************************}
+compute_IMULT(_res,_r1expr,_,_r2expr,_) :-
+        evalFunctionArg$Literals(_r1expr,_r1id),  {* r1,r2 can be query calls ! *}
+        evalFunctionArg$Literals(_r2expr,_r2id),
+        ground(_r1id),
+        ground(_r2id),
+        id2name$GeneralUtilities(_r1id,_r1atom),
+        id2name$GeneralUtilities(_r2id,_r2atom),
+        inttoatom(_r1,_r1atom),
+        inttoatom(_r2,_r2atom),
+        _rres is _r1 * _r2,
+        inttoatom(_rres,_resatom),
+        create_if_builtin_object$FragmentToPropositions(_resatom,Integer),
+        name2id$GeneralUtilities(_resatom,_res).
+{**********************************************************************}
+{*  DIV                                                               *}
+{*  computes r1 / r2                                                  *}
+{**********************************************************************}
+compute_DIV(_res,_r1expr,_,_r2expr,_) :-
+	evalFunctionArg$Literals(_r1expr,_r1id),  {* r1,r2 can be query calls ! *}
+	evalFunctionArg$Literals(_r2expr,_r2id),
+	ground(_r1id),
+	ground(_r2id),
+	id2name$GeneralUtilities(_r1id,_r1atom),
+	id2name$GeneralUtilities(_r2id,_r2atom),
+	pc_floattoatom$PrologCompatibility(_r1,_r1atom),
+	pc_floattoatom$PrologCompatibility(_r2,_r2atom),
+        saveDIV$GeneralUtilities(_rres,_r1,_r2),
+	pc_floattoatom$PrologCompatibility(_rres,_resatom),
+	create_if_builtin_object$FragmentToPropositions(_resatom,Real),
+	name2id$GeneralUtilities(_resatom,_res).
+{**********************************************************************}
+{*  IDIV (INTEGER DIVISION)                                           *}
+{*  computes truncate(r1 / r2)                                        *}
+{**********************************************************************}
+compute_IDIV(_res,_r1expr,_,_r2expr,_) :-
+        evalFunctionArg$Literals(_r1expr,_r1id),  {* r1,r2 can be query calls ! *}
+        evalFunctionArg$Literals(_r2expr,_r2id),
+        ground(_r1id),
+        ground(_r2id),
+        id2name$GeneralUtilities(_r1id,_r1atom),
+        id2name$GeneralUtilities(_r2id,_r2atom),
+        inttoatom(_r1,_r1atom),
+        inttoatom(_r2,_r2atom),
+        saveIDIV$GeneralUtilities(_rres,_r1,_r2),
+        inttoatom(_rres,_resatom),
+        create_if_builtin_object$FragmentToPropositions(_resatom,Integer),
+        name2id$GeneralUtilities(_resatom,_res).
+{**********************************************************************}
+{*  ConcatenateStrings                                                *}
+{*  appends string s2 to the end of string s1                         *}
+{**********************************************************************}
+compute_ConcatenateStrings(_res,_s1,_,_s2,_) :-
+	ground(_s1),
+	ground(_s2),
+	id2name$GeneralUtilities(_s1,_s1atom),
+	id2name$GeneralUtilities(_s2,_s2atom),
+	atomconcat('"',_rs1,_s1atom),
+	atomconcat(_ps1,'"',_rs1),
+	atomconcat('"',_rs2,_s2atom),
+	atomconcat(_ps2,'"',_rs2),
+	atomconcat(['"',_ps1,_ps2,'"'],_satom),
+	create_if_builtin_object$FragmentToPropositions(_satom,String),
+	name2id$GeneralUtilities(_satom,_res).
+
+compute_ConcatenateStrings3(_res,_s1,_,_s2,_,_s3,_) :-
+	ground(_s1),
+	ground(_s2),
+	ground(_s3),
+	id2name$GeneralUtilities(_s1,_s1atom),
+	id2name$GeneralUtilities(_s2,_s2atom),
+	id2name$GeneralUtilities(_s3,_s3atom),
+	atomconcat('"',_rs1,_s1atom),
+	atomconcat(_ps1,'"',_rs1),
+	atomconcat('"',_rs2,_s2atom),
+	atomconcat(_ps2,'"',_rs2),
+	atomconcat('"',_rs3,_s3atom),
+	atomconcat(_ps3,'"',_rs3),
+	atomconcat(['"',_ps1,_ps2,_ps3,'"'],_satom),
+	create_if_builtin_object$FragmentToPropositions(_satom,String),
+	name2id$GeneralUtilities(_satom,_res).
+
+compute_ConcatenateStrings4(_res,_s1,_,_s2,_,_s3,_,_s4,_) :-
+	ground(_s1),
+	ground(_s2),
+	ground(_s3),
+	ground(_s4),
+	id2name$GeneralUtilities(_s1,_s1atom),
+	id2name$GeneralUtilities(_s2,_s2atom),
+	id2name$GeneralUtilities(_s3,_s3atom),
+	id2name$GeneralUtilities(_s4,_s4atom),
+	atomconcat('"',_rs1,_s1atom),
+	atomconcat(_ps1,'"',_rs1),
+	atomconcat('"',_rs2,_s2atom),
+	atomconcat(_ps2,'"',_rs2),
+	atomconcat('"',_rs3,_s3atom),
+	atomconcat(_ps3,'"',_rs3),
+	atomconcat('"',_rs4,_s4atom),
+	atomconcat(_ps4,'"',_rs4),
+	atomconcat(['"',_ps1,_ps2,_ps3,_ps4,'"'],_satom),
+	create_if_builtin_object$FragmentToPropositions(_satom,String),
+	name2id$GeneralUtilities(_satom,_res).
+{**********************************************************************}
+{*  StringToLabel                                                     *}
+{*  removes the quotes of the string and returns it as label (no oid) *}
+{**********************************************************************}
+compute_StringToLabel(_res,_s,_) :-
+	ground(_s),
+	id2name$GeneralUtilities(_s,_satom),
+	atomconcat('"',_rs,_satom),
+	atomconcat(_res,'"',_rs).
+{ ********************************************************************** }
+{ Predicates for Java CBEditor, used by AnswerFormat CBGraphEditorResult }
+{ ********************************************************************** }
+buildCBEditorResult(_result,_object,_dst,_cat,_pal,_dir) :-
+    parseObjectNames([_object,_dst,_cat,_pal],[_oid,_dstid,_catid,_palid]),
+    !,
+    replaceSpecialCharacter(_object,_object2),
+    !,
+    appendBuffer$ExternalCodeLoader(_result,'  <object>\n    <name>'),
+    appendBuffer$ExternalCodeLoader(_result,_object2),
+    appendBuffer$ExternalCodeLoader(_result,'</name>\n'),
+    getGraphType$GeneralUtilities([_result],_oid,_palid),
+    !,
+    getEdges(_oid,_dstid,_catid,_dir,_edgeIds),
+    !,
+    appendBuffer$ExternalCodeLoader(_result,'    <edges>\n'),
+    makeEdgesElement(_edgeIds,_palid,_result),
+    !,
+    appendBuffer$ExternalCodeLoader(_result,'    </edges>\n  </object>\n').
+
+buildCBEditorResultWithoutEdges(_result,_object,_pal) :-
+    parseObjectNames([_object,_pal],[_oid,_palid]),
+    !,
+    replaceSpecialCharacter(_object,_object2),
+    !,
+    appendBuffer$ExternalCodeLoader(_result,'  <object>\n    <name>'),
+    appendBuffer$ExternalCodeLoader(_result,_object2),
+    appendBuffer$ExternalCodeLoader(_result,'</name>\n'),
+    getGraphType$GeneralUtilities([_result],_oid,_palid),
+    !,
+    appendBuffer$ExternalCodeLoader(_result,'  </object>\n').
+
+parseObjectNames(_atomlist,_idlist) :-
+    atomconcatWithCommata(_atomlist,_bigatom),
+    stringtoatom(_Objstring,_bigatom),
+    ObjNameStringToList$TellAndAsk(_Objstring,_sml_objnamelist),
+    evalClassList$SelectExpressions(_sml_objnamelist,replaceSelectExpression,_idlist1),
+    EliminateClassInList$TellAndAsk(_idlist1,_idlist),
+    !.
+
+atomconcatWithCommata([],'') :- !.
+atomconcatWithCommata([_a],_a) :- !.
+atomconcatWithCommata([_a|_r],_res) :-
+    atomconcatWithCommata(_r,_ar),
+    !,
+    atomconcat([_a,',',_ar],_res).
+
+replaceSpecialCharacter(_object,_object) :-
+    atomverify(_object,'<',_i),
+    _i == 0,
+    !.
+replaceSpecialCharacter(_object,_newobject) :-
+    atomtolist(_object,_list),
+    replace$GeneralUtilities('<',_list,'&lt;',_newlist),
+    atomconcat(_newlist,_newobject),
+    !.
+
+getEdges(_oid,_dstid,_catid,dst,_edges) :-
+    save_setof$GeneralUtilities(_e,
+        (_l)^(prove_literal$Literals(P(_e,_oid,_l,_dstid)),
+         prove_literal$Literals(In(_e,_catid))),
+        _edges).
+getEdges(_oid,_srcid,_catid,src,_edges) :-
+    save_setof$GeneralUtilities(_e,
+        (_l)^(prove_literal$Literals(P(_e,_srcid,_l,_oid)),
+         prove_literal$Literals(In(_e,_catid))),
+        _edges).
+
+makeEdgesElement([],_,'') :- !.
+makeEdgesElement([],_,_elem) :- !.
+makeEdgesElement([_id|_r],_palid,_elem) :-
+    outObjectName$ScanFormatUtilities(_id,_object),
+    replaceSpecialCharacter(_object,_object2),
+    appendBuffer$ExternalCodeLoader(_elem,'      <object>\n        <name>'),
+    appendBuffer$ExternalCodeLoader(_elem,_object2),
+    appendBuffer$ExternalCodeLoadeCBserverInterfacer(_elem,'</name>\n'),
+    getGraphType$GeneralUtilities([_elem],_id,_palid),
+    appendBuffer$ExternalCodeLoader(_elem,'      </object>\n'),
+    makeEdgesElement(_r,_palid,_elem).
+{* ********************************************************************** *}
+{* Extensions for ECA rule (predicates to be invoked in DO part)          *}
+{* ********************************************************************** *}
+{* ticket 151: auxiliary predicate required to protect access to ConceptBase 
+   modules
+*}
+currentUser(_u) :-
+   active_user$CBserverInterface(_uname),
+   name2id$GeneralUtilities(_uname,_u),
+   !.

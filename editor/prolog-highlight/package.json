@@ -1,0 +1,29 @@
+{
+  "name": "conceptbase-prolog-highlight",
+  "displayName": "ConceptBase Prolog Highlight",
+  "description": "SWI-Prolog syntax highlighting (sublimeprolog grammar) for ConceptBase sources",
+  "version": "0.1.0",
+  "publisher": "conceptbase",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": ["Programming Languages"],
+  "contributes": {
+    "languages": [
+      {
+        "id": "prolog",
+        "aliases": ["Prolog", "SWI-Prolog"],
+        "extensions": [".pl", ".pro", ".prolog", ".plt", ".swi.pl", ".gel", ".lpi"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "prolog",
+        "scopeName": "source.prolog",
+        "path": "./syntaxes/prolog.swi.tmLanguage.json"
+      }
+    ]
+  }
+}

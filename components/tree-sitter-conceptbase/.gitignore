@@ -1,0 +1,7 @@
+target/
+tests/samples/
+# Generated tree-sitter artifacts (scanner.c is hand-written and tracked).
+source/src/parser.c
+source/src/grammar.json
+source/src/node-types.json
+source/src/tree_sitter/

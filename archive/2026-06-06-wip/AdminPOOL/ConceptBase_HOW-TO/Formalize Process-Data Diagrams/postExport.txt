@@ -1,0 +1,34 @@
+#!/bin/sh
+#
+# postExport.sh
+# ----------------------------------------
+# This version converts dot files via Graphviz dot to PNG graphics
+# Requires prior installation of Graphviz
+# (c) 2011 M. Jeusfeld
+
+# This file is governed by the Creative Commons license
+#   attributeion-NonCommercial 3.0 Unported
+#   http://creativecommons.org/licenses/by-nc/3.0/
+#   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+#
+# Extended licenses, in particular commercial licenses, can be obtained from the
+# author of the source code.
+# Any re-distribution as source code must acknowledge the original author of this file.
+
+
+
+cd `dirname $0`
+
+ftype=png
+# set ftype to default if parameter 1 is undefined (empty string)
+if [ -z "$ftype" ]; then ftype='png'; fi 
+
+for file in *.dot; do
+bfile=${file%.*}
+# echo $bfile.$ftype
+dot -T$ftype -o $bfile.$ftype $bfile.dot
+echo "$bfile.dot -->  $bfile.$ftype"
+done
+
+
+

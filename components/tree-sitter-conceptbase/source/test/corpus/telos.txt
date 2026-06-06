@@ -1,0 +1,173 @@
+==================
+Simple class definition
+==================
+
+Employee in EntityType with
+  attribute
+    name : String
+end
+
+---
+
+(source_file
+  (telos_object
+    name: (object_name
+      (label
+        (identifier)))
+    in: (kw_in)
+    in: (class_list
+      (object_name
+        (label
+          (identifier))))
+    with: (kw_with)
+    with: (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            name: (label
+              (identifier))
+            value: (object_name
+              (label
+                (identifier)))))))
+    end: (end_spec)))
+
+==================
+Rule and constraint with Prolog embedding
+==================
+
+Employee with
+  rule
+    BossRule : $ forall e/Employee m/Manager (e boss m) ==> (e boss m) $
+  constraint
+    nec: $ forall e/Employee exists n/String (e name n) $
+end
+
+---
+
+(source_file
+  (telos_object
+    name: (object_name
+      (label
+        (identifier)))
+    with: (kw_with)
+    with: (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            name: (label
+              (identifier))
+            value: (assertion_embedding
+              body: (assertion
+                (formula
+                  (kw_forall)
+                  binds: (variable_bind_list
+                    (variable_bind
+                      vars: (var_list
+                        (identifier))
+                      type: (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      vars: (var_list
+                        (identifier))
+                      type: (object_name
+                        (label
+                          (identifier)))))
+                  body: (formula
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier)))))))))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            name: (label
+              (identifier))
+            value: (assertion_embedding
+              body: (assertion
+                (formula
+                  (kw_forall)
+                  binds: (variable_bind_list
+                    (variable_bind
+                      vars: (var_list
+                        (identifier))
+                      type: (object_name
+                        (label
+                          (identifier)))))
+                  body: (formula
+                    (kw_exists)
+                    binds: (variable_bind_list
+                      (variable_bind
+                        vars: (var_list
+                          (identifier))
+                        type: (object_name
+                          (label
+                            (identifier)))))
+                    body: (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    end: (end_spec)))
+
+==================
+Module directive
+==================
+
+{$set module=Master}
+
+Employee in EntityType end
+
+---
+
+(source_file
+  (directive)
+  (telos_object
+    name: (object_name
+      (label
+        (identifier)))
+    in: (kw_in)
+    in: (class_list
+      (object_name
+        (label
+          (identifier))))
+    end: (end_spec)))

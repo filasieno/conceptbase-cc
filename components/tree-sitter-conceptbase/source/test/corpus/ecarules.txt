@@ -1,0 +1,69 @@
+==================
+Simple ECArule
+==================
+
+$ n,n1/Integer
+ON Tell(In(n,MyInteger))
+IF (n < 500)
+DO Tell(In(n1,MyInteger)) $
+
+---
+
+(source_file
+  (assertion_embedding
+    body: (assertion
+      (ecarule
+        (variable_bind_list
+          (variable_bind
+            vars: (var_list
+              (identifier)
+              (identifier))
+            type: (object_name
+              (label
+                (identifier)))))
+        (kw_on)
+        event: (eca_event
+          op: (event_op)
+          literal: (literal
+            functor: (functor)
+            (literal_arg_list
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier))))
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier)))))))
+        (if_clause)
+        condition: (cond_formula
+          (literal
+            (ar_expr
+              (ar_term
+                (ar_factor
+                  (object_name
+                    (label
+                      (identifier))))))
+            (comp_symbol)
+            (ar_expr
+              (ar_term
+                (ar_factor
+                  (object_name
+                    (label
+                      (number
+                        (integer)))))))))
+        (kw_do)
+        actions: (action_list
+          (action
+            op: (action_op)
+            literal: (literal
+              functor: (functor)
+              (literal_arg_list
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))))))))))

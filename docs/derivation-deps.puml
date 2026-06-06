@@ -1,0 +1,164 @@
+@startuml derivation-deps
+' ConceptBase.cc — Nix derivation build dependencies (flake.nix let-bindings).
+' Render: plantuml -tsvg docs/derivation-deps.puml  (requires nix develop)
+
+top to bottom direction
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam nodesep 40
+skinparam ranksep 28
+
+title ConceptBase.cc — Nix derivation dependencies\n(arrows = build-time inputs; dashed = optional / not in flake)
+
+legend right
+  |= Color |= Meaning |
+  | <#D4EDDA> | User-facing flake package |
+  | <#FFF3CD> | Internal derivation (flake check) |
+  | <#E2E3E5> | Build helper / data only |
+  | <#F8D7DA> | Deferred (nix/*.nix, not wired in flake) |
+endlegend
+
+package "CMake helper" #E2E3E5 {
+  component [buildcbutils] as buildcbutils <<internal>>
+}
+
+package "Server native libraries" #FFF3CD {
+  component [libcbgeneral] as libcbgeneral <<internal>>
+  component [libcbipc] as libcbipc <<internal>>
+  component [libcbtelos] as libcbtelos <<internal>>
+  component [libcbtelosserver] as libcbtelosserver <<internal>>
+  component [libcbcos] as libcbcos <<internal>>
+}
+
+package "Client native libraries" #FFF3CD {
+  component [libcbc] as libcbc <<internal>>
+  component [libcbcview] as libcbcview <<internal>>
+  component [libcbtelosclient] as libcbtelosclient <<internal>>
+}
+
+package "Prolog toolchain" #FFF3CD {
+  component [grammar-compiler] as grammar_compiler <<internal>>
+  component [server-engine] as server_engine <<internal>>
+  component [system-data] as system_data <<internal>>
+  component [server-repl] as server_repl <<internal>>
+  component [module-preprocessor] as module_preprocessor <<internal>>
+}
+
+package "Java stack" #FFF3CD {
+  component [java-legacy-maven-lock] as java_legacy_maven_lock <<internal>>
+  component [jgl] as jgl <<internal>>
+  component [grappa] as grappa <<internal>>
+  component [java-deps] as java_deps <<internal>>
+  component [java-maven-local-repo] as java_maven_local_repo <<internal>>
+  component [java-maven-lock] as java_maven_lock <<internal>>
+  component [java-reactor] as java_reactor <<internal>>
+}
+
+package "Standalone grammar" #FFF3CD {
+  component [tree-sitter-conceptbase] as tree_sitter <<internal>>
+}
+
+package "Data" #E2E3E5 {
+  component [examples-corpus] as examples_corpus <<internal>>
+}
+
+package "User-facing packages" #D4EDDA {
+  component [cbserver] as cbserver <<package>>
+  component [cb-workbench] as cb_workbench <<package>>
+  component [cb-shell] as cb_shell <<package>>
+  component [cb-graph] as cb_graph <<package>>
+  component [conceptbase] as conceptbase <<package>>
+}
+
+package "Checks (not installable)" #FFF3CD {
+  component [integration-tests] as integration_tests <<check>>
+}
+
+package "Deferred documentation" #F8D7DA {
+  component [doc-user-manual] as doc_user <<deferred>>
+  component [doc-prog-manual] as doc_prog <<deferred>>
+  component [doc-tutorial] as doc_tutorial <<deferred>>
+}
+
+' --- buildcbutils → native libs (libcbArgs) ---
+buildcbutils --> libcbipc
+buildcbutils --> libcbtelos
+buildcbutils --> libcbtelosserver
+buildcbutils --> libcbcos
+buildcbutils --> libcbc
+buildcbutils --> libcbcview
+buildcbutils --> libcbtelosclient
+
+' --- server lib chain ---
+libcbgeneral --> libcbipc
+libcbgeneral --> libcbtelos
+libcbgeneral --> libcbtelosserver
+libcbtelos --> libcbtelosserver
+libcbgeneral --> libcbcos
+
+' --- client lib chain ---
+libcbc --> libcbcview
+
+' --- Prolog kernel ---
+grammar_compiler --> server_engine
+
+' --- server-repl links server libs ---
+libcbgeneral --> server_repl
+libcbipc --> server_repl
+libcbtelos --> server_repl
+libcbtelosserver --> server_repl
+libcbcos --> server_repl
+
+' --- Java Maven chain ---
+java_legacy_maven_lock --> jgl
+java_legacy_maven_lock --> grappa
+jgl --> java_maven_local_repo
+grappa --> java_maven_local_repo
+java_deps --> java_maven_local_repo
+java_maven_local_repo --> java_maven_lock
+java_maven_lock --> java_reactor
+java_reactor --> module_preprocessor
+
+' --- cbserver ---
+server_repl --> cbserver
+server_engine --> cbserver
+system_data --> cbserver
+libcbgeneral --> cbserver
+libcbipc --> cbserver
+libcbtelos --> cbserver
+libcbtelosserver --> cbserver
+libcbcos --> cbserver
+
+' --- Java apps (all use java-reactor / cb.jar) ---
+java_reactor --> cb_workbench
+java_reactor --> cb_shell
+java_reactor --> cb_graph
+
+' --- product bundle ---
+cbserver --> conceptbase
+cb_workbench --> conceptbase
+examples_corpus --> conceptbase
+
+' --- integration tests ---
+cbserver --> integration_tests
+libcbc --> integration_tests
+libcbcview --> integration_tests
+examples_corpus --> integration_tests
+
+note right of module_preprocessor
+  Optional on SWI fast path:
+  cbserver uses committed
+  server-engine .swi.pl
+end note
+
+note bottom of tree_sitter
+  No flake derivation depends
+  on tree-sitter-conceptbase yet
+end note
+
+note bottom of doc_user
+  nix/doc-*.nix exist;
+  not wired in flake.nix outputs
+end note
+
+@enduml

@@ -1,0 +1,54 @@
+{*
+* module path: System-oHome
+* -------------------------------------------------------
+* Time: 2012-11-07 09:11:47 (UTC) 
+* listd for: jeusfeld@EG0090
+* CBserver version: 7.4.07 (2012-10-23) 
+*
+*}
+
+
+{* for class attributes *}
+
+BaumArt with  
+  attribute
+    relativeHäufigkeit : Real;
+    katalogisiert : Integer;
+    blattForm : String
+end 
+
+
+{* for instance attributes *}
+Baum with  
+  attribute
+    standort : String;
+    gepflanztDurch : Förster
+end 
+
+Förster  
+end 
+
+
+{* Eine class with its eigenen attributes *}
+Eiche in BaumArt isA Baum with  
+  relativeHäufigkeit
+    anteil : 0.13
+  katalogisiert
+    jahr : 1762
+  blattForm
+    form : "gerundet"
+end 
+
+Willi in Förster  
+end 
+
+{* An instance der class Eiche, die die Instanzenattribute belegt *}
+Eiche672133 in Eiche with  
+  standort
+    gps : "+52° 31' 16.45, +13° 21' 13.15"
+  gepflanztDurch
+    förster : Willi
+end 
+
+
+{* -/- *}

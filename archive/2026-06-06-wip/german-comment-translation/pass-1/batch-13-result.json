@@ -1,0 +1,443 @@
+[
+  {
+    "id": "S00014",
+    "file": "components/java/cbworkbench/src/main/java/i5/cb/workbench/CBICommand.java",
+    "start_line": 563,
+    "end_line": 563,
+    "lines": [
+      {
+        "line": 563,
+        "original": "            // Wegen eines Fehlers im JDK 1.1.1 for Windows 95;",
+        "translated": "            // Due to a bug in JDK 1.1.1 for Windows 95;"
+      }
+    ]
+  },
+  {
+    "id": "S00034",
+    "file": "components/libcbcos/src/QUERY.h",
+    "start_line": 146,
+    "end_line": 146,
+    "lines": [
+      {
+        "line": 146,
+        "original": "        /** Liefert einen TOID mit der CC-Komponente der Anfrage, if this gesetzt war.",
+        "translated": "        /** Returns a TOID with the CC component of the query, if this was set."
+      }
+    ]
+  },
+  {
+    "id": "S00054",
+    "file": "components/libcbcos/src/SYMTBL.h",
+    "start_line": 118,
+    "end_line": 118,
+    "lines": [
+      {
+        "line": 118,
+        "original": "          Nr. id use and gibt einen SYMID auf thisn Eintrag zur\\\"uck. Wird beim",
+        "translated": "          register TOID id and return a SYMID for this entry. Used when"
+      }
+    ]
+  },
+  {
+    "id": "S00074",
+    "file": "components/libcbcos/src/TDB.h",
+    "start_line": 304,
+    "end_line": 304,
+    "lines": [
+      {
+        "line": 304,
+        "original": "          @return 1, falls toid gefunden, 0 sonst",
+        "translated": "          @return 1 if toid was found, 0 otherwise"
+      }
+    ]
+  },
+  {
+    "id": "S00094",
+    "file": "components/libcbgeneral/src/FileIO.c",
+    "start_line": 205,
+    "end_line": 205,
+    "lines": [
+      {
+        "line": 205,
+        "original": "\t\t\t\t\t\t  * erforderlich. Damit aber not nach each IPC-Message",
+        "translated": "\t\t\t\t\t\t  * required. However, so that not after each IPC message"
+      }
+    ]
+  },
+  {
+    "id": "S00114",
+    "file": "components/server-engine/src/AnswerTransform.swi.pl",
+    "start_line": 973,
+    "end_line": 973,
+    "lines": [
+      {
+        "line": 973,
+        "original": "/* Output: geparst Pattern, gleichzeitig is thes die Antwortausgabe for a einzele Loesung. */",
+        "translated": "/* Output: parsed pattern, at the same time this is the answer output for a single solution. */"
+      }
+    ]
+  },
+  {
+    "id": "S00134",
+    "file": "components/server-engine/src/AssertionCompiler.swi.pl",
+    "start_line": 242,
+    "end_line": 242,
+    "lines": [
+      {
+        "line": 242,
+        "original": "/* _rangeformula: Formel, die behandelt are shall im */",
+        "translated": "/* _rangeformula: formula to be processed in */"
+      }
+    ]
+  },
+  {
+    "id": "S00154",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 63,
+    "end_line": 65,
+    "lines": [
+      {
+        "line": 63,
+        "original": "*         - das Erkennen der Klassen, deren Instanzen durch die Integritaets-",
+        "translated": "*         - identifying the classes whose instances are affected by the integrity"
+      },
+      {
+        "line": 64,
+        "original": "*           bedingung affected sein can,",
+        "translated": "*           constraint,"
+      },
+      {
+        "line": 65,
+        "original": "*         - das Erstellen vereinfachter Formeln and auswertbare Formen davon,",
+        "translated": "*         - creating simplified formulas and evaluable forms of them,"
+      }
+    ]
+  },
+  {
+    "id": "S00174",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 291,
+    "end_line": 291,
+    "lines": [
+      {
+        "line": 291,
+        "original": "\t/* Nachschauen, ob von der class, deren Instanzen durch das Regelkopfliteral affected sein could, Verweise bzgl Integritaetsbedingungen or Regeln ausgehen, die when einer Loeschoperation zu testen waeren:",
+        "translated": "\t/* Check whether references concerning integrity constraints or rules that would need to be tested during a delete operation emanate from the class whose instances could be affected by the rule-head literal:"
+      }
+    ]
+  },
+  {
+    "id": "S00194",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 718,
+    "end_line": 718,
+    "lines": [
+      {
+        "line": 718,
+        "original": "/* eine solche Regel must dann after the selben Verfahren verarbeitet are. */",
+        "translated": "/* such a rule must then be processed using the same procedure. */"
+      }
+    ]
+  },
+  {
+    "id": "S00214",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1166,
+    "end_line": 1166,
+    "lines": [
+      {
+        "line": 1166,
+        "original": "/* Wenn nichts zutrifft: sofortiger Erfolg */",
+        "translated": "/* If nothing applies: immediate success */"
+      }
+    ]
+  },
+  {
+    "id": "S00234",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1427,
+    "end_line": 1428,
+    "lines": [
+      {
+        "line": 1427,
+        "original": "/* _InsDel    : = Insert, falls Ic bei einer Einfuegeoperation zu testen ist,  */",
+        "translated": "/* _InsDel    : = Insert, if Ic is to be tested during an insert operation,  */"
+      },
+      {
+        "line": 1428,
+        "original": "/*              = Delete, \"     \"  \"   \"     Loesch-\"          \"  \"      \" (i).*/",
+        "translated": "/*              = Delete, \"     \"  \"   \"     delete\"          \"  \"      \" (i).*/"
+      }
+    ]
+  },
+  {
+    "id": "S00254",
+    "file": "components/server-engine/src/BDMEvaluation.swi.pl",
+    "start_line": 81,
+    "end_line": 81,
+    "lines": [
+      {
+        "line": 81,
+        "original": "* Metaformel ist.",
+        "translated": "* is a meta-formula."
+      }
+    ]
+  },
+  {
+    "id": "S00274",
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 91,
+    "end_line": 91,
+    "lines": [
+      {
+        "line": 91,
+        "original": "*      the phase of UNTELL when the concerned objects are identified.",
+        "translated": "*      the UNTELL phase when the concerned objects are identified."
+      }
+    ]
+  },
+  {
+    "id": "S00294",
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 320,
+    "end_line": 320,
+    "lines": [
+      {
+        "line": 320,
+        "original": "/* Loeschen ihrer BDMPraedikate, Aendern der Abhaengigkeiten durch             */",
+        "translated": "/* deleting its BDM predicates, changing dependencies by             */"
+      }
+    ]
+  },
+  {
+    "id": "S00314",
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 507,
+    "end_line": 507,
+    "lines": [
+      {
+        "line": 507,
+        "original": "/* Die gefundene vereinfachte Regel geht in mehr als die zu untellende Ic ein: */",
+        "translated": "/* the found simplified rule involves more than the Ic to be untold: */"
+      }
+    ]
+  },
+  {
+    "id": "S00334",
+    "file": "components/server-engine/src/BDMIntegrityChecker.swi.pl",
+    "start_line": 111,
+    "end_line": 111,
+    "lines": [
+      {
+        "line": 111,
+        "original": "* Das Aendern einer BDM-Formel erfolgt, indem die alte Formel",
+        "translated": "* Changing a BDM formula is done by deleting the old formula"
+      }
+    ]
+  },
+  {
+    "id": "S00354",
+    "file": "components/server-engine/src/BDMKBMS.swi.pl",
+    "start_line": 86,
+    "end_line": 86,
+    "lines": [
+      {
+        "line": 86,
+        "original": "* Das Aendern einer BDM-Formel erfolgt, indem die alte Formel",
+        "translated": "* Changing a BDM formula is done by deleting the old formula"
+      }
+    ]
+  },
+  {
+    "id": "S00374",
+    "file": "components/server-engine/src/BDMLiteralDeps.swi.pl",
+    "start_line": 465,
+    "end_line": 465,
+    "lines": [
+      {
+        "line": 465,
+        "original": "/*     a concerned class                                                  */",
+        "translated": "/*     a concerned class                                                  */"
+      }
+    ]
+  },
+  {
+    "id": "S00394",
+    "file": "components/server-engine/src/Datalog2Algebra.swi.pl",
+    "start_line": 525,
+    "end_line": 525,
+    "lines": [
+      {
+        "line": 525,
+        "original": "/* Wenn keine neuen Regeln gefunden were => Ende der Rekursion */",
+        "translated": "/* If no new rules were found => end of recursion */"
+      }
+    ]
+  },
+  {
+    "id": "S00414",
+    "file": "components/server-engine/src/FragmentToHistoryPropositions.swi.pl",
+    "start_line": 83,
+    "end_line": 83,
+    "lines": [
+      {
+        "line": 83,
+        "original": "* Metaformel-Aenderungen (10.1.96):",
+        "translated": "* Meta-formula changes (10.1.96):"
+      }
+    ]
+  },
+  {
+    "id": "S00434",
+    "file": "components/server-engine/src/LTcompiler.swi.pl",
+    "start_line": 57,
+    "end_line": 57,
+    "lines": [
+      {
+        "line": 57,
+        "original": " RF : Formel in Rangeform",
+        "translated": " RF : formula in range form"
+      }
+    ]
+  },
+  {
+    "id": "S00454",
+    "file": "components/server-engine/src/MSFOLassertionParserUtilities.swi.pl",
+    "start_line": 489,
+    "end_line": 489,
+    "lines": [
+      {
+        "line": 489,
+        "original": "/* uses if possible (i.e. the concerned class exists) the  */",
+        "translated": "/* uses if possible (i.e. the concerned class exists) the  */"
+      }
+    ]
+  },
+  {
+    "id": "S00474",
+    "file": "components/server-engine/src/MetaBDMEvaluation.swi.pl",
+    "start_line": 59,
+    "end_line": 59,
+    "lines": [
+      {
+        "line": 59,
+        "original": "* Metaformel necessary:",
+        "translated": "* Meta-formula necessary:"
+      }
+    ]
+  },
+  {
+    "id": "S00494",
+    "file": "components/server-engine/src/MetaRFormulas.swi.pl",
+    "start_line": 50,
+    "end_line": 50,
+    "lines": [
+      {
+        "line": 50,
+        "original": "* Das Modul MetaRFormulas dient der Bearbeitung einer Formel in Rangeform",
+        "translated": "* The MetaRFormulas module is used to process a formula in range form"
+      }
+    ]
+  },
+  {
+    "id": "S00514",
+    "file": "components/server-engine/src/ObjectTransformer.swi.pl",
+    "start_line": 75,
+    "end_line": 75,
+    "lines": [
+      {
+        "line": 75,
+        "original": "* Metaformel Aenderung(10.1.96):",
+        "translated": "* Meta-formula change (10.1.96):"
+      }
+    ]
+  },
+  {
+    "id": "S00534",
+    "file": "components/server-engine/src/QO_costs.swi.pl",
+    "start_line": 358,
+    "end_line": 358,
+    "lines": [
+      {
+        "line": 358,
+        "original": "/* Cost_litExtAd liefert eine Schaetzung des extensionalen       */",
+        "translated": "/* Cost_litExtAd provides an estimate of the extensional       */"
+      }
+    ]
+  },
+  {
+    "id": "S00554",
+    "file": "components/server-engine/src/RangeformSimplifier.swi.pl",
+    "start_line": 52,
+    "end_line": 54,
+    "lines": [
+      {
+        "line": 52,
+        "original": "* Im Modul RangeformSimplifier is untersucht, ob eine Formel",
+        "translated": "* In the RangeformSimplifier module, it is investigated whether a formula"
+      },
+      {
+        "line": 53,
+        "original": "* redundant is. Dies bedeutet, dass die Formel In or A - literals",
+        "translated": "* is redundant. This means that the formula contains In or A literals"
+      },
+      {
+        "line": 54,
+        "original": "* contains, die keine Loesung besitzen can.",
+        "translated": "* that can have no solution."
+      }
+    ]
+  },
+  {
+    "id": "S00574",
+    "file": "components/server-engine/src/SelectExpressions.swi.pl",
+    "start_line": 60,
+    "end_line": 60,
+    "lines": [
+      {
+        "line": 60,
+        "original": "*  propvals. So the computed values of select-expressions appears in it.",
+        "translated": "*  propvals. So the computed values of select-expressions appear in it."
+      }
+    ]
+  },
+  {
+    "id": "S00594",
+    "file": "components/server-engine/src/VarTabHandling.swi.pl",
+    "start_line": 147,
+    "end_line": 147,
+    "lines": [
+      {
+        "line": 147,
+        "original": "      In-literals gefunden are, die in die",
+        "translated": "      In-literals are found that are to be entered into the"
+      }
+    ]
+  },
+  {
+    "id": "S00614",
+    "file": "components/server-engine/src/ViewEvaluator.swi.pl",
+    "start_line": 406,
+    "end_line": 406,
+    "lines": [
+      {
+        "line": 406,
+        "original": "/*   (Wird about only ein attribute genested, dann is the Er-  */  /* Stimmt not mehr */",
+        "translated": "/*   (If only one attribute is nested, then the re-  */  /* No longer correct */"
+      }
+    ]
+  },
+  {
+    "id": "S00634",
+    "file": "components/server-engine/src/WeakPersistency.swi.pl",
+    "start_line": 53,
+    "end_line": 53,
+    "lines": [
+      {
+        "line": 53,
+        "original": "* Metaformel-Aenderungen:",
+        "translated": "* Meta-formula changes:"
+      }
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.import.maven.enabled": true,
+  "java.configuration.maven.defaultMvnGoals": [
+    "generate-sources",
+    "compile",
+    "-DskipTests"
+  ]
+}

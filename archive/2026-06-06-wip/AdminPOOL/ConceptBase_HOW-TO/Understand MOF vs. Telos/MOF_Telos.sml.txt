@@ -1,0 +1,115 @@
+{*
+This file is governed by the Creative Commons license
+   attributeion-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+{*
+* File MOF_Telos.sml
+* Author: Manfred Jeusfeld
+* Date: 2012-02-16 (2012-02-17)
+*----------------------------------------------------------------
+* This models shows how the strict instantiation of MOF
+* can be enforced by integrity constraints of Telos.
+* Not telling the MOFconstraints enables you to
+* link objects from different MOF levels. 
+* The example also shows, that Telos has no problem to
+* represent statements at any abstraction level in a single
+* model.
+*
+*}
+
+{* The class STATEMENT provides the capabilities to represent all 4 MOF levels         *}
+{* M0,..,M3. The moflevel is attached to designate the MOF level. The attribute mofrel *}
+{* is used for associations/links between statements at the same MOF level.            *}
+{* The attribute mofinstanceOf is for declaring one statement to be the instance of    *}
+{* another statement. We do not use the Telos 'in' here to avoid inheriting its        *}
+{* semantics. *}
+
+STATEMENT in Class with
+  attribute
+    moflevel: Integer;    {* 3=M3, 2=M2, 1=M1, 0 =M0 *}
+    mofrel: STATEMENT;
+    mofinstanceOf: STATEMENT
+end
+
+MOFconstraints in Class with
+  constraint
+     strictInstantiation: $ forall x,c/STATEMENT m,n/Integer 
+                              (x mofinstanceOf c) and (c moflevel m) and (n = m-1) ==> (x moflevel n) $;
+     strictRelations: $ forall x,y/STATEMENT m/Integer 
+                              (x mofrel y) and (x moflevel m) ==> (y moflevel m) $
+end
+
+
+
+{* Micro MOF example *}
+
+{* M3 *}
+MOF_Class in STATEMENT with
+  moflevel l: 3
+end
+
+
+{* M2 *}
+UML_Class in STATEMENT with
+  mofinstanceOf c: MOF_Class
+  moflevel l: 2
+end
+
+UML_Association in STATEMENT with
+  mofinstanceOf c: MOF_Class
+  moflevel l: 2
+  mofrel
+    roleLink: UML_Class
+end
+
+
+{* M1 *}
+Employee in STATEMENT with
+  mofinstanceOf c: UML_Class
+  moflevel l: 1
+end
+
+Project in STATEMENT with
+  mofinstanceOf c: UML_Class
+  moflevel l: 1
+end
+
+worksFor in STATEMENT with
+  mofinstanceOf c: UML_Association
+  moflevel l: 1
+  mofrel
+     r1: Employee;
+     r2: Project
+end
+
+
+{* M0 *}
+bill in STATEMENT with
+  mofinstanceOf c: Employee
+  moflevel l: 0
+end
+
+
+
+{* illegal mofrel between different levels;
+   tell this frame to see that the strict instantiation
+   is violated
+
+UML_Association with
+  mofrel
+    example: worksFor
+end
+*}
+
+
+
+
+
+

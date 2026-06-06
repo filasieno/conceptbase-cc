@@ -1,0 +1,41 @@
+[
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1357,
+    "end_line": 1357,
+    "lines": [
+      {
+        "line": 1357,
+        "original": "/* Regel, wie sie eingegeben was, already umgeformt in das BDMFormat */",
+        "translated": "/* Rule as it was entered, already transformed into BDMFormat */"
+      }
+    ],
+    "id": "S00015"
+  },
+  {
+    "file": "components/server-engine/src/BDMIntegrityChecker.swi.pl",
+    "start_line": 182,
+    "end_line": 182,
+    "lines": [
+      {
+        "line": 182,
+        "original": "\t/* Auswerten, Untersuchen and Zerlegen der Constraint: */",
+        "translated": "\t/* Evaluate, examine and decompose the constraint: */"
+      }
+    ],
+    "id": "S00035"
+  },
+  {
+    "file": "components/server-engine/src/QO_heur.swi.pl",
+    "start_line": 162,
+    "end_line": 162,
+    "lines": [
+      {
+        "line": 162,
+        "original": "/* earlyNegPre: Vorbehandlung                                         */",
+        "translated": "/* earlyNegPre: preprocessing                                         */"
+      }
+    ],
+    "id": "S00055"
+  }
+]

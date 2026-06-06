@@ -1,9 +1,0 @@
-\@@addtocsec{htoc}{sec1}{0}{\@print{1}\quad{}Introduction{}}
-\@@addtocsec{htoc}{sec2}{0}{\@print{2}\quad{} The Scenario {}}
-\@@addtocsec{htoc}{sec3}{1}{\@print{2.1}\quad{}Create a notation for petri nets{}}
-\@@addtocsec{htoc}{sec4}{1}{\@print{2.2}\quad{}Define the PNModel{}}
-\@@addtocsec{htoc}{sec5}{1}{\@print{2.3}\quad{}Define an example petri net model{}}
-\@@addtocsec{htoc}{sec6}{1}{\@print{2.4}\quad{}Define answer format for the classes to be exported{}}
-\@@addtocsec{htoc}{sec7}{1}{\@print{2.5}\quad{}Define the export task{}}
-\newlabel{fig:export1}{{1}{X}}
-\@deflabeltype{fig:export1}{figure}

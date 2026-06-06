@@ -1,0 +1,41 @@
+[
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1522,
+    "end_line": 1522,
+    "lines": [
+      {
+        "line": 1522,
+        "original": "/*                    apply can, die durch das Folgerungsliteral der */",
+        "translated": "/*                    can apply, which through the conclusion literal of the */"
+      }
+    ],
+    "id": "S00020"
+  },
+  {
+    "file": "components/server-engine/src/BDMKBMS.swi.pl",
+    "start_line": 430,
+    "end_line": 430,
+    "lines": [
+      {
+        "line": 430,
+        "original": "\t\t/* Zur vollstaendigen Instanziierung: */",
+        "translated": "\t\t/* For complete instantiation: */"
+      }
+    ],
+    "id": "S00040"
+  },
+  {
+    "file": "components/server-engine/src/QueryCompiler.swi.pl",
+    "start_line": 617,
+    "end_line": 617,
+    "lines": [
+      {
+        "line": 617,
+        "original": "\t\t\t\t\t\t\t\t\t/*auswerten sie, dann bekommen wir  first Factors _id(_l,_), and aus _id(_l,_) is */",
+        "translated": "\t\t\t\t\t\t\t\t\t/*evaluate them, then we get  first Factors _id(_l,_), and from _id(_l,_) is */"
+      }
+    ],
+    "id": "S00060"
+  }
+]

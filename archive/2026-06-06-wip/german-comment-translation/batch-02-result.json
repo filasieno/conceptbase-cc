@@ -1,0 +1,54 @@
+[
+  {
+    "file": "components/libcbcos/src/Version.h",
+    "start_line": 47,
+    "end_line": 47,
+    "lines": [
+      {
+        "line": 47,
+        "original": "*   Version des Objektspeichers",
+        "translated": "*   Version of the object store"
+      }
+    ],
+    "id": "S00003"
+  },
+  {
+    "file": "components/server-engine/src/BDMEvaluation.swi.pl",
+    "start_line": 338,
+    "end_line": 338,
+    "lines": [
+      {
+        "line": 338,
+        "original": "\t\t/* Holen der vollstaendigen Regel:                             */",
+        "translated": "\t\t/* Fetch the complete rule:                             */"
+      }
+    ],
+    "id": "S00023"
+  },
+  {
+    "file": "components/server-engine/src/Datalog2Algebra.swi.pl",
+    "start_line": 202,
+    "end_line": 202,
+    "lines": [
+      {
+        "line": 202,
+        "original": "/*    head : head der Regel (for the variables) */",
+        "translated": "/*    head : head of the rule (for the variables) */"
+      }
+    ],
+    "id": "S00043"
+  },
+  {
+    "file": "components/server-engine/src/RuleBase.swi.pl",
+    "start_line": 138,
+    "end_line": 138,
+    "lines": [
+      {
+        "line": 138,
+        "original": "/* head:    Kopfliteral der Regel                          */",
+        "translated": "/* head:    head literal of the rule                          */"
+      }
+    ],
+    "id": "S00063"
+  }
+]

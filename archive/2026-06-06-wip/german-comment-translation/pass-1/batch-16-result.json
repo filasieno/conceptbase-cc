@@ -1,0 +1,473 @@
+[
+  {
+    "file": "components/java/cbworkbench/src/main/java/i5/cb/workbench/QueryResultWindow.java",
+    "start_line": 155,
+    "end_line": 155,
+    "lines": [
+      {
+        "line": 155,
+        "original": "                // Jede Spalte ist wieder ein Vektor, der die Attribute enthaelt",
+        "translated": "                // Each column is again a vector containing the attributes"
+      }
+    ],
+    "id": "S00017"
+  },
+  {
+    "file": "components/libcbcos/src/QUERY.h",
+    "start_line": 156,
+    "end_line": 157,
+    "lines": [
+      {
+        "line": 156,
+        "original": "          Diese function is used um eine pseudo-L\\\"osung aufzubauen, when next 0 liefert.",
+        "translated": "          This function is used to build a pseudo-solution when next returns 0."
+      },
+      {
+        "line": 157,
+        "original": "          Dies is n\\\"otig, da sonst die Prolog-Schnittstelle einen error liefert.",
+        "translated": "          This is necessary, because otherwise the Prolog interface returns an error."
+      }
+    ],
+    "id": "S00037"
+  },
+  {
+    "file": "components/libcbcos/src/SYMTBL.h",
+    "start_line": 148,
+    "end_line": 148,
+    "lines": [
+      {
+        "line": 148,
+        "original": "        /// liefert die TOID-Menge der TOID's die den angegebenen Label benutzen",
+        "translated": "        /// Returns the set of TOIDs that use the given label"
+      }
+    ],
+    "id": "S00057"
+  },
+  {
+    "file": "components/libcbcos/src/TDB.h",
+    "start_line": 547,
+    "end_line": 547,
+    "lines": [
+      {
+        "line": 547,
+        "original": "        /** Liefert eine L\\\"osung des Query-Descriptors \\\\",
+        "translated": "        /** Returns a solution of the query descriptor \\\\"
+      }
+    ],
+    "id": "S00077"
+  },
+  {
+    "file": "components/libcbtelosclient/src/te_access.c",
+    "start_line": 379,
+    "end_line": 379,
+    "lines": [
+      {
+        "line": 379,
+        "original": "    /* for all attribut deklaration parts: */",
+        "translated": "    /* for all attribute declaration parts: */"
+      }
+    ],
+    "id": "S00097"
+  },
+  {
+    "file": "components/server-engine/src/AnswerTransform.swi.pl",
+    "start_line": 1036,
+    "end_line": 1036,
+    "lines": [
+      {
+        "line": 1036,
+        "original": "/*Hier is den predicates gefunden, functor als ein Atom and argument als eine list of Atom. */",
+        "translated": "/* Here the predicates are found, functor as an atom and argument as a list of atoms. */"
+      }
+    ],
+    "id": "S00117"
+  },
+  {
+    "file": "components/server-engine/src/AssertionCompiler.swi.pl",
+    "start_line": 253,
+    "end_line": 253,
+    "lines": [
+      {
+        "line": 253,
+        "original": "/* this Formel are. */",
+        "translated": "/* these formulas are. */"
+      }
+    ],
+    "id": "S00137"
+  },
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 76,
+    "end_line": 76,
+    "lines": [
+      {
+        "line": 76,
+        "original": "*         - das Erkennen der Klassen, deren Instanzen durch die Regel",
+        "translated": "*         - recognizing the classes whose instances may be affected by the rule"
+      }
+    ],
+    "id": "S00157"
+  },
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 363,
+    "end_line": 363,
+    "lines": [
+      {
+        "line": 363,
+        "original": "/* _lit       : Das Literal, bzgl. der die Integritaetsbedingung verarbeitet  */",
+        "translated": "/* _lit       : The literal with respect to which the integrity constraint is processed  */"
+      }
+    ],
+    "id": "S00177"
+  },
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 783,
+    "end_line": 783,
+    "lines": [
+      {
+        "line": 783,
+        "original": "/* the literal _lit with concerned class _class is a no trigger literal, e.g. */",
+        "translated": "/* the literal _lit with concerned class _class is a no trigger literal, e.g. */"
+      }
+    ],
+    "id": "S00197"
+  },
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1195,
+    "end_line": 1196,
+    "lines": [
+      {
+        "line": 1195,
+        "original": "/* _Formula                : Formel, (i)                                       */",
+        "translated": "/* _Formula                : Formula, (i)                                       */"
+      },
+      {
+        "line": 1196,
+        "original": "/* _FormulaWithoutQuant    : dieselbe Formel nur ohne die Quantifizierung der  */",
+        "translated": "/* _FormulaWithoutQuant    : the same formula but without the quantification of the  */"
+      }
+    ],
+    "id": "S00217"
+  },
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1448,
+    "end_line": 1448,
+    "lines": [
+      {
+        "line": 1448,
+        "original": "\t\t/* 1. Abspeichern der propvals:                                */",
+        "translated": "\t\t/* 1. Store the propvals:                                */"
+      }
+    ],
+    "id": "S00237"
+  },
+  {
+    "file": "components/server-engine/src/BDMEvaluation.swi.pl",
+    "start_line": 164,
+    "end_line": 165,
+    "lines": [
+      {
+        "line": 164,
+        "original": "/* Ist das neue object eine Metaformel, so the ... is Test for the */",
+        "translated": "/* If the new object is a meta-formula, the ... test is performed for the */"
+      },
+      {
+        "line": 165,
+        "original": "/* Instanzen this Formel, aber not for the Formel selbst performed */",
+        "translated": "/* instances of this formula, but not for the formula itself */"
+      }
+    ],
+    "id": "S00257"
+  },
+  {
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 155,
+    "end_line": 155,
+    "lines": [
+      {
+        "line": 155,
+        "original": "/* Wird auf eine Integritaetsbedingung die Operation UNTELL angewendet, so */",
+        "translated": "/* If the UNTELL operation is applied to an integrity constraint, then */"
+      }
+    ],
+    "id": "S00277"
+  },
+  {
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 353,
+    "end_line": 353,
+    "lines": [
+      {
+        "line": 353,
+        "original": "          /*    vereinfachte Instanz eingeht                             */",
+        "translated": "          /*    simplified instance is entered                             */"
+      }
+    ],
+    "id": "S00297"
+  },
+  {
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 604,
+    "end_line": 604,
+    "lines": [
+      {
+        "line": 604,
+        "original": "/* Mit folgenden Praedikaten laesst sich dies tun:                             */",
+        "translated": "/* This can be done with the following predicates:                             */"
+      }
+    ],
+    "id": "S00317"
+  },
+  {
+    "file": "components/server-engine/src/BDMIntegrityChecker.swi.pl",
+    "start_line": 176,
+    "end_line": 176,
+    "lines": [
+      {
+        "line": 176,
+        "original": "/* _id        : der Identifikator des Objekts, das die Ic enthaelt (i).       */",
+        "translated": "/* _id        : the identifier of the object containing the IC (i).       */"
+      }
+    ],
+    "id": "S00337"
+  },
+  {
+    "file": "components/server-engine/src/BDMKBMS.swi.pl",
+    "start_line": 197,
+    "end_line": 197,
+    "lines": [
+      {
+        "line": 197,
+        "original": "/* lassen, falls die Transaktion, auf Grund derer die neue BDM-Formel angelegt */",
+        "translated": "/* leave it, if the transaction on the basis of which the new BDM formula was created */"
+      }
+    ],
+    "id": "S00357"
+  },
+  {
+    "file": "components/server-engine/src/BDMLiteralDeps.swi.pl",
+    "start_line": 589,
+    "end_line": 589,
+    "lines": [
+      {
+        "line": 589,
+        "original": "/* (b) c is a constant: c is the concerned class                     */",
+        "translated": "/* (b) c is a constant: c is the concerned class                     */"
+      }
+    ],
+    "id": "S00377"
+  },
+  {
+    "file": "components/server-engine/src/Datalog2Algebra.swi.pl",
+    "start_line": 785,
+    "end_line": 787,
+    "lines": [
+      {
+        "line": 785,
+        "original": "/*   tobeStratified enthaelt die zu stratifizierenden Regeln         */",
+        "translated": "/*   tobeStratified contains the rules to be stratified         */"
+      },
+      {
+        "line": 786,
+        "original": "/*   stratified enthaelt die Regeln die der aktuellen Strata gehoeren*/",
+        "translated": "/*   stratified contains the rules belonging to the current stratum*/"
+      },
+      {
+        "line": 787,
+        "original": "/*   stratMultiList enthaelt die Strata als MultiListe in umgekehrter*/",
+        "translated": "/*   stratMultiList contains the strata as a multi-list in reverse*/"
+      }
+    ],
+    "id": "S00397"
+  },
+  {
+    "file": "components/server-engine/src/FragmentToHistoryPropositions.swi.pl",
+    "start_line": 664,
+    "end_line": 664,
+    "lines": [
+      {
+        "line": 664,
+        "original": "\tis the zu loeschende Formel eine Metaformel, dann must folgende objects",
+        "translated": "\tif the formula to be deleted is a meta-formula, then the following objects must"
+      }
+    ],
+    "id": "S00417"
+  },
+  {
+    "file": "components/server-engine/src/LTcompiler.swi.pl",
+    "start_line": 181,
+    "end_line": 181,
+    "lines": [
+      {
+        "line": 181,
+        "original": "\t/* mache aus der Bedingung DATALOG-Code",
+        "translated": "\t/* turn the condition into DATALOG code"
+      }
+    ],
+    "id": "S00437"
+  },
+  {
+    "file": "components/server-engine/src/MSFOLassertionParserUtilities.swi.pl",
+    "start_line": 700,
+    "end_line": 700,
+    "lines": [
+      {
+        "line": 700,
+        "original": "/* case 1: x.a;s   (; steht for . or | */",
+        "translated": "/* case 1: x.a;s   (; stands for . or | */"
+      }
+    ],
+    "id": "S00457"
+  },
+  {
+    "file": "components/server-engine/src/MetaBDMEvaluation.swi.pl",
+    "start_line": 75,
+    "end_line": 75,
+    "lines": [
+      {
+        "line": 75,
+        "original": "* erzeugte Formel:",
+        "translated": "* generated formula:"
+      }
+    ],
+    "id": "S00477"
+  },
+  {
+    "file": "components/server-engine/src/MetaSimplifier.swi.pl",
+    "start_line": 82,
+    "end_line": 88,
+    "lines": [
+      {
+        "line": 82,
+        "original": "*                 \"Wird die Extension von Li um ein neues Element Li(j+1)",
+        "translated": "*                 \"If the extension of Li is enlarged by a new element Li(j+1)"
+      },
+      {
+        "line": 83,
+        "original": "*                  vergroessert, dann erzeuge die entsprechende Formel wie",
+        "translated": "*                  then generate the corresponding formula as"
+      },
+      {
+        "line": 84,
+        "original": "*\t\t   unter 4.2 and rufe 4.4 mit this neuen Formel auf \"",
+        "translated": "*\t\t   under 4.2 and call 4.4 with this new formula \""
+      },
+      {
+        "line": 85,
+        "original": "*      4.4   Fuege for each Formel f_im aus f_i in dt den folgenden Trigger hinzu",
+        "translated": "*      4.4   For each formula f_im from f_i in dt, add the following trigger"
+      },
+      {
+        "line": 86,
+        "original": "*                 \"Wird L_im aus Ext(Li) geloescht, dann loesche f_im and all aus",
+        "translated": "*                 \"If L_im is deleted from Ext(Li), then delete f_im and all objects"
+      },
+      {
+        "line": 87,
+        "original": "*                  der Formel f_im generierten Objekte\"",
+        "translated": "*                  generated from the formula f_im\""
+      },
+      {
+        "line": 88,
+        "original": "*      4.5   Rufe 4 for each Formel aus f_i mit [Li+1,...,Lk] auf",
+        "translated": "*      4.5   Call 4 for each formula from f_i with [Li+1,...,Lk]"
+      }
+    ],
+    "id": "S00497"
+  },
+  {
+    "file": "components/server-engine/src/PROLOGruleProcessor.swi.pl",
+    "start_line": 62,
+    "end_line": 62,
+    "lines": [
+      {
+        "line": 62,
+        "original": "* Metaformel Aenderung (10.1.96) RS",
+        "translated": "* Meta-formula change (10.1.96) RS"
+      }
+    ],
+    "id": "S00517"
+  },
+  {
+    "file": "components/server-engine/src/QO_costs.swi.pl",
+    "start_line": 425,
+    "end_line": 425,
+    "lines": [
+      {
+        "line": 425,
+        "original": "/* Cost_litExtAd liefert eine Schaetzung des extensionalen       */",
+        "translated": "/* Cost_litExtAd returns an estimate of the extensional       */"
+      }
+    ],
+    "id": "S00537"
+  },
+  {
+    "file": "components/server-engine/src/RangeformSimplifier.swi.pl",
+    "start_line": 126,
+    "end_line": 126,
+    "lines": [
+      {
+        "line": 126,
+        "original": "/* _f: Formel in rangeform                                            */",
+        "translated": "/* _f: formula in range form                                            */"
+      }
+    ],
+    "id": "S00557"
+  },
+  {
+    "file": "components/server-engine/src/SemanticIntegrity.swi.pl",
+    "start_line": 148,
+    "end_line": 148,
+    "lines": [
+      {
+        "line": 148,
+        "original": "/* Hier is the Ueberpruefung der IC-Konsistentz when import/export and normalen Faellen implementiert */",
+        "translated": "/* Here the IC consistency check is implemented for import/export and normal cases */"
+      }
+    ],
+    "id": "S00577"
+  },
+  {
+    "file": "components/server-engine/src/ViewCompiler.swi.pl",
+    "start_line": 197,
+    "end_line": 197,
+    "lines": [
+      {
+        "line": 197,
+        "original": "\t/*Der Join von Hauptquery and subqueries erfolgt von links nach rechts, */",
+        "translated": "\t/*The join of main query and subqueries proceeds from left to right, */"
+      }
+    ],
+    "id": "S00597"
+  },
+  {
+    "file": "components/server-engine/src/ViewMonitor.swi.pl",
+    "start_line": 691,
+    "end_line": 691,
+    "lines": [
+      {
+        "line": 691,
+        "original": "/* Testet, ob Literal auch im neuem Zustand gilt.  */",
+        "translated": "/* Tests whether the literal also holds in the new state.  */"
+      }
+    ],
+    "id": "S00617"
+  },
+  {
+    "file": "components/server-engine/src/cfixpoint.swi.pl",
+    "start_line": 320,
+    "end_line": 320,
+    "lines": [
+      {
+        "line": 320,
+        "original": "/* _goal is not ableitbar. Also can es aus dem body des conditional statements gestrichen are.",
+        "translated": "/* _goal is not derivable. Therefore it can be removed from the body of the conditional statement."
+      }
+    ],
+    "id": "S00637"
+  }
+]

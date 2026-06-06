@@ -1,0 +1,486 @@
+[
+  {
+    "file": "components/java/cbapi/src/main/java/i5/cb/api/LocalCBclient.java",
+    "start_line": 1014,
+    "end_line": 1014,
+    "lines": [
+      {
+        "line": 1014,
+        "original": "        // TODO: Ueberpruefe ob this Exceptions wirklich geworfen are!!!",
+        "translated": "        // TODO: Check whether this really throws exceptions!!!"
+      }
+    ],
+    "id": "S00003"
+  },
+  {
+    "file": "components/libcbcos/src/QUERY.h",
+    "start_line": 107,
+    "end_line": 108,
+    "lines": [
+      {
+        "line": 107,
+        "original": "          Diese function is used um eine pseudo-L\\\"osung aufzubauen, when next 0 liefert.",
+        "translated": "          This function is used to build a pseudo-solution when next returns 0."
+      },
+      {
+        "line": 108,
+        "original": "          Dies is n\\\"otig, da sonst die Prolog-Schnittstelle einen error liefert.",
+        "translated": "          This is necessary, because otherwise the Prolog interface returns an error."
+      }
+    ],
+    "id": "S00023"
+  },
+  {
+    "file": "components/libcbcos/src/SYMID.h",
+    "start_line": 90,
+    "end_line": 90,
+    "lines": [
+      {
+        "line": 90,
+        "original": "        /// liefert die L\\\"ange des Labels",
+        "translated": "        /// returns the length of the label"
+      }
+    ],
+    "id": "S00043"
+  },
+  {
+    "file": "components/libcbcos/src/SYMTBL.h",
+    "start_line": 164,
+    "end_line": 164,
+    "lines": [
+      {
+        "line": 164,
+        "original": "        /// liefert die Menge aller Telos-Objekte, die Individuals sind",
+        "translated": "        /// returns the set of all Telos objects that are individuals"
+      }
+    ],
+    "id": "S00063"
+  },
+  {
+    "file": "components/libcbcos/src/TDB.h",
+    "start_line": 673,
+    "end_line": 673,
+    "lines": [
+      {
+        "line": 673,
+        "original": "        /// liefert die Sykboltabelle",
+        "translated": "        /// returns the symbol table"
+      }
+    ],
+    "id": "S00083"
+  },
+  {
+    "file": "components/server-engine/src/AnswerTransform.swi.pl",
+    "start_line": 61,
+    "end_line": 61,
+    "lines": [
+      {
+        "line": 61,
+        "original": "Format einer Anfrage beliebig aendern kann.",
+        "translated": "can change the format of a query arbitrarily."
+      }
+    ],
+    "id": "S00103"
+  },
+  {
+    "file": "components/server-engine/src/AnswerTransform.swi.pl",
+    "start_line": 1339,
+    "end_line": 1339,
+    "lines": [
+      {
+        "line": 1339,
+        "original": "/* here is the Attributwert von dept again SMLfragment. parsen_PathExp() liefert eine list of Atom/Term zurueck. */",
+        "translated": "/* here the attribute value of dept is an SMLfragment again. parsen_PathExp() returns a list of Atom/Term. */"
+      }
+    ],
+    "id": "S00123"
+  },
+  {
+    "file": "components/server-engine/src/AssertionTransformer.swi.pl",
+    "start_line": 208,
+    "end_line": 209,
+    "lines": [
+      {
+        "line": 208,
+        "original": "is now in the so called miniscope form.",
+        "translated": "is now in the so called miniscope form."
+      },
+      {
+        "line": 209,
+        "original": "The miniscope form is then compiled to the range form and",
+        "translated": "The miniscope form is then compiled to the range form and"
+      }
+    ],
+    "id": "S00143"
+  },
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 172,
+    "end_line": 173,
+    "lines": [
+      {
+        "line": 172,
+        "original": "/*       - Abspeichern der gesamten Integritaetsbedingung.                     */",
+        "translated": "/*       - Storing the entire integrity constraint.                     */"
+      },
+      {
+        "line": 173,
+        "original": "/*\t- Verarbeiten der Formel: mit jedem Literal der Formel                */",
+        "translated": "/*\t- Processing the formula: with each literal of the formula                */"
+      }
+    ],
+    "id": "S00163"
+  },
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 528,
+    "end_line": 529,
+    "lines": [
+      {
+        "line": 528,
+        "original": "/* _rangeform         : zu durchsuchende Formel, (i)                          */",
+        "translated": "/* _rangeform         : formula to search, (i)                          */"
+      },
+      {
+        "line": 529,
+        "original": "/* _rangeform_woquants: dieselbe Formel nur ohne die Quantifizierung der      */",
+        "translated": "/* _rangeform_woquants: the same formula but without the quantification of the      */"
+      }
+    ],
+    "id": "S00183"
+  },
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 895,
+    "end_line": 895,
+    "lines": [
+      {
+        "line": 895,
+        "original": "/* _ClassId : Identifikator der class, die auf Regelabhaengigkeit untersucht */",
+        "translated": "/* _ClassId : identifier of the class that is checked for rule dependency */"
+      }
+    ],
+    "id": "S00203"
+  },
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1322,
+    "end_line": 1323,
+    "lines": [
+      {
+        "line": 1322,
+        "original": "\t\t/* 1a. Erstellen eines Objekts, das die Integritaetsbedingung  */",
+        "translated": "\t\t/* 1a. Creating an object that contains the integrity constraint  */"
+      },
+      {
+        "line": 1323,
+        "original": "\t\t/*     in ihrer internen, vollstaendigen Darstellung enthaelt: */",
+        "translated": "\t\t/*     in its internal, complete representation: */"
+      }
+    ],
+    "id": "S00223"
+  },
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1514,
+    "end_line": 1516,
+    "lines": [
+      {
+        "line": 1514,
+        "original": "/* _RuleId    : der Identifikator des Objekts, das die urspruengliche Regel    */",
+        "translated": "/* _RuleId    : the identifier of the object that represents the original rule    */"
+      },
+      {
+        "line": 1515,
+        "original": "/*              taetsbedingung (Instanz von MSFOLrule) darstellt (i),          */",
+        "translated": "/*              condition (instance of MSFOLrule) represents (i),          */"
+      },
+      {
+        "line": 1516,
+        "original": "/* _Literal   : bzgl. dem die Regel zu vereinfacht was (i), */",
+        "translated": "/* _Literal   : with respect to which the rule is to be simplified (i), */"
+      }
+    ],
+    "id": "S00243"
+  },
+  {
+    "file": "components/server-engine/src/BDMEvaluation.swi.pl",
+    "start_line": 549,
+    "end_line": 550,
+    "lines": [
+      {
+        "line": 549,
+        "original": "/* Integritaetstest aktiviert: Betrachtet are all Regeln and Integritaets- */",
+        "translated": "/* Integrity test activated: Considers all rules and integrity */"
+      },
+      {
+        "line": 550,
+        "original": "/* bedingungen bzgl. delete, die von this class ausgehen. Die */",
+        "translated": "/* constraints with respect to delete that originate from this class. The */"
+      }
+    ],
+    "id": "S00263"
+  },
+  {
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 199,
+    "end_line": 199,
+    "lines": [
+      {
+        "line": 199,
+        "original": "/* (check_BDMIntegrity@BDMIntegrityChecker) beruecksichtigt is, aendern sich */",
+        "translated": "/* (check_BDMIntegrity@BDMIntegrityChecker) is taken into account, change */"
+      }
+    ],
+    "id": "S00283"
+  },
+  {
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 415,
+    "end_line": 415,
+    "lines": [
+      {
+        "line": 415,
+        "original": "     /*** Verarbeiten this vereinfachten Regel: */",
+        "translated": "     /*** Processing this simplified rule: */"
+      }
+    ],
+    "id": "S00303"
+  },
+  {
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 712,
+    "end_line": 712,
+    "lines": [
+      {
+        "line": 712,
+        "original": "                /*     vollstaendigem Format darstellt:                        */",
+        "translated": "                /*     represents in complete format:                        */"
+      }
+    ],
+    "id": "S00323"
+  },
+  {
+    "file": "components/server-engine/src/BDMIntegrityChecker.swi.pl",
+    "start_line": 281,
+    "end_line": 282,
+    "lines": [
+      {
+        "line": 281,
+        "original": "/* Wird eine Regel aus dem System geloescht (UNTELL), so must also all */",
+        "translated": "/* When a rule is deleted from the system (UNTELL), all */"
+      },
+      {
+        "line": 282,
+        "original": "/* anderen daran haengenden Objekte (vereinfachte Formen etc.) geloescht       */",
+        "translated": "/* other dependent objects (simplified forms etc.) must also be deleted       */"
+      }
+    ],
+    "id": "S00343"
+  },
+  {
+    "file": "components/server-engine/src/BDMLiteralDeps.swi.pl",
+    "start_line": 165,
+    "end_line": 165,
+    "lines": [
+      {
+        "line": 165,
+        "original": "/*     a concerned class                                                  */",
+        "translated": "/*     a concerned class                                                  */"
+      }
+    ],
+    "id": "S00363"
+  },
+  {
+    "file": "components/server-engine/src/BDMTransFormula.swi.pl",
+    "start_line": 666,
+    "end_line": 666,
+    "lines": [
+      {
+        "line": 666,
+        "original": "/* In der Miniscope-Form der Formel (Integritaetsbedingung or Bedingungsteil */",
+        "translated": "/* In the miniscope form of the formula (integrity constraint or condition part */"
+      }
+    ],
+    "id": "S00383"
+  },
+  {
+    "file": "components/server-engine/src/ECAruleProcessor.swi.pl",
+    "start_line": 313,
+    "end_line": 313,
+    "lines": [
+      {
+        "line": 313,
+        "original": "/* Wird von ConfigurationUtilities beim Laden einer Applikation */",
+        "translated": "/* Is used by ConfigurationUtilities when loading an application */"
+      }
+    ],
+    "id": "S00403"
+  },
+  {
+    "file": "components/server-engine/src/FragmentToHistoryPropositions.swi.pl",
+    "start_line": 696,
+    "end_line": 696,
+    "lines": [
+      {
+        "line": 696,
+        "original": "\t/* loeschen der isa-Beziehung zur Metaformel (ticket #152) */",
+        "translated": "\t/* deleting the isa relationship to the meta formula (ticket #152) */"
+      }
+    ],
+    "id": "S00423"
+  },
+  {
+    "file": "components/server-engine/src/Literals.swi.pl",
+    "start_line": 397,
+    "end_line": 397,
+    "lines": [
+      {
+        "line": 397,
+        "original": "/* If concerned class is the system class Attribute,",
+        "translated": "/* If concerned class is the system class Attribute,"
+      }
+    ],
+    "id": "S00443"
+  },
+  {
+    "file": "components/server-engine/src/MSFOLassertionSimplifier.swi.pl",
+    "start_line": 409,
+    "end_line": 409,
+    "lines": [
+      {
+        "line": 409,
+        "original": "/* Enthaelt _andlist einen Unterbaum t, in dem die Variable*/",
+        "translated": "/* If _andlist contains a subtree t in which the variable*/"
+      }
+    ],
+    "id": "S00463"
+  },
+  {
+    "file": "components/server-engine/src/MetaFormulas.swi.pl",
+    "start_line": 187,
+    "end_line": 187,
+    "lines": [
+      {
+        "line": 187,
+        "original": "\tgewonnenen Formel is als value eines Attributs",
+        "translated": "\tthe obtained formula is stored as the value of an attribute"
+      }
+    ],
+    "id": "S00483"
+  },
+  {
+    "file": "components/server-engine/src/MetaSimplifier.swi.pl",
+    "start_line": 293,
+    "end_line": 293,
+    "lines": [
+      {
+        "line": 293,
+        "original": "\t   Formel laesst sich not in das Format forall x1,..,xk EPred(x1,..,xk) ==> phi",
+        "translated": "\t   formula cannot be converted to the format forall x1,..,xk EPred(x1,..,xk) ==> phi"
+      }
+    ],
+    "id": "S00503"
+  },
+  {
+    "file": "components/server-engine/src/PropositionsToFragment.swi.pl",
+    "start_line": 464,
+    "end_line": 464,
+    "lines": [
+      {
+        "line": 464,
+        "original": "/* Only explicit propvals are regarded.                               */",
+        "translated": "/* Only explicit propvals are regarded.                               */"
+      }
+    ],
+    "id": "S00523"
+  },
+  {
+    "file": "components/server-engine/src/QO_preproc.swi.pl",
+    "start_line": 674,
+    "end_line": 675,
+    "lines": [
+      {
+        "line": 674,
+        "original": "/* For jeden Regelrumpf is festgestellt, welche variablen arguments */",
+        "translated": "/* For each rule body it is determined which variable arguments */"
+      },
+      {
+        "line": 675,
+        "original": "/* des Kopfliterals im body verwendet are. Wird eine variable in */",
+        "translated": "/* of the head literal are used in the body. If a variable in */"
+      }
+    ],
+    "id": "S00543"
+  },
+  {
+    "file": "components/server-engine/src/RuleBase.swi.pl",
+    "start_line": 176,
+    "end_line": 176,
+    "lines": [
+      {
+        "line": 176,
+        "original": "/*  * Hilfsregeln are only \"lokal\" betrachtet, d.h. */",
+        "translated": "/*  * Auxiliary rules are only considered \"locally\", i.e. */"
+      }
+    ],
+    "id": "S00563"
+  },
+  {
+    "file": "components/server-engine/src/SubQueryCompiler.swi.pl",
+    "start_line": 266,
+    "end_line": 267,
+    "lines": [
+      {
+        "line": 266,
+        "original": "\t/* die Bedingung, dass 'this' im Subview, 'l' in der Subquery entspricht; also */",
+        "translated": "\t/* the condition that 'this' in the subview corresponds to 'l' in the subquery; therefore */"
+      },
+      {
+        "line": 267,
+        "original": "\t/* mit abspeichern; NICHT, when _destID bzw. der Derive-Ausdruck */",
+        "translated": "\t/* store along with it; NOT when _destID or the Derive expression */"
+      }
+    ],
+    "id": "S00583"
+  },
+  {
+    "file": "components/server-engine/src/ViewCompiler.swi.pl",
+    "start_line": 660,
+    "end_line": 660,
+    "lines": [
+      {
+        "line": 660,
+        "original": "/*  literal and Rumpfliteral bauen, so wie es in der ArgExp steht. */",
+        "translated": "/*  build literal and body literal as stated in the ArgExp. */"
+      }
+    ],
+    "id": "S00603"
+  },
+  {
+    "file": "components/server-engine/src/ViewToPropositions.swi.pl",
+    "start_line": 428,
+    "end_line": 428,
+    "lines": [
+      {
+        "line": 428,
+        "original": "/*\t\t\t\t(cij is applied whenm Abspeichern durch eine Oberklasse replaced um */",
+        "translated": "/*\t\t\t\t(cij is applied when storing is replaced by a superclass in order to */"
+      }
+    ],
+    "id": "S00623"
+  },
+  {
+    "file": "components/server-engine/src/validProposition.swi.pl",
+    "start_line": 50,
+    "end_line": 50,
+    "lines": [
+      {
+        "line": 50,
+        "original": "* The predicates in validProposition.pro are concerned with the intermediate",
+        "translated": "* The predicates in validProposition.pro are concerned with the intermediate"
+      }
+    ],
+    "id": "S00643"
+  }
+]

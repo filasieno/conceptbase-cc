@@ -1,0 +1,438 @@
+[
+  {
+    "id": "S00008",
+    "file": "components/java/cbtelos/src/main/java/i5/cb/telos/examples/Test.java",
+    "start_line": 79,
+    "end_line": 79,
+    "lines": [
+      {
+        "line": 79,
+        "original": "       Wird direkt auf die Standardausgabe bzw. in eine file written, is gar",
+        "translated": "       When written directly to standard output or into a file, no"
+      }
+    ]
+  },
+  {
+    "id": "S00028",
+    "file": "components/libcbcos/src/QUERY.h",
+    "start_line": 125,
+    "end_line": 125,
+    "lines": [
+      {
+        "line": 125,
+        "original": "        /** Liefert den String des Labels der Anfrage, if this gesetzt war.",
+        "translated": "        /** Returns the string of the query label, if it was set."
+      }
+    ]
+  },
+  {
+    "id": "S00048",
+    "file": "components/libcbcos/src/SYMID.h",
+    "start_line": 102,
+    "end_line": 102,
+    "lines": [
+      {
+        "line": 102,
+        "original": "        /// liefert die uses-Menge",
+        "translated": "        /// returns the uses set"
+      }
+    ]
+  },
+  {
+    "id": "S00068",
+    "file": "components/libcbcos/src/TDB.h",
+    "start_line": 179,
+    "end_line": 179,
+    "lines": [
+      {
+        "line": 179,
+        "original": "          der Datenbank removed are (dies is not das ConceptBase-l\\\"oschen). Werden neue",
+        "translated": "          removed from the database (this is not ConceptBase deletion). When new"
+      }
+    ]
+  },
+  {
+    "id": "S00088",
+    "file": "components/libcbcos/src/TIMEPOINT.h",
+    "start_line": 82,
+    "end_line": 82,
+    "lines": [
+      {
+        "line": 82,
+        "original": "        /// liefert die Zeit",
+        "translated": "        /// returns the time"
+      }
+    ]
+  },
+  {
+    "id": "S00108",
+    "file": "components/server-engine/src/AnswerTransform.swi.pl",
+    "start_line": 89,
+    "end_line": 89,
+    "lines": [
+      {
+        "line": 89,
+        "original": "    * Ein Pattern is a String, mit \" \" geklammert. Die Sache, die drin steht, shall so ausgegeben are, wie sie is.",
+        "translated": "    * A pattern is a string enclosed in \" \". What appears inside shall be output as-is."
+      }
+    ]
+  },
+  {
+    "id": "S00128",
+    "file": "components/server-engine/src/AnswerTransformator.swi.pl",
+    "start_line": 1255,
+    "end_line": 1255,
+    "lines": [
+      {
+        "line": 1255,
+        "original": "/*   VIEW(OBJEKT) */",
+        "translated": "/*   VIEW(OBJECT) */"
+      }
+    ]
+  },
+  {
+    "id": "S00148",
+    "file": "components/server-engine/src/AssertionTransformer.swi.pl",
+    "start_line": 322,
+    "end_line": 322,
+    "lines": [
+      {
+        "line": 322,
+        "original": "/* _rangeform : Metaformel in Rangeform                    */",
+        "translated": "/* _rangeform : metaformula in range form                    */"
+      }
+    ]
+  },
+  {
+    "id": "S00168",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 219,
+    "end_line": 219,
+    "lines": [
+      {
+        "line": 219,
+        "original": "/* Wird eine neue Regel introduced, so is sie mit thism predicate verarbei- */",
+        "translated": "/* When a new rule is introduced, it is processed with this predicate */"
+      }
+    ]
+  },
+  {
+    "id": "S00188",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 609,
+    "end_line": 611,
+    "lines": [
+      {
+        "line": 609,
+        "original": "/* _lit               : das Literal aus der Formel, bzgl. dem die sogenann-   */",
+        "translated": "/* _lit               : the literal from the formula with respect to which the so-called   */"
+      },
+      {
+        "line": 610,
+        "original": "/*                      te vereinfachte Instanz der Formel gebildet is,(i) */",
+        "translated": "/*                      simplified instance of the formula is built, (i) */"
+      },
+      {
+        "line": 611,
+        "original": "/* _rangeformWoQuants : die Formel, wobei bereits die erforderlichen Loe-     */",
+        "translated": "/* _rangeformWoQuants : the formula in which the required dele-     */"
+      }
+    ]
+  },
+  {
+    "id": "S00208",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 923,
+    "end_line": 923,
+    "lines": [
+      {
+        "line": 923,
+        "original": "\t\t/* 2. Verarbeiten this Regel: */",
+        "translated": "\t\t/* 2. Process this rule: */"
+      }
+    ]
+  },
+  {
+    "id": "S00228",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1375,
+    "end_line": 1375,
+    "lines": [
+      {
+        "line": 1375,
+        "original": "\t\t/* 1. Abspeichern der propvals:                                */",
+        "translated": "\t\t/* 1. Store the propvals:                                */"
+      }
+    ]
+  },
+  {
+    "id": "S00248",
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1557,
+    "end_line": 1557,
+    "lines": [
+      {
+        "line": 1557,
+        "original": "\t\t/* 2. Abspeichern des BDMPraedikats: */",
+        "translated": "\t\t/* 2. Store the BDM predicate: */"
+      }
+    ]
+  },
+  {
+    "id": "S00268",
+    "file": "components/server-engine/src/BDMEvaluation.swi.pl",
+    "start_line": 1072,
+    "end_line": 1072,
+    "lines": [
+      {
+        "line": 1072,
+        "original": "   have a concerned class in the formula of ticket 314, we leave it as is",
+        "translated": "   have a concerned class in the formula of ticket 314, we leave it as is"
+      }
+    ]
+  },
+  {
+    "id": "S00288",
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 259,
+    "end_line": 259,
+    "lines": [
+      {
+        "line": 259,
+        "original": "/* Loeschen ihrer BDMPraedikate, Aendern der Abhaengigkeiten durch             */",
+        "translated": "/* Deleting their BDM predicates, changing the dependencies by             */"
+      }
+    ]
+  },
+  {
+    "id": "S00308",
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 477,
+    "end_line": 477,
+    "lines": [
+      {
+        "line": 477,
+        "original": "/* _SimpRuleId        : der Identifikator der vereinfachten Form einer Regel,  */",
+        "translated": "/* _SimpRuleId        : the identifier of the simplified form of a rule,  */"
+      }
+    ]
+  },
+  {
+    "id": "S00328",
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 849,
+    "end_line": 849,
+    "lines": [
+      {
+        "line": 849,
+        "original": "/* untelled die objects and loescht das BDMPraedikat for a spezialisierte */",
+        "translated": "/* untells the objects and deletes the BDM predicate for a specialized */"
+      }
+    ]
+  },
+  {
+    "id": "S00348",
+    "file": "components/server-engine/src/BDMIntegrityChecker.swi.pl",
+    "start_line": 375,
+    "end_line": 375,
+    "lines": [
+      {
+        "line": 375,
+        "original": "                /* Geht das zu loeschende object (in-)direkt in Integritaets- */",
+        "translated": "                /* Does the object to be deleted (in-)directly affect integrity- */"
+      }
+    ]
+  },
+  {
+    "id": "S00368",
+    "file": "components/server-engine/src/BDMLiteralDeps.swi.pl",
+    "start_line": 287,
+    "end_line": 287,
+    "lines": [
+      {
+        "line": 287,
+        "original": "/* In_e and In_s have the same concerned class as In */",
+        "translated": "/* In_e and In_s have the same concerned class as In */"
+      }
+    ]
+  },
+  {
+    "id": "S00388",
+    "file": "components/server-engine/src/CodeCompiler.swi.pl",
+    "start_line": 109,
+    "end_line": 109,
+    "lines": [
+      {
+        "line": 109,
+        "original": "- vor den einzelnen Literalen steht ein prove_literal$Literals",
+        "translated": "- before each individual literal there is a prove_literal$Literals"
+      }
+    ]
+  },
+  {
+    "id": "S00408",
+    "file": "components/server-engine/src/ExternalConnection.swi.pl",
+    "start_line": 348,
+    "end_line": 348,
+    "lines": [
+      {
+        "line": 348,
+        "original": "/* LoadExQStructure sammelt die Datenquelle-Infos, zusammen mit dem Anfragestring konstruiert der \t*/",
+        "translated": "/* LoadExQStructure collects the data-source info; together with the query string it constructs the \t*/"
+      }
+    ]
+  },
+  {
+    "id": "S00428",
+    "file": "components/server-engine/src/GeneralUtilities.swi.pl",
+    "start_line": 1742,
+    "end_line": 1742,
+    "lines": [
+      {
+        "line": 1742,
+        "original": "/*  \tt_name2id/3  ist ein name2id mit vorgegebenen Modulkontext (muss ground sein)   */",
+        "translated": "/*  \tt_name2id/3  is a name2id with a given module context (must be ground)   */"
+      }
+    ]
+  },
+  {
+    "id": "S00448",
+    "file": "components/server-engine/src/Literals.swi.pl",
+    "start_line": 1357,
+    "end_line": 1357,
+    "lines": [
+      {
+        "line": 1357,
+        "original": "/* We assume that the argument cc (concerned class) is always bound.     */",
+        "translated": "/* We assume that the argument cc (concerned class) is always bound.     */"
+      }
+    ]
+  },
+  {
+    "id": "S00468",
+    "file": "components/server-engine/src/MSFOLassertionSimplifier.swi.pl",
+    "start_line": 579,
+    "end_line": 579,
+    "lines": [
+      {
+        "line": 579,
+        "original": "/* Formel die variables eindeutig sein must, the ... are */",
+        "translated": "/* In a formula the variables must be unique, the ... are */"
+      }
+    ]
+  },
+  {
+    "id": "S00488",
+    "file": "components/server-engine/src/MetaFormulas.swi.pl",
+    "start_line": 207,
+    "end_line": 207,
+    "lines": [
+      {
+        "line": 207,
+        "original": "\tLiteral in der vereinfachten Formel enthalten sein. Dies",
+        "translated": "\tliteral in the simplified formula. This"
+      }
+    ]
+  },
+  {
+    "id": "S00508",
+    "file": "components/server-engine/src/ModelConfiguration.swi.pl",
+    "start_line": 88,
+    "end_line": 88,
+    "lines": [
+      {
+        "line": 88,
+        "original": "* Metaformel-Aenderungen (10.1.1996):",
+        "translated": "* Metaformula changes (10.1.1996):"
+      }
+    ]
+  },
+  {
+    "id": "S00528",
+    "file": "components/server-engine/src/QO_costBase.swi.pl",
+    "start_line": 166,
+    "end_line": 167,
+    "lines": [
+      {
+        "line": 166,
+        "original": "/* Hier the ... is intensionale Kosten bzgl der head literal einer Regel in der zugehoerigen Ruleinfo stored. Man merkt this */",
+        "translated": "/* Here the ... stores intensional costs with respect to the head literal of a rule in the associated ruleinfo. Note that */"
+      },
+      {
+        "line": 167,
+        "original": "/* Kosten not complete are. Hier is only eine Teilkost bzgl eine head literal mit variable Belegung in einer Regel! Wenn man */",
+        "translated": "/* the costs are not complete. Here only a partial cost for a head literal with variable binding in a rule is stored! When you */"
+      }
+    ]
+  },
+  {
+    "id": "S00548",
+    "file": "components/server-engine/src/QueryCompiler.swi.pl",
+    "start_line": 951,
+    "end_line": 951,
+    "lines": [
+      {
+        "line": 951,
+        "original": "/*   Testet, ob q eine Subquery is and gibt Namen zurueck */",
+        "translated": "/*   Tests whether q is a subquery and returns names */"
+      }
+    ]
+  },
+  {
+    "id": "S00568",
+    "file": "components/server-engine/src/RuleBase.swi.pl",
+    "start_line": 549,
+    "end_line": 549,
+    "lines": [
+      {
+        "line": 549,
+        "original": "/* Nachteil: Die Ausgabeliste enthaelt Duplikate von       */",
+        "translated": "/* Disadvantage: the output list contains duplicates of       */"
+      }
+    ]
+  },
+  {
+    "id": "S00588",
+    "file": "components/server-engine/src/VMruleGenerator.swi.pl",
+    "start_line": 438,
+    "end_line": 438,
+    "lines": [
+      {
+        "line": 438,
+        "original": "/* Laden, Speichern and Loeschen von Regeln */",
+        "translated": "/* Loading, storing, and deleting rules */"
+      }
+    ]
+  },
+  {
+    "id": "S00608",
+    "file": "components/server-engine/src/ViewEvaluator.swi.pl",
+    "start_line": 223,
+    "end_line": 223,
+    "lines": [
+      {
+        "line": 223,
+        "original": "/* Zu _h was kein passendes Tupel gefunden -> weg so that */",
+        "translated": "/* For _h where no matching tuple was found -> discard so that */"
+      }
+    ]
+  },
+  {
+    "id": "S00628",
+    "file": "components/server-engine/src/ViewToPropositions.swi.pl",
+    "start_line": 609,
+    "end_line": 610,
+    "lines": [
+      {
+        "line": 609,
+        "original": "/*  Damit SelectAusdruecke richtig evaluated can, the ... is Parameter */",
+        "translated": "/*  So that select expressions can be evaluated correctly, the ... parameters */"
+      },
+      {
+        "line": 610,
+        "original": "/*  in die VariablenTabelle eingetragen */",
+        "translated": "/*  are entered into the variable table */"
+      }
+    ]
+  }
+]

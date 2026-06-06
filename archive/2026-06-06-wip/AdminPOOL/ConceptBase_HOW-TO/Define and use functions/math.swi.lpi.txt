@@ -1,0 +1,197 @@
+/*
+This file is governed by the Creative Commons license
+   attributeion-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*/
+
+
+/*
+* File: math.swi.lpi
+* Author: Manfred Jeusfeld
+* Created: 21-Mar-2008 (09-Jul-2018)
+* ------------------------------------------------
+* Some math functions for the ConceptBase server.
+* Add to <conceptbase>/lib/system if any database shall be able to use these functions.
+* Add to a specific database directory if only that database shall use these functions.
+* More details in the ConceptBase User Manual, section CBserver Plug-Ins
+*
+*/
+
+
+
+/* Some math functions functions */
+/* We basically call the SWI-Prolog counterpart */
+
+compute_sin(_res,_x,_C) :-
+        cbserver:arg2val(_x,_v),
+        number(_v),
+        _vres is sin(_v),
+        cbserver:val2arg(_vres,_res).
+
+/* define the signature of 'sin' to ConceptBase */
+tell: 'sin in Function isA Real with parameter x: Real end'.
+
+
+
+compute_cos(_res,_x,_C) :-
+        cbserver:arg2val(_x,_v),
+        number(_v),
+        _vres is cos(_v),
+        cbserver:val2arg(_vres,_res).
+
+tell: 'cos in Function isA Real with parameter x: Real end'.
+
+
+compute_tan(_res,_x,_C) :-
+        cbserver:arg2val(_x,_v),
+        number(_v),
+        _vres is tan(_v),
+        cbserver:val2arg(_vres,_res).
+
+tell: 'tan in Function isA Real with parameter x: Real end'.
+
+
+compute_atan(_res,_x,_C) :-
+        cbserver:arg2val(_x,_v),
+        number(_v),
+        _vres is atan(_v),
+        cbserver:val2arg(_vres,_res).
+
+tell: 'atan in Function isA Real with parameter x: Real end'.
+
+
+
+compute_log(_res,_x,_C) :-
+        cbserver:arg2val(_x,_v),
+        number(_v),
+        _vres is log(_v),
+        cbserver:val2arg(_vres,_res).
+
+tell: 'log in Function isA Real with parameter x: Real comment c1: "natural logarithm" end'.
+
+
+compute_log10(_res,_x,_C) :-
+        cbserver:arg2val(_x,_v),
+        number(_v),
+        _vres is log10(_v),
+        cbserver:val2arg(_vres,_res).
+
+tell: 'log10 in Function isA Real with parameter x: Real comment c1: "base-10 logarithm" end'.
+
+
+
+compute_exp(_res,_x,_C) :-
+        cbserver:arg2val(_x,_v),
+        number(_v),
+        _vres is exp(_v),
+        cbserver:val2arg(_vres,_res).
+
+tell: 'exp in Function isA Real with parameter x: Real comment c1: "exponential function with base e" end'.
+
+
+compute_sqrt(_res,_x,_C) :-
+        cbserver:arg2val(_x,_v),
+        number(_v),
+        _vres is sqrt(_v),
+        cbserver:val2arg(_vres,_res).
+
+tell: 'sqrt in Function isA Real with parameter x: Real comment c1: "square root" end'.
+
+
+
+
+compute_round(_res,_x,_C) :-
+        cbserver:arg2val(_x,_v),
+        number(_v),
+        _vres is round(_v),
+        cbserver:val2arg(_vres,_res).
+
+tell: 'round in Function isA Integer with parameter x: Real comment c1: "rounds a real number to the closest integer" end'.
+
+
+
+compute_trunc(_res,_x,_C) :-
+        cbserver:arg2val(_x,_v),
+        number(_v),
+        _vres is floor(_v),
+        cbserver:val2arg(_vres,_res).
+
+tell: 'trunc in Function isA Integer with parameter x: Real comment c1: "largest integer smaller or equal x" end'.
+
+
+compute_abs(_res,_x,_C) :-
+        cbserver:arg2val(_x,_v),
+        number(_v),
+        _vres is abs(_v),
+        cbserver:val2arg(_vres,_res).
+
+tell: 'abs in Function isA Real with parameter x: Real comment c1: "absolute value of x" end'.
+
+
+
+compute_min(_res,_x1,_C1,_x2,_C2) :-
+        cbserver:arg2val(_x1,_v1),
+        cbserver:arg2val(_x2,_v2),
+        number(_v1),
+        number(_v2),
+        _vres is min(_v1,_v2),
+        cbserver:val2arg(_vres,_res).
+
+tell: 'min in Function isA Real with parameter x1: Real; x2: Real comment c1: "min of x1,x2" end'.
+
+
+compute_max(_res,_x1,_C1,_x2,_C2) :-
+        cbserver:arg2val(_x1,_v1),
+        cbserver:arg2val(_x2,_v2),
+        number(_v1),
+        number(_v2),
+        _vres is max(_v1,_v2),
+        cbserver:val2arg(_vres,_res).
+
+tell: 'max in Function isA Real with parameter x1: Real; x2: Real comment c1: "max of x1,x2" end'.
+
+
+compute_isInteger(_res,_x,_C) :-
+        cbserver:arg2val(_x,_v),
+        ((integer(_v),_vres='TRUE');
+         _vres='FALSE'
+        ),
+        cbserver:makeId(_vres,_res).
+
+tell: 'isInteger in Function isA Boolean with parameter x:Proposition comment c1: "TRUE if x is an integer number" end'.
+
+
+compute_isReal(_res,_x,_C) :-
+        cbserver:arg2val(_x,_v),
+        ((number(_v),_vres='TRUE');
+         _vres='FALSE'
+        ),
+        cbserver:makeId(_vres,_res).
+
+tell: 'isReal in Function isA Boolean with parameter x:Proposition comment c1: "TRUE if x is an real number" end'.
+
+
+compute_modulo(_res,_x1,_C1,_x2,_C2) :-
+        cbserver:arg2val(_x1,_v1),
+        cbserver:arg2val(_x2,_v2),
+        number(_v1),
+        number(_v2),
+        _vres is _v1 mod _v2,
+        cbserver:val2arg(_vres,_res).
+
+tell: 'modulo in Function isA Integer with parameter x1: Integer; x2: Integer comment c1: "modulo of x1,x2" end'.
+
+
+
+
+
+
+
+
+
+

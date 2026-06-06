@@ -1,0 +1,78 @@
+#
+# File: MULTISET.cbs
+# Author: Manfred Jeusfeld
+# Creation: 13-Nov-2007 (16-Sep-2015)
+# ----------------------------------------------------------------------
+# Example that shows how to deal with multi-sets in ConceptBase.
+# Call:  cbshell MULTISET.cbs
+#
+# This script requires ConceptBase 7.5 or later
+
+cbserver -u nonpersistent -t low -port 4003 
+
+# In the subsequent frame 'deptsize' is a derived multi-set. It contains all department sizes
+# and used the department label 'n' to distinguish multiple occurrences of the same
+# value.
+
+tell "
+Employee in Class with 
+  attribute
+    dept: Department;
+    deptsize: Integer
+  rule
+    sizerule: $ forall e/Employee d/Department s/Integer n/Label 
+                      (e dept d) and Label(d,n) and (d size s) ==> (e deptsize/n s) $
+end
+
+Department with
+  attribute
+    size: Integer
+end
+" 
+
+tell "
+bill in Employee with
+  dept d1: D1; d2: D2; d3: D3
+end
+
+mary in Employee with
+  dept d1: D1; d2: D2
+end
+
+Department D1 with size s: 100 end
+Department D2 with size s: 121 end
+Department D3 with size s: 100 end
+"
+
+
+ask "EmpWithDeptSizes in QueryClass isA Employee with
+  retrieved_attribute
+    deptsize:Integer
+end " FRAMES FRAME Now
+# shall display all three elements 100,121,100; so 100 occurs twice
+# Note that the query class definition is removed after evaluating it
+
+tell "
+AllDSizes in GenericQueryClass isA Real with
+  parameter,computed_attribute
+    emp: Employee
+  constraint
+    c1: $ (~this = SUM_attributee[~emp/objname,Employee!deptsize/attrcat]) $
+end
+AVG_DSizes in GenericQueryClass isA Real with
+  parameter,computed_attribute
+    emp: Employee
+  constraint
+    c1: $ (~this = AVG_attributee[~emp/objname,Employee!deptsize/attrcat]) $
+end
+"
+
+ask "AllDSizes[bill/emp]" OBJNAMES  LABEL  Now
+# shall result in 321, ie. counts 100 twice
+
+ask "AVG_DSizes[bill/emp]" OBJNAMES  FRAME  Now
+
+ask "AVG_DSizes" OBJNAMES  FRAME  Now
+
+
+

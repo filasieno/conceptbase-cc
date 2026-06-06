@@ -1,0 +1,35 @@
+# German → English comment translation manifest (map-reduce complete)
+
+Location: archive/2026-06-06-wip/german-comment-translation/
+Method: 20 parallel Composer 2.5-fast agents per pass (no Google Translate)
+
+## Section index format
+
+SECTION_ID | file:start-end | L<line>: <original>
+→ applied via batch-NN-result.json "translated" field
+
+## Pass summary
+
+| Pass | Sections | Lines applied | Files touched |
+|------|----------|---------------|---------------|
+| 1    | 643      | 777           | 92            |
+| 2    | 236      | 267           | 66            |
+| 3    | 181      | 189           | 57            |
+| 4    | 332      | 367           | 56            |
+| 5    | 72       | 73            | 27            |
+| **Total** | **1464** | **1673** | **92** (cumulative) |
+
+## Artifacts
+
+- manifest.txt       — latest scan (section locations)
+- batch-00..19.json  — map input per pass
+- pass-1..5/         — archived batch-*-result.json per pass
+- summary.json       — latest extract stats
+
+## Remaining (~65 mixed fragments)
+
+Mostly identifier names left intentionally (ObjektmemoryWarnings, ruleCode-Ids)
+or single-line mixed comments in RuleBase.swi.pl, Datalog2Algebra.swi.pl,
+AnswerTransform.swi.pl, libcbtelos/src/te_callparser.c.
+
+Re-run extract-manifest.py after adding patterns for any new German found.

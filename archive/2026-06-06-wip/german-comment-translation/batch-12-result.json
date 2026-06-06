@@ -1,0 +1,41 @@
+[
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 865,
+    "end_line": 865,
+    "lines": [
+      {
+        "line": 865,
+        "original": "/* TRUE als Folgerungsliteral haben. Es ist also _InsDelOfConcl=Insert anzu-   */",
+        "translated": "/* have TRUE as inference literal. Therefore _InsDelOfConcl=Insert must be   */"
+      }
+    ],
+    "id": "S00013"
+  },
+  {
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 695,
+    "end_line": 695,
+    "lines": [
+      {
+        "line": 695,
+        "original": "                /*     vollstaendigen Darstellung:                             */",
+        "translated": "                /*     complete representation:                             */"
+      }
+    ],
+    "id": "S00033"
+  },
+  {
+    "file": "components/server-engine/src/PROLOGruleProcessor.swi.pl",
+    "start_line": 73,
+    "end_line": 73,
+    "lines": [
+      {
+        "line": 73,
+        "original": "* von geuntellten rules shall seperate stored are. Dazu is still ein Flag",
+        "translated": "* of untold rules shall be stored separately. For this a flag is still"
+      }
+    ],
+    "id": "S00053"
+  }
+]

@@ -1,0 +1,156 @@
+{*
+This file is governed by the Creative Commons license
+   attributeion-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+{* This file is obsolete. We recommend to use the CBserver plugin listmodule.swi.lpi insteaed *}
+
+
+{*
+* File SaveModule.sml
+* Author: Manfred Jeusfeld, jeusfeld@uvt.nl
+* Date: 19-Jul-2006 (11-Nov-2008)
+*----------------------------------------------------------------
+*
+* The query class SaveModule shall return the frame definitions
+* of all objectes defined in a module. Only essential objects
+* are returned, i.e. objects representing generated code and
+* obejcts representing strings, integers, reals, and transaction times
+* are filtered out. Furthermore, attributes are only shown if they have
+* themselves attributes that need to be returned.
+*
+* If you want all objects be returned, just modify the constraint of
+* SaveModule accordingly.
+* 
+* There are rare circumstances, under which SaveModule produces a
+* file that cannot be loaded in a ConceptBase server. For example,
+* if a class is told in transaction 1 without a constraint and then later
+* a constraint is added that refers to objects that were undefined at
+* transaction 1. In such cases you have to manually split the definition of the
+* class or move it to a loaction in the file where all required definitions
+* are preceding the class definition.
+*
+* Example call: ListCurrentModule
+*                 - lists the content of the current module
+*               SaveModule[MyModule/module]
+*                 - lists the content of module MyModule; you need to
+*                   have set the module context to MyModule or one of
+*                   its submodules.
+*
+* Requires ConceptBase 7.1 released after 23-Sep-2008
+*
+*}
+
+ModuleContent in GenericQueryClass,HiddenObject isA Proposition with
+  parameter
+    module: Module
+  constraint
+    cond: $ (~module contains ~this) or
+            (exists p/attributee
+                (~module contains p) and
+                From(p,~this) 
+            ) or 
+            (exists io/InstanceOf
+                (~module contains io) and
+                From(io,~this)
+            ) or
+            (exists ia/IsA
+                (~module contains ia) and
+                From(ia,~this)
+            )
+           $
+end
+
+
+{* NotToSave specifies the objects that shall be excluded from the module     *}
+{* listing.                                                                   *}
+{* They are implicitely generated or they are redundant to other objects      *}
+{* included in the module listing. For example, instances of MSFOLassertion   *}
+{* are generated when compiling rules/constaints of classes.                  *}
+{* The third line (incl. the string CB_User) serve to exclude definitions     *}
+{* of CB_Permitted. If we copy them, then we would potentially expose the     *}
+{* permission rights. Moreover, simply telling a saved module to another      *}
+{* location can render the target module un-writable since the access rights  *}
+{* of the source module would be applied to the whole target module.          *}
+{* Moreover, attributes are only listed as separate frames if they have       *}
+{* explicit attributes.                                                       *}
+
+NotToSave in QueryClass,HiddenObject isA Proposition with 
+  constraint
+    cnts: $ 
+            (~this in MSFOLassertion) or (~this in BDMRuleCheck) or
+            (~this in BDMConstraintCheck) or (~this in ECAassertion) or
+            (~this in GenericQueryClass) and (~this isA CB_User) or
+            (~this in GeneratedObject) or
+            ( not (~this in Individual) and
+                 (forall x/Proposition ((~this attribute x) ==> (x in NotToSave)) 
+                                       and not Isa_e(~this,x)
+                 )
+            )
+          $
+end
+
+
+{* SaveModule does all the work via the SaveModuleLayout format.  *}
+{* Constants (string, integer,..) are only listed if they have    *}
+{* attributes.                                                    *}
+
+SaveModule in GenericQueryClass,HiddenObject isA Proposition with 
+  parameter
+     module : Module
+  constraint
+     r : $ (~this in ModuleContent[~module/module]) and
+            not (~this in NotToSave) and
+            (((~this in String) or (~this in Integer) or
+              (~this in Real) or (~this in TransactionTime))
+                 ==> (exists y/Proposition (~this attribute y)))$
+end 
+
+
+{* The answer format SaveModuleLayout  takes care of the correct formatting. *}
+{* The pattern basically retrieves the object frame (get_object).            *}
+
+AnswerFormat SaveModuleLayout with
+  forQuery fq: SaveModule
+  order o: ascending
+  orderBy ob: "this.oid"
+  pattern pt:"{ASKquery(get_object[{this}/objname],FRAME)}"
+end
+
+
+{* The subsequent simplified version requires ConceptBase 7.1.3, released 18-Sep-2008 *}
+{* or later. It does not need the parameter module. Instead, it will call SaveModule  *}
+{* with the current module as parameter. The current module is fetched by the         *}
+{* expression currentmodule.                                                          *}
+{* ListCurrent provides an extensive header listing module name, user, transaction    *}
+{* rollback time (if different from Now), and the module path.                        *}
+{* The tail is marked by an 'end' comment line.                                       *}
+
+ListCurrentModule in QueryClass isA Boolean with
+   constraint
+     c1: $ (this=TRUE) $ 
+end
+
+AnswerFormat ListModuleLayout with
+  forQuery fq: ListCurrentModule
+  head hd: "\{* 
+* module: {currentmodule}.sml 
+* ======================================
+* Generated by:  {user} on ConceptBase {cb_version} ({cb_date_of_release})
+* Transaction time: {transactiontime} (GMT) 
+{IFTHENELSE({EQUAL({rollbacktime},Now)},*,* Rollback time: {rollbacktime} \(GMT\))}
+* Original module path: {currentpath}
+*\} 
+
+"
+  pattern pt:"{ASKquery(SaveModule[{currentmodule}/module],SaveModuleLayout)}"
+  tail t: "\{* end *\}"
+end
+
+

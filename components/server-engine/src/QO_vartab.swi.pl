@@ -1,0 +1,367 @@
+%
+% The ConceptBase.cc Copyright
+%
+% Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without modification, are permitted
+% provided that the following conditions are met:
+%
+%    1. Redistributions of source code must retain the above copyright notice, this list of
+%       conditions and the following disclaimer.
+%    2. Redistributions in binary form must reproduce the above copyright notice, this list of
+%       conditions and the following disclaimer in the documentation and/or other materials
+%       provided with the distribution.
+%
+% THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+% INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+% PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
+% LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+% (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+% OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+% CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+% OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+%
+% The views and conclusions contained in the software and documentation are those of the authors
+% and should not be interpreted as representing official policies, either expressed or implied,
+% of the ConceptBase Team.
+%
+%
+% The ConceptBase Team is represented by
+%
+% Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+% Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+% Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+%
+%
+% This license is a FreeBSD-style copyright license.
+% Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
+%
+
+:- module('QO_vartab',[
+'bindVarsInVartab'/3
+,'cleanVT'/0
+,'countInstancesRFVartab'/3
+,'getClassFromRFVT'/2
+,'getClassesFromRFVT'/2
+,'getSmallestClassFromVarInfo'/2
+,'getSmallestSuperClass'/4
+,'getVarInfo'/3
+,'getVarsBoundExtern'/1
+,'getVarsBoundFromVartab'/2
+,'initVT'/2
+,'removeRFVartab'/0
+,'setExternBound'/1
+,'storeRFVartab'/1
+,'updateVTFromLit'/3
+]).
+:- use_module('GlobalPredicates.swi.pl').
+:- use_module('debug.swi.pl').
+:- use_module('QO_literals.swi.pl').
+:- use_module('GeneralUtilities.swi.pl').
+:- use_module('QO_profile.swi.pl').
+:- use_module('QO_utils.swi.pl').
+:- use_module('PrologCompatibility.swi.pl').
+:- style_check(-singleton).
+getVarsBoundExtern(_vars) :-
+	pc_recorded('QOTemp_ExtBound',_vars),!.
+getVarsBoundExtern([]).
+
+setExternBound(_vars) :-
+	pc_rerecord('QOTemp_ExtBound',_vars).
+% ------------------------------------------
+%
+% When parsing the assertion text, a variable table
+% is already created in which
+% the class binding for each variable is recorded.
+% This information is cached temporarily.
+%
+%   -----------------------------------------
+% ------------------------------------------
+% storeRFVartab(_rangeList)
+%
+% _rangeList is a list of terms of the form
+% range(var,classList). For each variable,
+% an entry with the classes is cached temporarily
+% in the record database.
+%
+%
+%   -----------------------------------------
+
+storeRFVartab([]).
+storeRFVartab([range(_v,_classList)|_ranges]) :-
+	pc_atomconcat('~',_newV1,_v),!,
+	convert_label(_newV1,_newV2),
+	pc_atomconcat('_at_',_newV2,_newV),
+	pc_rerecord('QOTransTemp_rfvt',_newV,_classList),
+	storeRFVartab(_ranges).
+storeRFVartab([range(_v,_classList)|_ranges]) :-
+	convert_label(_v,_v1),
+	pc_atomconcat('_',_v1,_newV),
+	pc_rerecord('QOTransTemp_rfvt',_newV,_classList),
+	storeRFVartab(_ranges).
+
+removeRFVartab :-
+	clearRecords('QOTransTemp_vartab'),
+	clearRecords('QOTransTemp_rfvt'),!.
+
+getClassesFromRFVT(_var,_classes) :-
+	pc_recorded('QOTransTemp_rfvt',_var,_classes).
+
+getClassFromRFVT(_var,_class) :-
+	pc_recorded('QOTransTemp_rfvt',_var,[_class|_]).
+
+countInstancesRFVartab(_v,_vartab,_count) :-
+	pc_atomconcat('_at_',_newV1,_v),!,
+	pc_atomconcat('~',_newV1,_newV),
+	member(range(_newV,_classList),_vartab),!,
+	countInstancesList(_classList,_instList),
+	max(_instList,_count).
+countInstancesRFVartab(_v,_vartab,_count) :-
+	pc_atomconcat('_',_var,_v),
+	member(range(_var,_classList),_vartab),!,
+	countInstancesList(_classList,_instList),
+	max(_instList,_count).
+
+countInstancesList([],[]).
+countInstancesList([_class|_classList],[_inst|_instList]) :-
+	countInstances(_class,_inst),
+	countInstancesList(_classList,_instList).
+% ------------------------------------------
+%
+%
+%   -----------------------------------------
+%  if the variable table is already created, then
+%    the existing one is returned
+
+initVT(_lits,_vartab) :-
+	pc_recorded('QOTransTemp_vartab',vtBuffer,_vartab),!.
+%  if no variable table exists yet,
+%    one is created
+
+initVT(_lits,_vartab) :-
+	initializeVT(_lits,_vartab),
+	pc_rerecord('QOTransTemp_vartab',vtBuffer,_vartab),!.
+
+cleanVT :-
+	((pc_is_a_key('QOTransTemp_vartab',vtBuffer),
+	  pc_erase('QOTransTemp_vartab',vtBuffer));
+	 true
+	),!,
+	((pc_is_a_key('QOTemp_ExtBound'),
+	  pc_erase('QOTemp_ExtBound'));
+	 true
+	),!.
+%  initialize the variable table
+
+initializeVT(_lits,_vartab) :-
+	getVarsList(_lits,_vars),
+	initVT1(_vars,_vartab),!.
+%  For each variable an empty entry is generated
+
+initVT1([],[]).
+initVT1([_x|_vars],[_x-_entry|_othersVT]) :-
+	initVarInfo(_x,_entry),
+	initVT1(_vars,_othersVT).
+
+getVarsBoundFromVartab([],[]).
+getVarsBoundFromVartab([_v-_entry|_vartab],[_v|_varsBound]) :-
+	testAdInVarInfo(b,_entry),!,
+	getVarsBoundFromVartab(_vartab,_varsBound).
+getVarsBoundFromVartab([_|_vartab],_varsBound) :-
+	getVarsBoundFromVartab(_vartab,_varsBound).
+%  ------------------------------------------------------------------
+%
+%    updateVTFromLit:
+%    the class bindings obtained through the current literal are
+%    added to the variable table and the variables are bound.
+%
+%    ------------------------------------------------------------------
+
+updateVTFromLit(_vt,_lit,_newVt) :-
+	updateClassesInVTFromLit(_vt,_lit,_newVt1),
+	updateAdsInVTFromLit(_newVt1,_lit,_newVt).
+%  ------------------------------------------------------------------
+%
+%    updateClassesInVTFromLit:
+%    the class bindings obtained through the current literal are
+%    added to the variable table
+%
+%    ------------------------------------------------------------------
+
+updateClassesInVTFromLit(_oldVT,'Adot'(_p,_s,_d),_oldVT) :-
+    isVar(_p),
+    !.
+%  case 1: Adot: record source and destination class
+
+updateClassesInVTFromLit(_oldVT,'Adot'(_p,_s,_d),_newVT) :-
+	%  record source class
+
+	(
+	 (
+		isConst(_s),
+	   	_remVT2 = _oldVT
+	 );
+	 (
+	 	getSource(_p,_src),
+	 	selectVTEntry(_s,_oldVT,_sInfo,_remVT1),
+	 	updateClassInVarInfo(_sInfo,_src,_newSInfo),
+	 	_remVT2 = [_s - _newSInfo|_remVT1]
+	 )
+	),!,
+	%  record destination class
+
+	(
+	 (
+		isConst(_d),
+	   	_newVT = _remVT2
+	 );
+	 (
+	 	getDest(_p,_dest),
+	 	selectVTEntry(_d,_remVT2,_dInfo,_remVT3),
+	 	updateClassInVarInfo(_dInfo,_dest,_newDInfo),
+	 	_newVT = [_d - _newDInfo|_remVT3]
+	 )
+	),!.
+%  case 2: In: record class for variable
+
+updateClassesInVTFromLit(_oldVT,'In'(_x,_c),_newVT) :-
+	isConst(_c),
+	selectVTEntry(_x,_oldVT,_xInfo,_remVT),!,
+	updateClassInVarInfo(_xInfo,_c,_newXInfo),
+	_newVT = [_x-_newXInfo|_remVT],!.
+%  Catchall
+
+updateClassesInVTFromLit(_oldVT,_,_oldVT).
+%  ------------------------------------------------------------------
+%
+%    updatAdsInVTFromLit:
+%    The variables of the current literal are bound.
+%
+%    ------------------------------------------------------------------
+
+updateAdsInVTFromLit(_oldVartab,_lit,_newVartab) :-
+	getVars(_lit,_vars),
+	bindVarsInVartab(_vars,_oldVartab,_newVartab).
+
+removeVT :-
+	clearRecords('QOTransTemp_vartab').
+
+selectVTEntry(_var,_vt,_varInfo,_remVT) :-
+	select(_var-_varInfo,_vt,_remVT).
+
+getVarInfo(_var,_vt,_varInfo) :-
+	selectVTEntry(_var,_vt,_varInfo,_).
+
+updateAdsInVartab([],[],_vartab,_vartab).
+updateAdsInVartab([_v|_vars],[_ad|_ads],_vartabIn,_vartab) :-
+	updateAdInVartab(_v,_ad,_vartabIn,_newVT),
+	updateAdsInVartab(_vars,_ads,_newVT,_vartab).
+%  22-Sep-2005/M.Jeusfeld: function calls like COUNT[..] are translated to
+%  literals like id_x(_,...) where the first argument is an anymymous
+%  variable. This variable is only used as a placeholder for later
+%  evaluation of the function by evalFunctionArg in Literals.pro.
+%  We need to exclude this variable from updateAdInVartab because it will
+%  not occur in any other literals inside the same formula.
+%  By this change, expressions like (TokenNr[~state/state,pl/place] > 0)
+%  become possible where TokenNr is a user-defined instance of Function.
+%  See also example HOW-TO / Capture some semantics of Petri Nets
+%  in the CB-Forum.
+%  this is the case with the anonymous variable: leave vartab unchanged
+
+updateAdInVartab('_',_,_vt,_vt) :- !.
+%  this is the regular case
+
+updateAdInVartab(_v,_ad,_vartabIn,[_v-_newVEntry|_remVT]) :-
+	selectVTEntry(_v,_vartabIn,_vEntry,_remVT),
+	updateAdInVarInfo(_vEntry,_ad,_newVEntry).
+
+bindVarsInVartab([],_vt,_vt).
+bindVarsInVartab([_v|_vs],_oldvt,_vt) :-
+	updateAdInVartab(_v,b,_oldvt,_newvt),
+	bindVarsInVartab(_vs,_newvt,_vt).
+
+initVarInfo(_var,info(_ad,_smallestClass,_classes,_views,_distrib)) :-
+	_ad = f,_classes = [],_views = [],undefined(_distrib),undefined(_smallestClass).
+% ----------------------------------------------------------
+%    updateClassesInVarInfo(_vtEntry,_classList,_newVTEntry)
+%
+%    Classes from _classList are added to _vtEntry
+%
+%   -----------------------------------------------------------
+
+updateClassesInVarInfo(_info,[],_info).
+updateClassesInVarInfo(_infoIn,[_c|_classes],_infoOut) :-
+	updateClassInVarInfo(_infoIn,_c,_infoNew),
+	updateClassesInVarInfo(_infoNew,_classes,_infoOut).
+% ----------------------------------------------------------
+%    updateClassInVarInfo(_vtEntry,_classList,_newVTEntry)
+%
+%    Class _class is added to _vtEntry
+%
+%   -----------------------------------------------------------
+%  case a: no class recorded yet -> smallest class undefined
+
+updateClassInVarInfo(info(_ad,_smallestClass,_classes,_views,_distrib),
+		     _class,
+                     info(_ad,_class,[_class|_classes],_views,_distrib)) :-
+	undefined(_smallestClass),!.
+%  case b: add class, test whether smallest class changes
+%  case b1: new class is a subclass of the previous smallest class
+
+updateClassInVarInfo(info(_ad,_smallestClass,_classes,_views,_distrib),
+		     _class,
+                     info(_ad,_newSmallestClass,[_class|_classes],_views,_distrib)) :-
+	listContainsRealSuperClass(_class,[_smallestClass]),!,
+	_newSmallestClass = _class.
+%  case b2: new class is smaller than the previous smallest class
+
+updateClassInVarInfo(info(_ad,_smallestClass,_classes,_views,_distrib),
+		     _class,
+                     info(_ad,_newSmallestClass,[_class|_classes],_views,_distrib)) :-
+	%  add later ...
+	% 	countAllInstances(_smallestClass,_cSmall),
+	% 	countAllInstances(_class,_cClass),
+
+	countInstances(_smallestClass,_cSmall),
+	countInstances(_class,_cClass),
+	((_cClass < _cSmall,_newSmallestClass = _class);
+	 (_cClass >= _cSmall,_newSmallestClass = _smallestClass)),!.
+
+getSmallestClassFromVarInfo(info(_,_smallestClass,_,_,_),_) :-
+	undefined(_smallestClass),
+	!,
+	fail.
+getSmallestClassFromVarInfo(info(_,_smallestClass,_,_,_),_smallestClass).
+
+getClassesFromVarInfo(info(_,_,_classes,_,_),_classes).
+% ----------------------------------------------------------
+%    updateAdInVarInfo(_vtEntry,_ad,_newVTEntry)
+%
+%    Binding pattern _ad is added to _vtEntry
+%
+%   -----------------------------------------------------------
+
+updateAdInVarInfo(info(_,_smallestClass,_classes,_views,_distrib),
+                  _ad,
+	          info(_ad,_smallestClass,_classes,_views,_distrib)).
+
+testAdInVarInfo(_ad,info(_ad,_smallestClass,_classes,_views,_distrib)).
+% ----------------------------------------------------------
+%    getSmallestSuperClass(_x,_c,_vartab,_ssc)
+%
+%    If among the classes for _x there are superclasses of
+%    _c, the smallest of these classes is returned
+%
+%   -----------------------------------------------------------
+
+getSmallestSuperClass(_x,_c,_vartab,_ssc) :-
+	selectVTEntry(_x,_vartab,_varInfo,_),
+	getSmallestSuperClassFromVarInfo(_x,_c,_varInfo,_ssc).
+
+getSmallestSuperClassFromVarInfo(_x,_c,_varInfo,_ssc) :-
+	getSmallestClassFromVarInfo(_varInfo,_ssc),
+	listContainsSubClass(_ssc,[_c]),!.
+getSmallestSuperClassFromVarInfo(_x,_c,_varInfo,_ssc) :-
+	getClassesFromVarInfo(_varInfo,_classes),
+	filterSuperClassesWithSize(_c,_classes,_superClasses),
+	_superClasses = [_-_ssc|_],!.

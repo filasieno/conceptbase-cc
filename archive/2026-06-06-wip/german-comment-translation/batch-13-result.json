@@ -1,0 +1,41 @@
+[
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1331,
+    "end_line": 1331,
+    "lines": [
+      {
+        "line": 1331,
+        "original": "\t\t/* zu ihrer internen, vollstaendigen Darstellung:              */",
+        "translated": "\t\t/* to their internal, complete representation:              */"
+      }
+    ],
+    "id": "S00014"
+  },
+  {
+    "file": "components/server-engine/src/BDMForget.swi.pl",
+    "start_line": 725,
+    "end_line": 725,
+    "lines": [
+      {
+        "line": 725,
+        "original": "                /*     internen vollstaendigen Regel:                          */",
+        "translated": "                /*     internal complete rule:                          */"
+      }
+    ],
+    "id": "S00034"
+  },
+  {
+    "file": "components/server-engine/src/QO_costBase.swi.pl",
+    "start_line": 134,
+    "end_line": 134,
+    "lines": [
+      {
+        "line": 134,
+        "original": "/* Here the ... intensional costs w.r.t. the head literal of a rule in the corresponding Ruleinfo are stored. Note that this */",
+        "translated": "/* Here the ... intensional costs w.r.t. the head literal of a rule in the corresponding Ruleinfo are stored. Note that this */"
+      }
+    ],
+    "id": "S00054"
+  }
+]

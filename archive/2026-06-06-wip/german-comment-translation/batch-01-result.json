@@ -1,0 +1,54 @@
+[
+  {
+    "file": "components/libcbcos/src/TOIDSETSTL.h",
+    "start_line": 113,
+    "end_line": 113,
+    "lines": [
+      {
+        "line": 113,
+        "original": "      \tder src- and dst-Komponenten stored are in echte TOID's umgewandelt.\\\\",
+        "translated": "      \tThe src and dst components stored are converted into real TOIDs.\\\\"
+      }
+    ],
+    "id": "S00002"
+  },
+  {
+    "file": "components/server-engine/src/BDMEvaluation.swi.pl",
+    "start_line": 249,
+    "end_line": 249,
+    "lines": [
+      {
+        "line": 249,
+        "original": "\t\t/* Auswerten der betroffenen Integritaetsbedingungen:          */",
+        "translated": "\t\t/* Evaluate the affected integrity constraints:          */"
+      }
+    ],
+    "id": "S00022"
+  },
+  {
+    "file": "components/server-engine/src/Datalog2Algebra.swi.pl",
+    "start_line": 146,
+    "end_line": 146,
+    "lines": [
+      {
+        "line": 146,
+        "original": "/*    head : Kopfliteral                                             */",
+        "translated": "/*    head : head literal                                            */"
+      }
+    ],
+    "id": "S00042"
+  },
+  {
+    "file": "components/server-engine/src/RuleBase.swi.pl",
+    "start_line": 128,
+    "end_line": 128,
+    "lines": [
+      {
+        "line": 128,
+        "original": "/*          * rule:  Code einer deduktiven Regel           */",
+        "translated": "/*          * rule:  code of a deductive rule              */"
+      }
+    ],
+    "id": "S00062"
+  }
+]

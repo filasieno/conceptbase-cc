@@ -1,0 +1,261 @@
+%
+% The ConceptBase.cc Copyright
+%
+% Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without modification, are permitted
+% provided that the following conditions are met:
+%
+%    1. Redistributions of source code must retain the above copyright notice, this list of
+%       conditions and the following disclaimer.
+%    2. Redistributions in binary form must reproduce the above copyright notice, this list of
+%       conditions and the following disclaimer in the documentation and/or other materials
+%       provided with the distribution.
+%
+% THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+% INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+% PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
+% LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+% (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+% OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+% CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+% OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+%
+% The views and conclusions contained in the software and documentation are those of the authors
+% and should not be interpreted as representing official policies, either expressed or implied,
+% of the ConceptBase Team.
+%
+%
+% The ConceptBase Team is represented by
+%
+% Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+% Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+% Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+%
+%
+% This license is a FreeBSD-style copyright license.
+% Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
+%
+%
+% File:         ObjectTransformer.pro
+% Version:      11.3
+%
+%
+% Date released : 97/01/08  (YY/MM/DD)
+%
+% SCCS-Source-Pool : /home/CBase/CB_NewStruct/ProductPOOL/serverSources/Prolog_Files/SCCS/s.ObjectTransformer.pro
+% Date retrieved : 97/05/16 (YY/MM/DD)
+% -----------------------------------------------------------------------------
+%
+% This module replaces the ancient module topdownOT, that has been divided
+% into two parts: FragmentToPropositions and PropositionsToFragment.
+% Here are now added the replacements of select(...) in SMLfragments.
+%
+% 9-Nov-1992 kvt later translation of assertions cf. CBNEWS.doc[147]
+%            uses store_assertions$FragmentToPropositions.
+%
+%
+% Exported predicates:
+% --------------------
+%
+%   + compose_storedObject/2
+%       Generates a SMLfragment (arg2) from an object identifier (arg1).
+%   + store_Objects/4
+%       Stores a list of SMLfragments (arg1),  arg2 are the deferred  actions and arg3 is the deferred  rules arg4 is  the number of errors that occured. arg2,arg3,arg4 are return values
+%   + store_Object/4
+%          Stores a SMLfragments (arg1),  arg2 are the deferred  actions and arg3 is the deferred  rules arg4 is  the number of errors that occured . arg2,arg3,arg4 are return values
+%   + untell_Objects/4
+%         Stores a list of SMLfragments (arg1) as a history Objects, arg2 are the deferred  actions and arg3 is the deferred  rules arg4 is  the number of errors that occured . arg2,arg3,arg4 are return values
+%   + untell_Object/4
+%       Stores a single SMLfragment (arg1) as a history Object, arg2 are the deferred  actions and arg3 is the deferred  rules arg4 is  the number of errors that occured . arg2,arg3,arg4 are return values
+%
+%
+%
+%
+% Meta-formula change (10.1.96):
+% store_Objects, untell_Objects
+% After adding the objects and rules the ... are
+% procedure triggers for meta formulas are tested.
+%
+%
+%
+
+:- module('ObjectTransformer',[
+'compose_storedObject'/2
+,'store_Object'/4
+,'store_Object_nofire'/2
+,'store_Object_internal'/4
+,'store_Object_internal_nofire'/2
+,'store_Objects'/4
+,'untell_Objects'/4
+]).
+:- use_module('GlobalPredicates.swi.pl').
+:- use_module('debug.swi.pl').
+:- use_module('PropositionsToFragment.swi.pl').
+:- use_module('FragmentToPropositions.swi.pl').
+:- use_module('MetaBDMEvaluation.swi.pl').
+:- use_module('GeneralUtilities.swi.pl').
+:- use_module('ECAruleManager.swi.pl').
+:- use_module('FragmentToHistoryPropositions.swi.pl').
+:- use_module('SelectExpressions.swi.pl').
+:- use_module('RuleBase.swi.pl').
+:- use_module('SearchSpace.swi.pl').
+:- use_module('GlobalParameters.swi.pl').
+:- style_check(-singleton).
+%  ********** c o m p o s e _ s t o r e d O b j e c t ***********
+%
+%  compose_storedObject(_objexpr, _SMLfragment)
+%    _objexpr: ground
+%    _SMLfragment: any: ground
+%
+%  Compose_storedObject first computes the _id for _objexpr.
+%  Then it gets the corrensponding _SMLfragment1 for _id and
+%  inserts select expressions for system generated ID's in _SML-
+%  fragment1.
+%
+%  **************************************************************
+
+compose_storedObject(_objexpr,_SMLfragment) :-
+   ground(_objexpr),
+   eval(_objexpr, replaceSelectExpression, _id),  % 1-Aug-1988/MJf
+   do_compose_storedObject(_id,_SMLfragment1),
+   changeIdentifierExp(_SMLfragment1,insertSelectExpression,_SMLfragment2),
+   hideOmegaClasses(_SMLfragment2,_SMLfragment),
+   !.
+%  ***************** s t o r e _ O b j e c t s ******************
+%
+%  store_Objects(_flist, _errno)
+%    _flist: ground,list
+%    _errno: any: integer
+%
+%  Store_Objects executes store_Object for each entry in _flist.
+%  The argument _errno accumulates the number of errors detected
+%  during this loop.
+%
+%  store_Objects/3 is needed to return the right errornumber
+%  **************************************************************
+
+store_Objects(_objlist,_defactions,_defrules,_errno) :-
+   store_Objects(_objlist,_defactions,_defrules,_errno1,_errno2),
+   'error_number@ECA'(_errno3),  % ECA execution can have resulted in errors, e.g. rejects
+   _errno is _errno1 + _errno2 + _errno3.
+%
+% Meta formula change:
+% After adding the objects and rules the ... are
+% procedure triggers for meta formulas are tested.
+%
+%  otherwise: just one iteration
+
+store_Objects([],_,_, 0, _errno2) :- 
+	!,
+	generateMetaformulaCode(_errno2).
+store_Objects([_S|_tail], _defactions, _defrules, _errno,0) :-
+   store_Object(_S, _defa, _defr, _errno1),
+   store_Objects(_tail, _defa2, _defr2, _errno2),
+   _errno is _errno1 + _errno2,
+   append(_defa,_defa2,_defactions),
+   append(_defr,_defr2,_defrules),
+   !.
+
+generateMetaformulaCode(_errno2) :-
+  	do_store_assertions(_errno2),
+	genPrologCodeFromInfos,
+	((_errno2 == 0,
+	  'TestMetaFormulaTrigger'('Insert'),
+	  genPrologCodeFromInfos
+	 );
+	 (_errno2 \== 0
+	)).
+%  ****************** s t o r e _ O b j e c t *******************
+%
+%  store_Object(_SMLfragment, _errno)
+%    _SMLfragment: ground
+%    _errno: any: integer
+%
+%  Store_Object takes _SMLfragment, replaces all select express-
+%  ions by (flat) identifiers, and then stores the result. The
+%  argument _errno contains the number of errors detected during
+%  storing _SMLfragment.
+%
+%  **************************************************************
+
+store_Object(_SMLfragment,_deferredactions,_deferredrules, _errno) :-
+	changeIdentifierExp(_SMLfragment,replaceSelectExpression_try,_SMLfragment1),
+	do_store_Object(_SMLfragment1, _errno),
+	!,
+	%  Fire immediate ECA rules
+
+	process_ecarules('Tell',[_SMLfragment1],_deferredactions,_deferredrules),
+ 	!.
+store_Object(_SMLfragment,_,_,1) :- !.
+%  variant of store_Object that does not fire ECA rules
+
+store_Object_nofire(_SMLfragment, _errno) :-
+	changeIdentifierExp(_SMLfragment,replaceSelectExpression_try,_SMLfragment1),
+	do_store_Object(_SMLfragment1, _errno),
+	!.
+store_Object_nofire(_SMLfragment,1) :- !.
+%  this variant assumes that all object names are replaced by OIDs
+
+store_Object_internal(_SMLfragment,_deferredactions,_deferredrules, _errno) :-
+        do_store_Object(_SMLfragment, _errno),
+        !,
+        %  Fire immediate ECA rules
+
+        process_ecarules('Tell',[_SMLfragment],_deferredactions,_deferredrules),
+        !.
+store_Object_internal(_SMLfragment,_,_,1) :- !. 
+%  variant of store_Object_internal that does not fire ECA rules
+
+store_Object_internal_nofire(_SMLfragment, _errno) :-
+        do_store_Object(_SMLfragment, _errno),
+        !.
+store_Object_internal_nofire(_SMLfragment,1) :- !. 
+%  **************** u n t e l l  _ O b j e c t s ****************
+%                                                19-Dec-1989/TW
+%  untell_Objects(_flist, _errno)
+%    _flist: ground,list
+%    _errno: any: integer
+%
+%  untell_Objects executes store_Object for each entry in _flist.
+%  The argument _errno accumulates the number of errors detected
+%  during this loop.
+%
+%  **************************************************************
+%
+% Metaformula change:
+% After Delete of the objects and rules the ... are
+% procedure triggers for meta formulas are tested.
+%
+
+untell_Objects([], [], [], 0) :-  !,
+	'TestMetaFormulaTrigger'('Delete').
+untell_Objects([_S|_tail], _defa, _defr,  _errno) :-
+   untell_Object(_S, _defa1, _defr1, _errno1),
+   untell_Objects(_tail, _defa2, _defr2, _errno2),
+   _errno is _errno1 + _errno2,
+   append(_defa1,_defa2,_defa),
+   append(_defr1,_defr2,_defr),  % ticket #171
+   !.
+%  ****************** u n t e l l _ O b j e c t *****************
+%                                                19-Dec-1989/TW
+%  untell_Object(_SMLfragment, _errno)
+%    _SMLfragment: ground
+%    _errno: any: integer
+%
+%  untell_Object takes _SMLfragment, replaces all select express-
+%  ions by (flat) identifiers, and then stores the result. The
+%  argument _errno contains the number of errors detected during
+%  storing _SMLfragment.
+%
+%  **************************************************************
+
+untell_Object(_SMLfragment, _deferredactions, _deferredrules, _errno) :-
+	changeIdentifierExp(_SMLfragment,replaceSelectExpression,_SMLfragment1),
+	do_untell_Object(_SMLfragment1, _errno),
+	!,
+	%  Fire immediate ECA rules
+
+	process_ecarules('Untell',[_SMLfragment1],_deferredactions, _deferredrules),
+	!.
+untell_Object(_SMLfragment,[],[],1) :- !.

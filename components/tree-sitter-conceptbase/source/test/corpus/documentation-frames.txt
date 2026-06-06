@@ -1,0 +1,7428 @@
+==================
+doc-frame: tutorial/chapters/cbTutorial.typ:block:1.1
+==================
+
+Administration in Department with
+    head
+      head_of_Administration : Eleonore
+  end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial.typ:block:1.2
+==================
+
+Marketing in Department with
+    head
+      head_of_Marketing : Phil
+  end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial.typ:block:1.3
+==================
+
+Research in Department with
+    head
+      head_of_Research : Albert
+  end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial.typ:block:1.4
+==================
+
+Lloyd in Manager with
+    salary
+        LloydsSalary : 100000
+  end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer))))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial.typ:block:1.5
+==================
+
+Phil in Manager with
+    salary
+        PhilsSalary : 120000
+  end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer))))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial.typ:block:1.6
+==================
+
+Eleonore in Manager with
+    salary
+      EleonoresSalary : 20000
+  end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer))))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial.typ:block:1.7
+==================
+
+Albert in Manager with
+    salary
+      AlbertsSalary : 110000
+  end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer))))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial.typ:block:1.8
+==================
+
+Maria in Employee with
+    dept
+      MariasDepartment : Administration
+    salary
+      MariasSalary : 10000
+  end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer))))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial.typ:block:1.9
+==================
+
+Herbert in Employee with
+    dept
+      HerbertsDepartment : Marketing
+    salary
+      HerbertsSalary : 60000
+  end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer))))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial.typ:block:1.10
+==================
+
+Edward in Employee with
+    dept
+      EdwardsDepartment : Research
+    salary
+      EdwardsSalary : 50000
+  end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer))))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial.typ:inline:2
+==================
+
+Manager in Class isA Employee
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial.typ:inline:3
+==================
+
+Employee in Class with
+attribute
+        name: String;
+        salary: Integer;
+        dept: Department;
+        boss: Manager
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial.typ:inline:4
+==================
+
+Department in Class with
+         attribute
+               head: Manager
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial.typ:inline:5
+==================
+
+Production in Department with
+  head
+    head_of_Production : Lloyd
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial.typ:inline:6
+==================
+
+objects in the database or instances of the system builtin classes
+_Integer_, _Real_ or _String_. Objects which
+instantiate these classes are generated automatically when referenced in
+a Telos-frame. At this point it is important to recognize, that
+attributes specified at the class level do not need to be instantiated
+at the instance level. On the other hand an instance of a class
+containing an attribute may contain several instances of this attribute.
+
+Example: \
+
+George in Employee with
+        name
+                GeorgesName: "George D. Smith"
+        salary
+                GeogesBaseSalary : 30000;
+                GeorgesBonusSalary : 3000
+end
+
+---
+
+(source_file)
+
+==================
+doc-frame: tutorial/chapters/cbTutorial2.typ:block:1.1
+==================
+
+Policy in EntityType with
+  attr
+   startdate: Date;
+   enddate: Date;
+   premium: Integer
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial2.typ:block:1.2
+==================
+
+holds in RelationshipType with
+  role
+    customer: Customer;
+    policy: Policy
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial2.typ:block:1.3
+==================
+
+Claim in EntityType with
+  attr
+    description: String
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial2.typ:block:1.4
+==================
+
+claim_policy in RelationshipType with
+  role
+    claim: Claim;
+    policy: Policy
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial2.typ:block:1.5
+==================
+
+holds1 in holds with
+  customer c: mary
+  policy p: policy1
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial2.typ:block:1.6
+==================
+
+PredicateTask in QueryClass isA Task with
+  constraint
+    c1: $ exists s1,s2/Task A_e(this,successor,s1) and
+          A_e(this,successor,s2) and (s1 \= s2) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_exists)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier)
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (formula
+                        (literal
+                          (label
+                            (identifier))
+                          (literal_arg_list
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier)))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (label
+                            (identifier))
+                          (literal_arg_list
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))))))
+                    (kw_and)
+                    (formula
+                      (literal
+                        (ar_expr
+                          (ar_term
+                            (ar_factor
+                              (object_name
+                                (label
+                                  (identifier))))))
+                        (comp_symbol)
+                        (ar_expr
+                          (ar_term
+                            (ar_factor
+                              (object_name
+                                (label
+                                  (identifier))))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial2.typ:block:1.7
+==================
+
+LoopTask in QueryClass isA LoopTaskOf 
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial2.typ:block:1.8
+==================
+
+receiveClaim in Task with
+   successor
+     n: checkPolicy
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial2.typ:block:1.9
+==================
+
+checkPolicy in Task with
+    successor
+      n1: assignAssessor;
+      n2: proposePayment
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial2.typ:block:1.10
+==================
+
+assignAssessor in Task with
+     successor
+       n: assessDamage
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial2.typ:block:1.11
+==================
+
+assessDamage in Task with
+   successor
+     n: proposePayment
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial2.typ:block:1.12
+==================
+
+proposePayment in Task with
+    successor
+      accept: processPayment;
+      reject: checkPolicy
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial2.typ:block:1.13
+==================
+
+processPayment in Task with
+   successor
+     n: finish
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial2.typ:block:1.14
+==================
+
+finish in Task end
+
+Assessor in Agent with
+  executes
+    t1: assessDamage
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial2.typ:block:1.15
+==================
+
+InsuranceAgent in Agent with
+   executes
+     t1: receiveClaim;
+     t2: proposePayment
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: tutorial/chapters/cbTutorial2.typ:block:1.16
+==================
+
+Attributes in ConceptBase are by default multi-valued, ie.~they can have
+zero, one or many values. This is exaclty what we want in this case.
+
+We finalize this tutorial by attaching some objects types as
+input/output of tasks.
+
+#quote(block: true)[
+*Exercise 15:* Define some of the object types of exercise 5 as
+input/output of the process model of exercise 11.
+]
+
+receiveClaim with
+  output o1: Claim
+end
+
+---
+
+(source_file)
+
+==================
+doc-frame: user-manual/chapters/AnswerFormat.typ:block:1
+==================
+
+Individual AnswerFormat in Class with
+  attribute
+     forQuery : QueryClass;
+     order : Order;
+     orderBy : String;
+     head : String;
+     pattern : String;
+     tail : String;
+     fileType: String
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/CBiva.typ:block:2
+==================
+
+Shop in Class end
+Guest in Class with
+      attribute
+            dept: Shop
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/CBiva.typ:block:11
+==================
+
+AngusEmployees in QueryClass isA Employee with
+constraint
+    c: $ (this boss Angus) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (literal
+                    (literal_arg
+                      (object_name
+                        (label
+                          (identifier))))
+                    (infix_symbol
+                      (label
+                        (identifier)))
+                    (literal_arg
+                      (object_name
+                        (label
+                          (identifier))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/CBserver.typ:block:55
+==================
+
+File in Class with
+     attribute
+       size: Integer
+   end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/ECArules.typ:block:9
+==================
+
+EmpWithoutLastModified in QueryClass isA Employee with
+  constraint
+     noLM: $ not exists t/String (this lastModified t) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_not)
+                  (formula
+                    (kw_exists)
+                    (variable_bind_list
+                      (variable_bind
+                        (var_list
+                          (identifier))
+                        (object_name
+                          (label
+                            (identifier)))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:1.1
+==================
+
+GraphicalType in Class
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:1.2
+==================
+
+JavaGraphicalType isA GraphicalType 
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:3
+==================
+
+JavaGraphicalPalette in Class isA GraphicalPalette 
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:6
+==================
+
+BMG_Palette in JavaGraphicalPalette isA TelosPalette with
+  palproperty
+    bgimage: "http://conceptbase.sourceforge.net/CBICONS/bgimages/bmgcolor.png"; 
+    longtitle: "Business Model"
+  contains
+    bmg1: Customer_GT;
+    bmg2: Revenue_GT;
+    bmg3: CustomerRelationship_GT;
+    bmg4: Channel_GT;
+    ...
+end
+
+---
+
+(source_file)
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:7
+==================
+
+TrafficLight_GT in Class,JavaGraphicalType with
+property
+    textcolor : "255,255,255";
+    linecolor : "0,0,0";
+    linewidth: "3";
+    bgcolor : "60,60,60";
+    shape : "i5.cb.graph.shapes.RoundRectangle";
+    size: "resizable";
+    align : "bottom";
+    nodelevel: "-1"
+implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 22
+rule
+    gtrule: $ forall x/TrafficLight (x graphtype TrafficLight_GT) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier)))
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer)))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (label
+                          (identifier)))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier)))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:13
+==================
+
+MyTriangle_GT in JavaGraphicalType with  
+  property
+    ...
+    shape : "PolygonShape; 0,3,0,0; 0,0,4,0"
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBIndividual"
+  priority
+    pr : 22
+end
+
+---
+
+(source_file)
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:20
+==================
+
+TelosPalette in Class,JavaGraphicalPalette isA XBridgePalette with 
+  contains,defaultIndividual
+    tp1 : INDIVIDUAL_TP_GT
+  contains,defaultLink
+    tp2 : ATTR_TP_GT
+  contains,implicitIsA
+    tp3 : ISADEDUCED_TP_GT
+  contains,implicitInstanceOf
+    tp4 : INSTOFDEDUCED_TP_GT
+  contains,implicitAttribute
+    tp5 : ATTRDEDUCED_TP_GT
+  contains
+    tp6 : CLASS_TP_GT;
+    tp7 : QUERYCLASS_TP_GT;
+    tp8 : INSTOF_TP_GT;
+    tp9 : ISA_TP_GT;
+    tp10 : STRING_TP_GT;
+    tp11 : VALUE_TP_GT;
+    tp12 : ASSERTION_TP_GT
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier)))
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier))
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier))
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier))
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier))
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier))
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:21.1
+==================
+
+Employee in Class end
+
+EMPLOYEE_TP_GT in Class,JavaGraphicalType with 
+   property
+    bgcolor : "255,255,0";
+    textcolor : "0,0,0";
+    linecolor : "0,0,0";
+    shape : "Rect";
+    size : "resizable";
+    linewidth : "1"
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBIndividual"
+  priority
+    pr : 10
+  rule
+    gtrule1 : $ forall x/Employee (x graphtype EMPLOYEE_TP_GT) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier)))
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer)))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (label
+                          (identifier)))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier)))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:21.2
+==================
+
+EmployeePalette in Class,JavaGraphicalPalette isA TelosPalette with 
+   contains
+    ep1 : EMPLOYEE_TP_GT
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier)))
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:23
+==================
+
+bill in Employee with
+      ...
+      gproperty
+        bgcolor: "240,240,0";
+        linecolor: "0,0,220"
+    end
+
+---
+
+(source_file)
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:24
+==================
+
+Employee in Class with
+       attribute
+         salary: Integer
+       rule
+         re1: $ forall e/Employee s/Integer (e salary s) and (s > 1000) 
+                 ==> (e gproperty/bgcolor "255,255,200") $
+    end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (ar_expr
+                            (ar_term
+                              (ar_factor
+                                (object_name
+                                  (label
+                                    (identifier))))))
+                          (comp_symbol)
+                          (ar_expr
+                            (ar_term
+                              (ar_factor
+                                (object_name
+                                  (label
+                                    (number
+                                      (integer))))))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (label
+                          (identifier))
+                        (label
+                          (identifier))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (string_label))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:25
+==================
+
+Individual in Class with
+       rule
+         rx1: $ forall x/Individual (x gproperty/bgcolor "255,255,255") $
+    end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (label
+                        (identifier))
+                      (label
+                        (identifier))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (string_label)))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:26.1
+==================
+
+Employee in Class with  
+      attribute
+        name : String
+      rule
+        r1 : $ forall e/Employee n/String (e name n) ==> (e gproperty/label n)$;
+        r2 : $ forall e/Employee  (e gproperty/labellength 50)$
+    end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (label
+                          (identifier))
+                        (label
+                          (identifier))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier)))))))))))
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (label
+                        (identifier))
+                      (label
+                        (identifier))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (number
+                              (integer))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:26.2
+==================
+
+bill in Employee with  
+      name
+        n : "William the Conquerer from Abessinia della Cruz"
+    end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:27
+==================
+
+ObjectProperty in QueryClass isA Proposition with  
+      retrieved_attribute
+        gproperty : Proposition
+    end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:28
+==================
+
+ObjectWithMultipleProperties in QueryClass isA Proposition with  
+      retrieved_attribute
+        gproperty : Proposition
+      constraint
+        clash : $ exists L/Label p1,p2/Proposition (this gproperty/L p1) and
+              (this gproperty/L p2) and (p1 <> p2) $
+    end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_exists)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier)
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (label
+                            (identifier))
+                          (label
+                            (identifier))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (label
+                            (identifier))
+                          (label
+                            (identifier))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (kw_and)
+                    (formula
+                      (literal
+                        (ar_expr
+                          (ar_term
+                            (ar_factor
+                              (object_name
+                                (label
+                                  (identifier))))))
+                        (comp_symbol)
+                        (ar_expr
+                          (ar_term
+                            (ar_factor
+                              (object_name
+                                (label
+                                  (identifier))))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:30
+==================
+
+Person in Class with  
+      attribute
+        knows : Person
+      rule
+       trrule : $ forall x,y,z/Person
+                  (x knows y) and (y knows z)
+                 ==> (x knows z) $
+    end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier)
+                        (identifier)
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:31
+==================
+
+ImplicitGT_knows in JavaGraphicalType with  
+      property
+        textcolor : "20,20,220";
+        edgecolor : "250,20,20";
+        bgcolor : "255,255,255,100";
+        edgestyle : "dashdotted";
+        edgewidth : "3"
+      implementedBy
+        implBy : "i5.cb.graph.cbeditor.CBLink"
+      priority
+         p : 10
+    end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:32
+==================
+
+PersonPalette in JavaGraphicalPalette isA TelosPalette with  
+      ...
+      contains
+        xx14 : ImplicitGT_knows
+    end
+
+---
+
+(source_file)
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:34.1
+==================
+
+find_used_attribute_categories 
+      in GenericQueryClass isA Proposition!attribute with 
+      parameter,required
+       objname : Proposition
+     constraint
+       r : $  exists x/Proposition AD(this,~objname,x)  $
+   end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (object_name
+          (label
+            (identifier)))
+        (selector1)
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier))
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_exists)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (literal
+                      (label
+                        (identifier))
+                      (literal_arg_list
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (literal_arg
+                          (implicit_var
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:34.2
+==================
+
+find_used_incoming_attribute_categories
+      in GenericQueryClass isA Proposition!attribute with 
+      parameter,required
+       objname : Proposition
+     constraint
+       r : $  exists x/Proposition AD(this,x,~objname)  $ 
+   end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (object_name
+          (label
+            (identifier)))
+        (selector1)
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier))
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_exists)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (literal
+                      (label
+                        (identifier))
+                      (literal_arg_list
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (literal_arg
+                          (implicit_var
+                            (identifier)))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:35
+==================
+
+MyPalette in Class,JavaGraphicalPalette isA TelosPalette with 
+      contains
+       gt1: THING_GT;
+       ...
+     palproperty
+       outcatquery : "alt_used_attribute_categories";
+       incatquery  : "alt_used_incoming_attribute_categories"
+   end
+
+---
+
+(source_file)
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:37
+==================
+
+alt_used_attribute_categories
+     in GenericQueryClass isA Proposition!attribute with 
+     parameter,required
+        objname : Proposition
+     constraint
+        r : $ exists gt/JavaGraphicalType 
+               (~objname graphtype gt) and (gt forOutgoing ~this)  $
+   end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (object_name
+          (label
+            (identifier)))
+        (selector1)
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier))
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_exists)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (literal
+                        (literal_arg
+                          (implicit_var
+                            (identifier)))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))
+                    (kw_and)
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (implicit_var
+                            (identifier)))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/GraphicalTypes.typ:block:38
+==================
+
+THING_GT in Class,JavaGraphicalType with 
+     property
+      ...
+     rule
+       gtrule : $ forall x/Thing (x graphtype THING_GT) $
+     forOutgoing
+       out1 : Thing!aproperty
+   end
+
+---
+
+(source_file)
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:1.1
+==================
+
+Employee in Class with
+   attribute
+      name: String;
+      salary: Integer;
+      dept: Department;
+      boss: Manager
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:1.2
+==================
+
+Manager in Class isA Employee end
+
+Department in Class with
+   attribute
+      head: Manager
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:3
+==================
+
+mary in Manager with
+  name
+    hername: "Mary Smith"
+  salary
+    earns: 15000
+  dept
+    advises:PR;
+    currentdept:RD
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer)))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:5
+==================
+
+mary!earns in Employee!salary
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (object_name
+        (label
+          (identifier)))
+      (selector1)
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (object_name
+          (label
+            (identifier)))
+        (selector1)
+        (label
+          (identifier))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:11.1
+==================
+
+Employee in Class with
+  attribute
+    salary: Integer
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:11.2
+==================
+
+bill in Employee with
+  salary
+    _: 1000
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:12
+==================
+
+mary in Manager with
+  name,aliasname
+    hername: "Mary Smith"
+  salary
+    earns: 15000
+  dept
+    advises:PR;
+    currentdept:RD
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier))
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer)))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:15
+==================
+
+Employee in Class with
+   attribute,single
+      name: String
+   attribute
+      aliasname: String
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier))
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:18
+==================
+
+Employee in Class with
+   single
+      name: String
+   attribute
+      aliasname: String
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:19
+==================
+
+Manager isA Employee with
+     attribute
+        bonus: Integer
+  end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:20
+==================
+
+mary in Manager with
+     bonus
+       bon1: 10000
+  end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:22
+==================
+
+Employee in Class with
+     attribute
+       salary: Integer;
+       premium: Integer;
+       country: String
+     rule
+       premrule: $ forall e/Employee prem/Employee!premium 
+                      (e country "NL") and Ai(e,premium,prem)
+                    ==> (prem in Employee!salary) $
+  end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (object_name
+                          (label
+                            (identifier)))
+                        (selector1)
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (string_label))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (functor)
+                          (literal_arg_list
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_in))
+                        (literal_arg
+                          (object_name
+                            (object_name
+                              (label
+                                (identifier)))
+                            (selector1)
+                            (label
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:23
+==================
+
+marijke in Employee with
+  salary sal: 50000
+  premium pr: 3000
+  country ctr: "NL"
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer)))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer)))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:25.1
+==================
+
+Shop in Class
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:25.2
+==================
+
+Guest in Class with
+      attribute
+            dept: Shop
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:25.3
+==================
+
+GuestEmployee in Class isA Guest,Employee
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier)))
+      (object_name
+        (label
+          (identifier))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:26.2
+==================
+
+ShopDepartment in Class isA Shop,Department
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier)))
+      (object_name
+        (label
+          (identifier))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:28
+==================
+
+Proposition in Class with
+  attribute
+     transitive: Proposition
+  rule
+     trans_R: 
+     $ forall x,y,z,M/VAR 
+          AC/Proposition!transitive 
+          C/Proposition
+           P(AC,C,M,C) and (x in C) and 
+           (y in C) and (z in C) and
+           (x M y) and (y M z) ==> (x M z) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier)
+                        (identifier)
+                        (identifier)
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (object_name
+                          (label
+                            (identifier)))
+                        (selector1)
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (formula
+                        (formula
+                          (formula
+                            (formula
+                              (formula
+                                (literal
+                                  (functor)
+                                  (literal_arg_list
+                                    (literal_arg
+                                      (object_name
+                                        (label
+                                          (identifier))))
+                                    (literal_arg
+                                      (object_name
+                                        (label
+                                          (identifier))))
+                                    (literal_arg
+                                      (object_name
+                                        (label
+                                          (identifier))))
+                                    (literal_arg
+                                      (object_name
+                                        (label
+                                          (identifier)))))))
+                              (kw_and)
+                              (formula
+                                (literal
+                                  (literal_arg
+                                    (object_name
+                                      (label
+                                        (identifier))))
+                                  (infix_symbol
+                                    (kw_in))
+                                  (literal_arg
+                                    (object_name
+                                      (label
+                                        (identifier)))))))
+                            (kw_and)
+                            (formula
+                              (literal
+                                (literal_arg
+                                  (object_name
+                                    (label
+                                      (identifier))))
+                                (infix_symbol
+                                  (kw_in))
+                                (literal_arg
+                                  (object_name
+                                    (label
+                                      (identifier)))))))
+                          (kw_and)
+                          (formula
+                            (literal
+                              (literal_arg
+                                (object_name
+                                  (label
+                                    (identifier))))
+                              (infix_symbol
+                                (kw_in))
+                              (literal_arg
+                                (object_name
+                                  (label
+                                    (identifier)))))))
+                        (kw_and)
+                        (formula
+                          (literal
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))
+                            (infix_symbol
+                              (label
+                                (identifier)))
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier)))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:29
+==================
+
+Person in Proposition with
+  transitive
+     ancestor: Person
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:32
+==================
+
+City in Proposition with
+  transitive
+     connection: City
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:33
+==================
+
+Proposition in Class with
+  attribute
+     acyclic: Proposition
+  constraint
+     acyclic_IC: 
+     $ forall x,y,M/VAR
+              AC/Proposition!acyclic
+              C/Proposition
+                P(AC,C,M,C) and (x in C) and 
+                 (y in C) and 
+                 (x M y)  ==> not (y M x) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier)
+                        (identifier)
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (object_name
+                          (label
+                            (identifier)))
+                        (selector1)
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (formula
+                        (formula
+                          (formula
+                            (literal
+                              (functor)
+                              (literal_arg_list
+                                (literal_arg
+                                  (object_name
+                                    (label
+                                      (identifier))))
+                                (literal_arg
+                                  (object_name
+                                    (label
+                                      (identifier))))
+                                (literal_arg
+                                  (object_name
+                                    (label
+                                      (identifier))))
+                                (literal_arg
+                                  (object_name
+                                    (label
+                                      (identifier)))))))
+                          (kw_and)
+                          (formula
+                            (literal
+                              (literal_arg
+                                (object_name
+                                  (label
+                                    (identifier))))
+                              (infix_symbol
+                                (kw_in))
+                              (literal_arg
+                                (object_name
+                                  (label
+                                    (identifier)))))))
+                        (kw_and)
+                        (formula
+                          (literal
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))
+                            (infix_symbol
+                              (kw_in))
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier)))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (formula
+                      (kw_not)
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:34
+==================
+
+Person in Proposition with
+  transitive,acyclic
+     ancestor: Person
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier))
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:39
+==================
+
+RelationSemantics in Class with
+  constraint
+ symm_IC: $ forall AC/Proposition!symmetric C/Proposition x,y/VAR M/VAR
+                     P(AC,C,M,C) and (x in C) and (y in C) and
+                     (x M y)  ==> (y M x) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (object_name
+                          (label
+                            (identifier)))
+                        (selector1)
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier)
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (formula
+                        (formula
+                          (formula
+                            (literal
+                              (functor)
+                              (literal_arg_list
+                                (literal_arg
+                                  (object_name
+                                    (label
+                                      (identifier))))
+                                (literal_arg
+                                  (object_name
+                                    (label
+                                      (identifier))))
+                                (literal_arg
+                                  (object_name
+                                    (label
+                                      (identifier))))
+                                (literal_arg
+                                  (object_name
+                                    (label
+                                      (identifier)))))))
+                          (kw_and)
+                          (formula
+                            (literal
+                              (literal_arg
+                                (object_name
+                                  (label
+                                    (identifier))))
+                              (infix_symbol
+                                (kw_in))
+                              (literal_arg
+                                (object_name
+                                  (label
+                                    (identifier)))))))
+                        (kw_and)
+                        (formula
+                          (literal
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))
+                            (infix_symbol
+                              (kw_in))
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier)))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:42
+==================
+
+bill in Person with
+  marriedTo m1: eve
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:44.1
+==================
+
+Marriage in Class with  
+  immutable
+    spouse1 : Person;
+    spouse2 : Person
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:44.2
+==================
+
+marriage1 in Marriage with  
+  spouse1 s1 : mary
+  spouse2 s2 : bill
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:45
+==================
+
+QueryClass in Class isA Class with
+     attribute
+         retrieved_attribute: Proposition;
+         computed_attribute: Proposition
+     single
+         constraint: MSFOLquery
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:46.1
+==================
+
+Union in Class
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:46.2
+==================
+
+UnionMember in Class with
+    attribute
+        union:Union
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:46.3
+==================
+
+SI_Manager_0 in QueryClass isA Manager,UnionMember
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier)))
+      (object_name
+        (label
+          (identifier))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:47.1
+==================
+
+Well_off_SI_Manager in QueryClass isA SI_Manager with
+     retrieved_attribute
+         salary: HighSalary
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:47.2
+==================
+
+HighSalary in Class isA Integer with
+     rule
+       highsalaryrule: $ forall m/Integer
+                           (m >= 60000)
+                                 ==> (m in HighSalary) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (literal
+                        (ar_expr
+                          (ar_term
+                            (ar_factor
+                              (object_name
+                                (label
+                                  (identifier))))))
+                        (comp_symbol)
+                        (ar_expr
+                          (ar_term
+                            (ar_factor
+                              (object_name
+                                (label
+                                  (number
+                                    (integer)))))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_in))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:48
+==================
+
+Employee in Class with
+    attribute
+        salary: Integer;
+        boss: Manager
+    rule
+     BossRule : $ forall e/Employee m/Manager d/Department
+                (e dept d) and (d head m)
+                ==> (e boss m) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:49
+==================
+
+EmpSalBoss in QueryClass isA Employee with
+     retrieved_attribute
+         salary: Integer;
+         boss: Manager
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:55
+==================
+
+GenericQueryClass isA QueryClass with
+     attribute
+        parameter: Proposition
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:56
+==================
+
+What_SI_Manager in GenericQueryClass isA Manager,UnionMember with
+     retrieved_attribute,parameter
+        salary: HighSalary;
+        union: Union
+     computed_attribute,parameter
+        head_of: Department
+     constraint
+        well_off_rule: $ (~head_of head this) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier)))
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier))
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier))
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (literal
+                    (literal_arg
+                      (implicit_var
+                        (identifier)))
+                    (infix_symbol
+                      (label
+                        (identifier)))
+                    (literal_arg
+                      (object_name
+                        (label
+                          (identifier))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:59.1
+==================
+
+Unit in Class with
+  attribute
+    sub: Unit
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:59.2
+==================
+
+BaseUnit in QueryClass isA Unit with
+  constraint
+    c1: $ not exists s/Unit!sub From(s,~this) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_not)
+                  (formula
+                    (kw_exists)
+                    (variable_bind_list
+                      (variable_bind
+                        (var_list
+                          (identifier))
+                        (object_name
+                          (object_name
+                            (label
+                              (identifier)))
+                          (selector1)
+                          (label
+                            (identifier)))))
+                    (formula
+                      (literal
+                        (functor)
+                        (literal_arg_list
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (literal_arg
+                            (implicit_var
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:59.3
+==================
+
+SimpleUnit in Class isA Unit with
+  constraint
+    c: $ forall s/SimpleUnit (s in BaseUnit) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (kw_in))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier)))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:61
+==================
+
+BaseUnit in QueryClass,MSFOLrule isA Unit with
+  constraint
+    c1: $ not exists s/Unit!sub From(s,~this) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier)))
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_not)
+                  (formula
+                    (kw_exists)
+                    (variable_bind_list
+                      (variable_bind
+                        (var_list
+                          (identifier))
+                        (object_name
+                          (object_name
+                            (label
+                              (identifier)))
+                          (selector1)
+                          (label
+                            (identifier)))))
+                    (formula
+                      (literal
+                        (functor)
+                        (literal_arg_list
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (literal_arg
+                            (implicit_var
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:62
+==================
+
+UnitInstance in QueryClass,MSFOLrule isA Proposition with
+  constraint
+     c1: $ (~this [in] Unit) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier)))
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (literal
+                    (literal_arg
+                      (implicit_var
+                        (identifier)))
+                    (infix_symbol
+                      (kw_in))
+                    (literal_arg
+                      (object_name
+                        (label
+                          (identifier))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:63
+==================
+
+UnitInstance in Class with
+  rule
+     r1: $ forall x/VAR (x [in] Unit) ==> (x in UnitInstance) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_in))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_in))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:70
+==================
+
+selectrnd in Function isA Proposition with
+  parameter
+    class: Proposition
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:75.1
+==================
+
+John in EmpDept with
+dept
+    JohnsDept : Production with
+        head
+            ProdHead : Phil
+    end
+
+---
+
+(source_file)
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:75.2
+==================
+
+Max in EmpDept with
+dept
+    MaxsDept : Research with
+        head
+            ResHead : Mary
+    end
+
+---
+
+(source_file)
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:80.1
+==================
+
+Entity in Class end
+Domain in Class end
+
+EntityType in Class with
+  attribute field: Domain
+  single key: Domain
+  rule
+    r1: $ forall e/VAR (e [in] EntityType) ==> (e in Entity) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_in))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_in))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:80.2
+==================
+
+Value in Class end
+Domain in Class with
+  rule
+    r1: $ forall v/VAR (v [in] Domain) ==> (v in Value) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_in))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_in))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:82
+==================
+
+EntityWithSharedKey in QueryClass isA Entity with
+  computed_attribute
+    entity2: Entity;
+    keyvalue: Value
+  constraint
+    cshare: $  (~this [key] ~keyvalue) and 
+               (~entity2 [key] ~keyvalue) and (~entity2 \= ~this) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (formula
+                    (formula
+                      (literal
+                        (literal_arg
+                          (implicit_var
+                            (identifier)))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (implicit_var
+                            (identifier)))))
+                    (kw_and)
+                    (formula
+                      (literal
+                        (literal_arg
+                          (implicit_var
+                            (identifier)))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (implicit_var
+                            (identifier))))))
+                  (kw_and)
+                  (formula
+                    (literal
+                      (literal_arg
+                        (implicit_var
+                          (identifier)))
+                      (infix_symbol
+                        (comp_symbol))
+                      (literal_arg
+                        (implicit_var
+                          (identifier))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:84
+==================
+
+DeepTelosRules in Class with
+  rule
+    mrule1: $ forall m,x,c/Proposition (x in c) and (m IN c) ==> (x ISA m) $;
+    mrule2: $ forall x,c,d/Proposition (c ISA d) and (x in c)  ==> (x in d) $;
+    mrule3: $ forall c,d,m,n/Proposition
+                  (m IN c) and (n IN d) and (c ISA d)  ==> (m ISA n) $ 
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier)
+                        (identifier)
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (kw_in))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (kw_in))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_isa))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier)))))))))))
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier)
+                        (identifier)
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (kw_isa))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (kw_in))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_in))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier)))))))))))
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier)
+                        (identifier)
+                        (identifier)
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (formula
+                        (formula
+                          (literal
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))
+                            (infix_symbol
+                              (kw_in))
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))))
+                        (kw_and)
+                        (formula
+                          (literal
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))
+                            (infix_symbol
+                              (kw_in))
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier)))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (kw_isa))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_isa))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:85.1
+==================
+
+EntityType in Concept with  
+  attribute attr : Domain
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:85.2
+==================
+
+Person in EntityType with
+  attr name: String
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Language.typ:block:85.3
+==================
+
+PC in Person with
+  name pcname: "Peter Chen"
+  attribute proposed: EntityType {* from M0 to M2 *}
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (comment)
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Moduleserver.typ:block:1
+==================
+
+Module in Class with
+ attribute
+    contains: Proposition
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Moduleserver.typ:block:13.1
+==================
+
+Project1 in Module end
+Project2 in Module end
+
+mary in CB_User with
+ homeModule m1 : Project1
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Moduleserver.typ:block:13.2
+==================
+
+john in CB_User with
+ homeModule m1 : Project2
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Moduleserver.typ:block:14.1
+==================
+
+LectureModule in AutoHomeModule with
+  exception e1: mary
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Moduleserver.typ:block:14.2
+==================
+
+mary in CB_User with
+ homeModule m1 : LectureModule
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Moduleserver.typ:block:14.3
+==================
+
+john in CB_User with
+  homeModule m1: LectureModule
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Moduleserver.typ:block:15
+==================
+
+CB_User in Class with  
+  rule
+    homeRule : $ forall u/CB_User (u homeModule LectureModule) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (label
+                          (identifier)))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier)))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Moduleserver.typ:block:18
+==================
+
+CB_Permitted in GenericQueryClass isA CB_User with
+  parameter
+    user: CB_User;
+    res: Resource;
+    op: CB_Operation
+   ...
+end
+
+---
+
+(source_file)
+
+==================
+doc-frame: user-manual/chapters/Moduleserver.typ:block:21.1
+==================
+
+CB_User isA CB_Group end  
+
+CB_Group in Class with
+  rule
+   rr1: $ forall p/Resource u/CB_User 
+          (u owner_resource p) ==> (u permitted_write p) $;
+   rr2: $ forall p/Resource u/CB_User 
+          (u permitted_write p) ==> (u permitted_read p) $;
+   rr3: $ forall u/CB_User (u groupMember u) $;  
+   rr4: $ forall u/CB_User p/Resource
+               ( exists g/CB_Group (g groupMember u) and 
+                 (g owner_resource p) ) ==> (u owner_resource p) $;
+   rr5: $ forall u/CB_User p/Resource
+                ( exists g/CB_Group (g groupMember u) and 
+                  (g permitted_write p) ) ==> (u permitted_write p) $;
+   rr6: $ forall u/CB_User p/Resource
+                ( exists g/CB_Group (g groupMember u) and 
+                (g permitted_read p) ) ==> (u permitted_read p) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier)))))))))))
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier)))))))))))
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (label
+                          (identifier)))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))))))))
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (rule
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (kw_exists)
+                    (variable_bind_list
+                      (variable_bind
+                        (var_list
+                          (identifier))
+                        (object_name
+                          (label
+                            (identifier)))))
+                    (formula
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))))
+                  (literal
+                    (literal_arg
+                      (object_name
+                        (label
+                          (identifier))))
+                    (infix_symbol
+                      (label
+                        (identifier)))
+                    (literal_arg
+                      (object_name
+                        (label
+                          (identifier)))))))))
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (rule
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (kw_exists)
+                    (variable_bind_list
+                      (variable_bind
+                        (var_list
+                          (identifier))
+                        (object_name
+                          (label
+                            (identifier)))))
+                    (formula
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))))
+                  (literal
+                    (literal_arg
+                      (object_name
+                        (label
+                          (identifier))))
+                    (infix_symbol
+                      (label
+                        (identifier)))
+                    (literal_arg
+                      (object_name
+                        (label
+                          (identifier)))))))))
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (rule
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (kw_exists)
+                    (variable_bind_list
+                      (variable_bind
+                        (var_list
+                          (identifier))
+                        (object_name
+                          (label
+                            (identifier)))))
+                    (formula
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))))
+                  (literal
+                    (literal_arg
+                      (object_name
+                        (label
+                          (identifier))))
+                    (infix_symbol
+                      (label
+                        (identifier)))
+                    (literal_arg
+                      (object_name
+                        (label
+                          (identifier))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Moduleserver.typ:block:21.2
+==================
+
+CB_Permitted in GenericQueryClass isA CB_User with
+  parameter
+    user: CB_User;
+    res: Resource;
+    op: CB_Operation
+  constraint
+    cperm: $ (
+              ( not exists u/CB_User 
+                 (u owner_resource ~res) and 
+                  not (u == ~user) ) 
+              or
+              ( (~op in CB_ReadOperation) and 
+                (~user permitted_read ~res) ) 
+                or
+              ( (~op in CB_WriteOperation) and 
+                (~user permitted_write ~res) )
+             )
+              and UNIFIES(~user,~this) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (formula
+                    (formula
+                      (formula
+                        (formula
+                          (formula
+                            (kw_not)
+                            (formula
+                              (kw_exists)
+                              (variable_bind_list
+                                (variable_bind
+                                  (var_list
+                                    (identifier))
+                                  (object_name
+                                    (label
+                                      (identifier)))))
+                              (formula
+                                (formula
+                                  (literal
+                                    (literal_arg
+                                      (object_name
+                                        (label
+                                          (identifier))))
+                                    (infix_symbol
+                                      (label
+                                        (identifier)))
+                                    (literal_arg
+                                      (implicit_var
+                                        (identifier)))))
+                                (kw_and)
+                                (formula
+                                  (kw_not)
+                                  (formula
+                                    (literal
+                                      (literal_arg
+                                        (object_name
+                                          (label
+                                            (identifier))))
+                                      (infix_symbol
+                                        (comp_symbol))
+                                      (literal_arg
+                                        (implicit_var
+                                          (identifier))))))))))
+                        (kw_or)
+                        (formula
+                          (formula
+                            (formula
+                              (literal
+                                (literal_arg
+                                  (implicit_var
+                                    (identifier)))
+                                (infix_symbol
+                                  (kw_in))
+                                (literal_arg
+                                  (object_name
+                                    (label
+                                      (identifier))))))
+                            (kw_and)
+                            (formula
+                              (literal
+                                (literal_arg
+                                  (implicit_var
+                                    (identifier)))
+                                (infix_symbol
+                                  (label
+                                    (identifier)))
+                                (literal_arg
+                                  (implicit_var
+                                    (identifier))))))))
+                      (kw_or)
+                      (formula
+                        (formula
+                          (formula
+                            (literal
+                              (literal_arg
+                                (implicit_var
+                                  (identifier)))
+                              (infix_symbol
+                                (kw_in))
+                              (literal_arg
+                                (object_name
+                                  (label
+                                    (identifier))))))
+                          (kw_and)
+                          (formula
+                            (literal
+                              (literal_arg
+                                (implicit_var
+                                  (identifier)))
+                              (infix_symbol
+                                (label
+                                  (identifier)))
+                              (literal_arg
+                                (implicit_var
+                                  (identifier)))))))))
+                  (kw_and)
+                  (formula
+                    (literal
+                      (functor)
+                      (literal_arg_list
+                        (literal_arg
+                          (implicit_var
+                            (identifier)))
+                        (literal_arg
+                          (implicit_var
+                            (identifier)))))))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Moduleserver.typ:block:22
+==================
+
+jonny in CB_User with
+  owner_resource r1: Mjonny
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Moduleserver.typ:block:23
+==================
+
+mary in CB_User with
+  permitted_read r1: Mjonny
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Moduleserver.typ:block:25
+==================
+
+CB_Permitted in GenericQueryClass isA CB_User with
+  parameter
+    user: CB_User;
+    res: Resource;
+    op: CB_Operation
+  constraint
+    cperm: $ FALSE $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (literal
+                    (boolean)))))))))
+    (end_spec)))
+
+==================
+doc-frame: user-manual/chapters/Moduleserver.typ:block:26
+==================
+
+ShowModule in QueryClass isA Module with
+  computed_attribute
+    cont : Proposition
+  constraint
+    ccont : $ (~this contains ~cont) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (literal
+                    (literal_arg
+                      (implicit_var
+                        (identifier)))
+                    (infix_symbol
+                      (label
+                        (identifier)))
+                    (literal_arg
+                      (implicit_var
+                        (identifier)))))))))))
+    (end_spec)))

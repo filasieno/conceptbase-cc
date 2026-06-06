@@ -1,0 +1,28 @@
+{
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.import.maven.enabled": true,
+  "java.configuration.maven.defaultMvnGoals": [
+    "generate-sources",
+    "compile",
+    "-DskipTests"
+  ],
+  "maven.executable.path": "mvn",
+  "maven.terminal.customParams": [
+    "-f",
+    "components/java/pom.xml"
+  ],
+  "files.associations": {
+    "*.jj": "java",
+    "*.pro": "prolog",
+    "*.pl": "prolog",
+    "*.swi.pl": "prolog",
+    "*.gel": "prolog",
+    "*.lpi": "prolog"
+  },
+  "[prolog]": {
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true
+  },
+  "prolog-lsp.trace.server": "off",
+  "editor.semanticHighlighting.enabled": true
+}

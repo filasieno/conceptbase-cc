@@ -1,0 +1,188 @@
+/*
+The ConceptBase.cc Copyright
+
+Copyright 1987-2026 The ConceptBase Team. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted
+provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of
+      conditions and the following disclaimer.
+   2. Redistributions in binary form must reproduce the above copyright notice, this list of
+      conditions and the following disclaimer in the documentation and/or other materials
+      provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those of the authors
+and should not be interpreted as representing official policies, either expressed or implied,
+of the ConceptBase Team.
+
+
+The ConceptBase Team is represented by
+
+Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+
+
+This license is a FreeBSD-style copyright license.
+Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
+*/
+/**************************************************************
+*
+*   SYMID.h
+*
+*   Creation:      15.5.1993
+*   Created by:    Thomas List
+*   last Change:   7.7.1993
+*   Changed by:    Thomas List
+*   version 0.1
+*
+*
+***************************************************************/
+
+#ifndef _SYMID
+#define _SYMID
+
+#include "TOIDSET.h"
+#include <stdio.h>
+#include <string.h>
+
+#define NONE 0
+#define ISA 1
+#define INSTANCEOF 2
+#define UNDEF -1
+/* the undef is used if the information about the label is not there*/
+
+
+/** Ein Symboltabelleneintrag.
+ */
+class SYMBOL {
+private:
+        /// Label
+    char *name;
+        /// Quersumme der Character of name (schnellere ueberpruefung)
+    int quersumme;
+        /// Menge der TOID's die diesen Label use
+    TOIDSET uses;
+        /// Id des Symboltabelleneintrags
+    long id;
+        /// Position des Symboltabelleneintrags im File
+    long filepos;
+ public:
+        /// Creates a neuen Eintrag mit dem angegebenen Label 
+   SYMBOL(char*);
+        /// L\"oscht den Eintrag
+   ~SYMBOL();
+        /// ersetzt den alten Label durch den neu angegebenen Label
+   int rename(char*);
+        /// f\"ugt den TOID in die uses-Menge ein
+   int add(TOID);
+        /// l\"oscht den TOID from der uses-Menge
+   int del(TOID);
+        /// returns the L\"ange des Labels
+   int get_length();
+        /// kopiert denLabel in das angegebene char-Feld
+   int get_name(char*) const;
+     ///returns the quersumme of name return
+    int get_sum() const;
+        /// returns a pointer auf den Label
+   char *get_name() { return name; };
+        /// returns the type des Labels (instanceof, isa or none)
+   int get_type();
+        /// returns a pointer auf die uses-Menge
+   TOIDSET* get_uses();
+        /// returns the uses-Menge
+   int get_uses(TOIDSET&);
+        /// returns 1, if die uses-Menge leer ist
+   int empty();
+        /// returns the Id des Eintrags
+   long getid();
+        /// setzt den Id des Eintrags
+   long setid(long);
+        /// setzt die Position im File des Eintrags
+   long setfilepos(long);
+        /// returns the Fileposition des Eintrags
+   long getfilepos();
+        /// Testfunktion
+   void test();
+};
+
+/** Symboltabelleneintrags-ID.
+  Analog zu TOID ist SYMID ein pointer auf einen Symboltabelleneintrag.
+  @see TOID
+  */
+class SYMID {
+  private:
+        /// Der Symboltabelleneintrag
+    SYMBOL *SymbolObj;
+  public:
+        /// legt einen neuen Symboltabelleneintrag mit den angegebenen Label an
+    SYMID(char*);
+        /** ich hoffe das is not uses \\
+          REWORK: raus damit
+          */
+    SYMID(TOID);
+        /// creates einen neuen SYMID mit dem same Eintrag wie der des Parameters
+    SYMID( const SYMID&);
+//    SYMID( SYMID&);
+        /// creates einen SYMID without Symboltabelleneintrag
+    SYMID();
+        /// rename on SYMBOL
+    int rename(char*);
+        /// add of SYMBOL
+    int add(TOID);
+        /// del of SYMBOL
+    int del(TOID);
+        /// destroy of SYMBOL
+    int destroy();
+        /// empty of SYMBOL
+    int empty();
+        /// setfilepos of SYMBOL
+    long setfilepos(long);
+        /// getfilepos of SYMBOL
+    long getfilepos();
+        /// setid of SYMBOL
+    long setid(long);
+        /// getid of SYMBOL
+    long getid();
+        /// get\_uses of SYMBOL
+    TOIDSET* get_uses();
+        /// get\_uses of SYMBOL
+    int get_uses(TOIDSET&);
+        /// get\_length of SYMBOL
+    int get_length();
+        ///returns the quersumme of SYMBOL
+    int get_sum() const;
+        /// get\_name of SYMBOL
+    int get_name(char*);
+        /// get\_name of SYMBOL
+    char *get_name() const { return (SymbolObj)?SymbolObj->get_name():(char*)NULL; };
+        /// get\_type of SYMBOL
+    int get_type();
+        /// creates einen String for die OB.telos - file and speichert in im angegebenen Feld
+    int get_savestring(char*);
+        /// Zuweisungsoperator
+    SYMID& operator = (const SYMID&);
+        /// Vergleichsoperator (vergleicht Alphabetisch)
+    int operator == (const SYMID&);
+        /// Vergleichsoperator (vergleicht Alphabetisch)
+    int operator <= (const SYMID&);
+    void test(){SymbolObj->test();};
+};
+
+inline bool operator<(const SYMID& t1,const SYMID& t2)
+
+{
+    if (!t1.get_name() || !t2.get_name()) return 0;
+    return (strcmp(t1.get_name(),t2.get_name()) < 0);
+};
+
+#endif
+

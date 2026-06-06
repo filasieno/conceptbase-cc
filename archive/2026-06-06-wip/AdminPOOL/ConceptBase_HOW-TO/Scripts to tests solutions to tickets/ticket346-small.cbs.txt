@@ -1,0 +1,96 @@
+#
+# File: ticket346.cbs
+# Author: Manfred Jeusfeld
+# Created: 2014-03-28/M.Jeusfeld (2014-03-28/M.Jeusfeld)
+# ------------------------------------------------------
+# Endless loop when telling a submodule
+#
+# Start: cbshell ticket346.cbs
+#
+
+cbserver -t high
+
+
+# these sources are created by listModule and contain definitions that were
+# originally told in several transactions
+tell ' 
+
+RelationSemantics in Class with  
+  constraint
+    singleConstraint : $ forall c,d/Proposition p/Proposition!single x,m/VAR
+              P(p,c,m,d) and (x in c) ==>
+                (
+                  forall a1,a2/VAR
+                    (a1 in p) and (a2 in p) and Ai(x,m,a1) and Ai(x,m,a2) ==>
+                   (a1=a2)
+                ) $
+end 
+
+
+OBJECT with  
+  attribute
+    link : OBJECT
+end 
+
+
+
+OBJECT!link with  
+  attribute
+    sourcelevel : Integer
+end 
+
+OBJECT!link with  
+  attribute
+    targetlevel : Integer
+end 
+
+ALABEL  
+end 
+
+OBJECT!link with  
+  attribute
+    label : ALABEL
+end 
+
+
+
+
+
+
+
+OBJECT!link!sourcelevel in Single  
+end 
+
+
+
+
+DDI_SpecializationAndInstantiation in Class with  
+  constraint
+    a28 : $ forall x,y,c,d/OBJECT a/ALABEL i,j,k,l,n/Integer mx,mc/OBJECT!link
+             Ai(x,link,mx) and To(mx,y) and (mx label a) and (mx sourcelevel i) and (mx targetlevel j) and
+             Ai(c,link,mc) and To(mc,d) and (mc label a) and (mc sourcelevel k) and (mc targetlevel l) and
+             (n = 1) ==> (n = 1) $
+end 
+
+
+
+
+'
+
+
+
+
+
+# this transaction then if into an infinite loop
+tell '
+designer in ALABEL end
+
+MobilePhone in OBJECT with
+  link m1: Person
+end
+
+Person in OBJECT
+end
+
+
+'

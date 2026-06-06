@@ -1,0 +1,164 @@
+%
+% The ConceptBase.cc Copyright
+%
+% Copyright 1987-2020 The ConceptBase Team. All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without modification, are permitted
+% provided that the following conditions are met:
+%
+%    1. Redistributions of source code must retain the above copyright notice, this list of
+%       conditions and the following disclaimer.
+%    2. Redistributions in binary form must reproduce the above copyright notice, this list of
+%       conditions and the following disclaimer in the documentation and/or other materials
+%       provided with the distribution.
+%
+% THIS SOFTWARE IS PROVIDED BY THE CONCEPTBASE TEAM ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+% INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+% PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONCEPTBASE TEAM OR CONTRIBUTORS BE
+% LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+% (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+% OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+% CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+% OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+%
+% The views and conclusions contained in the software and documentation are those of the authors
+% and should not be interpreted as representing official policies, either expressed or implied,
+% of the ConceptBase Team.
+%
+%
+% The ConceptBase Team is represented by
+%
+% Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
+% Matthias Jarke, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+% Christoph Quix, RWTH Aachen, Informatik 5, Ahornstr. 55, 52056 Aachen, Germany
+%
+%
+% This license is a FreeBSD-style copyright license.
+% Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
+%
+%
+%
+% File:        SearchSpace.pro
+% Version:     1.1
+% Creation:    20-Feb-1990, Martin Staudt (UPA)
+% Last change: 3/2/90, Martin Staudt (UPA)
+% Release:     1
+%
+% ----------------------------------------------------------
+%
+%
+%
+% Exported predicates:
+% --------------------
+%
+%   + set_KBsearchSpace/2
+%   + get_KBsearchSpace/2
+%
+%
+%
+%
+
+:- module('SearchSpace',[
+'get_KBsearchSpace'/2
+,'set_KBsearchSpace'/2
+,'init_KBsearchSpace'/2
+]).
+:- use_module('GlobalPredicates.swi.pl').
+:- use_module('debug.swi.pl').
+:- use_module('TransactionTime.swi.pl').
+:- use_module('BIM2C.swi.pl').
+:- use_module('Literals.swi.pl').
+:- dynamic 'VKBM@space'/1 .
+:- style_check(-singleton).
+%  ******************* s e t _ K B s e a r c h S p a c e **********************
+%
+% 	set_KBsearchSpace ( _p , _t )
+% 		_p : ground (newOB,oldOB,currentOB or wholeOB)
+% 		_t : ground
+%
+% 	search space is limited to _p (now OB with or without temporary props)
+% 	and Rollbacktime _t.
+%
+% ****Jun,97/  wholeKB,persistentKB and currentKB are separated by ************
+% 	newOB,oldOB and currentOB replace.
+% 	previously on Tell: wholeKB-->newOB,persistentKB-->oldOB	;
+% 	       on Untell: wholeKB-->oldOB,persistentKB-->newOB	;
+% 	       otherwise: currentKB-->currentOB.
+%
+%
+%  ****************************************************************************
+
+set_prolog_KBsearchSpace(_p,_t) :-
+	set_RollBack_time(_t),
+	set_VisibleKBModules(_p).
+
+set_C_KBsearchSpace(newOB,'Now'):-
+	set_new_OB_bim2c,!.
+set_C_KBsearchSpace(oldOB,'Now'):-
+	set_old_OB_bim2c,!.
+set_C_KBsearchSpace(currentOB,'Now'):-
+	set_current_OB_bim2c,!.
+set_C_KBsearchSpace(currentOB,_t):-
+    set_act_hist_bim2c,!.
+%  The checkToEmptyCacheOnSearchSpaceChange is used here for safety reasons. It may be that during
+%  the evaluation of a predicate, the search space is altered. Then, all
+%  cached facts from Literals.pro have to go away.   17-Dec-2002/M.Jeusfeld
+
+set_KBsearchSpace(_p,_t) :-
+  get_KBsearchSpace(_p,_t),  % new=old: nothing to do, esp. no eraseCachedFacts
+  !.
+set_KBsearchSpace(_p,_t) :-
+  init_KBsearchSpace(_p,_t),  % actually will overwrite old values by new values p,t
+  !.
+
+init_KBsearchSpace(_p,_t) :-
+  ground(_p),
+  ground(_t),
+  checkToEmptyCacheOnSearchSpaceChange,  % erase all cached facts used in Literals.pro
+  set_prolog_KBsearchSpace(_p,_t),
+  set_C_KBsearchSpace(_p,_t).
+%  ******************* g e t _ K B s e a r c h S p a c e **********************
+%
+% 	get_KBsearchSpace ( _p , _t )
+% 		_p : any
+% 		_t : any
+%
+% 	gets actual searchspace specification (set by set_KBsearchSpace/2)
+% 	with time _t and space _p.
+%
+%  ****************************************************************************
+
+get_KBsearchSpace(_p,_t) :-
+	get_RollBack_time(_t),
+	get_VisibleKBModules(_p).
+%  ==================
+%  Private predicates
+%  ===================
+%  **************** s e t _ V i s i b l e K B M o d u l e s *******************
+%
+% 	set_VisibleKBModules ( _p )
+% 		_p : ground (newOB,oldOB,currentOB or wholeKB)
+%
+% 	stores spatial limitation of search space (now  OB with or without
+% 	temporary props)
+%
+%  ****************************************************************************
+
+set_VisibleKBModules(_p) :-
+	ground(_p),
+	retract('VKBM@space'(_)),
+	assert('VKBM@space'(_p)),!.
+set_VisibleKBModules(_p) :-
+	ground(_p),
+	assert('VKBM@space'(_p)).
+%  **************** g e t _ V i s i b l e K B M o d u l e s *******************
+%
+% 	get_VisibleKBModules ( _p )
+% 		_p : any
+%
+% 	retrieves stored spatial limitation of searchspace
+%
+%  ****************************************************************************
+
+get_VisibleKBModules(_p) :-
+	'VKBM@space'(_p).

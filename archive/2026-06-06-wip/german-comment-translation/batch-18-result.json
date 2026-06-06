@@ -1,0 +1,41 @@
+[
+  {
+    "file": "components/server-engine/src/BDMCompile.swi.pl",
+    "start_line": 1513,
+    "end_line": 1513,
+    "lines": [
+      {
+        "line": 1513,
+        "original": "/* _RuleConcl : das Folgerungsliteral (i),                                     */",
+        "translated": "/* _RuleConcl : the inference literal (i),                                     */"
+      }
+    ],
+    "id": "S00019"
+  },
+  {
+    "file": "components/server-engine/src/BDMKBMS.swi.pl",
+    "start_line": 419,
+    "end_line": 419,
+    "lines": [
+      {
+        "line": 419,
+        "original": "\t\t/* Zur vollstaendigen Instanziierung: */",
+        "translated": "\t\t/* For complete instantiation: */"
+      }
+    ],
+    "id": "S00039"
+  },
+  {
+    "file": "components/server-engine/src/QueryCompiler.swi.pl",
+    "start_line": 72,
+    "end_line": 72,
+    "lines": [
+      {
+        "line": 72,
+        "original": "* von geuntellten rules shall seperate stored are. Dazu is still ein Flag",
+        "translated": "* from un-told rules shall be stored separately. For this, a flag is still"
+      }
+    ],
+    "id": "S00059"
+  }
+]

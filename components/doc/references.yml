@@ -1,0 +1,193 @@
+# References bibliography (Hayagriva YAML)
+
+BBD90:
+  type: misc
+  title: 'Bellosta, M.J., Bessede, A., Darrieumerlou, C., Gruber, O., %Pucheral, P., Thevenin, J.M., Steffen, H.: GEODE: Concepts and %Facilities. Manual, INRIA, Roquencourt, France, 1990.'
+
+All83:
+  type: misc
+  title: 'Allen, J.F.: Maintaining knowledge about temporal intervals. Comm. ACM, Vol. 26, No. 11, Nov. 1983, doi http://dx.doi.org/10.1145/182.358434.'
+
+BBMR89:
+  type: misc
+  title: 'Borgida, A., Brachman, R.J., McGuiness, D.L., Resnick, L.A.: CLASSIC: a structural data model for objects. Proc. ACM-SIGMOD Intl. Conf. Management of Data, Portland, Or, 58-67, 1989, doi http://dx.doi.org/10.1145/66926.66932.'
+
+bcg87:
+  type: misc
+  title: 'Banerjee, J., Chou, H.-T., Garza, J.F., Kim, W., Woelk, D., Ballou, N., Kim, H.-J.: Data model issues for object-oriened applications. ACM Trans. Office Information Systems 5, 1, 3-26, 1987, doi http://dx.doi.org/10.1145/22890.22945.'
+
+BMS84:
+  type: misc
+  title: 'Brodie M.L., Mylopoulos J., Schmidt J.W.\ (ed.): On Conceptual Modeling, Springer-Verlag, 1984, doi http://dx.doi.org/10.1007/978-1-4612-5196-5.'
+
+chen76:
+  type: misc
+  title: 'Chen, P. P.-C.: The Entity-Relationship-Model -- Towards a Unified View of Data. ACM Transact. on Database Systems. Vol. 1, No. 1, March 1976, pp. 9-36, 1976, doi http://dx.doi.org/10.1145/320434.320440.'
+
+chenwarren96:
+  type: misc
+  title: 'Chen, W., Warren, D.S. : Tabled Evaluation with Delaying for General Logic Programs. Vol. 43, No. 1, January 1996, pp. 20-74, 1996, doi http://dx.doi.org/10.1145/227595.227597.'
+
+DPZ2002:
+  type: misc
+  title: 'Dahchour, M., Pirotte, A., Zimanyi, E.: Materialization and its metaclass implementation. IEEE Trans.\ Knowledge and Data Engineering, 14, 5, pp 1078 - 1094, Sept/Oct 2002, doi http://dx.doi.org/10.1109/TKDE.2002.1033775.'
+
+EberleinDiss:
+  type: misc
+  title: 'Eberlein, A.: Requirements Acquisition and Specification for Telecommunication Services. PhD Thesis, University of Wales, Swansea, UK, 1997.'
+
+GALL90:
+  type: misc
+  title: 'Gallersd\"orfer, R.: Realization of a Deductive Object Base by Abstract Data Types (in German), Diploma thesis, Universit\"at Passau, Germany, 1990.'
+
+hjek90:
+  type: misc
+  title: 'Hahn, U., Jarke, M., Eherer, S., Kreplin, K.: CoAUTHOR: a hypermedia group authoring environment. In Benford, J.M., Bowers, S.D. (eds.): Studies in Computer-Supported Cooperative Work, North-Holland, 79-100, 1990.'
+
+JARK93:
+  type: misc
+  title: 'Jarke, M.\ (ed.): Database Application Engineering with DAIDA, Springer-Verlag, 1993, doi http://dx.doi.org/10.1007/978-3-642-84875-9.'
+
+jj91:
+  type: misc
+  title: 'Jeusfeld, M.A., Jarke, M.: From Relational to Object-Oriented Integrity Simplification. Proc. 2nd Intl. Conf. Deductive and Object-Oriented Databases\/, Munich, Dec. 1991, doi http://dx.doi.org/10.1007/3-540-55015-1_25; also as Aachener Informatik-Berichte\/ 91-19, RWTH Aachen, Germany, 1991.'
+
+js92:
+  type: misc
+  title: 'Jeusfeld,M., Staudt,M.: Query optimization in deductive object bases. In Freytag, Vossen, Maier (eds.): Query Processing for Advanced Database Applications, Morgan-Kaufmann, 1992; also as Aachener Informatik-Berichte\/ 91-26, RWTH Aachen, Germany, URL http://conceptbase.sourceforge.net/mjf/91-26-r.pdf.'
+
+jeus92:
+  type: misc
+  title: 'Jeusfeld, M.A.: \"Anderungskontrolle in deduktiven Objektbanken. Dissertation, Universit\"at Passau, Germany, postprint https://conceptbase.sourceforge.net/mjf/diski19.pdf.'
+
+jeus09:
+  type: misc
+  title: 'Jeusfeld, M.A.: Metamodeling and Method Engineering with ConceptBase. In jjm09, preprint http://conceptbase.sourceforge.net/mjf/Metamodeling-and-method-engineering-with-ConceptBase--preprint.pdf.'
+
+JIIS:
+  type: misc
+  title: 'Jarke, M., Gallersd\"orfer, R., Jeusfeld, M.A., Staudt, M., Eherer, S.: ConceptBase: A deductive object base for meta data management. Journal of Intelligent Information Systems, Vol. 4, No. 2, pp. 167-192, March 1995, doi http://dx.doi.org/10.1007/BF00961873.'
+
+jjm09:
+  type: misc
+  title: 'Jeusfeld, M.A., Jarke, M., Mylopoulos, J. (eds.): Metamodeling for Method Engineering. Cambridge, MA, 2009. The MIT Press, ISBN-10: 0-262-10108-4, https://mitpress.mit.edu/books/metamodeling-method-engineering.'
+
+ISHandbook:
+  type: misc
+  title: 'Jeusfeld, M.A., Jarke, M., Nissen, H.W., Staudt, M.: ConceptBase - Managing Conceptual Models about Information Systems. In Bernus, P., Mertins, K., Schmidt, G., (eds.): Handbook on Architectures of Information Systems, Springer-Verlag, pp. 265-285, 1998, http://dx.doi.org/10.1007/3-540-26661-5_12.'
+
+DWQIS99:
+  type: misc
+  title: 'Jarke, M., Jeusfeld, M.A., Quix, C., Vassiliadis, P.: Architecture and Quality for Data Warehouses: An Extended Repository Approach Information Systems, Vol. 24, No. 3, pp. 229-253, 1999, doi http://dx.doi.org/10.1016/S0306-4379(99)00017-4.'
+
+jjr88:
+  type: misc
+  title: 'Jarke, M., Jeusfeld, M., Rose, T.: A global KBMS for database software evolution: documentation of first ConceptBase prototype, Report MIP-8819, Universit"at Passau, Germany, 1988.'
+
+jjr90:
+  type: misc
+  title: 'Jarke, M., Jeusfeld, M., Rose, T.: A software process data model for knowledge engineering in information systems. Information Systems\/ 15, 1, 85-116, 1990, doi http://dx.doi.org/10.1016/0306-4379(90)90018-K.'
+
+Emisa:
+  type: misc
+  title: 'Jeusfeld, M.A., Jarke, M., Staudt, M., Quix, C., List, T.: Application Experience with a Repository System for Information Systems Development. In R. Kasckek (ed.): Proceedings Entwicklungsmethoden fuer Informationssysteme und deren Anwendung (EMISA''99). Reihe Wirtschaftsinformatik, Teubner Verlag, Stuttgart, Germany, pp. 147-174, 1999, postprint http://conceptbase.sourceforge.net/mjf/itrs004.pdf. %'
+
+jmsv90:
+  type: misc
+  title: 'Jarke, M., Mylopoulos, J., Schmidt, J.W., Vassiliou, Y: %Information systems development as knowledge engineering: a %review of the DAIDA project. Programirovanie\/ Vol. 17, No. 1, Academy of %Sciences, Russia; also appeared as technical report MIP-9010, Universit\"at Passau, %Germany, 1990. %'
+
+DWQDemo:
+  type: misc
+  title: 'Jarke, M., Quix, C., Calvanese, D., Lenzerini, M., Franconi, E., Ligoudistianos, S., Vassiliadis, P., Vassiliou, Y.: %Concept Based Design of Data Warehouses: The DWQ Demonstrators. %ACM SIGMOD International Conference on Management of Data (SIGMOD 2000), Dallas, TX, May 2000. %http://www-i5.informatik.rwth-aachen.de/lehrstuhl/projects/dwq/dwqdemo/'
+
+JN2016:
+  type: misc
+  title: 'Jeusfeld, M.A., Neumayr, B.: DeepTelos: Multi-level Modeling with Most General Instances. Proc. 35th International Conference on Conceptual Modeling (ER 2016), Gifu, Japan, Springer, LNCS 9974, 2016, 198-211, postprint http://conceptbase.sourceforge.net/mjf/deeptelos-er2016-postprint.pdf.'
+
+JQJ98:
+  type: misc
+  title: 'Jeusfeld, M.A., Quix, C., Jarke, M.: Design and Analysis of Quality Information for Data Warehouses. 17th International Conference on the Entity Relationship Approach (ER''98), Singapore, 1998, postprint http://conceptbase.sourceforge.net/mjf/er98.pdf.'
+
+Koub20:
+  type: misc
+  title: 'Koubarakis, M., Borgida, A., Constantopoulos, P., MDoerr, M., Jarke, M., Jeusfeld, M., Mylopoulos J., Plexousakis, D.: A Retrospective on Telos as a Metamodeling Language for Requirements Engineering. Requirements Engineering, doi https://doi.org/10.1007/s00766-020-00329-x.'
+
+Lud2010:
+  type: misc
+  title: 'Ludwig, S.A.: Comparison of a Deductive Database with a Semantic Web reasoning engine. Knowledge-Based Systems, 23, 6, 2010, pp.\ 634-642, doi http://dx.doi.org/10.1016/j.knosys.2010.04.005. %'
+
+bim90:
+  type: misc
+  title: 'MasterProLog 4.1, Reference Manual. IT Masters, 1999.'
+
+mbjk90:
+  type: misc
+  title: 'Mylopoulos, J., Borgida, A., Jarke, M., Koubarakis, M.: Telos: a language for representing knowledge about information systems. ACM Trans. Information Systems\/ Vol. 8, No. 4, 1990, doi http://dx.doi.org/10.1145/102675.102676.'
+
+Taxis80:
+  type: misc
+  title: 'Mylopoulos, J., Bernstein, P.A., Wong, H.K.T.: A language facility for designing database-intensive applications. ACM TODS, Vol. 5, No. 2, June 1980, doi http://dx.doi.org/10.1145/320141.320150.'
+
+DDI2014:
+  type: misc
+  title: 'Neumayr, B., Jeusfeld, M.A., Schrefl, M., Sch\"utz, C.: Dual Deep Instantiation and its ConceptBase Implementation. Proc. Advanced Information Systems Engineering (CAiSE 2014), Thessaloniki, Greece, June 16-20, 2014, 503-517, postprint http://conceptbase.sourceforge.net/mjf/Neumayr-et-al-CAiSE2014_postprint.pdf.'
+
+USU96:
+  type: misc
+  title: 'Nissen, H.W., Jeusfeld, M.A., Jarke, M., Zemanek, G.V., Huber, H.: Managing Multiple Requirements Perspectives with Metamodels. IEEE Software, pages 37-48, March 1996, doi http://dx.doi.org/10.1109/52.506461.'
+
+OMG2011:
+  type: misc
+  title: 'Object Management Group: OMG Unified Modeling Language Infrastructure, Version 2.4.1 OMG Document Number: formal/2011-08-05, URL http://www.omg.org/spec/UML/2.4.1/.'
+
+Qui96:
+  type: misc
+  title: 'Quix, C.: Sichtenwartung und \"Anderungsnotifikation f\"ur Anwendungsprogramme in deduktiven Objektbanken. Diploma Thesis, RWTH Aachen, 1996.'
+
+MEMO:
+  type: misc
+  title: 'Quix, C., Schoop, M., Jeusfeld, M.A.: Business Data Management for Business-to-Business Electronic Commerce SIGMOD Record, Vol. 31, No. 1, pp. 49-54, March 2002, URL http://dl.acm.org/ft_gateway.cfm?ftid=76258&id=507348.'
+
+rd92:
+  type: misc
+  title: 'Ramesh,B., Dhar,V.: Supporting systems development by capturing deliberations during requirements engineering. IEEE TSE\/, Vol. 18, No. 6, 1992, doi http://dx.doi.org/10.1109/32.142872.'
+
+rjg91:
+  type: misc
+  title: 'Rose, T., Jarke, M., Gocek, M., Maltzahn, C., Nissen, H.: A decision-based configuration process environment. Software Engineering Journal\/, Special Issue on Software Environments and Factories, July 1991.'
+
+RLGW2014:
+  type: misc
+  title: 'Rossini, A., de Lara, J., Guerra, E., Wolter, U.: A formalisation of deep metamodelling. Formal Aspects of Computing, 26, 6, pp 1115-1152, November 2014, doi http://dx.doi.org/10.1007/s00165-014-0307-x.'
+
+ssw94:
+  type: misc
+  title: 'Sagonas, K., Swift, T., Warren, D.S.: XSB as an efficient deductive database engine. Proceedings of the ACM SIGMOD International Conference on the Management of Data, pages 442-453, Minneapolis, Minnesota, May 1994, doi http://dx.doi.org/10.1145/191843.191927.'
+
+SIGA91:
+  type: misc
+  title: 'Rich, C.\ (ed.): ``Special Issue on Implemented Knowledge Representation and Reasoning Systems", SIGART Bulletin Vol. 2, No. 3, June 1991.'
+
+SJ96:
+  type: misc
+  title: 'Staudt, M., Jarke, M.: Incremental Maintenance of Externally Materialized Views. In Proc. of the 22th VLDB Conference, Bombay, India, 1996.'
+
+Soi96:
+  type: misc
+  title: 'Soiron, R.: Kostenbasierte Anfrageoptimierung in deduktiven Objektbanken. Diploma Thesis, RWTH Aachen, 1996.'
+
+STAN86:
+  type: misc
+  title: 'Stanley M.T.: CML -- a knowledge representation language with application to requirements modeling, M.S.thesis, University of Toronto, Ontario, 1986.'
+
+stau90:
+  type: misc
+  title: 'Staudt, M.: Anfragerepr\"asentation und -auswertung in deduktiven Objektbanken. Diploma thesis, Universit\"at Passau, 1990.'
+
+TKDE90:
+  type: misc
+  title: 'Stonebraker M.\ (ed.): Special Issue on Database Prototype Systems, IEEE Trans.\ on Knowledge and Data Engineering Vol. 2, No. 1, March 1990. %'
+
+wing90:
+  type: misc
+  title: 'Wing, J.M.: A Specifier''s Introduction to %Formal Methods. IEEE Computer\/, No. 9, pp 8-24, Sept. 1990.'

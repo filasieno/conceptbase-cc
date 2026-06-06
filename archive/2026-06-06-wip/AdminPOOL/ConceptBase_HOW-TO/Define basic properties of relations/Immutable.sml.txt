@@ -1,0 +1,102 @@
+{*
+This file is governed by the Creative Commons license
+   attributeion-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+
+{
+*
+* File: Immutable.sml
+* Author: Manfred Jeusfeld
+* Creation: 2012-06-29 (2017-02-10/MJf)
+* ----------------------------------------------------------------------
+*
+* Giancarlo Guizzardi asked me at CAiSE-2012 whether ConceptBase can
+* formalize immutability of associations such the partners in a
+* marriage. If a marriage is created between two persons, then the associated persons
+* of the marriage may not be removed or updated. One can only remove
+* a marriage object as a whole.
+* So here is a solution. We use an active rule to implement the desired
+* semantics of immutability. One can also call this an example of a
+* dynamic integrity constraint.
+*
+*}
+
+
+
+{* Define the new attribute category 'immutable' in the most generic way *}
+Proposition with  
+  attribute
+    immutable : Proposition
+end 
+
+
+
+{* This active rule does all the work                                    *}
+{* Quoted predicates like `(x in c) are evaluated against the new        *}
+{* database state.                                                       *}
+
+IMMUTABLERULE in ECArule with  
+  rejectMsg msg: "Immutable attributes may not be updated."
+  mode m: Deferred
+  ecarule
+    er : $  iac/Proposition!immutable ia/attributee x/Proposition c/Class
+        ON Untell (ia in iac)
+        IF (iac in Proposition!immutable) and
+            (ia in iac) and not `(ia in iac) and From(ia,x)  and From(iac,c) and `(x in c)
+        DO reject
+        $
+end 
+
+
+
+
+{* An example declaring spouses as immutable *}
+
+Person in Class  
+end 
+
+
+Marriage in Class with  
+  immutable,single
+    spouse1 : Person;
+    spouse2 : Person
+end 
+
+
+
+{* some data *}
+
+bill in Person  
+end 
+
+mary in Person  
+end 
+
+john in Person  
+end 
+
+marriage1 in Marriage with  
+  spouse1
+    s1 : mary
+  spouse2
+    s2 : bill
+end 
+
+
+{* try to untell for example
+
+marriage1 with  
+  spouse1
+    s1 : mary
+end
+
+*}
+
+

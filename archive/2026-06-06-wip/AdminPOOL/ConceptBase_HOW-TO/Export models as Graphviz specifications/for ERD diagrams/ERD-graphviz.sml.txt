@@ -1,0 +1,178 @@
+{*
+This file is governed by the Creative Commons license
+   attributeion-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+
+{*
+* File ERD-graphviz.sml
+* Author: Manfred Jeusfeld, jeusfeld@uvt.nl
+* Date: 5-Jun-2008 (21-Feb-2011)
+*----------------------------------------------------------------
+* This file specifies the ERD notation and provides and
+* export filter for graphviz. You need to install the GraphViz package.
+* It contains several layout routines such as dot and neato.
+* Manual steps:
+*  1- Load this model into ConceptBase
+*  2- Ask the query ShowERD[MyModel1/erd]
+*  3- Copy/pase the answer to a file mygv.txt
+*  4- Call GraphViz, e.g. by
+*       dot -Tpng mygv.txt > mygv.png
+* Use the manual pages of dot to learn more about options of GraphViz.
+* GraphViz is available from 
+*   http://graphviz.org/
+*
+* You can also automate the generation of the dot files by starting the
+* CBserver with the option -views <dir>. The directory <dir> will
+* then contain files <Model>.dot for each instance of ERDModel. 
+* 
+* Requires ConceptBase 7.3.06 released 2011-02-21 or later.
+*}
+
+
+{*** NOTATION DEFINITION LEVEL *}
+
+Node with
+  attribute
+    connectedTo: Node
+end
+
+
+{*** NOTATION LEVEL       *}
+{*** ER notation with cardinalities *}
+
+EntityType in Node with
+end
+
+RelationshipType in Node with
+  connectedTo
+     role: EntityType
+end
+
+RelationshipType!role with
+  attribute
+     card: Cardinality
+end
+
+Cardinality in Node end
+
+{* we support here just three cardinalities *}
+"1..1" in Cardinality end
+"0..1" in Cardinality end
+"1..*" in Cardinality end
+
+ERDElement in Node end
+
+EntityType isA ERDElement end
+RelationshipType isA ERDElement end
+RelationshipType!role isA ERDElement end
+
+ERDModel with
+  attribute
+    contains: ERDElement
+end
+
+
+
+
+{*** MODEL LEVEL *}
+{*** this defines an example ER diagram using the above ER notation *}
+
+
+
+Employee in EntityType with   {* shall match variable ET1 *}
+end
+
+Project in EntityType with   {* ET2 *}
+end
+
+worksFor in RelationshipType with   {* RT *}
+  role
+   toEmp: Employee;
+   toProj: Project
+end
+
+worksFor!toEmp with   {* R1 *}
+  card
+    card1: "1..*"  {* each project has at least 1 employee who works for it *}
+end
+
+worksFor!toProj with  {* R2 *}
+  card
+    card1: "0..1"   {* each employee works in at most 1 project *}
+end
+
+MyModel1 in ERDModel with
+  contains
+    e1: Employee;
+    e2: Project;
+    e3: worksFor;
+    e4: worksFor!toEmp;
+    e5: worksFor!toProj
+end
+
+Boxnode in QueryClass isA EntityType end
+Diamondnode in QueryClass isA RelationshipType end
+Link in QueryClass isA RelationshipType!role end
+
+
+GenericQueryClass FromNode isA Individual with
+  parameter
+     lnk: attributee
+  constraint
+     cfn: $ From(lnk,this) $
+end
+
+GenericQueryClass ToNode isA Individual with
+  parameter
+     lnk: attributee
+  constraint
+     cfn: $ To(lnk,this) $
+end
+
+
+GenericQueryClass ShowERD isA ERDModel with
+  required,parameter
+     erd: ERDModel
+  computed_attribute
+     boxnode: Boxnode;
+     diamondnode: Diamondnode;
+     link: Link
+  constraint
+     c1: $ (erd = this) and
+           (this contains boxnode) and
+           (this contains diamondnode) and
+           (this contains link) $
+end
+
+GraphVizErd in AnswerFormat with
+  forQuery q: ShowERD
+  head h: "graph ER \{"
+  pattern p:
+"node [shape=box]; {Foreach( ({this.boxnode}), (n), {n};)}
+node [shape=diamond]; {Foreach( ({this.diamondnode}), (d), {d};)}
+{Foreach( ({this.link}),(l), {ASKquery(FromNode[{l}/lnk],LABEL)}--{ASKquery(ToNode[{l}/lnk],LABEL)};\\n)}
+#label=\"ERD Model {this}\"
+fontsize=20;
+"
+  tail t: "\}"
+  fileType ty: "dot"
+end
+
+
+
+{* save ShowERD in this and all other (sub-)modules *}
+Module in Class with
+  rule
+    rsaveView: $ forall m/Module (m saveView ShowERD) $
+end
+ 
+
+
+

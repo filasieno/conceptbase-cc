@@ -1,0 +1,80 @@
+# This file is governed by the Creative Commons license
+#   attributeion-NonCommercial 3.0 Unported
+#   http://creativecommons.org/licenses/by-nc/3.0/
+#   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+#
+# Extended licenses, in particular commercial licenses, can be obtained from the
+# author of the source code.
+# Any re-distribution as source code must acknowledge the original author of this file.
+
+#
+# File: ack-safe.cbs
+# Author: Manfred Jeusfeld
+# Creation: 2010-07-13 (2014-04-30)
+# ----------------------------------------------------------------------
+# Compute the Ackermann function (see also http://en.wikipedia.org/wiki/Ackermann_function)
+# This script requires ConceptBase 7.2 released after 2010-07-13
+# The script shows that an ECArule can be used to prevent the execution of some query calls
+# when the parameters math the ON-clause and fulfill the IF-clause of the ECArule.
+# Of course, one can also include the check in the membership constraint of the query
+# (here: function a(m,n), but that would not lead to a user-definable error message.
+# The mode of the ECArule must be Immediate, otherwise the DO-clause would only be evaluated
+# after attempting to answer the query call (or function call).
+
+
+startServer -u nonpersistent -t no
+
+
+tell "
+a in Function isA Integer with
+  required,parameter
+    m: Integer;
+    n: Integer
+  constraint
+    cack: $ (m=0) and (this=n + 1) or
+            (m>0) and (n=0) and (this=a(m-1,1)) or
+            (m>0) and (n>0) and (this=a(m-1,a(m,n-1)) ) 
+        $
+end
+
+ECArule NoHighArgs with
+  mode m: Immediate
+  rejectMsg rm:
+   \"Do not call the Ackermann function with such high argument values!\"
+  ecarule
+    r1: $ x1,x2/Integer
+         ON Ask a[x1/m,x2/n]
+         IF (x1 > 3) 
+         DO reject
+        $
+end
+
+"
+
+# a(2,0)=3
+ask "a[2/m,0/n]" OBJNAMES  LABEL  Now
+echo "a(2,0)="
+showAnswer
+
+
+# a(2,1)=5
+ask "a[2/m,1/n]" OBJNAMES  LABEL  Now
+echo "a(2,1)="
+showAnswer
+
+# a(2,2)=7
+ask "a[2/m,2/n]" OBJNAMES  LABEL  Now
+echo "a(2,2)="
+showAnswer
+
+# a(3,3)=61
+ask "a[3/m,3/n]" OBJNAMES  LABEL  Now
+echo "a(3,3)="
+showAnswer
+
+
+# this call matches the ECArule NoHighArgs and will be aborted
+ask "a[4/m,1/n]" OBJNAMES  LABEL  Now
+echo "a(4,1)="
+why
+

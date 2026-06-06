@@ -1,0 +1,3011 @@
+==================
+doc-assertion-escaped: tutorial/chapters/cbTutorial.typ:1
+==================
+
+$forall e/Employee m/Manager
+                   (exists d/Department
+                     (e dept d) and (d head m))
+                   ==> (e boss m)$
+
+---
+
+(source_file
+  (assertion_embedding
+    (assertion
+      (rule
+        (kw_forall)
+        (variable_bind_list
+          (variable_bind
+            (var_list
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (variable_bind
+            (var_list
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))
+        (formula
+          (kw_exists)
+          (variable_bind_list
+            (variable_bind
+              (var_list
+                (identifier))
+              (object_name
+                (label
+                  (identifier)))))
+          (formula
+            (formula
+              (literal
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))
+                (infix_symbol
+                  (label
+                    (identifier)))
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))))
+            (kw_and)
+            (formula
+              (literal
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))
+                (infix_symbol
+                  (label
+                    (identifier)))
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))))))
+        (literal
+          (literal_arg
+            (object_name
+              (label
+                (identifier))))
+          (infix_symbol
+            (label
+              (identifier)))
+          (literal_arg
+            (object_name
+              (label
+                (identifier)))))))))
+
+==================
+doc-assertion-escaped: tutorial/chapters/cbTutorial.typ:2
+==================
+
+$\" and
+that this deductive rule is legal, because all variables appearing in
+the conlusion literal (#raw("e,m")) are universally (forall) quantified. The
+logically equivalent formula
+
+   forall e/Employee m/Manager d/Department
+        (e dept d) and (d head m)
+        ==> (e boss m)
+
+can also be used. \
+*Exercise 3.7: \
+Add the _BossRule_ to the database.*
+
+== Adding Integrity Constraints
+<adding-integrity-constraints>
+The following integrity constraint specifies that no Manager should earn
+less than 50000:
+
+Manager with
+   constraint
+      earnEnough:$
+
+---
+
+(source_file)
+
+==================
+doc-assertion-inline: tutorial/chapters/cbTutorial3.typ:1
+==================
+
+$ forall p/Place m/PNModel a/Place!sendsToken\n            (m contains p) and Ai(p,sendsToken,a)\n            ==> (m contains a) \$
+
+---
+
+(source_file)
+
+==================
+doc-assertion-inline: tutorial/chapters/cbTutorial3.typ:2
+==================
+
+$ forall t/Transition m/PNModel a/Transition!producesToken\n            (m contains t) and Ai(t,producesToken,a) \n            ==> (m contains a) \$
+
+---
+
+(source_file)
+
+==================
+doc-assertion-inline: tutorial/chapters/cbTutorial3.typ:3
+==================
+
+$ (pn = this) and\n               (this contains elem) and\n               (elem in type) $
+
+---
+
+(source_file)
+
+==================
+doc-assertion-escaped: tutorial/chapters/cbTutorial3.typ:1
+==================
+
+$forall p/Place m/PNModel a/Place!sendsToken\n            (m contains p) and Ai(p,sendsToken,a)\n            ==> (m contains a) $
+
+---
+
+(source_file)
+
+==================
+doc-assertion-escaped: tutorial/chapters/cbTutorial3.typ:2
+==================
+
+$forall t/Transition m/PNModel a/Transition!producesToken\n            (m contains t) and Ai(t,producesToken,a) \n            ==> (m contains a) $
+
+---
+
+(source_file)
+
+==================
+doc-assertion-escaped: user-manual/chapters/CBserver.typ:4
+==================
+
+$3 with Integer. If you supply less parameters than
+required by the script, it will issue an error message and quit. If the
+script had started a CBserver, then this CBserver is stopped before
+quitting. Likewise, if the script had enrolled to an existing CBserver
+process, it will unenroll before quitting.
+
+The variable$
+
+---
+
+(source_file)
+
+==================
+doc-assertion: user-manual/chapters/ECArules.typ:block:5
+==================
+
+ON Tell (x in A) FOR x
+
+---
+
+(source_file)
+
+==================
+doc-assertion: user-manual/chapters/ECArules.typ:block:6
+==================
+
+Class Employee with
+attribute
+    salary : Integer
+end
+View EmployeeWithHighSalary isA Employee with
+constraint
+    c : $ exists i/Integer (this salary i) and (i > 100000) $
+end
+Class EmployeeWithHighSalary_Materialized end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_exists)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))
+                    (kw_and)
+                    (formula
+                      (literal
+                        (ar_expr
+                          (ar_term
+                            (ar_factor
+                              (object_name
+                                (label
+                                  (identifier))))))
+                        (comp_symbol)
+                        (ar_expr
+                          (ar_term
+                            (ar_factor
+                              (object_name
+                                (label
+                                  (number
+                                    (integer)))))))))))))))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (end_spec)))
+
+==================
+doc-assertion: user-manual/chapters/ECArules.typ:block:7
+==================
+
+ECArule EmployeeWithHighSalary_Materialized_Ins with
+ecarule
+   er : $ x/Employee
+        ON Tell (x in Employee)
+        IF `(x in EmployeeWithHighSalary)
+        DO Tell (x in EmployeeWithHighSalary_Materialized) $
+end
+ECArule EmployeeWithHighSalary_Materialized_Del with
+ecarule
+   er : $ x/Employee
+        ON Untell (x in Employee)
+        IF (x in EmployeeWithHighSalary)
+        DO Untell (x in EmployeeWithHighSalary_Materialized) $
+end
+ECArule EmployeeWithHighSalary_Materialized_Ins_salary with
+ecarule
+   er : $ x/Employee y/Integer
+        ON Tell (x salary y)
+        IF `(x in EmployeeWithHighSalary)
+        DO Tell (x in EmployeeWithHighSalary_Materialized) $
+end
+ECArule EmployeeWithHighSalary_Materialized_Del_salary with
+ecarule
+   er : $ x/Employee y/Integer
+        ON Untell (x salary y)
+        IF (x in EmployeeWithHighSalary)
+        DO Untell (x in EmployeeWithHighSalary_Materialized) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (ecarule
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (kw_on)
+                  (eca_event
+                    (event_op)
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (kw_in))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))))
+                  (if_clause)
+                  (cond_formula
+                    (cond_formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_in))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier)))))))
+                  (kw_do)
+                  (action_list
+                    (action
+                      (action_op)
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_in))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (ecarule
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (kw_on)
+                  (eca_event
+                    (event_op)
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (kw_in))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))))
+                  (if_clause)
+                  (cond_formula
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (kw_in))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))))
+                  (kw_do)
+                  (action_list
+                    (action
+                      (action_op)
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_in))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (ecarule
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (kw_on)
+                  (eca_event
+                    (event_op)
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (label
+                          (identifier)))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))))
+                  (if_clause)
+                  (cond_formula
+                    (cond_formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_in))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier)))))))
+                  (kw_do)
+                  (action_list
+                    (action
+                      (action_op)
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_in))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (ecarule
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (kw_on)
+                  (eca_event
+                    (event_op)
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (label
+                          (identifier)))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))))
+                  (if_clause)
+                  (cond_formula
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (kw_in))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))))
+                  (kw_do)
+                  (action_list
+                    (action
+                      (action_op)
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_in))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-assertion: user-manual/chapters/ECArules.typ:block:8
+==================
+
+Class Employee end
+EmployeeCounter end
+
+ECArule EmployeeCounterRule with
+ecarule
+        er : $  x/Employee i,i1/Integer
+        ON Tell(In(x,Employee))
+        IF (i in EmployeeCounter)
+        DO Untell(In(i,EmployeeCounter)),
+           Call(increment(i,i1)),
+           Tell(In(i1,EmployeeCounter))
+        ELSE Tell(In(1,EmployeeCounter))
+        $
+end
+
+ECArule EmployeeCounterRule_del with
+ecarule
+        er : $  x/Employee i,i1/Integer
+        ON Untell(In(x,Employee))
+        IF (i in EmployeeCounter)
+        DO Untell(In(i,EmployeeCounter)),
+           Call(decrement(i,i1)),
+           Tell(In(i1,EmployeeCounter))
+        $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (ecarule
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier)
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (kw_on)
+                  (eca_event
+                    (event_op)
+                    (literal
+                      (functor)
+                      (literal_arg_list
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier)))))))
+                  (if_clause)
+                  (cond_formula
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (kw_in))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))))
+                  (kw_do)
+                  (action_list
+                    (action
+                      (action_op)
+                      (literal
+                        (functor)
+                        (literal_arg_list
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (action
+                      (action_op)
+                      (literal
+                        (label
+                          (identifier))
+                        (literal_arg_list
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (action
+                      (action_op)
+                      (literal
+                        (functor)
+                        (literal_arg_list
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))))
+                  (kw_else)
+                  (action_list
+                    (action
+                      (action_op)
+                      (literal
+                        (functor)
+                        (literal_arg_list
+                          (literal_arg
+                            (object_name
+                              (label
+                                (number
+                                  (integer)))))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))))))))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (ecarule
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier)
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (kw_on)
+                  (eca_event
+                    (event_op)
+                    (literal
+                      (functor)
+                      (literal_arg_list
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier)))))))
+                  (if_clause)
+                  (cond_formula
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (kw_in))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))))
+                  (kw_do)
+                  (action_list
+                    (action
+                      (action_op)
+                      (literal
+                        (functor)
+                        (literal_arg_list
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (action
+                      (action_op)
+                      (literal
+                        (label
+                          (identifier))
+                        (literal_arg_list
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (action
+                      (action_op)
+                      (literal
+                        (functor)
+                        (literal_arg_list
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))))))))))
+    (end_spec)))
+
+==================
+doc-assertion: user-manual/chapters/ECArules.typ:block:10
+==================
+
+ECArule LastModified_init with
+   mode m: ImmediateDeferred
+   ecarule
+        er : $ t/TransactionTime y/Employee
+               es/Employee!salary
+        ON Tell (es in Employee!salary)
+        IFNEW
+           From(es,y) and (y in EmpWithoutLastModified) and Known(es,t)
+        DO Tell (y lastModified t)
+        $
+end
+
+ECArule LastModified_change with
+   mode m: ImmediateDeferred
+   ecarule
+        er : $ t1,t2/TransactionTime y/Employee i/Integer
+               es/Employee!salary lab/Label
+        ON Tell (es in Employee!salary)
+        IFNEW 
+           From(es,y) and (y lastModified t1) and Known(es,t2)
+        DO Untell (y lastModified t1),
+           Tell (y lastModified t2)
+        $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (ecarule
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (object_name
+                          (label
+                            (identifier)))
+                        (selector1)
+                        (label
+                          (identifier)))))
+                  (kw_on)
+                  (eca_event
+                    (event_op)
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (kw_in))
+                      (literal_arg
+                        (object_name
+                          (object_name
+                            (label
+                              (identifier)))
+                          (selector1)
+                          (label
+                            (identifier))))))
+                  (if_clause)
+                  (cond_formula
+                    (cond_formula
+                      (cond_formula
+                        (literal
+                          (functor)
+                          (literal_arg_list
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier)))))))
+                      (kw_and)
+                      (cond_formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (kw_in))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (kw_and)
+                    (cond_formula
+                      (literal
+                        (functor)
+                        (literal_arg_list
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))))
+                  (kw_do)
+                  (action_list
+                    (action
+                      (action_op)
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (ecarule
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier)
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (object_name
+                          (label
+                            (identifier)))
+                        (selector1)
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (kw_on)
+                  (eca_event
+                    (event_op)
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (kw_in))
+                      (literal_arg
+                        (object_name
+                          (object_name
+                            (label
+                              (identifier)))
+                          (selector1)
+                          (label
+                            (identifier))))))
+                  (if_clause)
+                  (cond_formula
+                    (cond_formula
+                      (cond_formula
+                        (literal
+                          (functor)
+                          (literal_arg_list
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier)))))))
+                      (kw_and)
+                      (cond_formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (kw_and)
+                    (cond_formula
+                      (literal
+                        (functor)
+                        (literal_arg_list
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))))
+                  (kw_do)
+                  (action_list
+                    (action
+                      (action_op)
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))
+                    (action
+                      (action_op)
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-assertion: user-manual/chapters/ECArules.typ:block:11
+==================
+
+ECArule UpdateConnectedPlaces with
+  mode m: Deferred
+  rejectMsg rm: "The last firing of a transition failed. 
+                 Check whether the transition was enabled!"
+  ecarule
+    er : $ fire/FireTransition t/Transition p/Place m/Integer
+         ON Tell (fire transition t)
+         IF (t in Enabled) and
+            (p in ConnectedPlace[t]) and
+            (m = M(p)+IM(p,t))
+         DO Retell (p marks m)
+         ELSE reject $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (ecarule
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (kw_on)
+                  (eca_event
+                    (event_op)
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (label
+                          (identifier)))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))))
+                  (if_clause)
+                  (cond_formula
+                    (cond_formula
+                      (cond_formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (kw_in))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))
+                      (kw_and)
+                      (cond_formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (kw_in))
+                          (literal_arg
+                            (derive_exp
+                              (label
+                                (identifier))
+                              (literal_arg_list
+                                (literal_arg
+                                  (object_name
+                                    (label
+                                      (identifier))))))))))
+                    (kw_and)
+                    (cond_formula
+                      (literal
+                        (ar_expr
+                          (ar_term
+                            (ar_factor
+                              (object_name
+                                (label
+                                  (identifier))))))
+                        (comp_symbol)
+                        (ar_expr
+                          (ar_expr
+                            (ar_term
+                              (ar_factor
+                                (fun_expr
+                                  (label
+                                    (identifier))
+                                  (literal_arg_list
+                                    (literal_arg
+                                      (object_name
+                                        (label
+                                          (identifier)))))))))
+                          (ar_term
+                            (ar_factor
+                              (fun_expr
+                                (label
+                                  (identifier))
+                                (literal_arg_list
+                                  (literal_arg
+                                    (object_name
+                                      (label
+                                        (identifier))))
+                                  (literal_arg
+                                    (object_name
+                                      (label
+                                        (identifier))))))))))))
+                  (kw_do)
+                  (action_list
+                    (action
+                      (action_op)
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier)))))))
+                  (kw_else)
+                  (action_list
+                    (action)))))))))
+    (end_spec)))
+
+==================
+doc-assertion: user-manual/chapters/ECArules.typ:block:12
+==================
+
+ECArule UpdateConnectedPlacesV1 with
+  mode m: Deferred
+  ecarule
+    er : $ fire/FireTransition t/Transition p/Place m/Integer
+         ON Tell (fire transition t)
+         IF (p in Place) and
+            (m = M(p)+IM(p,t)) and
+            (t in Enabled) and 
+            (p in ConnectedPlace[t])
+         DO Retell (p marks m) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (ecarule
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (kw_on)
+                  (eca_event
+                    (event_op)
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (label
+                          (identifier)))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))))
+                  (if_clause)
+                  (cond_formula
+                    (cond_formula
+                      (cond_formula
+                        (cond_formula
+                          (literal
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))
+                            (infix_symbol
+                              (kw_in))
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))))
+                        (kw_and)
+                        (cond_formula
+                          (literal
+                            (ar_expr
+                              (ar_term
+                                (ar_factor
+                                  (object_name
+                                    (label
+                                      (identifier))))))
+                            (comp_symbol)
+                            (ar_expr
+                              (ar_expr
+                                (ar_term
+                                  (ar_factor
+                                    (fun_expr
+                                      (label
+                                        (identifier))
+                                      (literal_arg_list
+                                        (literal_arg
+                                          (object_name
+                                            (label
+                                              (identifier)))))))))
+                              (ar_term
+                                (ar_factor
+                                  (fun_expr
+                                    (label
+                                      (identifier))
+                                    (literal_arg_list
+                                      (literal_arg
+                                        (object_name
+                                          (label
+                                            (identifier))))
+                                      (literal_arg
+                                        (object_name
+                                          (label
+                                            (identifier))))))))))))
+                      (kw_and)
+                      (cond_formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (kw_in))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (kw_and)
+                    (cond_formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (kw_in))
+                        (literal_arg
+                          (derive_exp
+                            (label
+                              (identifier))
+                            (literal_arg_list
+                              (literal_arg
+                                (object_name
+                                  (label
+                                    (identifier))))))))))
+                  (kw_do)
+                  (action_list
+                    (action
+                      (action_op)
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-assertion: user-manual/chapters/GraphicalTypes.typ:block:4
+==================
+
+Class JavaGraphicalType isA GraphicalType with
+ attribute
+   implementedBy : String;
+   property : String;
+   priority : Integer
+ rule
+   rPriority : $ forall jgt/JavaGraphicalType (not (exists i/Integer
+                 A_e(jgt,priority,i))) ==> A(jgt,priority,0) $
+end
+
+Individual DefaultIndividualGT in JavaGraphicalType with
+  property
+     bgcolor : "210,210,210";
+     textcolor : "0,0,0";
+     linecolor : "0,0,0";
+     shape : "i5.cb.graph.shapes.Rect"
+  implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBIndividual"
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (rule
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (kw_not)
+                    (formula
+                      (formula
+                        (kw_exists)
+                        (variable_bind_list
+                          (variable_bind
+                            (var_list
+                              (identifier))
+                            (object_name
+                              (label
+                                (identifier)))))
+                        (formula
+                          (literal
+                            (label
+                              (identifier))
+                            (literal_arg_list
+                              (literal_arg
+                                (object_name
+                                  (label
+                                    (identifier))))
+                              (literal_arg
+                                (object_name
+                                  (label
+                                    (identifier))))
+                              (literal_arg
+                                (object_name
+                                  (label
+                                    (identifier))))))))))
+                  (literal
+                    (functor)
+                    (literal_arg_list
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (number
+                              (integer))))))))))))))
+    (end_spec))
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label)))))))
+    (end_spec)))
+
+==================
+doc-assertion: user-manual/chapters/GraphicalTypes.typ:block:15
+==================
+
+Class AgentGT in JavaGraphicalType with
+  rule
+   gtrule : $ forall a/Agent (a graphtype AgentGT) $
+  property
+   textcolor : "0,0,0";
+   linecolor : "0,0,0";
+   image: "https://myserver.comp.eu/images/AgentIcon.png"
+  implementedBy
+   implBy : "i5.cb.graph.cbeditor.CBIndividual"
+  priority
+    pr : 20
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (label
+                          (identifier)))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))))))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer))))))))
+    (end_spec)))
+
+==================
+doc-assertion: user-manual/chapters/GraphicalTypes.typ:block:16
+==================
+
+Class AgentGT in JavaGraphicalType with
+  rule
+    gtrule : $ forall a/Agent (a graphtype AgentGT) $
+  property
+    textcolor : "0,0,0";
+    linecolor : "0,0,0";
+    image: "file:///home/jonny/images/AgentIcon.png"
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBIndividual"
+  priority
+    pr : 20
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_in)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (label
+                          (identifier)))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))))))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (string_label))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (number
+                  (integer))))))))
+    (end_spec)))
+
+==================
+doc-assertion: user-manual/chapters/Language.typ:block:27
+==================
+
+Employee with
+ rule
+   BossRule : $ forall e/Employee m/Manager d/Department
+                (e dept d) and (d head m)
+                ==> (e boss m) $
+ constraint
+   SalaryBound : $ forall e/Employee b/Manager x,y/Integer
+                (e boss b) and (e salary x) and (b salary y)
+                   ==> (x <= y) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier)))))))))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_forall)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier))))
+                    (variable_bind
+                      (var_list
+                        (identifier)
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (formula
+                        (formula
+                          (literal
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))
+                            (infix_symbol
+                              (label
+                                (identifier)))
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))))
+                        (kw_and)
+                        (formula
+                          (literal
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier))))
+                            (infix_symbol
+                              (label
+                                (identifier)))
+                            (literal_arg
+                              (object_name
+                                (label
+                                  (identifier)))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))
+                    (formula
+                      (literal
+                        (ar_expr
+                          (ar_term
+                            (ar_factor
+                              (object_name
+                                (label
+                                  (identifier))))))
+                        (comp_symbol)
+                        (ar_expr
+                          (ar_term
+                            (ar_factor
+                              (object_name
+                                (label
+                                  (identifier))))))))))))))))
+    (end_spec)))
+
+==================
+doc-assertion: user-manual/chapters/Language.typ:block:30
+==================
+
+forall x,y,z/VAR  (x in Person) and (y in Person) and (z in Person)
+            and (x ancestor y) and (y ancestor z)
+                        ==> (x ancestor z)
+
+---
+
+(source_file)
+
+==================
+doc-assertion: user-manual/chapters/Language.typ:block:31
+==================
+
+forall x,y,z/Person (x ancestor y) and (y ancestor z)
+                        ==> (x ancestor z)
+
+---
+
+(source_file)
+
+==================
+doc-assertion: user-manual/chapters/Language.typ:block:35
+==================
+
+$ forall x/VAR SC/CLASS spec/ISA_complete 
+     (spec super SC) and (x in SC) ==>
+      exists SUBC/CLASS (spec sub SUBC) and (x in SUBC) $
+
+---
+
+(source_file
+  (assertion_embedding
+    (assertion
+      (formula
+        (kw_forall)
+        (variable_bind_list
+          (variable_bind
+            (var_list
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (variable_bind
+            (var_list
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (variable_bind
+            (var_list
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))
+        (formula
+          (formula
+            (formula
+              (literal
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))
+                (infix_symbol
+                  (label
+                    (identifier)))
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))))
+            (kw_and)
+            (formula
+              (literal
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))
+                (infix_symbol
+                  (kw_in))
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier)))))))
+          (formula
+            (kw_exists)
+            (variable_bind_list
+              (variable_bind
+                (var_list
+                  (identifier))
+                (object_name
+                  (label
+                    (identifier)))))
+            (formula
+              (formula
+                (literal
+                  (literal_arg
+                    (object_name
+                      (label
+                        (identifier))))
+                  (infix_symbol
+                    (label
+                      (identifier)))
+                  (literal_arg
+                    (object_name
+                      (label
+                        (identifier))))))
+              (kw_and)
+              (formula
+                (literal
+                  (literal_arg
+                    (object_name
+                      (label
+                        (identifier))))
+                  (infix_symbol
+                    (kw_in))
+                  (literal_arg
+                    (object_name
+                      (label
+                        (identifier)))))))))))))
+
+==================
+doc-assertion: user-manual/chapters/Language.typ:block:36
+==================
+
+$ forall x/Proposition spec/ISA SUBC/CLASS
+     (spec sub SUBC) and (x in SUBC) ==> (x inSubRel SUBC) $
+
+---
+
+(source_file
+  (assertion_embedding
+    (assertion
+      (formula
+        (kw_forall)
+        (variable_bind_list
+          (variable_bind
+            (var_list
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (variable_bind
+            (var_list
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (variable_bind
+            (var_list
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))
+        (formula
+          (formula
+            (formula
+              (literal
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))
+                (infix_symbol
+                  (label
+                    (identifier)))
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))))
+            (kw_and)
+            (formula
+              (literal
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))
+                (infix_symbol
+                  (kw_in))
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier)))))))
+          (formula
+            (literal
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier))))
+              (infix_symbol
+                (label
+                  (identifier)))
+              (literal_arg
+                (object_name
+                  (label
+                    (identifier)))))))))))
+
+==================
+doc-assertion: user-manual/chapters/Language.typ:block:37
+==================
+
+$ forall x/VAR SC/CLASS spec/ISA_complete 
+     (spec super SC) and (x in SC) ==>
+     exists SUBC/CLASS (spec sub SUBC) and (x inSubRel SUBC) $
+
+---
+
+(source_file
+  (assertion_embedding
+    (assertion
+      (formula
+        (kw_forall)
+        (variable_bind_list
+          (variable_bind
+            (var_list
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (variable_bind
+            (var_list
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (variable_bind
+            (var_list
+              (identifier))
+            (object_name
+              (label
+                (identifier)))))
+        (formula
+          (formula
+            (formula
+              (literal
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))
+                (infix_symbol
+                  (label
+                    (identifier)))
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))))
+            (kw_and)
+            (formula
+              (literal
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier))))
+                (infix_symbol
+                  (kw_in))
+                (literal_arg
+                  (object_name
+                    (label
+                      (identifier)))))))
+          (formula
+            (kw_exists)
+            (variable_bind_list
+              (variable_bind
+                (var_list
+                  (identifier))
+                (object_name
+                  (label
+                    (identifier)))))
+            (formula
+              (formula
+                (literal
+                  (literal_arg
+                    (object_name
+                      (label
+                        (identifier))))
+                  (infix_symbol
+                    (label
+                      (identifier)))
+                  (literal_arg
+                    (object_name
+                      (label
+                        (identifier))))))
+              (kw_and)
+              (formula
+                (literal
+                  (literal_arg
+                    (object_name
+                      (label
+                        (identifier))))
+                  (infix_symbol
+                    (label
+                      (identifier)))
+                  (literal_arg
+                    (object_name
+                      (label
+                        (identifier)))))))))))))
+
+==================
+doc-assertion: user-manual/chapters/Language.typ:block:50
+==================
+
+QueryClass Well_off_SI_Manager1 isA SI_Manager with
+     retrieved_attribute
+         union: Union
+     constraint
+         well_off_rule: $ exists s/HighSalary
+                        (this salary s) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_exists)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (label
+                          (identifier)))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier)))))))))))))
+    (end_spec)))
+
+==================
+doc-assertion: user-manual/chapters/Language.typ:block:51
+==================
+
+forall this,v
+          (this in SI_Manager) and
+          (this union v) and (v in Union) and
+          (exists s (s in HighSalary) and (this salary s))
+       ==> Well_off_SI_Manager1(this,v)
+
+       forall this,v Well_off_SI_Manager1(this,v) 
+       ==> (this in Well_off_SI_Manager1)
+
+---
+
+(source_file)
+
+==================
+doc-assertion: user-manual/chapters/Language.typ:block:52
+==================
+
+QueryClass Well_off_SI_Manager2 isA SI_Manager with
+     retrieved_attribute
+         union: Union
+     computed_attribute
+         head_of: Department
+     constraint
+         well_off_rule: $ exists s/HighSalary
+                    (this salary s) and
+                    (~head_of head this) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (kw_exists)
+                  (variable_bind_list
+                    (variable_bind
+                      (var_list
+                        (identifier))
+                      (object_name
+                        (label
+                          (identifier)))))
+                  (formula
+                    (formula
+                      (literal
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))
+                    (kw_and)
+                    (formula
+                      (literal
+                        (literal_arg
+                          (implicit_var
+                            (identifier)))
+                        (infix_symbol
+                          (label
+                            (identifier)))
+                        (literal_arg
+                          (object_name
+                            (label
+                              (identifier))))))))))))))
+    (end_spec)))
+
+==================
+doc-assertion: user-manual/chapters/Language.typ:block:53
+==================
+
+forall this,v1,v2
+          (this in SI_Manager) and
+          (this union v1) and (v1 in Union) and
+          (v2 in Department) and
+          (exists s (s in HighSalary) and (this salary s) 
+                     and (v2 head this))
+       ==> Well_off_SI_Manager2(this,v1,v2)
+
+       forall this,v1,v2 Well_off_SI_Manager2(this,v1,v2) 
+       ==> (this in Well_off_SI_Manager2)
+
+---
+
+(source_file)
+
+==================
+doc-assertion: user-manual/chapters/Language.typ:block:54
+==================
+
+QueryClass BillsMetaBoss isA Manager with
+     constraint
+         billsBosses:
+            $ (bill boss this) or
+              exists m/Manager
+                (m in BillsMetaBoss) and
+                (m boss this)$
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (formula
+                    (literal
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))
+                      (infix_symbol
+                        (label
+                          (identifier)))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))))
+                  (kw_or)
+                  (formula
+                    (kw_exists)
+                    (variable_bind_list
+                      (variable_bind
+                        (var_list
+                          (identifier))
+                        (object_name
+                          (label
+                            (identifier)))))
+                    (formula
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (kw_in))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))))
+                      (kw_and)
+                      (formula
+                        (literal
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier))))
+                          (infix_symbol
+                            (label
+                              (identifier)))
+                          (literal_arg
+                            (object_name
+                              (label
+                                (identifier)))))))))))))))
+    (end_spec)))
+
+==================
+doc-assertion: user-manual/chapters/Language.typ:block:78
+==================
+
+forall p/Position (exists p1/Position (p moveTo p1) and not (p1 in Win))
+  ==> (p in Win)
+
+---
+
+(source_file)
+
+==================
+doc-assertion: user-manual/chapters/Language.typ:block:79
+==================
+
+forall p
+   (exists p1 Position(p) and Position(p1) and moveTo(p,p1) and not Win(p1))
+  ==> Win(p)
+
+---
+
+(source_file)
+
+==================
+doc-assertion: user-manual/chapters/Language.typ:block:81
+==================
+
+exists ET/VAR (e in ET) and (ET in EntityType)
+
+---
+
+(source_file)
+
+==================
+doc-assertion: user-manual/chapters/Language.typ:block:83
+==================
+
+forall kv/VAR (kv [in] EntityType!key) ==> (kv in Entity!identifier)
+
+---
+
+(source_file)
+
+==================
+doc-assertion-inline: user-manual/chapters/Language.typ:36
+==================
+
+$""^and$
+
+---
+
+(source_file)
+
+==================
+doc-assertion-inline: user-manual/chapters/Language.typ:41
+==================
+
+$not P$
+
+---
+
+(source_file)
+
+==================
+doc-assertion: user-manual/chapters/Moduleserver.typ:block:24
+==================
+
+GenericQueryClass CB_PermittedTest isA CB_User with
+  parameter
+    user: CB_User;
+    res: Resource;
+    op: CB_Operation
+  constraint
+    cperm: $ (~op in CB_ReadOperation) and UNIFIES(~user,~this) $
+end
+
+---
+
+(source_file
+  (telos_object
+    (object_name
+      (label
+        (identifier)))
+    (object_name
+      (label
+        (identifier)))
+    (kw_isa)
+    (class_list
+      (object_name
+        (label
+          (identifier))))
+    (kw_with)
+    (decl_list
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))
+          (property
+            (label
+              (identifier))
+            (object_name
+              (label
+                (identifier))))))
+      (declaration
+        (attr_category_list
+          (label
+            (identifier)))
+        (property_list
+          (property
+            (label
+              (identifier))
+            (assertion_embedding
+              (assertion
+                (formula
+                  (formula
+                    (literal
+                      (literal_arg
+                        (implicit_var
+                          (identifier)))
+                      (infix_symbol
+                        (kw_in))
+                      (literal_arg
+                        (object_name
+                          (label
+                            (identifier))))))
+                  (kw_and)
+                  (formula
+                    (literal
+                      (functor)
+                      (literal_arg_list
+                        (literal_arg
+                          (implicit_var
+                            (identifier)))
+                        (literal_arg
+                          (implicit_var
+                            (identifier)))))))))))))
+    (end_spec)))
+
+==================
+doc-assertion-inline: user-manual/chapters/O-Telos-Axioms.typ:2
+==================
+
+$\( x_1 = x_2 \) and \( n_1 = n_2 \) and \( y_1 = y_2 \)$
+
+---
+
+(source_file)
+
+==================
+doc-assertion-inline: user-manual/chapters/O-Telos-Axioms.typ:12
+==================
+
+$exists med o \, n med P \( o \, x \, n \, y \) and italic("In") \( o \, p \)$
+
+---
+
+(source_file)
+
+==================
+doc-assertion-inline: user-manual/chapters/O-Telos-Axioms.typ:18
+==================
+
+$forall med c \, d \, a_1 \, a_2 \, m \, e \, f$
+
+---
+
+(source_file)
+
+==================
+doc-assertion-inline: user-manual/chapters/O-Telos-Axioms.typ:20
+==================
+
+$forall med c \, d \, a_1 \, a_2 \, m_1 \, m_2 \, e \, f$
+
+---
+
+(source_file)
+
+==================
+doc-assertion-inline: user-manual/chapters/O-Telos-Axioms.typ:22
+==================
+
+$forall med x \, m \, y \, c \, d \, a_1 \, a_2 \, e \, f med \( italic("In") \( x \, c \) and italic("In") \( x \, d \) and P \( a_1 \, c \, m \, e \) and P \( a_2 \, d \, m \, f \)$
+
+---
+
+(source_file)
