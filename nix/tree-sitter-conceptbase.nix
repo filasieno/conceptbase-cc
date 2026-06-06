@@ -56,7 +56,8 @@ let
     checkPhase = ''
       runHook preCheck
       log=$(mktemp)
-      if ! (cd source && tree-sitter generate >"$log" 2>&1); then
+      grammar_dir=$(dirname $(find .. -name grammar.js | head -n 1))
+      if ! (cd "$grammar_dir" && tree-sitter generate >"$log" 2>&1); then
         echo "tree-sitter generate failed:"
         cat "$log"
         exit 1
@@ -66,7 +67,7 @@ let
         cat "$log"
         exit 1
       fi
-      test -s source/src/parser.c
+      test -s "$grammar_dir/src/parser.c"
       runHook postCheck
     '';
   };
