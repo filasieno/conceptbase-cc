@@ -1,0 +1,73 @@
+{*
+* File SalaryBoundWithHint.sml
+* Author: Manfred Jeusfeld, jeusfeld@uvt.nl
+* Date: 3-Apr-2005 (8-Apr-2005)
+*----------------------------------------------------------------
+*
+* This small example is excerpted from the ConceptBase user manual.
+* It shows how to define readable 'hints' that are displayed to the user 
+* when an integrity constraint is violated.
+* Requires ConceptBase 6.2 (released after 4-Apr-2005).
+*
+*}
+
+Individual Employee in Class with
+   attribute
+      name: String;
+      salary: Integer;
+      dept: Department;
+      boss: Manager
+end
+
+Individual Manager in Class isA Employee end
+
+Individual Department in Class with
+   attribute
+      head: Manager
+end
+
+Employee with
+ rule
+   BossRule : $ forall e/Employee m/Manager
+                (exists d/Department
+                (e dept d) and (d head m))
+                ==> (e boss m) $
+ constraint
+   SalaryBound : $ forall e/Employee b/Manager x,y/Integer
+                (e boss b) and (e salary x) and (b salary y)
+                   ==> (x <= y) $
+end
+
+Employee!SalaryBound with
+ comment
+   hint: "An employee may not earn more than her/his manager!"
+end
+
+
+Individual mary in Manager with
+  name
+    hername: "mary Smith"
+  salary
+    earns: 15000
+  dept
+    advises:PR;
+    currentdept:RD
+end
+
+Individual PR in Department end
+
+Individual RD in Department end
+
+{* Tell these two frames separately to trigger an integrity violation:
+
+Individual bill in Manager with
+  salary
+   earns: 1000
+end
+
+Individual PR in Department with
+  head PRhead: bill
+end
+
+*}
+

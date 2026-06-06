@@ -1,0 +1,16 @@
+#
+# File: ticket288.cbs
+# Author: Manfred Jeusfeld
+# Created: 2011-09-20/M.Jeusfeld (2011-09-20/M.Jeusfeld)
+# ------------------------------------------------------
+# The UnreachableFrom query could run into an infinite loop when calles with certain 
+# start objects such as 'borkum'
+#
+# Start: CBshell -f ticket288.cbs
+#
+
+startServer -u nonpersistent -c keep
+tellModel /home/jeusfeld/CBMODELS/BigFlights
+
+ask "find_instances[UnReachableFrom[borkum/start]/class]" OBJNAMES LABEL Now
+

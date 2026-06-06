@@ -1,0 +1,94 @@
+{* 
+* File: ClubMemberDomainModel.sml
+* Author: Manfred Jeusfeld, jeusfeld@uvt.nl
+* Date: 2012-03-28 (2012-03-30)
+*----------------------------------------------------------------
+*
+* ConceptBase representation of the UML domain model 'ClubMember'
+*
+*}
+
+
+Person in Class with
+  attribute
+     firstName: Individual;
+     lastName: Individual
+end
+
+Female isA Person end
+Male isA Person end
+
+GenderConstraints in Class with
+  constraint
+    isComplete: $ forall p/Person (p in Female) or (p in Male) $;
+    isDisjoint1: $ forall p/Female not (p in Male) $;
+    isDisjoint2: $ forall p/Male not (p in Female) $
+end
+
+ClubMember isA Female with
+  attribute
+    memberId: Individual
+end
+
+FullMember isA ClubMember end
+
+ProvisionalMember in Class isA ClubMember with
+  attribute
+    mentor: FullMember
+  constraint
+    c1: $ forall pm/ProvisionalMember exists fm/FullMember (pm mentor fm) $
+end
+
+MemberConstraints in Class with
+  constraint
+    isComplete: $ forall p/ClubMember (p in FullMember) or (p in ProvisionalMember) $;
+    isDisjoint1: $ forall p/FullMember not (p in ProvisionalMember) $;
+    isDisjoint2: $ forall p/ProvisionalMember not (p in FullMember) $
+end
+
+
+
+
+p123 in FullMember with
+  memberId id: "p123"
+  firstName fn: "Mary"
+  lastName ln: "Smith"
+end
+
+p999 in FullMember with
+  memberId id: "p999"
+  firstName fn: "Carla"
+  lastName ln: "Miller"
+end
+
+p888 in Male with
+  firstName fn: "John"
+  lastName ln: "Doe"
+end
+
+p345 in ProvisionalMember with
+  memberId id: "p345"
+  firstName fn: "Anne"
+  lastName ln: "Arbor"
+  mentor m1: p123
+end
+
+
+{ ** inconsistent data
+p888 in ClubMember end
+
+p123 with
+   mentor
+     m2: p999
+end
+
+
+p346 in ProvisionalMember with
+  memberId id: "p346"
+  firstName fn: "Paula"
+  lastName ln: "Arbor"
+end
+
+
+*}
+

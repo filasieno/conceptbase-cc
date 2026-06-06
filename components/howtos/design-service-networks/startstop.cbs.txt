@@ -1,0 +1,10 @@
+# start and stop the CBserver with -views option
+# ==> will materialize all queries that needs to be materialized
+
+startServer -port 4002 -d DB-SERVICE -views VIEWS -t veryhigh
+stopServer
+
+
+
+
+

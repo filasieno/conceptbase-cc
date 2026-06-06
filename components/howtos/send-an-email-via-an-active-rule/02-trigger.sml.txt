@@ -1,0 +1,7 @@
+A1 in HTML_Form with
+  feature
+    form_type: "AbstractSubmission";
+    memberPC: "yes";
+    content: "This is an example abstract submission ..."
+end
+

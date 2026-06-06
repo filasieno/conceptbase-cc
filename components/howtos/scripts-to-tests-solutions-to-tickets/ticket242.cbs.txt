@@ -1,0 +1,118 @@
+#
+# File: ticket242.cbs
+# Author: Manfred Jeusfeld
+# Creation: 04-Mar-2010 (10-Mar-2010)
+# ----------------------------------------------------------------------
+#
+# Concerned class not found when only subclasses define such an attribute.
+#
+# This is also the normal behavior of ConceptBase, i.e. when the predicate 
+# typing is set to its default 'strict'. It may however be useful to also
+# consider subclasses when superclasses do not define an attribute with the
+# label used in an attribution predicate (x m y).
+#
+
+#startServer -u nonpersistent -t high -cc strict
+startServer -u nonpersistent -t high -cc extended
+
+
+tell "
+
+Model with
+  attribute
+    contains: Proposition
+end
+
+ActivityNode with
+  attribute
+     next: ActivityNode
+end
+
+Activity isA ActivityNode end
+
+ActivityDiagram in Model,Class isA Activity with
+  contains
+    activity: ActivityNode
+end
+
+
+{* this one has the problem with the concerned class *}
+{* The constraint has an OR-condition where the predicate (diagram activity x) makes sense. *}
+{* The class of diagram is however ActivityNode, since we also want to return an answer     *}
+{* when diagram is not an instance of ActivityDiagram.                                      *}
+StartNode1 in GenericQueryClass isA ActivityNode with
+   parameter,computed_attribute
+      diagram: ActivityNode
+   constraint
+      isStart: $ ((diagram in ActivityDiagram) and (diagram activity this) and not exists a/ActivityNode (diagram activity a) and (a \= this) and :(a next this):) or
+                 (not (diagram in ActivityDiagram)) and (this=diagram) $
+end
+
+{* this one is just fine because it uses the internal predicate Adot *}
+StartNode2 in GenericQueryClass isA ActivityNode with
+   parameter,computed_attribute
+      diagram: ActivityNode
+   constraint
+      isStart: $ ((diagram in ActivityDiagram) and Adot(ActivityDiagram!activity,diagram,this) and not exists a/ActivityNode Adot(ActivityDiagram!activity,diagram,a) and (a \= this) and :(a next this):) or
+                 (not (diagram in ActivityDiagram)) and (this=diagram) $
+end
+
+
+{* this checks the behavior for ordinary classes *}
+StartNode3 in Class isA ActivityNode with
+   constraint
+      isStart: $ exists his,diagram/ActivityNode ((diagram in ActivityDiagram) and (diagram activity his) and not exists a/ActivityNode (diagram activity a) and (a \= his) and :(a next this):) or
+                 (not (diagram in ActivityDiagram)) and (his=diagram) $
+end
+
+"
+
+
+
+# This example shows that the 'strict' mode is generally preferrable.
+# The constraint of class C ranges over all instances of C. However,
+# if we use the predicate typing mode 'extended', then (x m y)
+# shall be bound to the attribute D!m. This enforces that x must
+# actually be an instance of D (a subclass of C). So, the constraint
+# is effectively
+#   forall x/D exists y/E (x m y)
+# It is a constraint that should better be directly defined for D.
+# In mode 'strict', this is the only way to do it. Normal ConceptBase
+# users will probably prefer this behavior.
+
+tell "
+C end
+D isA C with
+  attribute
+     m: E
+end
+
+E end
+
+C in Class with
+  constraint
+     c1: $ forall x/C exists y/E (x m y) $
+end
+"
+
+#this succeeds (if the previous tell has succeeded)
+tell "y1 in E end"
+
+#this fails (x1 has no m-attribute)
+tell "x1 in C end"
+
+#this fails as well: C does not define an m attribute
+tell "x2 in C with m m1: y1 end"
+
+# this succeeds; indeed, there may be no instances of C that are not instance of D
+tell "x3 in D with m m1: y1 end"
+
+
+
+
+
+
+
+
+
+

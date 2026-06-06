@@ -1,0 +1,158 @@
+#
+# File: sp.cbs
+# Author: Manfred Jeusfeld
+# Creation: 26-Mar-2008 (14-Oct-2008)
+# -----------------------------------
+# Test ConceptBase's capabilities to compute the length of the shortest path between two nodes.
+#
+# (c) 2008 by M. Jeusfeld. 
+# This script is licensed under the terms of attributeion-Non-Commercial 2.0 Germany 
+#   http://creativecommons.org/licenses/by-nc/2.0/de/legalcode  (German)
+#   http://creativecommons.org/licenses/by-nc/2.0/legalcode     (generic)
+# A summary of your rights and obligations concerning this work is available from
+#   http://creativecommons.org/licenses/by-nc/2.0/de/deed.en_GB
+# Extended rights can be obtained via the author.
+#
+# Requires ConceptBase 7.1.4 released 14-Oct-2008 or later
+# Compare to a Java implementation of shortest path computation such as in
+# http://www-b2.is.tokushima-u.ac.jp/~ikeda/suuri/dijkstra/Dijkstra.java
+
+startServer -u nonpersistent 
+
+tell "
+Proposition!attribute with
+  attribute
+    isTransitiveClosureOf: Proposition!attribute
+end
+
+
+MakeTransitiveSemantics1 in Class with
+  rule
+   transR1: $ forall x,y,MA,MB/VAR
+                     A,B/Proposition!attribute C/Proposition
+
+                     (B isTransitiveClosureOf A) and
+                     P(A,C,MA,C) and P(B,C,MB,C) and
+                     (x in C) and (y in C) and
+                     (x MA y) ==> (x MB y) $;
+
+   transR2: $ forall x,y,z,MA,MB/VAR
+                     A,B/Proposition!attribute C/Proposition
+
+                     (B isTransitiveClosureOf A) and
+                     P(A,C,MA,C) and P(B,C,MB,C) and
+                     (x in C) and (y in C)  and (z in C) and
+                     (x MA z) and (z MB y) ==> (x MB y) $
+end
+"
+
+
+# Define nodes and links (next) and the transitive closure of links.
+# Define a small example graph. Note that is has a cycle.
+tell "
+Node with
+  attribute
+     next: Node;
+     nexttrans: Node
+end
+
+Node!nexttrans with
+  isTransitiveClosureOf
+    baseattribute: Node!next
+end
+
+a in Node with
+  next n1: a1;
+       n2: a2
+end
+a1 in Node with next n1: a11 end
+a11 in Node with next n1: a12 end
+a12 in Node with next n1: z; n2: a11 end
+a2 in Node with next n1: a21 end
+a21 in Node with next n1: z end
+z in Node end
+"
+
+# The shortest path computation is split into two parts spSet[x,y] returns
+# the lenghts of the shortest paths of all successors of x to the destination y.
+# sp uses spSet to define the length of the shortest path between x,y.
+# The two definitions are recursively calling each other. Hence, we need a forward
+# declaration of the signature of spSet. The 2nd frame of spSet then defines the
+# proper code.
+# Note: we could also use '\=' instead of '<>'. However, the CBshell regards the '\'
+# as escape character, thus transforming '\=' to '='. This is of course not what we
+# want. In a SML file, you can use '\=' without this restriction.
+
+tell "
+spSet in GenericQueryClass isA Integer with
+  parameter
+    x: Node;
+    y: Node
+end
+
+sp in Function isA Integer with
+  parameter
+    x: Node;
+    y: Node
+  constraint
+    csp: $ (x=y) and (this=0) or
+           (x nexttrans y) and (x <> y) and (this = MIN(spSet[x,y])+1)
+         $
+end
+
+spSet in GenericQueryClass isA Integer with
+  parameter
+    x: Node;
+    y: Node
+  constraint
+   csps: $ exists x1/Node (x next x1) and (this=sp(x1,y)) $
+end
+"
+
+# We can also compute, which nodes lie on a shortest path between x and y.
+# The definition is similar to the definition above and actually uses sp
+# as an auxiliary function.
+# minNode[x,y]: returns direct successors of x that lie on a shortest path
+#               between x,y
+# spNode[x,y]:  returns all nodes that lie on a shortest path between x,y
+# Note that there may be more than one shortest path between x,y!
+
+tell "
+minNode in GenericQueryClass isA Node with
+  parameter
+    x: Node;
+    y: Node
+  constraint
+    cmin: $ (x next this) and (sp(x,y)=sp(this,y)+1) $
+end
+
+spNode in GenericQueryClass isA Node with
+  parameter
+    x: Node;
+    y: Node
+  constraint
+   csps: $ (x=y) and (this=x) or 
+           (exists x1/Node (x1 in minNode[x,y]) and ((this=x1) or (this in spNode[x1,y])))
+         $
+end
+"
+
+# This call should return 3 as the length of the shortest path
+ask "sp[a/x,z/y]" OBJNAMES LABEL Now
+
+# This call returns 2,3 
+ask "spSet[a/x,z/y]" OBJNAMES LABEL Now
+
+# This one returns a2 (the shortest path goes via a2, not via a1)
+ask "minNode[a/x,z/y]" OBJNAMES LABEL Now
+
+# This call returns all the nodes on a shortest path between a,z (including z, excluding a)
+ask "spNode[a/x,z/y]" OBJNAMES LABEL Now
+
+# We might want to store the query call spNode[a/x,z/y] so that we can refer to it more easily
+tell "spNode[a/x,z/y] in QueryCall end"
+
+# It can be asked like any other class
+ask "find_instances[spNode[a/x,z/y]/class]" OBJNAMES LABEL Now
+
+

@@ -1,0 +1,46 @@
+
+#
+# File: ticket342.cbs
+# Author: Manfred Jeusfeld
+# Created: 2014-03-10/M.Jeusfeld (2014-03-10/M.Jeusfeld)
+# ------------------------------------------------------
+# Test alphanumeric object names that start with a number and 
+#
+#
+# Start: cbshell ticket342.cbs
+#
+
+
+
+cbserver -u nonpersistent
+
+
+tell "
+4EM in Module with
+  attribute
+    aboutnumber: 4
+end
+"
+
+# this is an incorrect use of showAnswer BEFORE the command result
+ask "get_object[4EM/objname]" OBJNAMES  FRAME  Now
+showAnswer
+result OK "4EM in Module with  
+  attribute
+    aboutnumber : 4
+end"
+
+
+
+# this is a correct use of showAnswer AFTER the command result
+ask "get_object[4EM/objname]" OBJNAMES  FRAME  Now
+result OK "4EM in Module with  
+  attribute
+    aboutnumber : 4
+end"
+showAnswer
+
+stopServer
+
+
+

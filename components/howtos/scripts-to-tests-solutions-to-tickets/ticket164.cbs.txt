@@ -1,0 +1,40 @@
+startServer -u nonpersistent -t low -p 4002
+tell "
+   Employee in Class with
+     attribute
+       dept: Department;
+       deptsize: Integer
+     rule
+       sizerule: $ forall e/Employee d/Department s/Integer n/Label
+                         (e dept d) and Label(d,n) and (d size s) ==> (e deptsize/n s) $
+   end
+   Department with
+     attribute
+       size: Integer
+   end
+   "
+   tell "
+   bill in Employee with
+     dept d1: D1; d2: D2; d3: D3
+   end
+   Department D1 with size s: 100 end
+   Department D2 with size s: 121 end
+   Department D3 with size s: 100 end
+   "
+tell "
+   EmpWithFN in QueryClass isA Employee with
+     retrieved_attribute
+       deptsize:Integer
+   end
+   "
+ask "EmpWithFN" OBJNAMES  FRAME  Now
+tell "
+   AllDSizes in GenericQueryClass isA Real with
+     parameter
+       emp: Employee
+     constraint
+       c1: $ (~this =  SUM_attributee[~emp/objname,Employee!deptsize/attrcat]) $
+   end
+   "
+ask "AllDSizes[bill/emp]" OBJNAMES  FRAME  Now
+

@@ -1,9 +1,0 @@
-; To be used with telosLoader
-; 19-Jul-2000
-;
-./COMPANYPROFILES/01defs.sml
-./ONTOLOGY/01OntologySchema.sml
-./ONTOLOGY/03HCP_Conceptattributees.sml
-./ONTOLOGY/04SBK_Lexicon_Dutch.sml
-./ONTOLOGY/05SBK_Lexicon_English.sml
-./ONTOLOGY/06OntologyQueries.sml

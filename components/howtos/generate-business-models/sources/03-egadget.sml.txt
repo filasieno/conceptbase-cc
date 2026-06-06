@@ -1,0 +1,143 @@
+{
+*
+* File: 03-egadget.sml.txt
+* Author: Manfred Jeusfeld
+* Creation: 29-Nov-2013 (11-Feb-2014/M.Jeusfeld)
+* ----------------------------------------------------------------------
+* 
+* Adapted from A. Osterwalder, Y. Pigneur (2010): Business Model Generation. Wiley, 2010,
+* p 46;
+* the example is used here to highlight some features of the ConceptBase representation of
+* a business model; it is not meant as a statement about some real companies
+* The difference to the original model is that we add links for information and resource flows
+* 
+}
+
+
+
+MassMarket in Customer end
+
+OnlineMusicStore in Channel 
+end
+
+
+
+egadget_com in Channel with
+  flowTo sale: MassMarket
+end
+
+RetailStore in Channel with
+  flowTo sale: MassMarket
+end
+
+LoveMark in CustomerRelationship with
+  influences mm: MassMarket
+end
+
+Advertisements in CustomerRelationship with
+  influences mm: MassMarket
+end
+
+SeamlessMusicExperience in ValueProposition with
+  link neededFor: Advertisements
+end
+
+largeHardewareRevenues in Revenue end
+someMusicRevenues in Revenue end
+
+HardwareDesign in KeyActivity with
+  link suppliedTo: OEM
+end
+Marketing in KeyActivity 
+end
+
+
+Employee in KeyResource end
+
+MyCompBrand in KeyResource end
+
+eGadget_Hardware in KeyResource with
+  flowTo shop: RetailStore
+  flowTo eshop: egadget_com
+end
+
+ContentAgreements in KeyResource with
+  influences neededFor1: SeamlessMusicExperience
+  link neededFor2 : OnlineMusicStore
+end
+
+EmployeeSalary in Cost end
+ManufacturingCost in Cost end
+MarketingCost in Cost end
+SalesCost in Cost end
+
+balance in Balance with
+  paysTo c1: EmployeeSalary
+  paysTo c2: ManufacturingCost
+  paysTo c3: MarketingCost
+  paysTo c4: SalesCost
+end
+
+
+RecordCompanies in KeyPartner with
+  link sign: ContentAgreements
+end
+OEM in KeyPartner with
+ flowTo inventory: eGadget_Hardware
+end
+
+OnlineMusicStore with
+  link musicfile: MassMarket
+end
+
+ManufacturingCost with
+  paysTo p: OEM
+end
+
+SalesCost with
+  paysTo p: OnlineMusicStore
+end
+
+
+
+
+MarketingCost with
+  paysTo p: Marketing
+end
+
+EmployeeSalary with
+  paysTo p: Employee
+end
+
+
+MassMarket with
+  paysTo buyMusic: someMusicRevenues
+  paysTo buyiPod:  largeHardewareRevenues
+end
+
+someMusicRevenues with
+  paysTo bal: balance
+end
+
+largeHardewareRevenues with
+  paysTo bal: balance
+end
+
+
+
+HardwareDesign with
+  influences neededFor: SeamlessMusicExperience
+end
+
+MyCompBrand with
+  link neededFor: LoveMark
+end
+
+Marketing with
+  link neededFor: LoveMark
+end
+
+
+
+
+

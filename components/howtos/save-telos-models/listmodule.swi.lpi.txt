@@ -1,0 +1,464 @@
+/*
+This file is governed by the Creative Commons license
+   attributeion-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*/
+
+/* 
+*
+* File: listmodule.swi.lpi
+* Author: Manfred Jeusfeld (jeusfeld@uvt.nl)
+* Created: 2009-09-01 (2010-09-17)
+* -----------------------------------------------------------------------------
+* This file defines the query listCurrentModule that returns all
+* Telos frames from the current module. You can call the query via the
+* 'Display queries' dialogue of the ConceptBase user interface.
+* 
+* This plugin can be added to ConceptBase 7.2, released in September 2009 or later.
+* See ConceptBase user manual at http://conceptbase.cc/userManual72/ for
+* instructions on how to do it.
+*
+* To add the plugin to all databases managed by ConceptBase, copy this file to the
+* directory <CB_HOME>/lib/system.
+* To add the plugin only to a specific database just copy it to that database.
+* This plugin uses the syntax of SWI-Prolog.
+*
+*/
+
+
+/* declare the query; it has no parameters */
+
+tell: 'listCurrentModule in BuiltinQueryClass end'.
+
+
+
+/* handle for answering the query listCurrentModule */
+
+process_listCurrentModule(_result,[]) :-
+   'ModelConfiguration':getModule(_mod),
+   listModule(_result,_mod),
+   !.
+
+
+/* private code for processing the query */
+/* The code also declares a ConceptBase query class DoNotSave_* that is used internally */
+
+
+listModule(_frames,_mod) :-
+  'ExternalCodeLoader':initBuffer(_buf,1000),  
+  setNotToSave,
+  initHeader(_buf,_mod),
+  extractModulePropositions(_mod,_allprops),
+  pruneProps(_allprops,_prunedprops),
+  convertPropositionsToFragments(_prunedprops,_fraglist),
+  printFragments(_buf,_fraglist),
+  'ExternalCodeLoader':appendBuffer(_buf,'{* -/- *}\n'),
+  'ExternalCodeLoader':getStringFromBuffer(_frames,_buf),
+  !.
+
+listModule(_,_) :-
+  write('!!! listmodule.swi.lpi: Unexpected error with listModule'),nl,
+  !.
+
+initHeader(_buf,_mod) :-
+  'PrologCompatibility':pc_recorded(user,'AuxAnswerParameter',_u),
+  'PrologCompatibility':pc_recorded(currentpath,'AuxAnswerParameter',_cp),
+  'PrologCompatibility':pc_recorded(currentmodule,'AuxAnswerParameter',_cm),
+  'PrologCompatibility':pc_recorded(transactiontime,'AuxAnswerParameter',_tt),
+  'ExternalCodeLoader':appendBuffer(_buf,'{*\n'),
+  'ExternalCodeLoader':appendBuffer(_buf,'* Module: '),
+  'ExternalCodeLoader':appendBuffer(_buf,_cp),
+  'ExternalCodeLoader':appendBuffer(_buf,'\n'),
+  'ExternalCodeLoader':appendBuffer(_buf,'* -------------------------------------------------------\n'),
+  'ExternalCodeLoader':appendBuffer(_buf,'* Excerpted at '),
+  'ExternalCodeLoader':appendBuffer(_buf,_tt),
+  'ExternalCodeLoader':appendBuffer(_buf,' by '),
+  'ExternalCodeLoader':appendBuffer(_buf,_u),
+  'ExternalCodeLoader':appendBuffer(_buf,'\n'),
+  'ExternalCodeLoader':appendBuffer(_buf,'*\n'),
+  'ExternalCodeLoader':appendBuffer(_buf,'*}\n\n'),
+  !.
+
+
+pruneProps(_all,_pruned) :-
+  pruneProps(_all,[],_pruned).
+
+pruneProps([],_dropped,[]) :- 
+  !.
+
+pruneProps([_p|_rest],_dropped,_pruned) :-
+  _p=P(_id,_x,_l,_y),
+  ('GeneralUtilities':member(_x,_dropped);
+   toBeDropped(_p)
+  ),
+  pruneProps(_rest,[_id|_dropped],_pruned),
+  !.
+
+pruneProps([_p|_rest],_dropped,[_p|_restpruned]) :-
+  pruneProps(_rest,_dropped,_restpruned).
+  
+  
+
+
+printFragments(_buf,[]) :- 
+  'ExternalCodeLoader':appendBuffer(_buf,'\n').
+
+printFragments(_buf,[_frag|_rest]) :- 
+  timeFragment(_frag,_time),
+  'GeneralUtilities':timetoatom(_time,_at),
+  'ExternalCodeLoader':appendBuffer(_buf,'{* '),
+  'ExternalCodeLoader':appendBuffer(_buf,_at),
+  'ExternalCodeLoader':appendBuffer(_buf,' *}\n'),
+  printFragments(_buf,_rest).
+
+printFragments(_buf,[_frag|_rest]) :- 
+  'SelectExpressions':changeIdentifierExp(_frag,insertSelectExpression,_frag1),
+  'ScanFormatUtilities':build_frame(_frag1,_buf),
+  'ExternalCodeLoader':appendBuffer(_buf,'\n'),
+  printFragments(_buf,_rest).
+
+
+
+
+timeFragment(_frag,_time) :-
+  _frag = SMLfragment(what(_tid),
+                        in_omega([]),
+                        in([class(_tt)]),
+                        isa([]),
+                        with([])),
+  'GeneralUtilities':id2name(_tt,'TransactionTime'),
+  'GeneralUtilities':id2name(_tid,_tat),
+  'PrologCompatibility':pc_atomconcat('"',_suffix,_tat),
+  'PrologCompatibility':pc_atomconcat(_stripped,'"',_suffix),
+  'PrologCompatibility':pc_atom_to_term(_stripped,_time),
+  _time=tt(_),
+  !.
+
+
+setNotToSave :-
+  'GeneralUtilities':name2id('DoNotSave_1',_NotToSave),   /* use versioned query name to allow hotfixes */
+  'GeneralUtilities':save_setof(_x,'Literals':prove_literal(In(_x,_NotToSave)),_idlist),
+/*  write('notToSave='),write(_idlist),nl, */
+  'GeneralUtilities':setFlag(notToSave,_idlist),
+  !.
+
+
+toBeDropped(P(_id,_x,_l,_y)) :-
+  'GeneralUtilities':getFlag(notToSave,_idlist),
+  'GeneralUtilities':member(_id,_idlist),
+  !.
+
+
+toBeDropped(P(_id,_x,_l,_y)) :-
+  'validProposition':attribute(P(_id,_x,_l,_y)),
+  labelGenerated(_l,_y),
+/*  write(labelGenerated(_l,_y)),nl, */
+  !.
+  
+labelGenerated(_lab,_y) :-
+  atom(_lab),
+  'PrologCompatibility':pc_atomconcat(_prefix,'generated',_lab),
+  !.
+
+extractModulePropositions(_mod,_allprops) :-
+  'GeneralUtilities':save_bagof(_prop,modprop(_mod,_prop),_allprops).
+
+
+modprop(_mod,P(_id,_x,_n,_y)) :- 
+  'PropositionProcessor':retrieve_proposition_noimport(_mod,P(_id,_x,_n,_y)).
+
+
+convertPropositionsToFragments(_allprops,_fraglist) :-
+  structureAllprops(_allprops,_runlist),
+  convertRuns(_runlist,_fraglist),
+  !.
+
+
+convertRuns(_allruns,_fraglist) :-
+  convertRuns(_allruns,[],_fraglist).
+
+convertRuns([],_sofar,_sofar) :- !.
+
+convertRuns([run(_p,_runprops)|_restrun],_sofar,_fraglist) :-
+  convertObjectWithLinks(_p,_runprops,_fraglist1),
+  'GeneralUtilities':append(_sofar,_fraglist1,_newsofar),
+  convertRuns(_restrun,_newsofar,_fraglist).
+
+
+structureAllprops([],[]) :- !.
+structureAllprops(_allprops,[_run|_restruns]) :-
+  extractRun(_allprops,_run,_restprops),
+  structureAllprops(_restprops,_restruns).
+
+
+/* orphaned frame: only attributions */
+extractRun([_prop|_rest],run(P(_x,_x1,_n1,_y1),_runprops),_restprops) :-
+  _prop=P(_id,_x,_n,_y),
+  \+ 'validProposition':individual(_prop),
+  'PropositionProcessor':retrieve_proposition(P(_x,_x,_n1,_x)),  /* we do this only for individuals */
+  doExtractRun(_x,[_prop|_rest],[],_runprops,_restprops),
+  !.
+
+extractRun([_prop|_rest],run(_prop,_runprops),_restprops) :-
+  _prop=P(_id,_x,_n,_y),
+  doExtractRun(_id,_rest,[],_runprops,_restprops).
+
+doExtractRun(_id,[],_sofar,_sofar,[]) :- !.
+
+doExtractRun(_id,[_prop|_rest],_sofar,_runprops,_restprops) :-
+  sameFrameLink(_id,_sofar,_prop),
+  'GeneralUtilities':append(_sofar,[_prop],_newsofar),
+  !,
+  doExtractRun(_id,_rest,_newsofar,_runprops,_restprops).
+
+doExtractRun(_id,[_prop1,_prop2|_rest],_sofar,_runprops,_restprops) :-
+  _prop1 = P(_x1,_x1,_n1,_x1),
+  \+ sameFrameLink(_id,_sofar,_prop1),  /* this is a forward declaration of an individual used within the frame of _id */
+  sameFrameLink(_id,_sofar,_prop2),
+  'GeneralUtilities':append(_sofar,[_prop2],_newsofar),
+  !,
+  doExtractRun(_id,[_prop1|_rest],_newsofar,_runprops,_restprops).
+
+doExtractRun(_id,[_prop1,_prop2,_prop3|_rest],_sofar,_runprops,_restprops) :-
+  _prop1 = P(_x1,_x1,_n1,_x1),
+  _prop2 = P(_id1,_x1,'*instanceof',_c1),
+  \+ sameFrameLink(_id,_sofar,_prop1),  /* this is a forward declaration of a value used within the frame of _id */
+  \+ sameFrameLink(_id,_sofar,_prop2),  /* and this is the class of te value (e.g. Integer)                      */
+  sameFrameLink(_id,_sofar,_prop3),
+  'GeneralUtilities':append(_sofar,[_prop3],_newsofar),
+  !,
+  doExtractRun(_id,[_prop1,_prop2|_rest],_newsofar,_runprops,_restprops).
+
+doExtractRun(_id,[_prop|_rest],_sofar,_sofar,[_prop|_rest]).
+  
+
+
+
+
+convertObjectWithLinks(P(_id,_x,_l,_p),_props,[]) :-
+  toBeDropped(P(_id,_x,_l,_p)),
+  !.
+
+/* orphaned instantiations */
+convertObjectWithLinks(P(_id,_x,'*instanceof',_c),[],[_fragment]) :-
+  makeSimpleFragment(P(_id,_x,'*instanceof',_c),_fragment),
+  !.
+
+/* orphaned specializations */
+convertObjectWithLinks(P(_id,_c,'*isa',_d),[],[_fragment]) :-
+  makeSimpleFragment(P(_id,_c,'*isa',_d),_fragment),
+  !.
+
+/* all others */
+convertObjectWithLinks(P(_x,_x1,_n,_x2),_props,_fragments) :-
+  makeFragment(_x,_props,_fragment1),
+  makeResultFragments(P(_x,_x1,_n,_x2),_fragment1,_fragments),
+  !.
+
+
+/* individuals */
+makeResultFragments(P(_x,_x,_n,_x),_fragment,[_fragment]) :- !.
+
+makeResultFragments(P(_id,_x,_n,_y),_fragment,_fragments) :-
+  'validProposition':attribute(P(_id,_x,_n,_y)),
+  convertToattributeion(P(_id,_x,_n,_y),_fragment,_fragments),
+  !.
+
+makeResultFragments(P(_id,_x,'*instanceof',_c),_fragment,[]) :-
+  'GeneralUtilities':getFlag(notToSave,_idlist),
+  'GeneralUtilities':member(_x,_idlist),
+  !.
+
+makeResultFragments(P(_id,_x,'*isa',_c),_fragment,[]) :-
+    'GeneralUtilities':getFlag(notToSave,_idlist),
+  'GeneralUtilities':member(_x,_idlist),
+  !.
+  
+
+makeResultFragments(P(_id,_x,_n,_y),_fragment,[_fragment1,_fragment]) :-
+  makeSimpleFragment(P(_id,_x,_n,_y),_fragment1),
+  !.
+
+makeSimpleFragment(P(_id,_x,_n,_y),_fragment) :-
+  'validProposition':attribute(P(_id,_x,_n,_y)),
+  _fragment=SMLfragment(what(_x),
+                        in_omega([]),
+                        in([]),
+                        isa([]),
+                        with([attrdecl([attribute],[property(_n,_y)])])),
+  !.
+
+makeSimpleFragment(P(_id,_x,'*instanceof',_c),_fragment) :-
+  _fragment=SMLfragment(what(_x),
+                        in_omega([]),
+                        in([class(_c)]),
+                        isa([]),
+                        with([])),
+  !.
+
+makeSimpleFragment(P(_id,_c,'*isa',_d),_fragment) :-
+  _fragment=SMLfragment(what(_c),
+                        in_omega([]),
+                        in([]),
+                        isa([class(_d)]),
+                        with([])),
+  !.
+
+
+convertToattributeion(P(_id,_x,_n,_y),_fragment,[]) :-
+  _fragment=SMLfragment(what(_id),
+                        in_omega([]),
+                        in(_classes),
+                        isa([]),
+                        with([])),
+  labelGenerated(_n,_y), 
+  !.
+
+
+convertToattributeion(P(_id,_x,_n,_y),_fragment,[_afragment]) :-
+  _fragment=SMLfragment(what(_id),
+                        in_omega([]),
+                        in(_classes),
+                        isa([]),
+                        with([])),
+  classesToCategories(_classes,_cats),
+  _afragment=SMLfragment(what(_x),
+                        in_omega([]),
+                        in([]),
+                        isa([]),
+                        with([attrdecl(_cats,[property(_n,_y)])])),
+  !.
+
+
+classesToCategories([],[attribute]) :-
+  !.
+
+classesToCategories(_classes,_cats) :-
+  doClassesToCategories(_classes,_cats).
+
+doClassesToCategories([],[]) :- !.
+
+doClassesToCategories([class(_cat)|_restclasses],[_m|_restcats]) :-
+  'PropositionProcessor':retrieve_proposition(P(_cat,_c,_m,_d)),
+  'validProposition':attribute(P(_cat,_c,_m,_d)),
+  doClassesToCategories(_restclasses,_restcats).
+
+
+
+makeFragment(_x,_props,_fragment) :-
+  collectClasses(_x,_props,_classes),
+  collectSuperClasses(_x,_props,_superclasses),
+  collectAttrDecls(_x,_props,_attrdecls),
+  _fragment=SMLfragment(what(_x),
+                        in_omega([]),
+                        in(_classes),
+                        isa(_superclasses),
+                        with(_attrdecls)),
+  !.
+
+
+collectClasses(_x,_props,_classes) :-
+  collectClasses('*instanceof',_x,_props,[],_classes).
+
+collectSuperClasses(_x,_props,_classes) :-
+  collectClasses('*isa',_x,_props,[],_classes).
+
+
+collectClasses(_InIsa,_x,[],_classes,_classes) :- !.
+
+collectClasses(_InIsa,_x,[P(_id,_x,_InIsa,_c)|_rest],_sofar,_classes) :-
+  'GeneralUtilities':append(_sofar,[class(_c)],_new_sofar),
+  !,
+  collectClasses(_InIsa,_x,_rest,_new_sofar,_classes).
+
+collectClasses(_InIsa,_x,[_|_rest],_sofar,_classes) :-
+  collectClasses(_InIsa,_x,_rest,_sofar,_classes).
+
+
+collectAttrDecls(_x,_props,_attrdecls) :-
+  getattributees(_props,_attributes),
+  makePropcats(_attributes,_props,_propcats),
+  'PropositionsToFragment':compose_attrdecllist(_propcats,_attrdecls),
+  !.
+
+
+getattributees([],[]) :- !.
+
+getattributees([_prop|_restprops],[_prop|_restattrs]) :-
+  'validProposition':attribute(_prop),
+  !,
+  getattributees(_restprops,_restattrs).
+
+getattributees([_prop|_restprops],_restattrs) :-
+  getattributees(_restprops,_restattrs).
+
+makePropcats([],_props,[]) :- !.
+
+
+makePropcats([_attr|_restattr],_props,_restpropcats) :-
+  _attr=P(_id,_x,_l,_y),
+  labelGenerated(_l,_y),
+  !,
+  makePropcats(_restattr,_props,_restpropcats).
+
+
+makePropcats([_attr|_restattr],_props,[propcat(_catlist,_attr)|_restpropcats]) :-
+  getCategories(_attr,_props,_catlist),
+  makePropcats(_restattr,_props,_restpropcats).
+
+
+getCategories(_attr,_props,_catlist) :-
+  doGetCategories(_attr,_props,_catlist),
+  _catlist \= [],
+  !.
+
+getCategories(_attr,_props,[attribute]) :-
+  !.
+
+doGetCategories(P(_id,_x,_l,_y),[],[]) :- !.
+
+doGetCategories(P(_id,_x,_l,_y),[P(_id2,_id,'*instanceof',_cat)|_restprops],[_m|_restcats]) :-
+  'PropositionProcessor':retrieve_proposition(P(_cat,_c,_m,_d)),
+  'validProposition':attribute(P(_cat,_c,_m,_d)),
+  !,
+  doGetCategories(P(_id,_x,_l,_y),_restprops,_restcats).
+
+doGetCategories(P(_id,_x,_l,_y),[_|_restprops],_restcats) :-
+  doGetCategories(P(_id,_x,_l,_y),_restprops,_restcats).
+  
+
+sameFrameLink(_x,_sofar,P(_id,_x,_n,_y1)) :-
+  !.
+
+sameFrameLink(_x,_sofar,P(_id,_ida,'*instanceof',_ac)) :-
+  'GeneralUtilities':member(P(_ida,_x,_n,_y),_sofar),
+  'validProposition':attribute(P(_ida,_x,_n,_y)),
+  'PropositionProcessor':retrieve_proposition(P(_ac,_c,_m,_d)),
+  'validProposition':attribute(P(_ac,_c,_m,_d)),
+  !.
+  
+
+
+
+
+
+
+
+/* define the query DoNotSave that returns all objects that should not be listed */
+/* This is packed into 5 lines because otherwise SWI-Prolog would complain that  */
+/* the string would be too long.                                                 */
+/* 2010-09-16: only check for explicit constants; otherwise a Peano-style        */
+/* definition of Integer could let DoNotSave_* loop forever.                     */
+tell: 'DoNotSave_1 in QueryClass,HiddenObject isA Proposition with constraint cnts: $ (~this in HiddenObject) or (~this in MSFOLassertion) or (~this in BDMRuleCheck) or (~this in BDMConstraintCheck) or (~this in Proposition!deducedBy) or
+            (~this in Proposition!applyConstraintIfInsert) or (~this in Proposition!applyConstraintIfDelete) or (~this in ECAassertion) or ( not (~this in Individual) and (forall x/Proposition ((~this attribute x) ==> (x in DoNotSave_1)) and not Isa_e(~this,x)
+                 )) or ( (~this in IsA) and exists a/attributee From(~this,a) and (a in QueryClass!retrieved_attribute)) or ((:(~this in String): or :(~this in Integer): or :(~this in Real): or :(~this in TransactionTime):) and not (exists y/Proposition (~this attribute y))) $ end '.
+
+
+
+
+

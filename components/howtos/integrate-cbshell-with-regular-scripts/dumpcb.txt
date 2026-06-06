@@ -1,0 +1,29 @@
+#!/bin/sh
+# Syntax: dumpcb <database> 
+# Author: Manfred Jeusfeld 
+# Created: 2012-07-12
+# -----------------------------------------------------------------------
+# start the cbserver on the given database and exit by dumping its content in
+# $1/*.sml
+#
+# Example:
+#   dumpcb FILEDB
+
+
+
+
+# start the CBserver and directly exit; as side effect the database $1 is dumped in readable format
+cbserver -g exit -t silent -db $1 
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,30 @@
+#
+# File: ticket263.cbs
+# Author: Manfred Jeusfeld
+# Created: 2010-10-27/M.Jeusfeld (2010-10-27/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Tests the deleteBuffer/disposeBuffer crash
+# Start: CBshell -f ticket263.cbs
+#
+
+
+startServer -port 4004 -u nonpersistent -t low
+
+
+
+tellModel /home/jeusfeld/CBMODELS/USU
+
+# This call creates no problem
+# ask "get_object[Akteur/objname]" OBJNAMES FRAME Now
+
+# This call used to cause a crash (double disposal of allocated memory or segmentation violation)
+ask "GetJavaGraphicalPalette[USU_Palette/pal]" OBJNAMES XML_JavaGraphicalPalette Now
+#showAnswer
+
+
+
+
+
+
+

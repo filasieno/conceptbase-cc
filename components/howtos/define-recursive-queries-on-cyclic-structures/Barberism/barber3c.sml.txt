@@ -1,0 +1,55 @@
+{
+*
+* File: barber3c.sml
+* Author: Manfred Jeusfeld
+* Creation: 19-Mar-2002
+* ----------------------------------------------------------------------
+* The query will run with ConceptBase V5.2.3 or later.
+* Behaves like barber3b.sml
+}
+
+
+Class Man  with
+  attribute
+    shaves: Man;
+    shaves_trans: Man
+  rule
+    r1: $ forall m1,m2/Man (m1 shaves m2) ==> (m1 shaves_trans m2) $;
+    r2: $ forall m1,m2/Man 
+             (exists m/Man (m1 shaves_trans m) and (m shaves_trans m2))
+          ==> (m1 shaves_trans m2) $
+end
+
+pete in Man end
+
+king in Man with
+  shaves who: king
+end
+
+jon in Man with
+  shaves who: mike
+end
+
+mike in Man with
+  shaves who: jeff
+end
+
+jeff in Man with
+  shaves who: will
+end
+
+will in Man with
+  shaves who1: jon; who2: claude
+end
+
+claude in Man with
+  shaves who: pete
+end
+
+
+QueryClass SelfShaver isA Man with
+  constraint
+    c1: $ (~this shaves_trans ~this) $
+end
+
+ 

@@ -1,0 +1,37 @@
+{
+* File: FileModel.sml
+* Author: Manfred Jeusfeld
+* Created: 13-Jul-2012/M.Jeusfeld (16-Jul-2012/M.Jeusfeld)
+* ------------------------------------------------------
+* Basic definitions for storing file info in ConceptBase
+* Also defines some simple queries on files.
+* 
+* This requires ConceptBase 7.4
+}
+
+
+Directory in Class with
+  attribute
+    hasFileSize: Integer
+end
+currDir in Directory end
+
+File in Class with
+  attribute
+    size: Integer
+end
+
+
+
+Directory in Class with
+  rule
+    fsRule: $ forall f/File fn/Label s/Integer  (f size s) and Label(f,fn)
+                  ==> (currDir hasFileSize/fn s) $
+end
+
+
+dirSize in Function isA Integer with
+  constraint
+    c: $ (this = SUM_attributee(Directory!hasFileSize,currDir)) $
+end
+    

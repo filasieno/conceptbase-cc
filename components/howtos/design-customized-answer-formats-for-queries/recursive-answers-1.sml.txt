@@ -1,0 +1,109 @@
+{* 
+* File: recursive-answers-1.sml
+* Author: Manfred Jeusfeld, jeusfeld@uvt.nl
+* Date: 16-Mar-2005
+* Purpose: Shows how to have answers that contain recursively composed objects;
+* assigns layout dynamically depending on the structure of an object
+* Note: the query PersonQ has two answer formats assigned to it. When
+* calling the query, ConceptBase has to select one for the top level
+* object ~p. Since PersonLayoutChildren is defined first, it will be
+* selected but that is purely incidental. A query around PersonQ which calls
+* PersonQ would avoid this.
+*}
+
+
+Class Person with
+  attribute
+    hasChild: Person
+end
+
+
+
+Person Adam with
+  hasChild
+    c1: Kain;
+    c2: Abel;
+    c3: Seth
+end
+
+
+Person Abel with
+  hasChild
+    c1: Abraham;
+    c2: Lea
+end
+
+Person Abraham with
+  hasChild
+    c1: Isaak;
+    c2: Ismael
+end
+
+Person Seth with
+  hasChild
+    c1: Lot
+end
+
+Person Kain with
+end
+
+Person Lea with
+end
+
+Person Isaak with
+end
+
+Person Ismael with
+end
+
+Person Lot with
+end
+
+
+View PersonQ isA Person with
+  parameter
+    p: Person
+  inherited_attribute
+    hasChild: Person
+  constraint
+    c: $ UNIFIES(~p,~this) $
+end
+
+
+{* answer format for persons that have a child *}
+{* the ASKquery of WhatLayout computed the     *}
+{* answer format to be applied to the query    *}
+{* ASKquery(PersonQ...).                       *}
+
+AnswerFormat PersonLayoutChildren with
+  forQuery fq: PersonQ
+  order o: ascending
+  orderBy ob: "this"
+
+  pattern pt:
+    "<person>{this}
+<children>
+{Foreach(({this.hasChild}),(s),{ASKquery(PersonQ[{s}/p],{ASKquery(WhatLayout[{s}/pers],LABEL)})})}</children>
+</person> /* {this} */"
+end
+
+{* answer format for persons without children *}
+AnswerFormat PersonLayoutNoChildren with
+  forQuery fq: PersonQ
+  order o: ascending
+  orderBy ob: "this"
+
+  pattern pt:
+    "<person>{this}</person>"
+end
+
+GenericQueryClass WhatLayout isA AnswerFormat with
+  parameter
+    pers: Person
+  constraint
+     c1: $ (exists ch/Person (~pers hasChild ch) and UNIFIES(~this,PersonLayoutChildren)) or
+               ( (not exists chx/Person (~pers hasChild chx) ) and UNIFIES(~this,PersonLayoutNoChildren)) 
+           $
+end
+
+

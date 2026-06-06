@@ -1,0 +1,43 @@
+{
+* File: QueriesAndConstraints.sml
+* Author: Manfred Jeusfeld
+* Created: 5-Sep-2006/M.Jeusfeld (5-Sep-2006/M.Jeusfeld)
+* ------------------------------------------------------
+* 
+* Example of the correct use of simple query classes in rules/constraints.
+* See also section 'Query classes and constraints' in the ConceptBase User
+* Manual.
+*
+}
+
+
+Unit in Class with
+ attribute
+   sub: Unit
+end
+
+BaseUnit in QueryClass,MSFOLrule isA Unit with
+ constraint
+   c1: $ not exists s/Unit!sub From(s,~this) $
+end
+
+SimpleUnit in Class isA Unit with
+ constraint
+   c: $ forall s/SimpleUnit (s in BaseUnit) $
+end
+
+{* some instances to check the correct behavior *}
+
+
+u1 in Unit with 
+  sub s1: u2
+end
+
+u2 in SimpleUnit end
+
+{* this frame shall violate the constraint :
+
+u1 in SimpleUnit end
+
+*}
+

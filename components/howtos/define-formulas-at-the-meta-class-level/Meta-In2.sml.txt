@@ -1,0 +1,41 @@
+{
+*
+* File: Meta-In2.sml
+* Author: Manfred Jeusfeld
+* Creation: 16-Oct-2007 (6-Nov-2008)
+* ----------------------------------------------------------------------
+* 
+* This small model shows the use of the macro literal (x [in] c)
+* in combination with a constraint.
+*
+}
+
+NodeOrLink end
+EntityType in NodeOrLink end
+Employee in EntityType end
+
+
+{* ModelElement subsumes all instances of instances of NodeOrLink *}
+ModelElement in Class with
+ rule 
+    rme: $ forall x/VAR (x [in] NodeOrLink) ==> (x in ModelElement) $
+end
+
+{* the following constraint is artificial and only used to show
+   that the rule rme works together with a constraint
+*}
+
+MyConstraints in Class with
+  constraint
+    c1: $ forall e/ModelElement (e=Employee) $
+end
+
+{* tell this object to trigger a constraint violation
+
+Project in EntityType end
+
+}
+
+
+
+

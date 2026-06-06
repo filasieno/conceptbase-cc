@@ -1,0 +1,56 @@
+#
+# File: fib.cbs
+# Author: Manfred Jeusfeld
+# Creation: 5-Mar-2008 (1-Jul-2011)
+# ----------------------------------------------------------------------
+# Compute the Fibonacci numbers (see also http://en.wikipedia.org/wiki/Fibonacci_number)
+# This script requires ConceptBase 7.1 released after 28-Mar-2008
+# The example also highlights the utility of the cache-based query evaluation of
+# ConceptBase. With the cache enabled (default), the call fib[20/n] takes around
+# 0.02 sec on a contemporary CPU. With the cache disable (option -c off), the same
+# call takes more than 3 seconds. It is basically the difference between a naive
+# evaluation with O(2^n) performance and the semi-naive evaluation with O(n) performance.
+# In this case (and many other cases), ConceptBase approximates the semi-naive algorithm.
+#
+# We strongly recommend NOT to use the option -c off in regular applications of ConceptBase.
+# It not only is much slower. It also even traps some recursive rule evaluations into
+# infinite loops.
+#
+
+
+#startServer -u nonpersistent -c off 
+startServer -u nonpersistent 
+
+
+# This is the definition of fib; note that the whole
+#  definition has to be read as follows:
+#   forall n,this/Integer cfib(n,this) ==> (this in fib(n))
+#  This is equivalent to the three formulas
+#
+#    forall n,this/Integer (n=0) and (this=0) ==> (this in fib(n))
+#    forall n,this/Integer (n=1) and (this=1) ==> (this in fib(n))
+#    forall n,this/Integer (n>1) and (this = fib(n-1)+fib(n-2)) ==> (this in fib(n))
+#
+
+tell "
+fib in Function isA Integer with
+  parameter
+    n: Integer
+  constraint
+    cfib: $ (n=0) and (this=0) or
+            (n=1) and (this=1) or
+            (n>1) and (this=fib(n-1)+fib(n-2)) 
+        $
+end
+"
+
+# fib[10/n] should return 55
+ask "fib[10/n]" OBJNAMES  FRAME  Now
+# fib[12/n] should return 144
+ask "fib[12/n]" OBJNAMES  FRAME  Now
+# fib[20/n] should return 6765
+ask "fib[20/n]" OBJNAMES  FRAME  Now
+# fib[200/n] should return 280571172992510140037611932413038677189525 on a 64-bit operating system
+ask "fib[200/n]" OBJNAMES  FRAME  Now
+
+

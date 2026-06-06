@@ -1,0 +1,71 @@
+# ticket243.cbs
+# 1-Apr-2010/M. Jeusfeld
+#
+# This script tests whether ticket 243 is correctly solved
+# Variant test_A includes a not; if it succeeds, then the number 1001 must appear in the answer to the final query
+# ConceptBase 7.08 prior to 1-Apr-2010 fails to evaluate this variant correctly.
+# Variant testB has no 'not'; if it succeeds, then the number 2001 must appear in the answer to the final query
+# Variant test_B tests whether 'not' can correctly used to negate a sub-formula; if yes, 3001 must be in the answer.
+
+
+startServer -u nonpersistent 
+
+tell " 
+C end
+E end
+
+QA in QueryClass isA E end
+
+QB in QueryClass isA C end
+
+ECArule test_A with
+  mode m: Deferred
+  ecarule
+        er : $  x/Individual S2/Integer
+        ON Tell (x in C) 
+        IF `(x in C) and
+           not `(x in QA)  and
+           (S2 = 1000+1)
+        DO Tell (S2 in Integer)
+        ELSE
+           reject
+        $
+end
+
+
+ECArule test_B with
+  mode m: Deferred
+  ecarule
+        er : $  x/Individual S2/Integer
+        ON Tell (x in C) 
+        IF `(x in C) and
+          `(x in QB)  and
+           (S2 = 2000+1)
+        DO Tell (S2 in Integer)
+        ELSE
+           reject
+        $
+end
+
+ECArule test_C with
+  mode m: Deferred
+  ecarule
+        er : $  x/Individual S2/Integer
+        ON Tell (x in C) 
+        IF `(x in C) and
+           not (`(x in QA)  and `(x in QB) ) and
+           (S2 = 3000+1)
+        DO Tell (S2 in Integer)
+        ELSE
+           reject
+        $
+end
+" 
+
+tell "x1 in C end" 
+
+
+ask "find_instances[Integer/class]" OBJNAMES  FRAME  Now
+
+# both 1001 and 2001 must appear in the answer
+

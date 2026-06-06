@@ -1,0 +1,99 @@
+#
+# File: ticket246.cbs
+# Author: Manfred Jeusfeld
+# Created: 2010-05-09/M.Jeusfeld (2010-05-10/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Start: CBshell -f ticket246.cbs
+#
+# Test the ability of ConceptBase to define subClassOf with a meta-formula
+# simular to the definition of isA.
+# 
+# This script requires ConceptBase 7.2 or later.
+#
+
+startServer -u nonpersistent -p 4411 -t veryhigh
+
+# Variant 1 defines subClassOf as property of Proposition; this is a very general solution
+
+tell "
+Proposition with
+ attribute
+   subClassOf: Proposition
+end
+
+MyRules1 in Class with
+ rule
+   subrule2: $ forall x/Proposition c1,c2/Proposition (x in c1) and (c1 subClassOf c2) ==> (x in c2)$
+end
+"
+
+
+tell "
+MyRules1 in Class with
+ rule
+   subrule1: $ forall c1,c2,c3/Proposition (c1 subClassOf c2) and :(c2 subClassOf c3): ==> (c1 subClassOf c3) $
+end
+"
+
+
+
+# Variant 2 defines subClassOf as property of a user-defined metaclass MProposition
+tell "
+MProposition with
+ attribute
+   subClassOf: MProposition
+end
+
+MyRules2 in Class with
+ rule
+   subrule2: $ forall x/Proposition c1,c2/MProposition (x in c1) and (c1 subClassOf c2) ==> (x in c2)$
+end
+"
+
+
+tell "
+MyRules2 in Class with
+ rule
+   subrule1: $ forall c1,c2,c3/MProposition (c1 subClassOf c2) and :(c2 subClassOf c3): ==> (c1 subClassOf c3) $
+end
+"
+
+
+# class level for variant 1: leads to a partial evaluation of the meta formula MyRules1!subrule2
+
+tell "
+A1 in Proposition with
+  subClassOf
+    a1: A2
+end
+
+A2 in Proposition end
+"
+
+
+# class level for variant 2: leads to a partial evaluation of the meta formula MyRules2!subrule2
+
+tell "
+B1 in MProposition with
+  subClassOf
+    a1: B2
+end
+
+B2 in MProposition end
+"
+
+#some example data for both variants:
+
+tell "
+a1 in A1 end
+b1 in B1 end
+"
+
+
+ask "find_instances[A2/class]" OBJNAMES  LABEL  Now
+# --> should return a1
+
+ask "find_instances[B2/class]" OBJNAMES  LABEL  Now
+# --> should return b1
+

@@ -1,5 +1,0 @@
-startServer -d EXAMPLEDB
-tellModel model_01
-tellModel model_02
-tellModel model_03
-exit

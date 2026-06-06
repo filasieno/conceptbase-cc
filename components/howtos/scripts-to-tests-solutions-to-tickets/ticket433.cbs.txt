@@ -1,0 +1,25 @@
+#
+# File: ticket433.cbs
+# Author: Manfred Jeusfeld
+# Created: 2019-05-15/M.Jeusfeld (2019-05-15/M.Jeusfeld)
+# ------------------------------------------------------
+# Test JSONIC output format for frames
+#
+
+# cbserver -t low
+connect
+
+ask get_object[QueryClass/objname] OBJNAMES JSONIC Now
+
+tell "
+Pilot in Class end
+Employee in Class end
+bill in Pilot,Employee end
+Manager isA Employee end
+"
+
+ask get_object[bill/objname] OBJNAMES JSONIC Now
+
+ask get_object[Manager/objname] OBJNAMES JSONIC Now
+
+

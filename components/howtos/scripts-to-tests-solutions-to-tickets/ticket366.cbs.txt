@@ -1,0 +1,36 @@
+#
+# File: ticket366.cbs
+# Author: Manfred Jeusfeld
+# Created: 2015-03-26/M.Jeusfeld (2015-03-26/M.Jeusfeld)
+# ------------------------------------------------------
+# test whether CBShell converts  \= to = (which it should not do!)
+#
+
+startServer -u nonpersistent
+
+tell "
+QueryClass TestQ isA Integer with
+  constraint
+     c1: $ (this \= 0) $
+end
+"
+
+ask get_object[TestQ/objname] OBJNAMES FRAME Now
+# should return the original query with substring (this \= 0)
+
+ask TestQ
+# should return all integers except 0
+
+echo a\=b
+# should return a\=b
+
+echo "a\=b"
+# should return a\=b
+
+echo 'a\=b'
+# should return a\=b
+
+
+
+
+

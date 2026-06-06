@@ -1,0 +1,13 @@
+/* select the first instance of a class */
+/* M. Jeusfeld, 28-Apr-2008 (28-Apr-2008) */
+
+compute_selectfirst(_res,_class,_c1) :-
+        nonvar(_class),                               /* could be another query call        */
+        cbserver:ask([In(_res,_class)]),              /* just take the first solution       */
+        !.
+
+
+/* define the signature of 'selectfirst' to ConceptBase */
+tell: 'selectfirst in Function isA Proposition with parameter class: Proposition end'.
+
+

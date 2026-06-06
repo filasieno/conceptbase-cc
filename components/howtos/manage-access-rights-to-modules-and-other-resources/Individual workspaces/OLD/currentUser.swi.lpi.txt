@@ -1,0 +1,22 @@
+/* 
+* File: currentUser.swi.lpi
+* Author: Manfred Jeusfeld (jeusfeld@uvt.nl)
+* Creation: 18-Sep-2007 (23-Sep-2007)
+* -----------------------------------------------------------
+* This file is a plug-in for the ConceptBase server
+* to determine the user attached to the current active transaction.
+* 
+* The code below conforms to SWI-Prolog. It uses a some internal
+* ConceptBase functions. 
+* You have to copy this file into the database directory where it shall
+* be used.
+*
+*/
+
+currentUser(_u) :-
+  'CBserverInterface':active_user(_uname),
+  'GeneralUtilities':name2id(_uname,_u),
+   !.
+
+  
+  

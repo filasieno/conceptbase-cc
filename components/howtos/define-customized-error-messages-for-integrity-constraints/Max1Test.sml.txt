@@ -1,0 +1,71 @@
+{*
+This file is governed by the Creative Commons license
+   attributeion-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+{*
+* File Max1Test.sml
+* Author: Manfred Jeusfeld
+* Date: 15-Dec-2010 (3-Mar-2011)
+*----------------------------------------------------------------
+* Example of using generated hints for meta formulas.
+*
+*}
+
+
+
+EntityType end
+
+RelationshipType with
+  attribute
+    role: EntityType;
+    max_1: EntityType   {* max_1 etc. are for indicating cardinality constraints *}
+end
+
+Class RelationshipType with
+  constraint
+    ic_max1: $ forall A/RelationshipType!max_1 R/RelationshipType M,E/VAR a1,a2,r/Proposition
+                   P(A,R,M,E) and In(r,R) and
+                   (a1 in A) and From(a1,r) and
+                   (a2 in A) and From(a2,r)
+                ==> (a1 == a2) $
+end
+
+RelationshipType!ic_max1 with
+  comment
+    hint: "The role link {M} of {R} has a maximum cardinality of 1, i.e. you may define at most one filler."
+end
+
+
+EntityType Staff end
+
+EntityType University end
+
+RelationshipType employs with
+  role
+    employee: Staff
+  role, max_1
+    employer: University
+end
+
+Staff willi end
+
+University RWTH end
+University HKUST end
+
+employs emp1 with
+  employee
+    who: willi
+  employer
+    where: RWTH;
+    also: HKUST
+end
+
+
+

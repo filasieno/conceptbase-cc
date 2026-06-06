@@ -1,0 +1,36 @@
+{*
+* File P-Tuple.sml
+* Author: Manfred Jeusfeld, jeusfeld@uvt.nl
+* Date: 7-Sep-2005 (7-Sep-2005)
+*----------------------------------------------------------------
+* Prints the P-tuple for a given object name.
+* Source and destinations are displayed as object names (not id's).
+* P-tuples are writted here as
+*    id=<source,label,destination>
+* instead of P(id,source,label,destination)
+*
+*}
+
+
+
+GenericQueryClass ObjectAsPTuple isA Proposition with
+  parameter
+     object: Proposition
+   computed_attribute
+     source: Proposition;
+     label: Label;
+     destination: Proposition
+  constraint
+    c: $ UNIFIES(~this,~object) and P(~this,~source,~label,~destination) $
+end
+
+AnswerFormat Ptuple_Format with
+   forQuery q: ObjectAsPTuple
+   order o: ascending
+   orderBy ob: "this"
+
+  pattern p:
+"{this.oid}=<{this.source},{this.label},{this.destination}>
+"
+
+end

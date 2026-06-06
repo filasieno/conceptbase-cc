@@ -1,0 +1,308 @@
+{
+*
+* File: PDD-GTs.sml
+* Author: Manfred Jeusfeld
+* Creation: 09-Feb-2010 (04-Mar-2010/M.Jeusfeld)
+* ----------------------------------------------------------------------
+* Graphical types for PDDs
+*
+* Copyright (C) 2010 by Manfred Jeusfeld
+* This model file is licensed under the terms of
+*   attributeion-NonCommercial 3.0 (Germany)
+*   http://creativecommons.org/licenses/by-nc/3.0/de/legalcode
+*   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+* Extended licenses can be obtained from the author.
+*
+}
+
+
+
+Class PDD_Palette in JavaGraphicalPalette with
+contains,defaultIndividual
+	c1 : DefaultIndividualGT
+contains,defaultLink
+	c2 : DefaultLinkGT
+implicitIsA, contains
+    c3 : ImplicitIsAGT
+implicitInstanceOf, contains
+    c4 : ImplicitInstanceOfGT
+implicitattributee, contains
+    c5 : ImplicitattributeeGT
+contains
+    c7: SimpleActivity_GT;
+    c8: ActivityDiagram_GT;
+    c10: ParSplit_GT;
+    c11: ParJoin_GT;
+    c23: NextLink_GT;
+    c24: ChoiceLink_GT;
+    c25: Choice_GT;
+    c26: Start_GT;
+    c27: End_GT;
+    c28: StandardC_GT;
+    c29: OpenC_GT;
+    c30: ClosedC_GT;
+    c31: ProducesLink_GT;
+    c32: PartOfLink_GT;
+    d1: DefaultattributeeGT;
+    d2: DefaultIsAGT;
+    d3: DefaultInstanceOfGT;
+    d4: QueryClassGT
+rule
+    rIsaGT : $ forall p/IsA (p graphtype DefaultIsAGT) $;
+    rInstGT : $ forall p/InstanceOf (p graphtype DefaultInstanceOfGT) $;
+    rAttrGT : $ forall p/attributee (p graphtype DefaultattributeeGT) $;
+    rIndGT : $ forall p/Individual (p graphtype DefaultIndividualGT) $;
+    rQueryClass : $ forall c/QueryClass (c graphtype QueryClassGT) $
+end
+
+
+
+
+SimpleActivity_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "230,230,120";   {*  *}
+	textcolor : "0,0,0";
+      linecolor : "100,100,100";
+	shape : "i5.cb.graph.shapes.RoundRectangle";
+	fontstyle : "italic";
+      linewidth : "1"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 22
+rule
+     gtrule: $ forall x/Activity In_e(x,Activity) ==> (x graphtype SimpleActivity_GT) $
+end
+
+Activity with
+  graphtype
+     thisgt1: SimpleActivity_GT
+end
+
+ActivityDiagram_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "200,200,100";   {* green = enabled *}
+	textcolor : "0,0,0";
+      linecolor : "100,100,100";
+	shape : "i5.cb.graph.shapes.RoundRectangle";
+	fontstyle : "bold,italic";
+      linewidth : "2"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 23
+rule
+     gtrule: $ forall x/ActivityDiagram (x graphtype ActivityDiagram_GT) $
+end    
+
+ActivityDiagram with
+  graphtype
+     thisgt2: ActivityDiagram_GT
+end     
+                  
+ParSplit_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "0,0,0";  {* light grey for places without tokens *}
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+        label : "     ";
+	shape : "i5.cb.graph.shapes.Rect";
+        linewidth : "1"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 27
+rule
+     gtrule: $ forall x/ParallelBranch (x graphtype ParSplit_GT) $
+end
+
+ParJoin_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "0,0,0";  {* light grey for places without tokens *}
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+        label : "      ";
+	shape : "i5.cb.graph.shapes.Rect";
+        linewidth : "1"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 28
+rule
+     gtrule: $ forall x/ParallelJoin (x graphtype ParJoin_GT) $
+end
+
+
+Choice_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "255,255,255"; 
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+        label : "   ";
+	shape : "i5.cb.graph.shapes.Diamond";
+        linewidth : "2"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 29
+rule
+     gtrule: $ forall x/DecisionPoint (x graphtype Choice_GT) $
+end
+
+Start_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "50,50,50"; 
+	textcolor : "150,150,150";
+	linecolor : "0,0,0";
+        label : " o ";
+	shape : "i5.cb.graph.shapes.Ellipse";
+        linewidth : "2"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 29
+rule
+     gtrule: $ forall x/StartPoint (x graphtype Start_GT) $
+end
+
+
+End_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "50,50,50"; 
+	textcolor : "150,150,150";
+	linecolor : "0,0,0";
+        label : " x ";
+	shape : "i5.cb.graph.shapes.Ellipse";
+        linewidth : "2"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 29
+rule
+     gtrule: $ forall x/EndPoint (x graphtype End_GT) $
+end
+
+
+StandardC_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "255,255,255"; 
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Rect";
+        linewidth : "1"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 20
+rule
+     gtrule: $ forall x/Concept (x graphtype StandardC_GT) $
+end
+
+Concept with
+  graphtype
+     thisgt1: StandardC_GT
+end
+
+
+OpenC_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "255,255,255"; 
+	textcolor : "0,0,0";
+	linecolor : "150,150,150";
+	shape : "i5.cb.graph.shapes.Rect";
+        linewidth : "3"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 22
+rule
+     gtrule: $ forall x/OpenConcept (x graphtype OpenC_GT) $
+end
+
+OpenConcept with
+  graphtype
+     thisgt2: OpenC_GT
+end
+
+
+ClosedC_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "255,255,255"; 
+	textcolor : "0,0,0";
+	linecolor : "0,0,0";
+	shape : "i5.cb.graph.shapes.Rect";
+        linewidth : "3"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 24
+rule
+     gtrule: $ forall x/ClosedConcept (x graphtype ClosedC_GT) $
+end
+
+ClosedConcept with
+  graphtype
+     thisgt3: ClosedC_GT
+end
+
+
+
+NextLink_GT in JavaGraphicalType,Class with 
+  attribute,property
+     textcolor : "0,0,0";
+     edgecolor : "100,100,100";
+     edgewidth : "2";
+     label : ""
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 20
+  rule
+     gtrule: $ forall a/ActivityNode!next (a graphtype NextLink_GT) $
+end   
+
+ChoiceLink_GT in JavaGraphicalType,Class with 
+  attribute,property
+     textcolor : "0,0,0";
+     edgecolor : "100,100,100";
+     edgewidth : "2";
+     bgcolor : "255,150,150"
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 21
+  rule
+     gtrule: $ forall a/DecisionPoint!choice (a graphtype ChoiceLink_GT) $
+end  
+
+ProducesLink_GT in JavaGraphicalType,Class with 
+  attribute,property
+     textcolor : "0,0,0";
+     edgecolor : "50,50,180";
+     edgewidth : "2";
+     edgestyle : "dashdotted";
+     label : ""
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 22
+  rule
+     gtrule: $ forall a/Activity!produces (a graphtype ProducesLink_GT) $
+end  
+
+PartOfLink_GT in JavaGraphicalType,Class with 
+  attribute,property
+     textcolor : "0,0,0";
+     edgecolor : "40,180,40";
+     edgewidth : "2";
+     edgestyle : "dotted";
+     label : ""
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 23
+  rule
+     gtrule1: $ forall a/ActivityDiagram!activity (a graphtype PartOfLink_GT) $;
+     gtrule2: $ forall a/OpenConcept!contains (a graphtype PartOfLink_GT) $
+end  
+

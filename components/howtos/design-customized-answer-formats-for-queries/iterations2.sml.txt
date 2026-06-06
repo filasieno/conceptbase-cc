@@ -1,0 +1,79 @@
+{*
+* File: iterations2.sml
+* Author: Manfred A. Jeusfeld, Tilburg University
+* Date: 30-Sep-2004
+* --------------------------------------------------------
+* A variant for iterations.sml that shows how to construct
+* comma-separated lists like a,b,c.
+* Note that the last element in a commaseparated list is NOT
+* followed by a comma. This is technically achieved by a 
+* 'backspace' character, denoted as \\b in the answer format.
+* The Telos editor displays this as a special character
+* but if you copy & paste the text into a text editor (like vi),
+* the last comma should disappear.
+* Not a totally satisfactory solution but it kinda works.
+*}
+
+
+Class Person with 
+  attribute
+    parent: Person;
+    age: Integer
+end
+
+{* a simple query class *}
+
+QueryClass PersonWithParents3 isA Person with
+  retrieved_attribute
+     parent: Person;
+     age: Integer
+   constraint
+     c1: $ exists a/Integer (~this age a) and (a > 10) $
+end
+
+
+{* answer format using Foreach *}
+
+AnswerFormat PersonFormat3 with
+   forQuery q: PersonWithParents3
+   order o: ascending
+   orderBy ob: "this"
+   head h: 
+"<html>These are the persons together with their parents:
+<OL>
+"
+  pattern p:
+"<LI> {this} is {this.age} years old. Parents: {Foreach( ({this.parent}),(p), {p}\,)}\\b.
+"
+  tail t: "</OL>"
+end
+
+
+
+{* a database for the example *}
+
+Person Mary with
+  age a: 14
+  parent mother: Charlotte; 
+         father: Frederic
+end
+
+Person Charlotte with
+  age a: 34
+  parent father: Albert
+end
+
+Person Frederic end
+
+Person Albert end
+
+Person Bill with 
+  age a: 16
+  parent mother: Charlotte;
+         stepfather: John;
+         father: Albert
+end
+
+Person John with
+ age a: 43
+end

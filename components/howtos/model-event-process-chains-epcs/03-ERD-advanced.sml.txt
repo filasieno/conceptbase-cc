@@ -1,0 +1,74 @@
+{*
+* File ERD-advanced.sml
+* Author: Manfred Jeusfeld, jeusfeld@uvt.nl
+* Date: 26-Oct-1999 (19-Oct-2004)
+*----------------------------------------------------------------
+* This file specifies a version of the ERD notation
+* that includes the so-called EntRelType
+* 19-Oct-2004: adpated for linking to EPC.sml
+*}
+
+
+{*** the simple notation definition level of *}
+
+Node with
+  attribute
+    connectedTo: Node
+end
+
+
+{*** this defines a simple version of the ER notation *}
+
+EntityType in Node with 
+  connectedTo
+    ent_attr: Domain    {* we now define entity attributes as a property of the ER notation *}
+end
+
+RelationshipType in Node with
+  connectedTo
+     role: EntityType
+end
+
+EntRelType in Node isA EntityType,RelationshipType with
+end
+
+{* Of course, 'Domain' must be defined: *}
+
+Domain in Node with
+end
+
+
+
+
+{*** this defines an example ER diagram using the above ER notation *}
+
+
+Customer in EntityType 
+end 
+
+Item in EntityType 
+end 
+
+Order in EntRelType with 
+  attribute,role
+     r1 : Item;
+     r2 : Customer
+end
+
+
+{* following the definition of known domains for entity attributes: *}
+
+Integer in Domain with
+end
+
+String in Domain with
+end
+
+Date in Domain with 
+end
+
+String isA Date with 
+end  {* this is a trick to accept any string as date *}
+
+
+

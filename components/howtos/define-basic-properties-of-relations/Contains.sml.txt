@@ -1,0 +1,70 @@
+{*
+This file is governed by the Creative Commons license
+   attributeion-NonCommercial 4.0 Unported
+   http://creativecommons.org/licenses/by-nc/4.0/
+   http://creativecommons.org/licenses/by-nc/4.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+{*
+* File Contains.sml.txt
+* Author: Manfred Jeusfeld, jeusfeld@uvt.nl
+* Date: 2021-07-31 (2021-07-31)
+*----------------------------------------------------------------
+* Show how to extend O-Telos by adding new relations and their semantics to Proposition
+*
+*}
+
+
+Proposition with
+  attribute
+    contains: Proposition
+end
+
+{* in efficient solution with quadratic recursion in r1trans rule
+ContainsSemantics in Class with 
+  constraint
+    c1asymm: $ forall x1,x2/Proposition (x1 contains x2) ==> not (x2 contains x1) $
+  rule
+    r1trans: $ forall x1,x2,x3/Proposition (x1 contains x2) and (x2 contains x3) ==> (x1 contains x3) $
+end
+*}
+
+ContainsSemantics in Class with 
+  constraint
+    c1asymm: $ forall x1,x2/Proposition (x1 contains x2) ==> not (x2 contains x1) $
+  rule
+    r1trans: $ forall x1,x2,x3/Proposition :(x1 contains x2): and (x2 contains x3) ==> (x1 contains x3) $
+end
+
+
+
+car1 with
+  contains
+    p1: engine1;
+    p2: frame1
+end
+
+engine1 with
+  contains
+    p1: engineblock1;
+    p2: ecu1
+end
+
+frame1 end
+engineblock1 end
+ecu1 end
+
+
+{* this definition will violate constraint c1asymm
+engineblock1 with
+  contains
+    p1: engine1
+end
+*}
+
+
+

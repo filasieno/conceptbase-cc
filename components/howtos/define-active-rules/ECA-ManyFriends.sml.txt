@@ -1,0 +1,68 @@
+{
+* File: ECA-ManyFriends.sml
+* Author: Manfred Jeusfeld
+* Created: 7-Nov-2005/M.Jeusfeld (2-Apr-2008/M.Jeusfeld)
+* ------------------------------------------------------
+* Just an ECA rule with more than 2 free variables in event/condition.
+* It shows that the IF-part of an ECA rule can bind several free
+* variables. For all matching combinations of objects to the free variables
+* the DO-part of the ECA rule is executed.
+*
+* Requires ConceptBase 7.1 released after 2-Apr-2008.
+*
+}
+
+Person with
+  attribute
+    friend: Person
+end
+
+Friend end
+
+PersonWithFriends in GenericQueryClass isA Person with
+  parameter,computed_attribute
+    direct_friend: Person;
+    indirect_friend: Person
+  constraint
+     c1: $ (this friend direct_friend) and 
+           (direct_friend friend indirect_friend)
+         $
+end
+
+
+{* This ECA rule will execute the DO-part on all matching combinations *}
+{* of p1,p2,p3.                                                        *}
+{* The apostrophe define the predicate (p1 in PersonWithFriends[..])   *}
+{* instructs ConceptBase to evaluate in the the context of the new     *}
+{* database, i.e. seeing all updates done in the current transaction.  *}
+
+ECArule MakeManyFriends with
+  mode m: Deferred    {* must be deferred; otherwise the ECA rule is evaluated *}
+  ecarule             {* on an intermediate database state                     *}
+        er : $  p1,p2,p3/Person
+        ON Tell (p1 in Person)
+        IF `(p1 in PersonWithFriends[p2/direct_friend,p3/indirect_friend])
+        DO Tell (p1 in Friend),
+           Tell (p2 in Friend),
+           Tell (p3 in Friend)
+        $
+end
+
+
+
+{* You can fire the rule by telling the example objects below:
+
+bill in Person with
+  friend
+    p1: john
+end
+
+john in Person with
+  friend
+    p1: mary
+end
+
+mary in Person end
+
+*}
+

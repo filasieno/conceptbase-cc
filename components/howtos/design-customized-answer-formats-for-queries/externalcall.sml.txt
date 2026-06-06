@@ -1,0 +1,85 @@
+{*
+* File: externalcall.sml
+* Author: Manfred Jeusfeld, Tilburg University
+* Date: 7-Aug-2001
+*}
+
+Class Employee with
+  attribute
+    name: String;
+    dept: Department;
+    salary: Integer
+end
+
+Class Manager isA Employee end
+
+Class Department with
+  attribute
+     head: Manager;
+     name: String;
+     budget: Integer
+end
+
+
+View EmpDept isA Employee with
+  inherited_attribute
+     salary: Integer
+  retrieved_attribute,partof
+     dept: Department with
+              retrieved_attribute
+                  head: Manager;
+                  name: String
+           end
+  constraint
+     ce: $ exists s/Integer (~this salary s) and (s < 10000) $
+end
+
+AnswerFormat EmpDeptFormatWithExternalCall with
+   forQuery q: EmpDept
+   head h: "The current time is {CURRENTTIME()}.
+This is a list of employees who earn very little.
+
+employee  |  dept      | head of dept
+"
+   pattern p:
+"{this} | {STRINGDECODING({this.dept.name})} | {this.dept.head}
+"
+end
+
+Employee E1 with 
+  name n: "Willi S"
+  dept d: D1
+  salary s: 5000
+end
+
+Employee E2 with 
+  name n: "Peter S"
+  dept d: D1
+  salary s: 35000
+end
+
+Employee E3 with 
+  name n: "Carl S"
+  dept d: D2
+  salary s: 8000
+end
+
+Manager M1 end
+Manager M2 end
+
+Department D1 with
+  head h: M1
+  name n: "Sales and Service"
+  budget bg: 560
+end
+
+Department D2 with
+  head h1: M1; h2: M2
+  name n: "Production"
+  budget bg: 560
+end
+
+
+
+
+

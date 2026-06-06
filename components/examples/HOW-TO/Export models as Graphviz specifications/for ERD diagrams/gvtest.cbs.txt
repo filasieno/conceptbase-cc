@@ -1,9 +1,0 @@
-# sample script to test the generation og GraphViz code via a query with answer format
-# M. Jeusfeld,  2008-06-25 (2016-05-13)
-connect
-tellModel ERD-graphviz2
-tellModel UniversityModel
-ask ShowERD[UniversityModel/erd] OBJNAMES FRAME Now
-showAnswer
-exit
-

@@ -1,0 +1,97 @@
+{*
+* File: csv.sml
+* Author: Manfred A. Jeusfeld, Tilburg University
+* Date: 16-Mar-2006 (11-Nov-2010/M.Jeusfeld)
+* --------------------------------------------------------
+* Comma-separated values with answer formats. Shows how to
+* check whether the first or last frame is currently processed
+* in the answer format. Depending on the outcome, different
+* strings are inserted to the output stream.
+*
+* Requires ConceptBase 6.2 released 21-Mar-2006 or later.
+*}
+
+
+Class Person with 
+  attribute
+    parent: Person;
+    age: Integer
+end
+
+{* a simple query class *}
+
+QueryClass PersonQuery isA Person with
+  retrieved_attribute
+     parent: Person;
+     age: Integer
+   constraint
+     c1: $ exists a/Integer (~this age a) and (a > 10) $
+end
+
+{* Special characters used in this answer format:   *}
+{*   \( = left parenthesis                          *}
+{*   \) = right parenthesis                         *}
+{*   \, = a comma like in ','                       *}
+{*   \0 = empty string ''                           *}
+{* Note that the boolean predicates ISFIRSTFRAME()  *}
+{* and ISLASTFRAME() are called with empty argument *}
+{* list. Also note that IFTHENELSE has three        *}
+{* arguments: the boolean predicate, the THEN       *}
+{* string (to be printed when the boolean predicate *}
+{* is true), and the ELSE string.                   *}
+
+AnswerFormat PersonFormat3 with
+   forQuery q: PersonQuery
+   order o: descending
+   orderBy ob: "this.age"
+   pattern p: 
+"{IFTHENELSE({ISFIRSTFRAME()},\(,\0)}{this} is aged {this.age}{IFTHENELSE({ISLASTFRAME()},\),\, )}"
+end
+
+
+
+{* even simpler query: retrieve all ages of persons *}
+QueryClass AgeList isA Integer with
+   constraint
+     c1: $ exists p/Person (p age ~this) $
+end
+
+{* format the answer to AgeList as a comma-separated list *}
+AnswerFormat AgeCSVFormat with
+   forQuery q: AgeList
+   order o: ascending
+   orderBy ob: "this"
+   pattern p: 
+"{this}{IFTHENELSE({ISLASTFRAME()},\0,\, )}"
+end
+
+
+
+{* a database for the example *}
+
+Person Mary with
+  age a: 14
+  parent mother: Charlotte; 
+         father: Frederic
+end
+
+Person Charlotte with
+  age a: 34
+  parent father: Albert
+end
+
+Person Frederic end
+
+Person Albert end
+
+Person Bill with 
+  age a: 16
+  parent mother: Charlotte;
+         stepfather: John;
+         father: Albert
+end
+
+Person John with
+ age a: 43
+end
+

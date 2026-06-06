@@ -1,0 +1,60 @@
+{
+*
+* File: EvenOddBasic.sml
+* Author: Manfred Jeusfeld
+* Creation: 16-Noc-2002 (17-Nov-2005/M.Jeusfeld)
+* ----------------------------------------------------------------------
+* Variant of EvenOdd.sml which does not use Telos integers
+* but simulates number by objects with successor links.
+*
+* Requires ConceptBase 6.2 released after 17-Nov-2005.
+}
+
+Int with
+  attribute
+    succ: Int
+end
+
+{* some instances of Int: *}
+
+ZERO in Int with
+ succ s: ONE
+end
+
+ONE in Int with
+ succ s: TWO
+end
+
+TWO in Int with
+ succ s: THREE
+end
+
+THREE in Int with
+ succ s: FOUR
+end
+
+FOUR in Int with
+ succ s: FIVE
+end
+
+FIVE in Int end
+
+
+
+Individual Odd isA Int end  {* this needs to be defined in advance to 'Even' *}
+
+QueryClass Even isA Int with
+  constraint
+    c: $ (this = ZERO) or (exists y/Odd (y succ ~this)) $
+end
+
+QueryClass Odd isA Int with
+  constraint
+    c: $ exists y/Even (y succ ~this)  $
+end
+
+
+
+
+
+

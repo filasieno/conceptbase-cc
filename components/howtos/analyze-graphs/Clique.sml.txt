@@ -1,0 +1,103 @@
+{
+*
+* File: Clique.sml
+* Author: Manfred Jeusfeld
+* Creation: 9-Dec-2005
+* ----------------------------------------------------------------------
+* Wrong definition of  the concept of a clique. 
+* It will not inspect all possible subsets of
+* CliqueMemberCandidate for being cliques. It only checks the
+* complete set CliqueMemberCandidate. We actually miss a
+* subset iterator in the query language of ConceptBase.
+* For example, if we ask CliqueMember[c1/rep], then 
+* get c1,c2,c3,c4 as clique members of c1. However, if
+* we ask CliqueMember[c4/rep], then we get 'nil' as answer
+* because the CliqueMemberCandidates of c4 includes c5,
+* which is not member of the clique. It would be nice
+* if the system could infer that a clique of c4 can be 
+* found if one restricts to a subset of CliqueMemberCandidate.
+*
+* Note that also c1,c2,c3,c4 could have links to nodes like c5
+* that are not part of the clique.
+*
+* Not surprisingly, the clique problem is NP-complete as described in
+*   http://en.wikipedia.org/wiki/Clique_problem
+* Since deductive query evaluation is polynomial in the size of
+* the input (here: the graph), a purely deductive solution to the
+* clique problem is impossible (provided P=NP is untrue). 
+* So, a subset iterator would firmly kick us out of deductive
+* query processing and let us enter other computational class.
+*
+}
+
+{* simple class level for connected units *}
+
+Class Node with
+  attribute
+    linkTo: Node
+end
+
+
+{* this defines the candidate nodes for the clique:    *}
+{*  all nodes linked from ~rep including ~rep          *}
+{* By this, we will not be able to find cliques that   *}
+{* are established by subsets of CliqueMemberCandidate *}
+
+CliqueMemberCandidate in GenericQueryClass isA Node with
+  parameter
+    rep: Node
+  constraint
+    ccand: $ (~rep linkTo ~this) or (~rep = ~this) $
+end
+
+{* find all clique members of ~rep *}
+
+CliqueMember in GenericQueryClass isA Node with
+  parameter
+    rep: Node
+  constraint
+    ccliq: $ (~this in CliqueMemberCandidate[~rep/rep]) and
+               (forall u1,u2/CliqueMemberCandidate[~rep/rep]
+                    not (u1 == u2) ==> (u1 linkTo u2) and (u2 linkTo u1))
+            $
+end
+
+
+
+  
+c1 in Node with
+  linkTo
+   p1: c2;
+   p2: c3;
+   p3: c4
+end
+
+c2 in Node with
+  linkTo
+   p1: c1;
+   p2: c3;
+   p3: c4
+end
+
+c3 in Node with
+  linkTo
+   p1: c1;
+   p2: c2;
+   p3: c4
+end
+
+c4 in Node with
+  linkTo
+   p1: c1;
+   p2: c2;
+   p3: c3;
+   p4: c5
+end
+
+c5 in Node end
+
+
+
+
+
+

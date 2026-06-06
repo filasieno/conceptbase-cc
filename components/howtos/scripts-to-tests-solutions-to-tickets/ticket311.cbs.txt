@@ -1,0 +1,67 @@
+# Test bug with rules that have object names in the conclusion predicate
+# Manfred Jeusfeld, 19-Jul-2012
+# Call like
+#    cbshell ticket311.cbs
+
+
+
+
+startServer -u nonpersistent -t low -port 4002 
+
+
+tell "
+Directory in Class with
+  attribute
+    hasFileSize: Integer
+end
+thisDir in Directory end
+
+File in Class with
+  attribute
+    size: Integer
+end
+"
+
+
+tell "
+Directory in Class with
+  rule
+    fsRule: $ forall f/File s/Integer  (f size s) 
+                  ==> (thisDir hasFileSize s) $
+end
+"
+# the assertion parser had difficulties to parse (thisDir hasFileSize s)
+# where thisDir is an existing object label
+# should be solved with the new release of ConceptBase 
+
+
+tell "
+Individual Employee in Class with
+   attribute
+      name : String;
+      salary : Integer;
+      dept : Department;
+      boss : Manager
+end
+ 
+
+Individual Manager in Class isA Employee with
+end
+
+
+Individual Department in Class with
+   attribute
+      head : Manager
+end
+"
+
+# the path expression this.dept.head must be parsed correctly
+tell "Employee with rule
+        BossRule: $ forall m/this.dept.head (this boss m) $
+end
+
+"
+
+
+
+

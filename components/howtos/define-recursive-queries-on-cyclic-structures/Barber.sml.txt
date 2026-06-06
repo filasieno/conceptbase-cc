@@ -1,0 +1,73 @@
+{
+*
+* File: Barber.sml
+* Author: Manfred Jeusfeld
+* Creation: 11-Mar-2002 (5-Oct-2005)
+* ----------------------------------------------------------------------
+* This example is about a non-stratified rule. 
+* The ShavedByBarber query will return 'pete' but not 'TheBarber'.
+* The query will run only with ConceptBase V5.2.2 or later.
+* Starting with V6.1.3, ConceptBase can detect some stratification
+* violations like this and reports warnings.
+*
+* Datalog translations are shown in comment lines.
+}
+
+
+Class Man  with
+  attribute
+    shaves: Man
+  rule
+   r1: $ forall m/Man not (m shaves m) ==> (TheBarber shaves m) $
+end
+
+{* in Datalog:
+
+   shaves(thebarber,M) :- man(M), not shaves(M,M).
+
+*}
+
+
+TheBarber in Man end
+
+jon in Man with
+  shaves him: jon
+end
+
+pete in Man end
+
+
+QueryClass ShavedByBarber isA Man with
+  constraint
+    c1: $ (TheBarber shaves ~this) $
+end
+ 
+{* in Datalog:
+
+   ShavedByBarber(X) :- man(X), shaves(thebarber,X).
+
+*}
+
+QueryClass NotShavedByBarber isA Man with
+  constraint
+    c1: $ not (TheBarber shaves ~this) $
+end
+
+{*
+    NotShavedByBarber(X) :- man(X), not shaves(thebarber,X).
+*}
+  
+
+
+DoesntShaveHimself in QueryClass isA Man with  
+attribute,constraint
+    c1 : $ not (~this shaves ~this) $
+end
+
+{*
+    DoesntShaveHimself(X) :- man(X), not shaves(X,X).
+*}
+  
+
+
+ 

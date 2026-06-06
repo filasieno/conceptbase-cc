@@ -1,0 +1,98 @@
+EntityType Staff with
+  attr
+    name: String;
+    hired: Date;
+    salary: Integer
+  attr,key
+   staffno: Integer
+end
+
+EntityType Faculty with
+  attr
+    since: Date;
+    post: String
+end
+
+EntityType Technician with
+  attr
+    since: Date;
+    post: String
+end
+
+
+
+EntityType Student with
+  attr
+    since: Date
+  attr,key
+    studentid: Integer
+end
+
+
+EntityType University with
+  attr, key
+   name: String;
+   location: String
+end
+
+EntityType Course with
+  attr,key
+    courseno: Integer;
+    semester: String
+  attr
+    title: String
+end
+
+RelationshipType employs with
+  role, max_n
+    employee: Staff
+  role, max_1
+    employer: University
+end
+
+IsaType ISA_1 with 
+  sub
+    sub1: Faculty
+  super
+     super1: Staff
+end
+
+IsaType ISA_2 with
+  sub
+    sub1: Technician
+  super
+    super1: Staff
+end
+
+RelationshipType teaches with
+  role,max_1
+    teacher: Faculty
+  role,max_n
+    subject: Course
+end
+
+
+EntityRelationshipType attends with
+  role, max_n
+    stud: Student;
+    course: Course
+  attr
+    quota: Integer
+end
+
+
+
+Domain Date
+end
+
+Domain String
+end
+
+Domain Integer
+end
+
+Domain Real
+end
+
+
+

@@ -1,0 +1,71 @@
+{ 
+*
+* File: PDD-WEM-Combine.sml
+* Author: Manfred Jeusfeld
+* Creation: 01-Feb-2010 (04-Apr-2011/M.Jeusfeld)
+* ----------------------------------------------------------------------
+* Applying the PDD constructs to define a part of the Web Engineering Method (WEM).
+* Excerpted from slides of Inge van de Weerd
+*
+* Copyright (C) 2011 by Manfred Jeusfeld
+* This model file is licensed under the terms of
+*   attributeion-NonCommercial 3.0 (Germany)
+*   http://creativecommons.org/licenses/by-nc/3.0/de/legalcode
+*   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+* Extended licenses can be obtained from the author.
+*
+}
+
+
+
+
+
+ExtensiveRequirementsElicitation in Phase with
+  next
+    nextphase: GoalSetting
+end
+
+GoalSetting in Phase with
+  next
+    nextphase: DomainModeling
+end
+
+DomainModeling in Phase with
+  next
+    nextphase: UseCaseModeling
+end
+
+UseCaseModeling in Phase with
+  next
+    nextphase: ApplicationModeling
+end
+
+ApplicationModeling in Phase with
+  next
+    nextphase: AdditionalRequirementsDescription
+end
+
+AdditionalRequirementsDescription in Activity with
+  next
+    step23: RequirementsValidation
+  produces
+    product1: ADDITIONALREQUIREMENT
+end
+
+
+ComplexDefinitionPhase in PDD with
+  activity
+    a1: ExtensiveRequirementsElicitation;
+    a2: GoalSetting;
+    a3: DomainModeling;
+    a4: UseCaseModeling;
+    a5: ApplicationModeling;
+    a6: AdditionalRequirementsDescription;
+    a7: RequirementsValidation
+  preferredDeliverable
+    del: RequirementsDocument
+end
+
+
+
+

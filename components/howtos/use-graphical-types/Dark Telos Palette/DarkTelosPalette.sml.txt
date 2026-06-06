@@ -1,0 +1,255 @@
+{*
+This file is governed by the Creative Commons license
+   attributeion-NonCommercial 4.0 Unported
+   http://creativecommons.org/licenses/by-nc/4.0/
+   http://creativecommons.org/licenses/by-nc/4.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+
+{*
+* File: DarkTelosPalette.sml.txt
+* Author: Manfred Jeusfeld
+* Created: 2024-10-01
+* -------------------------------------------------------
+* This is the dark variant of TelosPalette. Can be used in conjunction to the dark mode of CBGraph and CBIva.
+* Should work even with older versions of ConceptBase from 2020 onwards. Recommended is ConceptBase 8.5
+* or later.
+*
+*}
+
+DarkTelosPalette in Class,JavaGraphicalPalette isA XBridgePalette with  
+  comment
+    description: "This is the dark variant of TelosPalette. Can be used in conjunction to the dark mode of CBGraph and CBIva"
+  contains,defaultIndividual
+    tp1 : INDIVIDUAL_TP_DARK_GT
+  contains,defaultLink
+    tp2 : ATTR_TP_DARK_GT
+  contains,implicitIsA
+    tp3 : ISADEDUCED_TP_DARK_GT
+  contains,implicitInstanceOf
+    tp4 : INSTOFDEDUCED_TP_DARK_GT
+  contains,implicitattributee
+    tp5 : ATTRDEDUCED_TP_DARK_GT
+  contains
+    tp6 : CLASS_TP_DARK_GT;
+    tp7 : QUERYCLASS_TP_DARK_GT;
+    tp8 : INSTOF_TP_DARK_GT;
+    tp9: ISA_TP_DARK_GT;
+    tp10: STRING_TP_DARK_GT;
+    tp11: VALUE_TP_DARK_GT;
+    tp12: ASSERTION_TP_DARK_GT
+  palproperty
+    bgcolor: "50,50,50"
+end 
+
+
+
+INSTOF_TP_DARK_GT in JavaGraphicalType,Class with 
+  attribute,property
+    bgcolor : "0,200,0";
+    textcolor : "230,230,230";
+    edgecolor : "0,200,0";
+    edgewidth : "2";
+    edgeheadshape: "Caret";
+    edgestyle : "ldashed";
+    label : ""
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 6
+  rule
+     gtrule1: $ forall a/InstanceOf (a graphtype INSTOF_TP_DARK_GT) $
+end 
+
+INSTOFDEDUCED_TP_DARK_GT in JavaGraphicalType,Class with 
+  attribute,property
+    bgcolor : "0,200,0";
+    textcolor : "230,230,230";
+    edgecolor : "0,200,0";
+    edgewidth : "1";
+    edgeheadshape: "Caret";
+    edgestyle : "dashed";
+    label : ""
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 7
+end  
+
+ISA_TP_DARK_GT in JavaGraphicalType,Class with 
+  attribute,property
+    bgcolor : "0,150,255";
+    textcolor : "230,230,230";
+    edgecolor : "0,150,255";
+    edgeheadcolor : "50,50,50";
+    edgeheadshape : "Arrow";
+    edgewidth : "2";
+    label : ""
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 6
+  rule
+     gtrule1: $ forall a/IsA (a graphtype ISA_TP_DARK_GT) $
+end 
+
+ISADEDUCED_TP_DARK_GT in JavaGraphicalType,Class with 
+  attribute,property
+    bgcolor : "0,150,255";
+    textcolor : "230,230,230";
+    edgecolor : "0,150,255";
+    edgeheadcolor : "50,50,50";
+    edgewidth : "1";
+    edgestyle : "dashed";
+    label : "";
+    edgeheadshape: "Arrow"
+  attribute,implementedBy
+     implBy : "i5.cb.graph.cbeditor.CBLink"
+  attribute,priority
+     p : 7
+end  
+
+
+ATTR_TP_DARK_GT in Class,JavaGraphicalType with  
+  property
+    textcolor : "230,230,230";
+    edgecolor : "230,230,230";
+    edgewidth : "2";
+    fontsize: "10";
+    bgcolor : "50,50,50,240"  {* white, slighlty transparent *}
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBLink"
+  priority
+    p : 5
+  rule
+     gtrule1: $ forall x/Proposition!attribute (x graphtype ATTR_TP_DARK_GT) $
+end 
+
+ATTRDEDUCED_TP_DARK_GT in JavaGraphicalType with  
+  property
+    textcolor : "230,230,230";
+    edgecolor : "230,230,230";
+    edgewidth : "2";
+    edgestyle : "dashed";
+    fontsize: "10";
+    bgcolor : "50,50,50,240"  {* white, slighlty transparent *}
+  implementedBy
+    implBy : "i5.cb.graph.cbeditor.CBLink"
+  priority
+    p : 7
+end 
+
+
+INDIVIDUAL_TP_DARK_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "50,50,40"; 
+	textcolor : "230,230,230";
+	linecolor : "230,230,230";
+	shape : "Rect";
+        size: "resizable";
+        linewidth : "1"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 5
+rule
+     gtrule1: $ forall x/Individual (x graphtype INDIVIDUAL_TP_DARK_GT) $
+end
+
+
+CLASS_TP_DARK_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "100,100,100"; 
+	textcolor : "230,230,230";
+	linecolor : "230,230,230";
+	shape : "Rect";
+        size: "resizable";
+        linewidth : "1"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 6
+rule
+     gtrule1: $ forall x/Class (x graphtype CLASS_TP_DARK_GT) $
+end
+
+STRING_TP_DARK_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "110,110,110"; 
+	textcolor : "230,230,230";
+	linecolor : "200,200,200";
+	shape : "Rect";
+        fontstyle: "italic";
+        fontsize: "11";
+        size: "wrap";
+        labellength : "1000";
+        linewidth : "0.3"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 7
+rule
+     gtrule1: $ forall x/String (x graphtype STRING_TP_DARK_GT) $
+end
+
+VALUE_TP_DARK_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "50,50,50"; 
+	textcolor : "230,230,230";
+	linecolor : "190,190,190";
+	shape : "Rect";
+        fontstyle: "italic";
+        fontsize: "11";
+        linewidth : "0.3"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 7
+rule
+     gtrule1: $ forall x/Integer (x graphtype VALUE_TP_DARK_GT) $;
+     gtrule2: $ forall x/Real (x graphtype VALUE_TP_DARK_GT) $
+end
+
+ASSERTION_TP_DARK_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "50,50,50";
+	textcolor : "230,230,230";
+	linecolor : "230,230,230";
+	shape : "Rect";
+        size: "wrap";
+        fontstyle: "italic";
+        fontsize: "11";
+        labellength : "1000";
+        linewidth : "1"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 8
+rule
+     gtrule1: $ forall x/MSFOLassertion (x graphtype ASSERTION_TP_DARK_GT) $
+end
+
+QUERYCLASS_TP_DARK_GT in Class,JavaGraphicalType with
+property
+	bgcolor : "50,80,50"; 
+	textcolor : "230,230,230";
+	linecolor : "230,230,230";
+	shape : "Rect";
+        size: "resizable";
+        linewidth : "1";
+        fontstyle: "italic"
+implementedBy
+	implBy : "i5.cb.graph.cbeditor.CBIndividual"
+priority
+    pr : 8
+rule
+     gtrule1: $ forall x/QueryClass (x graphtype QUERYCLASS_TP_DARK_GT) $
+end
+
+
+
+

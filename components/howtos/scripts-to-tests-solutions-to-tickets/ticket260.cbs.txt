@@ -1,0 +1,74 @@
+#
+# File: ticket260.cbs
+# Author: Manfred Jeusfeld
+# Created: 2010-07-01/M.Jeusfeld (2010-07-01/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Start: CBshell -f ticket260.cbs
+#
+# This script requires ConceptBase 7.2 or later.
+# The script tests the capabilities of the new 'Raise' action
+# of ECArules.
+#
+
+startServer -u nonpersistent -port 4411 -t high
+
+
+tell "
+
+A in Class end
+
+B in Class end
+
+{* This query class ist just for triggerung ECArules; it uses YesClass as range, *}
+{* so if you ask it from the user interface, you will get 'yes' as answer.       *}
+MyAsk in GenericQueryClass isA YesClass with
+  parameter
+    p1: Individual
+end
+"
+
+
+
+tell "
+ECArule tellToRaise with
+  mode m: ImmediateDeferred
+  ecarule
+        er : $  x/Proposition
+        ON Tell (x in A) 
+        IF TRUE
+        DO Raise MyAsk[x/p1]
+        $
+end
+
+ECArule onMyAsk with
+  mode m: Immediate
+  ecarule
+        er : $  x/Individual
+        ON Ask MyAsk[x/p1]
+        IF TRUE
+        DO Tell (x in B)
+        $
+end
+
+"
+
+
+tell "
+X1 in A end
+X2 end
+"
+
+# we can only call queries where all parameters are known objects
+# This one will lead to a triggering of ECArule onMyAsk
+ask "MyAsk[X2/p1]" OBJNAMES  FRAME  Now
+
+
+ask "find_instances[B/class]" OBJNAMES  FRAME  Now
+# should contain X1,X2
+
+
+
+
+
+

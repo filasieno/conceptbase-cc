@@ -1,0 +1,57 @@
+{
+*
+* File: links.sml
+* Author: Manfred Jeusfeld
+* Creation: 8-Aug-2002
+* ----------------------------------------------------------------------
+* Compute the nodes that are connected to a given node.
+}
+
+Node in Class with
+end
+
+Connection in Class with
+  attribute
+    from: Node;
+    to: Node
+end
+
+
+n0 in Node end
+n1 in Node end
+n2 in Node end
+
+
+c1 in Connection with
+  from x: n0
+  to   y: n1
+end
+
+c2 in Connection with
+  from x: n1
+  to   y: n2
+end
+
+
+QueryClass ReachableN2 isA Node with
+  constraint
+     c1: $ UNIFIES(~this,n2) or
+           (exists c/Connection z/Node 
+                   (z in ReachableN2) and
+                   (c from ~this) and (c to z)) $
+end
+
+{* ReachableN2 should deliver: no,n1,n2 *}
+
+GenericQueryClass Reachable isA Node with 
+  computed_attribute,parameter
+     start : Node
+  attribute,constraint
+     c1 : $ UNIFIES(~this,~start) or
+           (exists c/Connection z/Node 
+                   (z in Reachable[~start/start]) and
+                   (c from ~this) and (c to z)) $
+end 
+
+{* Reachable[n2/start] should also deliver: no,n1,n2 *}
+

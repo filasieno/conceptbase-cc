@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+
+Type=Application
+MimeType=application/x-cbgraphfile
+
+Name=ConceptBase.cc Graph Editor
+
+Comment=Displays ConceptBase.cc graph files 
+Icon=/home/jeusfeld/CBPOOL/conceptbase/lib/cbgraph-logo.png
+TryExec=/home/jeusfeld/CBPOOL/conceptbase/cbgraph
+Exec=/home/jeusfeld/CBPOOL/conceptbase/cbgraph %f
+Terminal=false

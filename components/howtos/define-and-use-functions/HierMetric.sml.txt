@@ -1,0 +1,155 @@
+{*
+This file is governed by the Creative Commons license
+   attributeion-NonCommercial 3.0 Unported
+   http://creativecommons.org/licenses/by-nc/3.0/
+   http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
+Extended licenses, in particular commercial licenses, can be obtained from the
+author of the source code.
+Any re-distribution as source code must acknowledge the original author of this file.
+*}
+
+{
+* File: HierMetric.sml 
+* Author: (c) 2010 Manfred Jeusfeld
+* Created: 17-Nov-2010/M.Jeusfeld (18-Nov-2010/M.Jeusfeld)
+* ------------------------------------------------------
+* Example of evaluating hierachical metrics
+* N1 is  construct with two arguments; N3 is a construct with one argument
+* N2 and N4 are constructs with no arguments. So, this is used to create
+* some graphs (trees) to represent terms where N1,N2,N3,N4 are the operators.
+*
+* The xWeight an N2-type construct shall be 2. The xWeight of an N4-type construct is 4.
+* The xWeight of an N3-type construct is 2 times the xWeight of its argument plus 1.
+* Finally the xWeight of an N1-type construct shall be the xWeight of its first argument
+* multiplied by the xWeight of its second argument.
+* 
+}
+
+Construct with
+  attribute
+    part: Construct
+end
+
+N1 isA Construct end    {* has two parts *}
+N2 isA Construct end    {* has no part   *}
+N3 isA Construct end    {* has one part  *}
+N4 isA Construct end    {* has no part   *}
+
+
+
+{* hierarchical metric xWeight *}
+Function xWeight isA Integer with
+  parameter
+    x: Construct
+  constraint 
+     cval: $ (x in N2) and (this = 2) or
+             (x in N4) and (this = 4) or
+             (exists n4/Construct (x in N3) and (x part/p1 n4) and (this = 2*xWeight(n4)+1)) or
+             (exists n2,n3/Construct (x in N1) and (x part/p1 n2) and (x part/p2 n3) and (this = xWeight(n2)*xWeight(n3))) 
+           $
+end
+
+
+
+
+
+
+{* A derived attribute like 'xval' can be used to display the metric values in the graph editor.
+   Take this code out of comment lines to activate it.
+
+Construct in Class with  
+  attribute
+    xval: Integer
+  rule
+    rval : $ forall n/Construct i/Integer (i = xWeight(n)) ==> (n xval i) $
+end 
+*}
+
+
+
+{* The subsequent terms are put in comments. So tell them individually to
+   test them.
+*}
+
+
+{* example term; the xWeights of the nodes are displayed in brackets
+
+    [18=2*9]
+    node1 ---> node2 [2]
+      |
+      -------> node3 -----> node4  [4]
+               [2=2*4+1]
+
+node1 in N1 with
+  part p1: node2
+  part p2: node3
+end
+
+node2 in N2 end
+
+node3 in N3 with
+  part p1: node4
+end
+
+node4 in N4 end
+
+*}
+
+
+
+{* another slightly larger example term 
+   the top node m1 should have the value 704
+
+
+m1 in N1 with
+  part p1:m11; p2:m12
+end
+
+m11 in N1 with
+  part p1:m3; p2: m4
+end
+
+m3 in N3 with
+  part p1: m31 
+end
+
+m31 in N3 with
+  part p1: m21
+end
+
+m21 in N2 end
+
+*}
+
+
+m12 in N1 with
+  part p1: m41; p2: m42
+end
+
+m4 in N4 end
+
+m41 in N4 end
+
+m42 in N4 end
+
+
+
+
+{* yet another example; this time a cyclic graph 
+   results in undefined (nil) as value of the 
+   constructs in the cycle
+
+c1 in N1 with
+  part p1: c2
+  part p2: c3
+end
+
+c2 in N2 end
+
+c3 in N3 with
+  part p1: c1
+end
+
+*}
+    

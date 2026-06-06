@@ -1,0 +1,21 @@
+#
+# File: ticket234.cbs
+# Author: Manfred Jeusfeld
+# Creation: 04-Dec-2009 (08-Dec-2009)
+# ----------------------------------------------------------------------
+#
+# Check function shortcuts at the API of CBserver
+
+startServer -u nonpersistent 
+
+
+ask "COUNT[Class/class]" OBJNAMES  LABEL  Now
+ask "COUNT[Class]" OBJNAMES  LABEL  Now
+ask "COUNT(Class)" OBJNAMES  LABEL  Now
+ask "#Class" OBJNAMES  LABEL  Now
+ask "#Class+1" OBJNAMES  LABEL  Now
+ask "2+34" OBJNAMES  LABEL  Now
+ask "find_object[Class/objname]" OBJNAMES CBGraphEditorResultWithoutEdges[DefaultJavaPalette/pal] Now
+ask "2+34" OBJNAMES  default  Now
+
+

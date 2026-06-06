@@ -1,0 +1,59 @@
+{
+*
+* File: WinNim.sml
+* Author: Manfred Jeusfeld
+* Creation: 3-Apr-2002 (13-Aug-2008/MJf)
+* ----------------------------------------------------------------------
+* Translated to O-Telos from
+*  http://www.seas.smu.edu/~wchen/papers/stable.ps.gz
+*    Weidong Chen, David Scott Warren:
+*    Computation of Stable Models and its Integration with Logical Query Processing,
+*    TKDE *(5), 742-757, 1996, page 743f
+*
+* This files has the same classes as Win.sml but different data.
+* For non-cyclic data, the Win/Loose queries work just fine as the NIM example
+* at the end of this file shows.
+*
+* Requires ConceptBase 7.1.
+*
+}
+
+
+Class Position with
+  attribute
+    moveTo: Position
+end
+
+QueryClass Win isA Position with
+  constraint
+    c: $ exists y/Position (~this moveTo y) and not (y in Win) $
+end
+
+{* complement of Win: works only correctly if data is acyclic, i.e. in *}
+{* dynamically stratified databases                                    *}
+QueryClass Loose isA Position with
+  constraint
+    c: $ not (~this in Win) $
+end 
+
+{  Example data: The NIM game                                             *}
+{* NIM example: In the NIM game, two players take either 1,2, or 3 stones *}
+{* from a set of stones (here 13). The player who takes the last stone(s) *}
+{* (i.e. confronts the opponent with 0 stones) has won.                   *}
+{* Here it turns out, that we do not want to be confronted with 0, 4, 8   *}
+{* or 12 stones because the opponent can then beat us.                    *}
+{* NIM is an old game for which one of the first automated playing        *}
+{* machines were invented -- about 100 years ago.                         *}
+{* More on the general version of NIM:                                    *}
+{*    http://www.mathematische-basteleien.de/nimgame.html                 *}
+{* Ask the query 'Loose' and you will see all positions that are loosers. *}
+
+Position in Class isA Integer with
+  rule
+   r1: $ (0 in Position) $;
+   r2: $ forall p/Position p1/Integer (p < 13) and (p1=p+1) ==> (p1 in Position) $;
+   take1: $ forall p1,p2/Position (p2=p1-1) ==> (p1 moveTo p2) $;
+   take2: $ forall p1,p2/Position (p2=p1-2) ==> (p1 moveTo p2) $;
+   take3: $ forall p1,p2/Position (p2=p1-3) ==> (p1 moveTo p2) $
+end
+

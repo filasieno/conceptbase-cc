@@ -1,0 +1,89 @@
+#
+#
+# File: ticket318.cbs
+# Author: Manfred Jeusfeld
+# Created: 2013-01-23/M.Jeusfeld (2013-01-25/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Start: CBshell -f ticket318.cbs
+#
+# Check correctness of ECA interplay with integrity constraints
+#
+
+startServer -u nonpersistent -port 4411 -t veryhigh
+
+tell "
+
+
+Employee in Class with
+  attribute
+    salary: Integer;
+    supervises: Employee
+  constraint
+    c1: $ forall e/Employee s/Integer (e salary s) ==> (s < 1000) $
+end
+
+
+{* This ECA rule will increase the salary of an employee by 100 if the *}
+{* employee supervises another employee. Each new supervision will     *}
+{* lead to another salary increase.                                    *}
+{* The Retell first removes attribute matching (e1 salary x) and then  *}
+{* performs a Tell of (e1 salary s2).                                  *}
+{* We need to use the evaluate (e1 salary s1) on the new database      *}
+{* because one can tell several supervises attributes in one           *}
+{* transaction, leading to revisions of the salary attribute.          *}
+
+ECArule IncreaseSalary with
+  mode m: Deferred
+  ecarule
+        er : $  e1,e2/Employee s1,s2/Integer
+        ON Tell (e1 supervises e2)
+        IF `(e1 salary s1) and (s2=s1+100)
+        DO Retell (e1 salary s2)
+        $
+end
+
+"
+
+
+# [1] set salary of bill to 850 and declare john and mary
+tell "
+bill in Employee with
+  salary
+    s1: 850
+end
+john in Employee end
+mary in Employee end
+"
+
+
+
+
+# [2] declare bill to supervise john
+tell "
+bill in Employee with
+  supervises e1: john
+end
+"
+
+ask "get_object[bill/objname]" OBJNAMES  FRAME  Now
+# ==> bill should have salary=950
+
+
+# [3] declare bill to supervise mary
+tell "
+bill in Employee with
+  supervises e2: mary
+end
+"
+
+# ==> triggers IncreaseSalary again to raise bill's salary to 1050; this causes
+#    an integrity violation and update [3] is rejected
+
+
+
+ask "get_object[bill/objname]" OBJNAMES  FRAME  Now
+# ==> bill should still have salary=950
+
+
+

@@ -1,0 +1,75 @@
+{
+*
+* File: DefaultValues.sml
+* Author: Manfred Jeusfeld
+* Creation: 25-Jan-2008 (25-Jan-2008/MJf)
+* ----------------------------------------------------------------------
+*
+* Default values are attributes of objects that can be overridden
+* by other values.
+*
+* This example requires ConceptBase 7.1 released after 25-Jan-2008.
+}
+
+
+BankCustomer in Class with
+  attribute
+   accountno: Integer;
+   credit: Integer;
+   defaultcredit: 0
+  rule
+   defaultrule: $ forall b/BankCustomer dcr/Integer 
+                      (BankCustomer attribute/defaultcredit dcr) and
+                      (not exists cr/Integer A_e(b,credit,cr))
+                   ==> (b credit dcr) $
+end
+
+
+{* Note: The rule
+
+                $ forall b/BankCustomer cr,dcr/Integer   
+                      (BankCustomer attribute/defaultcredit dcr) and
+                      (not A_e(b,credit,cr))
+                   ==> (b credit dcr) $
+
+is not equivalent to the proper rule. It would express that any bank customer
+for which some arbitrary number cr is not the explicit credit would get
+the default credit.
+
+So: not exists cr/Integer A_e(b,credit,cr) is not the same as
+    exists cr/Integer not A_e(b,credit,cr)
+
+*}
+
+
+
+
+
+ZeroCreditCustomer in QueryClass isA BankCustomer with
+  constraint
+    c1: $ (~this credit 0) $
+end
+
+
+mary in BankCustomer with
+  accountno
+   a1: 1001
+  credit
+   mcredit: 20000
+end
+
+
+bill in BankCustomer with
+  accountno
+   a1: 2002
+end
+
+
+{* bill should have 0 as credit via the default rule and is thus *}
+{* the only instance of ZeroCreditCustomer.                      *}
+
+
+
+
+
+

@@ -1,0 +1,59 @@
+# ticket325.cbs: Nixon diamond does not work with ConceptBase 7.5
+# 18-Oct-2013/M.Jeusfeld
+
+cbserver -t low 
+
+
+tell " 
+OBJECT in Class with
+  attribute
+    ISA: OBJECT;
+    ISA_rt: OBJECT
+  rule
+    refrule: $ forall x/OBJECT (x ISA_rt x) $;
+    transrule: $ forall x,y,z/OBJECT (x ISA_rt z) and (z ISA_rt y) ==> (x ISA_rt y)$
+end
+
+CopyRules in Class with
+  rule
+    r6: $ forall x,y/OBJECT (x ISA y) ==> (x ISA_rt y) $
+end
+"
+
+
+
+tell " 
+O1 in OBJECT with
+end
+O2 in OBJECT with
+  ISA c1: O1
+end
+"
+
+
+tell "
+SuperOf in GenericQueryClass isA OBJECT with
+  parameter
+    x: OBJECT
+  constraint
+    sc: $ (x ISA_rt this) $
+end
+"
+
+ask SuperOf[O1/x]
+# --> correctly returns O1
+ask SuperOf[O2/x]
+# --> correctly returns O1,O2
+
+tell " 
+IN_ISA_Axioms in Class with
+  constraint
+    i5: $ forall x,y1,y2/OBJECT (x ISA_rt y1) and (x ISA_rt y2) 
+            ==> exists y/OBJECT (y1 ISA_rt y) and (y2 ISA_rt y) $
+end
+"
+# --> incorrect IC violation $exists x (O1 ISA_rt x) and (O2 ISA_rt x)$ not satisfied
+# even though x=O1 should work!
+
+stop
+

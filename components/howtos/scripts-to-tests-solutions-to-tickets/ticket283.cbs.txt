@@ -1,0 +1,101 @@
+#
+# File: ticket283.cbs
+# Author: Manfred Jeusfeld
+# Created: 2011-08-25/M.Jeusfeld (2011-08-30/M.Jeusfeld)
+# ------------------------------------------------------
+# Problem with a certain metaformula
+# Start: CBshell -f ticket283.cbs
+#
+
+
+startServer -u nonpersistent -port 4411 -t high 
+
+# this tests the elimination of variables that are functionally dependent 
+# via certain predicates like To(p,d). So, if p is bound, then d has a
+# unique solution because of the definition of the To-predicate.
+
+tell "
+Class with
+  attribute
+	multivalued:Class
+  constraint
+	multiCnstr:
+ 	$ forall p/Class!multivalued 
+ 	s,d/Class i/Proposition
+      From(p,s) and To(p,d) and (i in s)
+      ==> 
+      (exists a1,a2/attributee d1,d2/Proposition
+         From(a1,i) and From(a2,i) and
+         To(a1,d1) and To(a2,d2) and
+         (a1 in p) and (a2 in p) and
+         not (d1==d2)) $
+end
+"
+
+# this will trigger the generation of a derived formula from the above 
+# meta formula
+
+tell " 
+A in Class with
+  multivalued
+    attr1: A
+end
+"
+
+# (Old) ConceptBase does not replace the variable d 
+
+
+# display the class A to see the generated formula
+
+ask "get_object[A/objname]" OBJNAMES  FRAME  Now
+
+
+
+# do a similar check for simple formulas
+# here a constraint
+
+tell "
+  Employee in Class with
+    attribute
+      salary: Integer
+    constraint
+       salc: $ forall e/Employee c/Proposition s/Integer To(Employee!salary,c) and (e salary s) ==> (s > 100) $
+end
+"
+
+ask "get_object[Employee/objname]" OBJNAMES  FRAME  Now
+
+
+# test whether the constraint works as expected, i.e. mary should be rejected
+tell "
+  mary in Employee with salary msal: 99 end
+"
+
+
+# also check the mechanism of variable elimination on rules; the algorithm is not complete but
+# should work in both cases; the rule r2 has the variable to be eliminated also in the conclusion
+
+tell "
+MyClass end
+
+HighSalEmp in Class with
+  rule
+    r1: $ forall e/Employee c/Proposition s/Integer To(Employee!salary,c) and (e salary s) and (s > 1000) ==> (e in HighSalEmp) $;
+    r2: $ forall e/Employee k/Proposition s/Integer To(Employee!salary,k) and (e salary s) and (s > 1000) ==> (k in MyClass) $
+end
+"
+
+# this makes the two rules work
+
+tell "
+  anne in Employee with salary msal: 1001 end
+"
+
+# check wether rule r1 works: response must be anne
+ask "find_instances[HighSalEmp/class]" OBJNAMES  LABEL  Now
+
+# check wether rule r2 works: response must be Integer
+ask "find_instances[MyClass/class]" OBJNAMES  LABEL  Now
+
+
+

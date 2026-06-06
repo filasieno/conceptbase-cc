@@ -1,0 +1,87 @@
+{
+* File: Nixon.sml.txt
+* Author: Manfred Jeusfeld
+* Created: 2025-07-13/M.Jeusfeld (2025-07-13/M.Jeusfeld)
+* ------------------------------------------------------
+* Telos specification for the Employees example using multiple specialization
+*
+* License: Creative Commons license
+   attributeion-ShareAlike 4.0 International
+   http://creativecommons.org/licenses/by-sa/4.0/
+   http://creativecommons.org/licenses/by-sa/4.0/legalcode
+*
+}
+
+
+{ 2025-07-13,11:05:23.862 }
+
+Employee in Class with 
+   attribute
+    salary : Integer;
+    project : Project
+end 
+
+Project in Class with 
+   attribute
+    budget : Integer
+end 
+
+{---} { 2025-07-13,11:05:23.950 }
+
+HighLevelProject in Class isA Project with 
+   constraint
+    minimumbudget : $ forall p/HighLevelProject b/Integer
+    (p budget b) ==> (b > 1000000) $
+end 
+
+Manager in Class isA Employee with 
+   attribute
+    project : HighLevelProject
+end 
+
+Manager!project isA Employee!project  end 
+
+{---} { 2025-07-13,11:05:24.039 }
+
+Researcher in Class isA Employee with 
+   attribute
+    project : ResearchProject
+end 
+
+ResearchProject in Class  end 
+
+Researcher!project isA Employee!project  end 
+
+ResearchProject in Class isA Project  end 
+
+{---} { 2025-07-13,11:05:24.126 }
+
+ResearchManager in Class isA Researcher,Manager with 
+   attribute
+    project : HighLevelResearchProject
+end 
+
+HighLevelResearchProject in Class  end 
+
+ResearchManager!project isA Employee!project  end 
+
+ResearchManager!project isA Manager!project  end 
+
+ResearchManager!project isA Researcher!project  end 
+
+HighLevelResearchProject in Class isA HighLevelProject,ResearchProject  end 
+
+{---} { 2025-07-13,11:05:24.219 }
+
+mary in ResearchManager with 
+   project
+    p1 : LLMExtraDry
+end 
+
+LLMExtraDry in HighLevelResearchProject with 
+   budget
+    b1 : 2000000
+end 
+
+{ -/- }
+

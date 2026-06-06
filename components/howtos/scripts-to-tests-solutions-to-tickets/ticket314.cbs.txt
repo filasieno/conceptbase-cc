@@ -1,0 +1,146 @@
+# Test bug meta-formula compiler
+# Manfred Jeusfeld, 13-Dec-2012
+# Call like
+#    cbshell ticket314.cbs
+
+
+
+
+startServer -u nonpersistent -t low -port 4002 
+
+
+tell "
+    AbstractClass_1 in Class isA Class with
+      constraint
+         c1: $ forall ac/AbstractClass_1 not exists x/VAR :(x in ac): $
+    end
+"
+
+tell "
+    ac1 in AbstractClass_1 end
+"
+
+tell "
+    x1 in ac1 end
+"
+# ==> x1 should be rejected as instance!
+
+
+
+
+# this one works since the constraint is triggered by (ac11 in AbstractClass_1)
+tell "
+    ac11 end
+    x11 in ac11 end
+"
+
+tell "
+    ac11 in AbstractClass_1 end
+"
+
+
+
+
+# another meta formula that is not compiled
+tell "
+    AbstractClass_2 in Class isA Class end
+    ConcreteClass in QueryClass isA Class with
+      constraint
+         concr: $ not (this in AbstractClass_2) $  
+    end
+    AbstractClass_2  with
+      constraint
+         c1: $ forall ac/AbstractClass_2 x/Proposition (x in ac)
+                        ==> exists sc/ConcreteClass (sc isA ac) and (x in sc) $
+    end
+"
+# ==> definition should be accepted
+
+
+
+# variant that uses an auxiliary rule to handle the exists in the meta-formula
+#tell "
+#    Proposition with
+#      attribute
+#         inViaConcrete: Proposition
+#    end
+#    AbstractClass_3 in Class isA Class end
+#    ConcreteClass_3 in QueryClass,MSFOLrule isA Class with
+#      constraint
+#         concr: $ not (this in AbstractClass_3) $  
+#    end
+#    AbstractClass_3  with
+#      rule
+#         r1: $ forall x/VAR sc/ConcreteClass_3 ac/AbstractClass_3 
+#                  (sc isA ac) and (x in sc) ==> (x inViaConcrete ac) $
+#      constraint
+#         c11: $ forall ac/AbstractClass_3 x/Proposition (x in ac)
+#                        ==> (x inViaConcrete ac) $
+#    end
+#"
+
+#tell "
+#    ac3 in AbstractClass_3 end
+#    cc3 in Class isA ac3 end
+#"
+
+#tell "
+#   x3 in ac3 end
+#"
+
+#tell "
+#   x31 in cc3 end
+#"
+
+
+# variant that uses a self-defined ISA 
+tell "
+    Proposition with
+      attribute
+         inViaConcrete: Proposition
+    end
+    CLASS in Class with
+      attribute
+        ISA: CLASS
+      rule
+        rISA1: $ forall c/CLASS (c ISA c) $;
+        rISA2: $ forall c,d,e/CLASS :(c ISA d): and (d ISA e) ==> (c ISA e) $;
+        rISA3: $ forall x/Proposition c,d/CLASS (x in c) and (c ISA d) ==> (x in d) $
+    end    
+"
+
+tell "
+    ABSTRACTCLASS isA CLASS end
+    CONCRETECLASS in QueryClass,MSFOLrule isA CLASS with
+      constraint
+         concr: $ not (this in ABSTRACTCLASS) $  
+    end
+    ABSTRACTCLASS in Class with
+      rule
+         r1: $ forall x/VAR sc,ac/CLASS 
+                  (sc ISA ac) and (ac in ABSTRACTCLASS) and (sc in CONCRETECLASS) and (x in sc) ==> (x inViaConcrete ac) $
+      constraint
+         noDirectInstance: $ forall ac/ABSTRACTCLASS x/Proposition (x in ac)  ==> (x inViaConcrete ac) $
+    end
+"
+
+tell "
+    ac4 in ABSTRACTCLASS end
+    cc4 in CLASS with
+       ISA super1: ac4
+    end
+"
+
+tell "
+   x4 in ac4 end
+"
+
+tell "
+   x41 in cc4 end
+"
+
+
+
+
+
+

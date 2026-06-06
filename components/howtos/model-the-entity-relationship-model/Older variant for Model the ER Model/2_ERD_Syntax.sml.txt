@@ -1,0 +1,66 @@
+
+{
+*
+* File: 2_ERD_Syntax.sml
+* Author: Manfred Jeusfeld
+* Creation: 6-Dec-1996 (13-Mar-2002)
+* ----------------------------------------------------------------------
+* 
+}
+
+Individual Proposition with
+  attribute
+    deducedOnly: Proposition;  {* used to make sure that some attributes are only derived *}
+    disjointTo: Proposition    {* expresses that some classes (or attribute categories) do not share any instance *}
+end
+
+
+{* We define at meta meta class level some language constructs to express constraints at *}
+{* the model level. That means: we constrain the set of allowed ER diagrams (=syntax     *}
+{* constraints). All formulas are meta-level formulas.                                   *}
+
+
+Concept with
+   attribute
+     singleDef: Concept;
+     necessaryDef: Concept
+  constraint
+     single_IC: $ forall AC/Concept!singleDef a,b,c/Proposition
+                 (a in AC) and (b in AC) and From(a,c) and From(b,c)  ==> (a == b) $;
+     necessary_IC: $ forall AC/Concept!necessaryDef C,D/Concept M/VAR c/Proposition
+                  P(AC,C,M,D) and (c in C) ==> exists a/Proposition (a in AC) and From(a,c) $;
+     notUserDefined_IC: $ forall ac/Proposition!deducedOnly not exists a/attributee (a in ac) $;
+     disjoint_IC: $ forall pair/Proposition!disjointTo x,f,t/Proposition From(pair,f) and To(pair,t)
+                    and (x in f) ==> not (x in t) $
+end
+
+{* min_2 cardinality is mutually exclusive to max_1 and min_1 *}
+RelationshipType!min_2 with
+  disjointTo
+    o1: RelationshipType!max_1;
+    o2: RelationshipType!min_1
+end
+
+{* max_2 is mutually exclusive to max_1 *}
+RelationshipType!max_2 with
+  disjointTo
+    o1: RelationshipType!max_1
+end
+
+{* the 'superType' attribute of EntityType is not used by the modeler. It's just derived *}
+{* by a rule to help define the semantics of the IsaType concept.                        *}
+EntityType with
+  deducedOnly
+    superType: EntityType
+end
+
+
+{* A specialization has exactly one super entity type and at least one sub entity type *}
+IsaType with
+  necessaryDef 
+    sub: EntityType
+  singleDef,necessaryDef 
+    super: EntityType
+end
+
+

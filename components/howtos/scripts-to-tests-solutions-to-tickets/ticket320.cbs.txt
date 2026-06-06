@@ -1,0 +1,179 @@
+#
+#
+# File: ticket320.cbs
+# Author: Manfred Jeusfeld
+# Created: 2013-03-08/M.Jeusfeld (2013-03-08/M.Jeusfeld)
+# ------------------------------------------------------
+#
+# Start: cbshell ticket320.cbs
+#
+# Test security level 2 on various modules, including the
+# special case of the System module
+
+
+startServer -u nonpersistent -t low -s 2
+
+
+
+# Part 1
+# Check read access to System module in security level 2
+
+# Initially we are in the oHome module, which has no access
+# restrictions when we create a new database 
+
+tell "
+
+M0 in Module end
+MX in Module end
+"
+
+# let's switch to M0
+setModule M0
+
+# let's switch to System: System is the root module and 
+# does only allow read operations when parameter -s 2 is set
+setModule System
+
+ask Integer
+# should succeed
+
+tell "
+billSystem end
+"
+# a TELL fails because updated to System are not allowed when -s 2 is set
+
+
+setModule MX
+
+
+tell "
+billMX end
+"
+# MX has no access restrictions
+
+
+ask get_object[billMX/objname] OBJNAMES FRAME Now
+# so, we can TELL and ASK whatever we want
+
+
+
+
+# Part 2
+# Explicit access rights in user-defined modules
+
+
+setModule oHome
+
+tell "
+Mbilly in Module end
+Mjonny in Module end
+"
+
+
+
+setModule Mjonny
+
+# rather complicated access rights model for Mjonny
+# essentially only allows jonny to read/write it
+
+tell "
+CB_Group with  {* groups of users can have some rights *}
+  attribute
+    groupMember: CB_User;
+    permitted_read: Resource;
+    permitted_write: Resource;
+    owner_resource: Resource
+end
+
+CB_User isA CB_Group end  {* a CB user forms a one-person group *}
+
+CB_Group in Class with
+  rule
+   rr1: $ forall p/Resource u/CB_User (u owner_resource p) ==> (u permitted_write p) $;
+   rr2: $ forall p/Resource u/CB_User (u permitted_write p) ==> (u permitted_read p) $;
+   rr3: $ forall u/CB_User (u groupMember u) $;  {* users are member of their one-person group *}
+   rr4: $ forall u/CB_User p/Resource
+                ( exists g/CB_Group (g groupMember u) and (g owner_resource p) ) ==> (u owner_resource p) $;
+   rr5: $ forall u/CB_User p/Resource
+                ( exists g/CB_Group (g groupMember u) and (g permitted_write p) ) ==> (u permitted_write p) $;
+   rr6: $ forall u/CB_User p/Resource
+                ( exists g/CB_Group (g groupMember u) and (g permitted_read p) ) ==> (u permitted_read p) $
+end
+
+
+CB_User jonny with
+  owner_resource r1: Mjonny
+end
+
+{*
+ a user is permitted to operation op on the resource res when that resource is not actually
+ owned  by someone else or when he has proper rights
+ Query returns user as answer if permitted, else nil 
+*}
+
+GenericQueryClass CB_Permitted isA CB_User with
+  parameter
+    user: CB_User;
+    res: Resource;
+    op: CB_Operation
+  constraint
+    cperm: $ (
+              ( not exists u/CB_User (u owner_resource res) and not (u == user) ) or
+              ( (op in CB_ReadOperation) and (user permitted_read res) ) or
+              ( (op in CB_WriteOperation) and (user permitted_write res) )
+             )
+              and (user = this)  $
+end
+"
+# effective from now onwards
+ask Integer
+# this ASK shall already fail
+
+
+#Mjonny is not a friendly space for us, so get back to oHome
+setModule oHome
+
+setModule Mjonny
+# this should fail because Mjonny allows no other users to read it; only jonny can use it
+
+
+
+setModule Mbilly
+
+tell "
+GenericQueryClass CB_Permitted isA CB_User with
+  parameter
+    user: CB_User;
+    res: Resource;
+    op: CB_Operation
+  constraint
+    cperm: $
+              (op in CB_ReadOperation) and 
+              (user = this) 
+           $
+end
+"
+# we only allow read operations in Mbilly from now onwards
+
+
+setModule oHome
+
+setModule Mbilly
+# we can switch to Mbilly because we have al least read permission
+
+
+ask listModule
+# this should be ok as well
+
+
+tell "
+MyTest end
+"
+# this should fail in Mbilly
+
+
+
+
+
+
+

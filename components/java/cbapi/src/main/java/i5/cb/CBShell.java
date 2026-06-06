@@ -79,6 +79,8 @@ public class CBShell {
     private boolean bStartInteractiveServer=false;
     private boolean bHasParams=false;  /// CBShell has command line parameters
     private String[] paramList = null;
+    private final boolean enableLpiShell =
+        "1".equals(System.getenv("CB_SHELL_ENABLE_LPI"));
 
     private static char defaultArgDelimiter='"';  // default argument delimiter
     private static char argDelimiter;             // for enclosing arguments that have blanks; either " or '
@@ -756,10 +758,7 @@ public class CBShell {
         }
 
 
-/** for security reasons, we do not support lpicall and prolog commands in CBShell anymore
- ** remove comments if you want to re-enable it;  Manfred
-
-        else if (command.equals("lpicall")) {
+        else if (enableLpiShell && command.equals("lpicall")) {
             if (isConnected && currentCommand.length == 2) {
                 try {
                     currentAns=cbClient.LPIcall(currentCommand[1]);
@@ -781,7 +780,7 @@ public class CBShell {
                 }
             }
         }
-        else if (command.equals("prolog")) {
+        else if (enableLpiShell && command.equals("prolog")) {
             if (isConnected && currentCommand.length == 2) {
                 try {
                     currentAns=cbClient.LPIcall("PROLOG_CALL," + currentCommand[1]);
@@ -803,7 +802,6 @@ public class CBShell {
                 }
             }
         }
-**/
 
         else if (command.equals("setModule") || command.equals("cd") ) {
             String newmod = "$Home";  // default, shall be evaluated by CBserver to the user's home module

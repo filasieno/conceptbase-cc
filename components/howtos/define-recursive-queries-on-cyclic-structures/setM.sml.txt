@@ -1,0 +1,43 @@
+{
+*
+* File: setM.sml
+* Author: Manfred Jeusfeld
+* Creation: 16-Sep-2002
+* ----------------------------------------------------------------------
+* A non-stratified rule set on the set M which is defined to be the
+* set of all sets which do not contain themselves as an element.
+* M1 is the definition of this set . It can be queried by M1Q.
+* M2/M2Q is the complement of M1/M1Q. However, M1 is neither in
+* the answer of M1Q nor M2Q. So its 'undecided'. M2 is in the answer of
+* M1Q which is correct.
+*
+}
+
+
+Class SetElement with
+  attribute
+    elemOf: SetElement
+end
+
+Class M1 in SetElement with
+ rule
+     c: $ forall s/SetElement not (s elemOf s) ==> (s elemOf M1) $
+end
+
+Class M2 in SetElement with
+ rule
+     c: $ forall s/SetElement (s elemOf s) ==> (s elemOf M2) $
+end
+
+QueryClass M1Q isA SetElement with
+  constraint
+    c: $ (~this elemOf M1) $
+end
+
+QueryClass M2Q isA SetElement with
+  constraint
+    c: $ (~this elemOf M2) $
+end
+
+
+

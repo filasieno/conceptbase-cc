@@ -1,0 +1,37 @@
+{
+* File: ECA-MakePowers.sml
+* Author: Manfred Jeusfeld
+* Created: 9-Nov-2005/M.Jeusfeld (2-Apr-2008/M.Jeusfeld)
+* ------------------------------------------------------
+* This ECA rules generates more and more instances
+* of MySquares. You have to take care avoiding 
+* infinite loops by carefully designing the ECA rules.
+* If for example the condition would be (n > 0) then,
+* the ECA rule could loop forever (or would create some
+* arithmetic overflow).
+*
+* Requires ConceptBase 7.1 released April 2008 or later.
+*
+}
+
+
+MyPowers isA Integer end
+
+ECArule MakeNewPower with
+  mode m: Deferred
+  ecarule
+        er : $  n,n1/Integer
+        ON Tell (n in MyPowers)
+        IF (n < 1024) and (n1 = n*2)
+        DO Tell (n1 in MyPowers)
+        $
+end
+
+
+
+{* You can fire the ECA rule by telling an object like
+
+2 in MyPowers end
+
+*}
+
