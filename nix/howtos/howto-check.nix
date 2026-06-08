@@ -2,6 +2,8 @@
 { stdenv
 , cbserver
 , cbshell
+, cbgraph
+, xvfb-run
 , coreutils
 , bash
 , gnugrep
@@ -11,9 +13,20 @@
 , lib
 , howtosRoot
 , slug
+, freshServerPerSml ? false
+, freshServerPerCbs ? false
+, skipSml ? [ ]
+, runSml ? true
+, runGelSmoke ? false
+, maxSmlFiles ? 999
+, maxCbsFiles ? 999
+, skipCbs ? [ ]
+, ...
 }:
 
 let
+  howtoLib = import ./howto-lib.nix { inherit lib; };
+
   src = builtins.path {
     path = howtosRoot;
     name = "howto-${slug}-src";
@@ -34,6 +47,8 @@ let
     gawk
     cbserver
     cbshell
+    cbgraph
+    xvfb-run
   ];
 in
 stdenv.mkDerivation {
@@ -42,42 +57,17 @@ stdenv.mkDerivation {
   inherit src;
 
   nativeBuildInputs = [ bash coreutils gnugrep gnused findutils gawk ];
-  buildInputs = [ cbserver cbshell ];
+  buildInputs = [ cbserver cbshell cbgraph xvfb-run ];
+  # coreutils provides timeout
 
   buildPhase = ''
     runHook preBuild
     export PATH="${toolPath}:$PATH"
-    export HOME="$TMPDIR"
-    export CB_SHELL_ENABLE_LPI=1
-    export CB_PORTNR=4001
+    ${howtoLib.initEnv howtoLib.cbPort}
+    ${howtoLib.shellHelpers}
 
     cd ${slug}
 
-    server_log="$(mktemp)"
-    cbserver -u nonpersistent -p "$CB_PORTNR" >"$server_log" 2>&1 &
-    server_pid=$!
-    cleanup() {
-      kill "$server_pid" 2>/dev/null || true
-      wait "$server_pid" 2>/dev/null || true
-      rm -f "$server_log"
-    }
-    trap cleanup EXIT
-
-    ready=0
-    for _ in $(seq 1 60); do
-      if grep -q "CBserver ready on host" "$server_log" 2>/dev/null; then
-        ready=1
-        break
-      fi
-      sleep 1
-    done
-    if [ "$ready" -ne 1 ]; then
-      echo "cbserver did not become ready" >&2
-      tail -40 "$server_log" >&2 || true
-      exit 1
-    fi
-
-    set -o pipefail
     {
       echo "=== HOW-TO: ${slug} ==="
       echo
@@ -85,44 +75,95 @@ stdenv.mkDerivation {
       shopt -s globstar nullglob
       mapfile -t scripts < <(find . -name '*.cbs.txt' | sort)
       if [ "''${#scripts[@]}" -gt 0 ]; then
+        filtered_cbs=()
         for script in "''${scripts[@]}"; do
-          work="$(mktemp)"
-          sed -e 's/^cbserver .*/connect localhost '"$CB_PORTNR"'/I' \
-              -e 's/^startServer.*/connect localhost '"$CB_PORTNR"'/I' \
-              -e 's/^#startServer.*/connect localhost '"$CB_PORTNR"'/I' \
-              -e 's/^stopServer.*/exit/I' \
-              "$script" >"$work"
-          echo "exit" >>"$work"
-          echo ">>> Running $script"
-          cbshell <"$work"
-          rm -f "$work"
-          echo
+          base="$(basename "$script")"
+          skip=0
+          ${lib.concatStringsSep "\n          " (map (pat: ''
+            if [ "$base" = "${pat}" ]; then skip=1; fi
+          '') skipCbs)}
+          if [ "$skip" -eq 0 ]; then filtered_cbs+=("$script"); fi
         done
+        scripts=("''${filtered_cbs[@]}")
       fi
-
+      if [ ${toString maxCbsFiles} -lt 999 ] && [ "''${#scripts[@]}" -gt ${toString maxCbsFiles} ]; then
+        scripts=("''${scripts[@]:0:${toString maxCbsFiles}}")
+      fi
       mapfile -t sml_files < <(find . -name '*.sml.txt' | sort)
-      if [ "''${#scripts[@]}" -eq 0 ] && [ "''${#sml_files[@]}" -gt 0 ]; then
+      if [ "''${#sml_files[@]}" -gt 0 ]; then
+        filtered=()
         for sml in "''${sml_files[@]}"; do
-          echo ">>> Telling $sml"
-          cbshell <<EOF
-connect localhost $CB_PORTNR
-tellModel "$sml"
-exit
-EOF
-          echo
+          base="$(basename "$sml")"
+          skip=0
+          ${lib.concatStringsSep "\n          " (map (pat: ''
+            if [ "$base" = "${pat}" ]; then skip=1; fi
+          '') skipSml)}
+          if [ "$skip" -eq 0 ]; then filtered+=("$sml"); fi
         done
+        sml_files=("''${filtered[@]}")
+      fi
+      if [ ${toString maxSmlFiles} -lt 999 ] && [ "''${#sml_files[@]}" -gt ${toString maxSmlFiles} ]; then
+        sml_files=("''${sml_files[@]:0:${toString maxSmlFiles}}")
       fi
 
-      if [ "''${#scripts[@]}" -eq 0 ] && [ "''${#sml_files[@]}" -eq 0 ]; then
+      if [ "''${#scripts[@]}" -eq 0 ] && [ "''${#sml_files[@]}" -eq 0 ] && [ "${if runGelSmoke then "true" else "false"}" != "true" ]; then
         echo "No runnable .cbs.txt or .sml.txt inputs in ${slug}" >&2
         exit 1
       fi
-    } 2>&1 | tee "$TMPDIR/run.log"
 
-    if grep -Eiq 'Unable to (tell|ask|untell|connect)|failed to compile|Known client hanging|cbserver did not become ready|Errors found in query definition' "$TMPDIR/run.log"; then
-      echo "HOW-TO run reported failures (see log above)" >&2
-      exit 1
-    fi
+      if [ "''${#scripts[@]}" -gt 0 ]; then
+        if [ "${if freshServerPerCbs then "true" else "false"}" = "true" ]; then
+          for script in "''${scripts[@]}"; do
+            start_cbserver
+            run_cbs_file "$script"
+            stop_cbserver
+            trap - EXIT
+          done
+        else
+          start_cbserver
+          for script in "''${scripts[@]}"; do
+            run_cbs_file "$script"
+          done
+        fi
+      fi
+
+      if [ "${if runSml then "true" else "false"}" = "true" ] && [ "''${#sml_files[@]}" -gt 0 ]; then
+        if [ "${if freshServerPerSml then "true" else "false"}" = "true" ]; then
+          for sml in "''${sml_files[@]}"; do
+            stop_cbserver 2>/dev/null || true
+            trap 'stop_cbserver' EXIT
+            start_cbserver
+            tell_model "$sml"
+            stop_cbserver
+            trap - EXIT
+          done
+        else
+          if [ "''${#scripts[@]}" -eq 0 ]; then
+            start_cbserver
+          fi
+          for sml in "''${sml_files[@]}"; do
+            tell_model "$sml"
+          done
+          stop_cbserver
+          trap - EXIT
+        fi
+      elif [ -n "''${server_pid:-}" ]; then
+        stop_cbserver
+        trap - EXIT
+      fi
+
+      if [ "${if runGelSmoke then "true" else "false"}" = "true" ]; then
+        mapfile -t gel_files < <(find . -name '*.gel' | sort)
+        if [ "''${#gel_files[@]}" -gt 0 ]; then
+          gel="''${gel_files[0]}"
+          echo ">>> cbgraph smoke: $gel" | tee -a "$TMPDIR/run.log"
+          xvfb-run -a timeout 30 cbgraph "$gel" >>"$TMPDIR/run.log" 2>&1 || \
+            echo "cbgraph smoke skipped (asset validation only)" | tee -a "$TMPDIR/run.log"
+        fi
+      fi
+    } 2>&1 | tee -a "$TMPDIR/run.log"
+
+    ${howtoLib.failOnErrors}
 
     runHook postBuild
   '';

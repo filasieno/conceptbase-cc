@@ -12,7 +12,7 @@
     buildPhase = ''
       runHook preBuild
       mkdir -p "$out"
-      typst compile --root "$src" "$src/howto-manual.typ" "$out/howto-manual.pdf"
+      typst compile --root "$src" "$src/doc/howto-manual.typ" "$out/howto-manual.pdf"
       runHook postBuild
     '';
 

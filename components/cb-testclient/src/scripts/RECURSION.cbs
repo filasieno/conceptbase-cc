@@ -1,0 +1,742 @@
+startServer -u nonpersistent -st on
+tell "{* File: Barber.sml
+* Author: Manfred Jeusfeld
+* Creation: 11-Mar-2002
+* ----------------------------------------------------------------------
+* This example is about a non-stratified rule.
+* ConceptBase doesn't  not exclude such rules, which is a bug that should
+* be fixed in future releases.
+* The ShavedByBarber query will return 'pete' but not 'TheBarber'.
+* The query will run only with ConceptBase V5.2.2 or later.
+*
+* Datalog translations are shown in comment lines.
+}
+
+
+Class Man  with
+  attribute
+    shaves: Man
+  rule
+   r1: $ forall m/Man not (m shaves m) ==> (TheBarber shaves m) $
+end
+
+{* in Datalog:
+
+   shaves(thebarber,M) :- man(M), not shaves(M,M).
+
+*}
+
+
+TheBarber in Man end
+
+jon in Man with
+  shaves him: jon
+end
+
+pete in Man end
+
+
+QueryClass ShavedByBarber isA Man with
+  constraint
+    c1: $ (TheBarber shaves ~this) $
+end
+
+{* in Datalog:
+
+   ShavedByBarber(X) :- man(X), shaves(thebbarber,X).
+
+*}
+
+"
+result OK "yes"
+ask "ShavedByBarber
+" OBJNAMES  FRAME  Now
+# stratification error
+result ERROR "pete in ShavedByBarber
+end"
+tell "Class Person with
+  attribute
+    hasChild: Person
+end
+
+
+GenericQueryClass SameGen isA Person with
+  parameter,computed_attribute
+    sgperson: Person
+  constraint
+    c1: $
+          (~this == ~sgperson)
+        or
+          ( exists p1,p2/Person (p1 in SameGen[p2/sgperson]) and
+                                (p1 hasChild ~sgperson) and (p2 hasChild ~this) )
+        $
+end
+
+{* SameGenProper is not reflexive, i.e. (x in SameGenProper[x/sgperson]) does not hold *}
+GenericQueryClass SameGenProper isA Person with
+  parameter,computed_attribute
+    sgperson: Person
+  constraint
+    c1: $ (
+          ( exists p/Person (p hasChild ~this) and (p hasChild ~sgperson) )
+        or
+          ( exists p1,p2/Person (p1 in SameGen[p2/sgperson]) and
+                                (p1 hasChild ~sgperson) and (p2 hasChild ~this) )
+          )
+          and not (~this == ~sgperson)
+        $
+end
+
+
+{* the answer format makes the answers just more readable *}
+AnswerFormat SG_Format with
+   forQuery q1: SameGen; q2: SameGenProper
+   head h: \"Same generation of persons:
+
+\"
+   pattern p: \"{this} is in the same generation as{Foreach( ({this.sgperson}),(p), {p}\\,)}
+\"
+end
+
+Person Eva with
+  hasChild
+    c1: Kain;
+    c2: Abel;
+    c3: Seth
+end
+
+
+Person Abel with
+  hasChild
+    c1: Abraham;
+    c2: Lea
+end
+
+Person Abraham with
+  hasChild
+    c1: Isaak;
+    c2: Ismael
+end
+
+Person Seth with
+  hasChild
+    c1: Lot
+end
+
+Person Kain with
+end
+
+Person Lea with
+end
+
+Person Isaak with
+end
+
+Person Ismael with
+end
+
+Person Lot with
+end
+
+
+
+"
+result OK "yes"
+ask "SameGen[Lot/sgperson]" OBJNAMES  default  Now
+result OK "Same generation of persons:
+
+Abraham is in the same generation as Lot,
+Lea is in the same generation as Lot,
+Lot is in the same generation as Lot,
+
+"
+ask "SameGenProper[Kain/sgperson]" OBJNAMES  default  Now
+result OK "Same generation of persons:
+
+Abel is in the same generation as Kain,
+Seth is in the same generation as Kain,
+
+"
+tell "{
+*
+* File: TreeExample.sml
+* Author: Manfred Jeusfeld
+* Creation: 6-Feb-2002
+* ----------------------------------------------------------------------
+*
+* This file shows the use of a recursive query that analyzes
+* a cyclic graph, namely returning all nodes which are roots of
+* a tree.
+* In the example, the tree nodes are N11 and N111.
+* Requires ConceptBase V6.2.1
+*
+}
+
+
+Class Node with
+  attribute
+    linkTo: Node
+end
+
+
+Node N1 with
+  linkTo
+    l1: N11;
+    l2: N12
+end
+
+Node N11 with
+  linkTo
+    l1: N111
+end
+
+Node N12 with
+  linkTo
+    l1: N1
+end
+
+Node N111 end
+
+
+
+QueryClass TreeNode isA Node with
+  constraint
+     c1: $ (forall n/Node (~this linkTo n)
+            ==> (n in TreeNode)) $
+end
+
+
+"
+result OK "yes"
+ask "
+QueryClass TreeNode isA Node with
+  constraint
+     c1: $ (forall n/Node (~this linkTo n)
+            ==> (n in TreeNode)) $
+end" FRAMES  FRAME  Now
+# stratification error
+result ERROR "N11 in TreeNode
+end
+
+N111 in TreeNode
+end
+
+"
+tell "Class Position with
+  attribute
+    moveTo: Position
+end
+
+QueryClass Win isA Position with
+  constraint
+    c: $ exists y/Position (~this moveTo y) and not (y in Win) $
+end
+
+{* complement of Win: works only correctly if data is acyclic, i.e. in *}
+{* dynamically stratified databases                                    *}
+QueryClass Loose isA Position with
+  constraint
+    c: $ not (~this in Win) $
+end
+
+
+"
+result OK "yes"
+tell "Position 13 with
+  moveTo
+    p1: 12;
+    p2: 11;
+    p3: 10
+end
+
+Position 12 with
+  moveTo
+    p1: 11;
+    p2: 10;
+    p3: 9
+end
+
+Position 11 with
+  moveTo
+    p1: 10;
+    p2: 9;
+    p3: 8
+end
+
+Position 10 with
+  moveTo
+    p1: 9;
+    p2: 8;
+    p3: 7
+end
+
+Position 9 with
+  moveTo
+   p1: 8;
+   p2: 7;
+   p3: 6
+end
+
+
+Position 8 with
+  moveTo
+    p1: 7;
+    p2: 6;
+    p3: 5
+end
+
+Position 7 with
+  moveTo
+    p1: 6;
+    p2: 5;
+    p3: 4
+end
+
+Position 6 with
+  moveTo
+    p1: 5;
+    p2: 4;
+    p3: 3
+end
+
+Position 5 with
+  moveTo
+    p1: 4;
+    p2: 3;
+    p3: 2
+end
+
+Position 4 with
+  moveTo
+    p1: 3;
+    p2: 2;
+    p3: 1
+end
+
+Position 3 with
+  moveTo
+    p1: 2;
+    p2: 1;
+    p3: 0
+end
+
+Position 2 with
+  moveTo
+    p1: 1;
+    p2: 0
+end
+
+Position 1 with
+  moveTo
+    p1: 0
+end
+
+Position 0 end
+
+
+"
+result OK "yes"
+ask "Win" OBJNAMES  FRAME  Now
+result OK "1 in Win  end 
+
+10 in Win  end 
+
+5 in Win  end 
+
+7 in Win  end 
+
+6 in Win  end 
+
+13 in Win  end 
+
+11 in Win  end 
+
+9 in Win  end 
+
+3 in Win  end 
+
+2 in Win  end"
+ask "Loose" OBJNAMES  FRAME  Now
+result OK "0 in Loose  end 
+
+8 in Loose  end 
+
+12 in Loose  end 
+
+4 in Loose  end
+"
+ask "get_object[Man/objname]" OBJNAMES  FRAME  Now
+result OK "Man in Class with
+  attribute
+     shaves : Man
+  rule
+     r1 : $ forall m/Man not (m shaves m) ==> (TheBarber shaves m) $
+end
+"
+tell "Class Man  with
+  attribute
+    shaves: Man;
+    shaves_trans: Man
+  rule
+    r2: $ forall m1,m2/Man (m1 shaves m2) ==> (m1 shaves_trans m2) $;
+    r3: $ forall m1,m2/Man
+             (exists m/Man (m1 shaves_trans m) and (m shaves_trans m2))
+          ==> (m1 shaves_trans m2) $
+end
+
+pete in Man end
+
+king in Man with
+  shaves who: king
+end
+
+jon in Man with
+  shaves who: mike
+end
+
+mike in Man with
+  shaves who: jeff
+end
+
+jeff in Man with
+  shaves who: will
+end
+
+will in Man with
+  shaves who1: jon; who2: claude
+end
+
+claude in Man with
+  shaves who: pete
+end
+
+
+QueryClass SelfShaver isA Man with
+  constraint
+    c1: $ (~this shaves_trans ~this) $
+end
+
+
+"
+result OK "yes"
+tell "lass Man  with
+  attribute
+    shaves: Man;
+    shaves_trans: Man
+  rule
+    r2: $ forall m1,m2/Man (m1 shaves m2) ==> (m1 shaves_trans m2) $;
+    r3: $ forall m1,m2/Man
+             (exists m/Man (m1 shaves_trans m) and (m shaves_trans m2))
+          ==> (m1 shaves_trans m2) $
+end
+
+pete in Man end
+
+king in Man with
+  shaves who: king
+end
+
+jon in Man with
+  shaves who: mike
+end
+
+mike in Man with
+  shaves who: jeff
+end
+
+jeff in Man with
+  shaves who: will
+end
+
+will in Man with
+  shaves who1: jon; who2: claude
+end
+
+claude in Man with
+  shaves who: pete
+end
+
+"
+result ERROR "no"
+ask "
+QueryClass SelfShaver isA Man with
+  constraint
+    c1: $ (~this shaves_trans ~this) $
+end
+
+
+" FRAMES  FRAME  Now
+# stratification error
+result ERROR "jon in SelfShaver
+end
+
+king in SelfShaver
+end
+
+mike in SelfShaver
+end
+
+jeff in SelfShaver
+end
+
+will in SelfShaver
+end
+
+"
+tell "Class Object with
+attribute
+    dep : Object
+end
+
+O1 in Object end
+
+O2 in Object with dep d1 : O1 end
+O3 in Object with dep d1 : O2 end
+O4 in Object with dep d1 : O3 end
+O5 in Object with dep d1 : O4 end
+O6 in Object with dep d1 : O5 end
+O7 in Object with dep d1 : O6 end
+O8 in Object with dep d1 : O7 end
+O9 in Object with dep d1 : O8 end
+
+
+QueryClass Test1 isA Object with
+constraint
+    c: $ (this == O1) or (exists o/Test1 (this dep o)) $
+end
+
+Object with
+attribute
+    transDep : Object
+rule
+    r1 : $ forall o1,o2/Object (o1 dep o2) ==> (o1 transDep o2) $;
+    r2 : $ forall o1,o2/Object (exists o3/Object (o1 dep o3) and (o3 transDep o2)) ==> (o1 transDep o2) $
+end
+
+QueryClass ObjectsWithTransDep isA Object with
+retrieved_attribute
+    transDep : Object
+constraint
+    c : $ (this == O1) $
+end
+
+
+
+"
+result OK "yes"
+ask "Test1
+" OBJNAMES  FRAME  Now
+result OK "O1 in Test1
+end
+
+O2 in Test1
+end
+
+O3 in Test1
+end
+
+O4 in Test1
+end
+
+O5 in Test1
+end
+
+O6 in Test1
+end
+
+O7 in Test1
+end
+
+O8 in Test1
+end
+
+O9 in Test1
+end
+
+"
+ask "ObjectsWithTransDep
+" OBJNAMES  FRAME  Now
+result OK "nil"
+tell "O1 with dep d1 : 09 end
+
+"
+result ERROR "no"
+tell "O1 with dep d1 : O9 end
+
+"
+result OK "yes"
+ask "Test1
+" OBJNAMES  FRAME  Now
+result OK "O1 in Test1
+end
+
+O2 in Test1
+end
+
+O3 in Test1
+end
+
+O4 in Test1
+end
+
+O5 in Test1
+end
+
+O6 in Test1
+end
+
+O7 in Test1
+end
+
+O8 in Test1
+end
+
+O9 in Test1
+end
+
+"
+ask "ObjectsWithTransDep
+" OBJNAMES  FRAME  Now
+result OK "O1 in ObjectsWithTransDep with
+  transDep
+     COMPUTED_transDep_id_[0-9]+ : O1;
+     COMPUTED_transDep_id_[0-9]+ : O2;
+     COMPUTED_transDep_id_[0-9]+ : O3;
+     COMPUTED_transDep_id_[0-9]+ : O4;
+     COMPUTED_transDep_id_[0-9]+ : O5;
+     COMPUTED_transDep_id_[0-9]+ : O6;
+     COMPUTED_transDep_id_[0-9]+ : O7;
+     COMPUTED_transDep_id_[0-9]+ : O8;
+     COMPUTED_transDep_id_[0-9]+ : O9
+end"
+tell "AANode in Class with
+end
+
+AAConnection in Class with
+  attribute
+    from: AANode;
+    to: AANode
+end
+
+
+AAn0 in AANode end
+AAn1 in AANode end
+AAn2 in AANode end
+
+
+AAc1 in AAConnection with
+  from x: AAn0
+  to   y: AAn1
+end
+
+AAc2 in AAConnection with
+  from x: AAn1
+  to   y: AAn2
+end
+
+
+QueryClass AAReachableN2 isA AANode with
+  constraint
+     c1: $ UNIFIES(~this,AAn2) or
+           (exists c/AAConnection z/AANode
+                   (z in AAReachableN2) and
+                   (c from ~this) and (c to z)) $
+end
+
+{* ReachableN2 should deliver: no,n1,n2 *}
+
+GenericQueryClass AAReachable isA AANode with
+  computed_attribute,parameter
+     start : AANode
+  attribute,constraint
+     c1 : $ UNIFIES(~this,~start) or
+           (exists c/AAConnection z/AANode
+                   (z in AAReachable[~start/start]) and
+                   (c from ~this) and (c to z)) $
+end
+
+{* Reachable[n2/start] should also deliver: no,n1,n2 *}
+"
+result OK "yes"
+ask "get_object[AAReachableN2/objname]" OBJNAMES  FRAME  Now
+result OK "AAReachableN2 in QueryClass isA AANode with
+  constraint
+     c1 : $ UNIFIES(~this,AAn2) or
+           (exists c/AAConnection z/AANode
+                   (z in AAReachableN2) and
+                   (c from ~this) and (c to z)) $
+end
+"
+ask "Individual AAReachableN2 in QueryClass isA AANode with
+  attribute,constraint
+     c1 : $ UNIFIES(~this,AAn2) or
+           (exists c/AAConnection z/AANode
+                   (z in AAReachableN2) and
+                   (c from ~this) and (c to z)) $
+end
+
+" FRAMES  FRAME  Now
+result OK "AAn0 in AAReachableN2
+end
+
+AAn1 in AAReachableN2
+end
+
+AAn2 in AAReachableN2
+end
+
+"
+ask "AAReachable[n2/start]
+" OBJNAMES  FRAME  Now
+result ERROR "nil"
+ask "AAReachable[AAn2/start]
+" OBJNAMES  FRAME  Now
+result OK "AAn0 in AAReachable[AAn2/start] with
+  start
+     COMPUTED_start_id_[0-9]+ : AAn2
+end
+
+AAn1 in AAReachable[AAn2/start] with
+  start
+     COMPUTED_start_id_[0-9]+ : AAn2
+end
+
+AAn2 in AAReachable[AAn2/start] with
+  start
+     COMPUTED_start_id_[0-9]+ : AAn2
+end"
+
+# EvenOdd example of ticket 286
+tell "
+Int in Class isA Integer with
+  rule
+    axiom1: $ (0 in Int) $;
+    axiom2: $ forall n/Int n1/Integer (n1 = n+1) and (n < 5)
+                 ==> (n1 in Int) $
+end
+
+Individual Odd end
+QueryClass Even isA Int with
+  constraint
+    c: $ (this = 0) or (exists y/Odd (this = y+1) ) $
+end
+
+QueryClass Odd isA Int with
+  constraint
+    c: $ exists y/Even (this = y+1)  $
+end
+
+GenericQueryClass isEven isA Boolean with
+  parameter x: Int
+  constraint ceven: $ (x in Even) and (this = TRUE) or
+                      (x in Odd) and (this = FALSE) $
+end
+"
+result OK "yes"
+
+ask "isEven[4/x]" OBJNAMES  LABEL  Now
+result OK "TRUE"
+
+ask "isEven[3/x]" OBJNAMES  LABEL  Now
+result OK "FALSE"
+

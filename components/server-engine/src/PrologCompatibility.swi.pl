@@ -294,8 +294,11 @@ pc_swriteQuotesAndModule(_atom,_term) :-
     %       predicates are imported into context module of read-predicate
     %  PROBLEM: _term is not a simple predicate, but a compound term (e.g. a rule)
 
-    format(atom(_str),'~q',[_term]),  % use format instead sformat
-    string_to_atom(_str,_atom).
+    %  format/2 with atom(...) yields the atom directly; the historical
+    %  swritef+string_to_atom pair is unnecessary and string_to_atom/2 is only
+    %  autoloaded from library(backcomp), which is not resolvable here (matches
+    %  the sibling pc_swriteQuotes/2).
+    format(atom(_atom),'~q',[_term]).
 
 pc_atomtolist(_a,_l) :-
     atom_chars(_a,_l).
@@ -304,6 +307,13 @@ pc_stringtoatom(_s,_a) :-
     swi_stringtoatom(_s,_a).
 
 pc_ascii(_char,_num) :-
+    %  Guard char_code/2 (see upstream issue #27): grammar rules probe tokens
+    %  with pc_ascii(Token,Code) and expect a clean failure when the token is
+    %  not a character (e.g. ident(i)). Recent SWI char_code/2 raises
+    %  type_error(character,...) on a compound, which would abort the whole
+    %  parse instead of letting the DCG try its next alternative. Allow the
+    %  forward (atom -> code) and reverse (var -> char) directions only.
+    ( var(_char) ; atom(_char) ),
     char_code(_char,_num).
 
 pc_pointer(_p) :-

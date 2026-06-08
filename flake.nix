@@ -182,6 +182,10 @@
         componentSrc = componentSrc "system-data";
       };
 
+      man-pages = pkgs.callPackage "${nixLib}/man-pages.nix" {
+        componentSrc = componentSrc "man";
+      };
+
       cbserver = pkgs.callPackage "${nixLib}/cbserver.nix" {
         componentSrc = componentSrc "cbserver";
         stdenv = llvmStdenv;
@@ -192,6 +196,7 @@
           server-repl
           server-engine
           system-data
+          man-pages
           libcbgeneral
           libcbipc
           libcbtelos
@@ -202,12 +207,17 @@
 
       javaAppArgs = {
         jdk = pkgs.jdk25;
-        inherit java-reactor;
+        inherit java-reactor man-pages;
       };
 
       cb-workbench = pkgs.callPackage "${nixLib}/cb-workbench.nix" javaAppArgs;
       cb-shell = pkgs.callPackage "${nixLib}/cb-shell.nix" javaAppArgs;
       cb-graph = pkgs.callPackage "${nixLib}/cb-graph.nix" javaAppArgs;
+
+      cb-web = pkgs.callPackage "${nixLib}/cb-web.nix" {
+        componentSrc = componentSrc "web";
+        php = pkgs.php83;
+      };
 
       examples-corpus = pkgs.callPackage "${nixLib}/examples-corpus.nix" {
         stdenv = pkgs.stdenvNoCC;
@@ -216,6 +226,18 @@
 
       conceptbase = pkgs.callPackage "${nixLib}/conceptbase.nix" {
         inherit cbserver cb-workbench examples-corpus;
+      };
+
+      cb-testclient = pkgs.callPackage "${nixLib}/cb-testclient.nix" {
+        componentSrc = componentSrc "cb-testclient";
+        inherit (pkgs) coreutils bash gnused findutils perl;
+        inherit cbserver cb-shell examples-corpus;
+      };
+
+      regression-tests = pkgs.callPackage "${nixLib}/regression-tests.nix" {
+        inherit (pkgs) coreutils bash gnused findutils;
+        jdk = pkgs.jdk25;
+        inherit java-reactor cbserver cb-shell cb-testclient examples-corpus system-data howtosRoot;
       };
 
       integration-tests = pkgs.callPackage "${nixLib}/integration-tests.nix" {
@@ -258,8 +280,8 @@
             root = toString ./components;
             rel = pkgs.lib.removePrefix (root + "/") (toString path);
           in
-            rel == "howto-manual.typ"
-            || (type == "directory" && (rel == "howtos" || builtins.match "howtos/[^/]+" rel != null))
+            rel == "doc/howto-manual.typ"
+            || (type == "directory" && (rel == "doc" || rel == "howtos" || builtins.match "howtos/[^/]+" rel != null))
             || builtins.match "howtos/[^/]+/page\\.typ" rel != null;
       };
 
@@ -267,6 +289,8 @@
         stdenv = llvmStdenv;
         inherit cbserver howtosRoot;
         cbshell = cb-shell;
+        cbgraph = cb-graph;
+        xvfb-run = pkgs.xvfb;
         inherit (pkgs)
           lib
           coreutils
@@ -319,6 +343,11 @@
         componentSrc = docSrc;
       };
 
+      doc-logos = pkgs.callPackage "${nixLib}/doc-logos.nix" {
+        stdenv = pkgs.stdenvNoCC;
+        componentSrc = docSrc;
+      };
+
       docs = pkgs.callPackage "${nixLib}/docs.nix" {
         inherit
           doc-user-manual
@@ -327,6 +356,7 @@
           doc-tech-info
           doc-developer
           doc-external-licenses
+          doc-logos
           ;
         howto-manual = howtos.howto-manual;
       };
@@ -340,6 +370,7 @@
           cb-workbench
           cb-shell
           cb-graph
+          cb-web
           mmkit
           docs
           ;
@@ -412,7 +443,12 @@
           doc-tech-info
           doc-developer
           doc-external-licenses
+          doc-logos
           docs
+          man-pages
+          cb-web
+          cb-testclient
+          regression-tests
           ;
       } // howtoChecks // howtos;
 

@@ -11,6 +11,8 @@
   mainClass,
   javaFlags ? [ "-Djava.awt.headless=false" ],
   env ? { },
+  man-pages ? null,
+  manPage ? null,
 }:
 
 let
@@ -43,6 +45,11 @@ stdenv.mkDerivation {
       --add-flags "-cp" \
       --add-flags "$out/lib/cb.jar" \
       --add-flags ${lib.escapeShellArg mainClass}
+
+    ${lib.optionalString (man-pages != null && manPage != null) ''
+      mkdir -p "$out/share/man/man1"
+      ln -s ${man-pages}/share/man/man1/${manPage}.1.gz "$out/share/man/man1/${manPage}.1.gz"
+    ''}
 
     runHook postInstall
   '';

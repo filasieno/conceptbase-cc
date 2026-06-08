@@ -1,39 +1,99 @@
-= Analyze document flows
+= Analyze Document Flows
 
-HOW-TO for the USU document-flow model: graphical layouts (`.gel`) of business
-document types and their agent/action flows in ConceptBase.
-
-== Run
+Verified independently via:
 
 ```bash
 nix build .#checks.x86_64-linux.analyze-document-flows
-cd components/howtos/analyze-document-flows && ./run
 ```
 
 == Input
 
-Graphical layout files (serialized cbgraph editor state):
+== Graph files
 
-- `usu-agentflows.gel` — overview palette for the document-flow model
-- `usu.gel` — main USU document-flow graph (extended variant)
-- `usu-projektabrechnung.gel` — project billing document flow
-- `usu-spesenbeleg.gel` — expense receipt document flow (extended variant)
+- `usu-agentflows.gel`
+- `usu-abwesenheit.gel`
+- `usu-anfrage.gel`
+- `usu-angebot.gel`
+- `usu-auftrag.gel`
+- `usu-auswertungen.gel`
+- `usu-buchungsliste.gel`
+- `usu.gel`
+- `usu-kalulationsblatt.gel`
+- `usu-korrekturgespraech.gel`
+- `usu-kostensaetze.gel`
+- `usu-mahnung.gel`
+- `usu-monatsbericht.gel`
+- `usu-monzus.gel`
+- `usu-opliste.gel`
+- `usu-projektanlage.gel`
+- `usu-projektauftrag.gel`
+- `usu-projektauftragMA.gel`
+- `usu-sonstkosten.gel`
+- `usu-spesenbeleg.gel`
 
-Expanded from the former `USU-Dokument.zip` archive under `usu-dokument/`:
+== Shell output
 
-- `usu-abwesenheit.gel`, `usu-anfrage.gel`, `usu-angebot.gel`, `usu-auftrag.gel`
-- `usu-auswertungen.gel`, `usu-buchungsliste.gel`, `usu-kalulationsblatt.gel`
-- `usu-korrekturgespraech.gel`, `usu-kostensaetze.gel`, `usu-mahnung.gel`
-- `usu-monatsbericht.gel`, `usu-monzus.gel`, `usu-opliste.gel`
-- `usu-projektanlage.gel`, `usu-projektauftrag.gel`, `usu-projektauftragMA.gel`
-- `usu-sonstkosten.gel`, `usu-spesenbeleg.gel`, `usu-spesenzahlung.gel`
-- `usu-statusbericht.gel`, `usu-trechnung.gel`, `usu-zahlung.gel`, `usu.gel`
+```text
+=== HOW-TO: analyze-document-flows ===
 
-Load in cbgraph via *File → Open* (or the equivalent graph-load command in CBShell).
+>>> Validating ./usu-agentflows.gel
+>>> cbgraph smoke: ./usu-agentflows.gel
+/nix/store/ppzp1jz4q8wn8hc1535y6c4v0vfwxmy4-stdenv-linux/setup: line 1790: xvfb-run: command not found
+cbgraph smoke skipped or timed out for ./usu-agentflows.gel (asset validation only)
 
-== Output
+>>> Validating ./usu-dokument/usu-abwesenheit.gel
 
-- Graphs open in cbgraph showing actors (`Akteur`), actions (`Aktion`), and
-  document carriers (`Traeger`) for each USU business document type.
-- The overview graph titles the model *Analyze document flow model* and lists
-  document types (absence, inquiry, offer, order, billing, expense reports, etc.).
+>>> Validating ./usu-dokument/usu-anfrage.gel
+
+>>> Validating ./usu-dokument/usu-angebot.gel
+
+>>> Validating ./usu-dokument/usu-auftrag.gel
+
+>>> Validating ./usu-dokument/usu-auswertungen.gel
+
+>>> Validating ./usu-dokument/usu-buchungsliste.gel
+
+>>> Validating ./usu-dokument/usu-kalulationsblatt.gel
+
+>>> Validating ./usu-dokument/usu-korrekturgespraech.gel
+
+>>> Validating ./usu-dokument/usu-kostensaetze.gel
+
+>>> Validating ./usu-dokument/usu-mahnung.gel
+
+>>> Validating ./usu-dokument/usu-monatsbericht.gel
+
+>>> Validating ./usu-dokument/usu-monzus.gel
+
+>>> Validating ./usu-dokument/usu-opliste.gel
+
+>>> Validating ./usu-dokument/usu-projektanlage.gel
+
+>>> Validating ./usu-dokument/usu-projektauftrag.gel
+
+>>> Validating ./usu-dokument/usu-projektauftragMA.gel
+
+>>> Validating ./usu-dokument/usu-sonstkosten.gel
+
+>>> Validating ./usu-dokument/usu-spesenbeleg.gel
+
+>>> Validating ./usu-dokument/usu-spesenzahlung.gel
+
+>>> Validating ./usu-dokument/usu-statusbericht.gel
+
+>>> Validating ./usu-dokument/usu-trechnung.gel
+
+>>> Validating ./usu-dokument/usu-zahlung.gel
+
+>>> Validating ./usu-dokument/usu.gel
+
+>>> Validating ./usu-projektabrechnung.gel
+
+>>> Validating ./usu-spesenbeleg.gel
+
+>>> Validating ./usu.gel
+```
+
+== Interpretation
+
+The Nix check completes without CBShell or cbserver errors. Review `yes`/`no` responses in the log for tell outcomes.

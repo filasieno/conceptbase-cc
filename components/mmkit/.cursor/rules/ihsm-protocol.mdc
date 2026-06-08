@@ -1,0 +1,71 @@
+---
+description: ihsm actor protocol — user commands and environment events only; no internal events
+globs: packages/server/src/**/*.ts
+alwaysApply: false
+---
+
+# ihsm protocol — no internal events
+
+The `*Protocol` interface is the **user-facing mailbox**. It must not carry actor-internal sequencing.
+
+## Allowed in protocol
+
+| Kind | Examples | Posted by |
+|------|----------|-----------|
+| **Commands** | `start()`, `stop()` | Clients (`main.ts`, extension, tests) |
+| **Queries** (`call`) | `initialize`, `subscribeStatus`, `unsubscribeStatus`, `getCurrentStateName` | Clients — never `call` / `sync` inside state handlers |
+| **Environment `on*`** | `onSpawn`, `onData`, `onEnd`, `onStdioError`, `onProcessExit`, `onProcessClose`, `onProcessError`, `onDisconnect`, `onPortReady`, `onKillGraceElapsed`, `onFailToStart` | Outside world only (subprocess lifecycle, TCP listen, spawn failure). Use `onProcessExit` not `onExit` — ihsm reserves `onExit()` for state lifecycle. |
+
+Environment events describe **observations from outside** the state machine (OS process, network, spawn failure). Port layers forward them into `ProcessMailbox` (`ctx.mailbox`); only HSM state handlers read/write `ctx`.
+
+## Forbidden in protocol
+
+- Internal scheduling or lifecycle glue of any kind (`onPortNotReady`, `onFinishStop`, …)
+- Port command/query names on the protocol (those belong on `*Port`)
+- `query` / `probe` on ports — polling smells; use event-driven `attachPortListen` and subprocess push events instead
+
+## Port wiring
+
+- `initialize(port)` stores `ctx.port` only.
+- Each `spawn(spec, mailbox, options?)` returns `{ pid, subscription }`; subscription forwards child + optional port-listen events into the mailbox.
+- `ctx.processSubscription` is disposed on exit/teardown. Handlers ignore late events when `ctx.processSubscription === undefined`.
+- **No sink interface** — `ProcessMailbox` is the minimal `post("on…")` forward target implemented by the actor mailbox.
+
+## Handler placement
+
+- **Top state** — queries only (`subscribeStatus`, `getCurrentStateName`, …). No environment `on*` handlers.
+- **Omit** a protocol method on a state to inherit from a parent, or to let ihsm treat it as unhandled when the statechart guarantees it cannot arrive.
+- **Do not** add empty `on*` overrides to block inheritance unless a client command can arrive in that state (`start` before `initialize`, orphaned `deferredPost` after transition).
+- Shared subprocess IO → intermediate state (`ProcessObserving`); lifecycle reactions → the leaf that owns that phase (`ProbingPort`, `WatchingProcess`, `AwaitingExit`).
+
+## Internal work instead
+
+- **States** (`ProbingPort`, `WatchingProcess`, `AwaitingExit`, …) and `transition()`
+- **Never** `transition()` at the end of async `onEntry` — ihsm clears it; use environment `on*` that reflects an external observation
+- **Context** is data only (`port`, `config`, `pid`, IO buffers) — mutated from state handlers only
+- **No thin helper methods** on context — logic lives in state handlers
+
+```typescript
+// ❌ BAD — internal event on protocol
+onPortNotReady(): void;
+
+// ❌ BAD — port polls from state handler
+const alive = await port.query(pid);
+
+// ✅ GOOD — port listen posts when TCP connects
+attachPortListen(mailbox, { host, port, maxAttempts, intervalMs });
+
+// ✅ GOOD — state chart owns reactions
+onData(stream, chunk) {
+  if (this.ctx.processSubscription === undefined) return;
+  appendProcessIo(this.ctx, stream, chunk);
+}
+```
+
+When reviewing or adding protocol members, ask: *would an external client or the environment post this?* If only the actor posts it to itself, it does not belong in the protocol.
+
+## State classes (Node servers)
+
+- Mark the initial leaf with `@ihsm.InitialState` on the state class — not `ihsm.InitialState(Class)` at module bottom.
+- **Do not** call `ihsm.registerStateNames` in server packages; Node keeps `Class.name` (no minification). Use export class names as `currentStateName`.
+- Enable `experimentalDecorators` in the package `tsconfig.json`.

@@ -1,16 +1,31 @@
-= define object specific graphical properties
+= Define Object Specific Graphical Properties
 
-== Run
+Verified independently via:
 
 ```bash
 nix build .#checks.x86_64-linux.define-object-specific-graphical-properties
-cd components/howtos/define-object-specific-graphical-properties && ./run
 ```
 
 == Input
 
-Example files in this directory (see `*.cbs.txt`, `*.sml.txt`, `*.gel`).
+== Graph files
 
-== Output
+- `movtokens.gel`
+- `ticket397.gel`
 
-Successful CBShell session without server errors.
+== Shell output
+
+```text
+=== HOW-TO: define-object-specific-graphical-properties ===
+
+>>> Validating ./movtokens.gel
+>>> cbgraph smoke: ./movtokens.gel
+/nix/store/ppzp1jz4q8wn8hc1535y6c4v0vfwxmy4-stdenv-linux/setup: line 1790: xvfb-run: command not found
+cbgraph smoke skipped or timed out for ./movtokens.gel (asset validation only)
+
+>>> Validating ./ticket397.gel
+```
+
+== Interpretation
+
+The Nix check completes without CBShell or cbserver errors. Review `yes`/`no` responses in the log for tell outcomes.

@@ -1,0 +1,50 @@
+.TH CBSHELL 1 "June 2026" "ConceptBase.cc" "User Commands"
+.SH NAME
+cbshell \- ConceptBase command-line client shell
+.SH SYNOPSIS
+.B cbshell
+[\fIOPTIONS\fR] [\fISCRIPT\fR]
+.SH DESCRIPTION
+.B cbshell
+provides a scriptable command-line interface to a running ConceptBase server.
+Commands include \fBconnect\fR, \fBtell\fR, \fBask\fR, \fBstartServer\fR, and
+\fBexit\fR. Scripts may be piped or passed with \fB-f\fR.
+.SH OPTIONS
+.TP
+.BR \-f " " \fIFILE\fR
+Read commands from \fIFILE\fR.
+.TP
+.BR \-l
+Write \fBerror.log\fR and \fBstat.log\fR while running a script.
+.TP
+.BR \-t
+Trace mode (prompt after each command).
+.TP
+.BR \-i
+Start the server in interactive (SWI) mode.
+.TP
+.BR \-p
+Suppress command prompts.
+.TP
+.BR \-v
+Verbose: show server answers.
+.SH ENVIRONMENT
+.TP
+.B CB_HOME
+Root directory; must contain \fBcbserver\fR for \fBstartServer\fR.
+.TP
+.B CB_PORTNR
+Default server port (4001).
+.SH EXAMPLES
+.RS
+connect 127.0.0.1 4001
+.br
+tell "Class A end a in A end"
+.br
+ask get_object[A/objname]
+.br
+exit
+.RE
+.SH SEE ALSO
+.BR cbserver (1),
+.BR cbiva (1)

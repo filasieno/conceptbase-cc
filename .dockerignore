@@ -1,0 +1,11 @@
+.git
+result*
+archive
+docs
+editor
+.direnv
+**/build/
+**/target/
+**/.gradle/
+**/.mvn/
+**/node_modules/

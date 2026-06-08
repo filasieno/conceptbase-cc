@@ -1,0 +1,41 @@
+#!/bin/csh
+#
+# File:        		CB_TestClient
+# Version:     		1.0
+# Creation:   		28-Aug-1992, Hans W. Nissen (RWTH)
+# Last Change: 	16-Dec-1994, L. Bauer (RWTH)
+# Release:     	1
+# -----------------------------------------------------------------------------
+#
+# This csh command file should be used for starting the ConceptBase test client.
+#
+
+#*** this is the Directory where the ConceptBase TestClient is installed
+
+setenv CBS_DIR  ~cbase/CB_NewStruct/CB_Admin/utils/CB_TestClient
+setenv BIM_DLC_CMD "`which gcc` -c %I"
+
+
+if ( "$1" == "-i" ) then
+	echo starting the test client in interactive mode
+	setenv BIM_DLC_CMD "`which gcc` -c %I"
+	$BIM_PROLOG_DIR/bin/BIMprolog $CBS_DIR/ExampleIpcClient - -i
+else
+	if ( "$1" == "link" ) then
+		echo linking the test client
+		setenv TMPDIR  /tmp
+		setenv GCC /opt/info5/gnu/gcc-2.8.1/bin/gcc
+		setenv LIB_GCC /opt/info5/gnu/gcc-2.8.1/lib/gcc-lib/sparc-sun-solaris2.5/2.8.1/libgcc.a
+		setenv BIM_XTC_CMD "$GCC -c %S %I"
+		setenv BIM_XTL_CMD "$GCC %S -o %O %I -lc -lm -ldl -lsocket -lnsl"
+		setenv BIM_XTL_FILE "/tmp/BP.xt%U"
+		$GCC -I $BIM_PROLOG_DIR/include -c -o BimIpc.o BimIpc.c
+		$BIM_PROLOG_DIR/bin/BIMpcomp *.pro
+		$BIM_PROLOG_DIR/bin/BIMlinker -vh CBS_DIR -pr -HcbtestclientRTdata -po -HcbtestclientRTexec  - ExampleIpcClient.pro ExampleClientCodeLoader.pro
+	else
+		echo Starting the the linked test client: $CBS_DIR/cbtestclientRTexec
+		$CBS_DIR/cbtestclientRTexec
+	endif
+endif
+
+#*** That's all!!

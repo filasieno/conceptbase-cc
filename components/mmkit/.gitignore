@@ -1,5 +1,11 @@
 node_modules/
-target/
+out/
+out-test/
+out-test-integration/
+.vscode-test/
 *.vsix
 result
-result-*
+result-*/
+packages/*/dist/
+packages/extension/out/
+packages/server/out-test/

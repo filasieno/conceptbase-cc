@@ -16,6 +16,7 @@
   libcbtelos,
   libcbtelosserver,
   libcbcos,
+  man-pages,
 }:
 
 let
@@ -75,21 +76,12 @@ stdenv.mkDerivation {
       "$out/share/serverSources/Prolog_Files" \
       "$out/share/system-data"
     install -m755 CBserver "$out/lib/CBserver"
+    install -m755 ${componentSrc}/cbserver-launcher.sh "$out/bin/cbserver"
     cp -r ${server-engine}/share/serverSources/Prolog_Files/* \
       "$out/share/serverSources/Prolog_Files/"
     cp -r ${system-data}/share/system-data/* "$out/share/system-data/"
-
-    makeWrapper "$out/lib/CBserver" "$out/bin/cbserver" \
-      --set CB_HOME "$out" \
-      --set CB_POOL "$out/share" \
-      --set CB_VARIANT "" \
-      --set CBS_DIR "$out/share/serverSources/Prolog_Files" \
-      --set CBL_DIR "$out/share/system-data" \
-      --set CB_PORTNR "4001" \
-      --add-flags "--" \
-      --add-flags "-u" \
-      --add-flags "nonpersistent" \
-      --prefix PATH : "${coreutils}/bin:${findutils}/bin"
+    mkdir -p "$out/share/man/man1"
+    ln -s ${man-pages}/share/man/man1/cbserver.1.gz "$out/share/man/man1/cbserver.1.gz"
 
     runHook postInstall
   '';

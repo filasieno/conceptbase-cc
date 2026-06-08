@@ -1,0 +1,350 @@
+# 2011-03-15
+startServer -d AnswerFormat
+tell "TestQuery in QueryClass isA GenericQueryClass with  
+  constraint
+    c1 : $  (this isA Integer)$
+end "
+result OK yes
+tell "Individual TestFormatWithExternalCall in AnswerFormat with
+  attribute,forQuery
+     q : TestQuery
+  attribute,head
+     h : \"The predicate call returns {anExternalPredicate(a,b)}.
+\"
+  attribute,pattern
+     p : \"You can also use variables as arguments {anExternalPredicate({this},inClass)}
+\"
+end"
+result OK yes
+ask "TestQuery" OBJNAMES TestFormatWithExternalCall Now
+result OK "The predicate call returns ab.
+You can also use variables as arguments COUNTinClass
+You can also use variables as arguments COUNT_AttributeinClass
+You can also use variables as arguments IDIVinClass
+You can also use variables as arguments IMINUSinClass
+You can also use variables as arguments IMULTinClass
+You can also use variables as arguments IPLUSinClass
+You can also use variables as arguments lengthinClass"
+tellModel "$CB_HOME/examples/AnswerFormat/externalcall"
+result OK yes
+ask "get_object[EmpDept/objname]" OBJNAMES FRAME Now
+result OK "EmpDept in View isA Employee with
+  inherited_attribute
+     salary : Integer
+  partof,retrieved_attribute
+     dept : SV_EmpDept_dept
+  constraint
+     ce : $ exists s/Integer (~this salary s) and (s < 10000) $
+end"
+ask "get_object[SV_EmpDept_dept/objname]" OBJNAMES FRAME Now
+result OK "SV_EmpDept_dept in SubView isA Department with
+  retrieved_attribute
+     head : Manager;
+     name : String
+end"
+ask "EmpDept" OBJNAMES default Now
+result OK "The predicate call returns ab.
+This is a list of employees who earn very little.
+
+employee  |  dept      | head of dept
+E1 | Sales and Service | M1
+E3 | Production | M1,M2"
+ask "get_object[E1/objname]" OBJNAMES FRAME Now
+result OK "E1 in Employee with
+  name
+     n : \"Willi S\"
+  dept
+     d : D1
+  salary
+     s : 5000
+end"
+ask "find_instances[AnswerFormat/class]" OBJNAMES LABEL Now
+result OK "TestFormatWithExternalCall,EmpDeptFormatWithExternalCall,AF_find_referring_objects_obi,CBGraphEditorResult,CBGraphEditorResultWithoutEdges,XML_JavaGraphicalPalette,XML_JavaGraphicalType"
+ask "get_object[EmpDeptFormatWithExternalCall/objname]" OBJNAMES FRAME Now
+result OK "EmpDeptFormatWithExternalCall in AnswerFormat with
+  forQuery
+     q : EmpDept
+  head
+     h : \"The predicate call returns {anExternalPredicate(a,b)}.
+This is a list of employees who earn very little.
+
+employee  |  dept      | head of dept
+\"
+  pattern
+     p : \"{this} | {STRINGDECODING({this.dept.name})} | {this.dept.head}
+\"
+end"
+untell "EmpDeptFormatWithExternalCall with
+  attribute,forQuery
+     q : EmpDept
+
+end"
+result OK yes
+ask EmpDept OBJNAMES FRAME Now
+result OK "E1 in EmpDept with
+  dept
+     d : D1 with
+       head
+          h : M1
+       name
+          n : \"Sales and Service\"
+     end
+  salary
+     s : 5000
+end
+
+E3 in EmpDept with
+  dept
+     d : D2 with
+       head
+          h1 : M1;
+          h2 : M2
+       name
+          n : \"Production\"
+     end
+  salary
+     s : 8000
+end"
+tellModel "$CB_HOME/examples/AnswerFormat/iterations"
+result OK yes
+ask "PersonWithParents3" OBJNAMES PersonFormat3 Now
+result OK "<html>These are the persons together with their parents:
+<OL>
+<LI> Bill is 16 years old  and John is stepfather of Bill and Charlotte is mother of Bill and Albert is father of Bill.
+<LI> Charlotte is 34 years old  and Albert is father of Charlotte.
+<LI> Mary is 14 years old  and Charlotte is mother of Mary and Frederic is father of Mary.
+</OL>"
+tellModel "$CB_HOME/examples/AnswerFormat/simple_answerformats1"
+result OK yes
+ask "PersonWithParents" OBJNAMES PersonFormat Now
+result OK "These are the persons together with their parents
+-------------------------------------------------
+Person = Albert
+ parents = Charlotte
+
+Person = Charlotte
+ parents = Mary,Bill
+
+Person = Frederic
+ parents = Mary
+
+Person = John
+ parents = Bill
+
+-- end of answer"
+tellModel "$CB_HOME/examples/AnswerFormat/simple_answerformats2"
+result OK yes
+ask "PersonWithParents2" OBJNAMES PersonFormat2 Now
+result OK "<html>These are the persons together with their parents:
+<OL>
+<LI> Bill is 16 years old. Parents of Bill are Albert,Charlotte,John by using labels father,mother,stepfather.
+<LI> Charlotte is 34 years old. Parents of Charlotte are Albert by using labels father.
+<LI> Mary is 14 years old. Parents of Mary are Frederic,Charlotte by using labels father,mother.
+</OL> That's the whole story about persons and parents!"
+tellModel "$CB_HOME/examples/AnswerFormat/recursive-answers"
+result OK yes
+ask "PersonQ" OBJNAMES PersonLayout Now
+result OK "<family>
+    <person>Abel
+      <children>
+      <family>
+    <person>Lea
+      <children>
+
+      </children>
+    </person>
+     </family>
+<family>
+    <person>Abraham
+      <children>
+      <family>
+    <person>Ismael
+      <children>
+
+      </children>
+    </person>
+     </family>
+<family>
+    <person>Isaak
+      <children>
+
+      </children>
+    </person>
+     </family>
+
+      </children>
+    </person>
+     </family>
+
+      </children>
+    </person>
+
+    <person>Abraham
+      <children>
+      <family>
+    <person>Ismael
+      <children>
+
+      </children>
+    </person>
+     </family>
+<family>
+    <person>Isaak
+      <children>
+
+      </children>
+    </person>
+     </family>
+
+      </children>
+    </person>
+
+    <person>Adam
+      <children>
+      <family>
+    <person>Seth
+      <children>
+      <family>
+    <person>Lot
+      <children>
+
+      </children>
+    </person>
+     </family>
+
+      </children>
+    </person>
+     </family>
+<family>
+    <person>Abel
+      <children>
+      <family>
+    <person>Lea
+      <children>
+
+      </children>
+    </person>
+     </family>
+<family>
+    <person>Abraham
+      <children>
+      <family>
+    <person>Ismael
+      <children>
+
+      </children>
+    </person>
+     </family>
+<family>
+    <person>Isaak
+      <children>
+
+      </children>
+    </person>
+     </family>
+
+      </children>
+    </person>
+     </family>
+
+      </children>
+    </person>
+     </family>
+<family>
+    <person>Kain
+      <children>
+
+      </children>
+    </person>
+     </family>
+
+      </children>
+    </person>
+
+    <person>Albert
+      <children>
+
+      </children>
+    </person>
+
+    <person>Bill
+      <children>
+
+      </children>
+    </person>
+
+    <person>Charlotte
+      <children>
+
+      </children>
+    </person>
+
+    <person>Frederic
+      <children>
+
+      </children>
+    </person>
+
+    <person>Isaak
+      <children>
+
+      </children>
+    </person>
+
+    <person>Ismael
+      <children>
+
+      </children>
+    </person>
+
+    <person>John
+      <children>
+
+      </children>
+    </person>
+
+    <person>Kain
+      <children>
+
+      </children>
+    </person>
+
+    <person>Lea
+      <children>
+
+      </children>
+    </person>
+
+    <person>Lot
+      <children>
+
+      </children>
+    </person>
+
+    <person>Mary
+      <children>
+
+      </children>
+    </person>
+
+    <person>Seth
+      <children>
+      <family>
+    <person>Lot
+      <children>
+
+      </children>
+    </person>
+     </family>
+
+      </children>
+    </person>
+     </family>"
+tellModel "$CB_HOME/examples/AnswerFormat/views"
+result OK yes
+ask "EmpDept" OBJNAMES EmpDeptFormat Now
+result OK "This is a list of employees who earn very little.
+
+employee  |  dept      | head of dept
+E1 | Sales and Service | M1
+E3 | Production | M1,M2"

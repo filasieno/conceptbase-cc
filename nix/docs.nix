@@ -9,6 +9,7 @@
   doc-tech-info,
   doc-developer,
   doc-external-licenses,
+  doc-logos,
 }:
 
 runCommand "docs"
@@ -22,6 +23,7 @@ runCommand "docs"
         doc-tech-info
         doc-developer
         doc-external-licenses
+        doc-logos
         ;
     };
   }
@@ -34,4 +36,5 @@ runCommand "docs"
     cp -r ${doc-tech-info}/share/doc/* $out/share/doc/
     cp -r ${doc-developer}/share/doc/* $out/share/doc/
     cp -r ${doc-external-licenses}/share/doc/* $out/share/doc/
+    cp -r ${doc-logos}/share/doc/* $out/share/doc/
   ''

@@ -38,6 +38,17 @@ license_files=(
   ExternalLicenses/Stl-Port-License-14Jan2008.txt
 )
 
+logo_files=(
+  Logos/CB.gif
+  Logos/CB-trans.gif
+  Logos/CB-Linux.gif
+  Logos/CB-Linux-trans.gif
+  Logos/conceptbase-cc-logo.png
+  Logos/ConceptBase.sxi
+  Logos/CB_Linux.sxi
+  Logos/conceptbase-cc-logo.sxd
+)
+
 for f in "${tech_info_files[@]}"; do
   extract_file "$f" "$ROOT/components/doc/tech-info/$(basename "$f")"
 done
@@ -48,6 +59,10 @@ done
 
 for f in "${license_files[@]}"; do
   extract_file "$f" "$ROOT/components/doc/external-licenses/$(basename "$f")"
+done
+
+for f in "${logo_files[@]}"; do
+  extract_file "$f" "$ROOT/components/doc/logos/$(basename "$f")"
 done
 
 cat >"$ROOT/components/doc/tech-info/README.md" <<'EOF'
@@ -81,4 +96,24 @@ for current behaviour.
 | `README.windows` | Windows build notes (historical; Linux x86_64 only in greenfield) |
 EOF
 
-echo "Synced static docs under components/doc/{tech-info,developer,external-licenses}."
+cat >"$ROOT/components/doc/logos/README.md" <<'EOF'
+# Logo assets (static)
+
+Brand artwork from the archive `ProductPOOL/doc/Logos/` tree. Use these for
+documentation, packaging, and desktop integration.
+
+| File | Contents |
+|------|----------|
+| `CB.gif` | Classic ConceptBase logo |
+| `CB-trans.gif` | Transparent background variant |
+| `CB-Linux.gif` | Linux branding variant |
+| `CB-Linux-trans.gif` | Linux variant, transparent |
+| `conceptbase-cc-logo.png` | ConceptBase.cc logo (PNG) |
+| `ConceptBase.sxi` | OpenOffice/LibreOffice Draw source |
+| `CB_Linux.sxi` | Linux logo Draw source |
+| `conceptbase-cc-logo.sxd` | Legacy StarOffice Draw source |
+
+License terms for the CB logo are in `../external-licenses/CBLogo-CC-BY-ND-40.txt`.
+EOF
+
+echo "Synced static docs under components/doc/{tech-info,developer,external-licenses,logos}."

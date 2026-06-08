@@ -1,0 +1,128 @@
+startServer -d Datalog -U verbatim
+tellModel "$CB_HOME/examples/QUERIES/Employee_Classes"
+result OK "yes"
+tellModel "$CB_HOME/examples/QUERIES/Employee_Instances"
+result OK "yes"
+ask "get_object[DatalogQueryClass/objname]" OBJNAMES  FRAME  Now
+result OK "Individual DatalogQueryClass in Class isA GenericQueryClass with
+  attribute
+     code : String
+end"
+ask "get_object[DatalogRule/objname]" OBJNAMES  FRAME  Now
+result OK "Individual DatalogRule in Class with
+  attribute
+     concernedClass : Proposition;
+     code : String
+end"
+tell "DatalogQueryClass MetabossDatalogQuery isA Manager with
+  attribute,parameter
+     e : Employee
+  attribute,code
+     r1 : \"In('~e','Employee'),A('~e',boss,'~this')\";
+     r2 : \"vars([m]),
+           In('~e','Employee'),
+           In(m,query('MetabossDatalogQuery[~e/e]')),
+           A(m,boss,'~this')\"
+end"
+result OK "yes"
+ask "find_instances[MetabossDatalogQuery/class]" OBJNAMES LABEL Now
+result OK "Lloyd,Phil,Eleonore,Angus,John,Oscar"
+ask "MetabossDatalogQuery[Angus/e]" OBJNAMES FRAME Now
+result OK "Angus in MetabossDatalogQuery[Angus/e]
+end
+
+John in MetabossDatalogQuery[Angus/e]
+end
+
+Oscar in MetabossDatalogQuery[Angus/e]
+end"
+ask "MetabossDatalogQuery[Edward/e]" OBJNAMES FRAME Now
+result OK "Angus in MetabossDatalogQuery[Edward/e]
+end
+
+John in MetabossDatalogQuery[Edward/e]
+end
+
+Oscar in MetabossDatalogQuery[Edward/e]
+end"
+tell "Class HighSalary2 isA Integer
+end
+
+DatalogInRule HighSalaryRule2 with
+concernedClass
+   cc: HighSalary2
+code
+   c: \"In('~this','Integer'),GE('~this',60000)\"
+end
+"
+result OK "yes"
+ask "find_instances[HighSalary2/class]" OBJNAMES LABEL Now
+result OK "60000,100000,120000,110000,65000,70000,90000"
+ask "get_object[Edward/objname,TRUE/dedIn,TRUE/dedIsa,TRUE/dedWith]" OBJNAMES FRAME Now
+result OK "Individual Edward in Employee with 
+   boss
+    COMPUTED_boss_id_[0-9]+ : Angus
+  graphtype
+    COMPUTED_graphtype_id_[0-9]+ : DefaultIndividualGT
+  graphtype
+    COMPUTED_graphtype_id_[0-9]+ : INDIVIDUAL_TP_GT
+  attribute,dept
+    EdwarsDepartment : Research
+  attribute,salary
+    EdwardsSalary : 50000
+end"
+tell "DatalogAttrRule MetabossRule with
+concernedClass
+     cc : Employee!boss
+code
+    r1 : \"vars([m]),var('~src'),var('~dst'),In(m,'Manager'),
+          A(m,boss,'~dst'),A('~src',boss,m)\";
+    r2 : \"vars([m]),ground('~src'),
+          A('~src',boss,m),A(m,boss,'~dst')\";
+    r3 : \"vars([m]),ground('~dst'),var('~src'),
+          A(m,boss,'~dst'),A('~src',boss,m)\"
+end"
+result OK "yes"
+ask "get_object[Edward/objname,TRUE/dedIn,TRUE/dedIsa,TRUE/dedWith]" OBJNAMES FRAME Now
+result OK "Individual Edward in Employee with
+  boss
+     COMPUTED_boss_id_[0-9]+ : Angus
+  boss
+     COMPUTED_boss_id_[0-9]+ : John
+  boss
+     COMPUTED_boss_id_[0-9]+ : Oscar
+  graphtype
+     COMPUTED_graphtype_id_[0-9]+ : DefaultIndividualGT
+  graphtype
+    COMPUTED_graphtype_id_[0-9]+ : INDIVIDUAL_TP_GT
+  attribute,dept
+     EdwarsDepartment : Research
+  attribute,salary
+     EdwardsSalary : 50000
+end"
+tell "String with
+attribute like :String
+end
+
+
+DatalogAttrRule StringLike with
+concernedClass
+   cc : String!like
+code
+   r1 : \"vars([s,d]),ground('~src'),'GeneralUtilities':id2name('~src',s),'GeneralUtilities':id2name('~dst',d),wildcard_match(d,s)\";
+   r2 : \"vars([s,d]),var('~src'),In('~src','String'),'GeneralUtilities':id2name('~src',s),'GeneralUtilities':id2name('~dst',d),wildcard_match(d,s)\"
+end"
+result OK "yes"
+tell "QueryClass TestStringLike isA String with
+constraint c: $ (this like \"return*\") $
+end"
+result OK "yes"
+ask "TestStringLike" OBJNAMES FRAME Now
+result OK " \"returns s as a label without quotes and special character and creates it as individual object\" in TestStringLike  
+end 
+
+\"return*\" in TestStringLike  
+end 
+
+\"returns s as a label (without quotes)\" in TestStringLike  
+end"

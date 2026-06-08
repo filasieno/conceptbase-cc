@@ -1,0 +1,51 @@
+.TH CBSERVER 1 "June 2026" "ConceptBase.cc" "User Commands"
+.SH NAME
+cbserver \- ConceptBase knowledge-base server
+.SH SYNOPSIS
+.B cbserver
+[\fIOPTIONS\fR]
+.SH DESCRIPTION
+.B cbserver
+starts the ConceptBase.cc server process. The server accepts Telos tell/ask
+commands from clients over TCP (default port 4001).
+.PP
+Environment variables:
+.TP
+.B CB_HOME
+Installation root (set automatically by the Nix wrapper).
+.TP
+.B CBS_DIR
+Directory containing server Prolog modules.
+.TP
+.B CBL_DIR
+Directory containing system Telos libraries (SYSTEM.*).
+.TP
+.B CB_PORTNR
+Default TCP port (4001).
+.SH OPTIONS
+.TP
+.BR \-u " " \fINAME\fR
+Use non-persistent database \fINAME\fR (e.g. \fBnonpersistent\fR).
+.TP
+.BR \-d " " \fIDIR\fR
+Use persistent database directory \fIDIR\fR.
+.TP
+.BR \-db " " \fIDIR\fR
+Alias for \fB-d\fR.
+.TP
+.BR \-r
+Restart automatically after a crash (wrapper mode).
+.TP
+.BR \-p " " \fIPORT\fR
+Listen on \fIPORT\fR instead of \fBCB_PORTNR\fR.
+.SH FILES
+.TP
+.I $CB_HOME/share/serverSources/Prolog_Files/
+Server engine modules.
+.TP
+.I $CB_HOME/share/system-data/
+System knowledge-base libraries.
+.SH SEE ALSO
+.BR cbshell (1),
+.BR cbiva (1),
+.BR cbgraph (1)

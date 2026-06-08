@@ -1,0 +1,239 @@
+# ╔═══════════════════════════════════════════════════════════════════════════╗
+# ║  ConceptBase.cc cbserver — knowledge-base server container                ║
+# ╚═══════════════════════════════════════════════════════════════════════════╝
+#
+# ▶ BUILD  (context = conceptbase-cc repository root)
+#
+#     docker build -f components/cbserver/container/Containerfile \
+#       -t conceptbase-cbserver:0.1.1 .
+#
+# ╭───────────────────────────────────────────────────────────────────────────╮
+# │  DISK STATE — everything cbserver can create or modify on disk            │
+# ╰───────────────────────────────────────────────────────────────────────────╯
+#
+# cbserver never writes inside the read-only install tree ($CB_HOME) unless
+# you bind-mount over it.  All mutable state is controlled by environment
+# variables (see CONFIGURATION below).
+#
+# ┌─ 1 · DATABASE DIRECTORY ─────────────────────────────────────────────────┐
+# │  env: CB_DATABASE · CB_DB_DIR · CB_DB_ALL · CB_NEW_DATABASE               │
+# │  flags: -d · -db · -new                                                   │
+# │                                                                           │
+# │  Primary knowledge-base store.  Created if missing; erased with -new or   │
+# │  CB_RESET_ON_START=1.                                                     │
+# │                                                                           │
+# │  ├─ OB.telos      binary propositions (main content)                      │
+# │  ├─ OB.symbol     binary name → object-id map                             │
+# │  ├─ OB.rule       generated Prolog (rules, constraints, queries)        │
+# │  ├─ OB.ruleinfo   query metadata for the formula optimizer                │
+# │  ├─ OB.ecarule    generated Prolog for active (ECA) rules               │
+# │  ├─ OB.lock       server lock (hostname + PID; remove after crash)       │
+# │  └─ *.lpi         optional Prolog plugins loaded at startup               │
+# │                                                                           │
+# │  With CB_DB_ALL (-db) this directory also receives items 2 and 3.         │
+# └───────────────────────────────────────────────────────────────────────────┘
+#
+# ┌─ 2 · MODULE SAVE DIRECTORY ──────────────────────────────────────────────┐
+# │  env: CB_SAVE_DIR  →  flag -save                                          │
+# │                                                                           │
+# │  Written on shutdown or client logout:                                    │
+# │  └─ *.sml         textual module listings (one file per module)           │
+# │                                                                           │
+# │  Layout: flat (CB_MODULE_SEP=-, default) or nested (CB_MODULE_SEP=/).    │
+# │  Disabled when CB_SAVE_DIR is unset.                                      │
+# └───────────────────────────────────────────────────────────────────────────┘
+#
+# ┌─ 3 · VIEWS DIRECTORY ────────────────────────────────────────────────────┐
+# │  env: CB_VIEWS_DIR  →  flag -views                                        │
+# │                                                                           │
+# │  └─ view files    materialized query results (mirrors module tree)        │
+# │                                                                           │
+# │  Disabled when CB_VIEWS_DIR is unset.                                       │
+# └───────────────────────────────────────────────────────────────────────────┘
+#
+# ┌─ 4 · NONPERSISTENT WORK COPY ────────────────────────────────────────────┐
+# │  env: TMPDIR  (default /tmp/cbserver)                                     │
+# │  active when CB_UPDATE_MODE=nonpersistent (container default)               │
+# │                                                                           │
+# │  └─ $TMPDIR/<user>_<unique>_<pid>/   full DB copy for this session only   │
+# │                                                                           │
+# │  If CB_DATABASE points at a seed, the seed is copied here; tell/untell    │
+# │  updates the copy, never the seed.  Removed on exit — restart restores    │
+# │  seed state (or empty O-Telos bootstrap when CB_DATABASE is unset).        │
+# └───────────────────────────────────────────────────────────────────────────┘
+#
+# ┌─ 5 · LOAD DIRECTORY ─────────────────────────────────────────────────────┐
+# │  env: CB_LOAD_DIR  →  flag -load                                          │
+# │                                                                           │
+# │  Read-only at startup (*.sml).  No writes unless CB_SAVE_DIR or          │
+# │  CB_VIEWS_DIR points at the same path.                                    │
+# └───────────────────────────────────────────────────────────────────────────┘
+#
+# ▶ Recommended VOLUME mount points (declared below):
+#     /data          persistent database · save · views
+#     /tmp/cbserver  nonpersistent session copies (ephemeral by default)
+#
+# ╭───────────────────────────────────────────────────────────────────────────╮
+# │  CONFIGURATION — control database state at run time                         │
+# ╰───────────────────────────────────────────────────────────────────────────╯
+#
+# All flags → environment variables via cbserver-entrypoint.sh
+# (components/cbserver/container/cbserver-entrypoint.sh)
+#
+# ╭─ Pattern A · Ephemeral ─ DEFAULT ─────────────────────────────────────────╮
+# │                                                                           │
+# │  Tell/untell changes lost when the container stops.                       │
+# │  No volume required — fresh O-Telos bootstrap every start.                │
+# │                                                                           │
+# │    docker run --rm -p 4001:4001 conceptbase-cbserver:0.1.1                │
+# │                                                                           │
+# │    CB_UPDATE_MODE = nonpersistent   ◀ default                           │
+# │    CB_DATABASE      = (unset)                                           │
+# │                                                                           │
+# ╰───────────────────────────────────────────────────────────────────────────╯
+#
+# ╭─ Pattern B · Seed database · reset every run ──────────────────────────────╮
+# │                                                                           │
+# │  Mount a seed at /data/seed.  Each start copies it into TMPDIR;           │
+# │  mutations never touch the seed directory.                                │
+# │                                                                           │
+# │    docker run --rm -p 4001:4001 \                                         │
+# │      -e CB_DATABASE=/data/seed \                                          │
+# │      -v /path/to/my-seed:/data/seed:ro \                                  │
+# │      conceptbase-cbserver:0.1.1                                           │
+# │                                                                           │
+# │    CB_UPDATE_MODE = nonpersistent   ◀ default                           │
+# │    CB_DATABASE      = /data/seed                                          │
+# │    TMPDIR           = /tmp/cbserver   ◀ session copy parent               │
+# │                                                                           │
+# ╰───────────────────────────────────────────────────────────────────────────╯
+#
+# ╭─ Pattern C · Persistent · survives restarts ───────────────────────────────╮
+# │                                                                           │
+# │  Mount a volume at /data; updates kept across container runs.             │
+# │                                                                           │
+# │    docker run --rm -p 4001:4001 \                                         │
+# │      -e CB_UPDATE_MODE=persistent \                                       │
+# │      -e CB_DATABASE=/data/db \                                            │
+# │      -v cb-data:/data \                                                   │
+# │      conceptbase-cbserver:0.1.1                                           │
+# │                                                                           │
+# │    CB_UPDATE_MODE = persistent                                            │
+# │    CB_DATABASE      = /data/db                                            │
+# │                                                                           │
+# ╰───────────────────────────────────────────────────────────────────────────╯
+#
+# ╭─ Pattern D · Persistent volume · wipe on every start ─────────────────────╮
+# │                                                                           │
+# │  Same as C, but CB_RESET_ON_START=1 runs -new before each start.          │
+# │                                                                           │
+# │    docker run --rm -p 4001:4001 \                                         │
+# │      -e CB_UPDATE_MODE=persistent \                                       │
+# │      -e CB_DATABASE=/data/db \                                            │
+# │      -e CB_RESET_ON_START=1 \                                             │
+# │      -v cb-data:/data \                                                   │
+# │      conceptbase-cbserver:0.1.1                                           │
+# │                                                                           │
+# ╰───────────────────────────────────────────────────────────────────────────╯
+#
+# ╭─ Pattern E · Single workspace · DB + modules + views (-db) ────────────────╮
+# │                                                                           │
+# │    docker run --rm -p 4001:4001 \                                         │
+# │      -e CB_UPDATE_MODE=persistent \                                       │
+# │      -e CB_DB_ALL=/data/workspace \                                       │
+# │      -v cb-workspace:/data/workspace \                                    │
+# │      conceptbase-cbserver:0.1.1                                           │
+# │                                                                           │
+# │  Writes OB.* + *.sml + view files all under /data/workspace.              │
+# │                                                                           │
+# ╰───────────────────────────────────────────────────────────────────────────╯
+#
+# ┌─ Environment variable reference ─────────────────────────────────────────┐
+# │                                                                           │
+# │  Separate module / view dirs (alternative to CB_DB_ALL):                  │
+# │    CB_LOAD_DIR    read   *.sml at startup                                 │
+# │    CB_SAVE_DIR    write  *.sml on shutdown / client logout                │
+# │    CB_VIEWS_DIR   write  materialized query results                       │
+# │                                                                           │
+# │  Database path (mutually exclusive — first match wins):                   │
+# │    CB_NEW_DATABASE   →  -new <dir>   erase existing, then create          │
+# │    CB_DB_ALL         →  -db  <dir>   database + save + views              │
+# │    CB_DATABASE       →  -d   <dir>   database only                        │
+# │    CB_DB_DIR           alias for CB_DATABASE                              │
+# │    CB_RESET_ON_START=1 with CB_DATABASE uses -new instead of -d           │
+# │                                                                           │
+# │  Persistency:  CB_UPDATE_MODE = persistent | nonpersistent                │
+# │  Temp copies:  TMPDIR         = /tmp/cbserver  (nonpersistent only)       │
+# │                                                                           │
+# │  Install paths (read-only; bind-mount to override):                       │
+# │    CB_HOME · CBS_DIR · CBL_DIR · CB_POOL · CB_PORTNR                      │
+# │                                                                           │
+# │  All other cbserver CLI flags → CB_* env vars (see entrypoint).             │
+# │  Extra flags: CB_EXTRA_ARGS="-g nolpi"                                    │
+# │                                                                           │
+# └───────────────────────────────────────────────────────────────────────────┘
+#
+# ▶ Connect from the host:
+#
+#     cbshell
+#     connect localhost 4001
+#     tell "MyObj in Individual end"
+#
+# ═══════════════════════════════════════════════════════════════════════════
+
+FROM nixos/nix:2.24.9 AS builder
+
+WORKDIR /src
+COPY flake.nix flake.lock ./
+COPY nix ./nix
+COPY components ./components
+
+RUN nix --extra-experimental-features "nix-command flakes" \
+      build .#cbserver \
+      --out-link /opt/conceptbase
+
+RUN nix-store -qR /opt/conceptbase \
+    | tar -czf /tmp/nix-closure.tgz -T -
+
+FROM debian:bookworm-slim AS runtime
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates bash coreutils \
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /tmp/cbserver /data
+
+COPY --from=builder /tmp/nix-closure.tgz /tmp/nix-closure.tgz
+RUN tar -xzf /tmp/nix-closure.tgz -C / \
+    && rm /tmp/nix-closure.tgz
+
+COPY --from=builder /opt/conceptbase /opt/conceptbase
+COPY components/cbserver/container/cbserver-entrypoint.sh /usr/local/bin/cbserver-entrypoint.sh
+RUN chmod 755 /usr/local/bin/cbserver-entrypoint.sh
+
+# ╭─ Runtime defaults (override with docker run -e …) ───────────────────────╮
+# │  CB_UPDATE_MODE=nonpersistent  →  OB.* files do not survive stop         │
+# │  CB_DATABASE unset               →  empty O-Telos bootstrap each session │
+# │  TMPDIR=/tmp/cbserver            →  nonpersistent work-copy parent       │
+# ╰───────────────────────────────────────────────────────────────────────────╯
+ENV CB_HOME=/opt/conceptbase \
+    CB_POOL=/opt/conceptbase/share \
+    CBS_DIR=/opt/conceptbase/share/serverSources/Prolog_Files \
+    CBL_DIR=/opt/conceptbase/share/system-data \
+    CB_PORTNR=4001 \
+    CB_UPDATE_MODE=nonpersistent \
+    CB_SERVER_MODE=master \
+    CB_TRACEMODE=no \
+    TMPDIR=/tmp/cbserver \
+    PATH=/opt/conceptbase/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+EXPOSE 4001/tcp
+
+# ╭─ Declared volumes ────────────────────────────────────────────────────────╮
+# │  /data          mount for CB_DATABASE · CB_SAVE_DIR · CB_VIEWS_DIR ·       │
+# │                 CB_DB_ALL                                                  │
+# │  /tmp/cbserver  nonpersistent session copies (TMPDIR)                      │
+# ╰───────────────────────────────────────────────────────────────────────────╯
+
+VOLUME ["/data", "/tmp/cbserver"]
+
+ENTRYPOINT ["/usr/local/bin/cbserver-entrypoint.sh"]

@@ -72,9 +72,16 @@
 :- module('startCBserver',[
 'reportOptionErrorAndStop'/1
 ]).
-%  BIM autoload/0 — no-op on SWI (use set_prolog_flag(autoload,true) instead)
+%  BIM autoload/0 — eagerly resolve every library predicate referenced by the
+%  loaded engine while the autoload flag is still true. The server later runs
+%  set_prolog_flag(autoload,false) (see setOptions/0) to lock itself down for
+%  deterministic serving; any library/backcomp predicate not pulled in here
+%  (e.g. free_variables/2, sumlist/2, merge/3) would then raise an
+%  existence_error the first time a cold code path calls it — which the IPC
+%  layer swallows, leaving the client hung. autoload_all/0 mirrors the original
+%  BIM behaviour of preloading the full autoload set.
 
-autoload :- true.
+autoload :- catch(autoload_all, _, true).
 :- use_module('GlobalPredicates.swi.pl').
 :- use_module('debug.swi.pl').
 %  Special error handling for SWI, because otherwise syntax errors in Prolog code do not
@@ -94,7 +101,7 @@ autoload :- true.
         write('CB error compile'),nl,
         write(Term),nl,
         message_to_string(Term,S),
-        string_to_atom(S,Sa),
+        atom_string(Sa,S),
         write('\033[31m '),
         write('***** ERROR:'),
         write(Sa),

@@ -1,34 +1,27 @@
 {
-  "name": "mmkit",
-  "displayName": "Metamodelling Kit",
-  "description": "ConceptBase metamodelling toolkit for VS Code. Scaffold — LSP and MCP support to follow.",
-  "version": "0.1.0",
-  "publisher": "conceptbase",
+  "name": "mmkit-workspace",
+  "version": "0.2.0",
+  "private": true,
   "license": "BSD-2-Clause",
-  "repository": {
-    "type": "git",
-    "url": "https://gitlab.com/mjeu/conceptbasecc"
-  },
-  "engines": {
-    "vscode": "^1.75.0"
-  },
-  "categories": [
-    "Other"
+  "workspaces": [
+    "packages/*"
   ],
-  "keywords": [
-    "conceptbase",
-    "telos",
-    "metamodelling"
-  ],
-  "main": "./src/extension.js",
-  "activationEvents": [],
-  "contributes": {
-    "commands": [
-      {
-        "command": "mmkit.helloWorld",
-        "title": "Hello World",
-        "category": "Metamodelling Kit"
-      }
-    ]
+  "scripts": {
+    "build": "npm run build -w @mmkit/shared && npm run build -w @mmkit/server && npm run build -w mmkit",
+    "lint": "eslint .",
+    "format": "eslint . --fix",
+    "format:check": "eslint .",
+    "test": "npm test -w @mmkit/shared && npm test -w @mmkit/server && npm test -w mmkit",
+    "test:integration": "npm run test:integration -w mmkit",
+    "check": "npm run format:check && npm run check -w mmkit",
+    "watch": "npm run watch -w mmkit",
+    "dev:cursor": "cursor mmkit-extension.code-workspace",
+    "dev:vscode": "code mmkit-extension.code-workspace"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@stylistic/eslint-plugin": "^5.6.1",
+    "eslint": "^9.39.1",
+    "typescript-eslint": "^8.48.0"
   }
 }
