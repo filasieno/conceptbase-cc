@@ -4,68 +4,68 @@ globs: packages/server/src/**/*.ts
 alwaysApply: false
 ---
 
-# ihsm protocol — no internal events
+# ihsm protocol — Config bag pattern (0.1.1)
 
-The `*Protocol` interface is the **user-facing mailbox**. It must not carry actor-internal sequencing.
+Each actor defines a single **`MachineConfig`** interface (e.g. `CBServerMachineConfig`) with:
 
-## Allowed in protocol
+| Bucket | Purpose | Examples |
+|--------|---------|----------|
+| `context` | Domain data mutated from state handlers only | `ICBServerContext` |
+| `notifications` | Client commands (`notify.start()`) | `start()`, `stop()` |
+| `services` | Client queries (`call.initialize()`) — return values or throw | `initialize(): Promise<void>` |
+| `internalNotifications` | Environment `on*` + internal `do*` sequencing | `onSpawn()`, `doProcessNext()` |
+| `port` | Outbound impurity (spawn, stdin, timers via `hsm.port`) | `spawn()`, `stdinFor()` |
+
+State classes extend **`ihsm.TopState<MachineConfig>`** — one generic only.
+
+## Handler APIs (0.1.1)
+
+- `this.hsm.transition(StateClass)` — not `this.transition()`
+- `this.notify.event()` / `this.notifyNow.event()` — not `post` / `postNow`
+- `this.hsm.port.spawn()` / `setTimeout()` — not `this.port` on handlers
+- `this.hsm.currentStateName` / `this.hsm.currentState`
+- Services return `Promise<T>` or throw — no `ResolveCallback` / `RejectCallback`
+- `makeActor` returns `ExternalActor`; child subactors use `makeChildActor(asParentActor(this), …)` or `makeActor` with parent `InboundActor` ref
+- Production ports: `this.actor.notify.onSpawn()` — not `inbound.post`
+- Parent forwards to child: `child.notify.onData(chunk)` — not `readerPort.send`
+- `await child.call.initialize()` — not `call("initialize")`
+- `ctx.serverMailbox = this.hsm.port.actor` in `initialize`
+
+## Allowed in public protocol
 
 | Kind | Examples | Posted by |
 |------|----------|-----------|
-| **Commands** | `start()`, `stop()` | Clients (`main.ts`, extension, tests) |
-| **Queries** (`call`) | `initialize`, `subscribeStatus`, `unsubscribeStatus`, `getCurrentStateName` | Clients — never `call` / `sync` inside state handlers |
-| **Environment `on*`** | `onSpawn`, `onData`, `onEnd`, `onStdioError`, `onProcessExit`, `onProcessClose`, `onProcessError`, `onDisconnect`, `onPortReady`, `onKillGraceElapsed`, `onFailToStart` | Outside world only (subprocess lifecycle, TCP listen, spawn failure). Use `onProcessExit` not `onExit` — ihsm reserves `onExit()` for state lifecycle. |
+| **Commands** (`notifications`) | `start()`, `stop()` | Clients (`main.ts`, extension, tests) |
+| **Queries** (`services` / `call`) | `initialize`, `subscribeStatus`, `getCurrentStateName` | Clients — never `call` / `sync` inside state handlers |
+| **Environment `on*`** (`internalNotifications`) | `onSpawn`, `onData`, `onProcessExit`, `onDisconnect` | Outside world only (subprocess, network). Use `onProcessExit` not `onExit`. |
 
-Environment events describe **observations from outside** the state machine (OS process, network, spawn failure). Port layers forward them into `ProcessMailbox` (`ctx.mailbox`); only HSM state handlers read/write `ctx`.
+## Forbidden in public protocol
 
-## Forbidden in protocol
-
-- Internal scheduling or lifecycle glue of any kind (`onPortNotReady`, `onFinishStop`, …)
-- Port command/query names on the protocol (those belong on `*Port`)
-- `query` / `probe` on ports — polling smells; use event-driven `attachPortListen` and subprocess push events instead
-
-## Port wiring
-
-- `initialize(port)` stores `ctx.port` only.
-- Each `spawn(spec, mailbox, options?)` returns `{ pid, subscription }`; subscription forwards child + optional port-listen events into the mailbox.
-- `ctx.processSubscription` is disposed on exit/teardown. Handlers ignore late events when `ctx.processSubscription === undefined`.
-- **No sink interface** — `ProcessMailbox` is the minimal `post("on…")` forward target implemented by the actor mailbox.
+- Internal scheduling glue (`doProcessNext` belongs in `internalNotifications`, not `notifications`)
+- Port method names on the protocol (those belong on `Config.port` / `Port` subclass)
 
 ## Handler placement
 
-- **Top state** — queries only (`subscribeStatus`, `getCurrentStateName`, …). No environment `on*` handlers.
-- **Omit** a protocol method on a state to inherit from a parent, or to let ihsm treat it as unhandled when the statechart guarantees it cannot arrive.
-- **Do not** add empty `on*` overrides to block inheritance unless a client command can arrive in that state (`start` before `initialize`, orphaned `deferredPost` after transition).
-- Shared subprocess IO → intermediate state (`ProcessObserving`); lifecycle reactions → the leaf that owns that phase (`ProbingPort`, `WatchingProcess`, `AwaitingExit`).
-
-## Internal work instead
-
-- **States** (`ProbingPort`, `WatchingProcess`, `AwaitingExit`, …) and `transition()`
-- **Never** `transition()` at the end of async `onEntry` — ihsm clears it; use environment `on*` that reflects an external observation
-- **Context** is data only (`port`, `config`, `pid`, IO buffers) — mutated from state handlers only
-- **No thin helper methods** on context — logic lives in state handlers
-
-```typescript
-// ❌ BAD — internal event on protocol
-onPortNotReady(): void;
-
-// ❌ BAD — port polls from state handler
-const alive = await port.query(pid);
-
-// ✅ GOOD — port listen posts when TCP connects
-attachPortListen(mailbox, { host, port, maxAttempts, intervalMs });
-
-// ✅ GOOD — state chart owns reactions
-onData(stream, chunk) {
-  if (this.ctx.processSubscription === undefined) return;
-  appendProcessIo(this.ctx, stream, chunk);
-}
-```
-
-When reviewing or adding protocol members, ask: *would an external client or the environment post this?* If only the actor posts it to itself, it does not belong in the protocol.
+- **Top state** — services only on leaves that handle them. No environment `on*` on root unless inherited.
+- **Omit** a protocol method on a state to inherit from parent.
+- Shared subprocess IO → `ProcessObserving`; lifecycle → leaf states (`Starting`, `Stopping`, …).
 
 ## State classes (Node servers)
 
-- Mark the initial leaf with `@ihsm.InitialState` on the state class — not `ihsm.InitialState(Class)` at module bottom.
-- **Do not** call `ihsm.registerStateNames` in server packages; Node keeps `Class.name` (no minification). Use export class names as `currentStateName`.
-- Enable `experimentalDecorators` in the package `tsconfig.json`.
+- Mark initial leaf with `@ihsm.InitialState` on the state class.
+- Call `ihsm.registerStateNames(self)` at the bottom of each machine module (`import * as self from "./…"`).
+- Enable `experimentalDecorators` in package `tsconfig.json`.
+
+```typescript
+// ✅ GOOD — single Config generic
+export class CBServerTop extends ihsm.TopState<CBServerMachineConfig> {}
+
+// ✅ GOOD — promise service
+async initialize(): Promise<void> {
+  this.ctx.serverMailbox = this.hsm.port.actor;
+  this.hsm.transition(Initialized);
+}
+
+// ❌ BAD — old 0.0.x positional generics
+export class CBServerTop extends ihsm.TopState<Ctx, Public, Internal, Port> {}
+```

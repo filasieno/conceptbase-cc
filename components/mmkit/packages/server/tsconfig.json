@@ -3,6 +3,9 @@
     "target": "ES2022",
     "module": "CommonJS",
     "moduleResolution": "node",
+    "paths": {
+      "ihsm/testing": ["./node_modules/ihsm/lib/cjs/testing.d.ts"]
+    },
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,

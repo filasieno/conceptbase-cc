@@ -1,8 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "rootDir": ".",
-    "outDir": "out-test"
-  },
-  "include": ["src/cbserver/**/*.ts", "test/**/*.ts"]
-}

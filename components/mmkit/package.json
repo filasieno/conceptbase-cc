@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build -w @mmkit/shared && npm run build -w @mmkit/server && npm run build -w mmkit",
+    "build": "npm run lint && npm run build -w @mmkit/shared && npm run build -w @mmkit/server && npm run build -w mmkit",
     "lint": "eslint .",
     "format": "eslint . --fix",
     "format:check": "eslint .",

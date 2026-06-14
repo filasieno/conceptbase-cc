@@ -8,8 +8,11 @@
     "mmkit-server": "./dist/server.js"
   },
   "scripts": {
+    "pregenerate": "node ../../../../tools/mmkit/generate-cbserver-settings-meta.mjs",
+    "prebuild": "npm run pregenerate",
     "build": "node esbuild.mjs",
-    "test": "rm -rf out-test && tsc -p tsconfig.test.json && mocha 'out-test/test/**/*.test.js'",
+    "test": "rm -rf out-test && tsc -p test/cbserver/tsconfig.json && mocha 'out-test/test/cbserver/**/*.test.js'",
+    "test:all": "npm run test",
     "start": "node dist/server.js"
   },
   "dependencies": {
@@ -18,7 +21,7 @@
     "@modelcontextprotocol/node": "^2.0.0-alpha.2",
     "@modelcontextprotocol/server": "^2.0.0-alpha.2",
     "express": "^5.2.1",
-    "ihsm": "^0.0.21",
+    "ihsm": "^0.1.1",
     "vscode-languageserver": "^9.0.1",
     "vscode-languageserver-textdocument": "^1.0.12"
   },
@@ -29,6 +32,7 @@
     "@types/node": "^22.10.0",
     "chai": "^4.5.0",
     "esbuild": "^0.25.0",
+    "js-yaml": "^4.2.0",
     "mocha": "^10.8.2",
     "typescript": "^5.7.0"
   }
