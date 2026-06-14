@@ -1,1 +1,0 @@
-{"version":3,"file":"conceptbase-document.js","sourceRoot":"","sources":["../../src/lsp/conceptbase-document.ts"],"names":[],"mappings":";;AAoBA,sDAUC;AAVD,SAAgB,qBAAqB,CACnC,QAAsB,EACtB,IAA2B;IAE3B,OAAO;QACL,GAAG,EAAE,QAAQ,CAAC,GAAG;QACjB,QAAQ;QACR,OAAO,EAAE,QAAQ,CAAC,OAAO;QACzB,IAAI;KACL,CAAC;AACJ,CAAC"}

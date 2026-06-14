@@ -1,1 +1,0 @@
-{"version":3,"file":"docker-defaults.js","sourceRoot":"","sources":["../../../src/cbserver/mmkit-server/docker-defaults.ts"],"names":[],"mappings":";;;AAAa,QAAA,oBAAoB,GAAG;IAClC,MAAM,EAAE,kBAAkB;IAC1B,MAAM,EAAE,wBAAwB;IAChC,MAAM,EAAE,mDAAmD;IAC3D,MAAM,EAAE,oCAAoC;IAC5C,aAAa,EAAE,KAAK;IACpB,SAAS,EAAE,EAAE;IACb,kBAAkB,EAAE,iBAAiB;IACrC,YAAY,EAAE,eAAe;CACrB,CAAC"}

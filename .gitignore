@@ -18,6 +18,22 @@ components/**/src/*.yy.c
 # Local tooling cache
 .cache/
 
+# Node / TypeScript build outputs (mmkit and other JS workspaces)
+**/node_modules/
+**/dist/
+**/out/
+**/coverage/
+*.tsbuildinfo
+
+# Codegen — regenerate at build time, never commit
+**/*.gen.ts
+
+# Local debug logs
+error.log
+stat.log
+**/error.log
+**/stat.log
+
 # IDE (keep workspace settings; ignore personal overrides)
 .idea/
 .vscode/*.local.json

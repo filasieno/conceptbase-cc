@@ -1,1 +1,0 @@
-{"version":3,"file":"lsp-actor-ids.js","sourceRoot":"","sources":["../../../src/lsp/registry/lsp-actor-ids.ts"],"names":[],"mappings":";;;AAGA,gCAGC;AAND,iEAAiE;AACpD,QAAA,gBAAgB,GAAG,KAAK,CAAC;AAEtC,SAAgB,UAAU,CAAC,MAAc,EAAE,SAA0B;IACnE,MAAM,UAAU,GAAG,MAAM,CAAC,OAAO,CAAC,KAAK,EAAE,GAAG,CAAC,CAAC;IAC9C,OAAO,GAAG,wBAAgB,IAAI,UAAU,IAAI,MAAM,CAAC,SAAS,CAAC,EAAE,CAAC;AAClE,CAAC"}
