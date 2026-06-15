@@ -36,231 +36,231 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 *}
 {$set syntax=PlainToronto}
 
-P_3210 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_3210 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon : P_3150
-  takes
-    take_1 : TF_StatusReport; 
-    take_2 : TF_ProjectBilling
-  gives
-    give_1 : TX_SemiFinished
+  nimmt
+    nimm_1 : TF_StatusBericht; 
+    nimm_2 : TF_ProjektAbrechnung
+  gibt
+    gib_1 : TX_Halbfertige
   input
-    data_in_1 : D_ProjectBillingMonth;
-    data_in_2 : D_ProjectNumber;
-    data_in_4 : D_ProjectStatusCompleteSum
-  input
-    in_1 : TF_ProjectBilling!projectBillingHoursSum;
-    in_2 : TF_ProjectBilling!projectNumber;
-    in_3 : TF_ProjectBilling!projectBillingMonth;
-    in_4 : TF_StatusReport!projectStatusCompleteSum;
-    in_5 : TF_StatusReport!projectBillingMonth
+    in_1 : D_ProjAbrMonat;
+    in_2 : D_ProjNummer;
+    in_4 : D_ProjStatFertigSum
+  eingabe
+    ein_1 : TF_ProjektAbrechnung!projAbrStundenSum;
+    ein_2 : TF_ProjektAbrechnung!projNummer;
+    ein_3 : TF_ProjektAbrechnung!projAbrMonat;
+    ein_4 : TF_StatusBericht!projStatFertigSum;
+    ein_5 : TF_StatusBericht!projAbrMonat
   output
-    data_out_1 : D_SemiFinishedSum;
-    data_out_2 : D_SemiFinishedRemainingEffort
-  output
-   out_1 : TX_SemiFinished!projectNumber;
-   out_2 : TX_SemiFinished!projectBillingMonth;
-   out_3 : TX_SemiFinished!semiFinishedSum;
-   out_4 : TX_SemiFinished!semiFinishedRemainingEffort
+    out_1 : D_HalbFertigSumme;
+    out_2 : D_HalbFertigRestaufwand
+  ausgabe
+   aus_1 : TX_Halbfertige!projNummer;
+   aus_2 : TX_Halbfertige!projAbrMonat;
+   aus_3 : TX_Halbfertige!halbFertigSumme;
+   aus_4 : TX_Halbfertige!halbFertigRestaufwand
 end P_3210
 
-P_3220 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_3220 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon : P_3210
-  takes
-    take_1 : TF_ProjectBilling;
-    take_2 : TX_ExpenseInvoice;
-    take_3 : T_CostRates;
-    take_4 : TX_Probat
-  gives
-    give_1 : TX_Probat
+  nimmt
+    nimm_1 : TF_ProjektAbrechnung;
+    nimm_2 : TX_SpesenRechnung;
+    nimm_3 : T_Kostensaetze;
+    nimm_4 : TX_Probat
+  gibt
+    gib_1 : TX_Probat
   input
-    data_in_1 : D_ProjectNumber;
-    data_in_2 : D_ProjectBillingService;
-    data_in_3 : D_ProjectBillingHoursSum;
-    data_in_5 : D_ProjectBillingOnSiteExpenses;
-    data_in_6 : D_ProjectBillingMonth;
-    data_in_7 : D_ExpenseAmountNet;
-    data_in_8 : D_CostRate;
-    data_in_9 : D_EmployeeName
-  input
-    in_11 : TF_ProjectBilling!projectNumber;
-    in_12 : TF_ProjectBilling!projectBillingService;
-    in_13 : TF_ProjectBilling!projectBillingMonth;
-    in_14 : TF_ProjectBilling!projectBillingOnSiteExpenses;
-    in_15 : TF_ProjectBilling!projectBillingHoursSum;
-    in_21 : TX_ExpenseInvoice!expenseAmountNet;
-    in_31 : T_CostRates!costRate;
-    in_32 : T_CostRates!maName;
-    in_41 : TX_Probat!projectBillingMonth;
-    in_42 : TX_Probat!projectNumber;
-    in_44 : TX_Probat!maName
-  output
-    out_1 : TX_Probat!projectBillingMonth;
-    out_2 : TX_Probat!projectBillingService;
-    out_3 : TX_Probat!projectBillingHoursSum;
-    out_4 : TX_Probat!projectBillingOnSiteExpenses;
-    out_5 : TX_Probat!expenseAmountNet    
+    in_1 : D_ProjNummer;
+    in_2 : D_ProjAbrLeistung;
+    in_3 : D_ProjAbrStundenSum;
+    in_5 : D_ProjAbrSpesVorOrt;
+    in_6 : D_ProjAbrMonat;
+    in_7 : D_SpesenBetragNetto;
+    in_8 : D_KostenSatz;
+    in_9 : D_MaName
+  eingabe
+    ein_11 : TF_ProjektAbrechnung!projNummer;
+    ein_12 : TF_ProjektAbrechnung!projAbrLeistung;
+    ein_13 : TF_ProjektAbrechnung!projAbrMonat;
+    ein_14 : TF_ProjektAbrechnung!projAbrSpesVorOrt;
+    ein_15 : TF_ProjektAbrechnung!projAbrStundenSum;
+    ein_21 : TX_SpesenRechnung!spesenBetragNetto;
+    ein_31 : T_Kostensaetze!kostenSatz;
+    ein_32 : T_Kostensaetze!maName;
+    ein_41 : TX_Probat!projAbrMonat;
+    ein_42 : TX_Probat!projNummer;
+    ein_44 : TX_Probat!maName
+  ausgabe
+    aus_1 : TX_Probat!projAbrMonat;
+    aus_2 : TX_Probat!projAbrLeistung;
+    aus_3 : TX_Probat!projAbrStundenSum;
+    aus_4 : TX_Probat!projAbrSpesVorOrt;
+    aus_5 : TX_Probat!spesenBetragNetto    
 end P_3220
 
-P_3230 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_3230 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon : P_3220
-  takes
-    take_1 : TX_Probat
-  gives
-    give_1 : TW_Invoice
+  nimmt
+    nimm_1 : TX_Probat
+  gibt
+    gib_1 : TW_Rechnung
   input
-    data_in_1 : D_ProjectNumber;
-    data_in_2 : D_ProjectBillingMonth;
-    data_in_3 : D_ProjectBillingService;
-    data_in_4 : D_ExpenseAmountNet
+    in_1 : D_ProjNummer;
+    in_2 : D_ProjAbrMonat;
+    in_3 : D_ProjAbrLeistung;
+    in_4 : D_SpesenBetragNetto
   output
-    data_out_1 : D_InvoiceNumber;
-    data_out_2 : D_ExpenseAmountSum
-  input
-    in_1 : TX_Probat!projectNumber;
-    in_2 : TX_Probat!projectBillingMonth;
-    in_3 : TX_Probat!projectBillingHoursSum;
-    in_4 : TX_Probat!expenseAmountNet
-  output
-    out_1 : TW_Invoice!invoiceNumber;
-    out_2 : TW_Invoice!projectNumber;
-    out_3 : TW_Invoice!projectBillingMonth;
-    out_4 : TW_Invoice!projectBillingHoursSum;
-    out_5 : TW_Invoice!expenseAmountSum
+    out_1 : D_RechngNummer;
+    out_2 : D_SpesenBetragSum
+  eingabe
+    ein_1 : TX_Probat!projNummer;
+    ein_2 : TX_Probat!projAbrMonat;
+    ein_3 : TX_Probat!projAbrStundenSum;
+    ein_4 : TX_Probat!spesenBetragNetto
+  ausgabe
+    aus_1 : TW_Rechnung!rechngNummer;
+    aus_2 : TW_Rechnung!projNummer;
+    aus_3 : TW_Rechnung!projAbrMonat;
+    aus_4 : TW_Rechnung!projAbrStundenSum;
+    aus_5 : TW_Rechnung!spesenBetragSum
 end P_3230
 
-P_3240 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_3240 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon : P_3230
-  takes
-    take_1 : TF_ProjectBilling;
-    take_2 : TW_Invoice
+  nimmt
+    nimm_1 : TF_ProjektAbrechnung;
+    nimm_2 : TW_Rechnung
   input
-    data_in_1 : D_CustomerName;
-    data_in_2 : D_ProjectNumber;
-    data_in_3 : D_ProjectBillingMonth
-  input
-    in_1 : TW_Invoice!projectNumber;
-    in_2 : TW_Invoice!projectBillingMonth;
-    in_3 : TF_ProjectBilling!customerName;
-    in_4 : TF_ProjectBilling!projectNumber
-  output
-    out_1 : TW_Invoice!customerName
+    in_1 : D_KundenName;
+    in_2 : D_ProjNummer;
+    in_3 : D_ProjAbrMonat
+  eingabe
+    ein_1 : TW_Rechnung!projNummer;
+    ein_2 : TW_Rechnung!projAbrMonat;
+    ein_3 : TF_ProjektAbrechnung!kundenName;
+    ein_4 : TF_ProjektAbrechnung!projNummer
+  ausgabe
+    aus_1 : TW_Rechnung!kundenName
 end P_3240
 
-P_3250 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_3250 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon : P_3240
-  takes
-    take_1 : TW_Invoice
-  gives
-    give_1 : T_BookingList
+  nimmt
+    nimm_1 : TW_Rechnung
+  gibt
+    gib_1 : T_BuchungsListe
   input
-    data_in_1 : D_InvoiceNumber
-  input
-    in_1 : TW_Invoice!invoiceNumber
-  output
-    pAus_1 : T_BookingList!invoiceNumber
+    in_1 : D_RechngNummer
+  eingabe
+    ein_1 : TW_Rechnung!rechngNummer
+  ausgabe
+    pAus_1 : T_BuchungsListe!rechngNummer
 end P_3250
 
-P_3260 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_3260 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon : P_3240
-  takes
-    take_1 : TX_Probat
-  gives
-    give_1 : T_RevenueList
+  nimmt
+    nimm_1 : TX_Probat
+  gibt
+    gib_1 : T_UmsatzListe
   input
-    data_in_1 : D_ProjectBillingMonth;
-    data_in_2 : D_ProjectNumber;
-    data_in_3 : D_ProjectBillingHoursSum;
-    data_in_4 : D_CustomerName
-  input
-    in_1 : TX_Probat!projectBillingMonth;
-    in_2 : TX_Probat!projectNumber;
-    in_3 : TX_Probat!projectBillingHoursSum;
-    in_4 : TX_Probat!customerName
-  output
-    out_1 : T_RevenueList!projectBillingMonth;  
-    out_2 : T_RevenueList!projectNumber;
-    out_3 : T_RevenueList!projectBillingHoursSum;
-    out_4 : T_RevenueList!customerName
+    in_1 : D_ProjAbrMonat;
+    in_2 : D_ProjNummer;
+    in_3 : D_ProjAbrStundenSum;
+    in_4 : D_KundenName
+  eingabe
+    ein_1 : TX_Probat!projAbrMonat;
+    ein_2 : TX_Probat!projNummer;
+    ein_3 : TX_Probat!projAbrStundenSum;
+    ein_4 : TX_Probat!kundenName
+  ausgabe
+    aus_1 : T_UmsatzListe!projAbrMonat;  
+    aus_2 : T_UmsatzListe!projNummer;
+    aus_3 : T_UmsatzListe!projAbrStundenSum;
+    aus_4 : T_UmsatzListe!kundenName
 end P_3260
 
-P_END with 
-  follows_after 
+P_ENDE with 
+  folgt_auf 
     pVon_3260 : P_3260
-end P_END
+end P_ENDE
 
-P_3270 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_3270 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon : P_3240
-  takes
-    take_1 : TW_Invoice
-  gives
-    give_1 : T_Invoice
+  nimmt
+    nimm_1 : TW_Rechnung
+  gibt
+    gib_1 : T_Rechnung
   input
-    data_in_1 : D_InvoiceNumber;
-    data_in_2 : D_ProjectNumber;
-    data_in_3 : D_ProjectBillingMonth;
-    data_in_4 : D_ProjectBillingHoursSum;
-    data_in_5 : D_ExpenseAmountSum;
-    data_in_6 : D_CustomerName
-  input
-    in_1 : TW_Invoice!invoiceNumber;
-    in_2 : TW_Invoice!projectNumber;
-    in_3 : TW_Invoice!projectBillingMonth;
-    in_4 : TW_Invoice!projectBillingHoursSum;
-    in_5 : TW_Invoice!expenseAmountSum;
-    in_6 : TW_Invoice!customerName
-  output
-    out_1 : T_Invoice!invoiceNumber;
-    out_2 : T_Invoice!projectNumber;
-    out_3 : T_Invoice!projectBillingMonth;
-    out_4 : T_Invoice!projectBillingHoursSum;
-    out_5 : T_Invoice!expenseAmountSum;
-    out_6 : T_Invoice!customerName
+    in_1 : D_RechngNummer;
+    in_2 : D_ProjNummer;
+    in_3 : D_ProjAbrMonat;
+    in_4 : D_ProjAbrStundenSum;
+    in_5 : D_SpesenBetragSum;
+    in_6 : D_KundenName
+  eingabe
+    ein_1 : TW_Rechnung!rechngNummer;
+    ein_2 : TW_Rechnung!projNummer;
+    ein_3 : TW_Rechnung!projAbrMonat;
+    ein_4 : TW_Rechnung!projAbrStundenSum;
+    ein_5 : TW_Rechnung!spesenBetragSum;
+    ein_6 : TW_Rechnung!kundenName
+  ausgabe
+    aus_1 : T_Rechnung!rechngNummer;
+    aus_2 : T_Rechnung!projNummer;
+    aus_3 : T_Rechnung!projAbrMonat;
+    aus_4 : T_Rechnung!projAbrStundenSum;
+    aus_5 : T_Rechnung!spesenBetragSum;
+    aus_6 : T_Rechnung!kundenName
 end P_3270
 
-P_3280 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_3280 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon : P_3270
-  takes
-    take_1 : T_Invoice;
-    take_2 : T_ExpenseReceipt;
-    take_3 : T_MiscCosts;
-    take_4 : TF_ProjectBilling
-  gives
-    give_1 : T_Invoice;
-    give_2 : T_ExpenseReceipt;
-    give_3 : T_MiscCosts;
-    give_4 : TF_ProjectBilling
+  nimmt
+    nimm_1 : T_Rechnung;
+    nimm_2 : T_SpesenBeleg;
+    nimm_3 : T_SonstKosten;
+    nimm_4 : TF_ProjektAbrechnung
+  gibt
+    gib_1 : T_Rechnung;
+    gib_2 : T_SpesenBeleg;
+    gib_3 : T_SonstKosten;
+    gib_4 : TF_ProjektAbrechnung
   input
-    data_in_1 : D_InvoiceNumber
-  input
-    in_1 : T_Invoice!invoiceNumber 
+    in_1 : D_RechngNummer
+  eingabe
+    ein_1 : T_Rechnung!rechngNummer 
   output
-    data_out_1 : D_InvoiceSignature
-  output
-    out_1 : T_Invoice!invoiceSignature
+    out_1 : D_RechngUnt
+  ausgabe
+    aus_1 : T_Rechnung!rechngUnt
 end P_3280
 
 

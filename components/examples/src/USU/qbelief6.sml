@@ -34,47 +34,47 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
-GenericQueryClass DeliverWithoutCreate isA Actor with
+GenericQueryClass LiefernOhneErzeugen isA Akteur with
   computed_attribute
-	deliversTo : Actor
+	liefertAn : Akteur
   constraint
-     c1 : $ exists b/Actor!supplies From(b, this)
-  and To(b, ~deliversTo)
-  and exists t/Carrier (b via t)
-  and not (this creates t)
+     c1 : $ exists b/Akteur!beliefert From(b, this)
+  and To(b, ~liefertAn)
+  and exists t/Traeger (b mit t)
+  and not (this erzeugt t)
   $
 end
 
-GenericQueryClass CreateWithoutDeliver isA Actor with
+GenericQueryClass ErzeugenOhneLiefern isA Akteur with
   computed_attribute
-	creates : Carrier
+	erzeugt : Traeger
   constraint
      c1 : $
-      (this creates ~creates)
-  and not exists b/Actor!supplies From(b, this)
-  and (b via ~creates)
+      (this erzeugt ~erzeugt)
+  and not exists b/Akteur!beliefert From(b, this)
+  and (b mit ~erzeugt)
   $
 end
 
-GenericQueryClass ReceiveWithoutNeed isA Actor with
+GenericQueryClass ErhaltenOhneBrauchen isA Akteur with
   computed_attribute
-	receivedFrom : Actor
+	erhaltenVon : Akteur
   constraint
-     c1 : $ exists b/Actor!supplies To(b, this)
-  and From(b, ~receivedFrom)
-  and exists t/Carrier (b via t)
-  and not (this needs t)
+     c1 : $ exists b/Akteur!beliefert To(b, this)
+  and From(b, ~erhaltenVon)
+  and exists t/Traeger (b mit t)
+  and not (this braucht t)
   $
 end
 
-GenericQueryClass NeedWithoutReceive isA Actor with
+GenericQueryClass BrauchenOhneErhalten isA Akteur with
   computed_attribute
-	needs : Carrier
+	braucht : Traeger
   constraint
      c1 : $
-   (this needs ~needs   )
-   and not exists b/Actor!supplies To(b, this)
-   and (b via ~needs)
+   (this braucht ~braucht   )
+   and not exists b/Akteur!beliefert To(b, this)
+   and (b mit ~braucht)
   $
 end
 

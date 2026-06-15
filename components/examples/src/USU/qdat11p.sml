@@ -34,21 +34,21 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
-GenericQueryClass P_DataOutputter isA Action with
+GenericQueryClass P_DatenOutputter isA Aktion with
   parameter
-     d1 : Data
+     d1 : Daten
   constraint
      c1 : $
-  (this data_output ~d1)
+  (this output ~d1)
   $
 end
 
-GenericQueryClass P_DataInputter isA Action with
+GenericQueryClass P_DatenInputter isA Aktion with
   parameter
-     d1 : Data
+     d1 : Daten
   constraint
      c1 : $
-  (this data_input ~d1)
+  (this input ~d1)
   $
 end
 

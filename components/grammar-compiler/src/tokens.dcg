@@ -92,7 +92,7 @@ IMPORT(pc_atomconcat/2,'PrologCompatibility').
 IMPORT(pc_atomconcat/3,'PrologCompatibility').
 IMPORT(pc_ascii/2,'PrologCompatibility').
 IMPORT(transformIdentifier/2,'MSFOLassertionParserUtilities').  % ticket #311
-IMPORT('WriteTrace'/3,'GeneralUtilities')
+IMPORT('WriteTrace'/3,'GeneralUtilities').
 :- style_check(-singleton).
 %  erase leading blanks or comments
 

@@ -36,99 +36,99 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 *}
 {$set syntax=PlainToronto}
 
-P_4010 in Action with
-  processed_by
-    who : A_Accounting
-  follows_after
+P_4010 in Aktion with
+  bearbeitet_von
+    wer : A_Buchhalt
+  folgt_auf
     pVon : P_3250
-  takes
-    take_1 : T_BookingList
-  gives
-    give_1 : TX_Fibu
+  nimmt
+    nimm_1 : T_BuchungsListe
+  gibt
+    gib_1 : TX_Fibu
   input
-    data_in_1 : D_InvoiceNumber
-  input 
-    in_1 : T_BookingList!invoiceNumber
-  output
-    out_1 : TX_Fibu!invoiceNumber
+    in_1 : D_RechngNummer
+  eingabe 
+    ein_1 : T_BuchungsListe!rechngNummer
+  ausgabe
+    aus_1 : TX_Fibu!rechngNummer
 end P_4010
 
-P_4020 in Action with
-  processed_by
-    who : A_Accounting
-  follows_after
+P_4020 in Aktion with
+  bearbeitet_von
+    wer : A_Buchhalt
+  folgt_auf
     pVon : P_4010
-  takes
-    take_1 : TX_Fibu
-  gives
-    give_1 : T_OpenItemsList
+  nimmt
+    nimm_1 : TX_Fibu
+  gibt
+    gib_1 : T_OpListe
   input
-    data_in_1 : D_InvoiceNumber
-  input
-    in_1 : TX_Fibu!invoiceNumber
-  output
-    out_1 : T_OpenItemsList!invoiceNumber
+    in_1 : D_RechngNummer
+  eingabe
+    ein_1 : TX_Fibu!rechngNummer
+  ausgabe
+    aus_1 : T_OpListe!rechngNummer
 end P_4020
 
-P_4030 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_4030 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon : P_4020
-  takes
-    take_1 : T_OpenItemsList
-  gives
-    give_1 : T_Reminder
+  nimmt
+    nimm_1 : T_OpListe
+  gibt
+    gib_1 : T_Mahnung
   input
-    data_in_1 : D_InvoiceNumber
-  input
-    in_1 : T_OpenItemsList!invoiceNumber
-  output 
-    out_1 : T_Reminder!invoiceNumber
+    in_1 : D_RechngNummer
+  eingabe
+    ein_1 : T_OpListe!rechngNummer
+  ausgabe 
+    aus_1 : T_Mahnung!rechngNummer
 end P_4030
 
-P_4040 in Action with
-  processed_by
-    who : A_Customer
-  follows_after
+P_4040 in Aktion with
+  bearbeitet_von
+    wer : A_Kunde
+  folgt_auf
     pVon_1 : P_4030;
     pVon_2 : P_3280
-  takes
-    take_1 : T_Invoice;
-    take_2 : T_Reminder
-  gives
-    give_1 : T_Payment
+  nimmt
+    nimm_1 : T_Rechnung;
+    nimm_2 : T_Mahnung
+  gibt
+    gib_1 : T_Zahlung
   input
-    data_in_1 : D_InvoiceNumber;
-    data_in_2 : D_InvoiceSignature
-  input
-    in_1 : T_Invoice!invoiceNumber;
-    in_2 : T_Invoice!invoiceSignature
-  output
-    out_1 : T_Payment!invoiceNumber
+    in_1 : D_RechngNummer;
+    in_2 : D_RechngUnt
+  eingabe
+    ein_1 : T_Rechnung!rechngNummer;
+    ein_2 : T_Rechnung!rechngUnt
+  ausgabe
+    aus_1 : T_Zahlung!rechngNummer
 end P_4040
 
-P_4050 in Action with
-  processed_by
-    who : A_Accounting
-  follows_after
+P_4050 in Aktion with
+  bearbeitet_von
+    wer : A_Buchhalt
+  folgt_auf
     pVon : P_4040
-  takes
-    take_1 : T_Payment
-  gives
-    give_1 : TX_Fibu
+  nimmt
+    nimm_1 : T_Zahlung
+  gibt
+    gib_1 : TX_Fibu
   input
-    data_in_1 : D_InvoiceNumber
+    in_1 : D_RechngNummer
   output
-    out : D_Paid
-  input
-    in_1 : T_Payment!invoiceNumber
-  output
-    out_1 : TX_Fibu!paid
+    out : D_Bezahlt
+  eingabe
+    ein_1 : T_Zahlung!rechngNummer
+  ausgabe
+    aus_1 : TX_Fibu!bezahlt
 end P_4050
 
-P_END with
-  follows_after
+P_ENDE with
+  folgt_auf
     pVon_4050 : P_4050
-end P_END
+end P_ENDE
 

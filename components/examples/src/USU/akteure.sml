@@ -36,431 +36,431 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 *}
 {$set syntax=PlainToronto}
 
-A_CustomerRepresentative in Actor with
-  creates 
-    vb_creates_1 : T_Offer;
-    vb_creates_2 : TF_ProjectOrder;
-    vb_creates_3 : TF_CalculationSheet
-  needs
-    vb_needs_1 : T_Inquiry;
-    vb_needs_2 : T_Order
-  supplies
-    vb_offers : A_Customer;
-    vb_commissions : A_ProjectLeader;
-    vb_verifies : A_Management
-end A_CustomerRepresentative
+A_Kundenverantwortlicher in Akteur with
+  erzeugt 
+    vb_erzeugt_1 : T_Angebot;
+    vb_erzeugt_2 : TF_ProjektAuftrag;
+    vb_erzeugt_3 : TF_Kalkulationsblatt
+  braucht
+    vb_braucht_1 : T_Anfrage;
+    vb_braucht_2 : T_Auftrag
+  beliefert
+    vb_bietet_an : A_Kunde;
+    vb_beauftragt : A_Projektleiter;
+    vb_verifiziert : A_GL
+end A_Kundenverantwortlicher
 
-A_CustomerRepresentative!vb_offers with
-  via
-    vb_offers : T_Offer
-end A_CustomerRepresentative!vb_offers
+A_Kundenverantwortlicher!vb_bietet_an with
+  mit
+    vb_bietet_an : T_Angebot
+end A_Kundenverantwortlicher!vb_bietet_an
 
-A_CustomerRepresentative!vb_commissions with
-  via
-    vb_commissions : TF_ProjectOrder;
-    vb_calculates : TF_CalculationSheet
-end A_CustomerRepresentative!vb_commissions
+A_Kundenverantwortlicher!vb_beauftragt with
+  mit
+    vb_beauftragt : TF_ProjektAuftrag;
+    vb_kalkuliert : TF_Kalkulationsblatt
+end A_Kundenverantwortlicher!vb_beauftragt
 
-A_CustomerRepresentative!vb_verifies with
-  via
-    vb_verifies_1 : T_Offer;
-    vb_verifies_2 : TF_CalculationSheet
-end A_CustomerRepresentative!vb_verifies
+A_Kundenverantwortlicher!vb_verifiziert with
+  mit
+    vb_verifiziert_1 : T_Angebot;
+    vb_verifiziert_2 : TF_Kalkulationsblatt
+end A_Kundenverantwortlicher!vb_verifiziert
 
-A_Customer in Actor with
-  creates 
-    kd_creates_1 : T_Inquiry;
-    kd_creates_2 : T_Order;
-    kd_creates_3 : T_Payment
-  needs
-    kd_needs_1 : T_Offer;
-    kd_needs_2 : T_Invoice;
-    kd_needs_3 : T_ExpenseReceipt;
-    kd_needs_4 : T_MiscCosts;
-    kd_needs_5 : TF_ProjectBilling;
-    kd_needs_6 : T_Reminder
-  supplies
-    kd_inquires : A_CustomerRepresentative;
-    kd_commissions : A_CustomerRepresentative;
-    kd_pays : A_Accounting
-end A_Customer
+A_Kunde in Akteur with
+  erzeugt 
+    kd_erzeugt_1 : T_Anfrage;
+    kd_erzeugt_2 : T_Auftrag;
+    kd_erzeugt_3 : T_Zahlung
+  braucht
+    kd_braucht_1 : T_Angebot;
+    kd_braucht_2 : T_Rechnung;
+    kd_braucht_3 : T_SpesenBeleg;
+    kd_braucht_4 : T_SonstKosten;
+    kd_braucht_5 : TF_ProjektAbrechnung;
+    kd_braucht_6 : T_Mahnung
+  beliefert
+    kd_anfragt : A_Kundenverantwortlicher;
+    kd_beauftragt : A_Kundenverantwortlicher;
+    kd_bezahlt : A_Buchhalt
+end A_Kunde
 
-A_Customer!kd_inquires with
-  via
-    kd_asks : T_Inquiry
-end A_Customer!kd_inquires
+A_Kunde!kd_anfragt with
+  mit
+    kd_fragt_an : T_Anfrage
+end A_Kunde!kd_anfragt
     
-A_Customer!kd_commissions with
-  via
-    kd_commissions : T_Order
-end A_Customer!kd_commissions
+A_Kunde!kd_beauftragt with
+  mit
+    kd_beauftragt : T_Auftrag
+end A_Kunde!kd_beauftragt
  
-A_Customer!kd_pays with
-  via
-    kd_pays : T_Payment
-end A_Customer!kd_pays
+A_Kunde!kd_bezahlt with
+  mit
+    kd_bezahlt : T_Zahlung
+end A_Kunde!kd_bezahlt
 
-A_CustomerPL in Actor with
-  creates 
-    kd_creates_1 : TF_ProjectBilling
-  needs
-    kd_needs_1 : TF_ProjectBilling
-  supplies
-    kd_confirms : A_ProjectLeader
-end A_CustomerPL
+A_KundenPl in Akteur with
+  erzeugt 
+    kd_erzeugt_1 : TF_ProjektAbrechnung
+  braucht
+    kd_braucht_1 : TF_ProjektAbrechnung
+  beliefert
+    kd_bestaetigt : A_Projektleiter
+end A_KundenPl
 
-A_CustomerPL!kd_confirms with
-  via
-    kd_confirms : TF_ProjectBilling
-end A_CustomerPL!kd_confirms
+A_KundenPl!kd_bestaetigt with
+  mit
+    kd_bestaetigt : TF_ProjektAbrechnung
+end A_KundenPl!kd_bestaetigt
  
-A_ProjectControl in Actor with
-  creates 
-    pc_creates_1 : T_Invoice;
-    pc_creates_2 : T_Evaluations;
-    pc_creates_3 : T_Reminder;
-    pc_creates_4 : TF_MonthlyReport;
-    pc_creates_5 : T_ExpenseReceipt;
-    pc_creates_6 : T_MiscCosts;
-    pc_creates_7 : TF_MonthSupplement;
-    pc_creates_8 : T_Absence;
-    pc_creates_9 : T_BookingList;
-    pc_creates_10 : TF_ProjectBilling;
-    pc_creates_11 : TF_ProjectOrder;
-    pc_creates_12 : TF_ProjectOrderEmployee;
-    pc_creates_13 : TF_ProjectCreation
-  needs
-    pc_needs_1 : TF_StatusReport;
-    pc_needs_2 : TF_ProjectBilling;
-    pc_needs_3 : TF_MonthlyReport;
-    pc_needs_4 : T_ExpenseReceipt;
-    pc_needs_5 : T_CostRates;
-    pc_needs_6 : T_MiscCosts;
-    pc_needs_7 : TF_ProjectCreation;
-    pc_needs_8 : T_Absence;
-    pc_needs_9 : TF_MonthSupplement;
-    pc_needs_10 : TF_CalculationSheet;
-    pc_needs_11 : T_OpenItemsList;
-    pc_needs_12 : TF_ProjectOrder;
-    pc_needs_13 : TF_ProjectOrderEmployee
-  supplies
-    pc_invoices : A_Customer;
-    pc_copies_invoice : A_Accounting;
-    pc_informs : A_Management;
-    pc_reminds : A_Customer;
-    pc_forwards : A_Personnel;
-    pc_project_start : A_ProjectLeader;
-    pc_archives : A_Accounting
-end A_ProjectControl
+A_ProjContrl in Akteur with
+  erzeugt 
+    pc_erzeugt_1 : T_Rechnung;
+    pc_erzeugt_2 : T_Auswertungen;
+    pc_erzeugt_3 : T_Mahnung;
+    pc_erzeugt_4 : TF_MonatsBericht;
+    pc_erzeugt_5 : T_SpesenBeleg;
+    pc_erzeugt_6 : T_SonstKosten;
+    pc_erzeugt_7 : TF_MonZus;
+    pc_erzeugt_8 : T_Abwesenheit;
+    pc_erzeugt_9 : T_BuchungsListe;
+    pc_erzeugt_10 : TF_ProjektAbrechnung;
+    pc_erzeugt_11 : TF_ProjektAuftrag;
+    pc_erzeugt_12 : TF_ProjektAuftragMa;
+    pc_erzeugt_13 : TF_ProjektAnlage
+  braucht
+    pc_braucht_1 : TF_StatusBericht;
+    pc_braucht_2 : TF_ProjektAbrechnung;
+    pc_braucht_3 : TF_MonatsBericht;
+    pc_braucht_4 : T_SpesenBeleg;
+    pc_braucht_5 : T_Kostensaetze;
+    pc_braucht_6 : T_SonstKosten;
+    pc_braucht_7 : TF_ProjektAnlage;
+    pc_braucht_8 : T_Abwesenheit;
+    pc_braucht_9 : TF_MonZus;
+    pc_braucht_10 : TF_Kalkulationsblatt;
+    pc_braucht_11 : T_OpListe;
+    pc_braucht_12 : TF_ProjektAuftrag;
+    pc_braucht_13 : TF_ProjektAuftragMa
+  beliefert
+    pc_stellt_rechnung : A_Kunde;
+    pc_kopiert_rechnung : A_Buchhalt;
+    pc_informiert : A_GL;
+    pc_mahnt : A_Kunde;
+    pc_gibt_weiter : A_Personal;
+    pc_projektstart : A_Projektleiter;
+    pc_ablage : A_Buchhalt
+end A_ProjContrl
 
-A_ProjectControl!pc_invoices with
-  via
-    pc_invoice_1 : T_Invoice;
-    pc_invoice_2 : TF_ProjectBilling;
-    pc_invoice_3 : T_ExpenseReceipt
-end A_ProjectControl!pc_invoices
+A_ProjContrl!pc_stellt_rechnung with
+  mit
+    pc_stellt_1 : T_Rechnung;
+    pc_stellt_2 : TF_ProjektAbrechnung;
+    pc_stellt_3 : T_SpesenBeleg
+end A_ProjContrl!pc_stellt_rechnung
  
-A_ProjectControl!pc_copies_invoice with
-  via
-    pc_copied : T_BookingList
-end A_ProjectControl!pc_copies_invoice
+A_ProjContrl!pc_kopiert_rechnung with
+  mit
+    pc_kopiert : T_BuchungsListe
+end A_ProjContrl!pc_kopiert_rechnung
  
-A_ProjectControl!pc_informs with
-  via
-    pc_informs : T_Evaluations
-end A_ProjectControl!pc_informs
+A_ProjContrl!pc_informiert with
+  mit
+    pc_informiert : T_Auswertungen
+end A_ProjContrl!pc_informiert
  
-A_ProjectControl!pc_reminds with
-  via
-    pc_reminds : T_Reminder
-end A_ProjectControl!pc_reminds
+A_ProjContrl!pc_mahnt with
+  mit
+    pc_mahnt : T_Mahnung
+end A_ProjContrl!pc_mahnt
 
-A_ProjectControl!pc_project_start with
-  via
-    pc_project_start_1 : TF_ProjectCreation;
-    pc_project_start_2 : TF_ProjectOrder;
-    pc_project_start_3 : TF_ProjectOrderEmployee
-end A_ProjectControl!pc_project_start
+A_ProjContrl!pc_projektstart with
+  mit
+    pc_projektstart_1 : TF_ProjektAnlage;
+    pc_projektstart_2 : TF_ProjektAuftrag;
+    pc_projektstart_3 : TF_ProjektAuftragMa
+end A_ProjContrl!pc_projektstart
   
-A_ProjectControl!pc_forwards with
-  via
-    pc_gives_1 : TF_ProjectBilling;
-    pc_gives_2 : T_ExpenseReceipt;
-    pc_gives_3 : T_MiscCosts;
-    pc_gives_4 : T_Absence
-end A_ProjectControl!pc_forwards
+A_ProjContrl!pc_gibt_weiter with
+  mit
+    pc_gibt_1 : TF_ProjektAbrechnung;
+    pc_gibt_2 : T_SpesenBeleg;
+    pc_gibt_3 : T_SonstKosten;
+    pc_gibt_4 : T_Abwesenheit
+end A_ProjContrl!pc_gibt_weiter
  
-A_ProjectControl!pc_archives with
-  via
-    pc_archives_1 : TF_MonthlyReport;
-    pc_archives_2 : T_ExpenseReceipt;
-    pc_archives_3 : TF_MonthSupplement;
-    pc_archives_4 : T_MiscCosts;
-    pc_archives_5 : TF_ProjectBilling
-end A_ProjectControl!pc_archives
+A_ProjContrl!pc_ablage with
+  mit
+    pc_ablage_1 : TF_MonatsBericht;
+    pc_ablage_2 : T_SpesenBeleg;
+    pc_ablage_3 : TF_MonZus;
+    pc_ablage_4 : T_SonstKosten;
+    pc_ablage_5 : TF_ProjektAbrechnung
+end A_ProjContrl!pc_ablage
  
-A_Personnel in Actor with
-  creates 
-    pe_creates_1 : TF_ProjectBilling;
-    pe_creates_2 : TF_MonthlyReport;
-    pe_creates_3 : TF_MonthSupplement;
-    pe_creates_4 : T_ExpenseReceipt;
-    pe_creates_5 : T_CorrectionMeeting;
-    pe_creates_6 : T_CostRates;
-    pe_creates_7 : T_MiscCosts
-  needs
-    pe_needs_2 : T_ExpenseReceipt;
-    pe_needs_3 : T_MiscCosts;
-    pe_needs_4 : TF_MonthlyReport;
-    pe_needs_5 : TF_MonthSupplement;
-    pe_needs_6 : TF_ProjectBilling;
-    pe_needs_7 : T_Absence;
-    pe_needs_8 : T_CostRates
-  supplies
-    pe_forwards : A_Accounting;
-    pe_corrects : A_ProjectControl;
-    pe_distributes : A_ProjectControl;
-    pe_shares_with : A_Accounting;
-    pe_notifies : A_Employee
-end A_Personnel
+A_Personal in Akteur with
+  erzeugt 
+    pe_erzeugt_1 : TF_ProjektAbrechnung;
+    pe_erzeugt_2 : TF_MonatsBericht;
+    pe_erzeugt_3 : TF_MonZus;
+    pe_erzeugt_4 : T_SpesenBeleg;
+    pe_erzeugt_5 : T_KorrekturGespraech;
+    pe_erzeugt_6 : T_Kostensaetze;
+    pe_erzeugt_7 : T_SonstKosten
+  braucht
+    pe_braucht_2 : T_SpesenBeleg;
+    pe_braucht_3 : T_SonstKosten;
+    pe_braucht_4 : TF_MonatsBericht;
+    pe_braucht_5 : TF_MonZus;
+    pe_braucht_6 : TF_ProjektAbrechnung;
+    pe_braucht_7 : T_Abwesenheit;
+    pe_braucht_8 : T_Kostensaetze
+  beliefert
+    pe_gibt_weiter : A_Buchhalt;
+    pe_korrigiert : A_ProjContrl;
+    pe_verteilt : A_ProjContrl;
+    pe_teilt_mit : A_Buchhalt;
+    pe_sagt_bescheid : A_Mitarbeiter
+end A_Personal
 
-A_Personnel!pe_forwards with
-  via
-    pe_fwd_1 : TF_ProjectBilling;
-    pe_fwd_2 : TF_MonthlyReport;
-    pe_fwd_3 : TF_MonthSupplement;
-    pe_fwd_4 : T_ExpenseReceipt;
-    pe_fwd_5 : T_MiscCosts
-end A_Personnel!pe_forwards
+A_Personal!pe_gibt_weiter with
+  mit
+    pe_anbh_1 : TF_ProjektAbrechnung;
+    pe_anbh_2 : TF_MonatsBericht;
+    pe_anbh_3 : TF_MonZus;
+    pe_anbh_4 : T_SpesenBeleg;
+    pe_anbh_5 : T_SonstKosten
+end A_Personal!pe_gibt_weiter
   
-A_Personnel!pe_corrects with
-  via
-    pe_corrects : T_ExpenseReceipt
-end A_Personnel!pe_corrects
+A_Personal!pe_korrigiert with
+  mit
+    pe_korrigiert : T_SpesenBeleg
+end A_Personal!pe_korrigiert
  
-A_Personnel!pe_distributes with
-  via
-    pe_distributes : T_CostRates
-end A_Personnel!pe_distributes
+A_Personal!pe_verteilt with
+  mit
+    pe_verteilt : T_Kostensaetze
+end A_Personal!pe_verteilt
  
-A_Personnel!pe_notifies with
-  via
-    pe_notifies : T_CorrectionMeeting
-end A_Personnel!pe_notifies
+A_Personal!pe_sagt_bescheid with
+  mit
+    pe_sagt_bescheid : T_KorrekturGespraech
+end A_Personal!pe_sagt_bescheid
 
-A_Accounting in Actor with
-  creates 
-    bu_creates_2 : T_ExpensePayment;
-    bu_creates_3 : T_OpenItemsList;
-    bu_creates_4 : T_MiscCosts;
-    bu_creates_5 : T_ExpenseReceipt;
-    bu_creates_6 : TF_ProjectBilling;
-    bu_creates_7 : TF_MonthlyReport;
-    bu_creates_8 : TF_MonthSupplement
-  needs
-    bu_needs_1 : T_ExpenseReceipt;
-    bu_needs_2 : T_BookingList;
-    bu_needs_3 : T_MiscCosts;
-    bu_needs_4 : T_Payment;
-    bu_needs_5 : TF_ProjectBilling;
-    bu_needs_6 : TF_MonthlyReport;
-    bu_needs_7 : TF_MonthSupplement
-  supplies
-    bu_settlement : A_ProjectControl;
-    bu_open_items : A_ProjectControl;
-    bu_pays_expenses : A_Employee    
-end A_Accounting
+A_Buchhalt in Akteur with
+  erzeugt 
+    bu_erzeugt_2 : T_SpesenZahlung;
+    bu_erzeugt_3 : T_OpListe;
+    bu_erzeugt_4 : T_SonstKosten;
+    bu_erzeugt_5 : T_SpesenBeleg;
+    bu_erzeugt_6 : TF_ProjektAbrechnung;
+    bu_erzeugt_7 : TF_MonatsBericht;
+    bu_erzeugt_8 : TF_MonZus
+  braucht
+    bu_braucht_1 : T_SpesenBeleg;
+    bu_braucht_2 : T_BuchungsListe;
+    bu_braucht_3 : T_SonstKosten;
+    bu_braucht_4 : T_Zahlung;
+    bu_braucht_5 : TF_ProjektAbrechnung;
+    bu_braucht_6 : TF_MonatsBericht;
+    bu_braucht_7 : TF_MonZus
+  beliefert
+    bu_abrechnung : A_ProjContrl;
+    bu_offene_posten : A_ProjContrl;
+    bu_zahlt_spesen : A_Mitarbeiter    
+end A_Buchhalt
 
-A_Accounting!bu_settlement with
-  via
-    bu_settlement_1 : TF_ProjectBilling;
-    bu_settlement_2 : TF_MonthlyReport;
-    bu_settlement_3 : TF_MonthSupplement;
-    bu_settlement_4 : T_ExpenseReceipt;
-    bu_settlement_5 : T_MiscCosts
-end A_Accounting!bu_settlement
+A_Buchhalt!bu_abrechnung with
+  mit
+    bu_abrechnung_1 : TF_ProjektAbrechnung;
+    bu_abrechnung_2 : TF_MonatsBericht;
+    bu_abrechnung_3 : TF_MonZus;
+    bu_abrechnung_4 : T_SpesenBeleg;
+    bu_abrechnung_5 : T_SonstKosten
+end A_Buchhalt!bu_abrechnung
  
-A_Accounting!bu_pays_expenses with
-  via
-    bu_pays_expenses : T_ExpensePayment
-end A_Accounting!bu_pays_expenses
+A_Buchhalt!bu_zahlt_spesen with
+  mit
+    bu_zahlt_spesen : T_SpesenZahlung
+end A_Buchhalt!bu_zahlt_spesen
  
-A_Accounting!bu_open_items with
-  via
-    bu_open_items : T_OpenItemsList
-end A_Accounting!bu_open_items
+A_Buchhalt!bu_offene_posten with
+  mit
+    bu_offene_posten : T_OpListe
+end A_Buchhalt!bu_offene_posten
  
-A_ProjectLeader in Actor with
-  creates 
-    pl_creates_1 : TF_MonthlyReport;
-    pl_creates_2 : TF_MonthSupplement;
-    pl_creates_3 : TF_ProjectBilling;
-    pl_creates_4 : T_Absence;
-    pl_creates_5 : T_ExpenseReceipt;
-    pl_creates_6 : TF_ProjectOrder;
-    pl_creates_7 : TF_ProjectOrderEmployee;
-    pl_creates_8 : TF_ProjectCreation;
-    pl_creates_9 : TF_StatusReport;
-    pl_creates_10 : TF_CalculationSheet
-  needs
-    pl_needs_1 : TF_ProjectOrder;
-    pl_needs_2 : TF_ProjectOrderEmployee;
-    pl_needs_3 : TF_ProjectBilling;
-    pl_needs_4 : T_Absence;
-    pl_needs_5 : T_ExpenseReceipt;
-    pl_needs_6 : TF_ProjectCreation;
-    pl_needs_7 : TF_CalculationSheet
-  supplies
-    pl_project_setup : A_ProjectControl;
-    pl_commissions : A_Employee;
-    pl_monthly_report : A_Secretariat;
-    pl_project_billing : A_ProjectControl;
-    pl_proof : A_CustomerPL
-end A_ProjectLeader
+A_Projektleiter in Akteur with
+  erzeugt 
+    pl_erzeugt_1 : TF_MonatsBericht;
+    pl_erzeugt_2 : TF_MonZus;
+    pl_erzeugt_3 : TF_ProjektAbrechnung;
+    pl_erzeugt_4 : T_Abwesenheit;
+    pl_erzeugt_5 : T_SpesenBeleg;
+    pl_erzeugt_6 : TF_ProjektAuftrag;
+    pl_erzeugt_7 : TF_ProjektAuftragMa;
+    pl_erzeugt_8 : TF_ProjektAnlage;
+    pl_erzeugt_9 : TF_StatusBericht;
+    pl_erzeugt_10 : TF_Kalkulationsblatt
+  braucht
+    pl_braucht_1 : TF_ProjektAuftrag;
+    pl_braucht_2 : TF_ProjektAuftragMa;
+    pl_braucht_3 : TF_ProjektAbrechnung;
+    pl_braucht_4 : T_Abwesenheit;
+    pl_braucht_5 : T_SpesenBeleg;
+    pl_braucht_6 : TF_ProjektAnlage;
+    pl_braucht_7 : TF_Kalkulationsblatt
+  beliefert
+    pl_projektanlage : A_ProjContrl;
+    pl_beauftragt : A_Mitarbeiter;
+    pl_monatsbericht : A_Sekretariat;
+    pl_projektabrechnung : A_ProjContrl;
+    pl_nachweis : A_KundenPl
+end A_Projektleiter
 
-A_ProjectLeader!pl_project_setup with
-  via
-    pl_project_setup_1 : TF_ProjectCreation;
-    pl_project_setup_2 : TF_CalculationSheet;
-    pl_project_setup_3 : TF_ProjectOrder;
-    pl_project_setup_4 : TF_ProjectOrderEmployee
-end A_ProjectLeader!pl_project_setup
+A_Projektleiter!pl_projektanlage with
+  mit
+    pl_projektanlage_1 : TF_ProjektAnlage;
+    pl_projektanlage_2 : TF_Kalkulationsblatt;
+    pl_projektanlage_3 : TF_ProjektAuftrag;
+    pl_projektanlage_4 : TF_ProjektAuftragMa
+end A_Projektleiter!pl_projektanlage
  
-A_ProjectLeader!pl_commissions with
-  via
-    pl_commissions : TF_ProjectOrderEmployee
-end A_ProjectLeader!pl_commissions
+A_Projektleiter!pl_beauftragt with
+  mit
+    pl_beauftragt : TF_ProjektAuftragMa
+end A_Projektleiter!pl_beauftragt
  
-A_ProjectLeader!pl_monthly_report with
-  via
-    pl_monthly_report_1 : TF_MonthlyReport;
-    pl_monthly_report_2 : TF_MonthSupplement;
-    pl_monthly_report_3 : T_ExpenseReceipt;
-    pl_monthly_report_4 : T_Absence
-end A_ProjectLeader!pl_monthly_report
+A_Projektleiter!pl_monatsbericht with
+  mit
+    pl_monatsbericht_1 : TF_MonatsBericht;
+    pl_monatsbericht_2 : TF_MonZus;
+    pl_monatsbericht_3 : T_SpesenBeleg;
+    pl_monatsbericht_4 : T_Abwesenheit
+end A_Projektleiter!pl_monatsbericht
  
-A_ProjectLeader!pl_project_billing with
-  via
-    pl_project_billing_1 : TF_StatusReport;
-    pl_project_billing_2 : TF_ProjectBilling;
-    pl_project_billing_3 : T_ExpenseReceipt;
-    pl_project_billing_4 : T_Absence
-end A_ProjectLeader!pl_monthly_report
+A_Projektleiter!pl_projektabrechnung with
+  mit
+    pl_projabr_1 : TF_StatusBericht;
+    pl_projabr_2 : TF_ProjektAbrechnung;
+    pl_projabr_3 : T_SpesenBeleg;
+    pl_projabr_4 : T_Abwesenheit
+end A_Projektleiter!pl_monatsbericht
  
-A_ProjectLeader!pl_proof with
-  via
-    pl_proof : TF_ProjectBilling
-end A_ProjectLeader!pl_proof
+A_Projektleiter!pl_nachweis with
+  mit
+    pl_nachweis : TF_ProjektAbrechnung
+end A_Projektleiter!pl_nachweis
  
-A_PersonnelManager in Actor with
-  creates 
-    pv_creates_1 : TF_MonthlyReport;
-    pv_creates_2 : T_Absence;
-    pv_creates_3 : T_ExpenseReceipt;
-    pv_creates_4 : TF_MonthSupplement
-  needs
-    pv_needs_1 : TF_MonthlyReport;
-    pv_needs_2 : T_Absence;
-    pv_needs_3 : T_ExpenseReceipt;
-    pv_needs_4 : TF_MonthSupplement
-  supplies
-    pv_monthly_report : A_Personnel
-end A_PersonnelManager
+A_PersVerantw in Akteur with
+  erzeugt 
+    pv_erzeugt_1 : TF_MonatsBericht;
+    pv_erzeugt_2 : T_Abwesenheit;
+    pv_erzeugt_3 : T_SpesenBeleg;
+    pv_erzeugt_4 : TF_MonZus
+  braucht
+    pv_braucht_1 : TF_MonatsBericht;
+    pv_braucht_2 : T_Abwesenheit;
+    pv_braucht_3 : T_SpesenBeleg;
+    pv_braucht_4 : TF_MonZus
+  beliefert
+    pv_monatsbericht : A_Personal
+end A_PersVerantw
 
-A_PersonnelManager!pv_monthly_report with
-  via
-    pv_monthly_report_1 : TF_MonthlyReport;
-    pv_monthly_report_2 : T_ExpenseReceipt;
-    pv_monthly_report_3 : T_Absence;
-    pv_monthly_report_4 : TF_MonthSupplement     
-end A_PersonnelManager!pv_monthly_report
+A_PersVerantw!pv_monatsbericht with
+  mit
+    pv_monatsbericht_1 : TF_MonatsBericht;
+    pv_monatsbericht_2 : T_SpesenBeleg;
+    pv_monatsbericht_3 : T_Abwesenheit;
+    pv_monatsbericht_4 : TF_MonZus     
+end A_PersVerantw!pv_monatsbericht
 
-A_Secretariat in Actor with
-  needs
-    se_needs_1 : TF_MonthlyReport;
-    se_needs_2 : TF_MonthSupplement;
-    se_needs_3 : T_Absence;
-    se_needs_4 : T_ExpenseReceipt
-  creates
-    se_creates_1 : TF_MonthlyReport;
-    se_creates_2 : TF_MonthSupplement;
-    se_creates_3 : T_Absence;
-    se_creates_4 : T_ExpenseReceipt;
-    se_creates_5 : T_MiscCosts
-  supplies 
-    se_forwards : A_PersonnelManager;
-    se_forwards_invoice : A_Accounting;
-    se_forwards_misc : A_ProjectControl
-end A_Secretariat
+A_Sekretariat in Akteur with
+  braucht
+    se_braucht_1 : TF_MonatsBericht;
+    se_braucht_2 : TF_MonZus;
+    se_braucht_3 : T_Abwesenheit;
+    se_braucht_4 : T_SpesenBeleg
+  erzeugt
+    se_erzeugt_1 : TF_MonatsBericht;
+    se_erzeugt_2 : TF_MonZus;
+    se_erzeugt_3 : T_Abwesenheit;
+    se_erzeugt_4 : T_SpesenBeleg;
+    se_erzeugt_5 : T_SonstKosten
+  beliefert 
+    se_gibt_weiter : A_PersVerantw;
+    se_gibt_rechng : A_Buchhalt;
+    se_gibt_sonst : A_ProjContrl
+end A_Sekretariat
  
-A_Secretariat!se_forwards with
-  via
-    se_monthly_report_1 : TF_MonthlyReport;
-    se_monthly_report_2 : T_ExpenseReceipt;
-    se_monthly_report_3 : T_Absence;
-    se_monthly_report_4 : TF_MonthSupplement
-end A_Secretariat!se_forwards
+A_Sekretariat!se_gibt_weiter with
+  mit
+    se_monatsbericht_1 : TF_MonatsBericht;
+    se_monatsbericht_2 : T_SpesenBeleg;
+    se_monatsbericht_3 : T_Abwesenheit;
+    se_monatsbericht_4 : TF_MonZus
+end A_Sekretariat!se_gibt_weiter
 
-A_Secretariat!se_forwards_invoice with
-  via
-    se_forwards_invoice_1 : T_MiscCosts
-end A_Secretariat!se_forwards_invoice
+A_Sekretariat!se_gibt_rechng with
+  mit
+    se_gibtrechng_1 : T_SonstKosten
+end A_Sekretariat!se_gibt_rechng
 
-A_Secretariat!se_forwards_misc with
-  via
-    se_forwards_misc_1 : T_MiscCosts
-end A_Secretariat!se_forwards_misc
+A_Sekretariat!se_gibt_sonst with
+  mit
+    se_gibtsonst_1 : T_SonstKosten
+end A_Sekretariat!se_gibt_sonst
 
-A_Employee in Actor with
-  creates 
-    ma_creates_1 : TF_MonthlyReport;
-    ma_creates_2 : TF_MonthSupplement;
-    ma_creates_3 : TF_ProjectBilling;
-    ma_creates_4 : T_Absence;
-    ma_creates_5 : T_ExpenseReceipt
-  needs
-    ma_needs_1 : TF_ProjectOrderEmployee;
-    ma_needs_2 : T_ExpensePayment;
-    ma_needs_3 : T_CorrectionMeeting
-  supplies
-    ma_monthly_report : A_Secretariat;
-    ma_project_billing : A_ProjectLeader
-end A_Employee
+A_Mitarbeiter in Akteur with
+  erzeugt 
+    ma_erzeugt_1 : TF_MonatsBericht;
+    ma_erzeugt_2 : TF_MonZus;
+    ma_erzeugt_3 : TF_ProjektAbrechnung;
+    ma_erzeugt_4 : T_Abwesenheit;
+    ma_erzeugt_5 : T_SpesenBeleg
+  braucht
+    ma_braucht_1 : TF_ProjektAuftragMa;
+    ma_braucht_2 : T_SpesenZahlung;
+    ma_braucht_3 : T_KorrekturGespraech
+  beliefert
+    ma_monatsbericht : A_Sekretariat;
+    ma_projektabrechnung : A_Projektleiter
+end A_Mitarbeiter
 
-A_Employee!ma_monthly_report with
-  via
-    ma_monthly_report_1 : TF_MonthlyReport;
-    ma_monthly_report_2 : T_ExpenseReceipt;
-    ma_monthly_report_3 : T_Absence;
-    ma_monthly_report_4 : TF_MonthSupplement
-end A_Employee!ma_monthly_report
+A_Mitarbeiter!ma_monatsbericht with
+  mit
+    ma_monatsbericht_1 : TF_MonatsBericht;
+    ma_monatsbericht_2 : T_SpesenBeleg;
+    ma_monatsbericht_3 : T_Abwesenheit;
+    ma_monatsbericht_4 : TF_MonZus
+end A_Mitarbeiter!ma_monatsbericht
  
-A_Employee!ma_project_billing with
-  via
-    ma_project_billing_1 : TF_ProjectBilling;
-    ma_project_billing_2 : T_ExpenseReceipt;
-    ma_project_billing_3 : T_Absence
-end A_Employee!ma_monthly_report
+A_Mitarbeiter!ma_projektabrechnung with
+  mit
+    ma_projektabr_1 : TF_ProjektAbrechnung;
+    ma_projektabr_2 : T_SpesenBeleg;
+    ma_projektabr_3 : T_Abwesenheit
+end A_Mitarbeiter!ma_monatsbericht
  
-A_Management in Actor with
-  needs
-    gl_needs : T_Evaluations
-  creates
-    gl_creates : T_CostRates
-  supplies
-    gl_determines : A_Personnel;
-    gl_confirms : A_CustomerRepresentative
-end A_Management
+A_GL in Akteur with
+  braucht
+    gl_braucht : T_Auswertungen
+  erzeugt
+    gl_erzeugt : T_Kostensaetze
+  beliefert
+    gl_bestimmt : A_Personal;
+    gl_bestaetigt : A_Kundenverantwortlicher
+end A_GL
 
-A_Management!gl_determines with
-  via
-    gl_determines : T_CostRates
-end A_Management!gl_determines
+A_GL!gl_bestimmt with
+  mit
+    gl_bestimmt : T_Kostensaetze
+end A_GL!gl_bestimmt
 
-A_Management!gl_confirms with
-  via
-    gl_confirms_1 : T_Offer;
-    gl_confirms_2 : TF_CalculationSheet
-end A_Management!gl_confirms
+A_GL!gl_bestaetigt with
+  mit
+    gl_bestaetigt_1 : T_Angebot;
+    gl_bestaetigt_2 : TF_Kalkulationsblatt
+end A_GL!gl_bestaetigt
 
 

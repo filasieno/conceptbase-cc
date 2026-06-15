@@ -38,10 +38,30 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 */
 
 #include <iostream>
+#include <cstring>
+#include <string>
 
 #include "CBclient.h"
 
 using namespace std;
+
+static int test_failures = 0;
+
+static string trim_trailing_ws(const char *s) {
+	string out = s ? s : "";
+	while (!out.empty() && (out.back() == '\n' || out.back() == '\r' || out.back() == ' ' || out.back() == '\t'))
+		out.pop_back();
+	return out;
+}
+
+static void expect_eq(const char *step, const char *got, const char *want) {
+	const string got_trim = trim_trailing_ws(got);
+	if (got_trim != want) {
+		cerr << "integration-tests: FAIL " << step << ": got '" << got_trim
+		     << "' expected '" << want << "'\n";
+		test_failures++;
+	}
+}
 
 int main() {
 
@@ -55,6 +75,7 @@ int main() {
 		CBanswer* ans=cb.tell("xxx in C end yyy in D end");
 
 		cout << "Tell 1:" << ans->getResult() << "\n\n";
+		expect_eq("Tell 1", ans->getResult(), "no");
 
 		delete ans;
 
@@ -69,6 +90,7 @@ int main() {
 
 		ans=cb.tell("Class B end Class A end b in B end");
 		cout << "Tell 2:" << ans->getResult() << "\n\n";
+		expect_eq("Tell 2", ans->getResult(), "yes");
 		delete ans;
 
 		err=cb.getErrorMessages();
@@ -84,22 +106,27 @@ int main() {
 
 		ans=cb.untell("Individual A in Class end");
 		cout << "Untell 1:" << ans->getResult() << "\n\n";
+		expect_eq("Untell 1", ans->getResult(), "yes");
 		delete ans;
 
 		ans=cb.ask("","OBJNAMES","FRAME","Now");
 		cout << "Answer 1:\n" << ans->getResult() << "\n\n";
+		expect_eq("Answer 1", ans->getResult(), "no");
 		delete ans;
 
 		ans=cb.ask("QueryClass Test1 isA B end","FRAMES","FRAME","Now");
 		cout << "Answer 2:\n" << ans->getResult() << "\n\n";
+		expect_eq("Answer 2", ans->getResult(), "b in Test1  end");
 		delete ans;
 
 		ans=cb.askFrames("QueryClass Test2 isA B end","FRAME","Now");
 		cout << "Answer 3:\n" << ans->getResult() << "\n\n";
+		expect_eq("Answer 3", ans->getResult(), "b in Test2  end");
 		delete ans;
 
 		ans=cb.hypoAsk("A end a in A end","QueryClass Test3 isA A end","FRAMES","FRAME","Now");
 		cout << "Answer 4:\n" << ans->getResult() << "\n\n";
+		expect_eq("Answer 4", ans->getResult(), "a in Test3  end");
 		delete ans;
 
 		printf("Report clients (only two clients will be listed):\n\n");
@@ -118,9 +145,12 @@ int main() {
 	}
 	else {
 		cout << "Unable to connect!!\n";
+		test_failures++;
 	}
 
-
-	return 0;
+	if (test_failures != 0) {
+		cerr << "integration-tests: " << test_failures << " assertion(s) failed\n";
+	}
+	return test_failures != 0 ? 1 : 0;
 }
 

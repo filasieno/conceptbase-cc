@@ -247,6 +247,17 @@
         inherit cbserver cb-shell libcbc libcbcview examples-corpus;
       };
 
+      # OCI image that runs the regression suite inside an isolated container
+      # network namespace (port 4001 is container-local, never collides with
+      # stray host servers). `nix build .#regression-container` streams it to
+      # `docker load`; `docker run --rm` executes the tests.
+      regression-container = pkgs.callPackage "${nixLib}/regression-container.nix" {
+        inherit (pkgs) coreutils bash gnused findutils gnugrep procps;
+        hostname = pkgs.unixtools.hostname;
+        jdk = pkgs.jdk25;
+        inherit java-reactor cbserver cb-shell cb-testclient examples-corpus system-data howtosRoot;
+      };
+
       no-ant = pkgs.callPackage "${nixLib}/no-ant.nix" {
         componentsSrc = builtins.path {
           path = ./components;
@@ -373,39 +384,85 @@
           cb-web
           mmkit
           docs
+          regression-container
           ;
         default = conceptbase;
       };
 
-      devShells.${system}.default = llvmStdenv.mkDerivation {
-        name = "conceptbase-cc-dev";
-        dontBuild = true;
-        nativeBuildInputs = with pkgs; [
-          llvmPackages_latest.clang
-          cmake
-          ninja
-          pkg-config
-          bison
-          flex
-          swi-prolog
-          tree-sitter
-          nodejs
-          maven
-          jdk25
-          plantuml
-          graphviz
-        ];
-        shellHook = ''
-          export CC=clang
-          export CXX=clang++
-          echo "ConceptBase.cc dev shell"
-          echo "  nix build                  # conceptbase (default)"
-          echo "  nix run .#cbserver"
-          echo "  nix run .#cb-workbench"
-          echo "  ./scripts/sync-server-engine.sh"
-          echo "  plantuml -tsvg docs/derivation-deps.puml   # derivation graph"
-          echo "  See CONTRIBUTING.md"
-        '';
+      devShells.${system} = {
+        default = llvmStdenv.mkDerivation {
+          name = "conceptbase-cc-dev";
+          dontBuild = true;
+          nativeBuildInputs = with pkgs; [
+            llvmPackages_latest.clang
+            cmake
+            ninja
+            pkg-config
+            bison
+            flex
+            swi-prolog
+            tree-sitter
+            nodejs
+            maven
+            jdk25
+            plantuml
+            graphviz
+          ];
+          shellHook = ''
+            export CC=clang
+            export CXX=clang++
+            export CONCEPTBASE_NIX_DEVELOP_MARKER="$PWD/.nix-develop-shell"
+            touch "$CONCEPTBASE_NIX_DEVELOP_MARKER"
+            trap 'rm -f "$CONCEPTBASE_NIX_DEVELOP_MARKER"' EXIT
+            echo "ConceptBase.cc dev shell"
+            echo "  nix build                  # conceptbase (default)"
+            echo "  nix run .#cbserver"
+            echo "  nix run .#cb-workbench"
+            echo "  ./scripts/sync-server-engine.sh"
+            echo "  plantuml -tsvg docs/derivation-deps.puml   # derivation graph"
+            echo "  See CONTRIBUTING.md"
+          '';
+        };
+
+        mmkit = llvmStdenv.mkDerivation {
+          name = "conceptbase-cc-mmkit-dev";
+          dontBuild = true;
+          nativeBuildInputs = with pkgs; [
+            nodejs
+            maven
+            jdk25
+            swi-prolog
+            cbserver
+          ];
+          shellHook = ''
+            export CONCEPTBASE_NIX_DEVELOP_MARKER="$PWD/.nix-develop-shell"
+            touch "$CONCEPTBASE_NIX_DEVELOP_MARKER"
+            trap 'rm -f "$CONCEPTBASE_NIX_DEVELOP_MARKER"' EXIT
+
+            export CB_HOME=${cbserver}
+            export CB_POOL=${cbserver}/share
+            export CBS_DIR=${cbserver}/share/serverSources/Prolog_Files
+            export CBL_DIR=${cbserver}/share/system-data
+            export CB_VARIANT=""
+            export MMKIT_REAL_CBSERVER_BIN=${cbserver}/bin/cbserver
+
+            if [[ ! -x "$MMKIT_REAL_CBSERVER_BIN" ]]; then
+              echo "ERROR: cbserver derivation is missing in this shell."
+              echo "Hint: run 'nix develop .#mmkit' from repository root."
+              return 1
+            fi
+
+            echo "ConceptBase.cc mmkit shell"
+            echo "  cbserver: $MMKIT_REAL_CBSERVER_BIN"
+            echo "  CB_HOME:  $CB_HOME"
+            echo ""
+            echo "  cd components/mmkit"
+            echo "  npm install --workspaces --include=dev   # once"
+            echo "  npm run test -w @mmkit/server            # mock unit tests"
+            echo "  npm run test:cbserver:real -w @mmkit/server"
+            echo "  # or: components/mmkit/packages/server/scripts/test-cbserver-real.sh"
+          '';
+        };
       };
 
       checks.${system} = {

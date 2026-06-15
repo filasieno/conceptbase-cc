@@ -81,12 +81,12 @@ run_cbshell_timed() {
 extract_start_server_args() {
   local script="$1"
   local line
-  line=$(grep -E '^[[:space:]]*startServer|^[[:space:]]*cbserver' "$script" | head -1 || true)
+  line=$(tr -d '\r' <"$script" | grep -E '^[[:space:]]*startServer|^[[:space:]]*cbserver' | head -1 || true)
   if [[ -z "$line" ]]; then
     echo "-u nonpersistent"
     return
   fi
-  echo "$line" | sed -E 's/^[[:space:]]*(startServer|cbserver)[[:space:]]+//;s/[[:space:]]+-port[[:space:]]+[0-9]+//;s/[[:space:]]+-p[[:space:]]+[0-9]+//'
+  echo "$line" | tr -d '\r' | sed -E 's/^[[:space:]]*(startServer|cbserver)[[:space:]]+//;s/[[:space:]]+-port[[:space:]]+[0-9]+//;s/[[:space:]]+-p[[:space:]]+[0-9]+//'
 }
 
 rewrite_cbs() {

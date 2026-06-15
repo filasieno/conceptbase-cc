@@ -36,134 +36,134 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 *}
 {$set syntax=PlainToronto}
 
-P_3110 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_3110 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon : P_3040
-  takes
-    take_1 : TF_StatusReport;
-    take_2 : TF_ProjectBilling;
-    take_3 : T_Absence;
-    take_4 : T_ExpenseReceipt
+  nimmt
+    nimm_1 : TF_StatusBericht;
+    nimm_2 : TF_ProjektAbrechnung;
+    nimm_3 : T_Abwesenheit;
+    nimm_4 : T_SpesenBeleg
   input
-    data_in_1 : D_ProjectStatusSignature;
-    data_in_2 : D_ProjectBillingSigEmployee;
-    data_in_3 : D_ProjectBillingSigPL;
-    data_in_4 : D_ProjectStatusInvoice;
-    data_in_5 : D_ProjectStatusOperative;
-    data_in_6 : D_ProjectBillingMonth;
-    data_in_7 : D_ProjectNumber;
-    data_in_8 : D_EmployeeName
-  input 
-    in_11 : TF_StatusReport!projectStatusSignature;
-    in_12 : TF_StatusReport!projectStatusInvoice;
-    in_13 : TF_StatusReport!projectNumber;
-    in_14 : TF_StatusReport!projectBillingMonth;
-    in_15 : TF_StatusReport!projectStatusOperative;
-    in_21 : TF_ProjectBilling!projectBillingSigEmployee;
-    in_22 : TF_ProjectBilling!projectBillingSigPL;
-    in_23 : TF_ProjectBilling!projectBillingMonth;
-    in_24 : TF_ProjectBilling!projectNumber;
-    in_25 : TF_ProjectBilling!maName
+    in_1 : D_ProjStatUnt;
+    in_2 : D_ProjAbrUntMa;
+    in_3 : D_ProjAbrUntPl;
+    in_4 : D_ProjStatRechng;
+    in_5 : D_ProjStatOperativ;
+    in_6 : D_ProjAbrMonat;
+    in_7 : D_ProjNummer;
+    in_8 : D_MaName
+  eingabe 
+    ein_11 : TF_StatusBericht!projStatUnt;
+    ein_12 : TF_StatusBericht!projStatRechng;
+    ein_13 : TF_StatusBericht!projNummer;
+    ein_14 : TF_StatusBericht!projAbrMonat;
+    ein_15 : TF_StatusBericht!projStatOperativ;
+    ein_21 : TF_ProjektAbrechnung!projAbrUntMa;
+    ein_22 : TF_ProjektAbrechnung!projAbrUntPl;
+    ein_23 : TF_ProjektAbrechnung!projAbrMonat;
+    ein_24 : TF_ProjektAbrechnung!projNummer;
+    ein_25 : TF_ProjektAbrechnung!maName
 end P_3110
 
-P_3120 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_3120 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon : P_3110
-  takes
-    take_1 : TF_StatusReport;
-    take_2 : TF_ProjectBilling
-  gives
-    give_1 : TF_StatusReport
+  nimmt
+    nimm_1 : TF_StatusBericht;
+    nimm_2 : TF_ProjektAbrechnung
+  gibt
+    gib_1 : TF_StatusBericht
   input
-    data_in_1 : D_ProjectBillingMonth;
-    data_in_2 : D_ProjectNumber;
-    data_in_3 : D_ProjectBillingHoursSum;
-    data_in_4 : D_ProjectBillingTotalHoursSum
+    in_1 : D_ProjAbrMonat;
+    in_2 : D_ProjNummer;
+    in_3 : D_ProjAbrStundenSum;
+    in_4 : D_ProjAbrGesStdSum
   output
-    data_out_1 : D_ProjectStatusCompleteSum
-  input
-    in_11 : TF_StatusReport!projectNumber;
-    in_12 : TF_StatusReport!projectStatusInvoice;
-    in_13 : TF_StatusReport!projectBillingMonth;   
-    in_21 : TF_ProjectBilling!projectNumber;
-    in_22 : TF_ProjectBilling!projectBillingHoursSum;
-    in_23 : TF_ProjectBilling!projectBillingMonth;
-    in_24 : TF_ProjectBilling!projectBillingTotalHoursSum
-  output
-    out_1 : TF_StatusReport!projectStatusCompleteSum
+    out_1 : D_ProjStatFertigSum
+  eingabe
+    ein_11 : TF_StatusBericht!projNummer;
+    ein_12 : TF_StatusBericht!projStatRechng;
+    ein_13 : TF_StatusBericht!projAbrMonat;   
+    ein_21 : TF_ProjektAbrechnung!projNummer;
+    ein_22 : TF_ProjektAbrechnung!projAbrStundenSum;
+    ein_23 : TF_ProjektAbrechnung!projAbrMonat;
+    ein_24 : TF_ProjektAbrechnung!projAbrGesStdSum
+  ausgabe
+    aus_1 : TF_StatusBericht!projStatFertigSum
 end P_3120
 
-P_3130 in Action with
-  processed_by
-    who : A_Secretariat
-  follows_after
+P_3130 in Aktion with
+  bearbeitet_von
+    wer : A_Sekretariat
+  folgt_auf
     pVon : P_START
-  gives
-    give_1 : T_MiscCosts
+  gibt
+    gib_1 : T_SonstKosten
   output
-    data_out_1 : D_MiscAmount 
-  output
-    out_1 : T_MiscCosts!miscAmount
+    out_1 : D_SonstBetrag 
+  ausgabe
+    aus_1 : T_SonstKosten!sonstBetrag
 end P_3130
 
-P_3140 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_3140 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon_3120 : P_3120;
     pVon_3130 : P_3130
-  takes
-    take_1 : TF_ProjectBilling;
-    take_2 : T_ExpenseReceipt;
-    take_3 : T_MiscCosts
-  gives
-    give_1 : TX_ExpenseInvoice
+  nimmt
+    nimm_1 : TF_ProjektAbrechnung;
+    nimm_2 : T_SpesenBeleg;
+    nimm_3 : T_SonstKosten
+  gibt
+    gib_1 : TX_SpesenRechnung
   input
-    data_in_1 : D_ExpenseAmount;
-    data_in_2 : D_MiscAmount;
-    data_in_3 : D_EmployeeName;
-    data_in_4 : D_ProjectBillingMonth;
-    data_in_5 : D_ProjectNumber
+    in_1 : D_SpesenBetrag;
+    in_2 : D_SonstBetrag;
+    in_3 : D_MaName;
+    in_4 : D_ProjAbrMonat;
+    in_5 : D_ProjNummer
   output
-    data_out_1 : D_ExpenseAmountNet
-  input
-    in_1 : TF_ProjectBilling!projectBillingMonth;
-    in_2 : TF_ProjectBilling!maName;
-    in_3 : TF_ProjectBilling!projectNumber;
-    in_4 : T_ExpenseReceipt!expenseAmount;
-    in_5 : T_MiscCosts!miscAmount
-  output
-    out_1 : TX_ExpenseInvoice!expenseAmount;
-    out_2 : TX_ExpenseInvoice!expenseAmountNet
+    out_1 : D_SpesenBetragNetto
+  eingabe
+    ein_1 : TF_ProjektAbrechnung!projAbrMonat;
+    ein_2 : TF_ProjektAbrechnung!maName;
+    ein_3 : TF_ProjektAbrechnung!projNummer;
+    ein_4 : T_SpesenBeleg!spesenBetrag;
+    ein_5 : T_SonstKosten!sonstBetrag
+  ausgabe
+    aus_1 : TX_SpesenRechnung!spesenBetrag;
+    aus_2 : TX_SpesenRechnung!spesenBetragNetto
 end P_3140
 
-P_3150 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_3150 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon : P_3140
-  takes
-    take_1 : TF_ProjectBilling
-  gives
-    give_1 : TF_ProjectBilling
+  nimmt
+    nimm_1 : TF_ProjektAbrechnung
+  gibt
+    gib_1 : TF_ProjektAbrechnung
   input
-    data_in_1 : D_ProjectBillingMonth;
-    data_in_2 : D_ProjectBillingTotalHoursSum;
-    data_in_3 : D_ProjectBillingHoursSum;
-    data_in_4 : D_EmployeeName
-  input
-    in_1 : TF_ProjectBilling!projectBillingMonth;
-    in_2 : TF_ProjectBilling!projectBillingTotalHoursSum;
-    in_3 : TF_ProjectBilling!projectBillingHoursSum;
-    in_4 : TF_ProjectBilling!maName
+    in_1 : D_ProjAbrMonat;
+    in_2 : D_ProjAbrGesStdSum;
+    in_3 : D_ProjAbrStundenSum;
+    in_4 : D_MaName
+  eingabe
+    ein_1 : TF_ProjektAbrechnung!projAbrMonat;
+    ein_2 : TF_ProjektAbrechnung!projAbrGesStdSum;
+    ein_3 : TF_ProjektAbrechnung!projAbrStundenSum;
+    ein_4 : TF_ProjektAbrechnung!maName
   output
-    data_out_1 : D_ProjectBillingBonusExtra
-  output
-    out_1 : TF_ProjectBilling!projectBillingBonusExtra
+    out_1 : D_ProjAbrBonusExtra
+  ausgabe
+    aus_1 : TF_ProjektAbrechnung!projAbrBonusExtra
 end P_3150
 
 

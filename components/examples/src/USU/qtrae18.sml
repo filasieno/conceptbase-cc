@@ -35,43 +35,43 @@ This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
 
-GenericQueryClass CreatesWithoutGives isA Actor with
+GenericQueryClass ErzeugtOhneGibt isA Akteur with
   computed_attribute 
-    onlyCreates : Carrier
+    nurErzeugt : Traeger
   constraint
-     c1 : $ (this creates ~onlyCreates) 
-     and not exists a/Action (a processed_by this) 
-       and (a gives ~onlyCreates) 
+     c1 : $ (this erzeugt ~nurErzeugt) 
+     and not exists a/Aktion (a bearbeitet_von this) 
+       and (a gibt ~nurErzeugt) 
   $
 end 
  
-GenericQueryClass NeedsWithoutTakes isA Actor with
+GenericQueryClass BrauchtOhneNimmt isA Akteur with
   computed_attribute 
-    onlyNeeds : Carrier
+    nurBraucht : Traeger
   constraint
-     c1 : $ (this needs ~onlyNeeds) 
-     and not exists a/Action (a processed_by this) 
-       and (a takes ~onlyNeeds) 
+     c1 : $ (this braucht ~nurBraucht) 
+     and not exists a/Aktion (a bearbeitet_von this) 
+       and (a nimmt ~nurBraucht) 
   $
 end 
 
-GenericQueryClass GivesWithoutCreates isA Action with
+GenericQueryClass GibtOhneErzeugt isA Aktion with
   computed_attribute 
-    onlyGives : Carrier
+    nurGibt : Traeger
   constraint
-     c1 : $ (this gives ~onlyGives) 
-     and not exists a/Actor (this processed_by a) 
-       and (a creates ~onlyGives) 
+     c1 : $ (this gibt ~nurGibt) 
+     and not exists a/Akteur (this bearbeitet_von a) 
+       and (a erzeugt ~nurGibt) 
   $
 end 
 
-GenericQueryClass TakesWithoutNeeds isA Action with
+GenericQueryClass NimmtOhneBraucht isA Aktion with
   computed_attribute 
-    withoutNeeds : Carrier
+    ohneBraucht : Traeger
   constraint
-     c1 : $ (this takes ~withoutNeeds) 
-     and not exists a/Actor (this processed_by a) 
-       and (a needs ~withoutNeeds)  
+     c1 : $ (this nimmt ~ohneBraucht) 
+     and not exists a/Akteur (this bearbeitet_von a) 
+       and (a braucht ~ohneBraucht)  
   $
 end 
 

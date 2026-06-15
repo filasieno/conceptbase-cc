@@ -80,17 +80,30 @@ runCommandLocal "integration-tests"
 
     sleep 2
 
+    set -o pipefail
     out/bin/testlib-c | tee /tmp/testlib-c.log
+    c_rc=''${PIPESTATUS[0]}
+    if [ "$c_rc" -ne 0 ]; then
+      echo "integration-tests: testlib-c exited $c_rc (answer assertion mismatch)"
+      tail -30 "$server_log" || true
+      exit 1
+    fi
     if ! grep -q "connected, client name:" /tmp/testlib-c.log; then
-      echo "integration-tests: testlib-c failed; server log:"
+      echo "integration-tests: testlib-c failed to connect; server log:"
       tail -30 "$server_log" || true
       exit 1
     fi
     grep -q "disconnected!" /tmp/testlib-c.log
 
     out/bin/testlib-cpp | tee /tmp/testlib-cpp.log
+    cpp_rc=''${PIPESTATUS[0]}
+    if [ "$cpp_rc" -ne 0 ]; then
+      echo "integration-tests: testlib-cpp exited $cpp_rc (answer assertion mismatch)"
+      tail -30 "$server_log" || true
+      exit 1
+    fi
     if ! grep -q "connected, client name:" /tmp/testlib-cpp.log; then
-      echo "integration-tests: testlib-cpp failed; server log:"
+      echo "integration-tests: testlib-cpp failed to connect; server log:"
       tail -30 "$server_log" || true
       exit 1
     fi

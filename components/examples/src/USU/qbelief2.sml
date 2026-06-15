@@ -34,23 +34,23 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
-GenericQueryClass NeverSupplied isA Actor with
+GenericQueryClass NieBeliefert isA Akteur with
   constraint
      c1 : $
-  not exists a/Actor (a supplies this)
+  not exists a/Akteur (a beliefert this)
   $
 end
 
-GenericQueryClass SuppliesNobody isA Actor with
+GenericQueryClass BeliefertKeinen isA Akteur with
   constraint
      c1 : $
-  not exists a/Actor (this supplies a)
+  not exists a/Akteur (this beliefert a)
   $
 end
 
-GenericQueryClass SuppliesSelf isA Actor with
+GenericQueryClass BeliefertSich isA Akteur with
   computed_attribute
-    sich : Actor!supplies
+    sich : Akteur!beliefert
   constraint
      c1 : $
   To(~sich, this) and From(~sich, this)
@@ -58,36 +58,36 @@ GenericQueryClass SuppliesSelf isA Actor with
 end
 
 
-{* worse case *}
-GenericQueryClass SupplyEachOther isA Actor with
+{* schlechter *}
+GenericQueryClass BeliefernEinander isA Akteur with
   computed_attribute
-    sich1 : Actor!supplies;
-    sich2 : Actor!supplies
+    sich1 : Akteur!beliefert;
+    sich2 : Akteur!beliefert
   constraint
      c1 : $
-       exists a/Actor not (a == this)
+       exists a/Akteur not (a == this)
    and To(~sich1, this) and From(~sich1, a)
    and To(~sich2, a) and From(~sich2, this)
   $
 end
 
-GenericQueryClass OneWaySupply isA Actor with
+GenericQueryClass BeliefertOneWay isA Akteur with
   computed_attribute
-    von : Actor!supplies
+    von : Akteur!beliefert
   constraint
      c1 : $
-       exists a/Actor not (a == this)
+       exists a/Akteur not (a == this)
    and To(~von, this) and From(~von, a)
-   and not (this supplies a)
+   and not (this beliefert a)
   $
 end
 
-GenericQueryClass MultiplySupplied isA Actor with
+GenericQueryClass WirdMehrfachBeliefert isA Akteur with
   computed_attribute
-    sich1 : Actor!supplies
+    sich1 : Akteur!beliefert
   constraint
      c1 : $
-       exists a/Actor sich2/Actor!supplies
+       exists a/Akteur sich2/Akteur!beliefert
        not (~sich1 == sich2)
    and To(~sich1, this) and To(sich2, this)
    and From(~sich1, a) and From(sich2, a)

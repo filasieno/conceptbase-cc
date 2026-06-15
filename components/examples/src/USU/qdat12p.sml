@@ -34,33 +34,33 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
-GenericQueryClass P_DataUser isA Action with
+GenericQueryClass P_DatenNutzer isA Aktion with
   parameter
-     dx : Data
+     dx : Daten
   constraint
      c1 : $
-  exists a/Action (a data_output ~dx) and
-  (this transFollowsAfter a)
+  exists a/Aktion (a output ~dx) and
+  (this transFolgtAuf a)
   $
 end
 
-GenericQueryClass P_DataInputUser isA Action with
+GenericQueryClass P_DatenInputNutzer isA Aktion with
   parameter
-     d1 : Data
+     d1 : Daten
   constraint
      c1 : $
-   (this in P_DataUser[~d1/dx]) and
-   (this data_input ~d1)
+   (this in P_DatenNutzer[~d1/dx]) and
+   (this input ~d1)
     $
 end
 
-GenericQueryClass P_DataWrongUser isA Action with
+GenericQueryClass P_DatenFalschNutzer isA Aktion with
   parameter
-     d1 : Data
+     d1 : Daten
   constraint
      c1 : $
-  (this data_input ~d1) and exists a/Action (a data_output ~d1) and
-  (a transFollowsAfter this)
+  (this input ~d1) and exists a/Aktion (a output ~d1) and
+  (a transFolgtAuf this)
   $
 end
 

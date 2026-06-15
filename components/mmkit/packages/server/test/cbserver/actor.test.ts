@@ -1,24 +1,18 @@
 /**
- * CBServerActor — stdio mock-port spec (ihsm 0.1.1).
+ * CBServerActor — mock-port spec (ihsm 0.1.1).
  */
 /// <reference types="mocha" />
-import { Writable } from "node:stream";
 import { expect } from "chai";
 import * as ihsm from "ihsm/testing";
-import { CBServerConfig } from "../../src/cbserver/CBServerConfig";
+import { CBServerConfig } from "../../src/cbserver/actors/server/CBServerConfig";
 import {
   CBServerTop,
-  Starting,
+  SpawnArmed,
+  SpawnPending,
   Uninitialized,
-} from "../../src/cbserver/CBServerActor";
-import { CBServerContext } from "../../src/cbserver/CBServerContext";
-
-@ihsm.mock("spawn", "stdinFor", "kill")
-abstract class MockCBServerPort extends ihsm.TestPort<typeof CBServerTop> {
-  abstract spawn(config: CBServerConfig): Promise<ihsm.ResultWithSubscription<number>>;
-  abstract stdinFor(pid: number): Writable | undefined;
-  abstract kill(pid: number, signal?: NodeJS.Signals): Promise<void>;
-}
+} from "../../src/cbserver/actors/server/CBServerActor";
+import { CBServerContext } from "../../src/cbserver/actors/server/CBServerContext";
+import { bootRunning, makeMockPort, MockCBServerPort } from "./mockPort";
 
 function makeServer(ctx: CBServerContext) {
   const port = ihsm.makeTestPort(MockCBServerPort);
@@ -26,7 +20,7 @@ function makeServer(ctx: CBServerContext) {
   return { port, actor, ctx };
 }
 
-describe("CBServerActor [stdio mock port]", function () {
+describe("CBServerActor [mock port]", function () {
   this.timeout(5_000);
 
   it("initialize → Stopped", async () => {
@@ -56,65 +50,31 @@ describe("CBServerActor [stdio mock port]", function () {
     await actor.hsm.sync();
 
     expect(actor.hsm.currentStateName).to.equal("Stopped");
-    expect(ctx.lastProcessError).to.match(/start failed|EACCES/i);
+    expect(ctx.lastExit?.errorMessage).to.match(/start failed|EACCES/i);
   });
 
-  it("start → RequestIdle", async () => {
+  it("start → Running", async () => {
     const pid = 10_002;
     const ctx = new CBServerContext(new CBServerConfig({ paths: { dataDir: "" } }));
-    const { port, actor } = makeServer(ctx);
-    port.spawn.default(async () => ({
-      value: pid,
-      subscription: { dispose: () => port.record("dispose-subscription", pid) },
-    }));
-    port.stdinFor.default(() =>
-        new Writable({
-          write(_chunk, _encoding, callback) {
-            callback();
-          },
-        }),);
-    port.kill.default(async (targetPid, signal) => {
-      port.record("kill", targetPid, signal);
-    });
-    actor.hsm.restore(Uninitialized, ctx);
-    await actor.call.initialize();
-    await actor.hsm.sync();
+    const port = makeMockPort(pid);
+    const actor = await bootRunning(ctx, port, pid);
 
-    actor.notify.start();
-    await actor.hsm.sync();
-
-    expect(actor.hsm.currentStateName).to.equal("RequestIdle");
+    expect(actor.hsm.currentStateName).to.equal("Running");
     expect(ctx.children).to.not.equal(undefined);
   });
 
-  it("RequestIdle: stop → ProcessDetaching (awaiting child interrupts)", async () => {
+  it("Running: stop → ProcessDetaching (awaiting child interrupts)", async () => {
     const pid = 10_003;
     const ctx = new CBServerContext(new CBServerConfig({
-        paths: { dataDir: "" },
-        mmkit: { killGraceMs: 50 },
-      }),);
-    const { port, actor } = makeServer(ctx);
-    port.spawn.default(async () => ({
-      value: pid,
-      subscription: { dispose: () => port.record("dispose-subscription", pid) },
+      paths: { dataDir: "" },
+      mmkit: { killGraceMs: 50 },
     }));
-    port.stdinFor.default(() =>
-        new Writable({
-          write(_chunk, _encoding, callback) {
-            callback();
-          },
-        }),);
+    const port = makeMockPort(pid);
     port.kill.default(async (targetPid, signal) => {
       port.record("kill", targetPid, signal);
       port.send("onProcessExit", 0, null);
     });
-    actor.hsm.restore(Uninitialized, ctx);
-    await actor.call.initialize();
-    await actor.hsm.sync();
-
-    actor.notify.start();
-    await actor.hsm.sync();
-    expect(actor.hsm.currentStateName).to.equal("RequestIdle");
+    const actor = await bootRunning(ctx, port, pid);
 
     actor.notify.stop();
     await actor.hsm.sync();
@@ -125,59 +85,18 @@ describe("CBServerActor [stdio mock port]", function () {
     expect(port.kill.calls.length).to.be.greaterThan(0);
   });
 
-  it("Stopping: executeCommand is rejected", async () => {
-    const pid = 10_031;
+  it("Running: createConnection requires network.port > 0", async () => {
     const ctx = new CBServerContext(new CBServerConfig({ paths: { dataDir: "" } }));
-    const { port, actor } = makeServer(ctx);
-    port.spawn.default(async () => ({
-      value: pid,
-      subscription: { dispose: () => port.record("dispose-subscription", pid) },
-    }));
-    port.stdinFor.default(() => new Writable({ write(_c, _e, cb) { cb(); } }));
-    port.kill.default(async (targetPid, signal) => {
-      port.record("kill", targetPid, signal);
-    });
-    actor.hsm.restore(Uninitialized, ctx);
-    await actor.call.initialize();
-    await actor.hsm.sync();
-
-    actor.notify.start();
-    await actor.hsm.sync();
-    expect(actor.hsm.currentStateName).to.equal("RequestIdle");
-
-    actor.notify.stop();
-    await actor.hsm.sync();
-    expect(actor.hsm.currentStateName).to.equal("Stopping");
+    const port = makeMockPort();
+    const actor = await bootRunning(ctx, port);
 
     let rejected: Error | undefined;
     try {
-      await actor.call.executeCommand("tell after-stop.");
+      await actor.call.createConnection();
     } catch (err) {
       rejected = err instanceof Error ? err : new Error(String(err));
     }
-    await actor.hsm.sync();
-
-    expect(actor.hsm.currentStateName).to.equal("Stopping");
-    expect(rejected?.message).to.match(/stopping/i);
-  });
-
-  it("Stopped: executeCommand is rejected", async () => {
-    const ctx = new CBServerContext(new CBServerConfig({ paths: { dataDir: "" } }));
-    const { actor } = makeServer(ctx);
-    actor.hsm.restore(Uninitialized, ctx);
-    await actor.call.initialize();
-    await actor.hsm.sync();
-
-    let tellRejected: Error | undefined;
-    try {
-      await actor.call.executeCommand("tell \"Employee in Class end\".");
-    } catch (err) {
-      tellRejected = err instanceof Error ? err : new Error(String(err));
-    }
-    await actor.hsm.sync();
-
-    expect(actor.hsm.currentStateName).to.equal("Stopped");
-    expect(tellRejected?.message).to.match(/not running/i);
+    expect(rejected?.message).to.match(/network\.port/i);
   });
 
   it("Starting: onProcessExit → Stopped", async () => {
@@ -191,7 +110,7 @@ describe("CBServerActor [stdio mock port]", function () {
     await actor.call.initialize();
     await actor.hsm.sync();
 
-    actor.hsm.restore(Starting, ctx);
+    actor.hsm.restore(SpawnArmed, ctx);
     ctx.pid = pid;
     ctx.processSubscription = { dispose: () => port.record("dispose-subscription", pid) };
 
@@ -200,6 +119,141 @@ describe("CBServerActor [stdio mock port]", function () {
     await actor.hsm.sync();
 
     expect(actor.hsm.currentStateName).to.equal("Stopped");
-    expect(ctx.lastExitCode).to.equal(127);
+    expect(ctx.lastExit?.code).to.equal(127);
+  });
+
+  it("initialize allows TCP network.port > 0", async () => {
+    const ctx = new CBServerContext(new CBServerConfig({
+      paths: { dataDir: "" },
+      network: { port: 4001 },
+    }));
+    const { actor } = makeServer(ctx);
+    actor.hsm.restore(Uninitialized, ctx);
+
+    await actor.call.initialize();
+    await actor.hsm.sync();
+
+    expect(actor.hsm.currentStateName).to.equal("Stopped");
+  });
+
+  it("start arms stdout and stderr log readers", async () => {
+    const ctx = new CBServerContext(new CBServerConfig({ paths: { dataDir: "" } }));
+    const port = makeMockPort();
+    const actor = await bootRunning(ctx, port);
+
+    expect(actor.hsm.currentStateName).to.equal("Running");
+    expect(ctx.children?.stdoutLogReader).to.not.equal(undefined);
+    expect(ctx.children?.stderrLogReader).to.not.equal(undefined);
+  });
+
+  it("stderr: processIo lines are emitted one-by-one", async () => {
+    const ctx = new CBServerContext(new CBServerConfig({ paths: { dataDir: "" } }));
+    const port = makeMockPort();
+    const actor = await bootRunning(ctx, port);
+
+    const received: Array<{ stream: string; line: string }> = [];
+    const sub = await actor.call.subscribeProcessIo((stream, line) => {
+      received.push({ stream, line });
+    });
+    await actor.hsm.sync();
+
+    port.send("onStderrData", "first\nsecond\n");
+    await actor.hsm.sync();
+    port.send("onStderrData", "third");
+    await actor.hsm.sync();
+    port.send("onStderrEnd");
+    await actor.hsm.sync();
+    await actor.hsm.sync();
+
+    sub.dispose();
+    expect(received).to.deep.equal([
+      { stream: "stderr", line: "first" },
+      { stream: "stderr", line: "second" },
+      { stream: "stderr", line: "third" },
+    ]);
+  });
+
+  it("stdout: processIo lines are emitted one-by-one", async () => {
+    const ctx = new CBServerContext(new CBServerConfig({ paths: { dataDir: "" } }));
+    const port = makeMockPort();
+    const actor = await bootRunning(ctx, port);
+
+    const received: Array<{ stream: string; line: string }> = [];
+    const sub = await actor.call.subscribeProcessIo((stream, line) => {
+      received.push({ stream, line });
+    });
+    await actor.hsm.sync();
+
+    port.send("onStdoutData", "log-a\nlog-b\n");
+    await actor.hsm.sync();
+    await actor.hsm.sync();
+
+    sub.dispose();
+    expect(received).to.deep.equal([
+      { stream: "stdout", line: "log-a" },
+      { stream: "stdout", line: "log-b" },
+    ]);
+  });
+
+  it("spawn receives network port in config when TCP mode is configured", async () => {
+    let spawnedConfig: CBServerConfig | undefined;
+    const ctx = new CBServerContext(new CBServerConfig({
+      paths: { dataDir: "" },
+      network: { port: 4001 },
+    }));
+    const port = ihsm.makeTestPort(MockCBServerPort);
+    port.spawn.default(async (config) => {
+      spawnedConfig = config;
+      return {
+        value: 10_050,
+        subscription: { dispose: () => port.record("dispose-subscription", 10_050) },
+      };
+    });
+    port.kill.default(async (targetPid, signal) => {
+      port.record("kill", targetPid, signal);
+    });
+
+    await bootRunning(ctx, port, 10_050);
+    expect(spawnedConfig?.network.port).to.equal(4001);
+  });
+
+  it("Starting: onDisconnect → Stopped", async () => {
+    const ctx = new CBServerContext(new CBServerConfig({ paths: { dataDir: "" } }));
+    const { port, actor } = makeServer(ctx);
+    actor.hsm.restore(Uninitialized, ctx);
+    await actor.call.initialize();
+    await actor.hsm.sync();
+
+    actor.hsm.restore(SpawnPending, ctx);
+
+    port.send("onDisconnect");
+    await actor.hsm.sync();
+    await actor.hsm.sync();
+
+    expect(actor.hsm.currentStateName).to.equal("Stopped");
+    expect(ctx.lastExit?.errorMessage).to.match(/disconnected during start/i);
+  });
+
+  it("Running: onProcessError records message", async () => {
+    const ctx = new CBServerContext(new CBServerConfig({ paths: { dataDir: "" } }));
+    const port = makeMockPort();
+    const actor = await bootRunning(ctx, port);
+
+    actor.notify.onProcessError("EPIPE");
+    await actor.hsm.sync();
+
+    expect(ctx.lastExit?.errorMessage).to.match(/EPIPE/);
+  });
+
+  it("Running: onProcessClose records exit metadata", async () => {
+    const ctx = new CBServerContext(new CBServerConfig({ paths: { dataDir: "" } }));
+    const port = makeMockPort();
+    const actor = await bootRunning(ctx, port);
+
+    actor.notify.onProcessClose(2, "SIGINT");
+    await actor.hsm.sync();
+
+    expect(ctx.lastExit?.code).to.equal(2);
+    expect(ctx.lastExit?.signal).to.equal("SIGINT");
   });
 });

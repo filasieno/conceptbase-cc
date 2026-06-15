@@ -34,29 +34,29 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
-GenericQueryClass SuppliesWithoutFollowsAfter isA Actor with
+GenericQueryClass BeliefertOhneFolgtAuf isA Akteur with
   computed_attribute
-    deliversTo : Actor
+    liefertAn : Akteur
   constraint
     c1 : $ 
-      (this supplies ~deliversTo)
-  and (not exists a1,a2/Action
-          (a1 processed_by this) 
-      and (a2 processed_by ~deliversTo) 
-      and (a2 transFollowsAfter a1))
+      (this beliefert ~liefertAn)
+  and (not exists a1,a2/Aktion
+          (a1 bearbeitet_von this) 
+      and (a2 bearbeitet_von ~liefertAn) 
+      and (a2 transFolgtAuf a1))
   $
 end 
  
-GenericQueryClass FollowsAfterWithoutSupply isA Action with
+GenericQueryClass FolgtAufOhneBeliefert isA Aktion with
   computed_attribute
-    followsAfter : Action
+    folgtAuf : Aktion
   constraint
     c1 : $ 
-      (this follows_after ~followsAfter) 
-  and (not exists a1,a2/Actor 
-          (this processed_by a1) 
-      and (~followsAfter processed_by a2)
-      and ((a1 == a2) or (a2 supplies a1))
+      (this folgt_auf ~folgtAuf) 
+  and (not exists a1,a2/Akteur 
+          (this bearbeitet_von a1) 
+      and (~folgtAuf bearbeitet_von a2)
+      and ((a1 == a2) or (a2 beliefert a1))
      )
   $
 end 

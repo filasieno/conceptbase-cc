@@ -39,7 +39,33 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 
 
 #include "CBinterface.h"
+#include <string.h>
 
+static int test_failures = 0;
+
+static void trim_trailing_ws(char *s) {
+	size_t n;
+	if (!s) return;
+	n = strlen(s);
+	while (n > 0 && (s[n - 1] == '\n' || s[n - 1] == '\r' || s[n - 1] == ' ' || s[n - 1] == '\t'))
+		s[--n] = '\0';
+}
+
+static void expect_eq(const char *step, char *got, const char *want) {
+	char buf[4096];
+	if (!got) {
+		fprintf(stderr, "integration-tests: FAIL %s: got (null) expected '%s'\n", step, want);
+		test_failures++;
+		return;
+	}
+	strncpy(buf, got, sizeof(buf) - 1);
+	buf[sizeof(buf) - 1] = '\0';
+	trim_trailing_ws(buf);
+	if (strcmp(buf, want) != 0) {
+		fprintf(stderr, "integration-tests: FAIL %s: got '%s' expected '%s'\n", step, buf, want);
+		test_failures++;
+	}
+}
 
 int main() {
 
@@ -54,6 +80,7 @@ int main() {
 
 		a=tellCB(s,"xxx in C end yyy in D end");
 		printf("Tell 1:%s\n\n",a->return_data);
+		expect_eq("Tell 1", a->return_data, "no");
 		freeAnswer(a);
 		err=get_errormessages(s);
 		if(!err) {
@@ -72,6 +99,7 @@ int main() {
 
 		a=tellCB(s,"Class B end Class A end b in B end");
 		printf("Tell 2:%s\n\n",a->return_data);
+		expect_eq("Tell 2", a->return_data, "yes");
 		freeAnswer(a);
 
 		err=get_errormessages(s);
@@ -90,22 +118,27 @@ int main() {
 
 		a=untell(s,"Individual A in Class end");
 		printf("Untell 1:%s\n\n",a->return_data);
+		expect_eq("Untell 1", a->return_data, "yes");
 		freeAnswer(a);
 
 		a=ask(s,"","OBJNAMES","FRAME","Now");
 		printf("Answer 1:\n%s\n\n",a->return_data);
+		expect_eq("Answer 1", a->return_data, "no");
 		freeAnswer(a);
 
 		a=ask(s,"QueryClass Test1 isA B end","FRAMES","FRAME","Now");
 		printf("Answer 2:\n%s\n\n",a->return_data);
+		expect_eq("Answer 2", a->return_data, "b in Test1  end");
 		freeAnswer(a);
 
 		a=ask_frames(s,"QueryClass Test2 isA B end","FRAME","Now");
 		printf("Answer 3:\n%s\n\n",a->return_data);
+		expect_eq("Answer 3", a->return_data, "b in Test2  end");
 		freeAnswer(a);
 
 		a=hypo_ask(s,"A end a in A end","QueryClass Test3 isA A end","FRAMES","FRAME","Now");
 		printf("Answer 4:\n%s\n\n",a->return_data);
+		expect_eq("Answer 4", a->return_data, "a in Test3  end");
 		freeAnswer(a);
 
 		printf("Report clients (only two clients will be listed):\n\n");
@@ -125,9 +158,12 @@ int main() {
 	}
 	else {
 		printf("Unable to connect!!\n");
+		test_failures++;
 	}
 
-
-	return 0;
+	if (test_failures != 0) {
+		fprintf(stderr, "integration-tests: %d assertion(s) failed\n", test_failures);
+	}
+	return test_failures != 0 ? 1 : 0;
 }
 

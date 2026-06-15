@@ -36,131 +36,131 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 *}
 {$set syntax=PlainToronto}
 
-P_5020 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_5020 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon : P_4120
-  takes
-    take_1 : T_MiscCosts;
-    take_2 : TX_Probat
-  gives
-    give_1 : TX_Probat
+  nimmt
+    nimm_1 : T_SonstKosten;
+    nimm_2 : TX_Probat
+  gibt
+    gib_1 : TX_Probat
   input
-    data_in_1 : D_MiscAmount;
-    data_in_2 : D_ProjectBillingMonth;
-    data_in_3 : D_ProjectNumber
-  input
-    in_11 : T_MiscCosts!miscAmount;
-    in_21 : TX_Probat!projectBillingMonth;
-    in_22 : TX_Probat!projectNumber
-  output
-    out_1 : TX_Probat!miscAmount
+    in_1 : D_SonstBetrag;
+    in_2 : D_ProjAbrMonat;
+    in_3 : D_ProjNummer
+  eingabe
+    ein_11 : T_SonstKosten!sonstBetrag;
+    ein_21 : TX_Probat!projAbrMonat;
+    ein_22 : TX_Probat!projNummer
+  ausgabe
+    aus_1 : TX_Probat!sonstBetrag
 end P_5020
 
-P_5030 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_5030 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon_1 : P_5020
-  takes
-    take_1 : TF_MonthlyReport;
-    take_2 : TF_MonthSupplement;
-    take_3 : TF_ProjectBilling;
-    take_4 : T_ExpenseReceipt;
-    take_5 : TX_Probat
-  gives
-    give_1 : TX_Probat
+  nimmt
+    nimm_1 : TF_MonatsBericht;
+    nimm_2 : TF_MonZus;
+    nimm_3 : TF_ProjektAbrechnung;
+    nimm_4 : T_SpesenBeleg;
+    nimm_5 : TX_Probat
+  gibt
+    gib_1 : TX_Probat
   input
-    data_in_1 : D_ProjectBillingMonth;
-    data_in_2 : D_EmployeeName;
-    data_in_3 : D_ProjectNumber;
-    data_in_4 : D_ProjectBillingTotalHoursSum;
-    data_in_5 : D_ProjectBillingExpensesSum;
-    data_in_6 : D_MonthIntHoursSum;
-    data_in_7 : D_MonthIntExpensesSum;
-    data_in_8 : D_MonthIntInvoiceSig;
-    data_in_9 : D_ProjectBillingInvoiceSig;
-    data_in_10 : D_MonthSuppInvoiceSig
-  input
-    in_11 : TF_MonthlyReport!maName;
-    in_12 : TF_MonthlyReport!projectBillingMonth;
-    in_13 : TF_MonthlyReport!monthIntExpensesSum;
-    in_14 : TF_MonthlyReport!monthIntHoursSum;
-    in_15 : TF_MonthlyReport!monthIntInvoiceSig;
-    in_21 : TF_MonthSupplement!maName;
-    in_22 : TF_MonthSupplement!projectBillingMonth;
-    in_23 : TF_MonthSupplement!monthIntExpensesSum;
-    in_24 : TF_MonthSupplement!monthIntHoursSum;
-    in_25 : TF_MonthSupplement!projectBillingTotalHoursSum;
-    in_26 : TF_MonthSupplement!projectBillingExpensesSum;
-    in_27 : TF_MonthSupplement!monthSuppInvoiceSig;
-    in_31 : TF_ProjectBilling!maName;
-    in_32 : TF_ProjectBilling!projectBillingMonth;
-    in_33 : TF_ProjectBilling!projectBillingTotalHoursSum;
-    in_34 : TF_ProjectBilling!projectBillingExpensesSum;
-    in_35 : TF_ProjectBilling!projectBillingInvoiceSig;
-    in_41 : T_ExpenseReceipt!expenseAmount;
-    in_51 : TX_Probat!maName;
-    in_52 : TX_Probat!projectBillingMonth;
-    in_53 : TX_Probat!projectNumber
-  output
-    out_1 : TX_Probat!maName;
-    out_2 : TX_Probat!projectBillingTotalHoursSum;
-    out_3 : TX_Probat!projectBillingExpensesSum;
-    out_4 : TX_Probat!monthIntHoursSum;
-    out_5 : TX_Probat!monthIntExpensesSum
+    in_1 : D_ProjAbrMonat;
+    in_2 : D_MaName;
+    in_3 : D_ProjNummer;
+    in_4 : D_ProjAbrGesStdSum;
+    in_5 : D_ProjAbrSpesenSum;
+    in_6 : D_MonIntStundenSum;
+    in_7 : D_MonIntSpesenSum;
+    in_8 : D_MonIntRechnUnt;
+    in_9 : D_ProjAbrRechnUnt;
+    in_10 : D_MonZusRechnUnt
+  eingabe
+    ein_11 : TF_MonatsBericht!maName;
+    ein_12 : TF_MonatsBericht!projAbrMonat;
+    ein_13 : TF_MonatsBericht!monIntSpesenSum;
+    ein_14 : TF_MonatsBericht!monIntStundenSum;
+    ein_15 : TF_MonatsBericht!monIntRechnUnt;
+    ein_21 : TF_MonZus!maName;
+    ein_22 : TF_MonZus!projAbrMonat;
+    ein_23 : TF_MonZus!monIntSpesenSum;
+    ein_24 : TF_MonZus!monIntStundenSum;
+    ein_25 : TF_MonZus!projAbrGesStdSum;
+    ein_26 : TF_MonZus!projAbrSpesenSum;
+    ein_27 : TF_MonZus!monZusRechnUnt;
+    ein_31 : TF_ProjektAbrechnung!maName;
+    ein_32 : TF_ProjektAbrechnung!projAbrMonat;
+    ein_33 : TF_ProjektAbrechnung!projAbrGesStdSum;
+    ein_34 : TF_ProjektAbrechnung!projAbrSpesenSum;
+    ein_35 : TF_ProjektAbrechnung!projAbrRechnUnt;
+    ein_41 : T_SpesenBeleg!spesenBetrag;
+    ein_51 : TX_Probat!maName;
+    ein_52 : TX_Probat!projAbrMonat;
+    ein_53 : TX_Probat!projNummer
+  ausgabe
+    aus_1 : TX_Probat!maName;
+    aus_2 : TX_Probat!projAbrGesStdSum;
+    aus_3 : TX_Probat!projAbrSpesenSum;
+    aus_4 : TX_Probat!monIntStundenSum;
+    aus_5 : TX_Probat!monIntSpesenSum
 end P_5030
 
-P_5040 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_5040 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon : P_5030
-  takes
-    take_1 : TX_Fibu;
-    take_2 : TX_Probat
-  gives
-    give_1 : TX_Probat 
+  nimmt
+    nimm_1 : TX_Fibu;
+    nimm_2 : TX_Probat
+  gibt
+    gib_1 : TX_Probat 
   input
-    data_in_1 : D_EmployeeName;
-    data_in_2 : D_ProjectBillingMonth;
-    data_in_3 : D_MonthSuppExpenses;
-    data_in_4 : D_ProjectBillingExpensesSum;
-    data_in_5 : D_MonthIntExpensesSum
-  input
-    in_11 : TX_Fibu!projectBillingMonth;
-    in_12 : TX_Fibu!maName;
-    in_13 : TX_Fibu!monthSuppExpenses; 
-    in_21 : TX_Probat!projectBillingMonth;
-    in_22 : TX_Probat!maName;
-    in_23 : TX_Probat!projectBillingExpensesSum;
-    in_24 : TX_Probat!monthIntExpensesSum
-  output
-    out_1 : TX_Probat!projectBillingExpensesSum;
-    out_2 : TX_Probat!monthIntExpensesSum
+    in_1 : D_MaName;
+    in_2 : D_ProjAbrMonat;
+    in_3 : D_MonZusSpesen;
+    in_4 : D_ProjAbrSpesenSum;
+    in_5 : D_MonIntSpesenSum
+  eingabe
+    ein_11 : TX_Fibu!projAbrMonat;
+    ein_12 : TX_Fibu!maName;
+    ein_13 : TX_Fibu!monZusSpesen; 
+    ein_21 : TX_Probat!projAbrMonat;
+    ein_22 : TX_Probat!maName;
+    ein_23 : TX_Probat!projAbrSpesenSum;
+    ein_24 : TX_Probat!monIntSpesenSum
+  ausgabe
+    aus_1 : TX_Probat!projAbrSpesenSum;
+    aus_2 : TX_Probat!monIntSpesenSum
 end P_5040
 
-P_5050 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_5050 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon : P_5040
-  takes
-    take_1 : TX_Probat
-  gives
-    give_1 : T_Evaluations
+  nimmt
+    nimm_1 : TX_Probat
+  gibt
+    gib_1 : T_Auswertungen
   input
-    data_in_1 : D_EmployeeName;
-    data_in_2 : D_ProjectBillingMonth
-  input
-    in_21 : TX_Probat!projectBillingMonth;
-    in_22 : TX_Probat!maName
+    in_1 : D_MaName;
+    in_2 : D_ProjAbrMonat
+  eingabe
+    ein_21 : TX_Probat!projAbrMonat;
+    ein_22 : TX_Probat!maName
 end P_5050
 
-P_END with
-  follows_after
+P_ENDE with
+  folgt_auf
     pVon_5050 : P_5050
-end P_END
+end P_ENDE
 
 

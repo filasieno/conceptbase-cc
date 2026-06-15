@@ -34,17 +34,17 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
-GenericQueryClass DataWithoutCarrier isA Data with
+GenericQueryClass DatenOhneTraeger isA Daten with
   constraint
      c1 : $
-  not exists t/Carrier (t contains this)
+  not exists t/Traeger (t enthaelt this)
   $
 end
 
-GenericQueryClass CarrierWithoutData isA Carrier with
+GenericQueryClass TraegerOhneDaten isA Traeger with
   constraint
      c1 : $
-  not exists d/Data (this contains d)
+  not exists d/Daten (this enthaelt d)
   $
 end
 

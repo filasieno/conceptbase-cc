@@ -36,256 +36,256 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 *}
 {$set syntax=PlainToronto}
 
-P_2010 in Action with
-  processed_by
-    who : A_Customer
-  follows_after
+P_2010 in Aktion with
+  bearbeitet_von
+    wer : A_Kunde
+  folgt_auf
     pVon : P_1030
-  gives
-    give_1 : T_Inquiry
+  gibt
+    gib_1 : T_Anfrage
   output
-    data_out_1 : D_CustomerName
-  output 
-    out_1 : T_Inquiry!customerName
+    out_1 : D_KundenName
+  ausgabe 
+    aus_1 : T_Anfrage!kundenName
 end P_2010
 
-P_2020 in Action with
-  processed_by
-    who : A_CustomerRepresentative
-  follows_after
+P_2020 in Aktion with
+  bearbeitet_von
+    wer : A_Kundenverantwortlicher
+  folgt_auf
     pVon : P_2010
-  takes
-    take_1 : T_Inquiry
-  gives
-    give_1 : T_Offer;
-    give_2 : TF_CalculationSheet
+  nimmt
+    nimm_1 : T_Anfrage
+  gibt
+    gib_1 : T_Angebot;
+    gib_2 : TF_Kalkulationsblatt
   input
-    data_in_1 : D_CustomerName
+    in_1 : D_KundenName
   output
-    data_out_1 : D_OfferService;
-    data_out_2 : D_OfferNumber;
-    data_out_3 : D_CalcHours
-  input
-    in_1 : T_Inquiry!customerName
-  output
-    out_1 : T_Offer!offerService;
-    out_2 : T_Offer!offerNumber;
-    out_0 : T_Offer!customerName;
-    out_4 : TF_CalculationSheet!offerService;
-    out_5 : TF_CalculationSheet!offerNumber;
-    out_6 : TF_CalculationSheet!customerName;
-    out_7 : TF_CalculationSheet!calcHours
+    out_1 : D_AngebotsLeistung;
+    out_2 : D_AngebotsNummer;
+    out_3 : D_KalkStunden
+  eingabe
+    ein_1 : T_Anfrage!kundenName
+  ausgabe
+    aus_1 : T_Angebot!angebotsLeistung;
+    aus_2 : T_Angebot!angebotsNummer;
+    aus_0 : T_Angebot!kundenName;
+    aus_4 : TF_Kalkulationsblatt!angebotsLeistung;
+    aus_5 : TF_Kalkulationsblatt!angebotsNummer;
+    aus_6 : TF_Kalkulationsblatt!kundenName;
+    aus_7 : TF_Kalkulationsblatt!kalkStunden
 end P_2020
 
-P_2030 in Action with
-  processed_by
-    who : A_Management
-  follows_after
+P_2030 in Aktion with
+  bearbeitet_von
+    wer : A_GL
+  folgt_auf
     pVon : P_2020
-  takes
-    take_1 : T_Inquiry;
-    take_2 : T_Offer;
-    take_3 : TF_CalculationSheet
-  gives
-    give_1 : T_Offer;
-    give_2 : TF_CalculationSheet
+  nimmt
+    nimm_1 : T_Anfrage;
+    nimm_2 : T_Angebot;
+    nimm_3 : TF_Kalkulationsblatt
+  gibt
+    gib_1 : T_Angebot;
+    gib_2 : TF_Kalkulationsblatt
   input
-    data_in_1 : D_CustomerName;
-    data_in_2 : D_OfferNumber;
-    data_in_3 : D_OfferService;
-    data_in_4 : D_CalcHours
+    in_1 : D_KundenName;
+    in_2 : D_AngebotsNummer;
+    in_3 : D_AngebotsLeistung;
+    in_4 : D_KalkStunden
   output
-    data_out_1 : D_OfferOk
-  input 
-    in_11 : T_Inquiry!customerName;
-    in_21 : T_Offer!customerName;
-    in_22 : T_Offer!offerNumber;
-    in_23 : T_Offer!offerService;
-    in_31 : TF_CalculationSheet!customerName;
-    in_32 : TF_CalculationSheet!offerNumber;
-    in_33 : TF_CalculationSheet!offerService;
-    in_34 : TF_CalculationSheet!calcHours
-  output
-    out_1 : TF_CalculationSheet!offerOk
+    out_1 : D_AngebotsOk
+  eingabe 
+    ein_11 : T_Anfrage!kundenName;
+    ein_21 : T_Angebot!kundenName;
+    ein_22 : T_Angebot!angebotsNummer;
+    ein_23 : T_Angebot!angebotsLeistung;
+    ein_31 : TF_Kalkulationsblatt!kundenName;
+    ein_32 : TF_Kalkulationsblatt!angebotsNummer;
+    ein_33 : TF_Kalkulationsblatt!angebotsLeistung;
+    ein_34 : TF_Kalkulationsblatt!kalkStunden
+  ausgabe
+    aus_1 : TF_Kalkulationsblatt!angebotsOk
 end P_2030
 
-P_2035 in Action with
-  processed_by
-    who : A_CustomerRepresentative
-  follows_after
+P_2035 in Aktion with
+  bearbeitet_von
+    wer : A_Kundenverantwortlicher
+  folgt_auf
     pVon : P_2030
-  takes
-    take_1 : T_Inquiry;
-    take_2 : T_Offer;
-    take_3 : TF_CalculationSheet
-  gives
-    give_1 : T_Offer
+  nimmt
+    nimm_1 : T_Anfrage;
+    nimm_2 : T_Angebot;
+    nimm_3 : TF_Kalkulationsblatt
+  gibt
+    gib_1 : T_Angebot
   input
-    data_in_1 : D_CustomerName;
-    data_in_2 : D_OfferNumber;
-    data_in_3 : D_OfferService;
-    data_in_4 : D_OfferOk
+    in_1 : D_KundenName;
+    in_2 : D_AngebotsNummer;
+    in_3 : D_AngebotsLeistung;
+    in_4 : D_AngebotsOk
   output
-    data_out_1 : D_OfferSigManagement
-  input 
-    in_11 : T_Inquiry!customerName;
-    in_21 : T_Offer!customerName;
-    in_22 : T_Offer!offerNumber;
-    in_23 : T_Offer!offerService;
-    in_31 : TF_CalculationSheet!customerName;
-    in_32 : TF_CalculationSheet!offerNumber;
-    in_33 : TF_CalculationSheet!offerOk
-  output
-    out_1 : T_Offer!offerSigManagement
+    out_1 : D_AngebotUntGL
+  eingabe 
+    ein_11 : T_Anfrage!kundenName;
+    ein_21 : T_Angebot!kundenName;
+    ein_22 : T_Angebot!angebotsNummer;
+    ein_23 : T_Angebot!angebotsLeistung;
+    ein_31 : TF_Kalkulationsblatt!kundenName;
+    ein_32 : TF_Kalkulationsblatt!angebotsNummer;
+    ein_33 : TF_Kalkulationsblatt!angebotsOk
+  ausgabe
+    aus_1 : T_Angebot!angebotUntGL
 end P_2035
 
-P_2040 in Action with
-  processed_by
-    who : A_Customer
-  follows_after
+P_2040 in Aktion with
+  bearbeitet_von
+    wer : A_Kunde
+  folgt_auf
     pVon : P_2030
-  takes
-    take_1 : T_Offer
-  gives
-    give_1 : T_Order
+  nimmt
+    nimm_1 : T_Angebot
+  gibt
+    gib_1 : T_Auftrag
   input
-    data_in_1 : D_CustomerName;
-    data_in_2 : D_OfferSigManagement;
-    data_in_3 : D_OfferNumber
+    in_1 : D_KundenName;
+    in_2 : D_AngebotUntGL;
+    in_3 : D_AngebotsNummer
   output
-    data_out_1 : D_OrderSignature
-  input
-    in_1 : T_Offer!customerName;
-    in_2 : T_Offer!offerSigManagement;
-    in_3 : T_Offer!offerNumber;
-    in_4 : T_Offer!offerService
-  output
-    out_1 : T_Order!offerNumber;
-    out_2 : T_Order!orderSignature;
-    out_3 : T_Order!customerName
+    out_1 : D_AuftragUnt
+  eingabe
+    ein_1 : T_Angebot!kundenName;
+    ein_2 : T_Angebot!angebotUntGL;
+    ein_3 : T_Angebot!angebotsNummer;
+    ein_4 : T_Angebot!angebotsLeistung
+  ausgabe
+    aus_1 : T_Auftrag!angebotsNummer;
+    aus_2 : T_Auftrag!auftragUnt;
+    aus_3 : T_Auftrag!kundenName
 end P_2040
 
-P_2050 in Action with
-  processed_by
-    who : A_CustomerRepresentative
-  follows_after
+P_2050 in Aktion with
+  bearbeitet_von
+    wer : A_Kundenverantwortlicher
+  folgt_auf
     pVon : P_2040
-  takes
-    take_1 : T_Order
-  gives
-    give_1 : TF_ProjectOrder
+  nimmt
+    nimm_1 : T_Auftrag
+  gibt
+    gib_1 : TF_ProjektAuftrag
   input
-    data_in_1 : D_OfferNumber;
-    data_in_2 : D_OrderSignature;
-    data_in_3 : D_CustomerName
+    in_1 : D_AngebotsNummer;
+    in_2 : D_AuftragUnt;
+    in_3 : D_KundenName
   output
-    data_out_1 : D_PLName
-  input
-    in_1 : T_Order!offerNumber;
-    in_2 : T_Order!orderSignature;
-    in_3 : T_Order!customerName
-  output
-    out_1 : TF_ProjectOrder!customerName;
-    out_2 : TF_ProjectOrder!plName
+    out_1 : D_PlName
+  eingabe
+    ein_1 : T_Auftrag!angebotsNummer;
+    ein_2 : T_Auftrag!auftragUnt;
+    ein_3 : T_Auftrag!kundenName
+  ausgabe
+    aus_1 : TF_ProjektAuftrag!kundenName;
+    aus_2 : TF_ProjektAuftrag!plName
 end P_2050
 
-P_2060 in Action with
-  processed_by
-    who : A_ProjectLeader
-  follows_after
+P_2060 in Aktion with
+  bearbeitet_von
+    wer : A_Projektleiter
+  folgt_auf
     pVon : P_2050
-  takes
-    take_1 : TF_ProjectOrder;
-    take_2 : TF_CalculationSheet
-  gives
-    give_1 : TF_ProjectCreation;
-    give_2 : TF_ProjectOrder;
-    give_3 : TF_ProjectOrderEmployee;
-    give_4 : TF_CalculationSheet
+  nimmt
+    nimm_1 : TF_ProjektAuftrag;
+    nimm_2 : TF_Kalkulationsblatt
+  gibt
+    gib_1 : TF_ProjektAnlage;
+    gib_2 : TF_ProjektAuftrag;
+    gib_3 : TF_ProjektAuftragMa;
+    gib_4 : TF_Kalkulationsblatt
   input
-    data_in_1 : D_CustomerName;
-    data_in_2 : D_OfferService;
-    data_in_3 : D_CalcHours;
-    data_in_4 : D_PLName
+    in_1 : D_KundenName;
+    in_2 : D_AngebotsLeistung;
+    in_3 : D_KalkStunden;
+    in_4 : D_PlName
   output
-    data_out_1 : D_ProjectTargetHours
-  input
-    in_1 : TF_ProjectOrder!customerName; 
-    in_2 : TF_CalculationSheet!offerService;
-    in_3 : TF_CalculationSheet!calcHours;
-    in_4 : TF_ProjectOrder!plName
-  output
-    out_1 : TF_ProjectOrderEmployee!customerName;
-    out_2 : TF_ProjectOrderEmployee!maName;
-    out_3 : TF_ProjectOrderEmployee!plName;
-    out_4 : TF_ProjectOrderEmployee!projectTargetHours;
-    out_5 : TF_ProjectOrder!projectTargetHours;
-    out_6 : TF_ProjectCreation!customerName; 
-    out_7 : TF_ProjectCreation!offerService;
-    out_8 : TF_ProjectCreation!projectTargetHours
+    out_1 : D_ProjSollStunden
+  eingabe
+    ein_1 : TF_ProjektAuftrag!kundenName; 
+    ein_2 : TF_Kalkulationsblatt!angebotsLeistung;
+    ein_3 : TF_Kalkulationsblatt!kalkStunden;
+    ein_4 : TF_ProjektAuftrag!plName
+  ausgabe
+    aus_1 : TF_ProjektAuftragMa!kundenName;
+    aus_2 : TF_ProjektAuftragMa!maName;
+    aus_3 : TF_ProjektAuftragMa!plName;
+    aus_4 : TF_ProjektAuftragMa!projSollStunden;
+    aus_5 : TF_ProjektAuftrag!projSollStunden;
+    aus_6 : TF_ProjektAnlage!kundenName; 
+    aus_7 : TF_ProjektAnlage!angebotsLeistung;
+    aus_8 : TF_ProjektAnlage!projSollStunden
 end P_2060
 
-P_2070 in Action with
-  processed_by
-    who : A_ProjectControl
-  follows_after
+P_2070 in Aktion with
+  bearbeitet_von
+    wer : A_ProjContrl
+  folgt_auf
     pVon : P_2060
-  takes
-    take_1 : TF_ProjectCreation;
-    take_2 : TF_ProjectOrder;
-    take_3 : TF_ProjectOrderEmployee;
-    take_4 : TF_CalculationSheet
-  gives
-    give_1 : TF_ProjectCreation;
-    give_2 : TF_ProjectOrder;
-    give_3 : TF_ProjectOrderEmployee;
-    give_4 : TF_CalculationSheet
+  nimmt
+    nimm_1 : TF_ProjektAnlage;
+    nimm_2 : TF_ProjektAuftrag;
+    nimm_3 : TF_ProjektAuftragMa;
+    nimm_4 : TF_Kalkulationsblatt
+  gibt
+    gib_1 : TF_ProjektAnlage;
+    gib_2 : TF_ProjektAuftrag;
+    gib_3 : TF_ProjektAuftragMa;
+    gib_4 : TF_Kalkulationsblatt
   input
-    data_in_1 : D_EmployeeName;
-    data_in_2 : D_CustomerName;
-    data_in_3 : D_PLName;
-    data_in_4 : D_CalcHours;
-    data_in_5 : D_ProjectTargetHours
+    in_1 : D_MaName;
+    in_2 : D_KundenName;
+    in_3 : D_PlName;
+    in_4 : D_KalkStunden;
+    in_5 : D_ProjSollStunden
   output
-    data_out_1 : D_ProjectNumber
-  input
-    in_1 : TF_ProjectCreation!customerName;
-    in_2 : TF_ProjectCreation!projectTargetHours;
-    in_3 : TF_ProjectOrder!plName;
-    in_4 : TF_ProjectOrderEmployee!maName;
-    in_5 : TF_CalculationSheet!calcHours;
-    in_6 : TF_CalculationSheet!customerName
-  output
-    out_1 : TX_Probat!customerName;
-    out_2 : TX_Probat!projectNumber;
-    out_3 : TX_Probat!plName;
-    out_4 : TX_Probat!maName;
-    out_5 : TX_Probat!projectTargetHours;
-    out_11 : TF_ProjectCreation!projectNumber;
-    out_21 : TF_ProjectOrder!projectNumber;
-    out_31 : TF_ProjectOrderEmployee!projectNumber
+    out_1 : D_ProjNummer
+  eingabe
+    ein_1 : TF_ProjektAnlage!kundenName;
+    ein_2 : TF_ProjektAnlage!projSollStunden;
+    ein_3 : TF_ProjektAuftrag!plName;
+    ein_4 : TF_ProjektAuftragMa!maName;
+    ein_5 : TF_Kalkulationsblatt!kalkStunden;
+    ein_6 : TF_Kalkulationsblatt!kundenName
+  ausgabe
+    aus_1 : TX_Probat!kundenName;
+    aus_2 : TX_Probat!projNummer;
+    aus_3 : TX_Probat!plName;
+    aus_4 : TX_Probat!maName;
+    aus_5 : TX_Probat!projSollStunden;
+    aus_11 : TF_ProjektAnlage!projNummer;
+    aus_21 : TF_ProjektAuftrag!projNummer;
+    aus_31 : TF_ProjektAuftragMa!projNummer
 end P_2070
 
-P_2080 in Action with
-  processed_by
-    who : A_ProjectLeader
-  follows_after
+P_2080 in Aktion with
+  bearbeitet_von
+    wer : A_Projektleiter
+  folgt_auf
     pVon : P_2070
-  takes
-    take_1 : TF_ProjectOrder;
-    take_2 : TF_ProjectOrderEmployee
-  gives
-    give_1 : TF_ProjectOrderEmployee
+  nimmt
+    nimm_1 : TF_ProjektAuftrag;
+    nimm_2 : TF_ProjektAuftragMa
+  gibt
+    gib_1 : TF_ProjektAuftragMa
   input
-    data_in_1 : D_EmployeeName;
-    data_in_2 : D_ProjectNumber
+    in_1 : D_MaName;
+    in_2 : D_ProjNummer
   output
-    data_out_1 : D_ProjectOrderPLSig
-  input
-    in_1 : TF_ProjectOrderEmployee!maName;
-    in_2 : TF_ProjectOrder!projectNumber
-  output 
-    aus : TF_ProjectOrderEmployee!projectOrderPLSig
+    out_1 : D_ProjAuftPlUnt
+  eingabe
+    ein_1 : TF_ProjektAuftragMa!maName;
+    ein_2 : TF_ProjektAuftrag!projNummer
+  ausgabe 
+    aus : TF_ProjektAuftragMa!projAuftPlUnt
 end P_2080
 
 

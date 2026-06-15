@@ -34,28 +34,28 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
-GenericQueryClass P_OneActorIsSupplied isA Carrier with
+GenericQueryClass P_EinAkteurWirdBeliefert isA Traeger with
   parameter
-    a1 : Actor
+    a1 : Akteur
   computed_attribute
-    gel_von : Actor
+    gel_von : Akteur
   constraint
      c1 : $
-  exists a/Actor!supplies (a  via this)
+  exists a/Akteur!beliefert (a  mit this)
   and To(a, ~a1) and From(a, ~gel_von)
   $
 end
 
-GenericQueryClass P_OneActorIsSupplied2 isA Actor with
+GenericQueryClass P_EinAkteurWirdBeliefert2 isA Akteur with
   parameter
-    a1 : Actor
+    a1 : Akteur
   computed_attribute
-    delivers : Carrier
+    liefert : Traeger
   constraint
      c1 : $
-  exists a/Actor!supplies
+  exists a/Akteur!beliefert
   To(a, ~a1) and From(a, this)
-  and (a via ~delivers)
+  and (a mit ~liefert)
   $
 end
 

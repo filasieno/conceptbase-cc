@@ -126,7 +126,29 @@ int main(int argc, char** argv) {
         char goal[8192];
         const char *cbs = getenv("CBS_DIR");
         const char *pool = getenv("CB_POOL");
+        /* Set by cbserver-launcher.sh when CBserver is started with `-x <state>`. */
+        const char *kernelState = getenv("CB_KERNEL_STATE");
+        /* Set by the Nix build to snapshot the loaded kernel and exit. */
+        const char *saveState = getenv("CB_SAVE_STATE");
 
+        term=PL_new_term_ref();
+
+        /*
+         * Runtime fast path. When launched with `-x <state>`, PL_initialise has
+         * already restored the precompiled kernel saved state, so all kernel
+         * modules are in memory. Skip parsing/compiling the .swi.pl sources and
+         * go straight to runtime initialization.
+         */
+        if(kernelState && kernelState[0]) {
+            if(!PL_chars_to_term("startCBserver:startCBserver.", term)
+                || !PL_call(term, NULL)) {
+                fprintf(stderr, "cbserver: startCBserver failed (state %s)\n", kernelState);
+                PL_halt(1);
+            }
+            PL_halt(0);
+        }
+
+        /* Source path: locate and load the bootstrap, then compile the kernel. */
         if(cbs && cbs[0]) {
             snprintf(path, sizeof(path), "%s/startCBserver.swi.pl", cbs);
         } else if(pool && pool[0]) {
@@ -137,7 +159,6 @@ int main(int argc, char** argv) {
             PL_halt(1);
         }
 
-        term=PL_new_term_ref();
         snprintf(goal, sizeof(goal), "load_files(['%s'],[silent(true)]).", path);
         if(!PL_chars_to_term(goal, term) || !PL_call(term, NULL)) {
             fprintf(stderr, "cbserver: failed to load %s\n", path);
@@ -152,6 +173,23 @@ int main(int argc, char** argv) {
         if(PL_chars_to_term("startCBserver:cb_compile_error(yes).", term) && PL_call(term, NULL)) {
             fprintf(stderr, "cbserver: kernel compile errors detected\n");
             PL_halt(1);
+        }
+
+        /*
+         * Build path. When CB_SAVE_STATE is set (Nix build), the kernel is now
+         * fully compiled in memory — snapshot it to a saved state and exit
+         * instead of starting the server. The state is restored at runtime via
+         * the `-x` flag added by cbserver-launcher.sh.
+         */
+        if(saveState && saveState[0]) {
+            snprintf(goal, sizeof(goal),
+                "qsave_program('%s',[stand_alone(false),goal(true),toplevel(halt)]).",
+                saveState);
+            if(!PL_chars_to_term(goal, term) || !PL_call(term, NULL)) {
+                fprintf(stderr, "cbserver: qsave_program to %s failed\n", saveState);
+                PL_halt(1);
+            }
+            PL_halt(0);
         }
 
         if(!PL_chars_to_term("startCBserver:startCBserver.", term)

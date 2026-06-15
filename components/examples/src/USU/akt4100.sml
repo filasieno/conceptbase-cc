@@ -36,104 +36,104 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 *}
 {$set syntax=PlainToronto}
 
-P_4110 in Action with
-  processed_by
-    who : A_Accounting
-  follows_after
+P_4110 in Aktion with
+  bearbeitet_von
+    wer : A_Buchhalt
+  folgt_auf
     pVon : P_3470
-  takes
-    take_1 : TF_ProjectBilling;
-    take_2 : TF_MonthlyReport;
-    take_3 : TF_MonthSupplement;
-    take_4 : T_ExpenseReceipt
-  gives
-    give_1 : TF_ProjectBilling;
-    give_2 : TF_MonthlyReport;
-    give_3 : T_ExpenseReceipt
+  nimmt
+    nimm_1 : TF_ProjektAbrechnung;
+    nimm_2 : TF_MonatsBericht;
+    nimm_3 : TF_MonZus;
+    nimm_4 : T_SpesenBeleg
+  gibt
+    gib_1 : TF_ProjektAbrechnung;
+    gib_2 : TF_MonatsBericht;
+    gib_3 : T_SpesenBeleg
   input
-    data_in_1 : D_ProjectBillingMaterialSig;
-    data_in_2 : D_MonthIntMaterialSig;
-    data_in_3 : D_MonthSuppMaterialSig;
-    data_in_4 : D_ExpenseReceiptMaterialSig;
-    data_in_5 : D_ProjectBillingMonth;
-    data_in_6 : D_EmployeeName
+    in_1 : D_ProjAbrSachlUnt;
+    in_2 : D_MonIntSachlUnt;
+    in_3 : D_MonZusSachlUnt;
+    in_4 : D_SpesBelSachlUnt;
+    in_5 : D_ProjAbrMonat;
+    in_6 : D_MaName
   output
-    data_out_1 : D_ProjectBillingInvoiceSig;
-    data_out_2 : D_MonthIntInvoiceSig;
-    data_out_3 : D_MonthSuppInvoiceSig;
-    data_out_4 : D_ExpenseReceiptInvoiceSig
-  input
-    in_1 : TF_ProjectBilling!projectBillingMaterialSig;
-    in_2 : TF_MonthlyReport!monthIntMaterialSig;
-    in_3 : TF_MonthSupplement!monthSuppMaterialSig;
-    in_4 : T_ExpenseReceipt!expenseReceiptMaterialSig;
-    in_5 : TF_ProjectBilling!projectBillingMonth;
-    in_6 : TF_ProjectBilling!maName;
-    in_7 : TF_MonthSupplement!projectBillingMonth;
-    in_8 : TF_MonthSupplement!maName;
-    in_9 : TF_MonthlyReport!projectBillingMonth;
-    in_10 : TF_MonthlyReport!maName
-  output
-    out_1 : TF_ProjectBilling!projectBillingInvoiceSig;
-    out_2 : TF_MonthlyReport!monthIntInvoiceSig;
-    out_3 : TF_MonthSupplement!monthSuppInvoiceSig;
-    out_4 : T_ExpenseReceipt!expenseReceiptInvoiceSig
+    out_1 : D_ProjAbrRechnUnt;
+    out_2 : D_MonIntRechnUnt;
+    out_3 : D_MonZusRechnUnt;
+    out_4 : D_SpesBelRechnUnt
+  eingabe
+    ein_1 : TF_ProjektAbrechnung!projAbrSachlUnt;
+    ein_2 : TF_MonatsBericht!monIntSachlUnt;
+    ein_3 : TF_MonZus!monZusSachlUnt;
+    ein_4 : T_SpesenBeleg!spesBelSachlUnt;
+    ein_5 : TF_ProjektAbrechnung!projAbrMonat;
+    ein_6 : TF_ProjektAbrechnung!maName;
+    ein_7 : TF_MonZus!projAbrMonat;
+    ein_8 : TF_MonZus!maName;
+    ein_9 : TF_MonatsBericht!projAbrMonat;
+    ein_10 : TF_MonatsBericht!maName
+  ausgabe
+    aus_1 : TF_ProjektAbrechnung!projAbrRechnUnt;
+    aus_2 : TF_MonatsBericht!monIntRechnUnt;
+    aus_3 : TF_MonZus!monZusRechnUnt;
+    aus_4 : T_SpesenBeleg!spesBelRechnUnt
 end P_4110
 
-P_4120 in Action with
-  processed_by
-    who : A_Accounting
-  follows_after
+P_4120 in Aktion with
+  bearbeitet_von
+    wer : A_Buchhalt
+  folgt_auf
     pVon : P_4110
-  takes
-    take_1 : TF_ProjectBilling;
-    take_2 : TF_MonthlyReport;
-    take_3 : TF_MonthSupplement;
-    take_4 : T_ExpenseReceipt
-  gives
-    give_1 : TX_Fibu
+  nimmt
+    nimm_1 : TF_ProjektAbrechnung;
+    nimm_2 : TF_MonatsBericht;
+    nimm_3 : TF_MonZus;
+    nimm_4 : T_SpesenBeleg
+  gibt
+    gib_1 : TX_Fibu
   input
-    data_in_1 : D_ProjectBillingInvoiceSig;
-    data_in_2 : D_MonthIntInvoiceSig;
-    data_in_3 : D_ExpenseReceiptInvoiceSig;
-    data_in_4 : D_MonthSuppInvoiceSig;
-    data_in_5 : D_MonthSuppExpenses;
-    data_in_6 : D_ProjectBillingMonth;
-    data_in_7 : D_EmployeeName
-  input
-    in_1 : TF_ProjectBilling!projectBillingInvoiceSig;
-    in_2 : TF_MonthlyReport!monthIntInvoiceSig;
-    in_3 : T_ExpenseReceipt!expenseReceiptInvoiceSig;
-    in_4 : TF_MonthSupplement!monthSuppInvoiceSig;
-    in_5 : TF_MonthSupplement!monthSuppExpenses;
-    in_6 : TF_MonthSupplement!projectBillingMonth;
-    in_7 : TF_MonthSupplement!maName
-  output
-    out_1 : TX_Fibu!monthSuppExpenses;
-    out_2 : TX_Fibu!projectBillingMonth;
-    out_3 : TX_Fibu!maName
+    in_1 : D_ProjAbrRechnUnt;
+    in_2 : D_MonIntRechnUnt;
+    in_3 : D_SpesBelRechnUnt;
+    in_4 : D_MonZusRechnUnt;
+    in_5 : D_MonZusSpesen;
+    in_6 : D_ProjAbrMonat;
+    in_7 : D_MaName
+  eingabe
+    ein_1 : TF_ProjektAbrechnung!projAbrRechnUnt;
+    ein_2 : TF_MonatsBericht!monIntRechnUnt;
+    ein_3 : T_SpesenBeleg!spesBelRechnUnt;
+    ein_4 : TF_MonZus!monZusRechnUnt;
+    ein_5 : TF_MonZus!monZusSpesen;
+    ein_6 : TF_MonZus!projAbrMonat;
+    ein_7 : TF_MonZus!maName
+  ausgabe
+    aus_1 : TX_Fibu!monZusSpesen;
+    aus_2 : TX_Fibu!projAbrMonat;
+    aus_3 : TX_Fibu!maName
 end P_4120
 
-P_4130 in Action with
-  processed_by
-    who : A_Accounting
-  follows_after
+P_4130 in Aktion with
+  bearbeitet_von
+    wer : A_Buchhalt
+  folgt_auf
     pVon : P_4120
-  takes
-    take_1 : TX_Fibu
+  nimmt
+    nimm_1 : TX_Fibu
   input
-    data_in_1 : D_MonthSuppExpenses;
-    data_in_2 : D_ProjectBillingMonth;
-    data_in_3 : D_EmployeeName
-  input
-    in_1 : TX_Fibu!monthSuppExpenses;
-    in_2 : TX_Fibu!projectBillingMonth;
-    in_3 : TX_Fibu!maName
+    in_1 : D_MonZusSpesen;
+    in_2 : D_ProjAbrMonat;
+    in_3 : D_MaName
+  eingabe
+    ein_1 : TX_Fibu!monZusSpesen;
+    ein_2 : TX_Fibu!projAbrMonat;
+    ein_3 : TX_Fibu!maName
 end P_4130
 
-P_END with
-  follows_after
+P_ENDE with
+  folgt_auf
     pVon_4130 : P_4130
-end P_END
+end P_ENDE
 
 

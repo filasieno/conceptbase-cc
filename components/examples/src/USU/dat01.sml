@@ -37,195 +37,195 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 {$set syntax=PlainToronto}
 
 
-D_ProjectNumber in Data
-end D_ProjectNumber
+D_ProjNummer in Daten
+end D_ProjeNummer
 
-D_EmployeeName in Data
-end D_EmployeeName
+D_MaName in Daten
+end D_MaName
 
-D_PLName in Data
-end D_PLName
+D_PlName in Daten
+end D_PlName
 
-D_ProjectBillingMonth in Data
-end D_ProjectBillingMonth
+D_ProjAbrMonat in Daten
+end D_ProjAbrMonat
 
-D_ProjectBillingBusinessArea in Data
-end D_ProjectBillingBusinessArea
+D_ProjAbrGB in Daten
+end D_ProjAbrGB
 
-D_ProjectBillingSigEmployee in Data
-end D_ProjectBillingSigEmployee
+D_ProjAbrUntMa in Daten
+end D_ProjAbrUntMa
 
-D_ProjectBillingSigPL in Data
-end D_ProjectBillingSigPL
+D_ProjAbrUntPl in Daten
+end D_ProjAbrUntPl
 
-D_ProjectBillingExpenses in Data
-end D_ProjectBillingExpenses
+D_ProjAbrSpesen in Daten
+end D_ProjAbrSpesen
 
-D_ProjectBillingExpensesSum in Data
-end D_ProjectBillingExpensesSum
+D_ProjAbrSpesenSum in Daten
+end D_ProjAbrSpesenSum
 
-D_ProjectBillingTotalHoursSum in Data
-end D_ProjectBillingTotalHoursSum
+D_ProjAbrGesStdSum in Daten
+end D_ProjAbrGesStdSum
 
-D_ProjectBillingOnSiteExpenses in Data
-end D_ProjectBillingOnSiteExpenses
+D_ProjAbrSpesVorOrt in Daten
+end D_ProjAbrSpesVorOrt
 
-D_ProjectBillingHoursSum in Data
-end D_ProjectBillingHoursSum
+D_ProjAbrStundenSum in Daten
+end D_ProjAbrStundenSum
 
-D_ProjectBillingService in Data
-end D_ProjectBillingService
+D_ProjAbrLeistung in Daten
+end D_ProjAbrLeistung
 
-D_ProjectBillingBonusExtra in Data
-end D_ProjectBillingBonusExtra
+D_ProjAbrBonusExtra in Daten
+end D_ProjAbrBonusExtra
 
-D_ProjectBillingHoursSum in Data
-end D_ProjectBillingHoursSum
+D_ProjAbrStundenSum in Daten
+end D_ProjAbrStundenSum
 
-D_ProjectBillingSigCustomer in Data
-end D_ProjectBillingSigCustomer
+D_ProjAbrUntKd in Daten
+end D_ProjAbrUntKd
 
-D_ProjectBillingMaterialSig in Data
-end D_ProjectBillingMaterialSig
+D_ProjAbrSachlUnt in Daten
+end D_ProjAbrSachlUnt
 
-D_ProjectBillingInvoiceSig in Data
-end D_ProjectBillingInvoiceSig
+D_ProjAbrRechnUnt in Daten
+end D_ProjAbrRechnUnt
 
-D_MonthIntService in Data
-end D_MonthIntService
+D_MonIntLeistung in Daten
+end D_MonIntLeistung
 
-D_MonthIntExpenses in Data
-end D_MonthIntExpenses
+D_MonIntSpesen in Daten
+end D_MonIntSpesen
 
-D_MonthIntExpensesSum in Data
-end D_MonthIntExpensesSum
+D_MonIntSpesenSum in Daten
+end D_MonIntSpesenSum
 
-D_MonthIntHoursSum in Data
-end D_MonthIntHoursSum
+D_MonIntStundenSum in Daten
+end D_MonIntStundenSum
 
-D_MonthIntSigEmployee in Data
-end D_MonthIntSigEmployee
+D_MonIntUntMa in Daten
+end D_MonIntUntMa
 
-D_MonthIntSigPersonnelMgr in Data
-end D_MonthIntSigPersonnelMgr
+D_MonIntUntPv in Daten
+end D_MonIntUntPv
 
-D_MonthIntMaterialSig in Data
-end D_MonthIntMaterialSig
+D_MonIntSachlUnt in Daten
+end D_MonIntSachlUnt
 
-D_MonthIntInvoiceSig in Data
-end D_MonthIntInvoiceSig
+D_MonIntRechnUnt in Daten
+end D_MonIntRechnUnt
 
-D_MonthSuppExpenses in Data
-end D_MonthSuppExpenses
+D_MonZusSpesen in Daten
+end D_MonZusSpesen
 
-D_MonthSuppVacation in Data
-end D_MonthSuppVacation
+D_MonZusUrlaub in Daten
+end D_MonZusUrlaub
 
-D_MonthSuppSchool in Data
-end D_MonthSuppSchool
+D_MonZusSchule in Daten
+end D_MonZusSchule
 
-D_MonthSuppMaterialSig in Data
-end D_MonthSuppMaterialSig
+D_MonZusSachlUnt in Daten
+end D_MonZusSachlUnt
 
-D_MonthSuppInvoiceSig in Data
-end D_MonthSuppInvoiceSig
+D_MonZusRechnUnt in Daten
+end D_MonZusRechnUnt
 
-D_ExpenseAmount in Data
-end D_ExpenseAmount
+D_SpesenBetrag in Daten
+end D_SpesenBetrag
 
-D_ExpenseReceiptMaterialSig in Data
-end D_ExpenseReceiptMaterialSig
+D_SpesBelSachlUnt in Daten
+end D_SpesBelSachlUnt
 
-D_ExpenseReceiptInvoiceSig in Data
-end D_ExpenseReceiptInvoiceSig
+D_SpesBelRechnUnt in Daten
+end D_SpesBelRechnUnt
 
-D_ExpenseAmountNet in Data
-end D_ExpenseAmountNet
+D_SpesenBetragNetto in Daten
+end D_SpesenBetragNetto
 
-D_ExpenseAmountSum in Data
-end D_ExpenseAmountSum
+D_SpesenBetragSum in Daten
+end D_SpesenBetragSum
 
-D_MiscAmount in Data
-end D_MiscAmount
+D_SonstBetrag in Daten
+end D_SonstBetrag
 
-D_EmployeeVacation in Data
-end D_EmployeeVacation
+D_MaUrlaub in Daten
+end D_MaUrlaub
 
-D_CostRate in Data
-end D_CostRate
+D_KostenSatz in Daten
+end D_KostenSatz
 
-D_ProjectStatusFixedPrice in Data
-end D_ProjectStatusFixedPrice
+D_ProjStatFestpreis in Daten
+end D_ProjStatFestpreis
 
-D_ProjectStatusOperative in Data
-end D_ProjectStatusOperative
+D_ProjStatOperativ in Daten
+end D_ProjStatOperativ
 
-D_ProjectStatusInvoice in Data
-end D_ProjectStatusInvoice
+D_ProjStatRechng in Daten
+end D_ProjStatRechng
 
-D_ProjectStatusComplete in Data
-end D_ProjectStatusComplete
+D_ProjStatFertig in Daten
+end D_ProjStatFertig
 
-D_ProjectStatusCompleteSum in Data
-end D_ProjectStatusCompleteSum
+D_ProjStatFertigSum in Daten
+end D_ProjStatFertigSum
 
-D_ProjectStatusSignature in Data
-end D_ProjectStatusSignature
+D_ProjStatUnt in Daten
+end D_ProjStatUnt
 
-D_SemiFinishedSum in Data
-end D_SemiFinishedSum
+D_HalbFertigSumme in Daten
+end D_HalbFertigSumme
 
-D_SemiFinishedRemainingEffort in Data
-end D_SemiFinishedRemainingEffort
+D_HalbFertigRestaufwand in Daten
+end D_HalbFertigRestaufwand
 
-D_InvoiceNumber in Data
-end D_InvoiceNumber
+D_RechngNummer in Daten
+end D_RechngNummer
 
-D_ProjectBillingSum in Data
-end D_ProjectBillingSum
+D_ProjAbrSumme in Daten
+end D_ProjAbrSumme
 
-D_InvoiceSignature in Data
-end D_InvoiceSignature
+D_RechngUnt in Daten
+end D_RechngUnt
 
-D_Paid in Data
-end D_Paid
+D_Bezahlt in Daten
+end D_Bezahlt
 
-D_CustomerName in Data
-end D_CustomerName
+D_KundenName in Daten
+end D_KundenName
 
-D_TargetProjectOk in Data
-end D_TargetProjectOk
+D_SollProjektOk in Daten
+end D_SollProjektOk
 
-D_CalcHours in Data
-end D_CalcHours
+D_KalkStunden in Daten
+end D_KalkStunden
 
-D_OfferNumber in Data
-end D_OfferNumber
+D_AngebotsNummer in Daten
+end D_AngebotsNummer
 
-D_OfferService in Data
-end D_OfferService
+D_AngebotsLeistung in Daten
+end D_AngebotsLiestung
 
-D_OfferSigManagement in Data
-end D_OfferSigManagement
+D_AngebotUntGL in Daten
+end D_AngebotUntGL
 
-D_OfferOk in Data
-end D_OfferOk
+D_AngebotsOk in Daten
+end D_AngebotsOk
 
-D_OrderSignature in Data
-end D_OrderSignature
+D_AuftragUnt in Daten
+end D_AuftragUnt
 
-D_ProjectTargetHours in Data
-end D_ProjectTargetHours
+D_ProjSollStunden in Daten
+end D_ProjSollStunden
 
-D_ProjectOrderPLSig in Data
-end D_ProjectOrderPLSig
+D_ProjAuftPlUnt in Daten
+end D_ProjAuftPlUnt
 
-D_PerbitVacation in Data
-end D_PerbitVacation
+D_PerbitUrlaub in Daten
+end D_PerbitUrlaub
 
-D_PerbitTraining in Data
-end D_PerbitTraining
+D_PerbitSchulung in Daten
+end D_PerbitSchulung
 
-D_CorrectionInfo in Data
-end D_CorrectionInfo
+D_KorrekturInfo in Daten
+end D_KorrekturInfo
 

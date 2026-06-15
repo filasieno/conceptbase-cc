@@ -34,12 +34,12 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
-Action in Class with
-  attribute transFollowsAfter : Action
+Aktion in Class with
+  attribute transFolgtAuf : Aktion
   rule
-     tfaTerm : $ forall a1,a2/Action (a1 follows_after a2) ==> (a1 transFollowsAfter a2)$;
-     tfaRec : $ forall a1,a2/Action  
-		(exists a3/Action (a1 follows_after a3) and (a3 transFollowsAfter a2))==> (a1 transFollowsAfter a2)$
+     tfaTerm : $ forall a1,a2/Aktion (a1 folgt_auf a2) ==> (a1 transFolgtAuf a2)$;
+     tfaRec : $ forall a1,a2/Aktion  
+		(exists a3/Aktion (a1 folgt_auf a3) and (a3 transFolgtAuf a2))==> (a1 transFolgtAuf a2)$
 
 end
  

@@ -36,178 +36,178 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 *}
 {$set syntax=PlainToronto}
 
-P_3010 in Action with
-  processed_by
-    who : A_Employee
-  follows_after
+P_3010 in Aktion with
+  bearbeitet_von
+    wer : A_Mitarbeiter
+  folgt_auf
     pVon : P_2080
-  takes
-    take_1 : TF_ProjectOrderEmployee
-  gives 
-    give_1 : TF_ProjectBilling;
-    give_2 : TF_MonthlyReport;
-    give_3 : TF_MonthSupplement;
-    give_4 : T_Absence;
-    give_5 : T_ExpenseReceipt
+  nimmt
+    nimm_1 : TF_ProjektAuftragMa
+  gibt 
+    gib_1 : TF_ProjektAbrechnung;
+    gib_2 : TF_MonatsBericht;
+    gib_3 : TF_MonZus;
+    gib_4 : T_Abwesenheit;
+    gib_5 : T_SpesenBeleg
   input
-    data_in_1 : D_ProjectNumber;
-    data_in_2 : D_CustomerName;
-    data_in_3 : D_EmployeeName
+    in_1 : D_ProjNummer;
+    in_2 : D_KundenName;
+    in_3 : D_MaName
   output
-    data_out_1 : D_ProjectBillingOnSiteExpenses;
-    data_out_2 : D_ProjectBillingHoursSum;
-    data_out_3 : D_ProjectBillingTotalHoursSum;
-    data_out_4 : D_ProjectBillingService;
-    data_out_5 : D_ProjectBillingExpensesSum;
-    data_out_6 : D_ProjectBillingExpenses;
-    data_out_7 : D_ProjectBillingSigEmployee;
-    data_out_8 : D_MonthIntHoursSum;
-    data_out_9 : D_MonthIntService;
-    data_out_9a : D_MonthIntExpenses;
-    data_out_10 : D_MonthIntExpensesSum;
-    data_out_11 : D_MonthIntSigEmployee;
-    data_out_12 : D_MonthSuppVacation;
-    data_out_13 : D_MonthSuppSchool;
-    data_out_14 : D_MonthSuppExpenses;
-    data_out_15 : D_ExpenseAmount;
-    data_out_16 : D_EmployeeVacation
-  input
-    in_1 : TF_ProjectOrderEmployee!projectNumber;
-    in_2 : TF_ProjectOrderEmployee!customerName;
-    in_3 : TF_ProjectOrderEmployee!maName
-  output
-    out_1 : TF_ProjectBilling!projectNumber;
-    out_2 : TF_ProjectBilling!customerName;
-    out_3 : TF_ProjectBilling!projectBillingMonth;
-    out_4 : TF_ProjectBilling!maName;
-    out_5 : TF_ProjectBilling!projectBillingOnSiteExpenses;
-    out_6 : TF_ProjectBilling!projectBillingHoursSum;
-    out_7 : TF_ProjectBilling!projectBillingExpensesSum;
-    out_8 : TF_ProjectBilling!projectBillingExpenses;
-    out_9 : TF_ProjectBilling!projectBillingTotalHoursSum;
-    out_9a : TF_ProjectBilling!projectBillingService;
-    out_9b : TF_ProjectBilling!projectBillingSigEmployee;
-    out_10 : TF_MonthlyReport!projectBillingMonth;
-    out_11 : TF_MonthlyReport!maName;
-    out_12 : TF_MonthlyReport!monthIntHoursSum;
-    out_13 : TF_MonthlyReport!monthIntService;
-    out_14 : TF_MonthlyReport!monthIntExpensesSum;
-    out_15 : TF_MonthlyReport!monthIntExpenses;
-    out_16 : TF_MonthlyReport!monthIntSigEmployee;
-    out_17 : TF_MonthlyReport!projectBillingExpensesSum;
-    out_18 : TF_MonthlyReport!projectBillingService;
-    out_20 : TF_MonthSupplement!projectBillingMonth;
-    out_21 : TF_MonthSupplement!maName;
-    out_22 : TF_MonthSupplement!monthSuppVacation;
-    out_23 : TF_MonthSupplement!monthIntHoursSum;
-    out_24 : TF_MonthSupplement!projectBillingTotalHoursSum;
-    out_25 : TF_MonthSupplement!monthIntService;
-    out_26 : TF_MonthSupplement!projectBillingExpensesSum;
-    out_27 : TF_MonthSupplement!monthIntExpensesSum;
-    out_28 : TF_MonthSupplement!monthSuppExpenses;
-    out_29 : TF_MonthSupplement!monthSuppSchool;
-    out_30 : T_ExpenseReceipt!expenseAmount;
-    out_40 : T_Absence!maName;
-    out_41 : T_Absence!employeeVacation
+    out_1 : D_ProjAbrSpesVorOrt;
+    out_2 : D_ProjAbrStundenSum;
+    out_3 : D_ProjAbrGesStdSum;
+    out_4 : D_ProjAbrLeistung;
+    out_5 : D_ProjAbrSpesenSum;
+    out_6 : D_ProjAbrSpesen;
+    out_7 : D_ProjAbrUntMa;
+    out_8 : D_MonIntStundenSum;
+    out_9 : D_MonIntLeistung;
+    out_9a : D_MonIntSpesen;
+    out_10 : D_MonIntSpesenSum;
+    out_11 : D_MonIntUntMa;
+    out_12 : D_MonZusUrlaub;
+    out_13 : D_MonZusSchule;
+    out_14 : D_MonZusSpesen;
+    out_15 : D_SpesenBetrag;
+    out_16 : D_MaUrlaub
+  eingabe
+    ein_1 : TF_ProjektAuftragMa!projNummer;
+    ein_2 : TF_ProjektAuftragMa!kundenName;
+    ein_3 : TF_ProjektAuftragMa!maName
+  ausgabe
+    aus_1 : TF_ProjektAbrechnung!projNummer;
+    aus_2 : TF_ProjektAbrechnung!kundenName;
+    aus_3 : TF_ProjektAbrechnung!projAbrMonat;
+    aus_4 : TF_ProjektAbrechnung!maName;
+    aus_5 : TF_ProjektAbrechnung!projAbrSpesVorOrt;
+    aus_6 : TF_ProjektAbrechnung!projAbrStundenSum;
+    aus_7 : TF_ProjektAbrechnung!projAbrSpesenSum;
+    aus_8 : TF_ProjektAbrechnung!projAbrSpesen;
+    aus_9 : TF_ProjektAbrechnung!projAbrGesStdSum;
+    aus_9a : TF_ProjektAbrechnung!projAbrLeistung;
+    aus_9b : TF_ProjektAbrechnung!projAbrUntMa;
+    aus_10 : TF_MonatsBericht!projAbrMonat;
+    aus_11 : TF_MonatsBericht!maName;
+    aus_12 : TF_MonatsBericht!monIntStundenSum;
+    aus_13 : TF_MonatsBericht!monIntLeistung;
+    aus_14 : TF_MonatsBericht!monIntSpesenSum;
+    aus_15 : TF_MonatsBericht!monIntSpesen;
+    aus_16 : TF_MonatsBericht!monIntUntMa;
+    aus_17 : TF_MonatsBericht!projAbrSpesenSum;
+    aus_18 : TF_MonatsBericht!projAbrLeistung;
+    aus_20 : TF_MonZus!projAbrMonat;
+    aus_21 : TF_MonZus!maName;
+    aus_22 : TF_MonZus!monZusUrlaub;
+    aus_23 : TF_MonZus!monIntStundenSum;
+    aus_24 : TF_MonZus!projAbrGesStdSum;
+    aus_25 : TF_MonZus!monIntLeistung;
+    aus_26 : TF_MonZus!projAbrSpesenSum;
+    aus_27 : TF_MonZus!monIntSpesenSum;
+    aus_28 : TF_MonZus!monZusSpesen;
+    aus_29 : TF_MonZus!monZusSchule;
+    aus_30 : T_SpesenBeleg!spesenBetrag;
+    aus_40 : T_Abwesenheit!maName;
+    aus_41 : T_Abwesenheit!maUrlaub
 end P_3010 
 
-P_3020 in Action with
-  processed_by
-    who : A_ProjectLeader
-  follows_after
+P_3020 in Aktion with
+  bearbeitet_von
+    wer : A_Projektleiter
+  folgt_auf
     pVon : P_3010
-  takes 
-    take_1 : TF_ProjectBilling;
-    take_2 : T_Absence;
-    take_3 : T_ExpenseReceipt;
-    take_4 : TF_ProjectOrder
-  gives
-    give_1 : TF_ProjectBilling;
-    give_2 : T_Absence;
-    give_3 : T_ExpenseReceipt
+  nimmt 
+    nimm_1 : TF_ProjektAbrechnung;
+    nimm_2 : T_Abwesenheit;
+    nimm_3 : T_SpesenBeleg;
+    nimm_4 : TF_ProjektAuftrag
+  gibt
+    gib_1 : TF_ProjektAbrechnung;
+    gib_2 : T_Abwesenheit;
+    gib_3 : T_SpesenBeleg
   input
-    data_in_1 : D_ProjectBillingMonth;
-    data_in_2 : D_ProjectNumber;
-    data_in_3 : D_EmployeeName;
-    data_in_4 : D_ProjectBillingSigEmployee;
-    data_in_5 : D_ProjectBillingService
+    in_1 : D_ProjAbrMonat;
+    in_2 : D_ProjNummer;
+    in_3 : D_MaName;
+    in_4 : D_ProjAbrUntMa;
+    in_5 : D_ProjAbrLeistung
   output
-    data_out_1 : D_ProjectBillingSigPL
-  input
-    in_1 : TF_ProjectOrder!projectNumber;
-    in_2 : TF_ProjectBilling!maName;
-    in_3 : TF_ProjectBilling!projectBillingSigEmployee;
-    in_4 : TF_ProjectBilling!projectBillingService;
-    in_5 : TF_ProjectBilling!projectBillingMonth;
-    in_6 : T_ExpenseReceipt!expenseAmount
-  output 
-    out_1 : TF_ProjectBilling!projectBillingSigPL
+    out_1 : D_ProjAbrUntPl
+  eingabe
+    ein_1 : TF_ProjektAuftrag!projNummer;
+    ein_2 : TF_ProjektAbrechnung!maName;
+    ein_3 : TF_ProjektAbrechnung!projAbrUntMa;
+    ein_4 : TF_ProjektAbrechnung!projAbrLeistung;
+    ein_5 : TF_ProjektAbrechnung!projAbrMonat;
+    ein_6 : T_SpesenBeleg!spesenBetrag
+  ausgabe 
+    aus_1 : TF_ProjektAbrechnung!projAbrUntPl
 end P_3020
 
-P_3030 in Action with
-  processed_by
-    who : A_CustomerPL
-  follows_after
+P_3030 in Aktion with
+  bearbeitet_von
+    wer : A_KundenPl
+  folgt_auf
     pVon : P_3020
-  takes 
-    take_1 : TF_ProjectBilling
-  gives
-    give_1 : TF_ProjectBilling
+  nimmt 
+    nimm_1 : TF_ProjektAbrechnung
+  gibt
+    gib_1 : TF_ProjektAbrechnung
   input
-    data_in_1 : D_ProjectBillingMonth;
-    data_in_2 : D_ProjectNumber;
-    data_in_3 : D_EmployeeName;
-    data_in_4 : D_ProjectBillingSigEmployee;
-    data_in_5 : D_ProjectBillingService;
-    data_in_6 : D_ProjectBillingOnSiteExpenses
+    in_1 : D_ProjAbrMonat;
+    in_2 : D_ProjNummer;
+    in_3 : D_MaName;
+    in_4 : D_ProjAbrUntMa;
+    in_5 : D_ProjAbrLeistung;
+    in_6 : D_ProjAbrSpesVorOrt
   output
-    data_out_1 : D_ProjectBillingSigCustomer
-  input
-    in_1 : TF_ProjectBilling!projectBillingMonth;
-    in_2 : TF_ProjectBilling!projectNumber;
-    in_3 : TF_ProjectBilling!maName;
-    in_4 : TF_ProjectBilling!projectBillingSigEmployee;
-    in_5 : TF_ProjectBilling!projectBillingService;
-    in_6 : TF_ProjectBilling!projectBillingOnSiteExpenses
-  output 
-    out_1 : TF_ProjectBilling!projectBillingSigCustomer
+    out_1 : D_ProjAbrUntKd
+  eingabe
+    ein_1 : TF_ProjektAbrechnung!projAbrMonat;
+    ein_2 : TF_ProjektAbrechnung!projNummer;
+    ein_3 : TF_ProjektAbrechnung!maName;
+    ein_4 : TF_ProjektAbrechnung!projAbrUntMa;
+    ein_5 : TF_ProjektAbrechnung!projAbrLeistung;
+    ein_6 : TF_ProjektAbrechnung!projAbrSpesVorOrt
+  ausgabe 
+    aus_1 : TF_ProjektAbrechnung!projAbrUntKd
 end P_3030
 
-P_3040 in Action with
-  processed_by
-    who : A_ProjectLeader
-  follows_after
+P_3040 in Aktion with
+  bearbeitet_von
+    wer : A_Projektleiter
+  folgt_auf
     pVon_3020 : P_3020;
     pVon_3030 : P_3030
-  takes
-    take_1 : TF_ProjectOrder;
-    take_2 : TF_ProjectBilling
-  gives
-    give_1 : TF_ProjectBilling;
-    give_2 : TF_StatusReport
+  nimmt
+    nimm_1 : TF_ProjektAuftrag;
+    nimm_2 : TF_ProjektAbrechnung
+  gibt
+    gib_1 : TF_ProjektAbrechnung;
+    gib_2 : TF_StatusBericht
   input
-    data_in_1 : D_ProjectBillingMonth;
-    data_in_2 : D_ProjectNumber;
-    data_in_3 : D_ProjectBillingService
+    in_1 : D_ProjAbrMonat;
+    in_2 : D_ProjNummer;
+    in_3 : D_ProjAbrLeistung
   output
-    data_out_1 : D_ProjectStatusOperative;
-    data_out_2 : D_ProjectStatusFixedPrice;
-    data_out_3 : D_ProjectStatusInvoice;
-    data_out_4 : D_ProjectStatusComplete;
-    data_out_5 : D_ProjectStatusSignature
-  input
-    in_1 : TF_ProjectOrder!projectNumber;
-    in_2 : TF_ProjectBilling!projectBillingMonth;
-    in_3 : TF_ProjectBilling!projectNumber;
-    in_4 : TF_ProjectBilling!projectBillingService
-  output
-    out_1 : TF_StatusReport!projectNumber;
-    out_2 : TF_StatusReport!projectBillingMonth;
-    out_3 : TF_StatusReport!projectStatusOperative;
-    out_4 : TF_StatusReport!projectStatusFixedPrice;
-    out_5 : TF_StatusReport!projectStatusInvoice;
-    out_6 : TF_StatusReport!projectStatusComplete;
-    out_7 : TF_StatusReport!projectStatusSignature
+    out_1 : D_ProjStatOperativ;
+    out_2 : D_ProjStatFestpreis;
+    out_3 : D_ProjStatRechng;
+    out_4 : D_ProjStatFertig;
+    out_5 : D_ProjStatUnt
+  eingabe
+    ein_1 : TF_ProjektAuftrag!projNummer;
+    ein_2 : TF_ProjektAbrechnung!projAbrMonat;
+    ein_3 : TF_ProjektAbrechnung!projNummer;
+    ein_4 : TF_ProjektAbrechnung!projAbrLeistung
+  ausgabe
+    aus_1 : TF_StatusBericht!projNummer;
+    aus_2 : TF_StatusBericht!projAbrMonat;
+    aus_3 : TF_StatusBericht!projStatOperativ;
+    aus_4 : TF_StatusBericht!projStatFestpreis;
+    aus_5 : TF_StatusBericht!projStatRechng;
+    aus_6 : TF_StatusBericht!projStatFertig;
+    aus_7 : TF_StatusBericht!projStatUnt
 end P_3040
 
 

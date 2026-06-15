@@ -38,9 +38,9 @@ end
 "
 
 setModule M1
-result OK "M0"
+result OK "M1"
 
-# module M0 gets a general constraint on attribute typing. It is a variant
+# The home module (oHome) gets a general constraint on attribute typing. It is a variant
 # of O-Telos axiom 14. We have to use 'attributeclass' instead of 'attribute'
 # to avoid interference.
 

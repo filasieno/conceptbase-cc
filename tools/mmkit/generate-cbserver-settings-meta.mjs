@@ -13,12 +13,12 @@ const require = createRequire(
   path.join(repoRoot, "components/mmkit/packages/server/package.json"),
 );
 const yaml = require("js-yaml");
-const cbserverRoot = path.join(
+const configRoot = path.join(
   repoRoot,
-  "components/mmkit/packages/server/src/cbserver",
+  "components/mmkit/packages/server/src/cbserver/actors/server/settings",
 );
-const yamlPath = path.join(cbserverRoot, "cbserver-settings.meta.yaml");
-const outPath = path.join(cbserverRoot, "cbserver-settings.meta.gen.ts");
+const yamlPath = path.join(configRoot, "cbserver-settings.meta.yaml");
+const outPath = path.join(configRoot, "cbserver-settings.meta.gen.ts");
 
 const raw = fs.readFileSync(yamlPath, "utf8");
 const doc = yaml.load(raw);

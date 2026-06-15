@@ -34,55 +34,55 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
-GenericQueryClass ActionSources isA Action with
+GenericQueryClass AktionenQuellen isA Aktion with
   constraint
     aq : $
-  not exists a/Action (this follows_after a)
+  not exists a/Aktion (this folgt_auf a)
      $
 end
 
-GenericQueryClass ActionSinks isA Action with
+GenericQueryClass AktionenSenken isA Aktion with
   constraint
      as : $
-	not exists a/Action (a follows_after this)
+	not exists a/Aktion (a folgt_auf this)
      $
 end
 
-GenericQueryClass P_PredecessorOf isA Action with
+GenericQueryClass P_VorgaengerVon isA Aktion with
   parameter
-    a1 : Action
+    a1 : Aktion
   constraint
      vv : $
-	(~a1 transFollowsAfter this)
+	(~a1 transFolgtAuf this)
      $
 end
 
-GenericQueryClass P_NotPredecessorOf isA Action with
+GenericQueryClass P_NichtVorgaengerVon isA Aktion with
   parameter
-    a1 : Action
+    a1 : Aktion
   constraint
      nvv : $
-	not (~a1 transFollowsAfter this)
+	not (~a1 transFolgtAuf this)
      $
 end
 
-GenericQueryClass P_SuccessorOf isA Action with
+GenericQueryClass P_NachfolgerVon isA Aktion with
   parameter
-    a1 : Action
+    a1 : Aktion
   constraint
      nv : $
-	(this transFollowsAfter ~a1)
+	(this transFolgtAuf ~a1)
      $
 end
 
 
 
-GenericQueryClass P_NotSuccessorOf isA Action with
+GenericQueryClass P_NichtNachfolgerVon isA Aktion with
   parameter
-    a1 : Action
+    a1 : Aktion
   constraint
      c1 : $
-        not (this transFollowsAfter ~a1)
+        not (this transFolgtAuf ~a1)
      $
 end
 

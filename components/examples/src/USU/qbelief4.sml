@@ -34,80 +34,80 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
-GenericQueryClass ActorNeedsNothing isA Actor with
+GenericQueryClass AkteurNichtsBraucht isA Akteur with
   constraint
      c1 : $
-  not exists t/Carrier (this needs t)
+  not exists t/Traeger (this braucht t)
   $
 end
 
-GenericQueryClass ActorCreatesNothing isA Actor with
+GenericQueryClass AkteurNichtsErzeugt isA Akteur with
   constraint
     c1 : $
-  not exists t/Carrier (this creates t)
+  not exists t/Traeger (this erzeugt t)
   $
 end
 
-GenericQueryClass ActorCreatesAndNeeds isA Actor with
+GenericQueryClass AkteurErzeugtUndBraucht isA Akteur with
   computed_attribute
-    oneInOut : Carrier
+    einAus : Traeger
   constraint
      c1 : $
-  (this creates ~oneInOut) and (this needs ~oneInOut)
+  (this erzeugt ~einAus) and (this braucht ~einAus)
   $
 end
 
-GenericQueryClass ActorCreatesWithoutNeeds isA Actor with
+GenericQueryClass AkteurErzeugtOhneBraucht isA Akteur with
   computed_attribute
-    firstTime : Carrier
+    erstmalig : Traeger
   constraint
      c1 : $
-          (this creates ~firstTime)
-  and not (this needs ~firstTime)
+          (this erzeugt ~erstmalig)
+  and not (this braucht ~erstmalig)
   $
 end
 
-GenericQueryClass ActorNeedsWithoutCreates isA Actor with
+GenericQueryClass AkteurBrauchtOhneErzeugt isA Akteur with
   computed_attribute
-    lastTime : Carrier
+    letztmalig : Traeger
   constraint
      c1 : $
-          (this needs ~lastTime)
-  and not (this creates ~lastTime)
+          (this braucht ~letztmalig)
+  and not (this erzeugt ~letztmalig)
   $
 end
 
-GenericQueryClass CarrierCreatedWithoutNeeded isA Carrier with
+GenericQueryClass TraegerErzeugtOhneBraucht isA Traeger with
   computed_attribute
-    firstOne : Actor
+    erster : Akteur
   constraint
      c1 : $
-          (~firstOne creates this)
-  and not (~firstOne needs this)
+          (~erster erzeugt this)
+  and not (~erster braucht this)
   $
 end
 
-GenericQueryClass CarrierNeededWithoutCreated isA Carrier with
+GenericQueryClass TraegerBrauchtOhneErzeugt isA Traeger with
   computed_attribute
-    lastOne : Actor
+    letzter : Akteur
   constraint
      c1 : $
-          (~lastOne needs this)
-  and not (~lastOne creates this)
+          (~letzter braucht this)
+  and not (~letzter erzeugt this)
   $
 end
 
-GenericQueryClass CarrierNeverCreated isA Carrier with
+GenericQueryClass TraegerNieErzeugt isA Traeger with
   constraint
      c1 : $
-  not exists a/Actor (a creates this)
+  not exists a/Akteur (a erzeugt this)
   $
 end
 
-GenericQueryClass CarrierNeverNeeded isA Carrier with
+GenericQueryClass TraegerNieGebraucht isA Traeger with
   constraint
      c1 : $
-  not exists a/Actor (a needs this )
+  not exists a/Akteur (a braucht this )
   $
 end
 

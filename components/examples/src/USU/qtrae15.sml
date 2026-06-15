@@ -34,35 +34,35 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
-GenericQueryClass GivesNothing isA Action with
+GenericQueryClass GibtNichts isA Aktion with
   constraint
      c1 : $
-  not exists t/Carrier (this gives t)
+  not exists t/Traeger (this gibt t)
   $
 end
 
-GenericQueryClass TakesNothing isA Action with
+GenericQueryClass NimmtNichts isA Aktion with
   constraint
      c1 : $
-  not exists t/Carrier (this takes t)
+  not exists t/Traeger (this nimmt t)
   $
 end
 
-GenericQueryClass CarrierTakenList isA Carrier with
+GenericQueryClass TraegerGenommenListe isA Traeger with
    computed_attribute
-	takes : Action
+	nimmt : Aktion
   constraint
      c1 : $
-	(~takes takes this)
+	(~nimmt nimmt this)
   $
 end
 
-GenericQueryClass CarrierGivenList isA Carrier with
+GenericQueryClass TraegerGegebenListe isA Traeger with
    computed_attribute
-	gives : Action
+	gibt : Aktion
   constraint
      c1 : $
-	(~gives gives this)
+	(~gibt gibt this)
   $
 end
 

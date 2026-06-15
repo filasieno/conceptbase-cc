@@ -34,44 +34,44 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
-GenericQueryClass ActorSupply isA Actor with
+GenericQueryClass AkteurBelieferung isA Akteur with
   computed_attribute
-    receives : Carrier
+    bekommt : Traeger
   constraint
      c1 : $
-  exists a/Actor!supplies To(a, this)
-  and (a via ~receives)
+  exists a/Akteur!beliefert To(a, this)
+  and (a mit ~bekommt)
   $
 end
 
-GenericQueryClass SupplyEachOtherWith isA Actor with
+GenericQueryClass BeliefernEinanderMit isA Akteur with
   computed_attribute
-    who : Actor;
-    what : Carrier
+    wer : Akteur;
+    was : Traeger
   constraint
      c1 : $
       not (~wer == this)
-  and exists q1,q2/Actor!supplies
+  and exists q1,q2/Akteur!beliefert
           To(q1, this) and From(q1, ~wer)
       and To(q2, ~wer) and From(q2, this)
-      and exists t1,t2/Actor!supplies!via
+      and exists t1,t2/Akteur!beliefert!mit
               From(t1, q1) and To(t1, ~was)
           and From(t2, q2) and To(t2, ~was)
   $
 end
 
-GenericQueryClass SuppliesWithNothing
-isA Actor!supplies with
+GenericQueryClass BeliefertMitNichts
+isA Akteur!beliefert with
   constraint
     c1 : $
-  not exists t/Carrier (this via t)
+  not exists t/Traeger (this mit t)
   $
 end
 
-GenericQueryClass UndeliveredCarriers isA Carrier with
+GenericQueryClass UngelieferteTraeger isA Traeger with
   constraint
     c1 : $
-  not exists x/Actor!supplies (x via this)
+  not exists x/Akteur!beliefert (x mit this)
   $
 end
 

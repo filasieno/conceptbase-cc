@@ -35,25 +35,25 @@ This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
 
-GenericQueryClass DataInputWithoutTaking isA Action with
+GenericQueryClass InputOhneNehmen isA Aktion with
    computed_attribute
-	dataInputted : Data
+	ingeputtet : Daten
   constraint
      c1 : $
-	(this data_input ~dataInputted) and
-  not exists t/Carrier (t contains ~dataInputted) and
-	(this takes t)
+	(this input ~ingeputtet) and
+  not exists t/Traeger (t enthaelt ~ingeputtet) and
+	(this nimmt t)
   $
 end 
  
-GenericQueryClass DataOutputWithoutGiving isA Action with
+GenericQueryClass OutputOhneGeben isA Aktion with
    computed_attribute
-	dataOutputted : Data
+	outgeputtet : Daten
   constraint
      c1 : $
-	(this data_output ~dataOutputted) and
-  not exists t/Carrier (t contains ~dataOutputted) and
-	(this gives t)
+	(this output ~outgeputtet) and
+  not exists t/Traeger (t enthaelt ~outgeputtet) and
+	(this gibt t)
   $
 end 
  

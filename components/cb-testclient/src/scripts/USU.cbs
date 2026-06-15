@@ -1,3 +1,7 @@
+# USU regression script (identifiers German, matching ProductPOOL original).
+# English query-class names (examples): NieBeliefert=NeverSupplied,
+# BeliefertKeinen=SuppliesNobody, BeliefernEinander=SupplyEachOther,
+# AkteurBelieferung=ActorSupply, NimmtOhneBraucht=TakesWithoutNeeds, ...
 startServer -d USU
 tellModel "$CB_WORK/examples/USU/model01"
 result OK "yes"

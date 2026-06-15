@@ -1,4 +1,11 @@
-startServer -u nonpersistent -c transient 
+# DeadEndCity / DeadStartCity are recursive query classes whose membership
+# depends negatively on themselves (recursion through negation). Such queries
+# are intentionally unstratified, so the documented answers below are only
+# reproducible with the rule stratification test disabled (-st off). With the
+# default -st on the engine correctly reports a STRATIFICATION_VIOLATION instead
+# of the city list. The companion regression script BigFlights.cbs uses -st off
+# for the same reason.
+startServer -u nonpersistent -c transient -st off
 tellModel /home/jeusfeld/CBMODELS/BigFlights
 result OK yes
 ask DeadEndCity OBJNAMES FRAME Now

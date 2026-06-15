@@ -37,294 +37,294 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 {$set syntax=PlainToronto}
 
 
-TF_StatusReport in Carrier with
-  contains
-    projectNumber : D_ProjectNumber;
-    projectBillingMonth : D_ProjectBillingMonth;
-    projectStatusOperative : D_ProjectStatusOperative;
-    projectStatusFixedPrice : D_ProjectStatusFixedPrice;
-    projectStatusInvoice : D_ProjectStatusInvoice;
-    projectStatusComplete : D_ProjectStatusComplete;
-    projectStatusCompleteSum : D_ProjectStatusCompleteSum;
-    projectStatusSignature : D_ProjectStatusSignature
-end TF_StatusReport
+TF_StatusBericht in Traeger with
+  enthaelt
+    projNummer : D_ProjNummer;
+    projAbrMonat : D_ProjAbrMonat;
+    projStatOperativ : D_ProjStatOperativ;
+    projStatFestpreis : D_ProjStatFestpreis;
+    projStatRechng : D_ProjStatRechng;
+    projStatFertig : D_ProjStatFertig;
+    projStatFertigSum : D_ProjStatFertigSum;
+    projStatUnt : D_ProjStatUnt
+end TF_StatusBericht
 
-TF_ProjectBilling in Carrier with
-  contains
-    projectNumber: D_ProjectNumber;
-    projectBillingMonth : D_ProjectBillingMonth;
-    maName : D_EmployeeName;
-    customerName : D_CustomerName;
-    projectBillingBusinessArea : D_ProjectBillingBusinessArea;
-    projectBillingSigEmployee : D_ProjectBillingSigEmployee;
-    projectBillingSigPL : D_ProjectBillingSigPL;
-    projectBillingExpensesSum : D_ProjectBillingExpensesSum;
-    projectBillingExpenses : D_ProjectBillingExpenses;
-    projectBillingTotalHoursSum : D_ProjectBillingTotalHoursSum;
-    projectBillingOnSiteExpenses : D_ProjectBillingOnSiteExpenses;
-    projectBillingHoursSum : D_ProjectBillingHoursSum;
-    projectBillingService : D_ProjectBillingService;
-    projectBillingBonusExtra : D_ProjectBillingBonusExtra;
-    projectBillingSigCustomer : D_ProjectBillingSigCustomer;
-    projectBillingMaterialSig : D_ProjectBillingMaterialSig;
-    projectBillingInvoiceSig : D_ProjectBillingInvoiceSig
-end TF_ProjectBilling
+TF_ProjektAbrechnung in Traeger with
+  enthaelt
+    projNummer: D_ProjNummer;
+    projAbrMonat : D_ProjAbrMonat;
+    maName : D_MaName;
+    kundenName : D_KundenName;
+    projAbrGB : D_ProjAbrGB;
+    projAbrUntMa : D_ProjAbrUntMa;
+    projAbrUntPl : D_ProjAbrUntPl;
+    projAbrSpesenSum : D_ProjAbrSpesenSum;
+    projAbrSpesen : D_ProjAbrSpesen;
+    projAbrGesStdSum : D_ProjAbrGesStdSum;
+    projAbrSpesVorOrt : D_ProjAbrSpesVorOrt;
+    projAbrStundenSum : D_ProjAbrStundenSum;
+    projAbrLeistung : D_ProjAbrLeistung;
+    projAbrBonusExtra : D_ProjAbrBonusExtra;
+    projAbrUntKd : D_ProjAbrUntKd;
+    projAbrSachlUnt : D_ProjAbrSachlUnt;
+    projAbrRechnUnt : D_ProjAbrRechnUnt
+end TF_ProjektAbrechnung
 
-TF_MonthlyReport in Carrier with
-  contains
-    maName : D_EmployeeName;
-    projectBillingMonth : D_ProjectBillingMonth;
-    monthIntExpenses : D_MonthIntExpenses;
-    monthIntExpensesSum : D_MonthIntExpensesSum;
-    monthIntHoursSum : D_MonthIntHoursSum;
-    monthIntService : D_MonthIntService;
-    projectBillingService : D_ProjectBillingService;
-    projectBillingExpensesSum : D_ProjectBillingExpensesSum;
-    monthIntSigEmployee : D_MonthIntSigEmployee;
-    monthIntSigPersonnelMgr : D_MonthIntSigPersonnelMgr;
-    monthIntMaterialSig : D_MonthIntMaterialSig;
-    monthIntInvoiceSig : D_MonthIntInvoiceSig
-end TF_MonthlyReport
+TF_MonatsBericht in Traeger with
+  enthaelt
+    maName : D_MaName;
+    projAbrMonat : D_ProjAbrMonat;
+    monIntSpesen : D_MonIntSpesen;
+    monIntSpesenSum : D_MonIntSpesenSum;
+    monIntStundenSum : D_MonIntStundenSum;
+    monIntLeistung : D_MonIntLeistung;
+    projAbrLeistung : D_ProjAbrLeistung;
+    projAbrSpesenSum : D_ProjAbrSpesenSum;
+    monIntUntMa : D_MonIntUntMa;
+    monIntUntPv : D_MonIntUntPv;
+    monIntSachlUnt : D_MonIntSachlUnt;
+    monIntRechnUnt : D_MonIntRechnUnt
+end TF_MonatsBericht
 
-TF_MonthSupplement in Carrier with
-  contains
-    maName : D_EmployeeName;
-    projectBillingMonth : D_ProjectBillingMonth;
-    monthIntExpensesSum : D_MonthIntExpensesSum;
-    monthIntHoursSum : D_MonthIntHoursSum;
-    monthIntService : D_MonthIntService;
-    monthSuppVacation : D_MonthSuppVacation;
-    monthSuppSchool : D_MonthSuppSchool;
-    projectBillingTotalHoursSum : D_ProjectBillingTotalHoursSum;
-    projectBillingExpensesSum : D_ProjectBillingExpensesSum;
-    monthSuppExpenses : D_MonthSuppExpenses;
-    monthSuppMaterialSig : D_MonthSuppMaterialSig;
-    monthSuppInvoiceSig : D_MonthSuppInvoiceSig
-end TF_MonthSupplement
+TF_MonZus in Traeger with
+  enthaelt
+    maName : D_MaName;
+    projAbrMonat : D_ProjAbrMonat;
+    monIntSpesenSum : D_MonIntSpesenSum;
+    monIntStundenSum : D_MonIntStundenSum;
+    monIntLeistung : D_MonIntLeistung;
+    monZusUrlaub : D_MonZusUrlaub;
+    monZusSchule : D_MonZusSchule;
+    projAbrGesStdSum : D_ProjAbrGesStdSum;
+    projAbrSpesenSum : D_ProjAbrSpesenSum;
+    monZusSpesen : D_MonZusSpesen;
+    monZusSachlUnt : D_MonZusSachlUnt;
+    monZusRechnUnt : D_MonZusRechnUnt
+end TF_MonZus
 
-T_ExpenseReceipt in Carrier with
-  contains
-    expenseAmount : D_ExpenseAmount;
-    expenseReceiptMaterialSig : D_ExpenseReceiptMaterialSig;
-    expenseReceiptInvoiceSig : D_ExpenseReceiptInvoiceSig
-end T_ExpenseReceipt
+T_SpesenBeleg in Traeger with
+  enthaelt
+    spesenBetrag : D_SpesenBetrag;
+    spesBelSachlUnt : D_SpesBelSachlUnt;
+    spesBelRechnUnt : D_SpesBelRechnUnt
+end T_SpesenBeleg
 
-T_Invoice in Carrier with
-  contains
-    invoiceNumber : D_InvoiceNumber;
-    projectNumber : D_ProjectNumber;
-    projectBillingMonth : D_ProjectBillingMonth;
-    customerName : D_CustomerName;
-    projectBillingHoursSum : D_ProjectBillingHoursSum;
-    projectBillingSum : D_ProjectBillingSum;
-    expenseAmountSum : D_ExpenseAmountSum;
-    invoiceSignature : D_InvoiceSignature
-end T_Invoice
+T_Rechnung in Traeger with
+  enthaelt
+    rechngNummer : D_RechngNummer;
+    projNummer : D_ProjNummer;
+    projAbrMonat : D_ProjAbrMonat;
+    kundenName : D_KundenName;
+    projAbrStundenSum : D_ProjAbrStundenSum;
+    projAbrSumme : D_ProjAbrSumme;
+    spesenBetragSum : D_SpesenBetragSum;
+    rechngUnt : D_RechngUnt
+end T_Rechnung
 
-TW_Invoice in Carrier with
-  contains
-    invoiceNumber : D_InvoiceNumber;
-    projectNumber : D_ProjectNumber;
-    projectBillingMonth : D_ProjectBillingMonth;
-    customerName : D_CustomerName;
-    projectBillingHoursSum : D_ProjectBillingHoursSum;
-    projectBillingSum : D_ProjectBillingSum;
-    expenseAmountSum : D_ExpenseAmountSum
-end TW_Invoice
+TW_Rechnung in Traeger with
+  enthaelt
+    rechngNummer : D_RechngNummer;
+    projNummer : D_ProjNummer;
+    projAbrMonat : D_ProjAbrMonat;
+    kundenName : D_KundenName;
+    projAbrStundenSum : D_ProjAbrStundenSum;
+    projAbrSumme : D_ProjAbrSumme;
+    spesenBetragSum : D_SpesenBetragSum
+end TW_Rechnung
 
-T_Evaluations in Carrier with
-end T_Evaluations
+T_Auswertungen in Traeger with
+end T_Auswertungen
 
-T_RevenueList in Carrier with
-  contains
-    projectBillingMonth : D_ProjectBillingMonth;
-    projectNumber : D_ProjectNumber;
-    projectBillingHoursSum : D_ProjectBillingHoursSum;
-    projectBillingSum : D_ProjectBillingSum;
-    expenseAmountSum : D_ExpenseAmountSum;
-    customerName : D_CustomerName;
-    projectBillingBusinessArea : D_ProjectBillingBusinessArea
-end T_RevenueList
+T_UmsatzListe in Traeger with
+  enthaelt
+    projAbrMonat : D_ProjAbrMonat;
+    projNummer : D_ProjNummer;
+    projAbrStundenSum : D_ProjAbrStundenSum;
+    projAbrSumme : D_ProjAbrSumme;
+    spesenBetragSum : D_SpesenBetragSum;
+    kundenName : D_KundenName;
+    projAbrGB : D_ProjAbrGB
+end T_UmsatzListe
 
-T_CostRates in Carrier with
-  contains
-    maName : D_EmployeeName;
-    costRate : D_CostRate
-end T_CostRates
+T_Kostensaetze in Traeger with
+  enthaelt
+    maName : D_MaName;
+    kostenSatz : D_KostenSatz
+end T_Kostensaetze
 
-T_MiscCosts in Carrier with
-  contains
-    miscAmount : D_MiscAmount
-end T_MiscCosts
+T_SonstKosten in Traeger with
+  enthaelt
+    sonstBetrag : D_SonstBetrag
+end T_SonstKosten
 
-T_Absence in Carrier with
-  contains
-    maName : D_EmployeeName;
-    employeeVacation : D_EmployeeVacation
-end T_Absence
+T_Abwesenheit in Traeger with
+  enthaelt
+    maName : D_MaName;
+    maUrlaub : D_MaUrlaub
+end T_Abwesenheit
 
-T_BookingList in Carrier with
-  contains
-    invoiceNumber : D_InvoiceNumber;
-    projectNumber : D_ProjectNumber;
-    projectBillingMonth : D_ProjectBillingMonth
-end T_BookingList
+T_BuchungsListe in Traeger with
+  enthaelt
+    rechngNummer : D_RechngNummer;
+    projNummer : D_ProjNummer;
+    projAbrMonat : D_ProjAbrMonat
+end T_BuchungsListe
 
-T_Reminder in Carrier with
-  contains
-    invoiceNumber : D_InvoiceNumber
-end T_Reminder
+T_Mahnung in Traeger with
+  enthaelt
+    rechngNummer : D_RechngNummer
+end T_Mahnung
 
-T_Order in Carrier with
-  contains
-    customerName : D_CustomerName;
-    offerNumber : D_OfferNumber;
-    orderSignature : D_OrderSignature
-end T_Order
+T_Auftrag in Traeger with
+  enthaelt
+    kundenName : D_KundenName;
+    angebotsNummer : D_AngebotsNummer;
+    auftragUnt : D_AuftragUnt
+end T_Auftrag
 
-T_Inquiry in Carrier with
-  contains
-    customerName : D_CustomerName
-end T_Inquiry
+T_Anfrage in Traeger with
+  enthaelt
+    kundenName : D_KundenName
+end T_Anfrage
 
-T_Offer in Carrier with
-  contains
-    customerName : D_CustomerName;
-    offerNumber : D_OfferNumber;
-    offerService : D_OfferService;
-    offerSigManagement : D_OfferSigManagement
-end T_Offer
+T_Angebot in Traeger with
+  enthaelt
+    kundenName : D_KundenName;
+    angebotsNummer : D_AngebotsNummer;
+    angebotsLeistung : D_AngebotsLeistung;
+    angebotUntGL : D_AngebotUntGL
+end T_Angebot
 
-TF_CalculationSheet in Carrier with
-  contains
-    customerName: D_CustomerName;
-    offerNumber : D_OfferNumber;
-    offerService : D_OfferService;
-    calcHours : D_CalcHours;
-    offerOk : D_OfferOk
-end TF_CalculationSheet
+TF_Kalkulationsblatt in Traeger with
+  enthaelt
+    kundenName: D_KundenName;
+    angebotsNummer : D_AngebotsNummer;
+    angebotsLeistung : D_AngebotsLeistung;
+    kalkStunden : D_KalkStunden;
+    angebotsOk : D_AngebotsOk
+end TF_Kalkulationsblatt
 
-TF_ProjectOrder in Carrier with
-  contains
-    projectNumber : D_ProjectNumber;
-    customerName : D_CustomerName;
-    plName : D_PLName;
-    projectTargetHours : D_ProjectTargetHours
-end TF_ProjectOrder
+TF_ProjektAuftrag in Traeger with
+  enthaelt
+    projNummer : D_ProjNummer;
+    kundenName : D_KundenName;
+    plName : D_PlName;
+    projSollStunden : D_ProjSollStunden
+end TF_ProjektAuftrag
 
-TF_ProjectOrderEmployee in Carrier with
-  contains
-    projectNumber : D_ProjectNumber;
-    customerName : D_CustomerName;
-    plName : D_PLName;
-    maName : D_EmployeeName;
-    projectTargetHours : D_ProjectTargetHours;
-    projectOrderPLSig : D_ProjectOrderPLSig
-end TF_ProjectOrderEmployee
+TF_ProjektAuftragMa in Traeger with
+  enthaelt
+    projNummer : D_ProjNummer;
+    kundenName : D_KundenName;
+    plName : D_PlName;
+    maName : D_MaName;
+    projSollStunden : D_ProjSollStunden;
+    projAuftPlUnt : D_ProjAuftPlUnt
+end TF_ProjektAuftragMa
 
-TF_ProjectCreation in Carrier with
-  contains
-    projectNumber : D_ProjectNumber;
-    customerName : D_CustomerName;
-    offerService : D_OfferService;
-    projectTargetHours : D_ProjectTargetHours
-end TF_ProjectCreation
+TF_ProjektAnlage in Traeger with
+  enthaelt
+    projNummer : D_ProjNummer;
+    kundenName : D_KundenName;
+    angebotsLeistung : D_AngebotsLeistung;
+    projSollStunden : D_ProjSollStunden
+end TF_ProjektAnlage
 
-TF_ProjectClosure in Carrier
-end TF_ProjectClosure
+TF_ProjektAbschluss in Traeger
+end TF_ProjektAbschluss
 
-T_ProjectFolder in Carrier
-end T_ProjectFolder
+T_ProjektOrdner in Traeger
+end T_ProjektOrdner
 
-T_TargetProjectList in Carrier with
-  contains
-    projectNumber : D_ProjectNumber;
-    projectBillingMonth : D_ProjectBillingMonth;
-    maName : D_EmployeeName;
-    costRate : D_CostRate
-end T_TargetProjectList
+T_SollProjektListe in Traeger with
+  enthaelt
+    projNummer : D_ProjNummer;
+    projAbrMonat : D_ProjAbrMonat;
+    maName : D_MaName;
+    kostenSatz : D_KostenSatz
+end T_SollProjektListe
 
-TX_SemiFinished in Carrier with
-  contains
-    projectNumber : D_ProjectNumber;
-    projectBillingMonth : D_ProjectBillingMonth;
-    semiFinishedSum : D_SemiFinishedSum;
-    semiFinishedRemainingEffort : D_SemiFinishedRemainingEffort
-end T_SemiFinished
+TX_Halbfertige in Traeger with
+  enthaelt
+    projNummer : D_ProjNummer;
+    projAbrMonat : D_ProjAbrMonat;
+    halbFertigSumme : D_HalbFertigSumme;
+    halbFertigRestaufwand : D_HalbFertigRestaufwand
+end T_Halbfertige
 
-TX_ExpenseInvoice in Carrier with
-  contains
-    expenseAmount : D_ExpenseAmount;
-    expenseAmountNet : D_ExpenseAmountNet
-end TX_ExpenseInvoice
+TX_SpesenRechnung in Traeger with
+  enthaelt
+    spesenBetrag : D_SpesenBetrag;
+    spesenBetragNetto : D_SpesenBetragNetto
+end TX_SpesenRechnung
 
-TX_Probat in Carrier with
-  contains
-    projectNumber : D_ProjectNumber;
-    plName : D_PLName;
-    projectTargetHours : D_ProjectTargetHours;
-    projectBillingService : D_ProjectBillingService;
-    projectBillingHoursSum : D_ProjectBillingHoursSum;
-    projectBillingOnSiteExpenses : D_ProjectBillingOnSiteExpenses;
-    projectBillingMonth : D_ProjectBillingMonth;
-    expenseAmountNet : D_ExpenseAmountNet;
-    miscAmount : D_MiscAmount;
-    maName : D_EmployeeName;
-    customerName: D_CustomerName;
-    projectBillingTotalHoursSum : D_ProjectBillingTotalHoursSum;
-    projectBillingExpensesSum : D_ProjectBillingExpensesSum;
-    monthIntHoursSum : D_MonthIntHoursSum;
-    monthIntExpensesSum : D_MonthIntExpensesSum
+TX_Probat in Traeger with
+  enthaelt
+    projNummer : D_ProjNummer;
+    plName : D_PlName;
+    projSollStunden : D_ProjSollStunden;
+    projAbrLeistung : D_ProjAbrLeistung;
+    projAbrStundenSum : D_ProjAbrStundenSum;
+    projAbrSpesVorOrt : D_ProjAbrSpesVorOrt;
+    projAbrMonat : D_ProjAbrMonat;
+    spesenBetragNetto : D_SpesenBetragNetto;
+    sonstBetrag : D_SonstBetrag;
+    maName : D_MaName;
+    kundenName: D_KundenName;
+    projAbrGesStdSum : D_ProjAbrGesStdSum;
+    projAbrSpesenSum : D_ProjAbrSpesenSum;
+    monIntStundenSum : D_MonIntStundenSum;
+    monIntSpesenSum : D_MonIntSpesenSum
 end TX_Probat
 
-TX_Fibu in Carrier with
-  contains
-    invoiceNumber : D_InvoiceNumber;
-    paid : D_Paid;
-    monthSuppExpenses : D_MonthSuppExpenses;
-    projectBillingMonth : D_ProjectBillingMonth;
-    maName : D_EmployeeName
+TX_Fibu in Traeger with
+  enthaelt
+    rechngNummer : D_RechngNummer;
+    bezahlt : D_Bezahlt;
+    monZusSpesen : D_MonZusSpesen;
+    projAbrMonat : D_ProjAbrMonat;
+    maName : D_MaName
 end TX_Fibu
 
-T_ExpensePayment in Carrier with
-  contains
-    projectBillingMonth : D_ProjectBillingMonth;
-    maName : D_EmployeeName;
-    monthSuppExpenses : D_MonthSuppExpenses
-end TX_ExpensePayment
+T_SpesenZahlung in Traeger with
+  enthaelt
+    projAbrMonat : D_ProjAbrMonat;
+    maName : D_MaName;
+    monZusSpesen : D_MonZusSpesen
+end TX_SpesenZahlung
 
-T_OpenItemsList in Carrier with
-  contains
-    invoiceNumber : D_InvoiceNumber
-end T_OpenItemsList
+T_OpListe in Traeger with
+  enthaelt
+    rechngNummer : D_RechngNummer
+end T_OpListe
 
-TX_Perbit in Carrier with
-  contains
-    maName : D_EmployeeName;
-    costRate : D_CostRate;
-    perbitVacation : D_PerbitVacation;
-    perbitTraining : D_PerbitTraining
+TX_Perbit in Traeger with
+  enthaelt
+    maName : D_MaName;
+    kostenSatz : D_KostenSatz;
+    perbitUrlaub : D_PerbitUrlaub;
+    perbitSchulung : D_PerbitSchulung
 end TX_Perbit
 
-T_Payment in Carrier with
-  contains
-    invoiceNumber : D_InvoiceNumber
-end T_Payment
+T_Zahlung in Traeger with
+  enthaelt
+    rechngNummer : D_RechngNummer
+end T_Zahlung
 
-T_CorrectionMeeting in Carrier with
-  contains
-    correctionInfo : D_CorrectionInfo
-end T_CorrectionMeeting
+T_KorrekturGespraech in Traeger with
+  enthaelt
+    korrekturInfo : D_KorrekturInfo
+end T_KorrekturGespraech
 
-TX_LUG in Carrier with
-  contains
-    maName : D_EmployeeName;
-    perbitVacation : D_PerbitVacation;
-    monthIntHoursSum : D_MonthIntHoursSum
+TX_LUG in Traeger with
+  enthaelt
+    maName : D_MaName;
+    perbitUrlaub : D_PerbitUrlaub;
+    monIntStundenSum : D_MonIntStundenSum
 end TX_LUG
 
-T_InsuranceProof in Carrier with
-  contains
-    monthIntHoursSum : D_MonthIntHoursSum 
-end T_InsuranceProof
+T_VersNachweis in Traeger with
+  enthaelt
+    monIntStundenSum : D_MonIntStundenSum 
+end T_VersNachweis
 

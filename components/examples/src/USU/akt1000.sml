@@ -36,71 +36,71 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 *}
 {$set syntax=PlainToronto}
 
-P_1010 in Action with
-  processed_by
-    who : A_Personnel
-  follows_after
+P_1010 in Aktion with
+  bearbeitet_von
+    wer : A_Personal
+  folgt_auf
     pVon : P_START
-  takes
-    take_1 : TX_LUG;
-    take_2 : TX_Perbit
-  gives
-    give_1 : T_CostRates
+  nimmt
+    nimm_1 : TX_LUG;
+    nimm_2 : TX_Perbit
+  gibt
+    gib_1 : T_Kostensaetze
   input
-    data_in_1 : D_EmployeeName
-  input
-    in_1 : TX_LUG!maName;
-    in_2 : TX_Perbit!maName
+    in_1 : D_MaName
+  eingabe
+    ein_1 : TX_LUG!maName;
+    ein_2 : TX_Perbit!maName
   output
-    data_out_1 : D_CostRate;
-    data_out_2 : D_EmployeeName
-  output 
-    out_1 : T_CostRates!costRate;
-    out_2 : T_CostRates!maName
+    out_1 : D_KostenSatz;
+    out_2 : D_MaName
+  ausgabe 
+    aus_1 : T_Kostensaetze!kostenSatz;
+    aus_2 : T_Kostensaetze!maName
 end P_1010
 
-P_1020 in Action with
-  processed_by
-    who : A_Management
-  follows_after
+P_1020 in Aktion with
+  bearbeitet_von
+    wer : A_GL
+  folgt_auf
     pVon : P_1010
-  takes
-    take_1 : T_CostRates
-  gives
-    give_1 : T_CostRates
+  nimmt
+    nimm_1 : T_Kostensaetze
+  gibt
+    gib_1 : T_Kostensaetze
   input
-    data_in_1 : D_EmployeeName;
-    data_in_2 : D_CostRate
-  input
-    in_1 : T_CostRates!maName;
-    in_2 : T_CostRates!costRate
+    in_1 : D_MaName;
+    in_2 : D_KostenSatz
+  eingabe
+    ein_1 : T_Kostensaetze!maName;
+    ein_2 : T_Kostensaetze!kostenSatz
   output
-    data_out_1 : D_CostRate
-  output 
-    out_1 : T_CostRates!costRate
+    out_1 : D_KostenSatz
+  ausgabe 
+    aus_1 : T_Kostensaetze!kostenSatz
 end P_1020
 
-P_1030 in Action with
-  processed_by
-    who : A_Personnel
-  follows_after
+P_1030 in Aktion with
+  bearbeitet_von
+    wer : A_Personal
+  folgt_auf
     pVon : P_1020
-  takes
-    take_1 : T_CostRates
-  gives
-    give_1 : T_CostRates;
-    give_2 : TX_Perbit;
-    give_3 : T_TargetProjectList
+  nimmt
+    nimm_1 : T_Kostensaetze
+  gibt
+    gib_1 : T_Kostensaetze;
+    gib_2 : TX_Perbit;
+    gib_3 : T_SollProjektListe
   input
-    data_in_1 : D_EmployeeName;
-    data_in_2 : D_CostRate
-  input
-    in_1 : T_CostRates!maName;
-    in_2 : T_CostRates!costRate
-  output
-    out_1 : TX_Perbit!maName;
-    out_2 : TX_Perbit!costRate;
-    out_3 : T_TargetProjectList!maName;
-    out_4 : T_TargetProjectList!costRate
+    in_1 : D_MaName;
+    in_2 : D_KostenSatz
+  eingabe
+    ein_1 : T_Kostensaetze!maName;
+    ein_2 : T_Kostensaetze!kostenSatz
+  ausgabe
+    aus_1 : TX_Perbit!maName;
+    aus_2 : TX_Perbit!kostenSatz;
+    aus_3 : T_SollProjektListe!maName;
+    aus_4 : T_SollProjektListe!kostenSatz
 end P_1030
 

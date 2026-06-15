@@ -4,15 +4,16 @@
   stdenvNoCC,
   vsce,
   nodejs,
+  esbuild,
   componentSrc,
 }:
 
 stdenvNoCC.mkDerivation rec {
   pname = "mmkit";
-  version = "0.1.0";
+  version = "0.2.0";
   src = componentSrc;
 
-  nativeBuildInputs = [ vsce nodejs ];
+  nativeBuildInputs = [ vsce nodejs esbuild ];
 
   dontConfigure = true;
   doCheck = true;
@@ -22,29 +23,38 @@ stdenvNoCC.mkDerivation rec {
     export HOME="$TMPDIR"
     cp -r --no-preserve=mode,ownership "$src" build
     cd build
+
+    npm install --workspaces --include=dev
+    npm run build
+
+    cd packages/extension
     vsce package --no-dependencies --out "mmkit-${version}.vsix"
-    cd ..
+    cd ../..
     runHook postBuild
   '';
 
   checkPhase = ''
     runHook preCheck
     export HOME="$TMPDIR"
-    node -e "JSON.parse(require('fs').readFileSync('$src/package.json','utf8'))"
-    node --check "$src/src/extension.js"
-    test -s build/mmkit-${version}.vsix
+    cd build
+    npm test
+    test -s packages/extension/out/extension.js
+    test -s packages/server/dist/server.js
+    node --check packages/extension/out/extension.js
+    node --check packages/server/dist/server.js
+    test -s packages/extension/mmkit-${version}.vsix
     runHook postCheck
   '';
 
   installPhase = ''
     runHook preInstall
     mkdir -p "$out"
-    cp "build/mmkit-${version}.vsix" "$out/"
+    cp "build/packages/extension/mmkit-${version}.vsix" "$out/"
     runHook postInstall
   '';
 
   meta = with lib; {
-    description = "ConceptBase Metamodelling Kit — VS Code extension for O-Telos / CBL / ECArule";
+    description = "ConceptBase Metamodelling Kit — VS Code extension";
     homepage = "https://gitlab.com/mjeu/conceptbasecc";
     platforms = [ "x86_64-linux" ];
     license = licenses.bsd2;

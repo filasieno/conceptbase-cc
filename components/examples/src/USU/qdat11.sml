@@ -34,62 +34,62 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
-GenericQueryClass DataNotDataInput isA Data with
+GenericQueryClass DatenNichtInput isA Daten with
   constraint
      c1 : $
-  not exists a/Action (a data_input this)
+  not exists a/Aktion (a input this)
   $
 end
 
-GenericQueryClass DataNotDataOutput isA Data with
+GenericQueryClass DatenNichtOutput isA Daten with
   constraint
      c1 : $
-  not exists a/Action (a data_output this)
+  not exists a/Aktion (a output this)
   $
 end
 
-GenericQueryClass DataInputWithoutDataOutput isA Data with
+GenericQueryClass DatenInputOhneOutput isA Daten with
   computed_attribute
-    used_in : Action
+    verwendet_in : Aktion
   constraint
      c1 : $
-      (~used_in data_input this)
-  and (not exists a/Action (a data_output this))
+      (~verwendet_in input this)
+  and (not exists a/Aktion (a output this))
   $
 end
 
-GenericQueryClass DataInputNeverDataOutput isA Action with
+GenericQueryClass DatenInputNiemalsOutput isA Aktion with
   computed_attribute
-	einData : Data
+	einDaten : Daten
   constraint
      c1 : $
-          (this data_input ~einData)
-  and not (exists a/Action (a data_output ~einData))
+          (this input ~einDaten)
+  and not (exists a/Aktion (a output ~einDaten))
   $
 end
 
-GenericQueryClass DataManyDataOutputs isA Data with
+GenericQueryClass DatenVieleOutputs isA Daten with
   computed_attribute
-     fromAction : Action
+     vonAktion : Aktion
   constraint
      c1 : $
-      (~fromAction data_output this)
-  and exists a/Action (a data_output this)
-  and not (a == ~fromAction)
+      (~vonAktion output this)
+  and exists a/Aktion (a output this)
+  and not (a == ~vonAktion)
   $
 end
 
-GenericQueryClass ActionsWithoutDataInput isA Action with
+GenericQueryClass AktionenOhneInput isA Aktion with
   constraint
      c1 : $
-  not exists d/Data (this data_input d)
+  not exists d/Daten (this input d)
   $
 end
 
-GenericQueryClass ActionsWithoutDataOutput isA Action with
+GenericQueryClass AktionenOhneOutput isA Aktion with
   constraint
      c1 : $
-  not exists d/Data (this data_output d)
+  not exists d/Daten (this output d)
   $
 end
 

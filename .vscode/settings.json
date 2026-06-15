@@ -24,5 +24,9 @@
     "editor.insertSpaces": true
   },
   "prolog-lsp.trace.server": "off",
-  "editor.semanticHighlighting.enabled": true
+  "editor.semanticHighlighting.enabled": true,
+  "mmkit.languageServer.launchKind": "direct",
+  "mmkit.languageServer.dockerCompose.grafanaPort": 13000,
+  "mmkit.languageServer.dockerCompose.lspPort": 16011,
+  "mmkit.languageServer.dockerCompose.httpPort": 28080
 }

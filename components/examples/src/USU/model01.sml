@@ -34,42 +34,49 @@ Manfred Jeusfeld, University of Skovde, 54128 Skovde, Sweden
 This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
+{*
+  English vocabulary (identifiers remain German for regression-test compatibility):
+    Daten=Data, Traeger=Carrier, Akteur=Actor, Aktion=Action, Person=Person
+    enthaelt=contains, braucht=needs, erzeugt=creates, verantwortet=responsible_for
+    beliefert=supplies, mit=via, bearbeitet_von=processed_by, folgt_auf=follows_after
+    teil_von=part_of, gibt=gives, nimmt=takes, ausgabe=output, eingabe=input
+*}
 {$set syntax=PlainToronto}
 
 
-Data { light-blue rectangle }
-end Data
+Daten { hellblaues Rechteck }
+end Daten
 
-Carrier with { floppy-disk pixmap }
+Traeger with { Diskette-Pixmap}
   attribute
-    contains : Data
-end Carrier
+    enthaelt : Daten
+end Traeger
 
-Actor with { person pixmap }
+Akteur with {Mensch-Pixmap }
   attribute
-	needs : Carrier;
-	creates : Carrier;
-	responsible_for : Action;
-        supplies : Actor
-end Actor
+	braucht : Traeger;
+	erzeugt : Traeger;
+	verantwortet : Aktion;
+        beliefert : Akteur
+end Akteur
 
-Actor!supplies with
+Akteur!beliefert with
   attribute
-        via : Carrier
-end Actor!supplies
+        mit : Traeger
+end Akteur!beliefert
 
-Action with { ovalnode with beige background }
+Aktion with {ovalnode mit beigen Hintergrund }
   attribute
-        processed_by : Actor;
-        follows_after : Action;
-        part_of : Action;
-        data_input : Data;
-        data_output : Data;
-        gives : Carrier;
-        takes : Carrier;
-        output : Carrier!contains;
-        input : Carrier!contains
-end Action
+        bearbeitet_von : Akteur;
+        folgt_auf : Aktion;
+        teil_von : Aktion;
+        input : Daten;
+        output : Daten;
+        gibt : Traeger;
+        nimmt : Traeger;
+        ausgabe : Traeger!enthaelt;
+        eingabe : Traeger!enthaelt
+end Aktion
 
 Person 
 end Person

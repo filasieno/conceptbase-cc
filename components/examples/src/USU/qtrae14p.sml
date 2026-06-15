@@ -36,89 +36,89 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 *}
 
 
-GenericQueryClass P_CarrierOutput isA Action with
+GenericQueryClass P_TraegerAusgabe isA Aktion with
   parameter
-    t1 : Carrier
+    t1 : Traeger
   computed_attribute
-    writtenData : Data
+    geschrieben : Daten
   constraint
      c1 : $
-      exists t/Carrier!contains (this output t) 
+      exists t/Traeger!enthaelt (this ausgabe t) 
   and From(t,~t1) 
-  and To(t,~writtenData)
+  and To(t,~geschrieben)
   $
 end 
 
-GenericQueryClass P_CarrierInput isA Action with
+GenericQueryClass P_TraegerEingabe isA Aktion with
   parameter
-    t1 : Carrier
+    t1 : Traeger
   computed_attribute
-    readData : Data
+    gelesen : Daten
   constraint
      c1 : $
-      exists t/Carrier!contains (this input t) 
+      exists t/Traeger!enthaelt (this eingabe t) 
   and From(t,~t1) 
-  and To(t,~readData)
+  and To(t,~gelesen)
   $
 end
 
-GenericQueryClass P_CarrierFilledIn isA Data with
+GenericQueryClass P_TraegerGefuelltIn isA Daten with
   parameter
-     t1 : Carrier;
-     a1 : Action
+     t1 : Traeger;
+     a1 : Aktion
   constraint
      c1 : $
-  (~t1 contains this)
-  and exists t/Carrier!contains From(t,~t1) and To(t,this)
-  and exists a/Action ((~a1 transFollowsAfter a) or (a == ~a1)) 
-  and (a output t) 
+  (~t1 enthaelt this)
+  and exists t/Traeger!enthaelt From(t,~t1) and To(t,this)
+  and exists a/Aktion ((~a1 transFolgtAuf a) or (a == ~a1)) 
+  and (a ausgabe t) 
   $
 end 
  
-GenericQueryClass P_CarrierNotFilledIn isA Data with
+GenericQueryClass P_TraegerNichtGefuelltIn isA Daten with
   parameter
-     t1 : Carrier;
-     a1 : Action
+     t1 : Traeger;
+     a1 : Aktion
   constraint
      c1 : $
-  (~t1 contains this)
-  and not exists t/Carrier!contains From(t,~t1) and To(t,this)
-  and exists a/Action ((~a1 transFollowsAfter a) or (a == ~a1)) 
-  and (a output t) 
+  (~t1 enthaelt this)
+  and not exists t/Traeger!enthaelt From(t,~t1) and To(t,this)
+  and exists a/Aktion ((~a1 transFolgtAuf a) or (a == ~a1)) 
+  and (a ausgabe t) 
   $
 end
 
-GenericQueryClass P_AllCarriersFilledIn isA Carrier with
+GenericQueryClass P_AlleTraegerGefuelltIn isA Traeger with
   parameter
-     a1 : Action
+     a1 : Aktion
   computed_attribute
-     registered : Data
+     eingetragen : Daten
   constraint
      c1 : $
-    ((~a1 gives this) or (~a1 takes this) or 
-     (exists q/Carrier!contains From(q,this) and ((~a1 output q)
-        or (~a1 input q)))) and
-    (this contains ~registered)
-  and exists t/Carrier!contains From(t,this) and To(t,~registered)
-  and exists a/Action ((~a1 transFollowsAfter a) or (a == ~a1)) 
-  and (a output t)
+    ((~a1 gibt this) or (~a1 nimmt this) or 
+     (exists q/Traeger!enthaelt From(q,this) and ((~a1 ausgabe q)
+        or (~a1 eingabe q)))) and
+    (this enthaelt ~eingetragen)
+  and exists t/Traeger!enthaelt From(t,this) and To(t,~eingetragen)
+  and exists a/Aktion ((~a1 transFolgtAuf a) or (a == ~a1)) 
+  and (a ausgabe t)
   $
 end 
  
-GenericQueryClass P_AllCarriersNotFilledIn isA Carrier with
+GenericQueryClass P_AlleTraegerNichtGefuelltIn isA Traeger with
   parameter
-     a1 : Action
+     a1 : Aktion
   computed_attribute
-     registered : Data
+     eingetragen : Daten
   constraint
      c1 : $
-    ((~a1 gives this) or (~a1 takes this) or 
-     (exists q/Carrier!contains From(q,this) and ((~a1 output q)
-        or (~a1 input q)))) and
-    (this contains ~registered)
-  and not exists t/Carrier!contains From(t,this) and To(t,~registered)
-  and exists a/Action ((~a1 transFollowsAfter a) or (a == ~a1)) 
-  and (a output t)
+    ((~a1 gibt this) or (~a1 nimmt this) or 
+     (exists q/Traeger!enthaelt From(q,this) and ((~a1 ausgabe q)
+        or (~a1 eingabe q)))) and
+    (this enthaelt ~eingetragen)
+  and not exists t/Traeger!enthaelt From(t,this) and To(t,~eingetragen)
+  and exists a/Aktion ((~a1 transFolgtAuf a) or (a == ~a1)) 
+  and (a ausgabe t)
   $
 end 
 

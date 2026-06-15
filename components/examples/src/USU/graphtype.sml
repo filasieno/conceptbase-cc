@@ -36,14 +36,14 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 *}
 USU_Palette in GraphicalPalette with
 contains 
-	c1: CarrierGT;
-	c2: ActorGT;
-	c3: ActionGT;
-	c4: DataGT;
-        c5: metaCarrierGT;
-        c6: metaActorGT;
-        c7: metaActionGT;
-        c8: metaDataGT;
+	c1: TraegerGT;
+	c2: AkteurGT;
+	c3: AktionGT;
+	c4: DatenGT;
+        c5: metaTraegerGT;
+        c6: metaAkteurGT;
+        c7: metaAktionGT;
+        c8: metaDatenGT;
 	ac1 : TokenGtype;
  	ac2 : MetametaGtype;
  	ac3 : SimpleGtype;
@@ -54,54 +54,54 @@ contains
  	ac8 : AGtype
 end
 
-Class CarrierGT in ATK_Iconnode with
+Class TraegerGT in ATK_Iconnode with
 rule
-	gtrule : $ forall t/Carrier (t graphtype CarrierGT) $
+	gtrule : $ forall t/Traeger (t graphtype TraegerGT) $
 WithShape
 	shape : iconnode
 PixmapFile
-	file : "carrier.xpm"
+	file : "traeger.xpm"
 end
 
-Class metaCarrierGT in ATK_Iconnode with
+Class metaTraegerGT in ATK_Iconnode with
 WithShape
         shape : iconnode
 PixmapFile
-        file : "m_carrier.xpm"
+        file : "m_traeger.xpm"
 end
 
-Carrier with
+Traeger with
   graphtype
-     gt:  metaCarrierGT
+     gt:  metaTraegerGT
 end
 
 
-Class ActorGT in ATK_Iconnode with
+Class AkteurGT in ATK_Iconnode with
 rule
-	gtrule : $ forall t/Actor (t graphtype ActorGT) $
+	gtrule : $ forall t/Akteur (t graphtype AkteurGT) $
 WithShape
 	shape : iconnode
 PixmapFile
-	file : "actor.xpm"
+	file : "akteur.xpm"
 end
 
 
-Class metaActorGT in ATK_Iconnode with
+Class metaAkteurGT in ATK_Iconnode with
 WithShape
         shape : iconnode
 PixmapFile
-        file : "m_actor.xpm"
+        file : "m_akteur.xpm"
 end
 
-Actor with
+Akteur with
   graphtype
-     gt:  metaActorGT
+     gt:  metaAkteurGT
 end
  
 
-Class ActionGT in ATK_Ovalnode with
+Class AktionGT in ATK_Ovalnode with
 rule
-	gtrule : $ forall t/Action (t graphtype ActionGT) $
+	gtrule : $ forall t/Aktion (t graphtype AktionGT) $
 WithShape
 	shape : ovalnode
 TextColor
@@ -120,7 +120,7 @@ Fill
 	fill : TRUE
 end
 
-Class metaActionGT in ATK_Ovalnode with
+Class metaAktionGT in ATK_Ovalnode with
 WithShape
         shape : ovalnode
 TextColor
@@ -139,17 +139,17 @@ Fill
         fill : FALSE
 end
 
-Action with
+Aktion with
   graphtype
-     gt:  metaActionGT
+     gt:  metaAktionGT
 end
  
 
 
 
-Class DataGT in ATK_Rectnode with
+Class DatenGT in ATK_Rectnode with
 rule
-	gtrule : $ forall d/Data (d graphtype DataGT) $
+	gtrule : $ forall d/Daten (d graphtype DatenGT) $
 WithShape
 	shape : rectnode
 TextColor
@@ -168,7 +168,7 @@ Fill
 	fill : TRUE
 end
 
-Class metaDataGT in ATK_Rectnode with
+Class metaDatenGT in ATK_Rectnode with
 WithShape
         shape : rectnode
 TextColor
@@ -187,9 +187,9 @@ Fill
         fill : FALSE
 end
 
-Data with
+Daten with
   graphtype
-     gt:  metaDataGT
+     gt:  metaDatenGT
 end
  
 

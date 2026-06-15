@@ -36,11 +36,11 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 *}
 {$set syntax=PlainToronto}
 
-P_START in Action with
+P_START in Aktion with
   output  
-    systemTakt : D_ProjectBillingMonth
+    systemTakt : D_ProjAbrMonat
 end P_START
 
-P_END in Action
-end P_END
+P_ENDE in Aktion
+end P_ENDE
 

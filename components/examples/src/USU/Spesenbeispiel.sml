@@ -35,89 +35,90 @@ This license is a FreeBSD-style copyright license.
 Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/freebsd-license.html
 *}
 
-Class Data with
+Class Daten with
   attribute
-    aggregatedVon: Data;
-    transAggregatedFrom: Data
+    aggregiertVon: Daten;
+    transAggregiertVon: Daten
   rule 
-    transRule: $ forall d1,d2/Data
-                   ( (d1 aggregatedVon d2) or
-                   (exists z/Data 
-                     (d1 aggregatedVon z) and (z transAggregatedFrom d2)))
-                  ==> (d1 transAggregatedFrom d2) $
+    transRule: $ forall d1,d2/Daten
+                   ( (d1 aggregiertVon d2) or
+                   (exists z/Daten 
+                     (d1 aggregiertVon z) and (z transAggregiertVon d2)))
+                  ==> (d1 transAggregiertVon d2) $
 end
 
 Class Entity with
   attribute
-     abgebildetAus: Data
+     abgebildetAus: Daten
 end
 
 
 
 
-Data D_ExpensePayout with
-  aggregatedVon
-    teil_1: D_ExpenseRates
+Daten D_Spesenauszahlung with
+  aggregiertVon
+    teil_1: D_Spesensaetze
 end
 
-Data D_ExpenseRates 
+Daten D_Spesensaetze 
 end
 
-Data D_Employee with
+Daten D_Mitarbeiter with
   attribute
-    isInProject: D_Project;
-    isProjectLeader: D_Project;
-    erhaelt: D_ExpensePayout
+    istInProjekt: D_Projekt;
+    istProjektLeiter: D_Projekt;
+    erhaelt: D_Spesenauszahlung
 end
 
-Data D_Project with
+Daten D_Projekt with
   attribute
-    billedWhen: D_ProjectBillingMonth
+    abgerechnetWann: D_ProjAbrMonat
 end
 
-Data D_ExpensePayout with
+Daten D_Spesenauszahlung with
   attribute
-    billedWhen: D_ProjectBillingMonth
+    abgerechnetWann: D_ProjAbrMonat
 end
 
   
 
-T_ExpensePayment in Carrier with
-  contains
-    expensePayout: D_ExpensePayout
+T_SpesenZahlung in Traeger with
+  enthaelt
+    spesenauszahlung: D_Spesenauszahlung
 end
 
 
-Action changeExpenseRates with
-   processed_by
-     actor: A_Accounting
+Aktion aendereSpesensaetze with
+   bearbeitet_von
+     akteur: A_Buchhalt
    output
-     output_1: D_ExpenseRates
+     output_1: D_Spesensaetze
 end
 
-QueryClass QuerZugegriffen isA Data with
+QueryClass QuerZugegriffen isA Daten with
   computed_attribute
-     mainData: Data;
-     querProzess: Action
+     hauptDatum: Daten;
+     querProzess: Aktion
   constraint
-     c1: $ (~mainData transAggregatedFrom ~this) and
-           (~querProzess data_output ~this) and
-           not (~querProzess data_output ~mainData) $
+     c1: $ (~hauptDatum transAggregiertVon ~this) and
+           (~querProzess output ~this) and
+           not (~querProzess output ~hauptDatum) $
   comment
-     kommentar1: "An action accesses this data item
-      but not the parent mainData,
-      which aggregates this directly or indirectly as a part"
+     kommentar1: "Es wird von einer Aktion auf ein Datum this
+      zugegriffen, aber nicht auf das uebergeordnete hauptDatum,
+      welches this mittelbar oder unmittelbar als Teil
+      aggregiert"
 end
   
 
-Attribute A_Personnel!pe_shares_with with
+Attribute A_Personal!pe_teilt_mit with
   comment
-    kommentar1: "Notification of cost rates from the HR department"
+    kommentar1: "Mitteilung der Kostensaetze aus der Personalabteilung"
 end
 
-Data D_ProjectBillingBusinessArea with
+Daten D_ProjAbrGB with
   comment
-    kommentar1: "Business area on which costs and revenue are booked"
+    kommentar1: "Geschaeftsbereich, auf dem die Kosten und Umsaetze gebucht werden"
 end
 
 

@@ -67,6 +67,13 @@ stdenv.mkDerivation {
       -lstdc++ -lm \
       ${linkArchives}
 
+    # Precompile the Prolog kernel into a saved state so the server does not
+    # recompile ~115 .swi.pl sources on every boot. CB_SAVE_STATE makes
+    # swiMain.c load + loadCBkernel, qsave_program, then exit (no server start).
+    echo "cbserver: precompiling kernel saved state"
+    CB_SAVE_STATE="$PWD/cbserver.prc" ./CBserver
+    test -s "$PWD/cbserver.prc"
+
     runHook postBuild
   '';
 
@@ -76,6 +83,7 @@ stdenv.mkDerivation {
       "$out/share/serverSources/Prolog_Files" \
       "$out/share/system-data"
     install -m755 CBserver "$out/lib/CBserver"
+    install -m644 cbserver.prc "$out/lib/cbserver.prc"
     install -m755 ${componentSrc}/cbserver-launcher.sh "$out/bin/cbserver"
     cp -r ${server-engine}/share/serverSources/Prolog_Files/* \
       "$out/share/serverSources/Prolog_Files/"
@@ -90,6 +98,7 @@ stdenv.mkDerivation {
     runHook preInstallCheck
     test -x "$out/bin/cbserver"
     test -x "$out/lib/CBserver"
+    test -s "$out/lib/cbserver.prc"
     test -s "$out/share/serverSources/Prolog_Files/startCBserver.swi.pl"
     runHook postInstallCheck
   '';

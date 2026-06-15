@@ -13,11 +13,22 @@ export PROLOG_VARIANT="${PROLOG_VARIANT:-SWI}"
 export SHELL="${SHELL:-/bin/sh}"
 export CB_PORTNR="${CB_PORTNR:-4001}"
 
+# Precompiled kernel saved state (qsave_program output shipped beside CBserver).
+# When present, load it via `swipl -x` so the kernel is restored from compiled
+# bytecode instead of recompiling ~115 .swi.pl sources on every boot. Set
+# CB_STATE=_nofile_ (or remove the file) to force loading from source.
+CB_STATE="${CB_STATE:-$CB_HOME/lib/cbserver.prc}"
+swi_state_args=()
+if [[ -f "$CB_STATE" ]]; then
+  swi_state_args=(-x "$CB_STATE")
+  export CB_KERNEL_STATE="$CB_STATE"
+fi
+
 if [[ $# -eq 0 ]]; then
   set -- -u nonpersistent
 fi
-# SWI expects server flags after "--"
-set -- -- "$@"
+# SWI expects server flags after "--"; the saved-state flag goes before it.
+set -- ${swi_state_args[@]+"${swi_state_args[@]}"} -- "$@"
 
 restart=0
 for arg in "$@"; do

@@ -36,90 +36,90 @@ Legal home of the FreeBSD copyright license: http://www.freebsd.org/copyright/fr
 *}
 
 
-GenericQueryClass ActionsWithoutInput isA Action with
+GenericQueryClass AktionenOhneEingabe isA Aktion with
   constraint
      c1 : $
-  not exists t/Carrier!contains (this input t)
+  not exists t/Traeger!enthaelt (this eingabe t)
   $
 end
 
-GenericQueryClass ActionsWithoutOutput isA Action with
+GenericQueryClass AktionenOhneAusgabe isA Aktion with
   constraint
      c1 : $
-  not exists t/Carrier!contains (this output t)
+  not exists t/Traeger!enthaelt (this ausgabe t)
   $
 end
 
-GenericQueryClass DataInputWithoutInput isA Action with
+GenericQueryClass InputOhneEingabe isA Aktion with
   computed_attribute
-    inData : Data
+    inDaten : Daten
   constraint
     c1 : $
-    (not exists t/Carrier!contains
-        (this input t) and To(t, ~inData))
-    and  (this data_input ~inData)
+    (not exists t/Traeger!enthaelt
+        (this eingabe t) and To(t, ~inDaten))
+    and  (this input ~inDaten)
   $
 end
 
-GenericQueryClass InputWithoutDataInput isA Action with
+GenericQueryClass EingabeOhneInput isA Aktion with
   computed_attribute
-    inData : Data
+    inDaten : Daten
   constraint
     c1 : $
-   (exists t/Carrier!contains
-       (this input t) and To(t, ~inData) )
-   and not (this data_input ~inData)
+   (exists t/Traeger!enthaelt
+       (this eingabe t) and To(t, ~inDaten) )
+   and not (this input ~inDaten)
   $
 end
 
-GenericQueryClass DataOutputWithoutOutput isA Action with
+GenericQueryClass OutputOhneAusgabe isA Aktion with
   computed_attribute
-    outData : Data
+    ausDaten : Daten
   constraint
     c1 : $
-    (not exists t/Carrier!contains
-        (this output t) and To(t, ~outData))
-    and (this data_output ~outData)
+    (not exists t/Traeger!enthaelt
+        (this ausgabe t) and To(t, ~ausDaten))
+    and (this output ~ausDaten)
   $
 end
 
-GenericQueryClass OutputWithoutDataOutput isA Action with
+GenericQueryClass AusgabeOhneOutput isA Aktion with
   computed_attribute
-    outData : Data
+    ausDaten : Daten
   constraint
     c1 : $
-   (exists t/Carrier!contains
-       (this output t) and To(t, ~outData) )
-   and not (this data_output ~outData)
-   and not (this data_input ~outData)
+   (exists t/Traeger!enthaelt
+       (this ausgabe t) and To(t, ~ausDaten) )
+   and not (this output ~ausDaten)
+   and not (this input ~ausDaten)
   $
 end
 
-GenericQueryClass OutputWithoutInput isA Action with
+GenericQueryClass AusgabeOhneEingabe isA Aktion with
   computed_attribute
-    outData : Data
+    ausDaten : Daten
   constraint
     c1 : $
-   (exists t/Carrier!contains
-       (this output t) and To(t, ~outData) )
-   and not (this data_output ~outData)
-   and not (this data_input ~outData)
-   and not exists t2/Carrier!contains
-       (this input t2) and To(t2, ~outData)
+   (exists t/Traeger!enthaelt
+       (this ausgabe t) and To(t, ~ausDaten) )
+   and not (this output ~ausDaten)
+   and not (this input ~ausDaten)
+   and not exists t2/Traeger!enthaelt
+       (this eingabe t2) and To(t2, ~ausDaten)
   $
 end
 
-GenericQueryClass CarrierExcess isA Action with
+GenericQueryClass TraegerZuviel isA Aktion with
   computed_attribute
-	takesCarrier : Carrier
+	nimmtTraeger : Traeger
   constraint
      c1 : $
-          (this takes ~takesCarrier)
-  and not exists d/Data (~takesCarrier contains d)
-  and (this data_input d)
-  and not exists t/Carrier (this takes t)
-  and (not (~takesCarrier == t))
-  and (t contains d)
+          (this nimmt ~nimmtTraeger)
+  and not exists d/Daten (~nimmtTraeger enthaelt d)
+  and (this input d)
+  and not exists t/Traeger (this nimmt t)
+  and (not (~nimmtTraeger == t))
+  and (t enthaelt d)
   $
 end
 
