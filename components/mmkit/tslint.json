@@ -1,5 +1,0 @@
-{
-  "$schema": "https://raw.githubusercontent.com/palantir/tslint/master/src/schema/tslint-schema.json",
-  "_comment": "TSLint is retired. Layout is enforced by ESLint (@stylistic) — see eslint.config.mjs. Format: npm run format (eslint --fix). Check: npm run lint",
-  "rules": {}
-}

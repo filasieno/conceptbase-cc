@@ -1,32 +1,4 @@
 {
   "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "mmkit: VS Code",
-      "type": "extensionHost",
-      "request": "launch",
-      "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}/components/mmkit/packages/extension",
-        "${workspaceFolder}/components/mmkit/packages/extension"
-      ],
-      "outFiles": [
-        "${workspaceFolder}/components/mmkit/packages/extension/out/**/*.js"
-      ],
-      "preLaunchTask": "mmkit: build"
-    },
-    {
-      "name": "mmkit: Cursor",
-      "type": "extensionHost",
-      "request": "launch",
-      "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}/components/mmkit/packages/extension",
-        "--disable-extensions",
-        "${workspaceFolder}/components/mmkit/packages/extension"
-      ],
-      "outFiles": [
-        "${workspaceFolder}/components/mmkit/packages/extension/out/**/*.js"
-      ],
-      "preLaunchTask": "mmkit: build"
-    }
-  ]
+  "configurations": []
 }

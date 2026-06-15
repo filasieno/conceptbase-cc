@@ -110,11 +110,6 @@
       tree-sitter-conceptbase-encoding = tree-sitter-conceptbase-pkgs.languages.encoding;
       tree-sitter-conceptbase = tree-sitter-conceptbase-pkgs.aggregate;
 
-      mmkit = pkgs.callPackage "${nixLib}/mmkit.nix" {
-        componentSrc = componentSrc "mmkit";
-        inherit (pkgs) vsce nodejs;
-      };
-
       java-deps = pkgs.callPackage "${nixLib}/java-deps.nix" { };
 
       legacy-maven-src = pkgs.callPackage "${nixLib}/legacy-maven-src.nix" {
@@ -382,7 +377,6 @@
           cb-shell
           cb-graph
           cb-web
-          mmkit
           docs
           regression-container
           ;
@@ -423,46 +417,6 @@
             echo "  See CONTRIBUTING.md"
           '';
         };
-
-        mmkit = llvmStdenv.mkDerivation {
-          name = "conceptbase-cc-mmkit-dev";
-          dontBuild = true;
-          nativeBuildInputs = with pkgs; [
-            nodejs
-            maven
-            jdk25
-            swi-prolog
-            cbserver
-          ];
-          shellHook = ''
-            export CONCEPTBASE_NIX_DEVELOP_MARKER="$PWD/.nix-develop-shell"
-            touch "$CONCEPTBASE_NIX_DEVELOP_MARKER"
-            trap 'rm -f "$CONCEPTBASE_NIX_DEVELOP_MARKER"' EXIT
-
-            export CB_HOME=${cbserver}
-            export CB_POOL=${cbserver}/share
-            export CBS_DIR=${cbserver}/share/serverSources/Prolog_Files
-            export CBL_DIR=${cbserver}/share/system-data
-            export CB_VARIANT=""
-            export MMKIT_REAL_CBSERVER_BIN=${cbserver}/bin/cbserver
-
-            if [[ ! -x "$MMKIT_REAL_CBSERVER_BIN" ]]; then
-              echo "ERROR: cbserver derivation is missing in this shell."
-              echo "Hint: run 'nix develop .#mmkit' from repository root."
-              return 1
-            fi
-
-            echo "ConceptBase.cc mmkit shell"
-            echo "  cbserver: $MMKIT_REAL_CBSERVER_BIN"
-            echo "  CB_HOME:  $CB_HOME"
-            echo ""
-            echo "  cd components/mmkit"
-            echo "  npm install --workspaces --include=dev   # once"
-            echo "  npm run test -w @mmkit/server            # mock unit tests"
-            echo "  npm run test:cbserver:real -w @mmkit/server"
-            echo "  # or: components/mmkit/packages/server/scripts/test-cbserver-real.sh"
-          '';
-        };
       };
 
       checks.${system} = {
@@ -480,7 +434,6 @@
           tree-sitter-conceptbase-ecarules
           tree-sitter-conceptbase-examples
           tree-sitter-conceptbase-encoding
-          mmkit
           module-preprocessor
           server-engine
           system-data

@@ -1,8 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "rootDir": ".",
-    "outDir": "out-test-integration"
-  },
-  "include": ["test-integration/**/*.ts"]
-}
